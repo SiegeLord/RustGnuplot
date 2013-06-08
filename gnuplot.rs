@@ -17,7 +17,8 @@ use std::run::{Process, ProcessOptions};
 enum PlotOption<'self>
 {
 	PointSymbol(char),
-	Caption(&'self str)
+	Caption(&'self str),
+	LineWidth(float)
 }
 
 struct PlotElement
@@ -132,6 +133,12 @@ impl Writable for ~[u8]
 	}
 }
 
+enum PlotStyle
+{
+	Lines,
+	Points
+}
+
 pub struct Axes2D
 {
 	priv elems : ~[PlotElement]
@@ -149,15 +156,15 @@ impl Axes2D
 	
 	pub fn lines<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, x : X, y : Y, options : &[PlotOption])
 	{
-		self.plot2("lines", x, y, options);
+		self.plot2(Lines, x, y, options);
 	}
 	
 	pub fn points<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, x : X, y : Y, options : &[PlotOption])
 	{
-		self.plot2("points", x, y, options);
+		self.plot2(Points, x, y, options);
 	}
 	
-	fn plot2<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, style : &str, mut x : X, mut y : Y, options : &[PlotOption])
+	fn plot2<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, style : PlotStyle, mut x : X, mut y : Y, options : &[PlotOption])
 	{
 		let l = self.elems.len();
 		self.elems.push(PlotElement::new());
@@ -190,19 +197,73 @@ impl Axes2D
 		args.write_str(" \"-\" binary endian=little record=");
 		args.write_str(u64::to_str(length));
 		args.write_str(" format=\"%float64\" using 1:2 with ");
-		args.write_str(style);
+		
+		let style_str = match style
+		{
+			Lines => "lines",
+			Points => "points"
+		};
+		
+		args.write_str(style_str);
+		
+		match style
+		{
+			Lines =>
+			{
+				for options.each() |o|
+				{
+					match *o
+					{
+						LineWidth(w) =>
+						{
+							args.write_str(" lw ");
+							args.write_str(w.to_str());
+							break;
+						},
+						_ => ()
+					};
+				}
+			}
+			Points =>
+			{
+				for options.each() |o|
+				{
+					match *o
+					{
+						PointSymbol(t) =>
+						{
+							let typ : i8 = match t
+							{
+								'.' => 0,
+								'+' => 1,
+								'x' => 2,
+								'*' => 3,
+								'o' => 6,
+								'^' => 8,
+								'v' => 10,
+								a => fail!("Invalid symbol %c", a)
+							};
+							args.write_str(" pt ");
+							args.write_str(typ.to_str());
+							break;
+						},
+						_ => ()
+					};
+				}
+			}
+		}
 		
 		for options.each() |o|
 		{
 			match *o
 			{
 				Caption(s) =>
-					{
-						args.write_str(" t \"");
-						args.write_str(s);
-						args.write_str("\"");
-						break;
-					},
+				{
+					args.write_str(" t \"");
+					args.write_str(s);
+					args.write_str("\"");
+					break;
+				},
 				_ => ()
 			};
 		}
