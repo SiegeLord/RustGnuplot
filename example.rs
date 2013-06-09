@@ -23,10 +23,12 @@ fn main()
 	let mut fg2 = Figure::new();
 	{
 		let ax = fg2.axes2d();
+		ax.set_cell(2, 1);
 		ax.lines(x, y1, [Caption("Lines"), LineWidth(3.0), Color("violet")]);
 	}
 	{	
 		let ax = fg2.axes2d();
+		ax.set_cell(1, 1);
 		ax.points(x, y2, [Caption("Points"), PointSymbol('S'), Color("#ffaa77")]);
 	}
 	fg2.layout(2, 1);

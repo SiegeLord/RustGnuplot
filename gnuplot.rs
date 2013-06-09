@@ -140,19 +140,37 @@ enum PlotStyle
 	Points
 }
 
+struct AxesCommon
+{
+	elems : ~[PlotElement],
+	cell_row : uint,
+	cell_col : uint
+}
+
+impl AxesCommon
+{
+	fn new() -> AxesCommon
+	{
+		AxesCommon
+		{
+			elems: ~[],
+			cell_row: 0,
+			cell_col: 0,
+		}
+	}
+}
+
 pub struct Axes2D
 {
-	priv elems : ~[PlotElement]
+	common : AxesCommon
 }
 
 impl Axes2D
 {
-	fn new() -> Axes2D
+	pub fn set_cell(&mut self, row : uint, col : uint)
 	{
-		Axes2D
-		{
-			elems : ~[]
-		}
+		self.common.cell_row = row;
+		self.common.cell_col = col;
 	}
 	
 	pub fn lines<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, x : X, y : Y, options : &[PlotOption])
@@ -164,14 +182,25 @@ impl Axes2D
 	{
 		self.plot2(Points, x, y, options);
 	}
+}
+
+impl Axes2D
+{
+	fn new() -> Axes2D
+	{
+		Axes2D
+		{
+			common : AxesCommon::new()
+		}
+	}
 	
 	fn plot2<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, style : PlotStyle, mut x : X, mut y : Y, options : &[PlotOption])
 	{
-		let l = self.elems.len();
-		self.elems.push(PlotElement::new());
+		let l = self.common.elems.len();
+		self.common.elems.push(PlotElement::new());
 		
-		let args = &mut self.elems[l].args;
-		let data = &mut self.elems[l].data;
+		let args = &mut self.common.elems[l].args;
+		let data = &mut self.common.elems[l].data;
 		
 		let mut length : u64 = 0;
 		
@@ -293,7 +322,7 @@ impl Axes2D
 	
 	fn write_out(&self, writer : &fn(data : &[u8]))
 	{
-		if self.elems.len() == 0
+		if self.common.elems.len() == 0
 		{
 			return;
 		}
@@ -301,7 +330,7 @@ impl Axes2D
 		str::byte_slice("plot", writer);
 		
 		let mut first = true;
-		for self.elems.each() |e|
+		for self.common.elems.each() |e|
 		{
 			if !first
 			{
@@ -313,20 +342,26 @@ impl Axes2D
 		
 		str::byte_slice("\n", writer);
 		
-		for self.elems.each() |e|
+		for self.common.elems.each() |e|
 		{
 			writer(e.data);
 		}
 	}
 }
 
-pub struct Axes3D;
+pub struct Axes3D
+{
+	common : AxesCommon
+}
 
 impl Axes3D
 {
 	fn new() -> Axes3D
 	{
 		Axes3D
+		{
+			common : AxesCommon::new()
+		}
 	}
 }
 
@@ -346,14 +381,23 @@ impl AxesVariant
 			Axes3DType(_) => ()
 		}
 	}
+	
+	fn get_common<'l>(&'l self) -> &'l AxesCommon
+	{
+		match *self
+		{
+			Axes2DType(ref a) => &'l a.common,
+			Axes3DType(ref a) => &'l a.common
+		}
+	}
 }
 
 pub struct Figure
 {
 	priv axes: ~[AxesVariant],
 	priv gnuplot: Option<Process>,
-	priv rows: uint,
-	priv columns: uint
+	priv num_rows: uint,
+	priv num_cols: uint
 }
 
 impl Figure
@@ -364,21 +408,15 @@ impl Figure
 		{
 			axes: ~[],
 			gnuplot: None,
-			rows: 0,
-			columns: 0
+			num_rows: 0,
+			num_cols: 0
 		}
 	}
 	
-	pub fn layout(&mut self, rows : uint , columns : uint)
+	pub fn layout(&mut self, rows : uint, cols : uint)
 	{
-		let max_num = rows * columns;
-		if max_num > 0 && max_num < self.axes.len()
-		{
-			fail!("Number of already existing axes (%u) exceeds the number allowed by the chosen layout (%u)", self.axes.len(), max_num);
-		}
-		
-		self.rows = rows;
-		self.columns = columns;
+		self.num_rows = rows;
+		self.num_cols = cols;
 	}
 	
 	pub fn axes2d<'l>(&'l mut self) -> &'l mut Axes2D
@@ -417,20 +455,39 @@ impl Figure
 	
 	pub fn echo(&self, writer : &fn(data : &[u8]))
 	{
-		str::byte_slice("set multiplot", writer);
+		str::byte_slice("set multiplot\n", writer);
 		
-		if self.rows > 0 || self.columns > 0
+		let do_layout = self.num_rows > 0 && self.num_cols > 0;
+		
+		let (w, h) = if do_layout
 		{
-			str::byte_slice(" layout ", writer);
-			str::byte_slice(self.rows.to_str(), writer);
-			str::byte_slice(",", writer);
-			str::byte_slice(self.columns.to_str(), writer);
+			(1.0 / (self.num_cols as float), 1.0 / (self.num_rows as float))
 		}
-		
-		str::byte_slice("\n", writer);
+		else
+		{
+			(0.0, 0.0)
+		};
 		
 		for self.axes.each() |e|
 		{
+			if do_layout
+			{
+				let c = e.get_common();
+				let x = (c.cell_col as float - 1.0) * w;
+				let y = (self.num_rows as float - c.cell_row as float) * h;
+				
+				str::byte_slice("set origin ", writer);
+				str::byte_slice(x.to_str(), writer);
+				str::byte_slice(",", writer);
+				str::byte_slice(y.to_str(), writer);
+				str::byte_slice("\n", writer);
+				
+				str::byte_slice("set size ", writer);
+				str::byte_slice(w.to_str(), writer);
+				str::byte_slice(",", writer);
+				str::byte_slice(h.to_str(), writer);
+				str::byte_slice("\n", writer);
+			}
 			e.write_out(writer);
 		}
 		
