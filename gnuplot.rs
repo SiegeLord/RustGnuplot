@@ -199,7 +199,10 @@ impl Writable for ~[u8]
 enum PlotStyle
 {
 	Lines,
-	Points
+	Points,
+	LinesPoints,
+	XErrorLines,
+	YErrorLines
 }
 
 struct AxesCommon
@@ -245,13 +248,19 @@ impl AxesCommon
 		let style_str = match style
 		{
 			Lines => "lines",
-			Points => "points"
+			Points => "points",
+			LinesPoints => "linespoints",
+			XErrorLines => "xerrorlines",
+			YErrorLines => "yerrorlines",
 		};
 		args.write_str(style_str);
 		
 		match style
 		{
-			Lines =>
+			Lines |
+			LinesPoints |
+			XErrorLines |
+			YErrorLines =>
 			{
 				for options.each() |o|
 				{
@@ -289,8 +298,16 @@ impl AxesCommon
 						_ => ()
 					};
 				}
-			}
-			Points =>
+			},
+			_ => ()
+		}
+
+		match style
+		{
+			Points |
+			LinesPoints |
+			XErrorLines |
+			YErrorLines =>
 			{
 				for options.each() |o|
 				{
@@ -323,7 +340,8 @@ impl AxesCommon
 						_ => ()
 					};
 				}
-			}
+			},
+			_ => ()
 		}
 		
 		for options.each() |o|
@@ -541,7 +559,7 @@ impl Axes2D
 	/// * x - Iterator for the x values
 	/// * y - Iterator for the y values
 	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
-	pub fn lines<'l, Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
+	pub fn lines<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Lines, x, y, options);
 		self
@@ -552,9 +570,52 @@ impl Axes2D
 	/// * x - Iterator for the x values
 	/// * y - Iterator for the y values
 	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
-	pub fn points<'l, Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
+	pub fn points<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Points, x, y, options);
+		self
+	}
+	
+	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point
+	/// # Arguments
+	/// * x - Iterator for the x values
+	/// * y - Iterator for the y values
+	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	pub fn lines_points<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
+	{
+		self.plot2(LinesPoints, x, y, options);
+		self
+	}
+	
+	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
+	/// Additionally, error bars are attached to each data point in the X direction.
+	/// # Arguments
+	/// * x - Iterator for the x values
+	/// * y - Iterator for the y valuess
+	/// * x_error - Iterator for the error associated with the x value
+	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	pub fn x_error_lines<'l, 
+	                   Tx : DataType, X : Iterator<Tx>,
+	                   Ty : DataType, Y : Iterator<Ty>,
+	                   Txe : DataType, XE : Iterator<Txe>>(&'l mut self, x : X, y : Y, x_error : XE, options : &[PlotOption]) -> &'l mut Axes2D
+	{
+		self.plot3(XErrorLines, x, y, x_error, options);
+		self
+	}
+	
+	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
+	/// Additionally, error bars are attached to each data point in the Y direction.
+	/// # Arguments
+	/// * x - Iterator for the x values
+	/// * y - Iterator for the y values
+	/// * y_error - Iterator for the error associated with the y values
+	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	pub fn y_error_lines<'l, 
+	                   Tx : DataType, X : Iterator<Tx>,
+	                   Ty : DataType, Y : Iterator<Ty>,
+	                   Tye : DataType, YE : Iterator<Tye>>(&'l mut self, x : X, y : Y, y_error : YE, options : &[PlotOption]) -> &'l mut Axes2D
+	{
+		self.plot3(YErrorLines, x, y, y_error, options);
 		self
 	}
 }
@@ -569,7 +630,8 @@ impl Axes2D
 		}
 	}
 	
-	fn plot2<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, style : PlotStyle, x : X, y : Y, options : &[PlotOption])
+	fn plot2<T1 : DataType, X1 : Iterator<T1>,
+	         T2 : DataType, X2 : Iterator<T2>>(&mut self, style : PlotStyle, x1 : X1, x2 : X2, options : &[PlotOption])
 	{
 		let l = self.common.elems.len();
 		self.common.elems.push(PlotElement::new());
@@ -577,15 +639,37 @@ impl Axes2D
 		
 		{
 			let data = &mut self.common.elems[l].data;
-			for x.zip(y).advance |(x, y)|
+			for x1.zip(x2).advance |(x1, x2)|
 			{
-				data.write_data(x);
-				data.write_data(y);
+				data.write_data(x1);
+				data.write_data(x2);
 				num_rows += 1;
 			}
 		}
 		
 		self.common.write_common_commands(l, num_rows, 2, style, options);
+	}
+	
+	fn plot3<T1 : DataType, X1 : Iterator<T1>,
+	         T2 : DataType, X2 : Iterator<T2>,
+	         T3 : DataType, X3 : Iterator<T3>>(&mut self, style : PlotStyle, x1 : X1, x2 : X2, x3 : X3, options : &[PlotOption])
+	{
+		let l = self.common.elems.len();
+		self.common.elems.push(PlotElement::new());
+		let mut num_rows : int = 0;
+		
+		{
+			let data = &mut self.common.elems[l].data;
+			for x1.zip(x2).zip(x3).advance |((x1, x2), x3)|
+			{
+				data.write_data(x1);
+				data.write_data(x2);
+				data.write_data(x3);
+				num_rows += 1;
+			}
+		}
+		
+		self.common.write_common_commands(l, num_rows, 3, style, options);
 	}
 	
 	fn write_out(&self, writer : &fn(data : &[u8]))
@@ -679,8 +763,8 @@ struct Figure<'self>
 /// let y = [3, 4, 5];
 /// let mut fg = Figure::new();
 /// {
-///	   let ax = fg.axes2d();
-///    ax.lines(x.iter(), y.iter(), [Caption("A line"), Color("black")]);
+///	   fg.axes2d()
+///    .lines(x.iter(), y.iter(), [Caption("A line"), Color("black")]);
 /// }
 /// fg.show();
 /// ~~~
