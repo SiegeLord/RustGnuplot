@@ -298,20 +298,20 @@ impl Axes2D
 			return;
 		}
 
-		do str::byte_slice("plot") |v| { writer(v) }
+		str::byte_slice("plot", writer);
 		
 		let mut first = true;
 		for self.elems.each() |e|
 		{
 			if !first
 			{
-				do str::byte_slice(",") |v| { writer(v) }
+				str::byte_slice(",",  writer)
 			}
 			writer(e.args);
 			first = false;
 		}
 		
-		do str::byte_slice("\n") |v| { writer(v) }
+		str::byte_slice("\n", writer);
 		
 		for self.elems.each() |e|
 		{
@@ -351,7 +351,9 @@ impl AxesVariant
 pub struct Figure
 {
 	priv axes: ~[AxesVariant],
-	priv gnuplot: Option<Process>
+	priv gnuplot: Option<Process>,
+	priv rows: uint,
+	priv columns: uint
 }
 
 impl Figure
@@ -361,8 +363,22 @@ impl Figure
 		Figure
 		{
 			axes: ~[],
-			gnuplot: None
+			gnuplot: None,
+			rows: 0,
+			columns: 0
 		}
+	}
+	
+	pub fn layout(&mut self, rows : uint , columns : uint)
+	{
+		let max_num = rows * columns;
+		if max_num > 0 && max_num < self.axes.len()
+		{
+			fail!("Number of already existing axes (%u) exceeds the number allowed by the chosen layout (%u)", self.axes.len(), max_num);
+		}
+		
+		self.rows = rows;
+		self.columns = columns;
 	}
 	
 	pub fn axes2d<'l>(&'l mut self) -> &'l mut Axes2D
@@ -401,10 +417,24 @@ impl Figure
 	
 	pub fn echo(&self, writer : &fn(data : &[u8]))
 	{
+		str::byte_slice("set multiplot", writer);
+		
+		if self.rows > 0 || self.columns > 0
+		{
+			str::byte_slice(" layout ", writer);
+			str::byte_slice(self.rows.to_str(), writer);
+			str::byte_slice(",", writer);
+			str::byte_slice(self.columns.to_str(), writer);
+		}
+		
+		str::byte_slice("\n", writer);
+		
 		for self.axes.each() |e|
 		{
 			e.write_out(writer);
 		}
+		
+		str::byte_slice("unset multiplot\n", writer);
 	}
 	
 	pub fn echo_to_file(&self, filename : &str)
