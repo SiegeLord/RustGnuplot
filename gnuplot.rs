@@ -221,6 +221,140 @@ impl AxesCommon
 			grid_col: 0,
 		}
 	}
+	
+	fn write_common_commands(&mut self, elem_idx : uint, num_rows : int, num_cols : int, style : PlotStyle, options : &[PlotOption])
+	{
+		let args = &mut self.elems[elem_idx].args;
+		args.write_str(" \"-\" binary endian=little record=");
+		args.write_int(num_rows);
+		args.write_str(" format=\"%float64\" using ");
+		
+		let mut col_idx : int = 1;
+		while(col_idx < num_cols + 1)
+		{
+			args.write_int(col_idx);
+			if(col_idx < num_cols)
+			{
+				args.write_str(":");
+			}
+			col_idx += 1;
+		}
+		
+		args.write_str(" with ");
+		let style_str = match style
+		{
+			Lines => "lines",
+			Points => "points"
+		};
+		args.write_str(style_str);
+		
+		match style
+		{
+			Lines =>
+			{
+				for options.each() |o|
+				{
+					match *o
+					{
+						LineWidth(w) =>
+						{
+							args.write_str(" lw ");
+							args.write_float(w);
+							break;
+						},
+						_ => ()
+					};
+				}
+				
+				for options.each() |o|
+				{
+					match *o
+					{
+						LineDash(d) =>
+						{
+							args.write_str(" lt ");
+							let ds : int = match d
+							{
+								Solid => 1,
+								SmallDot => 0,
+								Dash => 2,
+								Dot => 3,
+								DotDash => 4,
+								DotDotDash => 5
+							};
+							args.write_int(ds);
+							break;
+						},
+						_ => ()
+					};
+				}
+			}
+			Points =>
+			{
+				for options.each() |o|
+				{
+					match *o
+					{
+						PointSymbol(t) =>
+						{
+							let typ : int = match t
+							{
+								'.' => 0,
+								'+' => 1,
+								'x' => 2,
+								'*' => 3,
+								's' => 4,
+								'S' => 5,
+								'o' => 6,
+								'O' => 7,
+								't' => 8,
+								'T' => 9,
+								'd' => 10,
+								'D' => 11,
+								'r' => 12,
+								'R' => 13,
+								a => fail!("Invalid symbol %c", a)
+							};
+							args.write_str(" pt ");
+							args.write_int(typ);
+							break;
+						},
+						_ => ()
+					};
+				}
+			}
+		}
+		
+		for options.each() |o|
+		{
+			match *o
+			{
+				Color(s) =>
+				{
+					args.write_str(" lc rgb \"");
+					args.write_str(s);
+					args.write_str("\"");
+					break;
+				},
+				_ => ()
+			};
+		}
+		
+		for options.each() |o|
+		{
+			match *o
+			{
+				Caption(s) =>
+				{
+					args.write_str(" t \"");
+					args.write_str(s);
+					args.write_str("\"");
+					break;
+				},
+				_ => ()
+			};
+		}
+	}
 }
 
 struct Axes2D
@@ -438,149 +572,33 @@ impl Axes2D
 	{
 		let l = self.common.elems.len();
 		self.common.elems.push(PlotElement::new());
+		let mut num_rows : int = 0;
 		
-		let args = &mut self.common.elems[l].args;
-		let data = &mut self.common.elems[l].data;
-		
-		let mut length : int = 0;
-		
-		loop
 		{
-			let x_val = match x.next()
-			{
-				Some(a) => a,
-				None => break
-			};
+			let data = &mut self.common.elems[l].data;
 			
-			let y_val = match y.next()
+			loop
 			{
-				Some(a) => a,
-				None => break
-			};
-			
-			data.write_data(x_val);
-			data.write_data(y_val);
-			
-			length += 1;
-		}
-		
-		args.write_str(" \"-\" binary endian=little record=");
-		args.write_int(length);
-		args.write_str(" format=\"%float64\" using 1:2 with ");
-		
-		let style_str = match style
-		{
-			Lines => "lines",
-			Points => "points"
-		};
-		args.write_str(style_str);
-		
-		match style
-		{
-			Lines =>
-			{
-				for options.each() |o|
+				let x_val = match x.next()
 				{
-					match *o
-					{
-						LineWidth(w) =>
-						{
-							args.write_str(" lw ");
-							args.write_float(w);
-							break;
-						},
-						_ => ()
-					};
-				}
+					Some(a) => a,
+					None => break
+				};
 				
-				for options.each() |o|
+				let y_val = match y.next()
 				{
-					match *o
-					{
-						LineDash(d) =>
-						{
-							args.write_str(" lt ");
-							let ds : int = match d
-							{
-								Solid => 1,
-								SmallDot => 0,
-								Dash => 2,
-								Dot => 3,
-								DotDash => 4,
-								DotDotDash => 5
-							};
-							args.write_int(ds);
-							break;
-						},
-						_ => ()
-					};
-				}
-			}
-			Points =>
-			{
-				for options.each() |o|
-				{
-					match *o
-					{
-						PointSymbol(t) =>
-						{
-							let typ : int = match t
-							{
-								'.' => 0,
-								'+' => 1,
-								'x' => 2,
-								'*' => 3,
-								's' => 4,
-								'S' => 5,
-								'o' => 6,
-								'O' => 7,
-								't' => 8,
-								'T' => 9,
-								'd' => 10,
-								'D' => 11,
-								'r' => 12,
-								'R' => 13,
-								a => fail!("Invalid symbol %c", a)
-							};
-							args.write_str(" pt ");
-							args.write_int(typ);
-							break;
-						},
-						_ => ()
-					};
-				}
+					Some(a) => a,
+					None => break
+				};
+				
+				data.write_data(x_val);
+				data.write_data(y_val);
+				
+				num_rows += 1;
 			}
 		}
 		
-		for options.each() |o|
-		{
-			match *o
-			{
-				Color(s) =>
-				{
-					args.write_str(" lc rgb \"");
-					args.write_str(s);
-					args.write_str("\"");
-					break;
-				},
-				_ => ()
-			};
-		}
-		
-		for options.each() |o|
-		{
-			match *o
-			{
-				Caption(s) =>
-				{
-					args.write_str(" t \"");
-					args.write_str(s);
-					args.write_str("\"");
-					break;
-				},
-				_ => ()
-			};
-		}
+		self.common.write_common_commands(l, num_rows, 2, style, options);
 	}
 	
 	fn write_out(&self, writer : &fn(data : &[u8]))
