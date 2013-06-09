@@ -142,6 +142,7 @@ enum PlotStyle
 
 struct AxesCommon
 {
+	commands: ~[u8],
 	elems : ~[PlotElement],
 	cell_row : uint,
 	cell_col : uint
@@ -153,6 +154,7 @@ impl AxesCommon
 	{
 		AxesCommon
 		{
+			commands: ~[],
 			elems: ~[],
 			cell_row: 0,
 			cell_col: 0,
@@ -171,6 +173,33 @@ impl Axes2D
 	{
 		self.common.cell_row = row;
 		self.common.cell_col = col;
+	}
+	
+	pub fn set_x_label(&mut self, text : &str)
+	{
+		let c = &mut self.common.commands;
+		
+		c.write_str("set xlabel \"");
+		c.write_str(text);
+		c.write_str("\"\n");
+	}
+	
+	pub fn set_y_label(&mut self, text : &str)
+	{
+		let c = &mut self.common.commands;
+		
+		c.write_str("set ylabel \"");
+		c.write_str(text);
+		c.write_str("\"\n");
+	}
+	
+	pub fn set_title(&mut self, text : &str)
+	{
+		let c = &mut self.common.commands;
+		
+		c.write_str("set title \"");
+		c.write_str(text);
+		c.write_str("\"\n");
 	}
 	
 	pub fn lines<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, x : X, y : Y, options : &[PlotOption])
@@ -326,6 +355,8 @@ impl Axes2D
 		{
 			return;
 		}
+		
+		writer(self.common.commands);
 
 		str::byte_slice("plot", writer);
 		
