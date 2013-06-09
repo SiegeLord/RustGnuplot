@@ -7,6 +7,7 @@
 #[license = "zlib"];
 #[crate_type = "lib"];
 
+use std::iterator::*;
 use std::cast;
 use std::str;
 use std::float;
@@ -568,7 +569,7 @@ impl Axes2D
 		}
 	}
 	
-	fn plot2<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, style : PlotStyle, mut x : X, mut y : Y, options : &[PlotOption])
+	fn plot2<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, style : PlotStyle, x : X, y : Y, options : &[PlotOption])
 	{
 		let l = self.common.elems.len();
 		self.common.elems.push(PlotElement::new());
@@ -576,24 +577,10 @@ impl Axes2D
 		
 		{
 			let data = &mut self.common.elems[l].data;
-			
-			loop
+			for x.zip(y).advance |(x, y)|
 			{
-				let x_val = match x.next()
-				{
-					Some(a) => a,
-					None => break
-				};
-				
-				let y_val = match y.next()
-				{
-					Some(a) => a,
-					None => break
-				};
-				
-				data.write_data(x_val);
-				data.write_data(y_val);
-				
+				data.write_data(x);
+				data.write_data(y);
 				num_rows += 1;
 			}
 		}
