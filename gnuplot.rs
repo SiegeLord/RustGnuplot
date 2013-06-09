@@ -14,11 +14,49 @@ use std::u64;
 use std::io;
 use std::run::{Process, ProcessOptions};
 
-enum PlotOption<'self>
+/*
+'.' => 0,
+'+' => 1,
+'x' => 2,
+'*' => 3,
+'s' => 4,
+'S' => 5,
+'o' => 6,
+'O' => 7,
+'t' => 8,
+'T' => 9,
+'d' => 10,
+'D' => 11,
+'r' => 12,
+'R' => 13,
+* */
+
+/// An enumeration of plot options you can supply to plotting commands, governing
+/// things like line width, color and others
+pub enum PlotOption<'self>
 {
+	/// Sets the symbol used for points. The characters are as follows:
+	/// * ```.``` - dot
+	/// * ```+``` - plus
+	/// * ```x``` - cross
+	/// * ```*``` - star
+	/// * ```s``` - empty square
+	/// * ```S``` - filled square
+	/// * ```o``` - empty circle
+	/// * ```O``` - filled circle
+	/// * ```t``` - empty triangle
+	/// * ```T``` - filled triangle
+	/// * ```d``` - empty del (upside down triangle)
+	/// * ```D``` - filled del (upside down triangle)
+	/// * ```r``` - empty rhombus
+	/// * ```R``` - filled rhombus
 	PointSymbol(char),
+	/// Sets the caption of the plot element. Set to empty to hide it from the legend.
 	Caption(&'self str),
+	/// Sets the width of lines.
 	LineWidth(float),
+	/// Sets the color of the plot element. The passed string can be a color name
+	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white).
 	Color(&'self str)
 }
 
@@ -107,13 +145,13 @@ impl_data_type_ref!(float)
 
 trait Writable
 {
-	fn write_data<T : DataType>(&mut self, v : T);
-	fn write_str(&mut self, s : &str);
+	priv fn write_data<T : DataType>(&mut self, v : T);
+	priv fn write_str(&mut self, s : &str);
 }
 
 impl Writable for ~[u8]
 {
-	fn write_data<T : DataType>(&mut self, v : T)
+	priv fn write_data<T : DataType>(&mut self, v : T)
 	{
 		let f = v.get();
 		let i : u64 = unsafe { cast::transmute(f) };
@@ -128,7 +166,7 @@ impl Writable for ~[u8]
 		self.push((i >> 56) as u8);
 	}
 
-	fn write_str(&mut self, s : &str)
+	priv fn write_str(&mut self, s : &str)
 	{
 		do str::byte_slice(s) |v| { self.push_all(v) }
 	}
@@ -144,8 +182,8 @@ struct AxesCommon
 {
 	commands: ~[u8],
 	elems : ~[PlotElement],
-	cell_row : uint,
-	cell_col : uint
+	grid_row : uint,
+	grid_col : uint
 }
 
 impl AxesCommon
@@ -156,25 +194,33 @@ impl AxesCommon
 		{
 			commands: ~[],
 			elems: ~[],
-			cell_row: 0,
-			cell_col: 0,
+			grid_row: 0,
+			grid_col: 0,
 		}
 	}
 }
 
-pub struct Axes2D
+struct Axes2D
 {
 	common : AxesCommon
 }
 
+/// 2D axes that is used for drawing 2D plots
 impl Axes2D
 {
-	pub fn set_cell(&mut self, row : uint, col : uint)
+	/// Set the position of the axes on the figure using grid coordinates
+	/// # Arguments
+	/// * row - Row on the grid. Top-most row is 1
+	/// * column - Column on the grid. Left-most column is 1
+	pub fn set_pos_grid(&mut self, row : uint, col : uint)
 	{
-		self.common.cell_row = row;
-		self.common.cell_col = col;
+		self.common.grid_row = row;
+		self.common.grid_col = col;
 	}
 	
+	/// Set the label for the X axis
+	/// # Arguments
+	/// * text - Text of the label. Pass an empty string to hide the label
 	pub fn set_x_label(&mut self, text : &str)
 	{
 		let c = &mut self.common.commands;
@@ -184,6 +230,9 @@ impl Axes2D
 		c.write_str("\"\n");
 	}
 	
+	/// Set the label for the Y axis
+	/// # Arguments
+	/// * text - Text of the label. Pass an empty string to hide the label
 	pub fn set_y_label(&mut self, text : &str)
 	{
 		let c = &mut self.common.commands;
@@ -193,6 +242,9 @@ impl Axes2D
 		c.write_str("\"\n");
 	}
 	
+	/// Set the title for the axes
+	/// # Arguments
+	/// * text - Text of the title. Pass an empty string to hide the title
 	pub fn set_title(&mut self, text : &str)
 	{
 		let c = &mut self.common.commands;
@@ -202,11 +254,21 @@ impl Axes2D
 		c.write_str("\"\n");
 	}
 	
+	/// Plot a 2D scatter-plot with lines connecting each data point
+	/// # Arguments
+	/// * x - Iterator for the x values
+	/// * y - Iterator for the y values
+	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
 	pub fn lines<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, x : X, y : Y, options : &[PlotOption])
 	{
 		self.plot2(Lines, x, y, options);
 	}
 	
+	/// Plot a 2D scatter-plot with a point standing in for each data point
+	/// # Arguments
+	/// * x - Iterator for the x values
+	/// * y - Iterator for the y values
+	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
 	pub fn points<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, x : X, y : Y, options : &[PlotOption])
 	{
 		self.plot2(Points, x, y, options);
@@ -380,7 +442,7 @@ impl Axes2D
 	}
 }
 
-pub struct Axes3D
+struct Axes3D
 {
 	common : AxesCommon
 }
@@ -423,16 +485,30 @@ impl AxesVariant
 	}
 }
 
-pub struct Figure
+struct Figure
 {
-	priv axes: ~[AxesVariant],
-	priv gnuplot: Option<Process>,
-	priv num_rows: uint,
-	priv num_cols: uint
+	axes: ~[AxesVariant],
+	gnuplot: Option<Process>,
+	num_rows: uint,
+	num_cols: uint
 }
 
+/// A figure that may contain multiple axes
+///
+/// # Example
+/// ~~~
+/// let x = [0, 1, 2];
+/// let y = [3, 4, 5];
+/// let mut fg = Figure::new();
+/// {
+///	   let ax = fg.axes2d();
+///    ax.lines(x.iter(), y.iter(), [Caption("A line"), Color("black")]);
+/// }
+/// fg.show();
+/// ~~~
 impl Figure
 {
+	/// Creates a new figure
 	pub fn new() -> Figure
 	{
 		Figure
@@ -444,12 +520,19 @@ impl Figure
 		}
 	}
 	
-	pub fn layout(&mut self, rows : uint, cols : uint)
+	/// Sets the dimensions of the grid that you can use to
+	/// place multiple axes on
+	/// # Arguments
+	/// * rows - Number of rows. Set to 0 to disable the grid
+	/// * cols - Number of columns. Set to 0 to disable the grid
+	pub fn set_grid(&mut self, rows : uint, cols : uint)
 	{
 		self.num_rows = rows;
 		self.num_cols = cols;
 	}
 	
+	
+	/// Creates a set of 2D axes
 	pub fn axes2d<'l>(&'l mut self) -> &'l mut Axes2D
 	{
 		self.axes.push(Axes2DType(Axes2D::new()));
@@ -460,6 +543,7 @@ impl Figure
 		}
 	}
 	
+	/// Creates a set of 3D axes
 	pub fn axes3d<'l>(&'l mut self) -> &'l mut Axes3D
 	{
 		self.axes.push(Axes3DType(Axes3D::new()));
@@ -470,6 +554,7 @@ impl Figure
 		}
 	}
 	
+	/// Launch a gnuplot process and display the figure on it
 	pub fn show(&mut self)
 	{
 		if(self.gnuplot.is_none())
@@ -484,6 +569,9 @@ impl Figure
 		}
 	}
 	
+	/// Echo the commands that if piped to a gnuplot process would display the figure
+	/// # Arguments
+	/// * writer - A function pointer that will be called multiple times with the command text and data
 	pub fn echo(&self, writer : &fn(data : &[u8]))
 	{
 		str::byte_slice("set multiplot\n", writer);
@@ -504,8 +592,8 @@ impl Figure
 			if do_layout
 			{
 				let c = e.get_common();
-				let x = (c.cell_col as float - 1.0) * w;
-				let y = (self.num_rows as float - c.cell_row as float) * h;
+				let x = (c.grid_col as float - 1.0) * w;
+				let y = (self.num_rows as float - c.grid_row as float) * h;
 				
 				str::byte_slice("set origin ", writer);
 				str::byte_slice(x.to_str(), writer);
@@ -525,6 +613,9 @@ impl Figure
 		str::byte_slice("unset multiplot\n", writer);
 	}
 	
+	/// Save to a file the the commands that if piped to a gnuplot process would display the figure
+	/// # Arguments
+	/// * filename - Name of the file
 	pub fn echo_to_file(&self, filename : &str)
 	{
 		let file = io::file_writer(&Path(filename), [io::Create]).get();
