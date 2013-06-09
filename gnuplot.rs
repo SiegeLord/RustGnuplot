@@ -236,10 +236,11 @@ impl Axes2D
 	/// # Arguments
 	/// * row - Row on the grid. Top-most row is 1
 	/// * column - Column on the grid. Left-most column is 1
-	pub fn set_pos_grid(&mut self, row : uint, col : uint)
+	pub fn set_pos_grid<'l>(&'l mut self, row : uint, col : uint) -> &'l mut Axes2D
 	{
 		self.common.grid_row = row;
 		self.common.grid_col = col;
+		self
 	}
 	
 	/// Set the position of the axes on the figure using screen coordinates. 
@@ -247,134 +248,158 @@ impl Axes2D
 	/// # Arguments
 	/// * x - X position. Ranges from 0 to 1
 	/// * y - Y position. Ranges from 0 to 1
-	pub fn set_pos(&mut self, x : float, y : float)
+	pub fn set_pos<'l>(&'l mut self, x : float, y : float) -> &'l mut Axes2D
 	{
-		let c = &mut self.common.commands;
-		
-		c.write_str("set origin ");
-		c.write_float(x);
-		c.write_str(",");
-		c.write_float(y);
-		c.write_str("\n");
+		{
+			let c = &mut self.common.commands;
+			
+			c.write_str("set origin ");
+			c.write_float(x);
+			c.write_str(",");
+			c.write_float(y);
+			c.write_str("\n");
+		}
+		self
 	}
 	
 	/// Set the size of the axes
 	/// # Arguments
 	/// * w - Width. Ranges from 0 to 1
 	/// * h - Height. Ranges from 0 to 1
-	pub fn set_size(&mut self, w : float, h : float)
+	pub fn set_size<'l>(&'l mut self, w : float, h : float) -> &'l mut Axes2D
 	{
-		let c = &mut self.common.commands;
-		
-		c.write_str("set size ");
-		c.write_float(w);
-		c.write_str(",");
-		c.write_float(h);
-		c.write_str("\n");
+		{
+			let c = &mut self.common.commands;
+			
+			c.write_str("set size ");
+			c.write_float(w);
+			c.write_str(",");
+			c.write_float(h);
+			c.write_str("\n");
+		}
+		self
 	}
 	
 	/// Set the aspect ratio of the axes
 	/// # Arguments
 	/// * ratio - The aspect ratio. Set to Auto to return the ratio to default
-	pub fn set_aspect_ratio(&mut self, ratio : AutoOption<float>)
+	pub fn set_aspect_ratio<'l>(&'l mut self, ratio : AutoOption<float>) -> &'l mut Axes2D
 	{
-		let c = &mut self.common.commands;
-		
-		match ratio
 		{
-			Fix(r) => 
+			let c = &mut self.common.commands;
+			
+			match ratio
 			{
-				c.write_str("set size ratio ");
-				c.write_float(r);
-			},
-			Auto =>
-			{
-				c.write_str("set size noratio");
+				Fix(r) => 
+				{
+					c.write_str("set size ratio ");
+					c.write_float(r);
+				},
+				Auto =>
+				{
+					c.write_str("set size noratio");
+				}
 			}
+			c.write_str("\n");
 		}
-		c.write_str("\n");
+		self
 	}
 	
 	/// Set the label for the X axis
 	/// # Arguments
 	/// * text - Text of the label. Pass an empty string to hide the label
-	pub fn set_x_label(&mut self, text : &str)
+	pub fn set_x_label<'l>(&'l mut self, text : &str) -> &'l mut Axes2D
 	{
-		let c = &mut self.common.commands;
-		
-		c.write_str("set xlabel \"");
-		c.write_str(text);
-		c.write_str("\"\n");
+		{
+			let c = &mut self.common.commands;
+			
+			c.write_str("set xlabel \"");
+			c.write_str(text);
+			c.write_str("\"\n");
+		}
+		self
 	}
 	
 	/// Set the label for the Y axis
 	/// # Arguments
 	/// * text - Text of the label. Pass an empty string to hide the label
-	pub fn set_y_label(&mut self, text : &str)
+	pub fn set_y_label<'l>(&'l mut self, text : &str) -> &'l mut Axes2D
 	{
-		let c = &mut self.common.commands;
-		
-		c.write_str("set ylabel \"");
-		c.write_str(text);
-		c.write_str("\"\n");
+		{
+			let c = &mut self.common.commands;
+			
+			c.write_str("set ylabel \"");
+			c.write_str(text);
+			c.write_str("\"\n");
+		}
+		self
 	}
 	
 	/// Set the range of values for the X axis
 	/// # Arguments
 	/// * min - Minimum X value
 	/// * max - Maximum X value
-	pub fn set_x_range(&mut self, min : AutoOption<float>, max : AutoOption<float>)
+	pub fn set_x_range<'l>(&'l mut self, min : AutoOption<float>, max : AutoOption<float>) -> &'l mut Axes2D
 	{
-		let c = &mut self.common.commands;
-		
-		c.write_str("set xrange [");
-		match min
 		{
-			Fix(v) => c.write_float(v),
-			Auto => c.write_str("*")
+			let c = &mut self.common.commands;
+			
+			c.write_str("set xrange [");
+			match min
+			{
+				Fix(v) => c.write_float(v),
+				Auto => c.write_str("*")
+			}
+			c.write_str(":");
+			match max
+			{
+				Fix(v) => c.write_float(v),
+				Auto => c.write_str("*")
+			}
+			c.write_str("]\n");
 		}
-		c.write_str(":");
-		match max
-		{
-			Fix(v) => c.write_float(v),
-			Auto => c.write_str("*")
-		}
-		c.write_str("]\n");
+		self
 	}
 	
 	/// Set the range of values for the Y axis
 	/// # Arguments
 	/// * min - Minimum Y value
 	/// * max - Maximum Y value
-	pub fn set_y_range(&mut self, min : AutoOption<float>, max : AutoOption<float>)
+	pub fn set_y_range<'l>(&'l mut self, min : AutoOption<float>, max : AutoOption<float>) -> &'l mut Axes2D
 	{
-		let c = &mut self.common.commands;
-		
-		c.write_str("set yrange [");
-		match min
 		{
-			Fix(v) => c.write_float(v),
-			Auto => c.write_str("*")
+			let c = &mut self.common.commands;
+			
+			c.write_str("set yrange [");
+			match min
+			{
+				Fix(v) => c.write_float(v),
+				Auto => c.write_str("*")
+			}
+			c.write_str(":");
+			match max
+			{
+				Fix(v) => c.write_float(v),
+				Auto => c.write_str("*")
+			}
+			c.write_str("]\n");
 		}
-		c.write_str(":");
-		match max
-		{
-			Fix(v) => c.write_float(v),
-			Auto => c.write_str("*")
-		}
-		c.write_str("]\n");
+		self
 	}
 	
 	/// Set the title for the axes
 	/// # Arguments
 	/// * text - Text of the title. Pass an empty string to hide the title
-	pub fn set_title(&mut self, text : &str)
+	pub fn set_title<'l>(&'l mut self, text : &str) -> &'l mut Axes2D
 	{
-		let c = &mut self.common.commands;
-		
-		c.write_str("set title \"");
-		c.write_str(text);
-		c.write_str("\"\n");
+		{
+			let c = &mut self.common.commands;
+			
+			c.write_str("set title \"");
+			c.write_str(text);
+			c.write_str("\"\n");
+		}
+		self
 	}
 	
 	/// Plot a 2D scatter-plot with lines connecting each data point
@@ -382,9 +407,10 @@ impl Axes2D
 	/// * x - Iterator for the x values
 	/// * y - Iterator for the y values
 	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
-	pub fn lines<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, x : X, y : Y, options : &[PlotOption])
+	pub fn lines<'l, Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Lines, x, y, options);
+		self
 	}
 	
 	/// Plot a 2D scatter-plot with a point standing in for each data point
@@ -392,9 +418,10 @@ impl Axes2D
 	/// * x - Iterator for the x values
 	/// * y - Iterator for the y values
 	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
-	pub fn points<Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&mut self, x : X, y : Y, options : &[PlotOption])
+	pub fn points<'l, Tx : DataType, Ty : DataType, X : Iterator<Tx>, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Points, x, y, options);
+		self
 	}
 }
 
@@ -676,10 +703,11 @@ impl<'self> Figure<'self>
 	/// * pdfcairo - Saves the figure as a PDF file
 	/// * epscairo - Saves the figure as a EPS file
 	/// * pngcairo - Saves the figure as a PNG file
-	pub fn set_terminal(&mut self, terminal : &'self str, output_file : &'self str)
+	pub fn set_terminal<'l>(&'l mut self, terminal : &'self str, output_file : &'self str) -> &'l mut Figure<'self>
 	{
 		self.terminal = terminal;
 		self.output_file = output_file;
+		self
 	}
 	
 	/// Sets the dimensions of the grid that you can use to
@@ -687,10 +715,11 @@ impl<'self> Figure<'self>
 	/// # Arguments
 	/// * rows - Number of rows. Set to 0 to disable the grid
 	/// * cols - Number of columns. Set to 0 to disable the grid
-	pub fn set_grid(&mut self, rows : uint, cols : uint)
+	pub fn set_grid<'l>(&'l mut self, rows : uint, cols : uint) -> &'l mut Figure<'self>
 	{
 		self.num_rows = rows;
 		self.num_cols = cols;
+		self
 	}
 	
 	
@@ -717,11 +746,11 @@ impl<'self> Figure<'self>
 	}
 	
 	/// Launch a gnuplot process and display the figure on it
-	pub fn show(&self)
+	pub fn show<'l>(&'l self) -> &'l Figure<'l>
 	{
 		if self.axes.len() == 0
 		{
-			return;
+			return self;
 		}
 		
 		let mut p = Process::new("gnuplot", [~"-p"], ProcessOptions::new());
@@ -730,17 +759,19 @@ impl<'self> Figure<'self>
 		do self.echo |v|
 		{
 			input.write(v);
-		}
+		};
+		
+		self
 	}
 	
 	/// Echo the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
 	/// * writer - A function pointer that will be called multiple times with the command text and data
-	pub fn echo(&self, writer : &fn(data : &[u8]))
+	pub fn echo<'l>(&'l self, writer : &fn(data : &[u8])) -> &'l Figure<'l>
 	{
 		if self.axes.len() == 0
 		{
-			return;
+			return self;
 		}
 		
 		str::byte_slice("set terminal ", writer);
@@ -793,22 +824,24 @@ impl<'self> Figure<'self>
 		}
 		
 		str::byte_slice("unset multiplot\n", writer);
+		self
 	}
 	
 	/// Save to a file the the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
 	/// * filename - Name of the file
-	pub fn echo_to_file(&self, filename : &str)
+	pub fn echo_to_file<'l>(&'l self, filename : &str) -> &'l Figure<'l>
 	{
 		if self.axes.len() == 0
 		{
-			return;
+			return self;
 		}
 		
 		let file = io::file_writer(&Path(filename), [io::Create]).get();
 		do self.echo |v|
 		{
 			file.write(v);
-		}
+		};
+		self
 	}
 }
