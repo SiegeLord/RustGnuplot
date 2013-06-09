@@ -701,6 +701,11 @@ impl Figure
 	/// Launch a gnuplot process and display the figure on it
 	pub fn show(&mut self)
 	{
+		if self.axes.len() == 0
+		{
+			return;
+		}
+		
 		let mut p = Process::new("gnuplot", [~"-p"], ProcessOptions::new());
 		let input = p.input();
 		
@@ -715,6 +720,11 @@ impl Figure
 	/// * writer - A function pointer that will be called multiple times with the command text and data
 	pub fn echo(&self, writer : &fn(data : &[u8]))
 	{
+		if self.axes.len() == 0
+		{
+			return;
+		}
+		
 		str::byte_slice("set termoption dashed\n", writer);
 		str::byte_slice("set termoption enhanced\n", writer);
 		str::byte_slice("set multiplot\n", writer);
@@ -761,6 +771,11 @@ impl Figure
 	/// * filename - Name of the file
 	pub fn echo_to_file(&self, filename : &str)
 	{
+		if self.axes.len() == 0
+		{
+			return;
+		}
+		
 		let file = io::file_writer(&Path(filename), [io::Create]).get();
 		do self.echo |v|
 		{
