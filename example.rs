@@ -23,6 +23,9 @@ fn main()
 	fg.show();
 	fg.echo_to_file("fg1.gnuplot");
 	
+	fg.set_terminal("pdfcairo", "fg1.pdf");
+	fg.show();
+	
 	let mut fg = Figure::new();
 	{
 		let ax = fg.axes2d();

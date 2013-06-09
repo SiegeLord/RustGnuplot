@@ -631,11 +631,13 @@ impl AxesVariant
 	}
 }
 
-struct Figure
+struct Figure<'self>
 {
 	axes: ~[AxesVariant],
 	num_rows: uint,
-	num_cols: uint
+	num_cols: uint,
+	terminal: &'self str,
+	output_file: &'self str
 }
 
 /// A figure that may contain multiple axes
@@ -651,7 +653,7 @@ struct Figure
 /// }
 /// fg.show();
 /// ~~~
-impl Figure
+impl<'self> Figure<'self>
 {
 	/// Creates a new figure
 	pub fn new() -> Figure
@@ -660,8 +662,24 @@ impl Figure
 		{
 			axes: ~[],
 			num_rows: 0,
-			num_cols: 0
+			num_cols: 0,
+			terminal: "",
+			output_file: ""
 		}
+	}
+	
+	/// Sets the terminal for gnuplot to use, as well as the file to output the figure to.
+	/// Terminals that spawn a GUI don't need an output file, so pass an empty string for those.
+	///
+	/// There are a quite a number of terminals, here are some commonly used ones:
+	/// * wxt - Interactive GUI
+	/// * pdfcairo - Saves the figure as a PDF file
+	/// * epscairo - Saves the figure as a EPS file
+	/// * pngcairo - Saves the figure as a PNG file
+	pub fn set_terminal(&mut self, terminal : &'self str, output_file : &'self str)
+	{
+		self.terminal = terminal;
+		self.output_file = output_file;
 	}
 	
 	/// Sets the dimensions of the grid that you can use to
@@ -699,7 +717,7 @@ impl Figure
 	}
 	
 	/// Launch a gnuplot process and display the figure on it
-	pub fn show(&mut self)
+	pub fn show(&self)
 	{
 		if self.axes.len() == 0
 		{
@@ -723,6 +741,17 @@ impl Figure
 		if self.axes.len() == 0
 		{
 			return;
+		}
+		
+		str::byte_slice("set terminal ", writer);
+		str::byte_slice(self.terminal, writer);
+		str::byte_slice("\n", writer);
+		
+		if self.output_file.len() > 0
+		{
+			str::byte_slice("set output \"", writer);
+			str::byte_slice(self.output_file, writer);
+			str::byte_slice("\"\n", writer);
 		}
 		
 		str::byte_slice("set termoption dashed\n", writer);
