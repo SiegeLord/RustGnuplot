@@ -634,7 +634,6 @@ impl AxesVariant
 struct Figure
 {
 	axes: ~[AxesVariant],
-	gnuplot: Option<Process>,
 	num_rows: uint,
 	num_cols: uint
 }
@@ -660,7 +659,6 @@ impl Figure
 		Figure
 		{
 			axes: ~[],
-			gnuplot: None,
 			num_rows: 0,
 			num_cols: 0
 		}
@@ -703,11 +701,8 @@ impl Figure
 	/// Launch a gnuplot process and display the figure on it
 	pub fn show(&mut self)
 	{
-		if(self.gnuplot.is_none())
-		{
-			self.gnuplot = Some(Process::new("gnuplot", [~"-p"], ProcessOptions::new()));
-		}
-		let input = self.gnuplot.get_mut_ref().input();
+		let mut p = Process::new("gnuplot", [~"-p"], ProcessOptions::new());
+		let input = p.input();
 		
 		do self.echo |v|
 		{
