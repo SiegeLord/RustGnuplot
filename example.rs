@@ -14,8 +14,8 @@ fn main()
 	{
 		let ax = fg.axes2d();
 		
-		ax.lines(x, y1, [Caption("Lines"), LineWidth(3.0), Color("violet"), LineDash(DotDash)]);
-		ax.points(x, y2, [Caption("Points"), PointSymbol('S'), Color("#ffaa77")]);
+		ax.lines(x, y1, [Caption("x^2"), LineWidth(3.0), Color("violet"), LineDash(DotDash)]);
+		ax.points(x, y2, [Caption("-x^2"), PointSymbol('S'), Color("#ffaa77")]);
 		ax.set_x_label("X Label");
 		ax.set_y_label("Y Label");
 		ax.set_title("Simple Plot");

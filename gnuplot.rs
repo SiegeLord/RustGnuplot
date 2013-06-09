@@ -721,6 +721,7 @@ impl Figure
 	pub fn echo(&self, writer : &fn(data : &[u8]))
 	{
 		str::byte_slice("set termoption dashed\n", writer);
+		str::byte_slice("set termoption enhanced\n", writer);
 		str::byte_slice("set multiplot\n", writer);
 		
 		let do_layout = self.num_rows > 0 && self.num_cols > 0;
