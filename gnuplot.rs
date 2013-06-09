@@ -14,23 +14,6 @@ use std::u64;
 use std::io;
 use std::run::{Process, ProcessOptions};
 
-/*
-'.' => 0,
-'+' => 1,
-'x' => 2,
-'*' => 3,
-'s' => 4,
-'S' => 5,
-'o' => 6,
-'O' => 7,
-'t' => 8,
-'T' => 9,
-'d' => 10,
-'D' => 11,
-'r' => 12,
-'R' => 13,
-* */
-
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others
 pub enum PlotOption<'self>
