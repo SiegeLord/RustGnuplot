@@ -43,6 +43,16 @@ pub enum PlotOption<'self>
 	Color(&'self str)
 }
 
+/// An enumeration of something that can either be fixed (e.g. the maximum of X values),
+/// or automatically determined
+pub enum AutoOption<T>
+{
+	/// Fixes the value to a specific value
+	Fix(T),
+	/// Lets the value scale automatically
+	Auto
+}
+
 struct PlotElement
 {
 	args : ~[u8],
@@ -232,16 +242,25 @@ impl Axes2D
 		c.write_str("\n");
 	}
 	
-	/// Set the size of the axes
+	/// Set the aspect ratio of the axes
 	/// # Arguments
-	/// * w - Width. Ranges from 0 to 1
-	/// * h - Height. Ranges from 0 to 1
-	pub fn set_aspect_ratio(&mut self, ratio : float)
+	/// * ratio - The aspect ratio. Set to Auto to return the ratio to default
+	pub fn set_aspect_ratio(&mut self, ratio : AutoOption<float>)
 	{
 		let c = &mut self.common.commands;
 		
-		c.write_str("set size ratio ");
-		c.write_str(ratio.to_str());
+		match ratio
+		{
+			Fix(r) => 
+			{
+				c.write_str("set size ratio ");
+				c.write_str(r.to_str());
+			},
+			Auto =>
+			{
+				c.write_str("set size noratio");
+			}
+		}
 		c.write_str("\n");
 	}
 	
@@ -267,6 +286,52 @@ impl Axes2D
 		c.write_str("set ylabel \"");
 		c.write_str(text);
 		c.write_str("\"\n");
+	}
+	
+	/// Set the range of values for the X axis
+	/// # Arguments
+	/// * min - Minimum X value
+	/// * max - Maximum X value
+	pub fn set_x_range(&mut self, min : AutoOption<float>, max : AutoOption<float>)
+	{
+		let c = &mut self.common.commands;
+		
+		c.write_str("set xrange [");
+		match min
+		{
+			Fix(v) => c.write_str(v.to_str()),
+			Auto => c.write_str("*")
+		}
+		c.write_str(":");
+		match max
+		{
+			Fix(v) => c.write_str(v.to_str()),
+			Auto => c.write_str("*")
+		}
+		c.write_str("]\n");
+	}
+	
+	/// Set the range of values for the Y axis
+	/// # Arguments
+	/// * min - Minimum Y value
+	/// * max - Maximum Y value
+	pub fn set_y_range(&mut self, min : AutoOption<float>, max : AutoOption<float>)
+	{
+		let c = &mut self.common.commands;
+		
+		c.write_str("set yrange [");
+		match min
+		{
+			Fix(v) => c.write_str(v.to_str()),
+			Auto => c.write_str("*")
+		}
+		c.write_str(":");
+		match max
+		{
+			Fix(v) => c.write_str(v.to_str()),
+			Auto => c.write_str("*")
+		}
+		c.write_str("]\n");
 	}
 	
 	/// Set the title for the axes
