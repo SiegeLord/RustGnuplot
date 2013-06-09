@@ -203,7 +203,6 @@ impl Axes2D
 			Lines => "lines",
 			Points => "points"
 		};
-		
 		args.write_str(style_str);
 		
 		match style
@@ -238,9 +237,16 @@ impl Axes2D
 								'+' => 1,
 								'x' => 2,
 								'*' => 3,
+								's' => 4,
+								'S' => 5,
 								'o' => 6,
-								'^' => 8,
-								'v' => 10,
+								'O' => 7,
+								't' => 8,
+								'T' => 9,
+								'd' => 10,
+								'D' => 11,
+								'r' => 12,
+								'R' => 13,
 								a => fail!("Invalid symbol %c", a)
 							};
 							args.write_str(" pt ");

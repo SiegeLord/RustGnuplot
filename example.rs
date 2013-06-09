@@ -11,7 +11,7 @@ fn main()
 		let ax = fg.axes2d();
 		
 		ax.lines(x.iter(), x.iter().transform(|&v| { v*v }), [Caption("Lines"), LineWidth(3.0)]);
-		ax.points(x.iter(), x.iter().transform(|&v| { -v*v }), [Caption("Points"), PointSymbol('v')]);
+		ax.points(x.iter(), x.iter().transform(|&v| { -v*v }), [Caption("Points"), PointSymbol('S')]);
 	}
 	fg.show();
 	fg.echo_to_file("out.gnuplot");
