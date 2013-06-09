@@ -18,7 +18,8 @@ enum PlotOption<'self>
 {
 	PointSymbol(char),
 	Caption(&'self str),
-	LineWidth(float)
+	LineWidth(float),
+	Color(&'self str)
 }
 
 struct PlotElement
@@ -257,6 +258,21 @@ impl Axes2D
 					};
 				}
 			}
+		}
+		
+		for options.each() |o|
+		{
+			match *o
+			{
+				Color(s) =>
+				{
+					args.write_str(" lc rgb \"");
+					args.write_str(s);
+					args.write_str("\"");
+					break;
+				},
+				_ => ()
+			};
 		}
 		
 		for options.each() |o|

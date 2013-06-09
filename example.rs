@@ -10,8 +10,8 @@ fn main()
 	{
 		let ax = fg.axes2d();
 		
-		ax.lines(x.iter(), x.iter().transform(|&v| { v*v }), [Caption("Lines"), LineWidth(3.0)]);
-		ax.points(x.iter(), x.iter().transform(|&v| { -v*v }), [Caption("Points"), PointSymbol('S')]);
+		ax.lines(x.iter(), x.iter().transform(|&v| { v*v }), [Caption("Lines"), LineWidth(3.0), Color("violet")]);
+		ax.points(x.iter(), x.iter().transform(|&v| { -v*v }), [Caption("Points"), PointSymbol('S'), Color("#ffaa77")]);
 	}
 	fg.show();
 	fg.echo_to_file("out.gnuplot");
