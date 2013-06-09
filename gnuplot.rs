@@ -201,6 +201,50 @@ impl Axes2D
 		self.common.grid_col = col;
 	}
 	
+	/// Set the position of the axes on the figure using screen coordinates. 
+	/// The coordinates refer to the bottom-left corner of the axes
+	/// # Arguments
+	/// * x - X position. Ranges from 0 to 1
+	/// * y - Y position. Ranges from 0 to 1
+	pub fn set_pos(&mut self, x : float, y : float)
+	{
+		let c = &mut self.common.commands;
+		
+		c.write_str("set origin ");
+		c.write_str(x.to_str());
+		c.write_str(",");
+		c.write_str(y.to_str());
+		c.write_str("\n");
+	}
+	
+	/// Set the size of the axes
+	/// # Arguments
+	/// * w - Width. Ranges from 0 to 1
+	/// * h - Height. Ranges from 0 to 1
+	pub fn set_size(&mut self, w : float, h : float)
+	{
+		let c = &mut self.common.commands;
+		
+		c.write_str("set size ");
+		c.write_str(w.to_str());
+		c.write_str(",");
+		c.write_str(h.to_str());
+		c.write_str("\n");
+	}
+	
+	/// Set the size of the axes
+	/// # Arguments
+	/// * w - Width. Ranges from 0 to 1
+	/// * h - Height. Ranges from 0 to 1
+	pub fn set_aspect_ratio(&mut self, ratio : float)
+	{
+		let c = &mut self.common.commands;
+		
+		c.write_str("set size ratio ");
+		c.write_str(ratio.to_str());
+		c.write_str("\n");
+	}
+	
 	/// Set the label for the X axis
 	/// # Arguments
 	/// * text - Text of the label. Pass an empty string to hide the label
