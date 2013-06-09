@@ -359,20 +359,20 @@ impl AxesCommon
 			};
 		}
 		
+		args.write_str(" t \"");
 		for options.each() |o|
 		{
 			match *o
 			{
 				Caption(s) =>
-				{
-					args.write_str(" t \"");
+				{				
 					args.write_str(s);
-					args.write_str("\"");
 					break;
 				},
 				_ => ()
 			};
 		}
+		args.write_str("\"");
 	}
 }
 
