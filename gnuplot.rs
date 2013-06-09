@@ -10,7 +10,7 @@
 use std::iterator::*;
 use std::cast;
 use std::str;
-use std::u64;
+use std::float;
 use std::io;
 use std::run::{Process, ProcessOptions};
 
@@ -140,6 +140,14 @@ trait Writable
 {
 	priv fn write_data<T : DataType>(&mut self, v : T);
 	priv fn write_str(&mut self, s : &str);
+	priv fn write_int(&mut self, i : int);
+	priv fn write_float(&mut self, f : float);
+}
+
+fn to_sci(v: float, writer : &fn(&str))
+{
+	let e = v.abs().log(10.0).floor();
+	writer(float::to_str_digits(v / (10.0f).pow(e), 16) + "e" + e.to_str());
 }
 
 impl Writable for ~[u8]
@@ -162,6 +170,16 @@ impl Writable for ~[u8]
 	priv fn write_str(&mut self, s : &str)
 	{
 		do str::byte_slice(s) |v| { self.push_all(v) }
+	}
+	
+	priv fn write_int(&mut self, i : int)
+	{
+		self.write_str(i.to_str());
+	}
+	
+	priv fn write_float(&mut self, f : float)
+	{
+		do to_sci(f) |s| { self.write_str(s) };
 	}
 }
 
@@ -221,9 +239,9 @@ impl Axes2D
 		let c = &mut self.common.commands;
 		
 		c.write_str("set origin ");
-		c.write_str(x.to_str());
+		c.write_float(x);
 		c.write_str(",");
-		c.write_str(y.to_str());
+		c.write_float(y);
 		c.write_str("\n");
 	}
 	
@@ -236,9 +254,9 @@ impl Axes2D
 		let c = &mut self.common.commands;
 		
 		c.write_str("set size ");
-		c.write_str(w.to_str());
+		c.write_float(w);
 		c.write_str(",");
-		c.write_str(h.to_str());
+		c.write_float(h);
 		c.write_str("\n");
 	}
 	
@@ -254,7 +272,7 @@ impl Axes2D
 			Fix(r) => 
 			{
 				c.write_str("set size ratio ");
-				c.write_str(r.to_str());
+				c.write_float(r);
 			},
 			Auto =>
 			{
@@ -299,13 +317,13 @@ impl Axes2D
 		c.write_str("set xrange [");
 		match min
 		{
-			Fix(v) => c.write_str(v.to_str()),
+			Fix(v) => c.write_float(v),
 			Auto => c.write_str("*")
 		}
 		c.write_str(":");
 		match max
 		{
-			Fix(v) => c.write_str(v.to_str()),
+			Fix(v) => c.write_float(v),
 			Auto => c.write_str("*")
 		}
 		c.write_str("]\n");
@@ -322,13 +340,13 @@ impl Axes2D
 		c.write_str("set yrange [");
 		match min
 		{
-			Fix(v) => c.write_str(v.to_str()),
+			Fix(v) => c.write_float(v),
 			Auto => c.write_str("*")
 		}
 		c.write_str(":");
 		match max
 		{
-			Fix(v) => c.write_str(v.to_str()),
+			Fix(v) => c.write_float(v),
 			Auto => c.write_str("*")
 		}
 		c.write_str("]\n");
@@ -385,7 +403,7 @@ impl Axes2D
 		let args = &mut self.common.elems[l].args;
 		let data = &mut self.common.elems[l].data;
 		
-		let mut length : u64 = 0;
+		let mut length : int = 0;
 		
 		loop
 		{
@@ -408,7 +426,7 @@ impl Axes2D
 		}
 		
 		args.write_str(" \"-\" binary endian=little record=");
-		args.write_str(u64::to_str(length));
+		args.write_int(length);
 		args.write_str(" format=\"%float64\" using 1:2 with ");
 		
 		let style_str = match style
@@ -429,7 +447,7 @@ impl Axes2D
 						LineWidth(w) =>
 						{
 							args.write_str(" lw ");
-							args.write_str(w.to_str());
+							args.write_float(w);
 							break;
 						},
 						_ => ()
@@ -444,7 +462,7 @@ impl Axes2D
 					{
 						PointSymbol(t) =>
 						{
-							let typ : i8 = match t
+							let typ : int = match t
 							{
 								'.' => 0,
 								'+' => 1,
@@ -463,7 +481,7 @@ impl Axes2D
 								a => fail!("Invalid symbol %c", a)
 							};
 							args.write_str(" pt ");
-							args.write_str(typ.to_str());
+							args.write_int(typ);
 							break;
 						},
 						_ => ()
@@ -688,15 +706,15 @@ impl Figure
 				let y = (self.num_rows as float - c.grid_row as float) * h;
 				
 				str::byte_slice("set origin ", writer);
-				str::byte_slice(x.to_str(), writer);
+				do to_sci(x) |s| { str::byte_slice(s, writer) };
 				str::byte_slice(",", writer);
-				str::byte_slice(y.to_str(), writer);
+				do to_sci(y) |s| { str::byte_slice(s, writer) };
 				str::byte_slice("\n", writer);
 				
 				str::byte_slice("set size ", writer);
-				str::byte_slice(w.to_str(), writer);
+				do to_sci(w) |s| { str::byte_slice(s, writer) };
 				str::byte_slice(",", writer);
-				str::byte_slice(h.to_str(), writer);
+				do to_sci(h) |s| { str::byte_slice(s, writer) };
 				str::byte_slice("\n", writer);
 			}
 			e.write_out(writer);
