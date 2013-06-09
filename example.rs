@@ -14,7 +14,7 @@ fn main()
 	{
 		let ax = fg.axes2d();
 		
-		ax.lines(x, y1, [Caption("Lines"), LineWidth(3.0), Color("violet")]);
+		ax.lines(x, y1, [Caption("Lines"), LineWidth(3.0), Color("violet"), LineDash(DotDash)]);
 		ax.points(x, y2, [Caption("Points"), PointSymbol('S'), Color("#ffaa77")]);
 		ax.set_x_label("X Label");
 		ax.set_y_label("Y Label");
@@ -33,7 +33,7 @@ fn main()
 	{	
 		let ax = fg.axes2d();
 		ax.set_pos_grid(1, 2);
-		ax.points(x, y2, [Caption("Points"), PointSymbol('S'), Color("#ffaa77")]);
+		ax.points(x, y2, [Caption("Points"), PointSymbol('D'), Color("#ffaa77")]);
 		ax.set_title("Plot2");
 	}
 	fg.set_grid(1, 2);
@@ -50,7 +50,7 @@ fn main()
 		ax.set_pos(0.1, 0.4);
 		ax.set_size(0.3, 0.6);
 		ax.set_aspect_ratio(Fix(1.0));
-		ax.points(x, y2, [Caption("Points"), PointSymbol('S'), Color("#ffaa77")]);
+		ax.points(x, y2, [Caption("Points"), PointSymbol('T'), Color("#ffaa77")]);
 		ax.set_title("Inset");
 	}
 	fg.show();

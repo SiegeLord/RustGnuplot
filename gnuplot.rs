@@ -40,7 +40,20 @@ pub enum PlotOption<'self>
 	LineWidth(float),
 	/// Sets the color of the plot element. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white).
-	Color(&'self str)
+	Color(&'self str),
+	/// Sets the dash type. Note that not all gnuplot terminals support dashed lines. See [DashType](#enum-dashtype) for the available types.
+	LineDash(DashType)
+}
+
+/// An enumeration of possible dash styles
+pub enum DashType
+{
+	Solid,
+	SmallDot,
+	Dot,
+	Dash,
+	DotDash,
+	DotDotDash
 }
 
 /// An enumeration of something that can either be fixed (e.g. the maximum of X values),
@@ -453,6 +466,29 @@ impl Axes2D
 						_ => ()
 					};
 				}
+				
+				for options.each() |o|
+				{
+					match *o
+					{
+						LineDash(d) =>
+						{
+							args.write_str(" lt ");
+							let ds : int = match d
+							{
+								Solid => 1,
+								SmallDot => 0,
+								Dash => 2,
+								Dot => 3,
+								DotDash => 4,
+								DotDotDash => 5
+							};
+							args.write_int(ds);
+							break;
+						},
+						_ => ()
+					};
+				}
 			}
 			Points =>
 			{
@@ -684,6 +720,7 @@ impl Figure
 	/// * writer - A function pointer that will be called multiple times with the command text and data
 	pub fn echo(&self, writer : &fn(data : &[u8]))
 	{
+		str::byte_slice("set termoption dashed\n", writer);
 		str::byte_slice("set multiplot\n", writer);
 		
 		let do_layout = self.num_rows > 0 && self.num_cols > 0;
