@@ -758,7 +758,8 @@ struct Figure<'self>
 /// A figure that may contain multiple axes
 ///
 /// # Example
-/// ~~~
+///
+/// ~~~ {.rust}
 /// let x = [0, 1, 2];
 /// let y = [3, 4, 5];
 /// let mut fg = Figure::new();
