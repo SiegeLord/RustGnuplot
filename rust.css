@@ -1,16 +1,13 @@
 body {
-  padding: 1em;
-  margin: 0;
-  margin-bottom: 4em;
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
-  background-color: white;
-  color: black;
-  line-height: 1.6em;
-}
-
-body {
-  padding: 1em 6em;
-  max-width: 60em;
+      padding: 1em 6em;
+      margin: 0;
+      margin-bottom: 4em;
+      font-family: "Helvetica Neue", Helvetica, sans-serif;
+      background-color: white;
+      color: black;
+      line-height: 1.6em;
+      min-width: 45em;
+      max-width: 60em;
 }
 
 h1 {
