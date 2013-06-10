@@ -1,0 +1,576 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Crate gnuplot</title>
+  <link rel="stylesheet" href="rust.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Crate gnuplot</h1>
+</div>
+<div class='index'>
+
+<ul>
+<li><a href="#enum-autooption">Enum <code>AutoOption</code></a> - An enumeration of something that can either be fixed (e</li>
+<li><a href="#enum-dashtype">Enum <code>DashType</code></a> - An enumeration of possible dash styles</li>
+<li><a href="#enum-plotoption">Enum <code>PlotOption</code></a> - An enumeration of plot options you can supply to plotting commands, governing things like line width, color and others</li>
+<li><a href="#implementation-of-datatype-for-self-u8-where-self">Implementation <code>of DataType for &amp;'self u8 where &lt;'self&gt;</code></a></li>
+<li><a href="#implementation-of-datatype-for-self-u16-where-self">Implementation <code>of DataType for &amp;'self u16 where &lt;'self&gt;</code></a></li>
+<li><a href="#implementation-of-datatype-for-self-u32-where-self">Implementation <code>of DataType for &amp;'self u32 where &lt;'self&gt;</code></a></li>
+<li><a href="#implementation-of-datatype-for-self-u64-where-self">Implementation <code>of DataType for &amp;'self u64 where &lt;'self&gt;</code></a></li>
+<li><a href="#implementation-of-datatype-for-self-uint-where-self">Implementation <code>of DataType for &amp;'self uint where &lt;'self&gt;</code></a></li>
+<li><a href="#implementation-of-datatype-for-self-i8-where-self">Implementation <code>of DataType for &amp;'self i8 where &lt;'self&gt;</code></a></li>
+<li><a href="#implementation-of-datatype-for-self-i16-where-self">Implementation <code>of DataType for &amp;'self i16 where &lt;'self&gt;</code></a></li>
+<li><a href="#implementation-of-datatype-for-self-i32-where-self">Implementation <code>of DataType for &amp;'self i32 where &lt;'self&gt;</code></a></li>
+<li><a href="#implementation-of-datatype-for-self-i64-where-self">Implementation <code>of DataType for &amp;'self i64 where &lt;'self&gt;</code></a></li>
+<li><a href="#implementation-of-datatype-for-self-int-where-self">Implementation <code>of DataType for &amp;'self int where &lt;'self&gt;</code></a></li>
+<li><a href="#implementation-of-datatype-for-self-f32-where-self">Implementation <code>of DataType for &amp;'self f32 where &lt;'self&gt;</code></a></li>
+<li><a href="#implementation-of-datatype-for-self-f64-where-self">Implementation <code>of DataType for &amp;'self f64 where &lt;'self&gt;</code></a></li>
+<li><a href="#implementation-of-datatype-for-self-float-where-self">Implementation <code>of DataType for &amp;'self float where &lt;'self&gt;</code></a></li>
+<li><a href="#implementation-of-datatype-for-u8">Implementation <code>of DataType for u8</code></a></li>
+<li><a href="#implementation-of-datatype-for-u16">Implementation <code>of DataType for u16</code></a></li>
+<li><a href="#implementation-of-datatype-for-u32">Implementation <code>of DataType for u32</code></a></li>
+<li><a href="#implementation-of-datatype-for-u64">Implementation <code>of DataType for u64</code></a></li>
+<li><a href="#implementation-of-datatype-for-uint">Implementation <code>of DataType for uint</code></a></li>
+<li><a href="#implementation-of-datatype-for-i8">Implementation <code>of DataType for i8</code></a></li>
+<li><a href="#implementation-of-datatype-for-i16">Implementation <code>of DataType for i16</code></a></li>
+<li><a href="#implementation-of-datatype-for-i32">Implementation <code>of DataType for i32</code></a></li>
+<li><a href="#implementation-of-datatype-for-i64">Implementation <code>of DataType for i64</code></a></li>
+<li><a href="#implementation-of-datatype-for-int">Implementation <code>of DataType for int</code></a></li>
+<li><a href="#implementation-of-datatype-for-f32">Implementation <code>of DataType for f32</code></a></li>
+<li><a href="#implementation-of-datatype-for-f64">Implementation <code>of DataType for f64</code></a></li>
+<li><a href="#implementation-of-datatype-for-float">Implementation <code>of DataType for float</code></a></li>
+<li><a href="#implementation-of-writable-for-u8">Implementation <code>of Writable for ~[u8]</code></a></li>
+<li><a href="#implementation-for-axes2d">Implementation <code>for Axes2D</code></a> - 2D axes that is used for drawing 2D plots</li>
+<li><a href="#implementation-for-figureself-where-self">Implementation <code>for Figure&lt;'self&gt; where &lt;'self&gt;</code></a> - A figure that may contain multiple axes</li>
+</ul>
+</div>
+
+<div class="section level2" id="enum-autooption">
+<h2>Enum <code>AutoOption</code></h2>
+<p>An enumeration of something that can either be fixed (e.g. the maximum of X values), or automatically determined</p>
+<div class="section level4" id="variants">
+<h4>Variants</h4>
+<ul>
+<li><p><code>Fix(T)</code> - Fixes the value to a specific value</p></li>
+<li><p><code>Auto</code> - Lets the value scale automatically</p></li>
+</ul>
+</div>
+</div>
+<div class="section level2" id="enum-dashtype">
+<h2>Enum <code>DashType</code></h2>
+<p>An enumeration of possible dash styles</p>
+<div class="section level4" id="variants-1">
+<h4>Variants</h4>
+<ul>
+<li><p><code>Solid</code></p></li>
+<li><p><code>SmallDot</code></p></li>
+<li><p><code>Dot</code></p></li>
+<li><p><code>Dash</code></p></li>
+<li><p><code>DotDash</code></p></li>
+<li><p><code>DotDotDash</code></p></li>
+</ul>
+</div>
+</div>
+<div class="section level2" id="enum-plotoption">
+<h2>Enum <code>PlotOption</code></h2>
+<p>An enumeration of plot options you can supply to plotting commands, governing things like line width, color and others</p>
+<div class="section level4" id="variants-2">
+<h4>Variants</h4>
+<ul>
+<li><code>PointSymbol(char)</code> - Sets the symbol used for points. The characters are as follows:
+<ul>
+<li><code>.</code> - dot</li>
+<li><code>+</code> - plus</li>
+<li><code>x</code> - cross</li>
+<li><code>*</code> - star</li>
+<li><code>s</code> - empty square</li>
+<li><code>S</code> - filled square</li>
+<li><code>o</code> - empty circle</li>
+<li><code>O</code> - filled circle</li>
+<li><code>t</code> - empty triangle</li>
+<li><code>T</code> - filled triangle</li>
+<li><code>d</code> - empty del (upside down triangle)</li>
+<li><code>D</code> - filled del (upside down triangle)</li>
+<li><code>r</code> - empty rhombus</li>
+<li><code>R</code> - filled rhombus</li>
+</ul></li>
+<li><p><code>Caption(&amp;'self str)</code> - Sets the caption of the plot element. Set to empty to hide it from the legend.</p></li>
+<li><p><code>LineWidth(float)</code> - Sets the width of lines.</p></li>
+<li><p><code>Color(&amp;'self str)</code> - Sets the color of the plot element. The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white).</p></li>
+<li><p><code>LineDash(DashType)</code> - Sets the dash type. Note that not all gnuplot terminals support dashed lines. See <a href="#enum-dashtype">DashType</a> for the available types.</p></li>
+</ul>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-self-u8-where-self">
+<h2>Implementation of <code>DataType</code> for <code>&amp;'self u8</code> where <code>&lt;'self&gt;</code></h2>
+<div class="section level3" id="method-get">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-self-u16-where-self">
+<h2>Implementation of <code>DataType</code> for <code>&amp;'self u16</code> where <code>&lt;'self&gt;</code></h2>
+<div class="section level3" id="method-get-1">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-self-u32-where-self">
+<h2>Implementation of <code>DataType</code> for <code>&amp;'self u32</code> where <code>&lt;'self&gt;</code></h2>
+<div class="section level3" id="method-get-2">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-self-u64-where-self">
+<h2>Implementation of <code>DataType</code> for <code>&amp;'self u64</code> where <code>&lt;'self&gt;</code></h2>
+<div class="section level3" id="method-get-3">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-self-uint-where-self">
+<h2>Implementation of <code>DataType</code> for <code>&amp;'self uint</code> where <code>&lt;'self&gt;</code></h2>
+<div class="section level3" id="method-get-4">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-self-i8-where-self">
+<h2>Implementation of <code>DataType</code> for <code>&amp;'self i8</code> where <code>&lt;'self&gt;</code></h2>
+<div class="section level3" id="method-get-5">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-self-i16-where-self">
+<h2>Implementation of <code>DataType</code> for <code>&amp;'self i16</code> where <code>&lt;'self&gt;</code></h2>
+<div class="section level3" id="method-get-6">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-self-i32-where-self">
+<h2>Implementation of <code>DataType</code> for <code>&amp;'self i32</code> where <code>&lt;'self&gt;</code></h2>
+<div class="section level3" id="method-get-7">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-self-i64-where-self">
+<h2>Implementation of <code>DataType</code> for <code>&amp;'self i64</code> where <code>&lt;'self&gt;</code></h2>
+<div class="section level3" id="method-get-8">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-self-int-where-self">
+<h2>Implementation of <code>DataType</code> for <code>&amp;'self int</code> where <code>&lt;'self&gt;</code></h2>
+<div class="section level3" id="method-get-9">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-self-f32-where-self">
+<h2>Implementation of <code>DataType</code> for <code>&amp;'self f32</code> where <code>&lt;'self&gt;</code></h2>
+<div class="section level3" id="method-get-10">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-self-f64-where-self">
+<h2>Implementation of <code>DataType</code> for <code>&amp;'self f64</code> where <code>&lt;'self&gt;</code></h2>
+<div class="section level3" id="method-get-11">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-self-float-where-self">
+<h2>Implementation of <code>DataType</code> for <code>&amp;'self float</code> where <code>&lt;'self&gt;</code></h2>
+<div class="section level3" id="method-get-12">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-u8">
+<h2>Implementation of <code>DataType</code> for <code>u8</code></h2>
+<div class="section level3" id="method-get-13">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-u16">
+<h2>Implementation of <code>DataType</code> for <code>u16</code></h2>
+<div class="section level3" id="method-get-14">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-u32">
+<h2>Implementation of <code>DataType</code> for <code>u32</code></h2>
+<div class="section level3" id="method-get-15">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-u64">
+<h2>Implementation of <code>DataType</code> for <code>u64</code></h2>
+<div class="section level3" id="method-get-16">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-uint">
+<h2>Implementation of <code>DataType</code> for <code>uint</code></h2>
+<div class="section level3" id="method-get-17">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-i8">
+<h2>Implementation of <code>DataType</code> for <code>i8</code></h2>
+<div class="section level3" id="method-get-18">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-i16">
+<h2>Implementation of <code>DataType</code> for <code>i16</code></h2>
+<div class="section level3" id="method-get-19">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-i32">
+<h2>Implementation of <code>DataType</code> for <code>i32</code></h2>
+<div class="section level3" id="method-get-20">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-i64">
+<h2>Implementation of <code>DataType</code> for <code>i64</code></h2>
+<div class="section level3" id="method-get-21">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-int">
+<h2>Implementation of <code>DataType</code> for <code>int</code></h2>
+<div class="section level3" id="method-get-22">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-f32">
+<h2>Implementation of <code>DataType</code> for <code>f32</code></h2>
+<div class="section level3" id="method-get-23">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-f64">
+<h2>Implementation of <code>DataType</code> for <code>f64</code></h2>
+<div class="section level3" id="method-get-24">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-datatype-for-float">
+<h2>Implementation of <code>DataType</code> for <code>float</code></h2>
+<div class="section level3" id="method-get-25">
+<h3>Method <code>get</code></h3>
+<pre><code>fn get(&amp;self) -&gt; float</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-of-writable-for-u8">
+<h2>Implementation of <code>Writable</code> for <code>~[u8]</code></h2>
+<div class="section level3" id="method-write_data">
+<h3>Method <code>write_data</code></h3>
+<pre><code>fn write_data&lt;T: DataType&gt;(&amp;mut self, v: T)</code></pre>
+</div>
+<div class="section level3" id="method-write_str">
+<h3>Method <code>write_str</code></h3>
+<pre><code>fn write_str(&amp;mut self, s: &amp;str)</code></pre>
+</div>
+<div class="section level3" id="method-write_int">
+<h3>Method <code>write_int</code></h3>
+<pre><code>fn write_int(&amp;mut self, i: int)</code></pre>
+</div>
+<div class="section level3" id="method-write_float">
+<h3>Method <code>write_float</code></h3>
+<pre><code>fn write_float(&amp;mut self, f: float)</code></pre>
+</div>
+</div>
+<div class="section level2" id="implementation-for-axes2d">
+<h2>Implementation for <code>Axes2D</code></h2>
+<p>2D axes that is used for drawing 2D plots</p>
+<div class="section level3" id="method-set_pos_grid">
+<h3>Method <code>set_pos_grid</code></h3>
+<pre><code>fn set_pos_grid&lt;&#39;l&gt;(&amp;&#39;l mut self, row: uint, col: uint) -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Set the position of the axes on the figure using grid coordinates</p>
+<div class="section level4" id="arguments">
+<h4>Arguments</h4>
+<ul>
+<li>row - Row on the grid. Top-most row is 1</li>
+<li>column - Column on the grid. Left-most column is 1</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-set_pos">
+<h3>Method <code>set_pos</code></h3>
+<pre><code>fn set_pos&lt;&#39;l&gt;(&amp;&#39;l mut self, x: float, y: float) -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Set the position of the axes on the figure using screen coordinates. The coordinates refer to the bottom-left corner of the axes</p>
+<div class="section level4" id="arguments-1">
+<h4>Arguments</h4>
+<ul>
+<li>x - X position. Ranges from 0 to 1</li>
+<li>y - Y position. Ranges from 0 to 1</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-set_size">
+<h3>Method <code>set_size</code></h3>
+<pre><code>fn set_size&lt;&#39;l&gt;(&amp;&#39;l mut self, w: float, h: float) -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Set the size of the axes</p>
+<div class="section level4" id="arguments-2">
+<h4>Arguments</h4>
+<ul>
+<li>w - Width. Ranges from 0 to 1</li>
+<li>h - Height. Ranges from 0 to 1</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-set_aspect_ratio">
+<h3>Method <code>set_aspect_ratio</code></h3>
+<pre><code>fn set_aspect_ratio&lt;&#39;l&gt;(&amp;&#39;l mut self, ratio: AutoOption&lt;float&gt;) -&gt;
+ &amp;&#39;l mut Axes2D</code></pre>
+<p>Set the aspect ratio of the axes</p>
+<div class="section level4" id="arguments-3">
+<h4>Arguments</h4>
+<ul>
+<li>ratio - The aspect ratio. Set to Auto to return the ratio to default</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-set_x_label">
+<h3>Method <code>set_x_label</code></h3>
+<pre><code>fn set_x_label&lt;&#39;l&gt;(&amp;&#39;l mut self, text: &amp;str) -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Set the label for the X axis</p>
+<div class="section level4" id="arguments-4">
+<h4>Arguments</h4>
+<ul>
+<li>text - Text of the label. Pass an empty string to hide the label</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-set_y_label">
+<h3>Method <code>set_y_label</code></h3>
+<pre><code>fn set_y_label&lt;&#39;l&gt;(&amp;&#39;l mut self, text: &amp;str) -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Set the label for the Y axis</p>
+<div class="section level4" id="arguments-5">
+<h4>Arguments</h4>
+<ul>
+<li>text - Text of the label. Pass an empty string to hide the label</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-set_x_range">
+<h3>Method <code>set_x_range</code></h3>
+<pre><code>fn set_x_range&lt;&#39;l&gt;(&amp;&#39;l mut self, min: AutoOption&lt;float&gt;,
+                   max: AutoOption&lt;float&gt;) -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Set the range of values for the X axis</p>
+<div class="section level4" id="arguments-6">
+<h4>Arguments</h4>
+<ul>
+<li>min - Minimum X value</li>
+<li>max - Maximum X value</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-set_y_range">
+<h3>Method <code>set_y_range</code></h3>
+<pre><code>fn set_y_range&lt;&#39;l&gt;(&amp;&#39;l mut self, min: AutoOption&lt;float&gt;,
+                   max: AutoOption&lt;float&gt;) -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Set the range of values for the Y axis</p>
+<div class="section level4" id="arguments-7">
+<h4>Arguments</h4>
+<ul>
+<li>min - Minimum Y value</li>
+<li>max - Maximum Y value</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-set_title">
+<h3>Method <code>set_title</code></h3>
+<pre><code>fn set_title&lt;&#39;l&gt;(&amp;&#39;l mut self, text: &amp;str) -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Set the title for the axes</p>
+<div class="section level4" id="arguments-8">
+<h4>Arguments</h4>
+<ul>
+<li>text - Text of the title. Pass an empty string to hide the title</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-lines">
+<h3>Method <code>lines</code></h3>
+<pre><code>fn lines&lt;&#39;l, Tx: DataType, X: Iterator&lt;Tx&gt;, Ty: DataType,
+         Y: Iterator&lt;Ty&gt;&gt;(&amp;&#39;l mut self, x: X, y: Y, options: &amp;[PlotOption]) -&gt;
+ &amp;&#39;l mut Axes2D</code></pre>
+<p>Plot a 2D scatter-plot with lines connecting each data point</p>
+<div class="section level4" id="arguments-9">
+<h4>Arguments</h4>
+<ul>
+<li>x - Iterator for the x values</li>
+<li>y - Iterator for the y values</li>
+<li>options - Array of <a href="#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-points">
+<h3>Method <code>points</code></h3>
+<pre><code>fn points&lt;&#39;l, Tx: DataType, X: Iterator&lt;Tx&gt;, Ty: DataType,
+          Y: Iterator&lt;Ty&gt;&gt;(&amp;&#39;l mut self, x: X, y: Y, options: &amp;[PlotOption])
+ -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Plot a 2D scatter-plot with a point standing in for each data point</p>
+<div class="section level4" id="arguments-10">
+<h4>Arguments</h4>
+<ul>
+<li>x - Iterator for the x values</li>
+<li>y - Iterator for the y values</li>
+<li>options - Array of <a href="#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-lines_points">
+<h3>Method <code>lines_points</code></h3>
+<pre><code>fn lines_points&lt;&#39;l, Tx: DataType, X: Iterator&lt;Tx&gt;, Ty: DataType,
+                Y: Iterator&lt;Ty&gt;&gt;(&amp;&#39;l mut self, x: X, y: Y,
+                                 options: &amp;[PlotOption]) -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point</p>
+<div class="section level4" id="arguments-11">
+<h4>Arguments</h4>
+<ul>
+<li>x - Iterator for the x values</li>
+<li>y - Iterator for the y values</li>
+<li>options - Array of <a href="#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-x_error_lines">
+<h3>Method <code>x_error_lines</code></h3>
+<pre><code>fn x_error_lines&lt;&#39;l, Tx: DataType, X: Iterator&lt;Tx&gt;, Ty: DataType,
+                 Y: Iterator&lt;Ty&gt;, Txe: DataType,
+                 XE: Iterator&lt;Txe&gt;&gt;(&amp;&#39;l mut self, x: X, y: Y, x_error: XE,
+                                    options: &amp;[PlotOption]) -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point. Additionally, error bars are attached to each data point in the X direction.</p>
+<div class="section level4" id="arguments-12">
+<h4>Arguments</h4>
+<ul>
+<li>x - Iterator for the x values</li>
+<li>y - Iterator for the y valuess</li>
+<li>x_error - Iterator for the error associated with the x value</li>
+<li>options - Array of <a href="#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-y_error_lines">
+<h3>Method <code>y_error_lines</code></h3>
+<pre><code>fn y_error_lines&lt;&#39;l, Tx: DataType, X: Iterator&lt;Tx&gt;, Ty: DataType,
+                 Y: Iterator&lt;Ty&gt;, Tye: DataType,
+                 YE: Iterator&lt;Tye&gt;&gt;(&amp;&#39;l mut self, x: X, y: Y, y_error: YE,
+                                    options: &amp;[PlotOption]) -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point. Additionally, error bars are attached to each data point in the Y direction.</p>
+<div class="section level4" id="arguments-13">
+<h4>Arguments</h4>
+<ul>
+<li>x - Iterator for the x values</li>
+<li>y - Iterator for the y values</li>
+<li>y_error - Iterator for the error associated with the y values</li>
+<li>options - Array of <a href="#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section level2" id="implementation-for-figureself-where-self">
+<h2>Implementation for <code>Figure&lt;'self&gt;</code> where <code>&lt;'self&gt;</code></h2>
+<p>A figure that may contain multiple axes</p>
+<div class="section level4" id="example">
+<h4>Example</h4>
+<pre class="rust"><code>let x = [0, 1, 2];
+let y = [3, 4, 5];
+let mut fg = Figure::new();
+{
+fg.axes2d()
+.lines(x.iter(), y.iter(), [Caption(&quot;A line&quot;), Color(&quot;black&quot;)]);
+}
+fg.show();</code></pre>
+</div>
+<div class="section level3" id="method-new">
+<h3>Method <code>new</code></h3>
+<pre><code>fn new() -&gt; Figure</code></pre>
+<p>Creates a new figure</p>
+</div>
+<div class="section level3" id="method-set_terminal">
+<h3>Method <code>set_terminal</code></h3>
+<pre><code>fn set_terminal&lt;&#39;l&gt;(&amp;&#39;l mut self, terminal: &amp;&#39;self str,
+                    output_file: &amp;&#39;self str) -&gt; &amp;&#39;l mut Figure&lt;&#39;self&gt;</code></pre>
+<p>Sets the terminal for gnuplot to use, as well as the file to output the figure to. Terminals that spawn a GUI don't need an output file, so pass an empty string for those.</p>
+<p>There are a quite a number of terminals, here are some commonly used ones: * wxt - Interactive GUI * pdfcairo - Saves the figure as a PDF file * epscairo - Saves the figure as a EPS file * pngcairo - Saves the figure as a PNG file</p>
+</div>
+<div class="section level3" id="method-set_grid">
+<h3>Method <code>set_grid</code></h3>
+<pre><code>fn set_grid&lt;&#39;l&gt;(&amp;&#39;l mut self, rows: uint, cols: uint) -&gt; &amp;&#39;l mut Figure&lt;&#39;self&gt;</code></pre>
+<p>Sets the dimensions of the grid that you can use to place multiple axes on</p>
+<div class="section level4" id="arguments-14">
+<h4>Arguments</h4>
+<ul>
+<li>rows - Number of rows. Set to 0 to disable the grid</li>
+<li>cols - Number of columns. Set to 0 to disable the grid</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-axes2d">
+<h3>Method <code>axes2d</code></h3>
+<pre><code>fn axes2d&lt;&#39;l&gt;(&amp;&#39;l mut self) -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Creates a set of 2D axes</p>
+</div>
+<div class="section level3" id="method-axes3d">
+<h3>Method <code>axes3d</code></h3>
+<pre><code>fn axes3d&lt;&#39;l&gt;(&amp;&#39;l mut self) -&gt; &amp;&#39;l mut Axes3D</code></pre>
+<p>Creates a set of 3D axes</p>
+</div>
+<div class="section level3" id="method-show">
+<h3>Method <code>show</code></h3>
+<pre><code>fn show&lt;&#39;l&gt;(&amp;&#39;l self) -&gt; &amp;&#39;l Figure&lt;&#39;l&gt;</code></pre>
+<p>Launch a gnuplot process and display the figure on it</p>
+</div>
+<div class="section level3" id="method-echo">
+<h3>Method <code>echo</code></h3>
+<pre><code>fn echo&lt;&#39;l&gt;(&amp;&#39;l self, writer: &amp;fn(data: &amp;[u8])) -&gt; &amp;&#39;l Figure&lt;&#39;l&gt;</code></pre>
+<p>Echo the commands that if piped to a gnuplot process would display the figure</p>
+<div class="section level4" id="arguments-15">
+<h4>Arguments</h4>
+<ul>
+<li>writer - A function pointer that will be called multiple times with the command text and data</li>
+</ul>
+</div>
+</div>
+<div class="section level3" id="method-echo_to_file">
+<h3>Method <code>echo_to_file</code></h3>
+<pre><code>fn echo_to_file&lt;&#39;l&gt;(&amp;&#39;l self, filename: &amp;str) -&gt; &amp;&#39;l Figure&lt;&#39;l&gt;</code></pre>
+<p>Save to a file the the commands that if piped to a gnuplot process would display the figure</p>
+<div class="section level4" id="arguments-16">
+<h4>Arguments</h4>
+<ul>
+<li>filename - Name of the file</li>
+</ul>
+</div>
+</div>
+</div>
+</body>
+</html>
