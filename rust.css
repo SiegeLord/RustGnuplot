@@ -1,14 +1,14 @@
 body {
-      padding: 1em 6em;
-      margin: 0;
-      margin-bottom: 4em;
-      font-family: "Helvetica Neue", Helvetica, sans-serif;
-      font-size: 12pt;
-      background-color: white;
-      color: black;
-      line-height: 1.6em;
-      min-width: 45em;
-      max-width: 60em;
+    padding: 1em 6em;
+    margin: 0;
+    margin-bottom: 4em;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 12pt;
+    background-color: white;
+    color: black;
+    line-height: 1.6em;
+    min-width: 45em;
+    max-width: 60em;
 }
 
 h1 {
@@ -32,6 +32,7 @@ h2 {
 
 h2 code {
     color: #097334;
+    font-size: 15pt;
 }
 
 h3 {
@@ -53,6 +54,10 @@ h4 {
     font-size: 11pt;
     margin-top: 0em;
     margin-bottom: 0em;
+}
+
+code {
+    font-size: 11pt;
 }
 
 pre {
