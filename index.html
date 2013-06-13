@@ -16,6 +16,7 @@
 <ul>
 <li><a href="#enum-autooption">Enum <code>AutoOption</code></a> - An enumeration of something that can either be fixed (e</li>
 <li><a href="#enum-dashtype">Enum <code>DashType</code></a> - An enumeration of possible dash styles</li>
+<li><a href="#enum-fillregion">Enum <code>FillRegion</code></a> - An enumeration of possible fill regions</li>
 <li><a href="#enum-plotoption">Enum <code>PlotOption</code></a> - An enumeration of plot options you can supply to plotting commands, governing things like line width, color and others</li>
 <li><a href="#implementation-of-datatype-for-self-u8-where-self">Implementation <code>of DataType for &amp;'self u8 where &lt;'self&gt;</code></a></li>
 <li><a href="#implementation-of-datatype-for-self-u16-where-self">Implementation <code>of DataType for &amp;'self u16 where &lt;'self&gt;</code></a></li>
@@ -75,10 +76,22 @@
 </ul>
 </div>
 </div>
+<div class="section level2" id="enum-fillregion">
+<h2>Enum <code>FillRegion</code></h2>
+<p>An enumeration of possible fill regions</p>
+<div class="section level4" id="variants-2">
+<h4>Variants</h4>
+<ul>
+<li><p><code>Above</code></p></li>
+<li><p><code>Below</code></p></li>
+<li><p><code>Closed</code></p></li>
+</ul>
+</div>
+</div>
 <div class="section level2" id="enum-plotoption">
 <h2>Enum <code>PlotOption</code></h2>
 <p>An enumeration of plot options you can supply to plotting commands, governing things like line width, color and others</p>
-<div class="section level4" id="variants-2">
+<div class="section level4" id="variants-3">
 <h4>Variants</h4>
 <ul>
 <li><code>PointSymbol(char)</code> - Sets the symbol used for points. The characters are as follows:
@@ -100,8 +113,10 @@
 </ul></li>
 <li><p><code>Caption(&amp;'self str)</code> - Sets the caption of the plot element. Set to empty to hide it from the legend.</p></li>
 <li><p><code>LineWidth(float)</code> - Sets the width of lines.</p></li>
-<li><p><code>Color(&amp;'self str)</code> - Sets the color of the plot element. The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white).</p></li>
-<li><p><code>LineDash(DashType)</code> - Sets the dash type. Note that not all gnuplot terminals support dashed lines. See <a href="#enum-dashtype">DashType</a> for the available types.</p></li>
+<li><p><code>Color(&amp;'self str)</code> - Sets the color of the plot element. The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white). This specifies the fill color of a filled plot.</p></li>
+<li><p><code>LineType(DashType)</code> - Sets the dash type. Note that not all gnuplot terminals support dashed lines. See <a href="#enum-dashtype">DashType</a> for the available types.</p></li>
+<li><p><code>FillAlpha(float)</code> - Sets the transparency of a filled plot. <code>0.0</code> - fully transparent, <code>1.0</code> - fully opaque</p></li>
+<li><p><code>FillRegion(FillRegion)</code> - Sets the fill region. See See <a href="#enum-fillregion">FillRegion</a> for the available regions.</p></li>
 </ul>
 </div>
 </div>
@@ -495,6 +510,23 @@
 </ul>
 </div>
 </div>
+<div class="section level3" id="method-fill_between">
+<h3>Method <code>fill_between</code></h3>
+<pre><code>fn fill_between&lt;&#39;l, Tx: DataType, X: Iterator&lt;Tx&gt;, Tyl: DataType,
+                YL: Iterator&lt;Tyl&gt;, Tyh: DataType,
+                YH: Iterator&lt;Tyh&gt;&gt;(&amp;&#39;l mut self, x: X, y_lo: YL, y_hi: YH,
+                                   options: &amp;[PlotOption]) -&gt; &amp;&#39;l mut Axes2D</code></pre>
+<p>Plot a 2D scatter-plot of two curves (bound by <code>y_lo</code> and <code>y_hi</code>) with a filled region between them. <code>FillRegion</code> plot option can be used to control what happens when the curves intersect. If set to Above, then the <code>y_lo &lt; y_hi</code> region is filled. If set to Below, then the <code>y_lo &gt; y_hi</code> region is filled. Otherwise both regions are filled.</p>
+<div class="section level4" id="arguments-14">
+<h4>Arguments</h4>
+<ul>
+<li>x - Iterator for the x values</li>
+<li>y_lo - Iterator for the bottom y values</li>
+<li>y_hi - Iterator for the top y values</li>
+<li>options - Array of <a href="#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="section level2" id="implementation-for-figureself-where-self">
 <h2>Implementation for <code>Figure&lt;'self&gt;</code> where <code>&lt;'self&gt;</code></h2>
@@ -526,7 +558,7 @@ fg.show();</code></pre>
 <h3>Method <code>set_grid</code></h3>
 <pre><code>fn set_grid&lt;&#39;l&gt;(&amp;&#39;l mut self, rows: uint, cols: uint) -&gt; &amp;&#39;l mut Figure&lt;&#39;self&gt;</code></pre>
 <p>Sets the dimensions of the grid that you can use to place multiple axes on</p>
-<div class="section level4" id="arguments-14">
+<div class="section level4" id="arguments-15">
 <h4>Arguments</h4>
 <ul>
 <li>rows - Number of rows. Set to 0 to disable the grid</li>
@@ -553,7 +585,7 @@ fg.show();</code></pre>
 <h3>Method <code>echo</code></h3>
 <pre><code>fn echo&lt;&#39;l&gt;(&amp;&#39;l self, writer: &amp;fn(data: &amp;[u8])) -&gt; &amp;&#39;l Figure&lt;&#39;l&gt;</code></pre>
 <p>Echo the commands that if piped to a gnuplot process would display the figure</p>
-<div class="section level4" id="arguments-15">
+<div class="section level4" id="arguments-16">
 <h4>Arguments</h4>
 <ul>
 <li>writer - A function pointer that will be called multiple times with the command text and data</li>
@@ -564,7 +596,7 @@ fg.show();</code></pre>
 <h3>Method <code>echo_to_file</code></h3>
 <pre><code>fn echo_to_file&lt;&#39;l&gt;(&amp;&#39;l self, filename: &amp;str) -&gt; &amp;&#39;l Figure&lt;&#39;l&gt;</code></pre>
 <p>Save to a file the the commands that if piped to a gnuplot process would display the figure</p>
-<div class="section level4" id="arguments-16">
+<div class="section level4" id="arguments-17">
 <h4>Arguments</h4>
 <ul>
 <li>filename - Name of the file</li>
