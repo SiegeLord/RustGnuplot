@@ -716,7 +716,9 @@ impl Axes2D
 		self
 	}
 	
-	/// Plot a 2D scatter-plot of two curves (bound by `y_lo` and `y_hi`) with a filled region between them
+	/// Plot a 2D scatter-plot of two curves (bound by `y_lo` and `y_hi`) with a filled region between them.
+	/// `FillRegion` plot option can be used to control what happens when the curves intersect. If set to Above, then the `y_lo < y_hi` region is filled.
+	/// If set to Below, then the `y_lo > y_hi` region is filled. Otherwise both regions are filled.
 	/// # Arguments
 	/// * x - Iterator for the x values
 	/// * y_lo - Iterator for the bottom y values
