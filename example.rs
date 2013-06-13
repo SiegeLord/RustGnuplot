@@ -16,9 +16,9 @@ fn main()
 	let mut fg = Figure::new();
 	
 	fg.axes2d()
-	.lines(x, y1, [Caption("x^2"), LineWidth(3.0), Color("violet"), LineDash(DotDash)])
+	.lines(x, y1, [Caption("x^2"), LineWidth(3.0), Color("violet"), LineType(DotDash)])
 	.points(x, y2, [Caption("-x^2"), PointSymbol('S'), Color("#ffaa77")])
-	.lines_points(x, y3, [Caption("-2 x"), PointSymbol('O'), Color("black"), LineDash(SmallDot)])
+	.lines_points(x, y3, [Caption("-2 x"), PointSymbol('O'), Color("black"), LineType(SmallDot)])
 	.set_x_label("X Label")
 	.set_y_label("Y Label")
 	.set_title("Simple Plot");
@@ -86,9 +86,9 @@ fn main()
 	.fill_between(x, y1, y3, [Color("red"), FillAlpha(0.5), FillRegion(Above), Caption("A > B")])
 	.fill_between(x, y1, y3, [Color("green"), FillAlpha(0.5), FillRegion(Below), Caption("A < B")])
 	.fill_between(x, y2, y3, [Color("blue"), FillAlpha(0.5), FillRegion(Closed), Caption("Between C and B")])
-	.lines(x, y1, [Color("black"), LineWidth(2.0), LineDash(Dash), Caption("A")])
+	.lines(x, y1, [Color("black"), LineWidth(2.0), LineType(Dash), Caption("A")])
 	.lines(x, y2, [Color("black"), LineWidth(2.0), Caption("C")])
-	.lines(x, y3, [Color("black"), LineWidth(2.0), LineDash(DotDotDash), Caption("B")])
+	.lines(x, y3, [Color("black"), LineWidth(2.0), LineType(DotDotDash), Caption("B")])
 	.set_title("Fill");
 
 	fg.show();

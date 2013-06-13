@@ -41,7 +41,7 @@ pub enum PlotOption<'self>
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white). This specifies the fill color of a filled plot.
 	Color(&'self str),
 	/// Sets the dash type. Note that not all gnuplot terminals support dashed lines. See [DashType](#enum-dashtype) for the available types.
-	LineDash(DashType),
+	LineType(DashType),
 	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque
 	FillAlpha(float),
 	/// Sets the fill region. See See [FillRegion](#enum-fillregion) for the available regions.
@@ -359,7 +359,7 @@ impl AxesCommon
 			{
 				match *o
 				{
-					LineDash(d) =>
+					LineType(d) =>
 					{
 						let ds : int = match d
 						{
