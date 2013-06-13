@@ -9,7 +9,6 @@
 
 use std::iterator::*;
 use std::cast;
-use std::str;
 use std::float;
 use std::io;
 use std::run::{Process, ProcessOptions};
@@ -159,8 +158,8 @@ trait Writable
 
 fn to_sci(v: float, writer : &fn(&str))
 {
-	let e = v.abs().log(10.0).floor();
-	writer(float::to_str_digits(v / (10.0f).pow(e), 16) + "e" + e.to_str());
+	let e = v.abs().log10().floor();
+	writer(float::to_str_digits(v / (10.0f).pow(&e), 16) + "e" + e.to_str());
 }
 
 impl Writable for ~[u8]
@@ -182,7 +181,7 @@ impl Writable for ~[u8]
 
 	priv fn write_str(&mut self, s : &str)
 	{
-		do str::byte_slice(s) |v| { self.push_all(v) }
+		self.push_all(s.as_bytes());
 	}
 	
 	priv fn write_int(&mut self, i : int)
@@ -681,20 +680,20 @@ impl Axes2D
 		
 		writer(self.common.commands);
 
-		str::byte_slice("plot", writer);
+		writer("plot".as_bytes());
 		
 		let mut first = true;
 		for self.common.elems.each() |e|
 		{
 			if !first
 			{
-				str::byte_slice(",",  writer)
+				writer(",".as_bytes());
 			}
 			writer(e.args);
 			first = false;
 		}
 		
-		str::byte_slice("\n", writer);
+		writer("\n".as_bytes());
 		
 		for self.common.elems.each() |e|
 		{
@@ -863,20 +862,20 @@ impl<'self> Figure<'self>
 			return self;
 		}
 		
-		str::byte_slice("set terminal ", writer);
-		str::byte_slice(self.terminal, writer);
-		str::byte_slice("\n", writer);
+		writer("set terminal ".as_bytes());
+		writer(self.terminal.as_bytes());
+		writer("\n".as_bytes());
 		
 		if self.output_file.len() > 0
 		{
-			str::byte_slice("set output \"", writer);
-			str::byte_slice(self.output_file, writer);
-			str::byte_slice("\"\n", writer);
+			writer("set output \"".as_bytes());
+			writer(self.output_file.as_bytes());
+			writer("\"\n".as_bytes());
 		}
 		
-		str::byte_slice("set termoption dashed\n", writer);
-		str::byte_slice("set termoption enhanced\n", writer);
-		str::byte_slice("set multiplot\n", writer);
+		writer("set termoption dashed\n".as_bytes());
+		writer("set termoption enhanced\n".as_bytes());
+		writer("set multiplot\n".as_bytes());
 		
 		let do_layout = self.num_rows > 0 && self.num_cols > 0;
 		
@@ -897,22 +896,22 @@ impl<'self> Figure<'self>
 				let x = (c.grid_col as float - 1.0) * w;
 				let y = (self.num_rows as float - c.grid_row as float) * h;
 				
-				str::byte_slice("set origin ", writer);
-				do to_sci(x) |s| { str::byte_slice(s, writer) };
-				str::byte_slice(",", writer);
-				do to_sci(y) |s| { str::byte_slice(s, writer) };
-				str::byte_slice("\n", writer);
+				writer("set origin ".as_bytes());
+				do to_sci(x) |s| { writer(s.as_bytes()) };
+				writer(",".as_bytes());
+				do to_sci(y) |s| { writer(s.as_bytes()) };
+				writer("\n".as_bytes());
 				
-				str::byte_slice("set size ", writer);
-				do to_sci(w) |s| { str::byte_slice(s, writer) };
-				str::byte_slice(",", writer);
-				do to_sci(h) |s| { str::byte_slice(s, writer) };
-				str::byte_slice("\n", writer);
+				writer("set size ".as_bytes());
+				do to_sci(w) |s| { writer(s.as_bytes()) };
+				writer(",".as_bytes());
+				do to_sci(h) |s| { writer(s.as_bytes()) };
+				writer("\n".as_bytes());
 			}
 			e.write_out(writer);
 		}
 		
-		str::byte_slice("unset multiplot\n", writer);
+		writer("unset multiplot\n".as_bytes());
 		self
 	}
 	
