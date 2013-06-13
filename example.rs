@@ -8,8 +8,8 @@ fn main()
 	let arr = [0, 1, 2, 3, 4, 5];
 	let x = arr.iter();
 	let y1 = x.transform(|&v| { v * v });
-	let y2 = x.transform(|&v| { -v * v });
-	let y3 = x.transform(|&v| { -2 * v });
+	let y2 = x.transform(|&v| { -v * v + 10 });
+	let y3 = x.transform(|&v| { -2 * v + 5 });
 	let x_err = RepeatIterator{ value: 0.3 };
 	let y_err = RepeatIterator{ value: 5.0 };
 	
@@ -79,6 +79,20 @@ fn main()
 
 	fg.show();
 	fg.echo_to_file("fg5.gnuplot");
+	
+	let mut fg = Figure::new();
+
+	fg.axes2d()
+	.fill_between(x, y1, y3, [Color("red"), FillAlpha(0.5), FillRegion(Above), Caption("A > B")])
+	.fill_between(x, y1, y3, [Color("green"), FillAlpha(0.5), FillRegion(Below), Caption("A < B")])
+	.fill_between(x, y2, y3, [Color("blue"), FillAlpha(0.5), FillRegion(Closed), Caption("Between C and B")])
+	.lines(x, y1, [Color("black"), LineWidth(2.0), LineDash(Dash), Caption("A")])
+	.lines(x, y2, [Color("black"), LineWidth(2.0), Caption("C")])
+	.lines(x, y3, [Color("black"), LineWidth(2.0), LineDash(DotDotDash), Caption("B")])
+	.set_title("Fill");
+
+	fg.show();
+	fg.echo_to_file("fg6.gnuplot");
 }
 
 struct RepeatIterator<T>

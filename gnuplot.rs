@@ -38,10 +38,22 @@ pub enum PlotOption<'self>
 	/// Sets the width of lines.
 	LineWidth(float),
 	/// Sets the color of the plot element. The passed string can be a color name
-	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white).
+	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white). This specifies the fill color of a filled plot.
 	Color(&'self str),
 	/// Sets the dash type. Note that not all gnuplot terminals support dashed lines. See [DashType](#enum-dashtype) for the available types.
-	LineDash(DashType)
+	LineDash(DashType),
+	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque
+	FillAlpha(float),
+	/// Sets the fill region. See See [FillRegion](#enum-fillregion) for the available regions.
+	FillRegion(FillRegion)
+}
+
+/// An enumeration of possible fill regions
+pub enum FillRegion
+{
+	Above,
+	Below,
+	Closed
 }
 
 /// An enumeration of possible dash styles
@@ -195,13 +207,50 @@ impl Writable for ~[u8]
 	}
 }
 
-enum PlotStyle
+enum PlotType
 {
 	Lines,
 	Points,
 	LinesPoints,
 	XErrorLines,
-	YErrorLines
+	YErrorLines,
+	FillBetween
+}
+
+impl PlotType
+{
+	fn is_line(&self) -> bool
+	{
+		match *self
+		{
+			Lines |
+			LinesPoints |
+			XErrorLines |
+			YErrorLines => true,
+			_ => false
+		}
+	}
+	
+	fn is_points(&self) -> bool
+	{
+		match *self
+		{
+			Points |
+			LinesPoints |
+			XErrorLines |
+			YErrorLines => true,
+			_ => false
+		}
+	}
+	
+	fn is_fill(&self) -> bool
+	{
+		match *self
+		{
+			FillBetween => true,
+			_ => false
+		}
+	}
 }
 
 struct AxesCommon
@@ -225,7 +274,7 @@ impl AxesCommon
 		}
 	}
 	
-	fn write_common_commands(&mut self, elem_idx : uint, num_rows : int, num_cols : int, style : PlotStyle, options : &[PlotOption])
+	fn write_common_commands(&mut self, elem_idx : uint, num_rows : int, num_cols : int, plot_type : PlotType, options : &[PlotOption])
 	{
 		let args = &mut self.elems[elem_idx].args;
 		args.write_str(" \"-\" binary endian=little record=");
@@ -244,103 +293,129 @@ impl AxesCommon
 		}
 		
 		args.write_str(" with ");
-		let style_str = match style
+		let type_str = match plot_type
 		{
 			Lines => "lines",
 			Points => "points",
 			LinesPoints => "linespoints",
 			XErrorLines => "xerrorlines",
 			YErrorLines => "yerrorlines",
+			FillBetween => "filledcurves",
 		};
-		args.write_str(style_str);
+		args.write_str(type_str);
 		
-		match style
+		if plot_type.is_fill()
 		{
-			Lines |
-			LinesPoints |
-			XErrorLines |
-			YErrorLines =>
+			let mut found = false;
+			for options.each() |o|
 			{
-				for options.each() |o|
+				match *o
 				{
-					match *o
+					FillRegion(d) =>
 					{
-						LineWidth(w) =>
+						found = true;
+						args.write_str(match d
 						{
-							args.write_str(" lw ");
-							args.write_float(w);
-							break;
-						},
-						_ => ()
-					};
-				}
-				
-				for options.each() |o|
+							Above => " above",
+							Below => " below",
+							Closed => " closed",
+						});
+						break;
+					},
+					_ => ()
+				};
+			}
+			if !found
+			{
+				args.write_str(" closed");
+			}
+		}
+		
+		if plot_type.is_line()
+		{
+			let mut found = false;
+			args.write_str(" lw ");
+			for options.each() |o|
+			{
+				match *o
 				{
-					match *o
+					LineWidth(w) =>
 					{
-						LineDash(d) =>
+						args.write_float(w);
+						found = true;
+						break;
+					},
+					_ => ()
+				};
+			}
+			if !found
+			{
+				args.write_float(1.0);
+			}
+			
+			args.write_str(" lt ");
+			let mut found = false;
+			for options.each() |o|
+			{
+				match *o
+				{
+					LineDash(d) =>
+					{
+						let ds : int = match d
 						{
-							args.write_str(" lt ");
-							let ds : int = match d
-							{
-								Solid => 1,
-								SmallDot => 0,
-								Dash => 2,
-								Dot => 3,
-								DotDash => 4,
-								DotDotDash => 5
-							};
-							args.write_int(ds);
-							break;
-						},
-						_ => ()
-					};
-				}
-			},
-			_ => ()
+							Solid => 1,
+							SmallDot => 0,
+							Dash => 2,
+							Dot => 3,
+							DotDash => 4,
+							DotDotDash => 5
+						};
+						args.write_int(ds);
+						found = true;
+						break;
+					},
+					_ => ()
+				};
+			}
+			if !found
+			{
+				args.write_int(1);
+			}
 		}
 
-		match style
+		if plot_type.is_points()
 		{
-			Points |
-			LinesPoints |
-			XErrorLines |
-			YErrorLines =>
+			for options.each() |o|
 			{
-				for options.each() |o|
+				match *o
 				{
-					match *o
+					PointSymbol(t) =>
 					{
-						PointSymbol(t) =>
+						let typ : int = match t
 						{
-							let typ : int = match t
-							{
-								'.' => 0,
-								'+' => 1,
-								'x' => 2,
-								'*' => 3,
-								's' => 4,
-								'S' => 5,
-								'o' => 6,
-								'O' => 7,
-								't' => 8,
-								'T' => 9,
-								'd' => 10,
-								'D' => 11,
-								'r' => 12,
-								'R' => 13,
-								a => fail!("Invalid symbol %c", a)
-							};
-							args.write_str(" pt ");
-							args.write_int(typ);
-							break;
-						},
-						_ => ()
-					};
-				}
-			},
-			_ => ()
+							'.' => 0,
+							'+' => 1,
+							'x' => 2,
+							'*' => 3,
+							's' => 4,
+							'S' => 5,
+							'o' => 6,
+							'O' => 7,
+							't' => 8,
+							'T' => 9,
+							'd' => 10,
+							'D' => 11,
+							'r' => 12,
+							'R' => 13,
+							a => fail!("Invalid symbol %c", a)
+						};
+						args.write_str(" pt ");
+						args.write_int(typ);
+						break;
+					},
+					_ => ()
+				};
+			}
 		}
 		
 		for options.each() |o|
@@ -372,6 +447,29 @@ impl AxesCommon
 			};
 		}
 		args.write_str("\"");
+		
+		if plot_type.is_fill()
+		{
+			args.write_str(" fill transparent solid ");
+
+			for options.each() |o|
+			{
+				match *o
+				{
+					FillAlpha(a) =>
+					{
+						args.write_float(a);
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			if !plot_type.is_line()
+			{
+				args.write_str(" noborder");
+			}
+		}
 	}
 }
 
@@ -617,6 +715,21 @@ impl Axes2D
 		self.plot3(YErrorLines, x, y, y_error, options);
 		self
 	}
+	
+	/// Plot a 2D scatter-plot of two curves (bound by `y_lo` and `y_hi`) with a filled region between them
+	/// # Arguments
+	/// * x - Iterator for the x values
+	/// * y_lo - Iterator for the bottom y values
+	/// * y_hi - Iterator for the top y values
+	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	pub fn fill_between<'l, 
+	                   Tx : DataType, X : Iterator<Tx>,
+	                   Tyl : DataType, YL : Iterator<Tyl>,
+	                   Tyh : DataType, YH : Iterator<Tyh>>(&'l mut self, x : X, y_lo : YL, y_hi : YH, options : &[PlotOption]) -> &'l mut Axes2D
+	{
+		self.plot3(FillBetween, x, y_lo, y_hi, options);
+		self
+	}
 }
 
 impl Axes2D
@@ -630,7 +743,7 @@ impl Axes2D
 	}
 	
 	fn plot2<T1 : DataType, X1 : Iterator<T1>,
-	         T2 : DataType, X2 : Iterator<T2>>(&mut self, style : PlotStyle, x1 : X1, x2 : X2, options : &[PlotOption])
+	         T2 : DataType, X2 : Iterator<T2>>(&mut self, plot_type : PlotType, x1 : X1, x2 : X2, options : &[PlotOption])
 	{
 		let l = self.common.elems.len();
 		self.common.elems.push(PlotElement::new());
@@ -646,12 +759,12 @@ impl Axes2D
 			}
 		}
 		
-		self.common.write_common_commands(l, num_rows, 2, style, options);
+		self.common.write_common_commands(l, num_rows, 2, plot_type, options);
 	}
 	
 	fn plot3<T1 : DataType, X1 : Iterator<T1>,
 	         T2 : DataType, X2 : Iterator<T2>,
-	         T3 : DataType, X3 : Iterator<T3>>(&mut self, style : PlotStyle, x1 : X1, x2 : X2, x3 : X3, options : &[PlotOption])
+	         T3 : DataType, X3 : Iterator<T3>>(&mut self, plot_type : PlotType, x1 : X1, x2 : X2, x3 : X3, options : &[PlotOption])
 	{
 		let l = self.common.elems.len();
 		self.common.elems.push(PlotElement::new());
@@ -668,7 +781,7 @@ impl Axes2D
 			}
 		}
 		
-		self.common.write_common_commands(l, num_rows, 3, style, options);
+		self.common.write_common_commands(l, num_rows, 3, plot_type, options);
 	}
 	
 	fn write_out(&self, writer : &fn(data : &[u8]))
@@ -862,9 +975,12 @@ impl<'self> Figure<'self>
 			return self;
 		}
 		
-		writer("set terminal ".as_bytes());
-		writer(self.terminal.as_bytes());
-		writer("\n".as_bytes());
+		if self.terminal.len() > 0
+		{
+			writer("set terminal ".as_bytes());
+			writer(self.terminal.as_bytes());
+			writer("\n".as_bytes());
+		}
 		
 		if self.output_file.len() > 0
 		{
