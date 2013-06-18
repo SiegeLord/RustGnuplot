@@ -18,20 +18,20 @@ use std::run::{Process, ProcessOptions};
 pub enum PlotOption<'self>
 {
 	/// Sets the symbol used for points. The characters are as follows:
-	/// * ```.``` - dot
-	/// * ```+``` - plus
-	/// * ```x``` - cross
-	/// * ```*``` - star
-	/// * ```s``` - empty square
-	/// * ```S``` - filled square
-	/// * ```o``` - empty circle
-	/// * ```O``` - filled circle
-	/// * ```t``` - empty triangle
-	/// * ```T``` - filled triangle
-	/// * ```d``` - empty del (upside down triangle)
-	/// * ```D``` - filled del (upside down triangle)
-	/// * ```r``` - empty rhombus
-	/// * ```R``` - filled rhombus
+	/// * `.` - dot
+	/// * `+` - plus
+	/// * `x` - cross
+	/// * `*` - star
+	/// * `s` - empty square
+	/// * `S` - filled square
+	/// * `o` - empty circle
+	/// * `O` - filled circle
+	/// * `t` - empty triangle
+	/// * `T` - filled triangle
+	/// * `d` - empty del (upside down triangle)
+	/// * `D` - filled del (upside down triangle)
+	/// * `r` - empty rhombus
+	/// * `R` - filled rhombus
 	PointSymbol(char),
 	/// Sets the caption of the plot element. Set to empty to hide it from the legend.
 	Caption(&'self str),
@@ -483,8 +483,8 @@ impl Axes2D
 {
 	/// Set the position of the axes on the figure using grid coordinates
 	/// # Arguments
-	/// * row - Row on the grid. Top-most row is 1
-	/// * column - Column on the grid. Left-most column is 1
+	/// * `row` - Row on the grid. Top-most row is 1
+	/// * `column` - Column on the grid. Left-most column is 1
 	pub fn set_pos_grid<'l>(&'l mut self, row : uint, col : uint) -> &'l mut Axes2D
 	{
 		self.common.grid_row = row;
@@ -495,8 +495,8 @@ impl Axes2D
 	/// Set the position of the axes on the figure using screen coordinates. 
 	/// The coordinates refer to the bottom-left corner of the axes
 	/// # Arguments
-	/// * x - X position. Ranges from 0 to 1
-	/// * y - Y position. Ranges from 0 to 1
+	/// * `x` - X position. Ranges from 0 to 1
+	/// * `y` - Y position. Ranges from 0 to 1
 	pub fn set_pos<'l>(&'l mut self, x : float, y : float) -> &'l mut Axes2D
 	{
 		{
@@ -513,8 +513,8 @@ impl Axes2D
 	
 	/// Set the size of the axes
 	/// # Arguments
-	/// * w - Width. Ranges from 0 to 1
-	/// * h - Height. Ranges from 0 to 1
+	/// * `w` - Width. Ranges from 0 to 1
+	/// * `h` - Height. Ranges from 0 to 1
 	pub fn set_size<'l>(&'l mut self, w : float, h : float) -> &'l mut Axes2D
 	{
 		{
@@ -531,7 +531,7 @@ impl Axes2D
 	
 	/// Set the aspect ratio of the axes
 	/// # Arguments
-	/// * ratio - The aspect ratio. Set to Auto to return the ratio to default
+	/// * `ratio` - The aspect ratio. Set to Auto to return the ratio to default
 	pub fn set_aspect_ratio<'l>(&'l mut self, ratio : AutoOption<float>) -> &'l mut Axes2D
 	{
 		{
@@ -556,7 +556,7 @@ impl Axes2D
 	
 	/// Set the label for the X axis
 	/// # Arguments
-	/// * text - Text of the label. Pass an empty string to hide the label
+	/// * `text` - Text of the label. Pass an empty string to hide the label
 	pub fn set_x_label<'l>(&'l mut self, text : &str) -> &'l mut Axes2D
 	{
 		{
@@ -571,7 +571,7 @@ impl Axes2D
 	
 	/// Set the label for the Y axis
 	/// # Arguments
-	/// * text - Text of the label. Pass an empty string to hide the label
+	/// * `text` - Text of the label. Pass an empty string to hide the label
 	pub fn set_y_label<'l>(&'l mut self, text : &str) -> &'l mut Axes2D
 	{
 		{
@@ -586,8 +586,8 @@ impl Axes2D
 	
 	/// Set the range of values for the X axis
 	/// # Arguments
-	/// * min - Minimum X value
-	/// * max - Maximum X value
+	/// * `min` - Minimum X value
+	/// * `max` - Maximum X value
 	pub fn set_x_range<'l>(&'l mut self, min : AutoOption<float>, max : AutoOption<float>) -> &'l mut Axes2D
 	{
 		{
@@ -612,8 +612,8 @@ impl Axes2D
 	
 	/// Set the range of values for the Y axis
 	/// # Arguments
-	/// * min - Minimum Y value
-	/// * max - Maximum Y value
+	/// * `min` - Minimum Y value
+	/// * `max` - Maximum Y value
 	pub fn set_y_range<'l>(&'l mut self, min : AutoOption<float>, max : AutoOption<float>) -> &'l mut Axes2D
 	{
 		{
@@ -638,7 +638,7 @@ impl Axes2D
 	
 	/// Set the title for the axes
 	/// # Arguments
-	/// * text - Text of the title. Pass an empty string to hide the title
+	/// * `text` - Text of the title. Pass an empty string to hide the title
 	pub fn set_title<'l>(&'l mut self, text : &str) -> &'l mut Axes2D
 	{
 		{
@@ -653,9 +653,9 @@ impl Axes2D
 	
 	/// Plot a 2D scatter-plot with lines connecting each data point
 	/// # Arguments
-	/// * x - Iterator for the x values
-	/// * y - Iterator for the y values
-	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	/// * `x` - Iterator for the x values
+	/// * `y` - Iterator for the y values
+	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
 	pub fn lines<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Lines, x, y, options);
@@ -664,9 +664,9 @@ impl Axes2D
 	
 	/// Plot a 2D scatter-plot with a point standing in for each data point
 	/// # Arguments
-	/// * x - Iterator for the x values
-	/// * y - Iterator for the y values
-	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	/// * `x` - Iterator for the x values
+	/// * `y` - Iterator for the y values
+	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
 	pub fn points<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Points, x, y, options);
@@ -675,9 +675,9 @@ impl Axes2D
 	
 	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point
 	/// # Arguments
-	/// * x - Iterator for the x values
-	/// * y - Iterator for the y values
-	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	/// * `x` - Iterator for the x values
+	/// * `y` - Iterator for the y values
+	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
 	pub fn lines_points<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(LinesPoints, x, y, options);
@@ -687,10 +687,10 @@ impl Axes2D
 	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 	/// Additionally, error bars are attached to each data point in the X direction.
 	/// # Arguments
-	/// * x - Iterator for the x values
-	/// * y - Iterator for the y valuess
-	/// * x_error - Iterator for the error associated with the x value
-	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	/// * `x - Iterator for the x values
+	/// * `y - Iterator for the y valuess
+	/// * `x_error` - Iterator for the error associated with the x value
+	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
 	pub fn x_error_lines<'l, 
 	                   Tx : DataType, X : Iterator<Tx>,
 	                   Ty : DataType, Y : Iterator<Ty>,
@@ -703,10 +703,10 @@ impl Axes2D
 	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 	/// Additionally, error bars are attached to each data point in the Y direction.
 	/// # Arguments
-	/// * x - Iterator for the x values
-	/// * y - Iterator for the y values
-	/// * y_error - Iterator for the error associated with the y values
-	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	/// * `x - Iterator for the x values
+	/// * `y - Iterator for the y values
+	/// * `y_error` - Iterator for the error associated with the y values
+	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
 	pub fn y_error_lines<'l, 
 	                   Tx : DataType, X : Iterator<Tx>,
 	                   Ty : DataType, Y : Iterator<Ty>,
@@ -720,10 +720,10 @@ impl Axes2D
 	/// `FillRegion` plot option can be used to control what happens when the curves intersect. If set to Above, then the `y_lo < y_hi` region is filled.
 	/// If set to Below, then the `y_lo > y_hi` region is filled. Otherwise both regions are filled.
 	/// # Arguments
-	/// * x - Iterator for the x values
-	/// * y_lo - Iterator for the bottom y values
-	/// * y_hi - Iterator for the top y values
-	/// * options - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	/// * `x` - Iterator for the x values
+	/// * `y_lo` - Iterator for the bottom y values
+	/// * `y_hi` - Iterator for the top y values
+	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
 	pub fn fill_between<'l, 
 	                   Tx : DataType, X : Iterator<Tx>,
 	                   Tyl : DataType, YL : Iterator<Tyl>,
@@ -878,7 +878,7 @@ struct Figure<'self>
 /// let y = [3, 4, 5];
 /// let mut fg = Figure::new();
 /// {
-///	   fg.axes2d()
+///    fg.axes2d()
 ///    .lines(x.iter(), y.iter(), [Caption("A line"), Color("black")]);
 /// }
 /// fg.show();
@@ -916,8 +916,8 @@ impl<'self> Figure<'self>
 	/// Sets the dimensions of the grid that you can use to
 	/// place multiple axes on
 	/// # Arguments
-	/// * rows - Number of rows. Set to 0 to disable the grid
-	/// * cols - Number of columns. Set to 0 to disable the grid
+	/// * `rows` - Number of rows. Set to 0 to disable the grid
+	/// * `cols` - Number of columns. Set to 0 to disable the grid
 	pub fn set_grid<'l>(&'l mut self, rows : uint, cols : uint) -> &'l mut Figure<'self>
 	{
 		self.num_rows = rows;
@@ -969,7 +969,7 @@ impl<'self> Figure<'self>
 	
 	/// Echo the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
-	/// * writer - A function pointer that will be called multiple times with the command text and data
+	/// * `writer` - A function pointer that will be called multiple times with the command text and data
 	pub fn echo<'l>(&'l self, writer : &fn(data : &[u8])) -> &'l Figure<'l>
 	{
 		if self.axes.len() == 0
@@ -1035,7 +1035,7 @@ impl<'self> Figure<'self>
 	
 	/// Save to a file the the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
-	/// * filename - Name of the file
+	/// * `filename` - Name of the file
 	pub fn echo_to_file<'l>(&'l self, filename : &str) -> &'l Figure<'l>
 	{
 		if self.axes.len() == 0
