@@ -687,8 +687,8 @@ impl Axes2D
 	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 	/// Additionally, error bars are attached to each data point in the X direction.
 	/// # Arguments
-	/// * `x - Iterator for the x values
-	/// * `y - Iterator for the y valuess
+	/// * `x` - Iterator for the x values
+	/// * `y` - Iterator for the y valuess
 	/// * `x_error` - Iterator for the error associated with the x value
 	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
 	pub fn x_error_lines<'l, 
@@ -703,8 +703,8 @@ impl Axes2D
 	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 	/// Additionally, error bars are attached to each data point in the Y direction.
 	/// # Arguments
-	/// * `x - Iterator for the x values
-	/// * `y - Iterator for the y values
+	/// * `x` - Iterator for the x values
+	/// * `y` - Iterator for the y values
 	/// * `y_error` - Iterator for the error associated with the y values
 	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
 	pub fn y_error_lines<'l, 
@@ -902,6 +902,7 @@ impl<'self> Figure<'self>
 	/// Terminals that spawn a GUI don't need an output file, so pass an empty string for those.
 	///
 	/// There are a quite a number of terminals, here are some commonly used ones:
+	///
 	/// * wxt - Interactive GUI
 	/// * pdfcairo - Saves the figure as a PDF file
 	/// * epscairo - Saves the figure as a EPS file
