@@ -1,5 +1,4 @@
 extern mod gnuplot;
-use std::iterator::*;
 
 use gnuplot::*;
 
