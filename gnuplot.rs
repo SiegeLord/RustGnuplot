@@ -7,7 +7,6 @@
 #[license = "zlib"];
 #[crate_type = "lib"];
 
-use std::iterator::*;
 use std::cast;
 use std::float;
 use std::io;
