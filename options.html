@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Module options</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="rust.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Module options</h1>
+</div>
+<div class='index'>
+
+<ul>
+<li><a href="#enum-autooption">Enum <code>AutoOption</code></a> - An enumeration of something that can either be fixed (e</li>
+<li><a href="#enum-dashtype">Enum <code>DashType</code></a> - An enumeration of possible dash styles</li>
+<li><a href="#enum-fillregion">Enum <code>FillRegion</code></a> - An enumeration of possible fill regions</li>
+<li><a href="#enum-plotoption">Enum <code>PlotOption</code></a> - An enumeration of plot options you can supply to plotting commands, governing things like line width, color and others</li>
+</ul>
+</div>
+
+<div id="enum-autooption" class="section level2">
+<h2>Enum <code>AutoOption</code></h2>
+<p>An enumeration of something that can either be fixed (e.g. the maximum of X values), or automatically determined</p>
+<div id="variants" class="section level4">
+<h4>Variants</h4>
+<ul>
+<li><p><code>Fix(T)</code> - Fixes the value to a specific value</p></li>
+<li><p><code>Auto</code> - Lets the value scale automatically</p></li>
+</ul>
+</div>
+</div>
+<div id="enum-dashtype" class="section level2">
+<h2>Enum <code>DashType</code></h2>
+<p>An enumeration of possible dash styles</p>
+<div id="variants-1" class="section level4">
+<h4>Variants</h4>
+<ul>
+<li><p><code>Solid</code></p></li>
+<li><p><code>SmallDot</code></p></li>
+<li><p><code>Dot</code></p></li>
+<li><p><code>Dash</code></p></li>
+<li><p><code>DotDash</code></p></li>
+<li><p><code>DotDotDash</code></p></li>
+</ul>
+</div>
+</div>
+<div id="enum-fillregion" class="section level2">
+<h2>Enum <code>FillRegion</code></h2>
+<p>An enumeration of possible fill regions</p>
+<div id="variants-2" class="section level4">
+<h4>Variants</h4>
+<ul>
+<li><p><code>Above</code></p></li>
+<li><p><code>Below</code></p></li>
+<li><p><code>Closed</code></p></li>
+</ul>
+</div>
+</div>
+<div id="enum-plotoption" class="section level2">
+<h2>Enum <code>PlotOption</code></h2>
+<p>An enumeration of plot options you can supply to plotting commands, governing things like line width, color and others</p>
+<div id="variants-3" class="section level4">
+<h4>Variants</h4>
+<ul>
+<li><code>PointSymbol(char)</code> - Sets the symbol used for points. The characters are as follows:
+<ul>
+<li><code>.</code> - dot</li>
+<li><code>+</code> - plus</li>
+<li><code>x</code> - cross</li>
+<li><code>*</code> - star</li>
+<li><code>s</code> - empty square</li>
+<li><code>S</code> - filled square</li>
+<li><code>o</code> - empty circle</li>
+<li><code>O</code> - filled circle</li>
+<li><code>t</code> - empty triangle</li>
+<li><code>T</code> - filled triangle</li>
+<li><code>d</code> - empty del (upside down triangle)</li>
+<li><code>D</code> - filled del (upside down triangle)</li>
+<li><code>r</code> - empty rhombus</li>
+<li><code>R</code> - filled rhombus</li>
+</ul></li>
+<li><p><code>Caption(&amp;'self str)</code> - Sets the caption of the plot element. Set to empty to hide it from the legend.</p></li>
+<li><p><code>LineWidth(float)</code> - Sets the width of lines.</p></li>
+<li><p><code>Color(&amp;'self str)</code> - Sets the color of the plot element. The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white). This specifies the fill color of a filled plot.</p></li>
+<li><p><code>LineType(DashType)</code> - Sets the dash type. Note that not all gnuplot terminals support dashed lines. See <a href="#enum-dashtype">DashType</a> for the available types.</p></li>
+<li><p><code>FillAlpha(float)</code> - Sets the transparency of a filled plot. <code>0.0</code> - fully transparent, <code>1.0</code> - fully opaque</p></li>
+<li><p><code>FillRegion(FillRegion)</code> - Sets the fill region. See See <a href="#enum-fillregion">FillRegion</a> for the available regions.</p></li>
+</ul>
+</div>
+</div>
+</body>
+</html>
