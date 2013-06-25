@@ -1,5 +1,5 @@
 use options::*;
-use util::*;
+use writer::*;
 
 struct PlotElement
 {

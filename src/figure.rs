@@ -1,7 +1,8 @@
 use axes_common::*;
-use axes2d::*;
-use axes3d::*;
-use util::*;
+use axes2d::private::*;
+use axes3d::private::*;
+use datatype::*;
+use writer::*;
 
 use std::io;
 use std::run::{Process, ProcessOptions};
@@ -43,19 +44,6 @@ struct Figure<'self>
 }
 
 /// A figure that may contain multiple axes
-///
-/// # Example
-///
-/// ~~~ {.rust}
-/// let x = [0, 1, 2];
-/// let y = [3, 4, 5];
-/// let mut fg = Figure::new();
-/// {
-///    fg.axes2d()
-///    .lines(x.iter(), y.iter(), [Caption("A line"), Color("black")]);
-/// }
-/// fg.show();
-/// ~~~
 impl<'self> Figure<'self>
 {
 	/// Creates a new figure

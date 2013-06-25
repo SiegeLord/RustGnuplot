@@ -1,17 +1,20 @@
-use axes_common::*;
-
-struct Axes3D
+mod private
 {
-	common : AxesCommon
-}
+	use axes_common::*;
 
-impl Axes3D
-{
-	pub fn new() -> Axes3D
+	struct Axes3D
 	{
-		Axes3D
+		common : AxesCommon
+	}
+
+	impl Axes3D
+	{
+		pub fn new() -> Axes3D
 		{
-			common : AxesCommon::new()
+			Axes3D
+			{
+				common : AxesCommon::new()
+			}
 		}
 	}
 }
