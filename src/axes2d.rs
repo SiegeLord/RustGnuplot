@@ -181,7 +181,7 @@ impl Axes2D
 	/// # Arguments
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y values
-	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
 	pub fn lines<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Lines, x, y, options);
@@ -192,7 +192,7 @@ impl Axes2D
 	/// # Arguments
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y values
-	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
 	pub fn points<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Points, x, y, options);
@@ -203,7 +203,7 @@ impl Axes2D
 	/// # Arguments
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y values
-	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
 	pub fn lines_points<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(LinesPoints, x, y, options);
@@ -216,7 +216,7 @@ impl Axes2D
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y valuess
 	/// * `x_error` - Iterator for the error associated with the x value
-	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
 	pub fn x_error_lines<'l, 
 	                   Tx : DataType, X : Iterator<Tx>,
 	                   Ty : DataType, Y : Iterator<Ty>,
@@ -232,7 +232,7 @@ impl Axes2D
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y values
 	/// * `y_error` - Iterator for the error associated with the y values
-	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
 	pub fn y_error_lines<'l, 
 	                   Tx : DataType, X : Iterator<Tx>,
 	                   Ty : DataType, Y : Iterator<Ty>,
@@ -249,7 +249,7 @@ impl Axes2D
 	/// * `x` - Iterator for the x values
 	/// * `y_lo` - Iterator for the bottom y values
 	/// * `y_hi` - Iterator for the top y values
-	/// * `options` - Array of [PlotOption](#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
 	pub fn fill_between<'l, 
 	                   Tx : DataType, X : Iterator<Tx>,
 	                   Tyl : DataType, YL : Iterator<Tyl>,
