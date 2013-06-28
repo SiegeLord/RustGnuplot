@@ -336,7 +336,7 @@ mod private
 			writer("plot".as_bytes());
 			
 			let mut first = true;
-			for self.common.elems.each() |e|
+			for self.common.elems.iter().advance |e|
 			{
 				if !first
 				{
@@ -348,7 +348,7 @@ mod private
 			
 			writer("\n".as_bytes());
 			
-			for self.common.elems.each() |e|
+			for self.common.elems.iter().advance |e|
 			{
 				writer(e.data);
 			}

@@ -168,7 +168,7 @@ impl<'self> Figure<'self>
 			(0.0, 0.0)
 		};
 		
-		for self.axes.each() |e|
+		for self.axes.iter().advance |e|
 		{
 			if do_layout
 			{

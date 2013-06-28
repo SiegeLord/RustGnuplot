@@ -119,7 +119,7 @@ impl AxesCommon
 		if plot_type.is_fill()
 		{
 			let mut found = false;
-			for options.each() |o|
+			for options.iter().advance |o|
 			{
 				match *o
 				{
@@ -147,7 +147,7 @@ impl AxesCommon
 		{
 			let mut found = false;
 			args.write_str(" lw ");
-			for options.each() |o|
+			for options.iter().advance |o|
 			{
 				match *o
 				{
@@ -167,7 +167,7 @@ impl AxesCommon
 			
 			args.write_str(" lt ");
 			let mut found = false;
-			for options.each() |o|
+			for options.iter().advance |o|
 			{
 				match *o
 				{
@@ -197,7 +197,7 @@ impl AxesCommon
 
 		if plot_type.is_points()
 		{
-			for options.each() |o|
+			for options.iter().advance |o|
 			{
 				match *o
 				{
@@ -230,7 +230,7 @@ impl AxesCommon
 			}
 		}
 		
-		for options.each() |o|
+		for options.iter().advance |o|
 		{
 			match *o
 			{
@@ -246,7 +246,7 @@ impl AxesCommon
 		}
 		
 		args.write_str(" t \"");
-		for options.each() |o|
+		for options.iter().advance |o|
 		{
 			match *o
 			{
@@ -264,7 +264,7 @@ impl AxesCommon
 		{
 			args.write_str(" fill transparent solid ");
 
-			for options.each() |o|
+			for options.iter().advance |o|
 			{
 				match *o
 				{
