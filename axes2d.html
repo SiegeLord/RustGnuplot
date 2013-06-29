@@ -98,7 +98,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h4>Arguments</h4>
 <ul>
 <li><code>text</code> - Text of the label. Pass an empty string to hide the label</li>
-<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the label The <code>Position</code> option specifies the offset from the default location in characters</li>
+<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the label</li>
 </ul>
 </div>
 </div>
@@ -111,7 +111,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h4>Arguments</h4>
 <ul>
 <li><code>text</code> - Text of the label. Pass an empty string to hide the label</li>
-<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the label The <code>Position</code> option specifies the offset from the default location in characters</li>
+<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the label</li>
 </ul>
 </div>
 </div>
@@ -124,9 +124,14 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h4>Arguments</h4>
 <ul>
 <li><code>text</code> - Text of the title. Pass an empty string to hide the title</li>
-<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the title The <code>Position</code> option specifies the offset from the default location in characters</li>
+<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the title</li>
 </ul>
 </div>
+</div>
+<div id="method-label" class="section level3">
+<h3>Method <code>label</code></h3>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> label&lt;<span class="ch">&#39;l&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, text: &amp;<span class="kw">str</span>, x: Coordinate, y: Coordinate,
+             options: &amp;[LabelOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 </div>
 <div id="method-set_x_range" class="section level3">
 <h3>Method <code>set_x_range</code></h3>

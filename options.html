@@ -15,6 +15,7 @@
 <div class='index'>
 
 <ul>
+<li><a href="#enum-aligntype">Enum <code>AlignType</code></a> - An enumeration of possible text alignments</li>
 <li><a href="#enum-autooption">Enum <code>AutoOption</code></a> - An enumeration of something that can either be fixed (e</li>
 <li><a href="#enum-dashtype">Enum <code>DashType</code></a> - An enumeration of possible dash styles</li>
 <li><a href="#enum-fillregion">Enum <code>FillRegion</code></a> - An enumeration of possible fill regions</li>
@@ -23,10 +24,22 @@
 </ul>
 </div>
 
+<div id="enum-aligntype" class="section level2">
+<h2>Enum <code>AlignType</code></h2>
+<p>An enumeration of possible text alignments</p>
+<div id="variants" class="section level4">
+<h4>Variants</h4>
+<ul>
+<li><p><code>AlignLeft</code></p></li>
+<li><p><code>AlignRight</code></p></li>
+<li><p><code>AlignCenter</code></p></li>
+</ul>
+</div>
+</div>
 <div id="enum-autooption" class="section level2">
 <h2>Enum <code>AutoOption</code></h2>
 <p>An enumeration of something that can either be fixed (e.g. the maximum of X values), or automatically determined</p>
-<div id="variants" class="section level4">
+<div id="variants-1" class="section level4">
 <h4>Variants</h4>
 <ul>
 <li><p><code>Fix(T)</code> - Fixes the value to a specific value</p></li>
@@ -37,7 +50,7 @@
 <div id="enum-dashtype" class="section level2">
 <h2>Enum <code>DashType</code></h2>
 <p>An enumeration of possible dash styles</p>
-<div id="variants-1" class="section level4">
+<div id="variants-2" class="section level4">
 <h4>Variants</h4>
 <ul>
 <li><p><code>Solid</code></p></li>
@@ -52,7 +65,7 @@
 <div id="enum-fillregion" class="section level2">
 <h2>Enum <code>FillRegion</code></h2>
 <p>An enumeration of possible fill regions</p>
-<div id="variants-2" class="section level4">
+<div id="variants-3" class="section level4">
 <h4>Variants</h4>
 <ul>
 <li><p><code>Above</code></p></li>
@@ -64,23 +77,14 @@
 <div id="enum-labeloption" class="section level2">
 <h2>Enum <code>LabelOption</code></h2>
 <p>An enumeration of label options that control label attributes</p>
-<div id="variants-3" class="section level4">
-<h4>Variants</h4>
-<ul>
-<li><p><code>Position(float, float)</code> - Sets the location of the label. The coordinate units depend on the label type</p></li>
-<li><p><code>Font(&amp;'self str, float)</code> - Sets the font of the label. The string specifies the font type (e.g. &quot;Arial&quot;) and the number specifies the size (the units are terminal dependent, but are often points)</p></li>
-<li><p><code>TextColor(&amp;'self str)</code> - Sets the color of the label. The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</p></li>
-<li><p><code>Rotate(float)</code> - Rotates the label by a certain number of degrees</p></li>
-</ul>
-</div>
-</div>
-<div id="enum-plotoption" class="section level2">
-<h2>Enum <code>PlotOption</code></h2>
-<p>An enumeration of plot options you can supply to plotting commands, governing things like line width, color and others</p>
 <div id="variants-4" class="section level4">
 <h4>Variants</h4>
 <ul>
-<li><code>PointSymbol(char)</code> - Sets the symbol used for points. The characters are as follows:
+<li><p><code>Offset(float, float)</code> - Sets the offset of the label in characters</p></li>
+<li><p><code>Font(&amp;'self str, float)</code> - Sets the font of the label. The string specifies the font type (e.g. &quot;Arial&quot;) and the number specifies the size (the units are terminal dependent, but are often points)</p></li>
+<li><p><code>TextColor(&amp;'self str)</code> - Sets the color of the label text. The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</p></li>
+<li><p><code>Rotate(float)</code> - Rotates the label by a certain number of degrees</p></li>
+<li><code>MarkerSymbol(char)</code> - Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:
 <ul>
 <li><code>.</code> - dot</li>
 <li><code>+</code> - plus</li>
@@ -97,6 +101,36 @@
 <li><code>r</code> - empty rhombus</li>
 <li><code>R</code> - filled rhombus</li>
 </ul></li>
+<li><p><code>MarkerColor(&amp;'self str)</code> - Sets the color of the marker. The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</p></li>
+<li><p><code>MarkerSize(float)</code> - Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.</p></li>
+<li><p><code>Align(AlignType)</code> - Sets the horizontal alignment of the label text (default is left alignment). See <a href="#enum-aligntype">AlignType</a>.</p></li>
+</ul>
+</div>
+</div>
+<div id="enum-plotoption" class="section level2">
+<h2>Enum <code>PlotOption</code></h2>
+<p>An enumeration of plot options you can supply to plotting commands, governing things like line width, color and others</p>
+<div id="variants-5" class="section level4">
+<h4>Variants</h4>
+<ul>
+<li><code>PointSymbol(char)</code> - Sets the symbol used for points. The valid characters are as follows:
+<ul>
+<li><code>.</code> - dot</li>
+<li><code>+</code> - plus</li>
+<li><code>x</code> - cross</li>
+<li><code>*</code> - star</li>
+<li><code>s</code> - empty square</li>
+<li><code>S</code> - filled square</li>
+<li><code>o</code> - empty circle</li>
+<li><code>O</code> - filled circle</li>
+<li><code>t</code> - empty triangle</li>
+<li><code>T</code> - filled triangle</li>
+<li><code>d</code> - empty del (upside down triangle)</li>
+<li><code>D</code> - filled del (upside down triangle)</li>
+<li><code>r</code> - empty rhombus</li>
+<li><code>R</code> - filled rhombus</li>
+</ul></li>
+<li><p><code>PointSize(float)</code> - Sets the size of the points. The size acts as a multiplier, with 1.0 being the default.</p></li>
 <li><p><code>Caption(&amp;'self str)</code> - Sets the caption of the plot element. Set to empty to hide it from the legend.</p></li>
 <li><p><code>LineWidth(float)</code> - Sets the width of lines.</p></li>
 <li><p><code>Color(&amp;'self str)</code> - Sets the color of the plot element. The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white). This specifies the fill color of a filled plot.</p></li>
