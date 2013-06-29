@@ -15,12 +15,14 @@ fn main()
 	let mut fg = Figure::new();
 	
 	fg.axes2d()
+	.set_pos(0.1, 0.1)
+	.set_size(0.8, 0.8)
 	.lines(x, y1, [Caption("x^2"), LineWidth(3.0), Color("violet"), LineType(DotDash)])
 	.points(x, y2, [Caption("-x^2"), PointSymbol('S'), Color("#ffaa77")])
 	.lines_points(x, y3, [Caption("-2 x"), PointSymbol('O'), Color("black"), LineType(SmallDot)])
-	.set_x_label("X Label")
-	.set_y_label("Y Label")
-	.set_title("Simple Plot");
+	.set_x_label("X Label", [Font("Arial", 24.0), TextColor("red"), Rotate(45.0)])
+	.set_y_label("Y Label", [Rotate(0.0)])
+	.set_title("Simple Plot", [Font("Times", 24.0), Position(-10.0, 0.5)]);
 	
 	fg.show();
 	fg.echo_to_file("fg1.gnuplot");
@@ -33,12 +35,12 @@ fn main()
 	fg.axes2d()
 	.set_pos_grid(1, 1)
 	.lines(x, y1, [Caption("Lines"), LineWidth(3.0), Color("violet")])
-	.set_title("Plot1");
+	.set_title("Plot1", []);
 	
 	fg.axes2d()
 	.set_pos_grid(1, 2)
 	.points(x, y2, [Caption("Points"), PointSymbol('D'), Color("#ffaa77")])
-	.set_title("Plot2");
+	.set_title("Plot2", []);
 	
 	fg.set_grid(1, 2);
 	fg.show();
@@ -54,7 +56,7 @@ fn main()
 	.set_size(0.3, 0.6)
 	.set_aspect_ratio(Fix(1.0))
 	.points(x, y2, [Caption("Points"), PointSymbol('T'), Color("#ffaa77")])
-	.set_title("Inset");
+	.set_title("Inset", []);
 
 	fg.show();
 	fg.echo_to_file("fg3.gnuplot");
@@ -64,7 +66,7 @@ fn main()
 	fg.axes2d()
 	.lines(x, y1, [Caption("Lines"), LineWidth(3.0), Color("violet")])
 	.set_y_range(Fix(-30.0), Auto)
-	.set_y_label("This axis is manually scaled on the low end");
+	.set_y_label("This axis is manually scaled on the low end", []);
 
 	fg.show();
 	fg.echo_to_file("fg4.gnuplot");
@@ -74,7 +76,7 @@ fn main()
 	fg.axes2d()
 	.x_error_lines(x, y1, x_err, [LineWidth(2.0), PointSymbol('O'), Color("red")])
 	.y_error_lines(x, y2, y_err, [LineWidth(2.0), PointSymbol('S'), Color("blue")])
-	.set_title("Errors");
+	.set_title("Errors", []);
 
 	fg.show();
 	fg.echo_to_file("fg5.gnuplot");
@@ -88,7 +90,7 @@ fn main()
 	.lines(x, y1, [Color("black"), LineWidth(2.0), LineType(Dash), Caption("A")])
 	.lines(x, y2, [Color("black"), LineWidth(2.0), Caption("C")])
 	.lines(x, y3, [Color("black"), LineWidth(2.0), LineType(DotDotDash), Caption("B")])
-	.set_title("Fill");
+	.set_title("Fill", []);
 
 	fg.show();
 	fg.echo_to_file("fg6.gnuplot");

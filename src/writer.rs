@@ -13,8 +13,18 @@ pub trait Writable
 
 pub fn to_sci(v: float, writer : &fn(&str))
 {
-	let e = v.abs().log10().floor();
-	writer(float::to_str_digits(v / (10.0f).pow(&e), 16) + "e" + e.to_str());
+	let e = v.abs();
+	if(e > 0.0)
+	{
+		let e = e.log10().floor();
+		writer(float::to_str_digits(v / (10.0f).pow(&e), 16));
+		writer("e");
+		writer(e.to_str());
+	}
+	else
+	{
+		writer("0.0");
+	}
 }
 
 impl Writable for ~[u8]

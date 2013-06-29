@@ -61,3 +61,17 @@ pub enum AutoOption<T>
 	/// Lets the value scale automatically
 	Auto
 }
+
+/// An enumeration of label options that control label attributes
+pub enum LabelOption<'self>
+{
+	/// Sets the location of the label. The coordinate units depend on the label type
+	Position(float, float),
+	/// Sets the font of the label. The string specifies the font type (e.g. "Arial") and the number specifies the size (the units are terminal dependent, but are often points)
+	Font(&'self str, float),
+	/// Sets the color of the label. The passed string can be a color name
+	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
+	TextColor(&'self str),
+	/// Rotates the label by a certain number of degrees
+	Rotate(float),
+}

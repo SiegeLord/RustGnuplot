@@ -83,29 +83,114 @@ impl Axes2D
 	/// Set the label for the X axis
 	/// # Arguments
 	/// * `text` - Text of the label. Pass an empty string to hide the label
-	pub fn set_x_label<'l>(&'l mut self, text : &str) -> &'l mut Axes2D
+	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label.
+	///               The `Position` option specifies the offset from the default location in characters
+	pub fn set_x_label<'l>(&'l mut self, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
 	{
-		{
-			let c = &mut self.common.commands;
-			
-			c.write_str("set xlabel \"");
-			c.write_str(text);
-			c.write_str("\"\n");
-		}
-		self
+		self.set_label_common("xlabel", text, options)
 	}
 	
 	/// Set the label for the Y axis
 	/// # Arguments
 	/// * `text` - Text of the label. Pass an empty string to hide the label
-	pub fn set_y_label<'l>(&'l mut self, text : &str) -> &'l mut Axes2D
+	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label.
+	///               The `Position` option specifies the offset from the default location in characters
+	pub fn set_y_label<'l>(&'l mut self, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
+	{
+		self.set_label_common("ylabel", text, options)
+	}
+
+	/// Set the title for the axes
+	/// # Arguments
+	/// * `text` - Text of the title. Pass an empty string to hide the title
+	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the title.
+	///               The `Position` option specifies the offset from the default location in characters
+	pub fn set_title<'l>(&'l mut self, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
+	{
+		self.set_label_common("title", text, options)
+	}
+	
+	fn set_label_common<'l>(&'l mut self, label_type : &str, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
 			
-			c.write_str("set ylabel \"");
+			c.write_str("set ");
+			c.write_str(label_type);
+			c.write_str(" \"");
 			c.write_str(text);
-			c.write_str("\"\n");
+			c.write_str("\"");
+			
+			for options.iter().advance |o|
+			{
+				match *o
+				{
+					Position(x, y) =>
+					{
+						if label_type == "label"
+						{
+							c.write_str(" at graph");
+						}
+						else
+						{
+							c.write_str(" offset character ");
+						}
+						c.write_float(x);	
+						c.write_str(",");
+						c.write_float(y);
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			for options.iter().advance |o|
+			{
+				match *o
+				{
+					TextColor(s) =>
+					{
+						c.write_str(" tc rgb \"");
+						c.write_str(s);
+						c.write_str("\"");
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			for options.iter().advance |o|
+			{
+				match *o
+				{
+					Font(f, s) =>
+					{
+						c.write_str(" font \"");
+						c.write_str(f);
+						c.write_str(",");
+						c.write_str(s.to_str());
+						c.write_str("\"");
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			for options.iter().advance |o|
+			{
+				match *o
+				{
+					Rotate(a) =>
+					{
+						c.write_str(" rotate by ");
+						c.write_float(a);
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			c.write_str("\n");
 		}
 		self
 	}
@@ -158,21 +243,6 @@ impl Axes2D
 				Auto => c.write_str("*")
 			}
 			c.write_str("]\n");
-		}
-		self
-	}
-	
-	/// Set the title for the axes
-	/// # Arguments
-	/// * `text` - Text of the title. Pass an empty string to hide the title
-	pub fn set_title<'l>(&'l mut self, text : &str) -> &'l mut Axes2D
-	{
-		{
-			let c = &mut self.common.commands;
-			
-			c.write_str("set title \"");
-			c.write_str(text);
-			c.write_str("\"\n");
 		}
 		self
 	}
