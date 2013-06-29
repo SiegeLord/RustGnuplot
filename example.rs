@@ -23,7 +23,7 @@ fn main()
 	.set_x_label("X Label", [Font("Arial", 24.0), TextColor("red"), Rotate(45.0)])
 	.set_y_label("Y Label", [Rotate(0.0)])
 	.set_title("Goings nuts with the formatting", [Font("Times", 24.0), Offset(-10.0, 0.5)])
-	.label("Intersection", Axis(1.449), Axis(2.101), &[MarkerSymbol('*'), Align(AlignCenter), Offset(0.0, -1.0), MarkerColor("red"), MarkerSize(2.0)]);
+	.label("Intersection", Axis(1.449), Axis(2.101), [MarkerSymbol('*'), Align(AlignCenter), Offset(0.0, -1.0), MarkerColor("red"), MarkerSize(2.0)]);
 	
 	fg.show();
 	fg.echo_to_file("fg1.gnuplot");
