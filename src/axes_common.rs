@@ -1,5 +1,6 @@
 use options::*;
 use writer::*;
+use coordinates::*;
 
 struct PlotElement
 {
@@ -15,6 +16,26 @@ impl PlotElement
 		{
 			args : ~[],
 			data : ~[],
+		}
+	}
+}
+
+pub enum LabelType
+{
+	XLabel,
+	YLabel,
+	Title,
+	Label(Coordinate, Coordinate)
+}
+
+impl LabelType
+{
+	fn is_label(&self) -> bool
+	{
+		match *self
+		{
+			Label(*) => true,
+			_ => false
 		}
 	}
 }
@@ -71,6 +92,28 @@ struct AxesCommon
 	elems : ~[PlotElement],
 	grid_row : uint,
 	grid_col : uint
+}
+
+pub fn char_to_symbol(c : char) -> int
+{
+	match c
+	{
+		'.' => 0,
+		'+' => 1,
+		'x' => 2,
+		'*' => 3,
+		's' => 4,
+		'S' => 5,
+		'o' => 6,
+		'O' => 7,
+		't' => 8,
+		'T' => 9,
+		'd' => 10,
+		'D' => 11,
+		'r' => 12,
+		'R' => 13,
+		a => fail!("Invalid symbol %c", a)
+	}
 }
 
 impl AxesCommon
@@ -201,28 +244,24 @@ impl AxesCommon
 			{
 				match *o
 				{
-					PointSymbol(t) =>
+					PointSymbol(s) =>
 					{
-						let typ : int = match t
-						{
-							'.' => 0,
-							'+' => 1,
-							'x' => 2,
-							'*' => 3,
-							's' => 4,
-							'S' => 5,
-							'o' => 6,
-							'O' => 7,
-							't' => 8,
-							'T' => 9,
-							'd' => 10,
-							'D' => 11,
-							'r' => 12,
-							'R' => 13,
-							a => fail!("Invalid symbol %c", a)
-						};
 						args.write_str(" pt ");
-						args.write_int(typ);
+						args.write_int(char_to_symbol(s));
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			for options.iter().advance |o|
+			{
+				match *o
+				{
+					PointSize(z) =>
+					{
+						args.write_str(" ps ");
+						args.write_float(z);
 						break;
 					},
 					_ => ()

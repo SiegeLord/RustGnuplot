@@ -18,11 +18,12 @@ fn main()
 	.set_pos(0.1, 0.1)
 	.set_size(0.8, 0.8)
 	.lines(x, y1, [Caption("x^2"), LineWidth(3.0), Color("violet"), LineType(DotDash)])
-	.points(x, y2, [Caption("-x^2"), PointSymbol('S'), Color("#ffaa77")])
-	.lines_points(x, y3, [Caption("-2 x"), PointSymbol('O'), Color("black"), LineType(SmallDot)])
+	.points(x, y2, [Caption("-x^2 + 10"), PointSymbol('S'), Color("#ffaa77")])
+	.lines_points(x, y3, [Caption("-2 x + 5"), PointSymbol('O'), Color("black"), LineType(SmallDot)])
 	.set_x_label("X Label", [Font("Arial", 24.0), TextColor("red"), Rotate(45.0)])
 	.set_y_label("Y Label", [Rotate(0.0)])
-	.set_title("Simple Plot", [Font("Times", 24.0), Position(-10.0, 0.5)]);
+	.set_title("Goings nuts with the formatting", [Font("Times", 24.0), Offset(-10.0, 0.5)])
+	.label("Intersection", Axis(1.449), Axis(2.101), &[MarkerSymbol('*'), Align(AlignCenter), Offset(0.0, -1.0), MarkerColor("red"), MarkerSize(2.0)]);
 	
 	fg.show();
 	fg.echo_to_file("fg1.gnuplot");
@@ -39,7 +40,7 @@ fn main()
 	
 	fg.axes2d()
 	.set_pos_grid(1, 2)
-	.points(x, y2, [Caption("Points"), PointSymbol('D'), Color("#ffaa77")])
+	.points(x, y2, [Caption("Points"), PointSymbol('D'), Color("#ffaa77"), PointSize(2.0)])
 	.set_title("Plot2", []);
 	
 	fg.set_grid(1, 2);

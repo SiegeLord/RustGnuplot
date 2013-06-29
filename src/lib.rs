@@ -31,6 +31,7 @@ pub use axes3d::*;
 pub use figure::*;
 pub use options::*;
 pub use datatype::*;
+pub use coordinates::*;
 
 mod axes_common;
 mod writer;
@@ -40,3 +41,4 @@ pub mod axes3d;
 pub mod figure;
 pub mod options; 
 pub mod datatype;
+pub mod coordinates;

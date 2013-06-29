@@ -1,8 +1,9 @@
 use axes_common::*;
-use options::*;
-use datatype::*;
-use writer::*;
 use axes2d::private::*;
+use coordinates::*;
+use datatype::*;
+use options::*;
+use writer::*;
 
 /// 2D axes that is used for drawing 2D plots
 impl Axes2D
@@ -83,58 +84,75 @@ impl Axes2D
 	/// Set the label for the X axis
 	/// # Arguments
 	/// * `text` - Text of the label. Pass an empty string to hide the label
-	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label.
-	///               The `Position` option specifies the offset from the default location in characters
+	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label
 	pub fn set_x_label<'l>(&'l mut self, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
 	{
-		self.set_label_common("xlabel", text, options)
+		self.set_label_common(XLabel, text, options)
 	}
 	
 	/// Set the label for the Y axis
 	/// # Arguments
 	/// * `text` - Text of the label. Pass an empty string to hide the label
-	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label.
-	///               The `Position` option specifies the offset from the default location in characters
+	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label
 	pub fn set_y_label<'l>(&'l mut self, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
 	{
-		self.set_label_common("ylabel", text, options)
+		self.set_label_common(YLabel, text, options)
 	}
 
 	/// Set the title for the axes
 	/// # Arguments
 	/// * `text` - Text of the title. Pass an empty string to hide the title
-	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the title.
-	///               The `Position` option specifies the offset from the default location in characters
+	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the title
 	pub fn set_title<'l>(&'l mut self, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
 	{
-		self.set_label_common("title", text, options)
+		self.set_label_common(Title, text, options)
 	}
 	
-	fn set_label_common<'l>(&'l mut self, label_type : &str, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
+	pub fn label<'l>(&'l mut self, text : &str, x : Coordinate, y : Coordinate, options : &[LabelOption]) -> &'l mut Axes2D
+	{
+		self.set_label_common(Label(x, y), text, options)
+	}
+	
+	fn set_label_common<'l>(&'l mut self, label_type : LabelType, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
 			
+			let label_str = match label_type
+			{
+				XLabel => "xlabel",
+				YLabel => "ylabel",
+				Title => "title",
+				Label(*) => "label",
+				/* _ => fail!("Invalid label type") */
+			};
+
 			c.write_str("set ");
-			c.write_str(label_type);
+			c.write_str(label_str);
 			c.write_str(" \"");
 			c.write_str(text);
 			c.write_str("\"");
+			
+			match label_type
+			{
+				Label(x, y) => 
+				{
+					c.write_str(" at ");
+					x.write(c);
+					c.write_str(",");
+					y.write(c);
+					c.write_str(" front");
+				}
+				_ => ()
+			}
 			
 			for options.iter().advance |o|
 			{
 				match *o
 				{
-					Position(x, y) =>
+					Offset(x, y) =>
 					{
-						if label_type == "label"
-						{
-							c.write_str(" at graph");
-						}
-						else
-						{
-							c.write_str(" offset character ");
-						}
+						c.write_str(" offset character ");
 						c.write_float(x);	
 						c.write_str(",");
 						c.write_float(y);
@@ -188,6 +206,76 @@ impl Axes2D
 					},
 					_ => ()
 				};
+			}
+			
+			if label_type.is_label()
+			{
+				let mut have_point = false;
+				for options.iter().advance |o|
+				{
+					match *o
+					{
+						MarkerSymbol(s) =>
+						{
+							c.write_str(" point pt ");
+							c.write_int(char_to_symbol(s));
+							have_point = true;
+							break;
+						},
+						_ => ()
+					};
+				}
+				
+				if have_point
+				{
+					for options.iter().advance |o|
+					{
+						match *o
+						{
+							MarkerColor(s) =>
+							{
+								c.write_str(" lc rgb \"");
+								c.write_str(s);
+								c.write_str("\"");
+								break;
+							},
+							_ => ()
+						};
+					}
+					
+					for options.iter().advance |o|
+					{
+						match *o
+						{
+							MarkerSize(z) =>
+							{
+								c.write_str(" ps ");
+								c.write_float(z);
+								c.write_str("");
+								break;
+							},
+							_ => ()
+						};
+					}
+				}
+				
+				for options.iter().advance |o|
+				{
+					match *o
+					{
+						Align(a) =>
+						{
+							c.write_str(match(a)
+							{
+								AlignLeft => " left",
+								AlignRight => " right",
+								AlignCenter => " center",
+							});
+							break;
+						},
+						_ => ()
+					};
+				}
 			}
 			
 			c.write_str("\n");
