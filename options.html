@@ -18,6 +18,7 @@
 <li><a href="#enum-autooption">Enum <code>AutoOption</code></a> - An enumeration of something that can either be fixed (e</li>
 <li><a href="#enum-dashtype">Enum <code>DashType</code></a> - An enumeration of possible dash styles</li>
 <li><a href="#enum-fillregion">Enum <code>FillRegion</code></a> - An enumeration of possible fill regions</li>
+<li><a href="#enum-labeloption">Enum <code>LabelOption</code></a> - An enumeration of label options that control label attributes</li>
 <li><a href="#enum-plotoption">Enum <code>PlotOption</code></a> - An enumeration of plot options you can supply to plotting commands, governing things like line width, color and others</li>
 </ul>
 </div>
@@ -60,10 +61,23 @@
 </ul>
 </div>
 </div>
+<div id="enum-labeloption" class="section level2">
+<h2>Enum <code>LabelOption</code></h2>
+<p>An enumeration of label options that control label attributes</p>
+<div id="variants-3" class="section level4">
+<h4>Variants</h4>
+<ul>
+<li><p><code>Position(float, float)</code> - Sets the location of the label. The coordinate units depend on the label type</p></li>
+<li><p><code>Font(&amp;'self str, float)</code> - Sets the font of the label. The string specifies the font type (e.g. &quot;Arial&quot;) and the number specifies the size (the units are terminal dependent, but are often points)</p></li>
+<li><p><code>TextColor(&amp;'self str)</code> - Sets the color of the label. The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</p></li>
+<li><p><code>Rotate(float)</code> - Rotates the label by a certain number of degrees</p></li>
+</ul>
+</div>
+</div>
 <div id="enum-plotoption" class="section level2">
 <h2>Enum <code>PlotOption</code></h2>
 <p>An enumeration of plot options you can supply to plotting commands, governing things like line width, color and others</p>
-<div id="variants-3" class="section level4">
+<div id="variants-4" class="section level4">
 <h4>Variants</h4>
 <ul>
 <li><code>PointSymbol(char)</code> - Sets the symbol used for points. The characters are as follows:
