@@ -108,6 +108,12 @@ impl Axes2D
 		self.set_label_common(Title, text, options)
 	}
 	
+	/// Adds a label to the plot, with an optional marker.
+	/// # Arguments
+	/// * `text` - Text of the label
+	/// * `x` - X coordinate of the label, specified using the [Coordinate](coordinates.html) type
+	/// * `y` - Y coordinate of the label, specified using the [Coordinate](coordinates.html) type
+	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label
 	pub fn label<'l>(&'l mut self, text : &str, x : Coordinate, y : Coordinate, options : &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_label_common(Label(x, y), text, options)
@@ -283,6 +289,13 @@ impl Axes2D
 		self
 	}
 	
+	/// Adds an arrow to the plot. The arrow is drawn from `(x1, y1)` to `(x2, y2)` with the arrow point towards `(x2, y2)`.
+	/// # Arguments
+	/// * `x1` - X coordinate of the arrow start, specified using the [Coordinate](coordinates.html) type
+	/// * `y1` - Y coordinate of the arrow start, specified using the [Coordinate](coordinates.html) type
+	/// * `x2` - X coordinate of the arrow end, specified using the [Coordinate](coordinates.html) type
+	/// * `y2` - Y coordinate of the arrow end, specified using the [Coordinate](coordinates.html) type
+	/// * `options` - Array of [ArrayOption](options.html#enum-arrowoption) controlling the appearance of the arrowhead and arrow shaft
 	pub fn arrow<'l>(&'l mut self, x1 : Coordinate, y1 : Coordinate, x2 : Coordinate, y2 : Coordinate, options : &[ArrowOption]) -> &'l mut Axes2D
 	{
 		{
