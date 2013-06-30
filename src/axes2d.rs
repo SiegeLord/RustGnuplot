@@ -283,6 +283,107 @@ impl Axes2D
 		self
 	}
 	
+	pub fn arrow<'l>(&'l mut self, x1 : Coordinate, y1 : Coordinate, x2 : Coordinate, y2 : Coordinate, options : &[ArrowOption]) -> &'l mut Axes2D
+	{
+		{
+			let c = &mut self.common.commands;
+			c.write_str("set arrow from ");
+			x1.write(c);
+			c.write_str(",");
+			y1.write(c);
+			c.write_str(" to ");
+			x2.write(c);
+			c.write_str(",");
+			y2.write(c);
+			
+			for options.iter().advance |o|
+			{
+				match *o
+				{
+					HeadType(s) =>
+					{
+						c.write_str(match(s)
+						{
+							Open => "",
+							Closed => " empty",
+							Filled => " filled",
+							NoArrow => " nohead",
+						});
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			c.write_str(" size graph ");
+			let mut found_size = false;
+			for options.iter().advance |o|
+			{
+				match *o
+				{
+					HeadSize(s) =>
+					{
+						c.write_float(s);
+						found_size = true;
+						break;
+					},
+					_ => ()
+				};
+			}
+			if !found_size
+			{
+				c.write_str("0.05");
+			}
+			c.write_str(",12");
+			
+			for options.iter().advance |o|
+			{
+				match *o
+				{
+					ArrowColor(s) =>
+					{
+						c.write_str(" lc rgb \"");
+						c.write_str(s);
+						c.write_str("\"");
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			for options.iter().advance |o|
+			{
+				match *o
+				{
+					ShaftWidth(w) =>
+					{
+						c.write_str(" lw ");
+						c.write_float(w);
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			for options.iter().advance |o|
+			{
+				match *o
+				{
+					ShaftType(t) =>
+					{
+						c.write_str(" lt ");
+						c.write_int(t.to_int());
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			c.write_str("\n");
+		}
+		self
+	}
+	
 	/// Set the range of values for the X axis
 	/// # Arguments
 	/// * `min` - Minimum X value

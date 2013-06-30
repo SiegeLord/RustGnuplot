@@ -173,7 +173,7 @@ impl AxesCommon
 						{
 							Above => " above",
 							Below => " below",
-							Closed => " closed",
+							Between => " closed",
 						});
 						break;
 					},
@@ -216,16 +216,7 @@ impl AxesCommon
 				{
 					LineType(d) =>
 					{
-						let ds : int = match d
-						{
-							Solid => 1,
-							SmallDot => 0,
-							Dash => 2,
-							Dot => 3,
-							DotDash => 4,
-							DotDotDash => 5
-						};
-						args.write_int(ds);
+						args.write_int(d.to_int());
 						found = true;
 						break;
 					},

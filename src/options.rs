@@ -40,7 +40,7 @@ pub enum FillRegion
 {
 	Above,
 	Below,
-	Closed
+	Between
 }
 
 /// An enumeration of possible text alignments
@@ -60,6 +60,19 @@ pub enum DashType
 	Dash,
 	DotDash,
 	DotDotDash
+}
+
+/// An enumeration of possible arrow head styles
+pub enum ArrowheadType
+{
+	/// An arrow head shaped like a 'V'
+	Open,
+	/// An arrow head shaped like an outlined triangle
+	Closed,
+	/// An arrow head shaped like a filled triangle
+	Filled,
+	/// No arrow head
+	NoArrow,
 }
 
 /// An enumeration of something that can either be fixed (e.g. the maximum of X values),
@@ -107,4 +120,40 @@ pub enum LabelOption<'self>
 	MarkerSize(float),
 	/// Sets the horizontal alignment of the label text (default is left alignment). See [AlignType](#enum-aligntype).
 	Align(AlignType),
+}
+
+pub enum ArrowOption<'self>
+{
+	/// Sets what an arrowhead looks like
+	HeadType(ArrowheadType),
+	/// Sets the size of the arrowhead. This is specified in the units of graph (i.e. `1.0` would make the arrow as big as the graph).
+	HeadSize(float),
+	/// Sets what an arrow shaft looks like
+	ShaftType(DashType),
+	/// Sets how wide the arrow shaft is
+	ShaftWidth(float),
+	/// Sets the color of the arrow. The passed string can be a color name
+	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
+	ArrowColor(&'self str),
+}
+
+mod private
+{
+	use super::*;
+	
+	impl DashType
+	{
+		pub fn to_int(&self) -> int
+		{
+			match *self
+			{
+				Solid => 1,
+				SmallDot => 0,
+				Dash => 2,
+				Dot => 3,
+				DotDash => 4,
+				DotDotDash => 5
+			}
+		}
+	}
 }
