@@ -281,6 +281,38 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </ul>
 </div>
 </div>
+<div id="method-boxes" class="section level3">
+<h3>Method <code>boxes</code></h3>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> boxes&lt;<span class="ch">&#39;l, Tx: DataType, X: Iterator&lt;Tx&gt;, Ty: DataType,</span>
+         Y: Iterator&lt;Ty&gt;&gt;(&amp;<span class="ch">&#39;l mut self, x: X, y: Y, options: &amp;[PlotOption]) -&gt;</span>
+ &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
+<p>Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width). Boxes start at the x-axis and go towards the y value of the datapoint.</p>
+<div id="arguments-17" class="section level4">
+<h4>Arguments</h4>
+<ul>
+<li><code>x</code> - Iterator for the x values (center of the box)</li>
+<li><code>y</code> - Iterator for the y values</li>
+<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+</ul>
+</div>
+</div>
+<div id="method-boxes_set_width" class="section level3">
+<h3>Method <code>boxes_set_width</code></h3>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> boxes_set_width&lt;<span class="ch">&#39;l, Tx: DataType, X: Iterator&lt;Tx&gt;, Ty: DataType,</span>
+                   Y: Iterator&lt;Ty&gt;, Tw: DataType,
+                   W: Iterator&lt;Tw&gt;&gt;(&amp;<span class="ch">&#39;l mut self, x: X, y: Y, w: W,</span>
+                                    options: &amp;[PlotOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
+<p>Plot a 2D scatter-plot using boxes of set (per box) width. Boxes start at the x-axis and go towards the y value of the datapoint.</p>
+<div id="arguments-18" class="section level4">
+<h4>Arguments</h4>
+<ul>
+<li><code>x</code> - Iterator for the x values (center of the box)</li>
+<li><code>y</code> - Iterator for the y values</li>
+<li><code>w</code> - Iterator for the box width values</li>
+<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+</ul>
+</div>
+</div>
 </div>
 </body>
 </html>
