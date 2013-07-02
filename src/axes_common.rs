@@ -47,7 +47,8 @@ pub enum PlotType
 	LinesPoints,
 	XErrorLines,
 	YErrorLines,
-	FillBetween
+	FillBetween,
+	Boxes,
 }
 
 impl PlotType
@@ -59,6 +60,7 @@ impl PlotType
 			Lines |
 			LinesPoints |
 			XErrorLines |
+			Boxes |
 			YErrorLines => true,
 			_ => false
 		}
@@ -80,6 +82,7 @@ impl PlotType
 	{
 		match *self
 		{
+			Boxes |
 			FillBetween => true,
 			_ => false
 		}
@@ -156,33 +159,79 @@ impl AxesCommon
 			XErrorLines => "xerrorlines",
 			YErrorLines => "yerrorlines",
 			FillBetween => "filledcurves",
+			Boxes => "boxes",
 		};
 		args.write_str(type_str);
 		
 		if plot_type.is_fill()
 		{
-			let mut found = false;
+			match plot_type
+			{
+				FillBetween =>
+				{
+					let mut found = false;
+					for options.iter().advance |o|
+					{
+						match *o
+						{
+							FillRegion(d) =>
+							{
+								found = true;
+								args.write_str(match d
+								{
+									Above => " above",
+									Below => " below",
+									Between => " closed",
+								});
+								break;
+							},
+							_ => ()
+						};
+					}
+					if !found
+					{
+						args.write_str(" closed");
+					}
+				},
+				_ => ()
+			}
+			
+			args.write_str(" fill transparent solid ");
+
 			for options.iter().advance |o|
 			{
 				match *o
 				{
-					FillRegion(d) =>
+					FillAlpha(a) =>
 					{
-						found = true;
-						args.write_str(match d
-						{
-							Above => " above",
-							Below => " below",
-							Between => " closed",
-						});
+						args.write_float(a);
 						break;
 					},
 					_ => ()
 				};
 			}
-			if !found
+			
+			if plot_type.is_line()
 			{
-				args.write_str(" closed");
+				args.write_str(" border");
+				for options.iter().advance |o|
+				{
+					match *o
+					{
+						BorderColor(s) =>
+						{
+							args.write_str(" rgb \"");
+							args.write_str(s);
+							args.write_str("\"");
+							break;
+						},
+						_ => ()
+					};
+				}
+			}
+			else
+			{
+				args.write_str(" noborder");
 			}
 		}
 		
@@ -289,28 +338,5 @@ impl AxesCommon
 			};
 		}
 		args.write_str("\"");
-		
-		if plot_type.is_fill()
-		{
-			args.write_str(" fill transparent solid ");
-
-			for options.iter().advance |o|
-			{
-				match *o
-				{
-					FillAlpha(a) =>
-					{
-						args.write_float(a);
-						break;
-					},
-					_ => ()
-				};
-			}
-			
-			if !plot_type.is_line()
-			{
-				args.write_str(" noborder");
-			}
-		}
 	}
 }

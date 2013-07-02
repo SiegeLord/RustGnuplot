@@ -530,6 +530,37 @@ impl Axes2D
 		self.plot3(FillBetween, x, y_lo, y_hi, options);
 		self
 	}
+	
+	/// Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
+	/// Boxes start at the x-axis and go towards the y value of the datapoint.
+	/// # Arguments
+	/// * `x` - Iterator for the x values (center of the box)
+	/// * `y` - Iterator for the y values
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
+	pub fn boxes<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
+	{
+		self.plot2(Boxes, x, y, options);
+		self
+	}
+	
+	/// Plot a 2D scatter-plot using boxes of set (per box) width.
+	/// Boxes start at the x-axis and go towards the y value of the datapoint.
+	/// # Arguments
+	/// * `x` - Iterator for the x values (center of the box)
+	/// * `y` - Iterator for the y values
+	/// * `w` - Iterator for the box width values
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
+	pub fn boxes_set_width<'l,
+	                      Tx : DataType,
+	                      X : Iterator<Tx>,
+	                      Ty : DataType,
+	                      Y : Iterator<Ty>,
+	                      Tw : DataType,
+	                      W : Iterator<Tw>>(&'l mut self, x : X, y : Y, w : W, options : &[PlotOption]) -> &'l mut Axes2D
+	{
+		self.plot3(Boxes, x, y, w, options);
+		self
+	}
 }
 
 mod private

@@ -27,6 +27,9 @@ pub enum PlotOption<'self>
 	/// Sets the color of the plot element. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white). This specifies the fill color of a filled plot.
 	Color(&'self str),
+	/// Sets the color of the border of a filled plot (if it has one). The passed string can be a color name
+	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white).
+	BorderColor(&'self str),
 	/// Sets the dash type. Note that not all gnuplot terminals support dashed lines. See [DashType](#enum-dashtype) for the available types.
 	LineType(DashType),
 	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque
