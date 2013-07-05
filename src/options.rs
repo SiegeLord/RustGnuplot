@@ -30,12 +30,16 @@ pub enum PlotOption<'self>
 	/// Sets the color of the border of a filled plot (if it has one). The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white).
 	BorderColor(&'self str),
-	/// Sets the dash type. Note that not all gnuplot terminals support dashed lines. See [DashType](#enum-dashtype) for the available types.
-	LineType(DashType),
+	/// Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See [DashType](#enum-dashtype) for the available styles.
+	LineStyle(DashType),
 	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque
 	FillAlpha(float),
 	/// Sets the fill region. See See [FillRegion](#enum-fillregion) for the available regions.
-	FillRegion(FillRegion)
+	FillRegion(FillRegion),
+	/// Sets what an arrowhead looks like
+	ArrowType(ArrowheadType),
+	/// Sets the size of the arrowhead. This is specified in the units of graph (i.e. `1.0` would make the arrow as big as the graph).
+	ArrowSize(float),
 }
 
 /// An enumeration of possible fill regions
@@ -123,21 +127,6 @@ pub enum LabelOption<'self>
 	MarkerSize(float),
 	/// Sets the horizontal alignment of the label text (default is left alignment). See [AlignType](#enum-aligntype).
 	Align(AlignType),
-}
-
-pub enum ArrowOption<'self>
-{
-	/// Sets what an arrowhead looks like
-	HeadType(ArrowheadType),
-	/// Sets the size of the arrowhead. This is specified in the units of graph (i.e. `1.0` would make the arrow as big as the graph).
-	HeadSize(float),
-	/// Sets what an arrow shaft looks like
-	ShaftType(DashType),
-	/// Sets how wide the arrow shaft is
-	ShaftWidth(float),
-	/// Sets the color of the arrow. The passed string can be a color name
-	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
-	ArrowColor(&'self str),
 }
 
 mod private

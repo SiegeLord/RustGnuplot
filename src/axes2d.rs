@@ -295,8 +295,13 @@ impl Axes2D
 	/// * `y1` - Y coordinate of the arrow start, specified using the [Coordinate](coordinates.html) type
 	/// * `x2` - X coordinate of the arrow end, specified using the [Coordinate](coordinates.html) type
 	/// * `y2` - Y coordinate of the arrow end, specified using the [Coordinate](coordinates.html) type
-	/// * `options` - Array of [ArrayOption](options.html#enum-arrowoption) controlling the appearance of the arrowhead and arrow shaft
-	pub fn arrow<'l>(&'l mut self, x1 : Coordinate, y1 : Coordinate, x2 : Coordinate, y2 : Coordinate, options : &[ArrowOption]) -> &'l mut Axes2D
+	/// * `options` - Array of [PlotOption](options.html#enum-arrowoption) controlling the appearance of the arrowhead and arrow shaft. Relevant options are:
+	///      * `ArrowType` - Specifies the style of the arrow head (or an option to omit it)
+	///      * `ArrowSize` - Sets the size of the arrow head (in graph units)
+	///      * `Color` - Specifies the color of the arrow
+	///      * `LineStyle` - Specifies the style of the arrow shaft
+	///      * `LineWidth` - Specifies the width of the arrow shaft
+	pub fn arrow<'l>(&'l mut self, x1 : Coordinate, y1 : Coordinate, x2 : Coordinate, y2 : Coordinate, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -313,7 +318,7 @@ impl Axes2D
 			{
 				match *o
 				{
-					HeadType(s) =>
+					ArrowType(s) =>
 					{
 						c.write_str(match(s)
 						{
@@ -334,7 +339,7 @@ impl Axes2D
 			{
 				match *o
 				{
-					HeadSize(s) =>
+					ArrowSize(s) =>
 					{
 						c.write_float(s);
 						found_size = true;
@@ -353,7 +358,7 @@ impl Axes2D
 			{
 				match *o
 				{
-					ArrowColor(s) =>
+					Color(s) =>
 					{
 						c.write_str(" lc rgb \"");
 						c.write_str(s);
@@ -368,7 +373,7 @@ impl Axes2D
 			{
 				match *o
 				{
-					ShaftWidth(w) =>
+					LineWidth(w) =>
 					{
 						c.write_str(" lw ");
 						c.write_float(w);
@@ -382,7 +387,7 @@ impl Axes2D
 			{
 				match *o
 				{
-					ShaftType(t) =>
+					LineStyle(t) =>
 					{
 						c.write_str(" lt ");
 						c.write_int(t.to_int());
@@ -453,7 +458,11 @@ impl Axes2D
 	/// # Arguments
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y values
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `LineWidth` - Sets the width of the line
+	///     * `LineStyle` - Sets the style of the line
+	///     * `Color` - Sets the color
 	pub fn lines<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Lines, x, y, options);
@@ -464,14 +473,18 @@ impl Axes2D
 	/// # Arguments
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y values
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `PointSymbol` - Sets symbol for each point
+	///     * `PointSize` - Sets the size of each point
+	///     * `Color` - Sets the color
 	pub fn points<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Points, x, y, options);
 		self
 	}
 	
-	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point
+	/// A combination of [lines](#method-lines) and [points](#method-points) methods (drawn in that order).
 	/// # Arguments
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y values
@@ -488,7 +501,13 @@ impl Axes2D
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y valuess
 	/// * `x_error` - Iterator for the error associated with the x value
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `PointSymbol` - Sets symbol for each point
+	///     * `PointSize` - Sets the size of each point
+	///     * `LineWidth` - Sets the width of the line
+	///     * `LineStyle` - Sets the style of the line
+	///     * `Color` - Sets the color
 	pub fn x_error_lines<'l, 
 	                   Tx : DataType, X : Iterator<Tx>,
 	                   Ty : DataType, Y : Iterator<Ty>,
@@ -504,7 +523,13 @@ impl Axes2D
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y values
 	/// * `y_error` - Iterator for the error associated with the y values
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `PointSymbol` - Sets symbol for each point
+	///     * `PointSize` - Sets the size of each point
+	///     * `LineWidth` - Sets the width of the line
+	///     * `LineStyle` - Sets the style of the line
+	///     * `Color` - Sets the color
 	pub fn y_error_lines<'l, 
 	                   Tx : DataType, X : Iterator<Tx>,
 	                   Ty : DataType, Y : Iterator<Ty>,
@@ -521,7 +546,11 @@ impl Axes2D
 	/// * `x` - Iterator for the x values
 	/// * `y_lo` - Iterator for the bottom y values
 	/// * `y_hi` - Iterator for the top y values
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `FillRegion` - Specifies the region between the two curves to fill
+	///     * `Color` - Sets the color of the filled region
+	///     * `FillAlpha` - Sets the transparency of the filled region
 	pub fn fill_between<'l, 
 	                   Tx : DataType, X : Iterator<Tx>,
 	                   Tyl : DataType, YL : Iterator<Tyl>,
@@ -536,7 +565,13 @@ impl Axes2D
 	/// # Arguments
 	/// * `x` - Iterator for the x values (center of the box)
 	/// * `y` - Iterator for the y values
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `LineWidth` - Sets the width of the border
+	///     * `LineStyle` - Sets the style of the border
+	///     * `BorderColor` - Sets the color of the border
+	///     * `Color` - Sets the color of the box fill
+	///     * `FillAlpha` - Sets the transparency of the box fill
 	pub fn boxes<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Boxes, x, y, options);
@@ -549,7 +584,13 @@ impl Axes2D
 	/// * `x` - Iterator for the x values (center of the box)
 	/// * `y` - Iterator for the y values
 	/// * `w` - Iterator for the box width values
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `LineWidth` - Sets the width of the border
+	///     * `LineStyle` - Sets the style of the border
+	///     * `BorderColor` - Sets the color of the border
+	///     * `Color` - Sets the color of the box fill
+	///     * `FillAlpha` - Sets the transparency of the box fill
 	pub fn boxes_set_width<'l,
 	                      Tx : DataType,
 	                      X : Iterator<Tx>,

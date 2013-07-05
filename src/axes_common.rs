@@ -263,7 +263,7 @@ impl AxesCommon
 			{
 				match *o
 				{
-					LineType(d) =>
+					LineStyle(d) =>
 					{
 						args.write_int(d.to_int());
 						found = true;
