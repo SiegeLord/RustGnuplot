@@ -16,7 +16,6 @@
 
 <ul>
 <li><a href="#enum-aligntype">Enum <code>AlignType</code></a> - An enumeration of possible text alignments</li>
-<li><a href="#enum-arrowoption">Enum <code>ArrowOption</code></a></li>
 <li><a href="#enum-arrowheadtype">Enum <code>ArrowheadType</code></a> - An enumeration of possible arrow head styles</li>
 <li><a href="#enum-autooption">Enum <code>AutoOption</code></a> - An enumeration of something that can either be fixed (e</li>
 <li><a href="#enum-dashtype">Enum <code>DashType</code></a> - An enumeration of possible dash styles</li>
@@ -38,23 +37,10 @@
 </ul>
 </div>
 </div>
-<div id="enum-arrowoption" class="section level2">
-<h2>Enum <code>ArrowOption</code></h2>
-<div id="variants-1" class="section level4">
-<h4>Variants</h4>
-<ul>
-<li><p><code>HeadType(ArrowheadType)</code> - Sets what an arrowhead looks like</p></li>
-<li><p><code>HeadSize(float)</code> - Sets the size of the arrowhead. This is specified in the units of graph (i.e. <code>1.0</code> would make the arrow as big as the graph).</p></li>
-<li><p><code>ShaftType(DashType)</code> - Sets what an arrow shaft looks like</p></li>
-<li><p><code>ShaftWidth(float)</code> - Sets how wide the arrow shaft is</p></li>
-<li><p><code>ArrowColor(&amp;'self str)</code> - Sets the color of the arrow. The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</p></li>
-</ul>
-</div>
-</div>
 <div id="enum-arrowheadtype" class="section level2">
 <h2>Enum <code>ArrowheadType</code></h2>
 <p>An enumeration of possible arrow head styles</p>
-<div id="variants-2" class="section level4">
+<div id="variants-1" class="section level4">
 <h4>Variants</h4>
 <ul>
 <li><p><code>Open</code> - An arrow head shaped like a 'V'</p></li>
@@ -67,7 +53,7 @@
 <div id="enum-autooption" class="section level2">
 <h2>Enum <code>AutoOption</code></h2>
 <p>An enumeration of something that can either be fixed (e.g. the maximum of X values), or automatically determined</p>
-<div id="variants-3" class="section level4">
+<div id="variants-2" class="section level4">
 <h4>Variants</h4>
 <ul>
 <li><p><code>Fix(T)</code> - Fixes the value to a specific value</p></li>
@@ -78,7 +64,7 @@
 <div id="enum-dashtype" class="section level2">
 <h2>Enum <code>DashType</code></h2>
 <p>An enumeration of possible dash styles</p>
-<div id="variants-4" class="section level4">
+<div id="variants-3" class="section level4">
 <h4>Variants</h4>
 <ul>
 <li><p><code>Solid</code></p></li>
@@ -93,7 +79,7 @@
 <div id="enum-fillregion" class="section level2">
 <h2>Enum <code>FillRegion</code></h2>
 <p>An enumeration of possible fill regions</p>
-<div id="variants-5" class="section level4">
+<div id="variants-4" class="section level4">
 <h4>Variants</h4>
 <ul>
 <li><p><code>Above</code></p></li>
@@ -105,7 +91,7 @@
 <div id="enum-labeloption" class="section level2">
 <h2>Enum <code>LabelOption</code></h2>
 <p>An enumeration of label options that control label attributes</p>
-<div id="variants-6" class="section level4">
+<div id="variants-5" class="section level4">
 <h4>Variants</h4>
 <ul>
 <li><p><code>Offset(float, float)</code> - Sets the offset of the label in characters</p></li>
@@ -138,7 +124,7 @@
 <div id="enum-plotoption" class="section level2">
 <h2>Enum <code>PlotOption</code></h2>
 <p>An enumeration of plot options you can supply to plotting commands, governing things like line width, color and others</p>
-<div id="variants-7" class="section level4">
+<div id="variants-6" class="section level4">
 <h4>Variants</h4>
 <ul>
 <li><code>PointSymbol(char)</code> - Sets the symbol used for points. The valid characters are as follows:
@@ -163,9 +149,11 @@
 <li><p><code>LineWidth(float)</code> - Sets the width of lines.</p></li>
 <li><p><code>Color(&amp;'self str)</code> - Sets the color of the plot element. The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white). This specifies the fill color of a filled plot.</p></li>
 <li><p><code>BorderColor(&amp;'self str)</code> - Sets the color of the border of a filled plot (if it has one). The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white).</p></li>
-<li><p><code>LineType(DashType)</code> - Sets the dash type. Note that not all gnuplot terminals support dashed lines. See <a href="#enum-dashtype">DashType</a> for the available types.</p></li>
+<li><p><code>LineStyle(DashType)</code> - Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See <a href="#enum-dashtype">DashType</a> for the available styles.</p></li>
 <li><p><code>FillAlpha(float)</code> - Sets the transparency of a filled plot. <code>0.0</code> - fully transparent, <code>1.0</code> - fully opaque</p></li>
 <li><p><code>FillRegion(FillRegion)</code> - Sets the fill region. See See <a href="#enum-fillregion">FillRegion</a> for the available regions.</p></li>
+<li><p><code>ArrowType(ArrowheadType)</code> - Sets what an arrowhead looks like</p></li>
+<li><p><code>ArrowSize(float)</code> - Sets the size of the arrowhead. This is specified in the units of graph (i.e. <code>1.0</code> would make the arrow as big as the graph).</p></li>
 </ul>
 </div>
 </div>

@@ -146,7 +146,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="method-arrow" class="section level3">
 <h3>Method <code>arrow</code></h3>
 <pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> arrow&lt;<span class="ch">&#39;l&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, x1: Coordinate, y1: Coordinate, x2: Coordinate,
-             y2: Coordinate, options: &amp;[ArrowOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
+             y2: Coordinate, options: &amp;[PlotOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>Adds an arrow to the plot. The arrow is drawn from <code>(x1, y1)</code> to <code>(x2, y2)</code> with the arrow point towards <code>(x2, y2)</code>.</p>
 <div id="arguments-8" class="section level4">
 <h4>Arguments</h4>
@@ -155,7 +155,14 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><code>y1</code> - Y coordinate of the arrow start, specified using the <a href="coordinates.html">Coordinate</a> type</li>
 <li><code>x2</code> - X coordinate of the arrow end, specified using the <a href="coordinates.html">Coordinate</a> type</li>
 <li><code>y2</code> - Y coordinate of the arrow end, specified using the <a href="coordinates.html">Coordinate</a> type</li>
-<li><code>options</code> - Array of <a href="options.html#enum-arrowoption">ArrayOption</a> controlling the appearance of the arrowhead and arrow shaft</li>
+<li><code>options</code> - Array of <a href="options.html#enum-arrowoption">PlotOption</a> controlling the appearance of the arrowhead and arrow shaft. Relevant options are:
+<ul>
+<li><code>ArrowType</code> - Specifies the style of the arrow head (or an option to omit it)</li>
+<li><code>ArrowSize</code> - Sets the size of the arrow head (in graph units)</li>
+<li><code>Color</code> - Specifies the color of the arrow</li>
+<li><code>LineStyle</code> - Specifies the style of the arrow shaft</li>
+<li><code>LineWidth</code> - Specifies the width of the arrow shaft</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -196,7 +203,13 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <ul>
 <li><code>x</code> - Iterator for the x values</li>
 <li><code>y</code> - Iterator for the y values</li>
-<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element. The relevant options are:
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>LineWidth</code> - Sets the width of the line</li>
+<li><code>LineStyle</code> - Sets the style of the line</li>
+<li><code>Color</code> - Sets the color</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -211,7 +224,13 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <ul>
 <li><code>x</code> - Iterator for the x values</li>
 <li><code>y</code> - Iterator for the y values</li>
-<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element. The relevant options are:
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>PointSymbol</code> - Sets symbol for each point</li>
+<li><code>PointSize</code> - Sets the size of each point</li>
+<li><code>Color</code> - Sets the color</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -220,7 +239,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> lines_points&lt;<span class="ch">&#39;l, Tx: DataType, X: Iterator&lt;Tx&gt;, Ty: DataType,</span>
                 Y: Iterator&lt;Ty&gt;&gt;(&amp;<span class="ch">&#39;l mut self, x: X, y: Y,</span>
                                  options: &amp;[PlotOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
-<p>Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point</p>
+<p>A combination of <a href="#method-lines">lines</a> and <a href="#method-points">points</a> methods (drawn in that order).</p>
 <div id="arguments-13" class="section level4">
 <h4>Arguments</h4>
 <ul>
@@ -243,7 +262,15 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><code>x</code> - Iterator for the x values</li>
 <li><code>y</code> - Iterator for the y valuess</li>
 <li><code>x_error</code> - Iterator for the error associated with the x value</li>
-<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element. The relevant options are:
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>PointSymbol</code> - Sets symbol for each point</li>
+<li><code>PointSize</code> - Sets the size of each point</li>
+<li><code>LineWidth</code> - Sets the width of the line</li>
+<li><code>LineStyle</code> - Sets the style of the line</li>
+<li><code>Color</code> - Sets the color</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -260,7 +287,15 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><code>x</code> - Iterator for the x values</li>
 <li><code>y</code> - Iterator for the y values</li>
 <li><code>y_error</code> - Iterator for the error associated with the y values</li>
-<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element. The relevant options are:
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>PointSymbol</code> - Sets symbol for each point</li>
+<li><code>PointSize</code> - Sets the size of each point</li>
+<li><code>LineWidth</code> - Sets the width of the line</li>
+<li><code>LineStyle</code> - Sets the style of the line</li>
+<li><code>Color</code> - Sets the color</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -277,7 +312,13 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><code>x</code> - Iterator for the x values</li>
 <li><code>y_lo</code> - Iterator for the bottom y values</li>
 <li><code>y_hi</code> - Iterator for the top y values</li>
-<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element. The relevant options are:
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>FillRegion</code> - Specifies the region between the two curves to fill</li>
+<li><code>Color</code> - Sets the color of the filled region</li>
+<li><code>FillAlpha</code> - Sets the transparency of the filled region</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -292,7 +333,15 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <ul>
 <li><code>x</code> - Iterator for the x values (center of the box)</li>
 <li><code>y</code> - Iterator for the y values</li>
-<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element. The relevant options are:
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>LineWidth</code> - Sets the width of the border</li>
+<li><code>LineStyle</code> - Sets the style of the border</li>
+<li><code>BorderColor</code> - Sets the color of the border</li>
+<li><code>Color</code> - Sets the color of the box fill</li>
+<li><code>FillAlpha</code> - Sets the transparency of the box fill</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -309,7 +358,15 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><code>x</code> - Iterator for the x values (center of the box)</li>
 <li><code>y</code> - Iterator for the y values</li>
 <li><code>w</code> - Iterator for the box width values</li>
-<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element</li>
+<li><code>options</code> - Array of <a href="options.html#enum-plotoption">PlotOption</a> controlling the appearance of the plot element. The relevant options are:
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>LineWidth</code> - Sets the width of the border</li>
+<li><code>LineStyle</code> - Sets the style of the border</li>
+<li><code>BorderColor</code> - Sets the color of the border</li>
+<li><code>Color</code> - Sets the color of the box fill</li>
+<li><code>FillAlpha</code> - Sets the transparency of the box fill</li>
+</ul></li>
 </ul>
 </div>
 </div>
