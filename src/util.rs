@@ -68,7 +68,7 @@ impl_data_type_ref!(float)
 
 mod private
 {
-	pub trait Writable
+	pub trait PlotWriter
 	{
 		priv fn write_data<T : DataType>(&mut self, v : T);
 		priv fn write_str(&mut self, s : &str);
@@ -82,7 +82,7 @@ mod private
 		writer(float::to_str_digits(v / (10.0f).pow(&e), 16) + "e" + e.to_str());
 	}
 
-	impl Writable for ~[u8]
+	impl PlotWriter for ~[u8]
 	{
 		pub fn write_data<T : DataType>(&mut self, v : T)
 		{

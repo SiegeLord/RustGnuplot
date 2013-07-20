@@ -3,12 +3,12 @@ use datatype::*;
 use std::cast;
 use std::float;
 
-pub trait Writable
+pub trait PlotWriter
 {
-	priv fn write_data<T : DataType>(&mut self, v : T);
-	priv fn write_str(&mut self, s : &str);
-	priv fn write_int(&mut self, i : int);
-	priv fn write_float(&mut self, f : float);
+	fn write_data<T : DataType>(&mut self, v : T);
+	fn write_str(&mut self, s : &str);
+	fn write_int(&mut self, i : int);
+	fn write_float(&mut self, f : float);
 }
 
 pub fn to_sci(v: float, writer : &fn(&str))
@@ -27,7 +27,7 @@ pub fn to_sci(v: float, writer : &fn(&str))
 	}
 }
 
-impl Writable for ~[u8]
+impl PlotWriter for ~[u8]
 {
 	pub fn write_data<T : DataType>(&mut self, v : T)
 	{

@@ -15,7 +15,7 @@ mod private
 
 	impl Coordinate
 	{
-		pub fn write<T : Writable>(&self, writer : &mut T)
+		pub fn write<T : PlotWriter>(&self, writer : &mut T)
 		{
 			let (name, x) = match *self
 			{

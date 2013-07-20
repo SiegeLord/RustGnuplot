@@ -13,6 +13,10 @@ fn main()
 	let y2 = x2.transform(|&v| { v * v });
 	let w = RepeatIterator{ value : 0.5 };
 	
+	let arr3 = [-3, -2, -1, 0, 2, 3];
+	let x3 = arr3.iter();
+	let y3 = x3.transform(|&v| { v * v * v });
+	
 	let mut fg = Figure::new();
 	
 	fg.axes2d()
@@ -33,6 +37,17 @@ fn main()
 	
 	fg.show();
 	fg.echo_to_file("fg8.gnuplot");
+	
+	let mut fg = Figure::new();
+	
+	fg.axes2d()
+	.set_title("Axis Ticks", [])
+	.lines(x3, y3, [LineWidth(2.0), Color("blue")])
+	.set_x_tics(Fix(0.0), 2.0, Auto, [MinorIntervals(2), MajorScale(2.0), MinorScale(0.5), OnAxis(true)], [TextColor("blue"), Align(AlignCenter)])
+	.set_y_tics(Auto, 2.0, Auto, [Mirror(false)], []);
+	
+	fg.show();
+	fg.echo_to_file("fg9.gnuplot");
 }
 
 struct RepeatIterator<T>

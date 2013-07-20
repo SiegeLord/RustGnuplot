@@ -25,7 +25,8 @@ pub enum LabelType
 	XLabel,
 	YLabel,
 	Title,
-	Label(Coordinate, Coordinate)
+	Label(Coordinate, Coordinate),
+	AxesTicks,
 }
 
 impl LabelType
@@ -36,6 +37,174 @@ impl LabelType
 		{
 			Label(*) => true,
 			_ => false
+		}
+	}
+}
+
+pub fn write_out_label_options<T : PlotWriter>(label_type : LabelType, options : &[LabelOption], writer : &mut T)
+{
+	let w = writer;
+
+	match label_type
+	{
+		Label(x, y) => 
+		{
+			w.write_str(" at ");
+			x.write(w);
+			w.write_str(",");
+			y.write(w);
+			w.write_str(" front");
+		}
+		_ => ()
+	}
+	
+	for options.iter().advance |o|
+	{
+		match *o
+		{
+			Offset(x, y) =>
+			{
+				w.write_str(" offset character ");
+				w.write_float(x);	
+				w.write_str(",");
+				w.write_float(y);
+				break;
+			},
+			_ => ()
+		};
+	}
+	
+	for options.iter().advance |o|
+	{
+		match *o
+		{
+			TextColor(s) =>
+			{
+				w.write_str(" tc rgb \"");
+				w.write_str(s);
+				w.write_str("\"");
+				break;
+			},
+			_ => ()
+		};
+	}
+	
+	for options.iter().advance |o|
+	{
+		match *o
+		{
+			Font(f, s) =>
+			{
+				w.write_str(" font \"");
+				w.write_str(f);
+				w.write_str(",");
+				w.write_str(s.to_str());
+				w.write_str("\"");
+				break;
+			},
+			_ => ()
+		};
+	}
+	
+	for options.iter().advance |o|
+	{
+		match *o
+		{
+			Rotate(a) =>
+			{
+				w.write_str(" rotate by ");
+				w.write_float(a);
+				break;
+			},
+			_ => ()
+		};
+	}
+	
+	if label_type.is_label()
+	{
+		let mut have_point = false;
+		for options.iter().advance |o|
+		{
+			match *o
+			{
+				MarkerSymbol(s) =>
+				{
+					w.write_str(" point pt ");
+					w.write_int(char_to_symbol(s));
+					have_point = true;
+					break;
+				},
+				_ => ()
+			};
+		}
+		
+		if have_point
+		{
+			for options.iter().advance |o|
+			{
+				match *o
+				{
+					MarkerColor(s) =>
+					{
+						w.write_str(" lc rgb \"");
+						w.write_str(s);
+						w.write_str("\"");
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			for options.iter().advance |o|
+			{
+				match *o
+				{
+					MarkerSize(z) =>
+					{
+						w.write_str(" ps ");
+						w.write_float(z);
+						w.write_str("");
+						break;
+					},
+					_ => ()
+				};
+			}
+		}
+		
+		for options.iter().advance |o|
+		{
+			match *o
+			{
+				Align(a) =>
+				{
+					w.write_str(match(a)
+					{
+						AlignLeft => " left",
+						AlignRight => " right",
+						AlignCenter => " center",
+					});
+					break;
+				},
+				_ => ()
+			};
+		}
+	}
+}
+
+pub enum TickType
+{
+	XTics,
+	YTics,
+}
+
+impl TickType
+{
+	pub fn to_str(&self) -> &str
+	{
+		match *self
+		{
+			XTics => "xtics",
+			YTics => "ytics",
 		}
 	}
 }

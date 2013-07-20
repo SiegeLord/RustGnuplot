@@ -104,6 +104,8 @@ pub enum LabelOption<'self>
 	TextColor(&'self str),
 	/// Rotates the label by a certain number of degrees
 	Rotate(float),
+	/// Sets the horizontal alignment of the label text (default is left alignment). See [AlignType](#enum-aligntype).
+	Align(AlignType),
 	/// Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:
 	/// * `.` - dot
 	/// * `+` - plus
@@ -125,8 +127,23 @@ pub enum LabelOption<'self>
 	MarkerColor(&'self str),
 	/// Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.
 	MarkerSize(float),
-	/// Sets the horizontal alignment of the label text (default is left alignment). See [AlignType](#enum-aligntype).
-	Align(AlignType),
+}
+
+/// An enumeration of axis tick options
+pub enum TickOption
+{
+	/// Specifies whether the ticks are drawn at the borders of the plot, or on the axis
+	OnAxis(bool),
+	/// If the axes are drawn on the border, this specifies whether to draw the tics on the opposite border as well
+	Mirror(bool),
+	/// If the axes are drawn on the border, this specifies whether to draw the ticks pointing inward or outward
+	Inward(bool),
+	/// Sets the scale of the minor ticks
+	MinorScale(float),
+	/// Sets the scale of the major ticks
+	MajorScale(float),
+	/// Sets the number of minor intervals between the major tics
+	MinorIntervals(uint),
 }
 
 mod private

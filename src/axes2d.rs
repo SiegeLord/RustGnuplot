@@ -84,7 +84,12 @@ impl Axes2D
 	/// Set the label for the X axis
 	/// # Arguments
 	/// * `text` - Text of the label. Pass an empty string to hide the label
-	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label
+	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label. Relevant options are:
+	///      * `Offset` - Specifies the offset of the label
+	///      * `Font` - Specifies the font of the label
+	///      * `TextColor` - Specifies the color of the label
+	///      * `Rotate` - Specifies the rotation of the label
+	///      * `Align` - Specifies how to align the label
 	pub fn set_x_label<'l>(&'l mut self, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_label_common(XLabel, text, options)
@@ -93,7 +98,12 @@ impl Axes2D
 	/// Set the label for the Y axis
 	/// # Arguments
 	/// * `text` - Text of the label. Pass an empty string to hide the label
-	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label
+	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label. Relevant options are:
+	///      * `Offset` - Specifies the offset of the label
+	///      * `Font` - Specifies the font of the label
+	///      * `TextColor` - Specifies the color of the label
+	///      * `Rotate` - Specifies the rotation of the label
+	///      * `Align` - Specifies how to align the label
 	pub fn set_y_label<'l>(&'l mut self, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_label_common(YLabel, text, options)
@@ -102,7 +112,12 @@ impl Axes2D
 	/// Set the title for the axes
 	/// # Arguments
 	/// * `text` - Text of the title. Pass an empty string to hide the title
-	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the title
+	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the title. Relevant options are:
+	///      * `Offset` - Specifies the offset of the label
+	///      * `Font` - Specifies the font of the label
+	///      * `TextColor` - Specifies the color of the label
+	///      * `Rotate` - Specifies the rotation of the label
+	///      * `Align` - Specifies how to align the label
 	pub fn set_title<'l>(&'l mut self, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_label_common(Title, text, options)
@@ -113,7 +128,15 @@ impl Axes2D
 	/// * `text` - Text of the label
 	/// * `x` - X coordinate of the label, specified using the [Coordinate](coordinates.html) type
 	/// * `y` - Y coordinate of the label, specified using the [Coordinate](coordinates.html) type
-	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label
+	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label. Relevant options are:
+	///      * `Offset` - Specifies the offset of the label
+	///      * `Font` - Specifies the font of the label
+	///      * `TextColor` - Specifies the color of the label
+	///      * `Rotate` - Specifies the rotation of the label
+	///      * `Align` - Specifies how to align the label
+	///      * `MarkerSymbol` - Specifies the symbol for the marker. Omit to hide the marker
+	///      * `MarkerSize` - Specifies the size for the marker
+	///      * `MarkerColor` - Specifies the color for the marker
 	pub fn label<'l>(&'l mut self, text : &str, x : Coordinate, y : Coordinate, options : &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_label_common(Label(x, y), text, options)
@@ -124,169 +147,207 @@ impl Axes2D
 		{
 			let c = &mut self.common.commands;
 			
+			c.write_str("set ");
+			
 			let label_str = match label_type
 			{
 				XLabel => "xlabel",
 				YLabel => "ylabel",
 				Title => "title",
 				Label(*) => "label",
-				/* _ => fail!("Invalid label type") */
+				_ => fail!("Invalid label type")
 			};
-
-			c.write_str("set ");
 			c.write_str(label_str);
+
 			c.write_str(" \"");
 			c.write_str(text);
 			c.write_str("\"");
 			
-			match label_type
-			{
-				Label(x, y) => 
-				{
-					c.write_str(" at ");
-					x.write(c);
-					c.write_str(",");
-					y.write(c);
-					c.write_str(" front");
-				}
-				_ => ()
-			}
-			
-			for options.iter().advance |o|
-			{
-				match *o
-				{
-					Offset(x, y) =>
-					{
-						c.write_str(" offset character ");
-						c.write_float(x);	
-						c.write_str(",");
-						c.write_float(y);
-						break;
-					},
-					_ => ()
-				};
-			}
-			
-			for options.iter().advance |o|
-			{
-				match *o
-				{
-					TextColor(s) =>
-					{
-						c.write_str(" tc rgb \"");
-						c.write_str(s);
-						c.write_str("\"");
-						break;
-					},
-					_ => ()
-				};
-			}
-			
-			for options.iter().advance |o|
-			{
-				match *o
-				{
-					Font(f, s) =>
-					{
-						c.write_str(" font \"");
-						c.write_str(f);
-						c.write_str(",");
-						c.write_str(s.to_str());
-						c.write_str("\"");
-						break;
-					},
-					_ => ()
-				};
-			}
-			
-			for options.iter().advance |o|
-			{
-				match *o
-				{
-					Rotate(a) =>
-					{
-						c.write_str(" rotate by ");
-						c.write_float(a);
-						break;
-					},
-					_ => ()
-				};
-			}
-			
-			if label_type.is_label()
-			{
-				let mut have_point = false;
-				for options.iter().advance |o|
-				{
-					match *o
-					{
-						MarkerSymbol(s) =>
-						{
-							c.write_str(" point pt ");
-							c.write_int(char_to_symbol(s));
-							have_point = true;
-							break;
-						},
-						_ => ()
-					};
-				}
-				
-				if have_point
-				{
-					for options.iter().advance |o|
-					{
-						match *o
-						{
-							MarkerColor(s) =>
-							{
-								c.write_str(" lc rgb \"");
-								c.write_str(s);
-								c.write_str("\"");
-								break;
-							},
-							_ => ()
-						};
-					}
-					
-					for options.iter().advance |o|
-					{
-						match *o
-						{
-							MarkerSize(z) =>
-							{
-								c.write_str(" ps ");
-								c.write_float(z);
-								c.write_str("");
-								break;
-							},
-							_ => ()
-						};
-					}
-				}
-				
-				for options.iter().advance |o|
-				{
-					match *o
-					{
-						Align(a) =>
-						{
-							c.write_str(match(a)
-							{
-								AlignLeft => " left",
-								AlignRight => " right",
-								AlignCenter => " center",
-							});
-							break;
-						},
-						_ => ()
-					};
-				}
-			}
+			write_out_label_options(label_type, options, c);
 			
 			c.write_str("\n");
 		}
 		self
+	}
+	
+	fn set_ticks_common<'l>(&'l mut self, tick_type : TickType, min : AutoOption<float>, incr : float, max : AutoOption<float>, tick_options : &[TickOption], label_options : &[LabelOption]) -> &'l mut Axes2D
+	{
+		if incr <= 0.0
+		{
+			fail!("'incr' must be positive, but is actually %f", incr);
+		}
+		
+		{
+			let c = &mut self.common.commands;
+			
+			let mut minor_intervals : uint = 0;
+			for tick_options.iter().advance |o|
+			{
+				match *o
+				{
+					MinorIntervals(i) =>
+					{
+						minor_intervals = i;
+						break;
+					},
+					_ => ()
+				};
+			}
+			c.write_str("set m");
+			c.write_str(tick_type.to_str());
+			c.write_str(" ");
+			c.write_int(minor_intervals as int);
+			c.write_str("\n");
+			
+			c.write_str("set ");
+			c.write_str(tick_type.to_str());
+			
+			c.write_str(" ");
+			match (min, max)
+			{
+				(Auto, Auto) =>
+				{
+					c.write_float(incr);
+				},
+				(Fix(min), Auto) =>
+				{
+					c.write_float(min);
+					c.write_str(",");
+					c.write_float(incr);
+				},
+				(Auto, Fix(max)) =>
+				{
+					/* A possible bug in gnuplot */
+					c.write_float(incr);
+					let _ = max;
+				},
+				(Fix(min), Fix(max)) =>
+				{
+					c.write_float(min);
+					c.write_str(",");
+					c.write_float(incr);
+					c.write_str(",");
+					c.write_float(max);
+				}
+			}
+			
+			write_out_label_options(AxesTicks, label_options, c);
+			
+			for tick_options.iter().advance |o|
+			{
+				match *o
+				{
+					OnAxis(b) =>
+					{
+						c.write_str(match(b)
+						{
+							true => " axis",
+							false => " border",
+						});
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			for tick_options.iter().advance |o|
+			{
+				match *o
+				{
+					Mirror(b) =>
+					{
+						c.write_str(match(b)
+						{
+							true => " mirror",
+							false => " nomirror",
+						});
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			for tick_options.iter().advance |o|
+			{
+				match *o
+				{
+					Inward(b) =>
+					{
+						c.write_str(match(b)
+						{
+							true => " in",
+							false => " out",
+						});
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			let mut minor_scale = 0.5;
+			let mut major_scale = 0.5;
+			
+			for tick_options.iter().advance |o|
+			{
+				match *o
+				{
+					MinorScale(s) =>
+					{
+						minor_scale = s;
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			for tick_options.iter().advance |o|
+			{
+				match *o
+				{
+					MajorScale(s) =>
+					{
+						major_scale = s;
+						break;
+					},
+					_ => ()
+				};
+			}
+			
+			c.write_str(" scale ");
+			c.write_float(minor_scale);
+			c.write_str(",");
+			c.write_float(major_scale);
+			
+			c.write_str("\n");
+		}
+		self
+	}
+	
+	/// Sets the properties of the tics on the X axis. The first 3 arguments specify the range of the tics. The following combinations work for `(min, max)`:
+	///
+	/// * `Auto, Auto` - The tics span the entire axis range
+	/// * `Fix, Auto` - The tics start at the specified location, and extend to positive infinity
+	/// * `Fix, Fix` - The tics span a limited range
+	///
+	/// # Arguments
+	/// * `min` - Sets the location of where the tics start
+	/// * `incr` - Sets the spacing between the major tics
+	/// * `max` - Sets the location of where the tics end
+	/// * `tick_options` - Array of [TickOption](options.html#enum-tickoption) controlling the appearance of the ticks
+	/// * `label_options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the tick labels. Relevant options are:
+	///      * `Offset` - Specifies the offset of the label
+	///      * `Font` - Specifies the font of the label
+	///      * `TextColor` - Specifies the color of the label
+	///      * `Rotate` - Specifies the rotation of the label
+	///      * `Align` - Specifies how to align the label
+	pub fn set_x_tics<'l>(&'l mut self, min : AutoOption<float>, incr : float, max : AutoOption<float>, tick_options : &[TickOption], label_options : &[LabelOption]) -> &'l mut Axes2D
+	{
+		self.set_ticks_common(XTics, min, incr, max, tick_options, label_options)
+	}
+	
+	pub fn set_y_tics<'l>(&'l mut self, min : AutoOption<float>, incr : float, max : AutoOption<float>, tick_options : &[TickOption], label_options : &[LabelOption]) -> &'l mut Axes2D
+	{
+		self.set_ticks_common(YTics, min, incr, max, tick_options, label_options)
 	}
 	
 	/// Adds an arrow to the plot. The arrow is drawn from `(x1, y1)` to `(x2, y2)` with the arrow point towards `(x2, y2)`.
@@ -611,9 +672,15 @@ mod private
 	use datatype::*;
 	use writer::*;
 	
+	struct Tics
+	{
+		common_options : ~[u8],
+		text_options : ~[u8],
+	}
+	
 	struct Axes2D
 	{
-		common : AxesCommon
+		common : AxesCommon,
 	}
 	
 	impl Axes2D
