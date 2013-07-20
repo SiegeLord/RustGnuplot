@@ -98,7 +98,14 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h4>Arguments</h4>
 <ul>
 <li><code>text</code> - Text of the label. Pass an empty string to hide the label</li>
-<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the label</li>
+<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the label. Relevant options are:
+<ul>
+<li><code>Offset</code> - Specifies the offset of the label</li>
+<li><code>Font</code> - Specifies the font of the label</li>
+<li><code>TextColor</code> - Specifies the color of the label</li>
+<li><code>Rotate</code> - Specifies the rotation of the label</li>
+<li><code>Align</code> - Specifies how to align the label</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -111,7 +118,14 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h4>Arguments</h4>
 <ul>
 <li><code>text</code> - Text of the label. Pass an empty string to hide the label</li>
-<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the label</li>
+<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the label. Relevant options are:
+<ul>
+<li><code>Offset</code> - Specifies the offset of the label</li>
+<li><code>Font</code> - Specifies the font of the label</li>
+<li><code>TextColor</code> - Specifies the color of the label</li>
+<li><code>Rotate</code> - Specifies the rotation of the label</li>
+<li><code>Align</code> - Specifies how to align the label</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -124,7 +138,14 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h4>Arguments</h4>
 <ul>
 <li><code>text</code> - Text of the title. Pass an empty string to hide the title</li>
-<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the title</li>
+<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the title. Relevant options are:
+<ul>
+<li><code>Offset</code> - Specifies the offset of the label</li>
+<li><code>Font</code> - Specifies the font of the label</li>
+<li><code>TextColor</code> - Specifies the color of the label</li>
+<li><code>Rotate</code> - Specifies the rotation of the label</li>
+<li><code>Align</code> - Specifies how to align the label</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -139,16 +160,61 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><code>text</code> - Text of the label</li>
 <li><code>x</code> - X coordinate of the label, specified using the <a href="coordinates.html">Coordinate</a> type</li>
 <li><code>y</code> - Y coordinate of the label, specified using the <a href="coordinates.html">Coordinate</a> type</li>
-<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the label</li>
+<li><code>options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the label. Relevant options are:
+<ul>
+<li><code>Offset</code> - Specifies the offset of the label</li>
+<li><code>Font</code> - Specifies the font of the label</li>
+<li><code>TextColor</code> - Specifies the color of the label</li>
+<li><code>Rotate</code> - Specifies the rotation of the label</li>
+<li><code>Align</code> - Specifies how to align the label</li>
+<li><code>MarkerSymbol</code> - Specifies the symbol for the marker. Omit to hide the marker</li>
+<li><code>MarkerSize</code> - Specifies the size for the marker</li>
+<li><code>MarkerColor</code> - Specifies the color for the marker</li>
+</ul></li>
 </ul>
 </div>
+</div>
+<div id="method-set_x_tics" class="section level3">
+<h3>Method <code>set_x_tics</code></h3>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> set_x_tics&lt;<span class="ch">&#39;l&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, min: AutoOption&lt;<span class="kw">float</span>&gt;, incr: <span class="kw">float</span>,
+                  max: AutoOption&lt;<span class="kw">float</span>&gt;, tick_options: &amp;[TickOption],
+                  label_options: &amp;[LabelOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
+<p>Sets the properties of the tics on the X axis. The first 3 arguments specify the range of the tics. The following combinations work for <code>(min, max)</code>:</p>
+<ul>
+<li><code>Auto, Auto</code> - The tics span the entire axis range</li>
+<li><code>Fix, Auto</code> - The tics start at the specified location, and extend to positive infinity</li>
+<li><code>Fix, Fix</code> - The tics span a limited range</li>
+</ul>
+<div id="arguments-8" class="section level4">
+<h4>Arguments</h4>
+<ul>
+<li><code>min</code> - Sets the location of where the tics start</li>
+<li><code>incr</code> - Sets the spacing between the major tics</li>
+<li><code>max</code> - Sets the location of where the tics end</li>
+<li><code>tick_options</code> - Array of <a href="options.html#enum-tickoption">TickOption</a> controlling the appearance of the ticks</li>
+<li><code>label_options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the tick labels. Relevant options are:
+<ul>
+<li><code>Offset</code> - Specifies the offset of the label</li>
+<li><code>Font</code> - Specifies the font of the label</li>
+<li><code>TextColor</code> - Specifies the color of the label</li>
+<li><code>Rotate</code> - Specifies the rotation of the label</li>
+<li><code>Align</code> - Specifies how to align the label</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="method-set_y_tics" class="section level3">
+<h3>Method <code>set_y_tics</code></h3>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> set_y_tics&lt;<span class="ch">&#39;l&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, min: AutoOption&lt;<span class="kw">float</span>&gt;, incr: <span class="kw">float</span>,
+                  max: AutoOption&lt;<span class="kw">float</span>&gt;, tick_options: &amp;[TickOption],
+                  label_options: &amp;[LabelOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 </div>
 <div id="method-arrow" class="section level3">
 <h3>Method <code>arrow</code></h3>
 <pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> arrow&lt;<span class="ch">&#39;l&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, x1: Coordinate, y1: Coordinate, x2: Coordinate,
              y2: Coordinate, options: &amp;[PlotOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>Adds an arrow to the plot. The arrow is drawn from <code>(x1, y1)</code> to <code>(x2, y2)</code> with the arrow point towards <code>(x2, y2)</code>.</p>
-<div id="arguments-8" class="section level4">
+<div id="arguments-9" class="section level4">
 <h4>Arguments</h4>
 <ul>
 <li><code>x1</code> - X coordinate of the arrow start, specified using the <a href="coordinates.html">Coordinate</a> type</li>
@@ -171,7 +237,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> set_x_range&lt;<span class="ch">&#39;l&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, min: AutoOption&lt;<span class="kw">float</span>&gt;,
                    max: AutoOption&lt;<span class="kw">float</span>&gt;) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>Set the range of values for the X axis</p>
-<div id="arguments-9" class="section level4">
+<div id="arguments-10" class="section level4">
 <h4>Arguments</h4>
 <ul>
 <li><code>min</code> - Minimum X value</li>
@@ -184,7 +250,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> set_y_range&lt;<span class="ch">&#39;l&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, min: AutoOption&lt;<span class="kw">float</span>&gt;,
                    max: AutoOption&lt;<span class="kw">float</span>&gt;) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>Set the range of values for the Y axis</p>
-<div id="arguments-10" class="section level4">
+<div id="arguments-11" class="section level4">
 <h4>Arguments</h4>
 <ul>
 <li><code>min</code> - Minimum Y value</li>
@@ -198,7 +264,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
          Y: Iterator&lt;Ty&gt;&gt;(&amp;<span class="ch">&#39;l mut self, x: X, y: Y, options: &amp;[PlotOption]) -&gt;</span>
  &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>Plot a 2D scatter-plot with lines connecting each data point</p>
-<div id="arguments-11" class="section level4">
+<div id="arguments-12" class="section level4">
 <h4>Arguments</h4>
 <ul>
 <li><code>x</code> - Iterator for the x values</li>
@@ -219,7 +285,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
           Y: Iterator&lt;Ty&gt;&gt;(&amp;<span class="ch">&#39;l mut self, x: X, y: Y, options: &amp;[PlotOption])</span>
  -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>Plot a 2D scatter-plot with a point standing in for each data point</p>
-<div id="arguments-12" class="section level4">
+<div id="arguments-13" class="section level4">
 <h4>Arguments</h4>
 <ul>
 <li><code>x</code> - Iterator for the x values</li>
@@ -240,7 +306,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
                 Y: Iterator&lt;Ty&gt;&gt;(&amp;<span class="ch">&#39;l mut self, x: X, y: Y,</span>
                                  options: &amp;[PlotOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>A combination of <a href="#method-lines">lines</a> and <a href="#method-points">points</a> methods (drawn in that order).</p>
-<div id="arguments-13" class="section level4">
+<div id="arguments-14" class="section level4">
 <h4>Arguments</h4>
 <ul>
 <li><code>x</code> - Iterator for the x values</li>
@@ -256,7 +322,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
                  XE: Iterator&lt;Txe&gt;&gt;(&amp;<span class="ch">&#39;l mut self, x: X, y: Y, x_error: XE,</span>
                                     options: &amp;[PlotOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point. Additionally, error bars are attached to each data point in the X direction.</p>
-<div id="arguments-14" class="section level4">
+<div id="arguments-15" class="section level4">
 <h4>Arguments</h4>
 <ul>
 <li><code>x</code> - Iterator for the x values</li>
@@ -281,7 +347,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
                  YE: Iterator&lt;Tye&gt;&gt;(&amp;<span class="ch">&#39;l mut self, x: X, y: Y, y_error: YE,</span>
                                     options: &amp;[PlotOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point. Additionally, error bars are attached to each data point in the Y direction.</p>
-<div id="arguments-15" class="section level4">
+<div id="arguments-16" class="section level4">
 <h4>Arguments</h4>
 <ul>
 <li><code>x</code> - Iterator for the x values</li>
@@ -306,7 +372,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
                 YH: Iterator&lt;Tyh&gt;&gt;(&amp;<span class="ch">&#39;l mut self, x: X, y_lo: YL, y_hi: YH,</span>
                                    options: &amp;[PlotOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>Plot a 2D scatter-plot of two curves (bound by <code>y_lo</code> and <code>y_hi</code>) with a filled region between them. <code>FillRegion</code> plot option can be used to control what happens when the curves intersect. If set to Above, then the <code>y_lo &lt; y_hi</code> region is filled. If set to Below, then the <code>y_lo &gt; y_hi</code> region is filled. Otherwise both regions are filled.</p>
-<div id="arguments-16" class="section level4">
+<div id="arguments-17" class="section level4">
 <h4>Arguments</h4>
 <ul>
 <li><code>x</code> - Iterator for the x values</li>
@@ -328,7 +394,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
          Y: Iterator&lt;Ty&gt;&gt;(&amp;<span class="ch">&#39;l mut self, x: X, y: Y, options: &amp;[PlotOption]) -&gt;</span>
  &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width). Boxes start at the x-axis and go towards the y value of the datapoint.</p>
-<div id="arguments-17" class="section level4">
+<div id="arguments-18" class="section level4">
 <h4>Arguments</h4>
 <ul>
 <li><code>x</code> - Iterator for the x values (center of the box)</li>
@@ -352,7 +418,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
                    W: Iterator&lt;Tw&gt;&gt;(&amp;<span class="ch">&#39;l mut self, x: X, y: Y, w: W,</span>
                                     options: &amp;[PlotOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>Plot a 2D scatter-plot using boxes of set (per box) width. Boxes start at the x-axis and go towards the y value of the datapoint.</p>
-<div id="arguments-18" class="section level4">
+<div id="arguments-19" class="section level4">
 <h4>Arguments</h4>
 <ul>
 <li><code>x</code> - Iterator for the x values (center of the box)</li>

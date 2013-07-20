@@ -22,6 +22,7 @@
 <li><a href="#enum-fillregion">Enum <code>FillRegion</code></a> - An enumeration of possible fill regions</li>
 <li><a href="#enum-labeloption">Enum <code>LabelOption</code></a> - An enumeration of label options that control label attributes</li>
 <li><a href="#enum-plotoption">Enum <code>PlotOption</code></a> - An enumeration of plot options you can supply to plotting commands, governing things like line width, color and others</li>
+<li><a href="#enum-tickoption">Enum <code>TickOption</code></a> - An enumeration of axis tick options</li>
 </ul>
 </div>
 
@@ -98,6 +99,7 @@
 <li><p><code>Font(&amp;'self str, float)</code> - Sets the font of the label. The string specifies the font type (e.g. &quot;Arial&quot;) and the number specifies the size (the units are terminal dependent, but are often points)</p></li>
 <li><p><code>TextColor(&amp;'self str)</code> - Sets the color of the label text. The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</p></li>
 <li><p><code>Rotate(float)</code> - Rotates the label by a certain number of degrees</p></li>
+<li><p><code>Align(AlignType)</code> - Sets the horizontal alignment of the label text (default is left alignment). See <a href="#enum-aligntype">AlignType</a>.</p></li>
 <li><code>MarkerSymbol(char)</code> - Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:
 <ul>
 <li><code>.</code> - dot</li>
@@ -117,7 +119,6 @@
 </ul></li>
 <li><p><code>MarkerColor(&amp;'self str)</code> - Sets the color of the marker. The passed string can be a color name (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</p></li>
 <li><p><code>MarkerSize(float)</code> - Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.</p></li>
-<li><p><code>Align(AlignType)</code> - Sets the horizontal alignment of the label text (default is left alignment). See <a href="#enum-aligntype">AlignType</a>.</p></li>
 </ul>
 </div>
 </div>
@@ -154,6 +155,21 @@
 <li><p><code>FillRegion(FillRegion)</code> - Sets the fill region. See See <a href="#enum-fillregion">FillRegion</a> for the available regions.</p></li>
 <li><p><code>ArrowType(ArrowheadType)</code> - Sets what an arrowhead looks like</p></li>
 <li><p><code>ArrowSize(float)</code> - Sets the size of the arrowhead. This is specified in the units of graph (i.e. <code>1.0</code> would make the arrow as big as the graph).</p></li>
+</ul>
+</div>
+</div>
+<div id="enum-tickoption" class="section level2">
+<h2>Enum <code>TickOption</code></h2>
+<p>An enumeration of axis tick options</p>
+<div id="variants-7" class="section level4">
+<h4>Variants</h4>
+<ul>
+<li><p><code>OnAxis(bool)</code> - Specifies whether the ticks are drawn at the borders of the plot, or on the axis</p></li>
+<li><p><code>Mirror(bool)</code> - If the axes are drawn on the border, this specifies whether to draw the tics on the opposite border as well</p></li>
+<li><p><code>Inward(bool)</code> - If the axes are drawn on the border, this specifies whether to draw the ticks pointing inward or outward</p></li>
+<li><p><code>MinorScale(float)</code> - Sets the scale of the minor ticks</p></li>
+<li><p><code>MajorScale(float)</code> - Sets the scale of the major ticks</p></li>
+<li><p><code>MinorIntervals(uint)</code> - Sets the number of minor intervals between the major tics</p></li>
 </ul>
 </div>
 </div>
