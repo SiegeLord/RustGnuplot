@@ -181,18 +181,13 @@ impl Axes2D
 			let c = &mut self.common.commands;
 			
 			let mut minor_intervals : uint = 0;
-			for tick_options.iter().advance |o|
-			{
-				match *o
+			first_opt!(tick_options,
+				MinorIntervals(i) =>
 				{
-					MinorIntervals(i) =>
-					{
-						minor_intervals = i;
-						break;
-					},
-					_ => ()
-				};
-			}
+					minor_intervals = i;
+				}
+			)
+
 			c.write_str("set m");
 			c.write_str(tick_type.to_str());
 			c.write_str(" ");
@@ -233,85 +228,55 @@ impl Axes2D
 			
 			write_out_label_options(AxesTicks, label_options, c);
 			
-			for tick_options.iter().advance |o|
-			{
-				match *o
+			first_opt!(tick_options,
+				OnAxis(b) =>
 				{
-					OnAxis(b) =>
+					c.write_str(match(b)
 					{
-						c.write_str(match(b)
-						{
-							true => " axis",
-							false => " border",
-						});
-						break;
-					},
-					_ => ()
-				};
-			}
+						true => " axis",
+						false => " border",
+					});
+				}
+			)
 			
-			for tick_options.iter().advance |o|
-			{
-				match *o
+			first_opt!(tick_options,
+				Mirror(b) =>
 				{
-					Mirror(b) =>
+					c.write_str(match(b)
 					{
-						c.write_str(match(b)
-						{
-							true => " mirror",
-							false => " nomirror",
-						});
-						break;
-					},
-					_ => ()
-				};
-			}
+						true => " mirror",
+						false => " nomirror",
+					});
+				}
+			)
 			
-			for tick_options.iter().advance |o|
-			{
-				match *o
+			first_opt!(tick_options,
+				Inward(b) =>
 				{
-					Inward(b) =>
+					c.write_str(match(b)
 					{
-						c.write_str(match(b)
-						{
-							true => " in",
-							false => " out",
-						});
-						break;
-					},
-					_ => ()
-				};
-			}
+						true => " in",
+						false => " out",
+					});
+				}
+			)
 			
 			let mut minor_scale = 0.5;
 			let mut major_scale = 0.5;
 			
-			for tick_options.iter().advance |o|
-			{
-				match *o
+			first_opt!(tick_options,
+				MinorScale(s) =>
 				{
-					MinorScale(s) =>
-					{
-						minor_scale = s;
-						break;
-					},
-					_ => ()
-				};
-			}
+					minor_scale = s;
+				}
+			)
 			
-			for tick_options.iter().advance |o|
-			{
-				match *o
+			first_opt!(tick_options,
+				MajorScale(s) =>
 				{
-					MajorScale(s) =>
-					{
-						major_scale = s;
-						break;
-					},
-					_ => ()
-				};
-			}
+					major_scale = s;
+				}
+			)
 			
 			c.write_str(" scale ");
 			c.write_float(minor_scale);
@@ -375,88 +340,58 @@ impl Axes2D
 			c.write_str(",");
 			y2.write(c);
 			
-			for options.iter().advance |o|
-			{
-				match *o
+			first_opt!(options,
+				ArrowType(s) =>
 				{
-					ArrowType(s) =>
+					c.write_str(match(s)
 					{
-						c.write_str(match(s)
-						{
-							Open => "",
-							Closed => " empty",
-							Filled => " filled",
-							NoArrow => " nohead",
-						});
-						break;
-					},
-					_ => ()
-				};
-			}
+						Open => "",
+						Closed => " empty",
+						Filled => " filled",
+						NoArrow => " nohead",
+					});
+				}
+			)
 			
 			c.write_str(" size graph ");
 			let mut found_size = false;
-			for options.iter().advance |o|
-			{
-				match *o
+			first_opt!(options,
+				ArrowSize(s) =>
 				{
-					ArrowSize(s) =>
-					{
-						c.write_float(s);
-						found_size = true;
-						break;
-					},
-					_ => ()
-				};
-			}
+					c.write_float(s);
+					found_size = true;
+				}
+			)
 			if !found_size
 			{
 				c.write_str("0.05");
 			}
 			c.write_str(",12");
 			
-			for options.iter().advance |o|
-			{
-				match *o
+			first_opt!(options,
+				Color(s) =>
 				{
-					Color(s) =>
-					{
-						c.write_str(" lc rgb \"");
-						c.write_str(s);
-						c.write_str("\"");
-						break;
-					},
-					_ => ()
-				};
-			}
+					c.write_str(" lc rgb \"");
+					c.write_str(s);
+					c.write_str("\"");
+				}
+			)
 			
-			for options.iter().advance |o|
-			{
-				match *o
+			first_opt!(options,
+				LineWidth(w) =>
 				{
-					LineWidth(w) =>
-					{
-						c.write_str(" lw ");
-						c.write_float(w);
-						break;
-					},
-					_ => ()
-				};
-			}
+					c.write_str(" lw ");
+					c.write_float(w);
+				}
+			)
 			
-			for options.iter().advance |o|
-			{
-				match *o
+			first_opt!(options,
+				LineStyle(t) =>
 				{
-					LineStyle(t) =>
-					{
-						c.write_str(" lt ");
-						c.write_int(t.to_int());
-						break;
-					},
-					_ => ()
-				};
-			}
+					c.write_str(" lt ");
+					c.write_int(t.to_int());
+				}
+			)
 			
 			c.write_str("\n");
 		}

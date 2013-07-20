@@ -58,136 +58,88 @@ pub fn write_out_label_options<T : PlotWriter>(label_type : LabelType, options :
 		_ => ()
 	}
 	
-	for options.iter().advance |o|
-	{
-		match *o
+	first_opt!(options,
+		Offset(x, y) =>
 		{
-			Offset(x, y) =>
-			{
-				w.write_str(" offset character ");
-				w.write_float(x);	
-				w.write_str(",");
-				w.write_float(y);
-				break;
-			},
-			_ => ()
-		};
-	}
+			w.write_str(" offset character ");
+			w.write_float(x);	
+			w.write_str(",");
+			w.write_float(y);
+		}
+	)
 	
-	for options.iter().advance |o|
-	{
-		match *o
+	first_opt!(options,
+		TextColor(s) =>
 		{
-			TextColor(s) =>
-			{
-				w.write_str(" tc rgb \"");
-				w.write_str(s);
-				w.write_str("\"");
-				break;
-			},
-			_ => ()
-		};
-	}
+			w.write_str(" tc rgb \"");
+			w.write_str(s);
+			w.write_str("\"");
+		}
+	)
 	
-	for options.iter().advance |o|
-	{
-		match *o
+	first_opt!(options,
+		Font(f, s) =>
 		{
-			Font(f, s) =>
-			{
-				w.write_str(" font \"");
-				w.write_str(f);
-				w.write_str(",");
-				w.write_str(s.to_str());
-				w.write_str("\"");
-				break;
-			},
-			_ => ()
-		};
-	}
+			w.write_str(" font \"");
+			w.write_str(f);
+			w.write_str(",");
+			w.write_str(s.to_str());
+			w.write_str("\"");
+		}
+	)
 	
-	for options.iter().advance |o|
-	{
-		match *o
+	first_opt!(options,
+		Rotate(a) =>
 		{
-			Rotate(a) =>
-			{
-				w.write_str(" rotate by ");
-				w.write_float(a);
-				break;
-			},
-			_ => ()
-		};
-	}
+			w.write_str(" rotate by ");
+			w.write_float(a);
+		}
+	)
 	
 	if label_type.is_label()
 	{
 		let mut have_point = false;
-		for options.iter().advance |o|
-		{
-			match *o
+		first_opt!(options,
+			MarkerSymbol(s) =>
 			{
-				MarkerSymbol(s) =>
-				{
-					w.write_str(" point pt ");
-					w.write_int(char_to_symbol(s));
-					have_point = true;
-					break;
-				},
-				_ => ()
-			};
-		}
+				w.write_str(" point pt ");
+				w.write_int(char_to_symbol(s));
+				have_point = true;
+			}
+		)
 		
 		if have_point
 		{
-			for options.iter().advance |o|
-			{
-				match *o
+			first_opt!(options,
+				MarkerColor(s) =>
 				{
-					MarkerColor(s) =>
-					{
-						w.write_str(" lc rgb \"");
-						w.write_str(s);
-						w.write_str("\"");
-						break;
-					},
-					_ => ()
-				};
-			}
+					w.write_str(" lc rgb \"");
+					w.write_str(s);
+					w.write_str("\"");
+				}
+			)
 			
-			for options.iter().advance |o|
-			{
-				match *o
+			first_opt!(options,
+				MarkerSize(z) =>
 				{
-					MarkerSize(z) =>
-					{
-						w.write_str(" ps ");
-						w.write_float(z);
-						w.write_str("");
-						break;
-					},
-					_ => ()
-				};
-			}
+					w.write_str(" ps ");
+					w.write_float(z);
+					w.write_str("");
+				}
+			)
 		}
 		
-		for options.iter().advance |o|
-		{
-			match *o
+		first_opt!(options,
+			Align(a) =>
 			{
-				Align(a) =>
+				w.write_str(match(a)
 				{
-					w.write_str(match(a)
-					{
-						AlignLeft => " left",
-						AlignRight => " right",
-						AlignCenter => " center",
-					});
-					break;
-				},
-				_ => ()
-			};
-		}
+					AlignLeft => " left",
+					AlignRight => " right",
+					AlignCenter => " center",
+				});
+			}
+		)
 	}
 }
 
@@ -339,24 +291,18 @@ impl AxesCommon
 				FillBetween =>
 				{
 					let mut found = false;
-					for options.iter().advance |o|
-					{
-						match *o
+					first_opt!(options,
+						FillRegion(d) =>
 						{
-							FillRegion(d) =>
+							found = true;
+							args.write_str(match d
 							{
-								found = true;
-								args.write_str(match d
-								{
-									Above => " above",
-									Below => " below",
-									Between => " closed",
-								});
-								break;
-							},
-							_ => ()
-						};
-					}
+								Above => " above",
+								Below => " below",
+								Between => " closed",
+							});
+						}
+					)
 					if !found
 					{
 						args.write_str(" closed");
@@ -367,36 +313,24 @@ impl AxesCommon
 			
 			args.write_str(" fill transparent solid ");
 
-			for options.iter().advance |o|
-			{
-				match *o
+			first_opt!(options,
+				FillAlpha(a) =>
 				{
-					FillAlpha(a) =>
-					{
-						args.write_float(a);
-						break;
-					},
-					_ => ()
-				};
-			}
+					args.write_float(a);
+				}
+			)
 			
 			if plot_type.is_line()
 			{
 				args.write_str(" border");
-				for options.iter().advance |o|
-				{
-					match *o
+				first_opt!(options,
+					BorderColor(s) =>
 					{
-						BorderColor(s) =>
-						{
-							args.write_str(" rgb \"");
-							args.write_str(s);
-							args.write_str("\"");
-							break;
-						},
-						_ => ()
-					};
-				}
+						args.write_str(" rgb \"");
+						args.write_str(s);
+						args.write_str("\"");
+					}
+				)
 			}
 			else
 			{
@@ -408,19 +342,13 @@ impl AxesCommon
 		{
 			let mut found = false;
 			args.write_str(" lw ");
-			for options.iter().advance |o|
-			{
-				match *o
+			first_opt!(options,
+				LineWidth(w) =>
 				{
-					LineWidth(w) =>
-					{
-						args.write_float(w);
-						found = true;
-						break;
-					},
-					_ => ()
-				};
-			}
+					args.write_float(w);
+					found = true;
+				}
+			)
 			if !found
 			{
 				args.write_float(1.0);
@@ -428,19 +356,13 @@ impl AxesCommon
 			
 			args.write_str(" lt ");
 			let mut found = false;
-			for options.iter().advance |o|
-			{
-				match *o
+			first_opt!(options,
+				LineStyle(d) =>
 				{
-					LineStyle(d) =>
-					{
-						args.write_int(d.to_int());
-						found = true;
-						break;
-					},
-					_ => ()
-				};
-			}
+					args.write_int(d.to_int());
+					found = true;
+				}
+			)
 			if !found
 			{
 				args.write_int(1);
@@ -449,63 +371,39 @@ impl AxesCommon
 
 		if plot_type.is_points()
 		{
-			for options.iter().advance |o|
-			{
-				match *o
+			first_opt!(options,
+				PointSymbol(s) =>
 				{
-					PointSymbol(s) =>
-					{
-						args.write_str(" pt ");
-						args.write_int(char_to_symbol(s));
-						break;
-					},
-					_ => ()
-				};
-			}
+					args.write_str(" pt ");
+					args.write_int(char_to_symbol(s));
+				}
+			)
 			
-			for options.iter().advance |o|
-			{
-				match *o
+			first_opt!(options,
+				PointSize(z) =>
 				{
-					PointSize(z) =>
-					{
-						args.write_str(" ps ");
-						args.write_float(z);
-						break;
-					},
-					_ => ()
-				};
-			}
+					args.write_str(" ps ");
+					args.write_float(z);
+				}
+			)
 		}
 		
-		for options.iter().advance |o|
-		{
-			match *o
+		first_opt!(options,
+			Color(s) =>
 			{
-				Color(s) =>
-				{
-					args.write_str(" lc rgb \"");
-					args.write_str(s);
-					args.write_str("\"");
-					break;
-				},
-				_ => ()
-			};
-		}
+				args.write_str(" lc rgb \"");
+				args.write_str(s);
+				args.write_str("\"");
+			}
+		)
 		
 		args.write_str(" t \"");
-		for options.iter().advance |o|
-		{
-			match *o
+		first_opt!(options,
+			Caption(s) =>
 			{
-				Caption(s) =>
-				{				
-					args.write_str(s);
-					break;
-				},
-				_ => ()
-			};
-		}
+				args.write_str(s);
+			}
+		)
 		args.write_str("\"");
 	}
 }

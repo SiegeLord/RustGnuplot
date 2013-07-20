@@ -33,6 +33,8 @@ pub use options::*;
 pub use datatype::*;
 pub use coordinates::*;
 
+#[macro_escape]
+mod util;
 mod axes_common;
 mod writer;
 
