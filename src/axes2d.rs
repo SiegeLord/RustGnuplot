@@ -310,6 +310,7 @@ impl Axes2D
 		self.set_ticks_common(XTics, min, incr, max, tick_options, label_options)
 	}
 	
+	/// Like `set_x_tics` but for the Y axis.
 	pub fn set_y_tics<'l>(&'l mut self, min : AutoOption<float>, incr : float, max : AutoOption<float>, tick_options : &[TickOption], label_options : &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_ticks_common(YTics, min, incr, max, tick_options, label_options)
