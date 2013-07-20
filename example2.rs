@@ -1,3 +1,5 @@
+// This file is released into Public Domain.
+
 extern mod gnuplot;
 
 use gnuplot::*;

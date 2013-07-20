@@ -1,3 +1,7 @@
+// Copyright (c) 2013 by SiegeLord
+// 
+// All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
+
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others
 pub enum PlotOption<'self>
