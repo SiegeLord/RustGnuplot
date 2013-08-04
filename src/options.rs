@@ -154,7 +154,7 @@ mod private
 {
 	use super::*;
 	
-	impl DashType
+	impl super::DashType
 	{
 		pub fn to_int(&self) -> int
 		{

@@ -17,7 +17,7 @@ mod private
 	use super::*;
 	use writer::*;
 
-	impl Coordinate
+	impl super::Coordinate
 	{
 		pub fn write<T : PlotWriter>(&self, writer : &mut T)
 		{

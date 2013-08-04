@@ -6,18 +6,21 @@ use gnuplot::*;
 
 fn main()
 {
-	let arr = [1, 2, 3, 4, 5];
-	let x = arr.iter();
-	let y1 = x.transform(|&v| { v * v });
+	let x = [1, 2, 3, 4, 5];
+	let x = x.iter();
+	let y1 = x.transform(|&v| { v * v }).to_owned_vec();
+	let y1 = y1.iter();
 	
-	let arr2 = [1, 4, 5];
-	let x2 = arr2.iter();
-	let y2 = x2.transform(|&v| { v * v });
+	let x2 = [1, 4, 5];
+	let x2 = x2.iter();
+	let y2 = x2.transform(|&v| { v * v }).to_owned_vec();
+	let y2 = y2.iter();
 	let w = RepeatIterator{ value : 0.5 };
 	
-	let arr3 = [-3, -2, -1, 0, 2, 3];
-	let x3 = arr3.iter();
-	let y3 = x3.transform(|&v| { v * v * v });
+	let x3 = [-3, -2, -1, 0, 2, 3];
+	let x3 = x3.iter();
+	let y3 = x3.transform(|&v| { v * v * v }).to_owned_vec();
+	let y3 = y3.iter();
 	
 	let mut fg = Figure::new();
 	

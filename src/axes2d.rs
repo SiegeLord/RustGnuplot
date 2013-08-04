@@ -10,7 +10,7 @@ use options::*;
 use writer::*;
 
 /// 2D axes that is used for drawing 2D plots
-impl Axes2D
+impl private::Axes2D
 {
 	/// Set the position of the axes on the figure using grid coordinates
 	/// # Arguments
@@ -642,7 +642,7 @@ mod private
 			
 			{
 				let data = &mut self.common.elems[l].data;
-				for x1.zip(x2).advance |(x1, x2)|
+				for (x1, x2) in x1.zip(x2)
 				{
 					data.write_data(x1);
 					data.write_data(x2);
@@ -663,7 +663,7 @@ mod private
 			
 			{
 				let data = &mut self.common.elems[l].data;
-				for x1.zip(x2).zip(x3).advance |((x1, x2), x3)|
+				for ((x1, x2), x3) in x1.zip(x2).zip(x3)
 				{
 					data.write_data(x1);
 					data.write_data(x2);
@@ -687,7 +687,7 @@ mod private
 			writer("plot".as_bytes());
 			
 			let mut first = true;
-			for self.common.elems.iter().advance |e|
+			for e in self.common.elems.iter()
 			{
 				if !first
 				{
@@ -699,7 +699,7 @@ mod private
 			
 			writer("\n".as_bytes());
 			
-			for self.common.elems.iter().advance |e|
+			for e in self.common.elems.iter()
 			{
 				writer(e.data);
 			}

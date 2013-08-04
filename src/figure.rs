@@ -5,7 +5,6 @@
 use axes_common::*;
 use axes2d::private::*;
 use axes3d::private::*;
-use datatype::*;
 use writer::*;
 
 use std::io;
@@ -172,7 +171,7 @@ impl<'self> Figure<'self>
 			(0.0, 0.0)
 		};
 		
-		for self.axes.iter().advance |e|
+		for e in self.axes.iter()
 		{
 			if do_layout
 			{
@@ -192,7 +191,7 @@ impl<'self> Figure<'self>
 				do to_sci(h) |s| { writer(s.as_bytes()) };
 				writer("\n".as_bytes());
 			}
-			e.write_out(writer);
+			e.write_out(|s| writer(s));
 		}
 		
 		writer("unset multiplot\n".as_bytes());
@@ -209,7 +208,7 @@ impl<'self> Figure<'self>
 			return self;
 		}
 		
-		let file = io::file_writer(&Path(filename), [io::Create]).get();
+		let file = io::file_writer(&Path(filename), [io::Create]).unwrap();
 		do self.echo |v|
 		{
 			file.write(v);
