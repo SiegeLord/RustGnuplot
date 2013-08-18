@@ -8,11 +8,11 @@ fn main()
 {
 	let x = [0, 1, 2, 3, 4, 5];
 	let x = x.iter();
-	let y1 = x.transform(|&v| { v * v }).to_owned_vec();
+	let y1 = x.map(|&v| { v * v }).to_owned_vec();
 	let y1 = y1.iter();
-	let y2 = x.transform(|&v| { -v * v + 10 }).to_owned_vec();
+	let y2 = x.map(|&v| { -v * v + 10 }).to_owned_vec();
 	let y2 = y2.iter();
-	let y3 = x.transform(|&v| { -2 * v + 5 }).to_owned_vec();
+	let y3 = x.map(|&v| { -2 * v + 5 }).to_owned_vec();
 	let y3 = y3.iter();
 	let x_err = RepeatIterator{ value: 0.3 };
 	let y_err = RepeatIterator{ value: 5.0 };
