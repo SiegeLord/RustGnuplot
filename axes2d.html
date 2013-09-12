@@ -34,12 +34,12 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div class='index'>
 
 <ul>
-<li><a href="#implementation-for-axes2d">Implementation <code>for Axes2D</code></a> - 2D axes that is used for drawing 2D plots</li>
+<li><a href="#implementation-for-privateaxes2d">Implementation <code>for private::Axes2D</code></a> - 2D axes that is used for drawing 2D plots</li>
 </ul>
 </div>
 
-<div id="implementation-for-axes2d" class="section level2">
-<h2>Implementation for <code>Axes2D</code></h2>
+<div id="implementation-for-privateaxes2d" class="section level2">
+<h2>Implementation for <code>private::Axes2D</code></h2>
 <p>2D axes that is used for drawing 2D plots</p>
 <div id="method-set_pos_grid" class="section level3">
 <h3>Method <code>set_pos_grid</code></h3>
@@ -176,7 +176,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </div>
 <div id="method-set_x_tics" class="section level3">
 <h3>Method <code>set_x_tics</code></h3>
-<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> set_x_tics&lt;<span class="ch">&#39;l&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, min: AutoOption&lt;<span class="kw">float</span>&gt;, incr: <span class="kw">float</span>,
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> set_x_tics&lt;<span class="ch">&#39;l&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, min: AutoOption&lt;<span class="kw">float</span>&gt;, incr: <span class="kw">Option</span>&lt;<span class="kw">float</span>&gt;,
                   max: AutoOption&lt;<span class="kw">float</span>&gt;, tick_options: &amp;[TickOption],
                   label_options: &amp;[LabelOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>Sets the properties of the tics on the X axis. The first 3 arguments specify the range of the tics. The following combinations work for <code>(min, max)</code>:</p>
@@ -185,11 +185,12 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><code>Fix, Auto</code> - The tics start at the specified location, and extend to positive infinity</li>
 <li><code>Fix, Fix</code> - The tics span a limited range</li>
 </ul>
+<p>Pass <code>None</code> for <code>incr</code> to disable the automatically generated tics.</p>
 <div id="arguments-8" class="section level4">
 <h4>Arguments</h4>
 <ul>
 <li><code>min</code> - Sets the location of where the tics start</li>
-<li><code>incr</code> - Sets the spacing between the major tics</li>
+<li><code>incr</code> - Sets the spacing between the major tics.</li>
 <li><code>max</code> - Sets the location of where the tics end</li>
 <li><code>tick_options</code> - Array of <a href="options.html#enum-tickoption">TickOption</a> controlling the appearance of the ticks</li>
 <li><code>label_options</code> - Array of <a href="options.html#enum-labeloption">LabelOption</a> controlling the appearance of the tick labels. Relevant options are:
@@ -205,10 +206,37 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </div>
 <div id="method-set_y_tics" class="section level3">
 <h3>Method <code>set_y_tics</code></h3>
-<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> set_y_tics&lt;<span class="ch">&#39;l&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, min: AutoOption&lt;<span class="kw">float</span>&gt;, incr: <span class="kw">float</span>,
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> set_y_tics&lt;<span class="ch">&#39;l&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, min: AutoOption&lt;<span class="kw">float</span>&gt;, incr: <span class="kw">Option</span>&lt;<span class="kw">float</span>&gt;,
                   max: AutoOption&lt;<span class="kw">float</span>&gt;, tick_options: &amp;[TickOption],
                   label_options: &amp;[LabelOption]) -&gt; &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
 <p>Like <code>set_x_tics</code> but for the Y axis.</p>
+</div>
+<div id="method-add_x_major_tics" class="section level3">
+<h3>Method <code>add_x_major_tics</code></h3>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> add_x_major_tics&lt;<span class="ch">&#39;l, T: DataType&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, tics: &amp;[(&amp;<span class="kw">str</span>, T)]) -&gt;
+ &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
+<p>Adds major tics to the X axis with specified labels at specified positions.</p>
+<ul>
+<li><code>tics</code> - Array of tuples specifying the locations and labels of the added tics. The label can contain a single C printf style floating point formatting specifier which will be replaced by the location of the tic.</li>
+</ul>
+</div>
+<div id="method-add_x_minor_tics" class="section level3">
+<h3>Method <code>add_x_minor_tics</code></h3>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> add_x_minor_tics&lt;<span class="ch">&#39;l, T: DataType&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, tics: &amp;[(&amp;<span class="kw">str</span>, T)]) -&gt;
+ &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
+<p>Like <code>set_x_major_tics</code> but for the minor tics of the X axis.</p>
+</div>
+<div id="method-add_y_major_tics" class="section level3">
+<h3>Method <code>add_y_major_tics</code></h3>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> add_y_major_tics&lt;<span class="ch">&#39;l, T: DataType&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, tics: &amp;[(&amp;<span class="kw">str</span>, T)]) -&gt;
+ &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
+<p>Like <code>set_x_major_tics</code> but for the major tics of the Y axis.</p>
+</div>
+<div id="method-add_y_minor_tics" class="section level3">
+<h3>Method <code>add_y_minor_tics</code></h3>
+<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> add_y_minor_tics&lt;<span class="ch">&#39;l, T: DataType&gt;(&amp;&#39;</span>l <span class="kw">mut</span> <span class="kw">self</span>, tics: &amp;[(&amp;<span class="kw">str</span>, T)]) -&gt;
+ &amp;<span class="ch">&#39;l mut Axes2D</span></code></pre>
+<p>Like <code>set_x_major_tics</code> but for the minor tics of the Y axis.</p>
 </div>
 <div id="method-arrow" class="section level3">
 <h3>Method <code>arrow</code></h3>
