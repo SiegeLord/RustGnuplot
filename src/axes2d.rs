@@ -222,6 +222,14 @@ impl private::Axes2D
 				},
 				(Fix(min), Fix(max)) =>
 				{
+					let (min, max) = if min > max
+					{
+						(max, min)
+					}
+					else
+					{
+						(min, max)
+					};
 					c.write_float(min);
 					c.write_str(",");
 					c.write_float(incr);
