@@ -174,13 +174,8 @@ impl private::Axes2D
 		self
 	}
 	
-	fn set_ticks_common<'l>(&'l mut self, tick_type : TickType, min : AutoOption<float>, incr : float, max : AutoOption<float>, tick_options : &[TickOption], label_options : &[LabelOption]) -> &'l mut Axes2D
+	fn set_ticks_common<'l>(&'l mut self, tick_type : TickType, min : AutoOption<float>, incr : Option<float>, max : AutoOption<float>, tick_options : &[TickOption], label_options : &[LabelOption]) -> &'l mut Axes2D
 	{
-		if incr <= 0.0
-		{
-			fail!("'incr' must be positive, but is actually %f", incr);
-		}
-		
 		{
 			let c = &mut self.common.commands;
 			
@@ -201,42 +196,49 @@ impl private::Axes2D
 			c.write_str("set ");
 			c.write_str(tick_type.to_str());
 			
-			c.write_str(" ");
-			match (min, max)
+			do incr.map |&incr|
 			{
-				(Auto, Auto) =>
+				if incr <= 0.0
 				{
-					c.write_float(incr);
-				},
-				(Fix(min), Auto) =>
+					fail!("'incr' must be positive, but is actually %f", incr);
+				}		
+				c.write_str(" ");
+				match (min, max)
 				{
-					c.write_float(min);
-					c.write_str(",");
-					c.write_float(incr);
-				},
-				(Auto, Fix(max)) =>
-				{
-					/* A possible bug in gnuplot */
-					c.write_float(incr);
-					let _ = max;
-				},
-				(Fix(min), Fix(max)) =>
-				{
-					let (min, max) = if min > max
+					(Auto, Auto) =>
 					{
-						(max, min)
+						c.write_float(incr);
+					},
+					(Fix(min), Auto) =>
+					{
+						c.write_float(min);
+						c.write_str(",");
+						c.write_float(incr);
+					},
+					(Auto, Fix(max)) =>
+					{
+						/* A possible bug in gnuplot */
+						c.write_float(incr);
+						let _ = max;
+					},
+					(Fix(min), Fix(max)) =>
+					{
+						let (min, max) = if min > max
+						{
+							(max, min)
+						}
+						else
+						{
+							(min, max)
+						};
+						c.write_float(min);
+						c.write_str(",");
+						c.write_float(incr);
+						c.write_str(",");
+						c.write_float(max);
 					}
-					else
-					{
-						(min, max)
-					};
-					c.write_float(min);
-					c.write_str(",");
-					c.write_float(incr);
-					c.write_str(",");
-					c.write_float(max);
 				}
-			}
+			};
 			
 			write_out_label_options(AxesTicks, label_options, c);
 			
@@ -306,9 +308,11 @@ impl private::Axes2D
 	/// * `Fix, Auto` - The tics start at the specified location, and extend to positive infinity
 	/// * `Fix, Fix` - The tics span a limited range
 	///
+	/// Pass `None` for `incr` to disable the automatically generated tics.
+	///
 	/// # Arguments
 	/// * `min` - Sets the location of where the tics start
-	/// * `incr` - Sets the spacing between the major tics
+	/// * `incr` - Sets the spacing between the major tics.
 	/// * `max` - Sets the location of where the tics end
 	/// * `tick_options` - Array of [TickOption](options.html#enum-tickoption) controlling the appearance of the ticks
 	/// * `label_options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the tick labels. Relevant options are:
@@ -317,13 +321,13 @@ impl private::Axes2D
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	pub fn set_x_tics<'l>(&'l mut self, min : AutoOption<float>, incr : float, max : AutoOption<float>, tick_options : &[TickOption], label_options : &[LabelOption]) -> &'l mut Axes2D
+	pub fn set_x_tics<'l>(&'l mut self, min : AutoOption<float>, incr : Option<float>, max : AutoOption<float>, tick_options : &[TickOption], label_options : &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_ticks_common(XTics, min, incr, max, tick_options, label_options)
 	}
 	
 	/// Like `set_x_tics` but for the Y axis.
-	pub fn set_y_tics<'l>(&'l mut self, min : AutoOption<float>, incr : float, max : AutoOption<float>, tick_options : &[TickOption], label_options : &[LabelOption]) -> &'l mut Axes2D
+	pub fn set_y_tics<'l>(&'l mut self, min : AutoOption<float>, incr : Option<float>, max : AutoOption<float>, tick_options : &[TickOption], label_options : &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_ticks_common(YTics, min, incr, max, tick_options, label_options)
 	}
