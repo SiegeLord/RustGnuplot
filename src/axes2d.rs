@@ -202,7 +202,7 @@ impl private::Axes2D
 				{
 					fail!("'incr' must be positive, but is actually %f", incr);
 				}		
-				c.write_str(" ");
+				c.write_str(" add ");
 				match (min, max)
 				{
 					(Auto, Auto) =>
