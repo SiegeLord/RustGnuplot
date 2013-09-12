@@ -332,6 +332,66 @@ impl private::Axes2D
 		self.set_ticks_common(YTics, min, incr, max, tick_options, label_options)
 	}
 	
+	fn add_tics_common<'l, T: DataType>(&'l mut self, tick_type : TickType, minor: bool, tics: &[(&str, T)]) -> &'l mut Axes2D
+	{
+		{
+			let c = &mut self.common.commands;
+			c.write_str("set ");
+			c.write_str(tick_type.to_str());
+			c.write_str(" add (");
+			
+			let mut first = true;
+			for tic in tics.iter()
+			{
+				let (ref label, ref pos) = *tic;
+				if first
+				{
+					first = false;
+				}
+				else
+				{
+					c.write_str(",");
+				}
+				c.write_str("\"");
+				c.write_str(*label);
+				c.write_str("\" ");
+				c.write_float(pos.get());
+				c.write_str(" ");
+				c.write_str(if minor { "1" } else { "0" });
+			}
+			c.write_str(")\n");
+		}
+		self
+	}
+	
+	/// Adds major tics to the X axis with specified labels at specified positions.
+	///
+	/// * `tics` - Array of tuples specifying the locations and labels of the added tics.
+	///     The label can contain a single C printf style floating point formatting specifier which will be replaced by the
+	///     location of the tic.
+	pub fn add_x_major_tics<'l, T: DataType>(&'l mut self, tics: &[(&str, T)]) -> &'l mut Axes2D
+	{
+		self.add_tics_common(XTics, false, tics)
+	}
+	
+	/// Like `set_x_major_tics` but for the minor tics of the X axis.
+	pub fn add_x_minor_tics<'l, T: DataType>(&'l mut self, tics: &[(&str, T)]) -> &'l mut Axes2D
+	{
+		self.add_tics_common(XTics, true, tics)
+	}
+	
+	/// Like `set_x_major_tics` but for the major tics of the Y axis.
+	pub fn add_y_major_tics<'l, T: DataType>(&'l mut self, tics: &[(&str, T)]) -> &'l mut Axes2D
+	{
+		self.add_tics_common(YTics, false, tics)
+	}
+	
+	/// Like `set_x_major_tics` but for the minor tics of the Y axis.
+	pub fn add_y_minor_tics<'l, T: DataType>(&'l mut self, tics: &[(&str, T)]) -> &'l mut Axes2D
+	{
+		self.add_tics_common(YTics, true, tics)
+	}
+	
 	/// Adds an arrow to the plot. The arrow is drawn from `(x1, y1)` to `(x2, y2)` with the arrow point towards `(x2, y2)`.
 	/// # Arguments
 	/// * `x1` - X coordinate of the arrow start, specified using the [Coordinate](coordinates.html) type
