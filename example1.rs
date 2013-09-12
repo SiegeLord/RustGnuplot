@@ -2,6 +2,8 @@
 
 extern mod gnuplot;
 
+use std::iter::Repeat;
+
 use gnuplot::*;
 
 fn main()
@@ -14,8 +16,8 @@ fn main()
 	let y2 = y2.iter();
 	let y3 = x.map(|&v| { -2 * v + 5 }).to_owned_vec();
 	let y3 = y3.iter();
-	let x_err = RepeatIterator{ value: 0.3 };
-	let y_err = RepeatIterator{ value: 5.0 };
+	let x_err = Repeat::new(0.3);
+	let y_err = Repeat::new(5.0);
 	
 	let mut fg = Figure::new();
 	
@@ -100,17 +102,4 @@ fn main()
 
 	fg.show();
 	fg.echo_to_file("fg6.gnuplot");
-}
-
-struct RepeatIterator<T>
-{
-	value : T
-}
-
-impl<T : Clone> Iterator<T> for RepeatIterator<T>
-{
-	fn next(&mut self) -> Option<T>
-	{
-		Some(self.value.clone())
-	}
 }
