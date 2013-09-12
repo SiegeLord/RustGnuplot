@@ -4,7 +4,7 @@
 
 macro_rules! first_opt
 {
-	($O : ident , $P : pat => $B : expr ) =>
+	($O: ident , $P: pat => $B: expr ) =>
 	(
 		for o in $O.iter()
 		{

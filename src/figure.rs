@@ -18,7 +18,7 @@ enum AxesVariant
 
 impl AxesVariant
 {
-	fn write_out(&self, writer : &fn(data : &[u8]))
+	fn write_out(&self, writer: &fn(data: &[u8]))
 	{
 		match *self
 		{
@@ -71,7 +71,7 @@ impl<'self> Figure<'self>
 	/// * pdfcairo - Saves the figure as a PDF file
 	/// * epscairo - Saves the figure as a EPS file
 	/// * pngcairo - Saves the figure as a PNG file
-	pub fn set_terminal<'l>(&'l mut self, terminal : &'self str, output_file : &'self str) -> &'l mut Figure<'self>
+	pub fn set_terminal<'l>(&'l mut self, terminal: &'self str, output_file: &'self str) -> &'l mut Figure<'self>
 	{
 		self.terminal = terminal;
 		self.output_file = output_file;
@@ -83,7 +83,7 @@ impl<'self> Figure<'self>
 	/// # Arguments
 	/// * `rows` - Number of rows. Set to 0 to disable the grid
 	/// * `cols` - Number of columns. Set to 0 to disable the grid
-	pub fn set_grid<'l>(&'l mut self, rows : uint, cols : uint) -> &'l mut Figure<'self>
+	pub fn set_grid<'l>(&'l mut self, rows: uint, cols: uint) -> &'l mut Figure<'self>
 	{
 		self.num_rows = rows;
 		self.num_cols = cols;
@@ -135,7 +135,7 @@ impl<'self> Figure<'self>
 	/// Echo the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
 	/// * `writer` - A function pointer that will be called multiple times with the command text and data
-	pub fn echo<'l>(&'l self, writer : &fn(data : &[u8])) -> &'l Figure<'l>
+	pub fn echo<'l>(&'l self, writer: &fn(data: &[u8])) -> &'l Figure<'l>
 	{
 		if self.axes.len() == 0
 		{
@@ -201,7 +201,7 @@ impl<'self> Figure<'self>
 	/// Save to a file the the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
 	/// * `filename` - Name of the file
-	pub fn echo_to_file<'l>(&'l self, filename : &str) -> &'l Figure<'l>
+	pub fn echo_to_file<'l>(&'l self, filename: &str) -> &'l Figure<'l>
 	{
 		if self.axes.len() == 0
 		{

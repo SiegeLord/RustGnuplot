@@ -8,7 +8,7 @@ mod private
 
 	struct Axes3D
 	{
-		common : AxesCommon
+		common: AxesCommon
 	}
 
 	impl Axes3D
@@ -17,7 +17,7 @@ mod private
 		{
 			Axes3D
 			{
-				common : AxesCommon::new()
+				common: AxesCommon::new()
 			}
 		}
 	}

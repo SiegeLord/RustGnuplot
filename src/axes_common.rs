@@ -8,8 +8,8 @@ use coordinates::*;
 
 struct PlotElement
 {
-	args : ~[u8],
-	data : ~[u8]
+	args: ~[u8],
+	data: ~[u8]
 }
 
 impl PlotElement
@@ -18,8 +18,8 @@ impl PlotElement
 	{
 		PlotElement
 		{
-			args : ~[],
-			data : ~[],
+			args: ~[],
+			data: ~[],
 		}
 	}
 }
@@ -45,7 +45,7 @@ impl LabelType
 	}
 }
 
-pub fn write_out_label_options<T : PlotWriter>(label_type : LabelType, options : &[LabelOption], writer : &mut T)
+pub fn write_out_label_options<T: PlotWriter>(label_type: LabelType, options: &[LabelOption], writer: &mut T)
 {
 	let w = writer;
 
@@ -217,12 +217,12 @@ impl PlotType
 struct AxesCommon
 {
 	commands: ~[u8],
-	elems : ~[PlotElement],
-	grid_row : uint,
-	grid_col : uint
+	elems: ~[PlotElement],
+	grid_row: uint,
+	grid_col: uint
 }
 
-pub fn char_to_symbol(c : char) -> int
+pub fn char_to_symbol(c: char) -> int
 {
 	match c
 	{
@@ -257,14 +257,14 @@ impl AxesCommon
 		}
 	}
 	
-	pub fn write_common_commands(&mut self, elem_idx : uint, num_rows : int, num_cols : int, plot_type : PlotType, options : &[PlotOption])
+	pub fn write_common_commands(&mut self, elem_idx: uint, num_rows: int, num_cols: int, plot_type: PlotType, options: &[PlotOption])
 	{
 		let args = &mut self.elems[elem_idx].args;
 		args.write_str(" \"-\" binary endian=little record=");
 		args.write_int(num_rows);
 		args.write_str(" format=\"%float64\" using ");
 		
-		let mut col_idx : int = 1;
+		let mut col_idx: int = 1;
 		while(col_idx < num_cols + 1)
 		{
 			args.write_int(col_idx);

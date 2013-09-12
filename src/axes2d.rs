@@ -16,7 +16,7 @@ impl private::Axes2D
 	/// # Arguments
 	/// * `row` - Row on the grid. Top-most row is 1
 	/// * `column` - Column on the grid. Left-most column is 1
-	pub fn set_pos_grid<'l>(&'l mut self, row : uint, col : uint) -> &'l mut Axes2D
+	pub fn set_pos_grid<'l>(&'l mut self, row: uint, col: uint) -> &'l mut Axes2D
 	{
 		self.common.grid_row = row;
 		self.common.grid_col = col;
@@ -28,7 +28,7 @@ impl private::Axes2D
 	/// # Arguments
 	/// * `x` - X position. Ranges from 0 to 1
 	/// * `y` - Y position. Ranges from 0 to 1
-	pub fn set_pos<'l>(&'l mut self, x : float, y : float) -> &'l mut Axes2D
+	pub fn set_pos<'l>(&'l mut self, x: float, y: float) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -46,7 +46,7 @@ impl private::Axes2D
 	/// # Arguments
 	/// * `w` - Width. Ranges from 0 to 1
 	/// * `h` - Height. Ranges from 0 to 1
-	pub fn set_size<'l>(&'l mut self, w : float, h : float) -> &'l mut Axes2D
+	pub fn set_size<'l>(&'l mut self, w: float, h: float) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -63,7 +63,7 @@ impl private::Axes2D
 	/// Set the aspect ratio of the axes
 	/// # Arguments
 	/// * `ratio` - The aspect ratio. Set to Auto to return the ratio to default
-	pub fn set_aspect_ratio<'l>(&'l mut self, ratio : AutoOption<float>) -> &'l mut Axes2D
+	pub fn set_aspect_ratio<'l>(&'l mut self, ratio: AutoOption<float>) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -94,7 +94,7 @@ impl private::Axes2D
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	pub fn set_x_label<'l>(&'l mut self, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
+	pub fn set_x_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_label_common(XLabel, text, options)
 	}
@@ -108,7 +108,7 @@ impl private::Axes2D
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	pub fn set_y_label<'l>(&'l mut self, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
+	pub fn set_y_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_label_common(YLabel, text, options)
 	}
@@ -122,7 +122,7 @@ impl private::Axes2D
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	pub fn set_title<'l>(&'l mut self, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
+	pub fn set_title<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_label_common(Title, text, options)
 	}
@@ -141,12 +141,12 @@ impl private::Axes2D
 	///      * `MarkerSymbol` - Specifies the symbol for the marker. Omit to hide the marker
 	///      * `MarkerSize` - Specifies the size for the marker
 	///      * `MarkerColor` - Specifies the color for the marker
-	pub fn label<'l>(&'l mut self, text : &str, x : Coordinate, y : Coordinate, options : &[LabelOption]) -> &'l mut Axes2D
+	pub fn label<'l>(&'l mut self, text: &str, x: Coordinate, y: Coordinate, options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_label_common(Label(x, y), text, options)
 	}
 	
-	fn set_label_common<'l>(&'l mut self, label_type : LabelType, text : &str, options : &[LabelOption]) -> &'l mut Axes2D
+	fn set_label_common<'l>(&'l mut self, label_type: LabelType, text: &str, options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -174,12 +174,12 @@ impl private::Axes2D
 		self
 	}
 	
-	fn set_ticks_common<'l>(&'l mut self, tick_type : TickType, min : AutoOption<float>, incr : Option<float>, max : AutoOption<float>, tick_options : &[TickOption], label_options : &[LabelOption]) -> &'l mut Axes2D
+	fn set_ticks_common<'l>(&'l mut self, tick_type: TickType, min: AutoOption<float>, incr: Option<float>, max: AutoOption<float>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
 			
-			let mut minor_intervals : uint = 0;
+			let mut minor_intervals: uint = 0;
 			first_opt!(tick_options,
 				MinorIntervals(i) =>
 				{
@@ -321,18 +321,18 @@ impl private::Axes2D
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	pub fn set_x_tics<'l>(&'l mut self, min : AutoOption<float>, incr : Option<float>, max : AutoOption<float>, tick_options : &[TickOption], label_options : &[LabelOption]) -> &'l mut Axes2D
+	pub fn set_x_tics<'l>(&'l mut self, min: AutoOption<float>, incr: Option<float>, max: AutoOption<float>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_ticks_common(XTics, min, incr, max, tick_options, label_options)
 	}
 	
 	/// Like `set_x_tics` but for the Y axis.
-	pub fn set_y_tics<'l>(&'l mut self, min : AutoOption<float>, incr : Option<float>, max : AutoOption<float>, tick_options : &[TickOption], label_options : &[LabelOption]) -> &'l mut Axes2D
+	pub fn set_y_tics<'l>(&'l mut self, min: AutoOption<float>, incr: Option<float>, max: AutoOption<float>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_ticks_common(YTics, min, incr, max, tick_options, label_options)
 	}
 	
-	fn add_tics_common<'l, T: DataType>(&'l mut self, tick_type : TickType, minor: bool, tics: &[(&str, T)]) -> &'l mut Axes2D
+	fn add_tics_common<'l, T: DataType>(&'l mut self, tick_type: TickType, minor: bool, tics: &[(&str, T)]) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -404,7 +404,7 @@ impl private::Axes2D
 	///      * `Color` - Specifies the color of the arrow
 	///      * `LineStyle` - Specifies the style of the arrow shaft
 	///      * `LineWidth` - Specifies the width of the arrow shaft
-	pub fn arrow<'l>(&'l mut self, x1 : Coordinate, y1 : Coordinate, x2 : Coordinate, y2 : Coordinate, options : &[PlotOption]) -> &'l mut Axes2D
+	pub fn arrow<'l>(&'l mut self, x1: Coordinate, y1: Coordinate, x2: Coordinate, y2: Coordinate, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -479,7 +479,7 @@ impl private::Axes2D
 	/// # Arguments
 	/// * `min` - Minimum X value
 	/// * `max` - Maximum X value
-	pub fn set_x_range<'l>(&'l mut self, min : AutoOption<float>, max : AutoOption<float>) -> &'l mut Axes2D
+	pub fn set_x_range<'l>(&'l mut self, min: AutoOption<float>, max: AutoOption<float>) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -505,7 +505,7 @@ impl private::Axes2D
 	/// # Arguments
 	/// * `min` - Minimum Y value
 	/// * `max` - Maximum Y value
-	pub fn set_y_range<'l>(&'l mut self, min : AutoOption<float>, max : AutoOption<float>) -> &'l mut Axes2D
+	pub fn set_y_range<'l>(&'l mut self, min: AutoOption<float>, max: AutoOption<float>) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -536,7 +536,7 @@ impl private::Axes2D
 	///     * `LineWidth` - Sets the width of the line
 	///     * `LineStyle` - Sets the style of the line
 	///     * `Color` - Sets the color
-	pub fn lines<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
+	pub fn lines<'l, Tx: DataType, X: Iterator<Tx>, Ty: DataType, Y: Iterator<Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Lines, x, y, options);
 		self
@@ -551,7 +551,7 @@ impl private::Axes2D
 	///     * `PointSymbol` - Sets symbol for each point
 	///     * `PointSize` - Sets the size of each point
 	///     * `Color` - Sets the color
-	pub fn points<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
+	pub fn points<'l, Tx: DataType, X: Iterator<Tx>, Ty: DataType, Y: Iterator<Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Points, x, y, options);
 		self
@@ -562,7 +562,7 @@ impl private::Axes2D
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y values
 	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
-	pub fn lines_points<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
+	pub fn lines_points<'l, Tx: DataType, X: Iterator<Tx>, Ty: DataType, Y: Iterator<Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(LinesPoints, x, y, options);
 		self
@@ -582,9 +582,9 @@ impl private::Axes2D
 	///     * `LineStyle` - Sets the style of the line
 	///     * `Color` - Sets the color
 	pub fn x_error_lines<'l, 
-	                   Tx : DataType, X : Iterator<Tx>,
-	                   Ty : DataType, Y : Iterator<Ty>,
-	                   Txe : DataType, XE : Iterator<Txe>>(&'l mut self, x : X, y : Y, x_error : XE, options : &[PlotOption]) -> &'l mut Axes2D
+	                   Tx: DataType, X: Iterator<Tx>,
+	                   Ty: DataType, Y: Iterator<Ty>,
+	                   Txe: DataType, XE: Iterator<Txe>>(&'l mut self, x: X, y: Y, x_error: XE, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot3(XErrorLines, x, y, x_error, options);
 		self
@@ -604,9 +604,9 @@ impl private::Axes2D
 	///     * `LineStyle` - Sets the style of the line
 	///     * `Color` - Sets the color
 	pub fn y_error_lines<'l, 
-	                   Tx : DataType, X : Iterator<Tx>,
-	                   Ty : DataType, Y : Iterator<Ty>,
-	                   Tye : DataType, YE : Iterator<Tye>>(&'l mut self, x : X, y : Y, y_error : YE, options : &[PlotOption]) -> &'l mut Axes2D
+	                   Tx: DataType, X: Iterator<Tx>,
+	                   Ty: DataType, Y: Iterator<Ty>,
+	                   Tye: DataType, YE: Iterator<Tye>>(&'l mut self, x: X, y: Y, y_error: YE, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot3(YErrorLines, x, y, y_error, options);
 		self
@@ -625,9 +625,9 @@ impl private::Axes2D
 	///     * `Color` - Sets the color of the filled region
 	///     * `FillAlpha` - Sets the transparency of the filled region
 	pub fn fill_between<'l, 
-	                   Tx : DataType, X : Iterator<Tx>,
-	                   Tyl : DataType, YL : Iterator<Tyl>,
-	                   Tyh : DataType, YH : Iterator<Tyh>>(&'l mut self, x : X, y_lo : YL, y_hi : YH, options : &[PlotOption]) -> &'l mut Axes2D
+	                   Tx: DataType, X: Iterator<Tx>,
+	                   Tyl: DataType, YL: Iterator<Tyl>,
+	                   Tyh: DataType, YH: Iterator<Tyh>>(&'l mut self, x: X, y_lo: YL, y_hi: YH, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot3(FillBetween, x, y_lo, y_hi, options);
 		self
@@ -645,7 +645,7 @@ impl private::Axes2D
 	///     * `BorderColor` - Sets the color of the border
 	///     * `Color` - Sets the color of the box fill
 	///     * `FillAlpha` - Sets the transparency of the box fill
-	pub fn boxes<'l, Tx : DataType, X : Iterator<Tx>, Ty : DataType, Y : Iterator<Ty>>(&'l mut self, x : X, y : Y, options : &[PlotOption]) -> &'l mut Axes2D
+	pub fn boxes<'l, Tx: DataType, X: Iterator<Tx>, Ty: DataType, Y: Iterator<Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(Boxes, x, y, options);
 		self
@@ -665,12 +665,12 @@ impl private::Axes2D
 	///     * `Color` - Sets the color of the box fill
 	///     * `FillAlpha` - Sets the transparency of the box fill
 	pub fn boxes_set_width<'l,
-	                      Tx : DataType,
-	                      X : Iterator<Tx>,
-	                      Ty : DataType,
-	                      Y : Iterator<Ty>,
-	                      Tw : DataType,
-	                      W : Iterator<Tw>>(&'l mut self, x : X, y : Y, w : W, options : &[PlotOption]) -> &'l mut Axes2D
+	                      Tx: DataType,
+	                      X: Iterator<Tx>,
+	                      Ty: DataType,
+	                      Y: Iterator<Ty>,
+	                      Tw: DataType,
+	                      W: Iterator<Tw>>(&'l mut self, x: X, y: Y, w: W, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot3(Boxes, x, y, w, options);
 		self
@@ -686,13 +686,13 @@ mod private
 	
 	struct Tics
 	{
-		common_options : ~[u8],
-		text_options : ~[u8],
+		common_options: ~[u8],
+		text_options: ~[u8],
 	}
 	
 	struct Axes2D
 	{
-		common : AxesCommon,
+		common: AxesCommon,
 	}
 	
 	impl Axes2D
@@ -701,16 +701,16 @@ mod private
 		{
 			Axes2D
 			{
-				common : AxesCommon::new()
+				common: AxesCommon::new()
 			}
 		}
 		
-		pub fn plot2<T1 : DataType, X1 : Iterator<T1>,
-				 T2 : DataType, X2 : Iterator<T2>>(&mut self, plot_type : PlotType, x1 : X1, x2 : X2, options : &[PlotOption])
+		pub fn plot2<T1: DataType, X1: Iterator<T1>,
+				 T2: DataType, X2: Iterator<T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption])
 		{
 			let l = self.common.elems.len();
 			self.common.elems.push(PlotElement::new());
-			let mut num_rows : int = 0;
+			let mut num_rows: int = 0;
 			
 			{
 				let data = &mut self.common.elems[l].data;
@@ -725,13 +725,13 @@ mod private
 			self.common.write_common_commands(l, num_rows, 2, plot_type, options);
 		}
 		
-		pub fn plot3<T1 : DataType, X1 : Iterator<T1>,
-				 T2 : DataType, X2 : Iterator<T2>,
-				 T3 : DataType, X3 : Iterator<T3>>(&mut self, plot_type : PlotType, x1 : X1, x2 : X2, x3 : X3, options : &[PlotOption])
+		pub fn plot3<T1: DataType, X1: Iterator<T1>,
+				 T2: DataType, X2: Iterator<T2>,
+				 T3: DataType, X3: Iterator<T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption])
 		{
 			let l = self.common.elems.len();
 			self.common.elems.push(PlotElement::new());
-			let mut num_rows : int = 0;
+			let mut num_rows: int = 0;
 			
 			{
 				let data = &mut self.common.elems[l].data;
@@ -747,7 +747,7 @@ mod private
 			self.common.write_common_commands(l, num_rows, 3, plot_type, options);
 		}
 		
-		pub fn write_out(&self, writer : &fn(data : &[u8]))
+		pub fn write_out(&self, writer: &fn(data: &[u8]))
 		{
 			if self.common.elems.len() == 0
 			{
