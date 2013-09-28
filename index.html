@@ -1,63 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
-  <meta name="generator" content="pandoc" />
-  <title>Crate gnuplot</title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <style type="text/css">
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
-  </style>
-  <link rel="stylesheet" href="rust.css" type="text/css" />
+    <meta charset="utf-8" />
+    <title>RustGnuplot</title>
 </head>
-<body>
-<div id="header">
-<h1 class="title">Crate gnuplot</h1>
-</div>
-<p>A simple gnuplot controller.</p>
-<div id="example" class="section level4">
-<h4>Example</h4>
-<pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">use</span> gnuplot::*;
-
-<span class="kw">let</span> x = [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>];
-<span class="kw">let</span> y = [<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>];
-<span class="kw">let</span> <span class="kw">mut</span> fg = Figure::new();
-{
-   fg.axes2d()
-   .lines(x.iter(), y.iter(), [Caption(<span class="st">&quot;A line&quot;</span>), Color(<span class="st">&quot;black&quot;</span>)]);
-}
-fg.show();</code></pre>
-<div class='index'>
-
-<ul>
-<li><a href="axes2d.html">Module <code>axes2d</code></a></li>
-<li><a href="axes3d.html">Module <code>axes3d</code></a></li>
-<li><a href="coordinates.html">Module <code>coordinates</code></a></li>
-<li><a href="datatype.html">Module <code>datatype</code></a></li>
-<li><a href="figure.html">Module <code>figure</code></a></li>
-<li><a href="options.html">Module <code>options</code></a></li>
-</ul>
-</div>
-
-
-
-</div>
-</body>
+<meta http-equiv="refresh" content="0;URL=doc/gnuplot/index.html">
 </html>
