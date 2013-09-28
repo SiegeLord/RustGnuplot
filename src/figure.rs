@@ -3,7 +3,9 @@
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
 use axes_common::*;
+use axes2d::*;
 use axes2d::private::*;
+use axes3d::*;
 use axes3d::private::*;
 use writer::*;
 
@@ -31,22 +33,22 @@ impl AxesVariant
 	{
 		match *self
 		{
-			Axes2DType(ref a) => &'l a.common,
-			Axes3DType(ref a) => &'l a.common
+			Axes2DType(ref a) => a.get_common(),
+			Axes3DType(ref a) => a.get_common()
 		}
 	}
 }
 
-struct Figure<'self>
+/// A figure that may contain multiple axes
+pub struct Figure<'self>
 {
-	axes: ~[AxesVariant],
-	num_rows: uint,
-	num_cols: uint,
-	terminal: &'self str,
-	output_file: &'self str
+	priv axes: ~[AxesVariant],
+	priv num_rows: uint,
+	priv num_cols: uint,
+	priv terminal: &'self str,
+	priv output_file: &'self str
 }
 
-/// A figure that may contain multiple axes
 impl<'self> Figure<'self>
 {
 	/// Creates a new figure
@@ -94,7 +96,7 @@ impl<'self> Figure<'self>
 	/// Creates a set of 2D axes
 	pub fn axes2d<'l>(&'l mut self) -> &'l mut Axes2D
 	{
-		self.axes.push(Axes2DType(Axes2D::new()));
+		self.axes.push(Axes2DType(new_axes2d()));
 		match self.axes[self.axes.len() - 1]
 		{
 			Axes2DType(ref mut a) => a,
@@ -105,7 +107,7 @@ impl<'self> Figure<'self>
 	/// Creates a set of 3D axes
 	pub fn axes3d<'l>(&'l mut self) -> &'l mut Axes3D
 	{
-		self.axes.push(Axes3DType(Axes3D::new()));
+		self.axes.push(Axes3DType(new_axes3d()));
 		match self.axes[self.axes.len() - 1]
 		{
 			Axes3DType(ref mut a) => a,

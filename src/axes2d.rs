@@ -3,14 +3,18 @@
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
 use axes_common::*;
-use axes2d::private::*;
 use coordinates::*;
 use datatype::*;
 use options::*;
 use writer::*;
 
 /// 2D axes that is used for drawing 2D plots
-impl private::Axes2D
+pub struct Axes2D
+{
+	priv common: AxesCommon,
+}
+
+impl Axes2D
 {
 	/// Set the position of the axes on the figure using grid coordinates
 	/// # Arguments
@@ -88,7 +92,7 @@ impl private::Axes2D
 	/// Set the label for the X axis
 	/// # Arguments
 	/// * `text` - Text of the label. Pass an empty string to hide the label
-	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label. Relevant options are:
+	/// * `options` - Array of LabelOption controlling the appearance of the label. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
@@ -102,7 +106,7 @@ impl private::Axes2D
 	/// Set the label for the Y axis
 	/// # Arguments
 	/// * `text` - Text of the label. Pass an empty string to hide the label
-	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label. Relevant options are:
+	/// * `options` - Array of LabelOption controlling the appearance of the label. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
@@ -116,7 +120,7 @@ impl private::Axes2D
 	/// Set the title for the axes
 	/// # Arguments
 	/// * `text` - Text of the title. Pass an empty string to hide the title
-	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the title. Relevant options are:
+	/// * `options` - Array of LabelOption controlling the appearance of the title. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
@@ -130,9 +134,9 @@ impl private::Axes2D
 	/// Adds a label to the plot, with an optional marker.
 	/// # Arguments
 	/// * `text` - Text of the label
-	/// * `x` - X coordinate of the label, specified using the [Coordinate](coordinates.html) type
-	/// * `y` - Y coordinate of the label, specified using the [Coordinate](coordinates.html) type
-	/// * `options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the label. Relevant options are:
+	/// * `x` - X coordinate of the label
+	/// * `y` - Y coordinate of the label
+	/// * `options` - Array of LabelOption controlling the appearance of the label. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
@@ -314,8 +318,8 @@ impl private::Axes2D
 	/// * `min` - Sets the location of where the tics start
 	/// * `incr` - Sets the spacing between the major tics.
 	/// * `max` - Sets the location of where the tics end
-	/// * `tick_options` - Array of [TickOption](options.html#enum-tickoption) controlling the appearance of the ticks
-	/// * `label_options` - Array of [LabelOption](options.html#enum-labeloption) controlling the appearance of the tick labels. Relevant options are:
+	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
+	/// * `label_options` - Array of LabelOption controlling the appearance of the tick labels. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
@@ -394,11 +398,11 @@ impl private::Axes2D
 	
 	/// Adds an arrow to the plot. The arrow is drawn from `(x1, y1)` to `(x2, y2)` with the arrow point towards `(x2, y2)`.
 	/// # Arguments
-	/// * `x1` - X coordinate of the arrow start, specified using the [Coordinate](coordinates.html) type
-	/// * `y1` - Y coordinate of the arrow start, specified using the [Coordinate](coordinates.html) type
-	/// * `x2` - X coordinate of the arrow end, specified using the [Coordinate](coordinates.html) type
-	/// * `y2` - Y coordinate of the arrow end, specified using the [Coordinate](coordinates.html) type
-	/// * `options` - Array of [PlotOption](options.html#enum-arrowoption) controlling the appearance of the arrowhead and arrow shaft. Relevant options are:
+	/// * `x1` - X coordinate of the arrow start
+	/// * `y1` - Y coordinate of the arrow start
+	/// * `x2` - X coordinate of the arrow end
+	/// * `y2` - Y coordinate of the arrow end
+	/// * `options` - Array of PlotOption controlling the appearance of the arrowhead and arrow shaft. Relevant options are:
 	///      * `ArrowType` - Specifies the style of the arrow head (or an option to omit it)
 	///      * `ArrowSize` - Sets the size of the arrow head (in graph units)
 	///      * `Color` - Specifies the color of the arrow
@@ -531,7 +535,7 @@ impl private::Axes2D
 	/// # Arguments
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y values
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `LineWidth` - Sets the width of the line
 	///     * `LineStyle` - Sets the style of the line
@@ -546,7 +550,7 @@ impl private::Axes2D
 	/// # Arguments
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y values
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `PointSymbol` - Sets symbol for each point
 	///     * `PointSize` - Sets the size of each point
@@ -557,11 +561,11 @@ impl private::Axes2D
 		self
 	}
 	
-	/// A combination of [lines](#method-lines) and [points](#method-points) methods (drawn in that order).
+	/// A combination of lines and points methods (drawn in that order).
 	/// # Arguments
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y values
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element
+	/// * `options` - Array of PlotOption controlling the appearance of the plot element
 	pub fn lines_points<'l, Tx: DataType, X: Iterator<Tx>, Ty: DataType, Y: Iterator<Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.plot2(LinesPoints, x, y, options);
@@ -574,7 +578,7 @@ impl private::Axes2D
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y valuess
 	/// * `x_error` - Iterator for the error associated with the x value
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `PointSymbol` - Sets symbol for each point
 	///     * `PointSize` - Sets the size of each point
@@ -596,7 +600,7 @@ impl private::Axes2D
 	/// * `x` - Iterator for the x values
 	/// * `y` - Iterator for the y values
 	/// * `y_error` - Iterator for the error associated with the y values
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `PointSymbol` - Sets symbol for each point
 	///     * `PointSize` - Sets the size of each point
@@ -619,7 +623,7 @@ impl private::Axes2D
 	/// * `x` - Iterator for the x values
 	/// * `y_lo` - Iterator for the bottom y values
 	/// * `y_hi` - Iterator for the top y values
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `FillRegion` - Specifies the region between the two curves to fill
 	///     * `Color` - Sets the color of the filled region
@@ -638,7 +642,7 @@ impl private::Axes2D
 	/// # Arguments
 	/// * `x` - Iterator for the x values (center of the box)
 	/// * `y` - Iterator for the y values
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `LineWidth` - Sets the width of the border
 	///     * `LineStyle` - Sets the style of the border
@@ -657,7 +661,7 @@ impl private::Axes2D
 	/// * `x` - Iterator for the x values (center of the box)
 	/// * `y` - Iterator for the y values
 	/// * `w` - Iterator for the box width values
-	/// * `options` - Array of [PlotOption](options.html#enum-plotoption) controlling the appearance of the plot element. The relevant options are:
+	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `LineWidth` - Sets the width of the border
 	///     * `LineStyle` - Sets the style of the border
@@ -690,21 +694,16 @@ mod private
 		text_options: ~[u8],
 	}
 	
-	struct Axes2D
+	pub fn new_axes2d() -> super::Axes2D
 	{
-		common: AxesCommon,
+		super::Axes2D
+		{
+			common: AxesCommon::new()
+		}
 	}
 	
-	impl Axes2D
+	impl super::Axes2D
 	{
-		pub fn new() -> Axes2D
-		{
-			Axes2D
-			{
-				common: AxesCommon::new()
-			}
-		}
-		
 		pub fn plot2<T1: DataType, X1: Iterator<T1>,
 				 T2: DataType, X2: Iterator<T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption])
 		{
@@ -775,6 +774,11 @@ mod private
 			{
 				writer(e.data);
 			}
+		}
+
+		pub fn get_common<'l>(&'l self) -> &'l AxesCommon
+		{
+			&self.common
 		}
 	}
 }

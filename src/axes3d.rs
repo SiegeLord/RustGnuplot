@@ -2,23 +2,30 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
+use axes_common::*;
+
+pub struct Axes3D
+{
+	priv common: AxesCommon
+}
+
 mod private
 {
 	use axes_common::*;
 
-	struct Axes3D
+	pub fn new_axes3d() -> super::Axes3D
 	{
-		common: AxesCommon
+		super::Axes3D
+		{
+			common: AxesCommon::new()
+		}
 	}
 
-	impl Axes3D
+	impl super::Axes3D
 	{
-		pub fn new() -> Axes3D
+		pub fn get_common<'l>(&'l self) -> &'l AxesCommon
 		{
-			Axes3D
-			{
-				common: AxesCommon::new()
-			}
+			&self.common
 		}
 	}
 }

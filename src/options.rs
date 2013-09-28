@@ -34,11 +34,11 @@ pub enum PlotOption<'self>
 	/// Sets the color of the border of a filled plot (if it has one). The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white).
 	BorderColor(&'self str),
-	/// Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See [DashType](#enum-dashtype) for the available styles.
+	/// Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.
 	LineStyle(DashType),
 	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque
 	FillAlpha(float),
-	/// Sets the fill region. See See [FillRegion](#enum-fillregion) for the available regions.
+	/// Sets the fill region. See FillRegion for the available regions.
 	FillRegion(FillRegion),
 	/// Sets what an arrowhead looks like
 	ArrowType(ArrowheadType),
@@ -108,7 +108,7 @@ pub enum LabelOption<'self>
 	TextColor(&'self str),
 	/// Rotates the label by a certain number of degrees
 	Rotate(float),
-	/// Sets the horizontal alignment of the label text (default is left alignment). See [AlignType](#enum-aligntype).
+	/// Sets the horizontal alignment of the label text (default is left alignment). See AlignType.
 	Align(AlignType),
 	/// Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:
 	/// * `.` - dot
