@@ -43,8 +43,8 @@ impl AxesVariant
 pub struct Figure<'self>
 {
 	priv axes: ~[AxesVariant],
-	priv num_rows: uint,
-	priv num_cols: uint,
+	priv num_rows: u32,
+	priv num_cols: u32,
 	priv terminal: &'self str,
 	priv output_file: &'self str
 }
@@ -85,7 +85,7 @@ impl<'self> Figure<'self>
 	/// # Arguments
 	/// * `rows` - Number of rows. Set to 0 to disable the grid
 	/// * `cols` - Number of columns. Set to 0 to disable the grid
-	pub fn set_grid<'l>(&'l mut self, rows: uint, cols: uint) -> &'l mut Figure<'self>
+	pub fn set_grid<'l>(&'l mut self, rows: u32, cols: u32) -> &'l mut Figure<'self>
 	{
 		self.num_rows = rows;
 		self.num_cols = cols;
@@ -166,7 +166,7 @@ impl<'self> Figure<'self>
 		
 		let (w, h) = if do_layout
 		{
-			(1.0 / (self.num_cols as float), 1.0 / (self.num_rows as float))
+			(1.0 / (self.num_cols as f64), 1.0 / (self.num_rows as f64))
 		}
 		else
 		{
@@ -178,8 +178,8 @@ impl<'self> Figure<'self>
 			if do_layout
 			{
 				let c = e.get_common();
-				let x = (c.grid_col as float - 1.0) * w;
-				let y = (self.num_rows as float - c.grid_row as float) * h;
+				let x = (c.grid_col as f64 - 1.0) * w;
+				let y = (self.num_rows as f64 - c.grid_row as f64) * h;
 				
 				writer("set origin ".as_bytes());
 				do to_sci(x) |s| { writer(s.as_bytes()) };

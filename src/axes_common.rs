@@ -218,11 +218,11 @@ struct AxesCommon
 {
 	commands: ~[u8],
 	elems: ~[PlotElement],
-	grid_row: uint,
-	grid_col: uint
+	grid_row: u32,
+	grid_col: u32
 }
 
-pub fn char_to_symbol(c: char) -> int
+pub fn char_to_symbol(c: char) -> i32
 {
 	match c
 	{
@@ -257,14 +257,14 @@ impl AxesCommon
 		}
 	}
 	
-	pub fn write_common_commands(&mut self, elem_idx: uint, num_rows: int, num_cols: int, plot_type: PlotType, options: &[PlotOption])
+	pub fn write_common_commands(&mut self, elem_idx: uint, num_rows: i32, num_cols: i32, plot_type: PlotType, options: &[PlotOption])
 	{
 		let args = &mut self.elems[elem_idx].args;
 		args.write_str(" \"-\" binary endian=little record=");
 		args.write_int(num_rows);
 		args.write_str(" format=\"%float64\" using ");
 		
-		let mut col_idx: int = 1;
+		let mut col_idx: i32 = 1;
 		while(col_idx < num_cols + 1)
 		{
 			args.write_int(col_idx);

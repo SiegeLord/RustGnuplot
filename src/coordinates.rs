@@ -7,9 +7,9 @@ pub enum Coordinate
 {
 	/// Coordinates are done relative to a graph (i.e. an axis set). (0, 0) is the bottom left corner and (1, 1) is the top right corner.
 	/// You'd use this to place labels and other objects so that they remain in the same place relative to the graph no matter what you have plotted.
-	Graph(float),
+	Graph(f64),
 	/// Coordinates match those on the axes. You'd use this to place labels and other objects relative to regions of interest in the graph (e.g. labeling the peak of a function)
-	Axis(float)
+	Axis(f64)
 }
 
 mod private

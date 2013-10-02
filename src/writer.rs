@@ -5,23 +5,23 @@
 use datatype::*;
 
 use std::cast;
-use std::float;
+use std::f64;
 
 pub trait PlotWriter
 {
 	fn write_data<T: DataType>(&mut self, v: T);
 	fn write_str(&mut self, s: &str);
-	fn write_int(&mut self, i: int);
-	fn write_float(&mut self, f: float);
+	fn write_int(&mut self, i: i32);
+	fn write_float(&mut self, f: f64);
 }
 
-pub fn to_sci(v: float, writer: &fn(&str))
+pub fn to_sci(v: f64, writer: &fn(&str))
 {
 	let e = v.abs();
 	if(e > 0.0)
 	{
 		let e = e.log10().floor();
-		writer(float::to_str_digits(v / (10.0f).pow(&e), 16));
+		writer(f64::to_str_digits(v / (10.0f64).pow(&e), 16));
 		writer("e");
 		writer(e.to_str());
 	}
@@ -53,12 +53,12 @@ impl PlotWriter for ~[u8]
 		self.push_all(s.as_bytes());
 	}
 	
-	fn write_int(&mut self, i: int)
+	fn write_int(&mut self, i: i32)
 	{
 		self.write_str(i.to_str());
 	}
 	
-	fn write_float(&mut self, f: float)
+	fn write_float(&mut self, f: f64)
 	{
 		do to_sci(f) |s| { self.write_str(s) };
 	}

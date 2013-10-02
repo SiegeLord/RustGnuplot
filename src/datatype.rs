@@ -4,7 +4,7 @@
 
 pub trait DataType
 {
-	fn get(&self) -> float;
+	fn get(&self) -> f64;
 }
 
 macro_rules! impl_data_type
@@ -13,9 +13,9 @@ macro_rules! impl_data_type
 	(
 		impl<'self> DataType for &'self $T
 		{
-			fn get(&self) -> float
+			fn get(&self) -> f64
 			{
-				self.to_float()
+				self.to_f64()
 			}
 		}
 	)
@@ -27,9 +27,9 @@ macro_rules! impl_data_type_ref
 	(
 		impl DataType for $T
 		{
-			fn get(&self) -> float
+			fn get(&self) -> f64
 			{
-				self.to_float()
+				self.to_f64()
 			}
 		}
 	)
@@ -49,7 +49,6 @@ impl_data_type!(int)
 
 impl_data_type!(f32)
 impl_data_type!(f64)
-impl_data_type!(float)
 
 impl_data_type_ref!(u8)
 impl_data_type_ref!(u16)
@@ -65,4 +64,3 @@ impl_data_type_ref!(int)
 
 impl_data_type_ref!(f32)
 impl_data_type_ref!(f64)
-impl_data_type_ref!(float)

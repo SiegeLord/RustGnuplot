@@ -23,11 +23,11 @@ pub enum PlotOption<'self>
 	/// * `R` - filled rhombus
 	PointSymbol(char),
 	/// Sets the size of the points. The size acts as a multiplier, with 1.0 being the default.
-	PointSize(float),
+	PointSize(f64),
 	/// Sets the caption of the plot element. Set to empty to hide it from the legend.
 	Caption(&'self str),
 	/// Sets the width of lines.
-	LineWidth(float),
+	LineWidth(f64),
 	/// Sets the color of the plot element. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white). This specifies the fill color of a filled plot.
 	Color(&'self str),
@@ -37,13 +37,13 @@ pub enum PlotOption<'self>
 	/// Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.
 	LineStyle(DashType),
 	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque
-	FillAlpha(float),
+	FillAlpha(f64),
 	/// Sets the fill region. See FillRegion for the available regions.
 	FillRegion(FillRegion),
 	/// Sets what an arrowhead looks like
 	ArrowType(ArrowheadType),
 	/// Sets the size of the arrowhead. This is specified in the units of graph (i.e. `1.0` would make the arrow as big as the graph).
-	ArrowSize(float),
+	ArrowSize(f64),
 }
 
 /// An enumeration of possible fill regions
@@ -100,14 +100,14 @@ pub enum AutoOption<T>
 pub enum LabelOption<'self>
 {
 	/// Sets the offset of the label in characters
-	Offset(float, float),
+	Offset(f64, f64),
 	/// Sets the font of the label. The string specifies the font type (e.g. "Arial") and the number specifies the size (the units are terminal dependent, but are often points)
-	Font(&'self str, float),
+	Font(&'self str, f64),
 	/// Sets the color of the label text. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
 	TextColor(&'self str),
 	/// Rotates the label by a certain number of degrees
-	Rotate(float),
+	Rotate(f64),
 	/// Sets the horizontal alignment of the label text (default is left alignment). See AlignType.
 	Align(AlignType),
 	/// Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:
@@ -130,7 +130,7 @@ pub enum LabelOption<'self>
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
 	MarkerColor(&'self str),
 	/// Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.
-	MarkerSize(float),
+	MarkerSize(f64),
 }
 
 /// An enumeration of axis tick options
@@ -143,11 +143,11 @@ pub enum TickOption
 	/// If the axes are drawn on the border, this specifies whether to draw the ticks pointing inward or outward
 	Inward(bool),
 	/// Sets the scale of the minor ticks
-	MinorScale(float),
+	MinorScale(f64),
 	/// Sets the scale of the major ticks
-	MajorScale(float),
+	MajorScale(f64),
 	/// Sets the number of minor intervals between the major tics
-	MinorIntervals(uint),
+	MinorIntervals(u32),
 }
 
 mod private
@@ -156,7 +156,7 @@ mod private
 	
 	impl super::DashType
 	{
-		pub fn to_int(&self) -> int
+		pub fn to_int(&self) -> i32
 		{
 			match *self
 			{

@@ -20,7 +20,7 @@ impl Axes2D
 	/// # Arguments
 	/// * `row` - Row on the grid. Top-most row is 1
 	/// * `column` - Column on the grid. Left-most column is 1
-	pub fn set_pos_grid<'l>(&'l mut self, row: uint, col: uint) -> &'l mut Axes2D
+	pub fn set_pos_grid<'l>(&'l mut self, row: u32, col: u32) -> &'l mut Axes2D
 	{
 		self.common.grid_row = row;
 		self.common.grid_col = col;
@@ -32,7 +32,7 @@ impl Axes2D
 	/// # Arguments
 	/// * `x` - X position. Ranges from 0 to 1
 	/// * `y` - Y position. Ranges from 0 to 1
-	pub fn set_pos<'l>(&'l mut self, x: float, y: float) -> &'l mut Axes2D
+	pub fn set_pos<'l>(&'l mut self, x: f64, y: f64) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -50,7 +50,7 @@ impl Axes2D
 	/// # Arguments
 	/// * `w` - Width. Ranges from 0 to 1
 	/// * `h` - Height. Ranges from 0 to 1
-	pub fn set_size<'l>(&'l mut self, w: float, h: float) -> &'l mut Axes2D
+	pub fn set_size<'l>(&'l mut self, w: f64, h: f64) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -67,7 +67,7 @@ impl Axes2D
 	/// Set the aspect ratio of the axes
 	/// # Arguments
 	/// * `ratio` - The aspect ratio. Set to Auto to return the ratio to default
-	pub fn set_aspect_ratio<'l>(&'l mut self, ratio: AutoOption<float>) -> &'l mut Axes2D
+	pub fn set_aspect_ratio<'l>(&'l mut self, ratio: AutoOption<f64>) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -178,12 +178,12 @@ impl Axes2D
 		self
 	}
 	
-	fn set_ticks_common<'l>(&'l mut self, tick_type: TickType, min: AutoOption<float>, incr: Option<float>, max: AutoOption<float>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
+	fn set_ticks_common<'l>(&'l mut self, tick_type: TickType, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
 			
-			let mut minor_intervals: uint = 0;
+			let mut minor_intervals: u32 = 0;
 			first_opt!(tick_options,
 				MinorIntervals(i) =>
 				{
@@ -194,7 +194,7 @@ impl Axes2D
 			c.write_str("set m");
 			c.write_str(tick_type.to_str());
 			c.write_str(" ");
-			c.write_int(minor_intervals as int);
+			c.write_int(minor_intervals as i32);
 			c.write_str("\n");
 			
 			c.write_str("set ");
@@ -204,7 +204,7 @@ impl Axes2D
 			{
 				if incr <= 0.0
 				{
-					fail!("'incr' must be positive, but is actually %f", incr);
+					fail!("'incr' must be positive, but is actually %f", incr as float);
 				}		
 				c.write_str(" add ");
 				match (min, max)
@@ -325,13 +325,13 @@ impl Axes2D
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	pub fn set_x_tics<'l>(&'l mut self, min: AutoOption<float>, incr: Option<float>, max: AutoOption<float>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
+	pub fn set_x_tics<'l>(&'l mut self, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_ticks_common(XTics, min, incr, max, tick_options, label_options)
 	}
 	
 	/// Like `set_x_tics` but for the Y axis.
-	pub fn set_y_tics<'l>(&'l mut self, min: AutoOption<float>, incr: Option<float>, max: AutoOption<float>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
+	pub fn set_y_tics<'l>(&'l mut self, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		self.set_ticks_common(YTics, min, incr, max, tick_options, label_options)
 	}
@@ -483,7 +483,7 @@ impl Axes2D
 	/// # Arguments
 	/// * `min` - Minimum X value
 	/// * `max` - Maximum X value
-	pub fn set_x_range<'l>(&'l mut self, min: AutoOption<float>, max: AutoOption<float>) -> &'l mut Axes2D
+	pub fn set_x_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -509,7 +509,7 @@ impl Axes2D
 	/// # Arguments
 	/// * `min` - Minimum Y value
 	/// * `max` - Maximum Y value
-	pub fn set_y_range<'l>(&'l mut self, min: AutoOption<float>, max: AutoOption<float>) -> &'l mut Axes2D
+	pub fn set_y_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -709,7 +709,7 @@ mod private
 		{
 			let l = self.common.elems.len();
 			self.common.elems.push(PlotElement::new());
-			let mut num_rows: int = 0;
+			let mut num_rows: i32 = 0;
 			
 			{
 				let data = &mut self.common.elems[l].data;
@@ -730,7 +730,7 @@ mod private
 		{
 			let l = self.common.elems.len();
 			self.common.elems.push(PlotElement::new());
-			let mut num_rows: int = 0;
+			let mut num_rows: i32 = 0;
 			
 			{
 				let data = &mut self.common.elems[l].data;
