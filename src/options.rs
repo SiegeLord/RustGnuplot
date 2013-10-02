@@ -7,6 +7,7 @@
 pub enum PlotOption<'self>
 {
 	/// Sets the symbol used for points. The valid characters are as follows:
+	///
 	/// * `.` - dot
 	/// * `+` - plus
 	/// * `x` - cross
@@ -111,6 +112,7 @@ pub enum LabelOption<'self>
 	/// Sets the horizontal alignment of the label text (default is left alignment). See AlignType.
 	Align(AlignType),
 	/// Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:
+	///
 	/// * `.` - dot
 	/// * `+` - plus
 	/// * `x` - cross
