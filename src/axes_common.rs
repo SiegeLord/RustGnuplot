@@ -257,6 +257,58 @@ impl AxesCommon
 		}
 	}
 	
+	pub fn write_line_options(c: &mut ~[u8], options: &[PlotOption])
+	{
+		let mut found = false;
+		c.write_str(" lw ");
+		first_opt!(options,
+			LineWidth(w) =>
+			{
+				c.write_float(w);
+				found = true;
+			}
+		)
+		if !found
+		{
+			c.write_float(1.0);
+		}
+		
+		c.write_str(" lt ");
+		let mut found = false;
+		first_opt!(options,
+			LineStyle(d) =>
+			{
+				c.write_int(d.to_int());
+				found = true;
+			}
+		)
+		if !found
+		{
+			c.write_int(1);
+		}
+	}
+
+	pub fn write_color_options<'l>(c: &mut ~[u8], options: &[PlotOption<'l>], default: Option<&'l str>)
+	{
+		let mut col = default;
+		first_opt!(options,
+			Color(s) =>
+			{
+				col = Some(s)
+			}
+		)
+		match col
+		{
+			Some(s) => 
+			{
+				c.write_str(" lc rgb \"");
+				c.write_str(s);
+				c.write_str("\"");
+			},
+			None => ()
+		}
+	}
+
 	pub fn write_common_commands(&mut self, elem_idx: uint, num_rows: i32, num_cols: i32, plot_type: PlotType, options: &[PlotOption])
 	{
 		let args = &mut self.elems[elem_idx].args;
@@ -344,33 +396,7 @@ impl AxesCommon
 		
 		if plot_type.is_line()
 		{
-			let mut found = false;
-			args.write_str(" lw ");
-			first_opt!(options,
-				LineWidth(w) =>
-				{
-					args.write_float(w);
-					found = true;
-				}
-			)
-			if !found
-			{
-				args.write_float(1.0);
-			}
-			
-			args.write_str(" lt ");
-			let mut found = false;
-			first_opt!(options,
-				LineStyle(d) =>
-				{
-					args.write_int(d.to_int());
-					found = true;
-				}
-			)
-			if !found
-			{
-				args.write_int(1);
-			}
+			AxesCommon::write_line_options(args, options);
 		}
 
 		if plot_type.is_points()
@@ -392,14 +418,7 @@ impl AxesCommon
 			)
 		}
 		
-		first_opt!(options,
-			Color(s) =>
-			{
-				args.write_str(" lc rgb \"");
-				args.write_str(s);
-				args.write_str("\"");
-			}
-		)
+		AxesCommon::write_color_options(args, options, None);
 		
 		args.write_str(" t \"");
 		first_opt!(options,

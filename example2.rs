@@ -5,6 +5,7 @@ extern mod gnuplot;
 use std::iter::Repeat;
 
 use gnuplot::*;
+use gnuplot::options::*;
 
 fn main()
 {
@@ -56,4 +57,16 @@ fn main()
 	
 	fg.show();
 	fg.echo_to_file("fg9.gnuplot");
+	
+	let mut fg = Figure::new();
+	
+	fg.axes2d()
+	.set_title("Border", [])
+	.set_border(true, [Left, Bottom], [LineWidth(2.0)])
+	.set_x_tics(Auto, Some(1.0), Auto, [Mirror(false)], [])
+	.set_y_tics(Auto, Some(5.0), Auto, [Mirror(false)], [])
+	.lines(x3, y3, [LineWidth(2.0), Color("blue")]);
+	
+	fg.show();
+	fg.echo_to_file("fg10.gnuplot");
 }

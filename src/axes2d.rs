@@ -204,7 +204,7 @@ impl Axes2D
 			{
 				if incr <= 0.0
 				{
-					fail!("'incr' must be positive, but is actually %f", incr as float);
+					fail!("'incr' must be positive, but is actually %f", incr);
 				}		
 				c.write_str(" add ");
 				match (min, max)
@@ -370,6 +370,8 @@ impl Axes2D
 	
 	/// Adds major tics to the X axis with specified labels at specified positions.
 	///
+	/// # Arguments
+	///
 	/// * `tics` - Array of tuples specifying the locations and labels of the added tics.
 	///     The label can contain a single C printf style floating point formatting specifier which will be replaced by the
 	///     location of the tic.
@@ -394,6 +396,44 @@ impl Axes2D
 	pub fn add_y_minor_tics<'l, T: DataType>(&'l mut self, tics: &[(&str, T)]) -> &'l mut Axes2D
 	{
 		self.add_tics_common(YTics, true, tics)
+	}
+
+	/// Sets the properties of the plot border
+	///
+	/// # Arguments
+	///
+	/// * `front` - Whether or not to draw the border above or below the plot contents
+	/// * `locations` - Which locations of the border to draw
+	/// * `options` - Array of PlotOption controlling the appearance of the border. Relevant options are:
+	///      * `Color` - Specifies the color of the border
+	///      * `LineStyle` - Specifies the style of the border
+	///      * `LineWidth` - Specifies the width of the border
+	pub fn set_border<'l>(&'l mut self, front: bool, locations: &[BorderLocation2D], options: &[PlotOption]) -> &'l mut Axes2D
+	{
+		{
+			let c = &mut self.common.commands;
+			c.write_str("set border ");
+			let mut f: i32 = 0;
+			for &l in locations.iter()
+			{
+				f |= (l as i32);
+			}
+			c.write_int(f);
+			c.write_str( if front
+			{
+				" front "
+			}
+			else
+			{
+				" back "
+			});
+
+			AxesCommon::write_color_options(c, options, Some("black"));
+			AxesCommon::write_line_options(c, options);
+
+			c.write_str("\n");
+		}
+		self
 	}
 	
 	/// Adds an arrow to the plot. The arrow is drawn from `(x1, y1)` to `(x2, y2)` with the arrow point towards `(x2, y2)`.
@@ -449,30 +489,8 @@ impl Axes2D
 			}
 			c.write_str(",12");
 			
-			first_opt!(options,
-				Color(s) =>
-				{
-					c.write_str(" lc rgb \"");
-					c.write_str(s);
-					c.write_str("\"");
-				}
-			)
-			
-			first_opt!(options,
-				LineWidth(w) =>
-				{
-					c.write_str(" lw ");
-					c.write_float(w);
-				}
-			)
-			
-			first_opt!(options,
-				LineStyle(t) =>
-				{
-					c.write_str(" lt ");
-					c.write_int(t.to_int());
-				}
-			)
+			AxesCommon::write_color_options(c, options, Some("black"));
+			AxesCommon::write_line_options(c, options);
 			
 			c.write_str("\n");
 		}

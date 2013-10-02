@@ -150,6 +150,15 @@ pub enum TickOption
 	MinorIntervals(u32),
 }
 
+/// Plot border locations
+pub enum BorderLocation2D
+{
+	Bottom = 1,
+	Left = 2,
+	Top = 4,
+	Right = 8
+}
+
 mod private
 {
 	use super::*;
