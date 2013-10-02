@@ -22,7 +22,7 @@
     <section class="sidebar">
         
 
-        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>options</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='private/index.html'>private</a><br/></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AlignType.html'>AlignType</a><br/><a class='enum ' href='enum.ArrowheadType.html'>ArrowheadType</a><br/><a class='enum ' href='enum.AutoOption.html'>AutoOption</a><br/><a class='enum ' href='enum.DashType.html'>DashType</a><br/><a class='enum ' href='enum.FillRegion.html'>FillRegion</a><br/><a class='enum ' href='enum.LabelOption.html'>LabelOption</a><br/><a class='enum current' href='enum.PlotOption.html'>PlotOption</a><br/><a class='enum ' href='enum.TickOption.html'>TickOption</a><br/></div>
+        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>options</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='private/index.html'>private</a><br/></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AlignType.html'>AlignType</a><br/><a class='enum ' href='enum.ArrowheadType.html'>ArrowheadType</a><br/><a class='enum ' href='enum.AutoOption.html'>AutoOption</a><br/><a class='enum ' href='enum.BorderLocation2D.html'>BorderLocation2D</a><br/><a class='enum ' href='enum.DashType.html'>DashType</a><br/><a class='enum ' href='enum.FillRegion.html'>FillRegion</a><br/><a class='enum ' href='enum.LabelOption.html'>LabelOption</a><br/><a class='enum current' href='enum.PlotOption.html'>PlotOption</a><br/><a class='enum ' href='enum.TickOption.html'>TickOption</a><br/></div>
     </section>
 
     <nav class="sub">
@@ -33,21 +33,51 @@
         </form>
     </nav>
 
-    <section class="content enum"><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>PlotOption</a></h1><pre class='enum'>pub enum PlotOption&lt;'self&gt; {
-    <a name='variant.PointSymbol'>PointSymbol</a>(char),
-    <a name='variant.PointSize'>PointSize</a>(float),
-    <a name='variant.Caption'>Caption</a>(&amp;'self str),
-    <a name='variant.LineWidth'>LineWidth</a>(float),
-    <a name='variant.Color'>Color</a>(&amp;'self str),
-    <a name='variant.BorderColor'>BorderColor</a>(&amp;'self str),
-    <a name='variant.LineStyle'>LineStyle</a>(<a class='enum' href='enum.DashType.html' title='gnuplot::options::DashType'>DashType</a>),
-    <a name='variant.FillAlpha'>FillAlpha</a>(float),
-    <a name='variant.FillRegion'>FillRegion</a>(<a class='enum' href='enum.FillRegion.html' title='gnuplot::options::FillRegion'>FillRegion</a>),
-    <a name='variant.ArrowType'>ArrowType</a>(<a class='enum' href='enum.ArrowheadType.html' title='gnuplot::options::ArrowheadType'>ArrowheadType</a>),
-    <a name='variant.ArrowSize'>ArrowSize</a>(float),
+    <section id='main' class="content enum"><a class='source'
+                       href='../../src/gnuplot/src/options.rs.html#7'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>PlotOption</a></h1><pre class='enum'>pub enum PlotOption&lt;'self&gt; {
+    PointSymbol(char),
+    PointSize(f64),
+    Caption(&amp;'self str),
+    LineWidth(f64),
+    Color(&amp;'self str),
+    BorderColor(&amp;'self str),
+    LineStyle(<a class='enum' href='enum.DashType.html' title='gnuplot::options::DashType'>DashType</a>),
+    FillAlpha(f64),
+    FillRegion(<a class='enum' href='enum.FillRegion.html' title='gnuplot::options::FillRegion'>FillRegion</a>),
+    ArrowType(<a class='enum' href='enum.ArrowheadType.html' title='gnuplot::options::ArrowheadType'>ArrowheadType</a>),
+    ArrowSize(f64),
 }</pre><div class='docblock'><p>An enumeration of plot options you can supply to plotting commands, governing
 things like line width, color and others</p>
-</div></section>
+</div><h2 class='variants'>Variants</h2>
+<table><tr><td id='variant.PointSymbol'><code>PointSymbol</code></td><td><div class='docblock'><p>Sets the symbol used for points. The valid characters are as follows:
+* <code>.</code> - dot
+* <code>+</code> - plus
+* <code>x</code> - cross
+* <code>*</code> - star
+* <code>s</code> - empty square
+* <code>S</code> - filled square
+* <code>o</code> - empty circle
+* <code>O</code> - filled circle
+* <code>t</code> - empty triangle
+* <code>T</code> - filled triangle
+* <code>d</code> - empty del (upside down triangle)
+* <code>D</code> - filled del (upside down triangle)
+* <code>r</code> - empty rhombus
+* <code>R</code> - filled rhombus</p>
+</div></td></tr><tr><td id='variant.PointSize'><code>PointSize</code></td><td><div class='docblock'><p>Sets the size of the points. The size acts as a multiplier, with 1.0 being the default.</p>
+</div></td></tr><tr><td id='variant.Caption'><code>Caption</code></td><td><div class='docblock'><p>Sets the caption of the plot element. Set to empty to hide it from the legend.</p>
+</div></td></tr><tr><td id='variant.LineWidth'><code>LineWidth</code></td><td><div class='docblock'><p>Sets the width of lines.</p>
+</div></td></tr><tr><td id='variant.Color'><code>Color</code></td><td><div class='docblock'><p>Sets the color of the plot element. The passed string can be a color name
+(e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white). This specifies the fill color of a filled plot.</p>
+</div></td></tr><tr><td id='variant.BorderColor'><code>BorderColor</code></td><td><div class='docblock'><p>Sets the color of the border of a filled plot (if it has one). The passed string can be a color name
+(e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white).</p>
+</div></td></tr><tr><td id='variant.LineStyle'><code>LineStyle</code></td><td><div class='docblock'><p>Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.</p>
+</div></td></tr><tr><td id='variant.FillAlpha'><code>FillAlpha</code></td><td><div class='docblock'><p>Sets the transparency of a filled plot. <code>0.0</code> - fully transparent, <code>1.0</code> - fully opaque</p>
+</div></td></tr><tr><td id='variant.FillRegion'><code>FillRegion</code></td><td><div class='docblock'><p>Sets the fill region. See FillRegion for the available regions.</p>
+</div></td></tr><tr><td id='variant.ArrowType'><code>ArrowType</code></td><td><div class='docblock'><p>Sets what an arrowhead looks like</p>
+</div></td></tr><tr><td id='variant.ArrowSize'><code>ArrowSize</code></td><td><div class='docblock'><p>Sets the size of the arrowhead. This is specified in the units of graph (i.e. <code>1.0</code> would make the arrow as big as the graph).</p>
+</div></td></tr></table></section>
+    <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
 

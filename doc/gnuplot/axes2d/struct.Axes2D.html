@@ -33,14 +33,16 @@
         </form>
     </nav>
 
-    <section class="content struct"><h1 class='fqn'>Struct <a href='../index.html'>gnuplot</a>::<a href='index.html'>axes2d</a>::<a class='struct' href=''>Axes2D</a></h1><pre class='struct'>pub struct Axes2D {
-    priv <a name='field.common'>common</a>: AxesCommon,
+    <section id='main' class="content struct"><a class='source'
+                       href='../../src/gnuplot/src/axes2d.rs.html#12'>[src]</a><h1 class='fqn'>Struct <a href='../index.html'>gnuplot</a>::<a href='index.html'>axes2d</a>::<a class='struct' href=''>Axes2D</a></h1><pre class='struct'>pub struct Axes2D {
+    priv common: AxesCommon,
 }</pre><div class='docblock'><p>2D axes that is used for drawing 2D plots</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h3><div class='methods'><h4 id='fn.plot2' class='method'><code>fn <span class='fnname'>plot2</span>&lt;T1: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X1: std::iter::Iterator, T2: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X2: std::iter::Iterator&gt;(&amp;mut self, plot_type: <a class='enum' href='../axes_common/enum.PlotType.html' title='gnuplot::axes_common::PlotType'>PlotType</a>, x1: X1, x2: X2, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>])</code></h4>
-<h4 id='fn.plot3' class='method'><code>fn <span class='fnname'>plot3</span>&lt;T1: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X1: std::iter::Iterator, T2: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X2: std::iter::Iterator, T3: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X3: std::iter::Iterator&gt;(&amp;mut self, plot_type: <a class='enum' href='../axes_common/enum.PlotType.html' title='gnuplot::axes_common::PlotType'>PlotType</a>, x1: X1, x2: X2, x3: X3, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>])</code></h4>
-<h4 id='fn.write_out' class='method'><code>fn <span class='fnname'>write_out</span>(&amp;self, writer: &amp;fn(data: &amp;[u8]))</code></h4>
-<h4 id='fn.get_common' class='method'><code>fn <span class='fnname'>get_common</span>&lt;'l&gt;(&amp;'l self) -&gt; &amp;'l AxesCommon</code></h4>
-</div><h3 class='impl'><code>impl <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h3><div class='methods'><h4 id='fn.set_pos_grid' class='method'><code>fn <span class='fnname'>set_pos_grid</span>&lt;'l&gt;(&amp;'l mut self, row: uint, col: uint) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h2 class='fields'>Fields</h2>
+<table><tr><td id='structfield.common'><code>common</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h3><div class='methods'><h4 id='method.plot2' class='method'><code>fn <span class='fnname'>plot2</span>&lt;T1: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X1: Iterator&lt;T1&gt;, T2: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X2: Iterator&lt;T2&gt;&gt;(&amp;mut self, plot_type: <a class='enum' href='../axes_common/enum.PlotType.html' title='gnuplot::axes_common::PlotType'>PlotType</a>, x1: X1, x2: X2, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>])</code></h4>
+<h4 id='method.plot3' class='method'><code>fn <span class='fnname'>plot3</span>&lt;T1: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X1: Iterator&lt;T1&gt;, T2: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X2: Iterator&lt;T2&gt;, T3: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X3: Iterator&lt;T3&gt;&gt;(&amp;mut self, plot_type: <a class='enum' href='../axes_common/enum.PlotType.html' title='gnuplot::axes_common::PlotType'>PlotType</a>, x1: X1, x2: X2, x3: X3, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>])</code></h4>
+<h4 id='method.write_out' class='method'><code>fn <span class='fnname'>write_out</span>(&amp;self, writer: &amp;fn(data: &amp;[u8]))</code></h4>
+<h4 id='method.get_common' class='method'><code>fn <span class='fnname'>get_common</span>&lt;'l&gt;(&amp;'l self) -&gt; &amp;'l AxesCommon</code></h4>
+</div><h3 class='impl'><code>impl <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h3><div class='methods'><h4 id='method.set_pos_grid' class='method'><code>fn <span class='fnname'>set_pos_grid</span>&lt;'l&gt;(&amp;'l mut self, row: u32, col: u32) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Set the position of the axes on the figure using grid coordinates</p>
 
 <h1>Arguments</h1>
@@ -49,7 +51,7 @@
 <li><code>row</code> - Row on the grid. Top-most row is 1</li>
 <li><code>column</code> - Column on the grid. Left-most column is 1</li>
 </ul>
-</div><h4 id='fn.set_pos' class='method'><code>fn <span class='fnname'>set_pos</span>&lt;'l&gt;(&amp;'l mut self, x: float, y: float) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.set_pos' class='method'><code>fn <span class='fnname'>set_pos</span>&lt;'l&gt;(&amp;'l mut self, x: f64, y: f64) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Set the position of the axes on the figure using screen coordinates.
 The coordinates refer to the bottom-left corner of the axes</p>
 
@@ -59,7 +61,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 <li><code>x</code> - X position. Ranges from 0 to 1</li>
 <li><code>y</code> - Y position. Ranges from 0 to 1</li>
 </ul>
-</div><h4 id='fn.set_size' class='method'><code>fn <span class='fnname'>set_size</span>&lt;'l&gt;(&amp;'l mut self, w: float, h: float) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.set_size' class='method'><code>fn <span class='fnname'>set_size</span>&lt;'l&gt;(&amp;'l mut self, w: f64, h: f64) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Set the size of the axes</p>
 
 <h1>Arguments</h1>
@@ -68,7 +70,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 <li><code>w</code> - Width. Ranges from 0 to 1</li>
 <li><code>h</code> - Height. Ranges from 0 to 1</li>
 </ul>
-</div><h4 id='fn.set_aspect_ratio' class='method'><code>fn <span class='fnname'>set_aspect_ratio</span>&lt;'l&gt;(&amp;'l mut self, ratio: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;float&gt;) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.set_aspect_ratio' class='method'><code>fn <span class='fnname'>set_aspect_ratio</span>&lt;'l&gt;(&amp;'l mut self, ratio: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Set the aspect ratio of the axes</p>
 
 <h1>Arguments</h1>
@@ -76,7 +78,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 <ul>
 <li><code>ratio</code> - The aspect ratio. Set to Auto to return the ratio to default</li>
 </ul>
-</div><h4 id='fn.set_x_label' class='method'><code>fn <span class='fnname'>set_x_label</span>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, options: &amp;[<a class='enum' href='../options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.set_x_label' class='method'><code>fn <span class='fnname'>set_x_label</span>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, options: &amp;[<a class='enum' href='../options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Set the label for the X axis</p>
 
 <h1>Arguments</h1>
@@ -93,7 +95,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 <li><code>Align</code> - Specifies how to align the label</li>
 </ul></li>
 </ul>
-</div><h4 id='fn.set_y_label' class='method'><code>fn <span class='fnname'>set_y_label</span>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, options: &amp;[<a class='enum' href='../options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.set_y_label' class='method'><code>fn <span class='fnname'>set_y_label</span>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, options: &amp;[<a class='enum' href='../options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Set the label for the Y axis</p>
 
 <h1>Arguments</h1>
@@ -110,7 +112,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 <li><code>Align</code> - Specifies how to align the label</li>
 </ul></li>
 </ul>
-</div><h4 id='fn.set_title' class='method'><code>fn <span class='fnname'>set_title</span>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, options: &amp;[<a class='enum' href='../options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.set_title' class='method'><code>fn <span class='fnname'>set_title</span>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, options: &amp;[<a class='enum' href='../options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Set the title for the axes</p>
 
 <h1>Arguments</h1>
@@ -127,7 +129,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 <li><code>Align</code> - Specifies how to align the label</li>
 </ul></li>
 </ul>
-</div><h4 id='fn.label' class='method'><code>fn <span class='fnname'>label</span>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, x: <a class='enum' href='../coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y: <a class='enum' href='../coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, options: &amp;[<a class='enum' href='../options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.label' class='method'><code>fn <span class='fnname'>label</span>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, x: <a class='enum' href='../coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y: <a class='enum' href='../coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, options: &amp;[<a class='enum' href='../options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Adds a label to the plot, with an optional marker.</p>
 
 <h1>Arguments</h1>
@@ -149,7 +151,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 <li><code>MarkerColor</code> - Specifies the color for the marker</li>
 </ul></li>
 </ul>
-</div><h4 id='fn.set_x_tics' class='method'><code>fn <span class='fnname'>set_x_tics</span>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;float&gt;, incr: std::option::Option, max: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;float&gt;, tick_options: &amp;[<a class='enum' href='../options/enum.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>], label_options: &amp;[<a class='enum' href='../options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.set_x_tics' class='method'><code>fn <span class='fnname'>set_x_tics</span>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, incr: Option&lt;f64&gt;, max: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, tick_options: &amp;[<a class='enum' href='../options/enum.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>], label_options: &amp;[<a class='enum' href='../options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Sets the properties of the tics on the X axis. The first 3 arguments specify the range of the tics. The following combinations work for <code>(min, max)</code>:</p>
 
 <ul>
@@ -177,23 +179,41 @@ The coordinates refer to the bottom-left corner of the axes</p>
 <li><code>Align</code> - Specifies how to align the label</li>
 </ul></li>
 </ul>
-</div><h4 id='fn.set_y_tics' class='method'><code>fn <span class='fnname'>set_y_tics</span>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;float&gt;, incr: std::option::Option, max: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;float&gt;, tick_options: &amp;[<a class='enum' href='../options/enum.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>], label_options: &amp;[<a class='enum' href='../options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.set_y_tics' class='method'><code>fn <span class='fnname'>set_y_tics</span>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, incr: Option&lt;f64&gt;, max: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, tick_options: &amp;[<a class='enum' href='../options/enum.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>], label_options: &amp;[<a class='enum' href='../options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Like <code>set_x_tics</code> but for the Y axis.</p>
-</div><h4 id='fn.add_x_major_tics' class='method'><code>fn <span class='fnname'>add_x_major_tics</span>&lt;'l, T: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.add_x_major_tics' class='method'><code>fn <span class='fnname'>add_x_major_tics</span>&lt;'l, T: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Adds major tics to the X axis with specified labels at specified positions.</p>
+
+<h1>Arguments</h1>
 
 <ul>
 <li><code>tics</code> - Array of tuples specifying the locations and labels of the added tics.
 The label can contain a single C printf style floating point formatting specifier which will be replaced by the
 location of the tic.</li>
 </ul>
-</div><h4 id='fn.add_x_minor_tics' class='method'><code>fn <span class='fnname'>add_x_minor_tics</span>&lt;'l, T: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.add_x_minor_tics' class='method'><code>fn <span class='fnname'>add_x_minor_tics</span>&lt;'l, T: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Like <code>set_x_major_tics</code> but for the minor tics of the X axis.</p>
-</div><h4 id='fn.add_y_major_tics' class='method'><code>fn <span class='fnname'>add_y_major_tics</span>&lt;'l, T: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.add_y_major_tics' class='method'><code>fn <span class='fnname'>add_y_major_tics</span>&lt;'l, T: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Like <code>set_x_major_tics</code> but for the major tics of the Y axis.</p>
-</div><h4 id='fn.add_y_minor_tics' class='method'><code>fn <span class='fnname'>add_y_minor_tics</span>&lt;'l, T: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.add_y_minor_tics' class='method'><code>fn <span class='fnname'>add_y_minor_tics</span>&lt;'l, T: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Like <code>set_x_major_tics</code> but for the minor tics of the Y axis.</p>
-</div><h4 id='fn.arrow' class='method'><code>fn <span class='fnname'>arrow</span>&lt;'l&gt;(&amp;'l mut self, x1: <a class='enum' href='../coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y1: <a class='enum' href='../coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, x2: <a class='enum' href='../coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y2: <a class='enum' href='../coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.set_border' class='method'><code>fn <span class='fnname'>set_border</span>&lt;'l&gt;(&amp;'l mut self, front: bool, locations: &amp;[<a class='enum' href='../options/enum.BorderLocation2D.html' title='gnuplot::options::BorderLocation2D'>BorderLocation2D</a>], options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Sets the properties of the plot border</p>
+
+<h1>Arguments</h1>
+
+<ul>
+<li><code>front</code> - Whether or not to draw the border above or below the plot contents</li>
+<li><code>locations</code> - Which locations of the border to draw</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the border. Relevant options are:
+
+<ul>
+<li><code>Color</code> - Specifies the color of the border</li>
+<li><code>LineStyle</code> - Specifies the style of the border</li>
+<li><code>LineWidth</code> - Specifies the width of the border</li>
+</ul></li>
+</ul>
+</div><h4 id='method.arrow' class='method'><code>fn <span class='fnname'>arrow</span>&lt;'l&gt;(&amp;'l mut self, x1: <a class='enum' href='../coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y1: <a class='enum' href='../coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, x2: <a class='enum' href='../coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y2: <a class='enum' href='../coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Adds an arrow to the plot. The arrow is drawn from <code>(x1, y1)</code> to <code>(x2, y2)</code> with the arrow point towards <code>(x2, y2)</code>.</p>
 
 <h1>Arguments</h1>
@@ -213,7 +233,7 @@ location of the tic.</li>
 <li><code>LineWidth</code> - Specifies the width of the arrow shaft</li>
 </ul></li>
 </ul>
-</div><h4 id='fn.set_x_range' class='method'><code>fn <span class='fnname'>set_x_range</span>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;float&gt;, max: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;float&gt;) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.set_x_range' class='method'><code>fn <span class='fnname'>set_x_range</span>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, max: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Set the range of values for the X axis</p>
 
 <h1>Arguments</h1>
@@ -222,7 +242,7 @@ location of the tic.</li>
 <li><code>min</code> - Minimum X value</li>
 <li><code>max</code> - Maximum X value</li>
 </ul>
-</div><h4 id='fn.set_y_range' class='method'><code>fn <span class='fnname'>set_y_range</span>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;float&gt;, max: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;float&gt;) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.set_y_range' class='method'><code>fn <span class='fnname'>set_y_range</span>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, max: <a class='enum' href='../options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Set the range of values for the Y axis</p>
 
 <h1>Arguments</h1>
@@ -231,7 +251,7 @@ location of the tic.</li>
 <li><code>min</code> - Minimum Y value</li>
 <li><code>max</code> - Maximum Y value</li>
 </ul>
-</div><h4 id='fn.lines' class='method'><code>fn <span class='fnname'>lines</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: std::iter::Iterator, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: std::iter::Iterator&gt;(&amp;'l mut self, x: X, y: Y, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.lines' class='method'><code>fn <span class='fnname'>lines</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: Iterator&lt;Tx&gt;, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: Iterator&lt;Ty&gt;&gt;(&amp;'l mut self, x: X, y: Y, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Plot a 2D scatter-plot with lines connecting each data point</p>
 
 <h1>Arguments</h1>
@@ -248,7 +268,7 @@ location of the tic.</li>
 <li><code>Color</code> - Sets the color</li>
 </ul></li>
 </ul>
-</div><h4 id='fn.points' class='method'><code>fn <span class='fnname'>points</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: std::iter::Iterator, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: std::iter::Iterator&gt;(&amp;'l mut self, x: X, y: Y, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.points' class='method'><code>fn <span class='fnname'>points</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: Iterator&lt;Tx&gt;, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: Iterator&lt;Ty&gt;&gt;(&amp;'l mut self, x: X, y: Y, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Plot a 2D scatter-plot with a point standing in for each data point</p>
 
 <h1>Arguments</h1>
@@ -265,7 +285,7 @@ location of the tic.</li>
 <li><code>Color</code> - Sets the color</li>
 </ul></li>
 </ul>
-</div><h4 id='fn.lines_points' class='method'><code>fn <span class='fnname'>lines_points</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: std::iter::Iterator, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: std::iter::Iterator&gt;(&amp;'l mut self, x: X, y: Y, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.lines_points' class='method'><code>fn <span class='fnname'>lines_points</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: Iterator&lt;Tx&gt;, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: Iterator&lt;Ty&gt;&gt;(&amp;'l mut self, x: X, y: Y, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>A combination of lines and points methods (drawn in that order).</p>
 
 <h1>Arguments</h1>
@@ -275,7 +295,7 @@ location of the tic.</li>
 <li><code>y</code> - Iterator for the y values</li>
 <li><code>options</code> - Array of PlotOption controlling the appearance of the plot element</li>
 </ul>
-</div><h4 id='fn.x_error_lines' class='method'><code>fn <span class='fnname'>x_error_lines</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: std::iter::Iterator, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: std::iter::Iterator, Txe: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, XE: std::iter::Iterator&gt;(&amp;'l mut self, x: X, y: Y, x_error: XE, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.x_error_lines' class='method'><code>fn <span class='fnname'>x_error_lines</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: Iterator&lt;Tx&gt;, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: Iterator&lt;Ty&gt;, Txe: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, XE: Iterator&lt;Txe&gt;&gt;(&amp;'l mut self, x: X, y: Y, x_error: XE, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 Additionally, error bars are attached to each data point in the X direction.</p>
 
@@ -296,7 +316,7 @@ Additionally, error bars are attached to each data point in the X direction.</p>
 <li><code>Color</code> - Sets the color</li>
 </ul></li>
 </ul>
-</div><h4 id='fn.y_error_lines' class='method'><code>fn <span class='fnname'>y_error_lines</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: std::iter::Iterator, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: std::iter::Iterator, Tye: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, YE: std::iter::Iterator&gt;(&amp;'l mut self, x: X, y: Y, y_error: YE, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.y_error_lines' class='method'><code>fn <span class='fnname'>y_error_lines</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: Iterator&lt;Tx&gt;, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: Iterator&lt;Ty&gt;, Tye: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, YE: Iterator&lt;Tye&gt;&gt;(&amp;'l mut self, x: X, y: Y, y_error: YE, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 Additionally, error bars are attached to each data point in the Y direction.</p>
 
@@ -317,7 +337,7 @@ Additionally, error bars are attached to each data point in the Y direction.</p>
 <li><code>Color</code> - Sets the color</li>
 </ul></li>
 </ul>
-</div><h4 id='fn.fill_between' class='method'><code>fn <span class='fnname'>fill_between</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: std::iter::Iterator, Tyl: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, YL: std::iter::Iterator, Tyh: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, YH: std::iter::Iterator&gt;(&amp;'l mut self, x: X, y_lo: YL, y_hi: YH, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.fill_between' class='method'><code>fn <span class='fnname'>fill_between</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: Iterator&lt;Tx&gt;, Tyl: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, YL: Iterator&lt;Tyl&gt;, Tyh: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, YH: Iterator&lt;Tyh&gt;&gt;(&amp;'l mut self, x: X, y_lo: YL, y_hi: YH, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Plot a 2D scatter-plot of two curves (bound by <code>y_lo</code> and <code>y_hi</code>) with a filled region between them.
 <code>FillRegion</code> plot option can be used to control what happens when the curves intersect. If set to Above, then the <code>y_lo &lt; y_hi</code> region is filled.
 If set to Below, then the <code>y_lo &gt; y_hi</code> region is filled. Otherwise both regions are filled.</p>
@@ -337,7 +357,7 @@ If set to Below, then the <code>y_lo &gt; y_hi</code> region is filled. Otherwis
 <li><code>FillAlpha</code> - Sets the transparency of the filled region</li>
 </ul></li>
 </ul>
-</div><h4 id='fn.boxes' class='method'><code>fn <span class='fnname'>boxes</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: std::iter::Iterator, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: std::iter::Iterator&gt;(&amp;'l mut self, x: X, y: Y, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.boxes' class='method'><code>fn <span class='fnname'>boxes</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: Iterator&lt;Tx&gt;, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: Iterator&lt;Ty&gt;&gt;(&amp;'l mut self, x: X, y: Y, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
 Boxes start at the x-axis and go towards the y value of the datapoint.</p>
 
@@ -357,7 +377,7 @@ Boxes start at the x-axis and go towards the y value of the datapoint.</p>
 <li><code>FillAlpha</code> - Sets the transparency of the box fill</li>
 </ul></li>
 </ul>
-</div><h4 id='fn.boxes_set_width' class='method'><code>fn <span class='fnname'>boxes_set_width</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: std::iter::Iterator, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: std::iter::Iterator, Tw: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, W: std::iter::Iterator&gt;(&amp;'l mut self, x: X, y: Y, w: W, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.boxes_set_width' class='method'><code>fn <span class='fnname'>boxes_set_width</span>&lt;'l, Tx: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: Iterator&lt;Tx&gt;, Ty: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: Iterator&lt;Ty&gt;, Tw: <a class='trait' href='../datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, W: Iterator&lt;Tw&gt;&gt;(&amp;'l mut self, x: X, y: Y, w: W, options: &amp;[<a class='enum' href='../options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Plot a 2D scatter-plot using boxes of set (per box) width.
 Boxes start at the x-axis and go towards the y value of the datapoint.</p>
 
@@ -379,6 +399,7 @@ Boxes start at the x-axis and go towards the y value of the datapoint.</p>
 </ul></li>
 </ul>
 </div></div></section>
+    <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
 

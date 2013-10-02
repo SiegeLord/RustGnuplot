@@ -22,7 +22,7 @@
     <section class="sidebar">
         
 
-        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>options</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='private/index.html'>private</a><br/></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AlignType.html'>AlignType</a><br/><a class='enum ' href='enum.ArrowheadType.html'>ArrowheadType</a><br/><a class='enum ' href='enum.AutoOption.html'>AutoOption</a><br/><a class='enum ' href='enum.DashType.html'>DashType</a><br/><a class='enum ' href='enum.FillRegion.html'>FillRegion</a><br/><a class='enum current' href='enum.LabelOption.html'>LabelOption</a><br/><a class='enum ' href='enum.PlotOption.html'>PlotOption</a><br/><a class='enum ' href='enum.TickOption.html'>TickOption</a><br/></div>
+        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>options</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='private/index.html'>private</a><br/></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AlignType.html'>AlignType</a><br/><a class='enum ' href='enum.ArrowheadType.html'>ArrowheadType</a><br/><a class='enum ' href='enum.AutoOption.html'>AutoOption</a><br/><a class='enum ' href='enum.BorderLocation2D.html'>BorderLocation2D</a><br/><a class='enum ' href='enum.DashType.html'>DashType</a><br/><a class='enum ' href='enum.FillRegion.html'>FillRegion</a><br/><a class='enum current' href='enum.LabelOption.html'>LabelOption</a><br/><a class='enum ' href='enum.PlotOption.html'>PlotOption</a><br/><a class='enum ' href='enum.TickOption.html'>TickOption</a><br/></div>
     </section>
 
     <nav class="sub">
@@ -33,17 +33,44 @@
         </form>
     </nav>
 
-    <section class="content enum"><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>LabelOption</a></h1><pre class='enum'>pub enum LabelOption&lt;'self&gt; {
-    <a name='variant.Offset'>Offset</a>(float, float),
-    <a name='variant.Font'>Font</a>(&amp;'self str, float),
-    <a name='variant.TextColor'>TextColor</a>(&amp;'self str),
-    <a name='variant.Rotate'>Rotate</a>(float),
-    <a name='variant.Align'>Align</a>(<a class='enum' href='enum.AlignType.html' title='gnuplot::options::AlignType'>AlignType</a>),
-    <a name='variant.MarkerSymbol'>MarkerSymbol</a>(char),
-    <a name='variant.MarkerColor'>MarkerColor</a>(&amp;'self str),
-    <a name='variant.MarkerSize'>MarkerSize</a>(float),
+    <section id='main' class="content enum"><a class='source'
+                       href='../../src/gnuplot/src/options.rs.html#100'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>LabelOption</a></h1><pre class='enum'>pub enum LabelOption&lt;'self&gt; {
+    Offset(f64, f64),
+    Font(&amp;'self str, f64),
+    TextColor(&amp;'self str),
+    Rotate(f64),
+    Align(<a class='enum' href='enum.AlignType.html' title='gnuplot::options::AlignType'>AlignType</a>),
+    MarkerSymbol(char),
+    MarkerColor(&amp;'self str),
+    MarkerSize(f64),
 }</pre><div class='docblock'><p>An enumeration of label options that control label attributes</p>
-</div></section>
+</div><h2 class='variants'>Variants</h2>
+<table><tr><td id='variant.Offset'><code>Offset</code></td><td><div class='docblock'><p>Sets the offset of the label in characters</p>
+</div></td></tr><tr><td id='variant.Font'><code>Font</code></td><td><div class='docblock'><p>Sets the font of the label. The string specifies the font type (e.g. &quot;Arial&quot;) and the number specifies the size (the units are terminal dependent, but are often points)</p>
+</div></td></tr><tr><td id='variant.TextColor'><code>TextColor</code></td><td><div class='docblock'><p>Sets the color of the label text. The passed string can be a color name
+(e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</p>
+</div></td></tr><tr><td id='variant.Rotate'><code>Rotate</code></td><td><div class='docblock'><p>Rotates the label by a certain number of degrees</p>
+</div></td></tr><tr><td id='variant.Align'><code>Align</code></td><td><div class='docblock'><p>Sets the horizontal alignment of the label text (default is left alignment). See AlignType.</p>
+</div></td></tr><tr><td id='variant.MarkerSymbol'><code>MarkerSymbol</code></td><td><div class='docblock'><p>Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:
+* <code>.</code> - dot
+* <code>+</code> - plus
+* <code>x</code> - cross
+* <code>*</code> - star
+* <code>s</code> - empty square
+* <code>S</code> - filled square
+* <code>o</code> - empty circle
+* <code>O</code> - filled circle
+* <code>t</code> - empty triangle
+* <code>T</code> - filled triangle
+* <code>d</code> - empty del (upside down triangle)
+* <code>D</code> - filled del (upside down triangle)
+* <code>r</code> - empty rhombus
+* <code>R</code> - filled rhombus</p>
+</div></td></tr><tr><td id='variant.MarkerColor'><code>MarkerColor</code></td><td><div class='docblock'><p>Sets the color of the marker. The passed string can be a color name
+(e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</p>
+</div></td></tr><tr><td id='variant.MarkerSize'><code>MarkerSize</code></td><td><div class='docblock'><p>Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.</p>
+</div></td></tr></table></section>
+    <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
 

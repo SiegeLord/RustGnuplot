@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>gnuplot::axes3d::private::new_axes3d - Rust</title>
+    <title>coordinates.rs.html -- source</title>
 
     <link href='http://fonts.googleapis.com/css?family=Oswald:700|Inconsolata:400'
           rel='stylesheet' type='text/css'>
@@ -22,7 +22,7 @@
     <section class="sidebar">
         
 
-        <p class='location'><a href='../../index.html'>gnuplot</a>&#8203;::<a href='../index.html'>axes3d</a>&#8203;::<a href='index.html'>private</a></p><div class='block fn'><h2>Functions</h2><a class='fn current' href='fn.new_axes3d.html'>new_axes3d</a><br/></div>
+        
     </section>
 
     <nav class="sub">
@@ -33,8 +33,73 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn"><a class='source'
-                       href='../../../src/gnuplot/src/axes3d.rs.html#16'>[src]</a><h1 class='fqn'>Function <a href='../../index.html'>gnuplot</a>::<a href='../index.html'>axes3d</a>::<a href='index.html'>private</a>::<a class='fn' href=''>new_axes3d</a></h1><pre class='fn'>pub fn new_axes3d() -&gt; <a class='struct' href='../struct.Axes3D.html' title='gnuplot::axes3d::Axes3D'>Axes3D</a></pre></section>
+    <section id='main' class="content source"><pre class='line-numbers'><span id='1'> 1</span>
+<span id='2'> 2</span>
+<span id='3'> 3</span>
+<span id='4'> 4</span>
+<span id='5'> 5</span>
+<span id='6'> 6</span>
+<span id='7'> 7</span>
+<span id='8'> 8</span>
+<span id='9'> 9</span>
+<span id='10'>10</span>
+<span id='11'>11</span>
+<span id='12'>12</span>
+<span id='13'>13</span>
+<span id='14'>14</span>
+<span id='15'>15</span>
+<span id='16'>16</span>
+<span id='17'>17</span>
+<span id='18'>18</span>
+<span id='19'>19</span>
+<span id='20'>20</span>
+<span id='21'>21</span>
+<span id='22'>22</span>
+<span id='23'>23</span>
+<span id='24'>24</span>
+<span id='25'>25</span>
+<span id='26'>26</span>
+<span id='27'>27</span>
+<span id='28'>28</span>
+<span id='29'>29</span>
+<span id='30'>30</span>
+<span id='31'>31</span>
+<span id='32'>32</span>
+<span id='33'>33</span>
+</pre><pre class='rust'>// Copyright (c) 2013 by SiegeLord
+// 
+// All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
+
+/// Specifies how to interpret the coordinate passed to a plotting command
+pub enum Coordinate
+{
+	/// Coordinates are done relative to a graph (i.e. an axis set). (0, 0) is the bottom left corner and (1, 1) is the top right corner.
+	/// You&#39;d use this to place labels and other objects so that they remain in the same place relative to the graph no matter what you have plotted.
+	Graph(f64),
+	/// Coordinates match those on the axes. You&#39;d use this to place labels and other objects relative to regions of interest in the graph (e.g. labeling the peak of a function)
+	Axis(f64)
+}
+
+mod private
+{
+	use super::*;
+	use writer::*;
+
+	impl super::Coordinate
+	{
+		pub fn write&lt;T: PlotWriter&gt;(&amp;self, writer: &amp;mut T)
+		{
+			let (name, x) = match *self
+			{
+				Graph(x) =&gt; (&quot; graph &quot;, x),
+				Axis(x) =&gt; (&quot; first &quot;, x),
+			};
+			writer.write_str(name);
+			writer.write_float(x);
+		}
+	}
+}
+</pre></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
