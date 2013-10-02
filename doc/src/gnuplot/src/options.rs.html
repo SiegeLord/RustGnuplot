@@ -214,6 +214,8 @@
 <span id='179'>179</span>
 <span id='180'>180</span>
 <span id='181'>181</span>
+<span id='182'>182</span>
+<span id='183'>183</span>
 </pre><pre class='rust'>// Copyright (c) 2013 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
@@ -223,6 +225,7 @@
 pub enum PlotOption&lt;&#39;self&gt;
 {
 	/// Sets the symbol used for points. The valid characters are as follows:
+	///
 	/// * `.` - dot
 	/// * `+` - plus
 	/// * `x` - cross
@@ -327,6 +330,7 @@ pub enum LabelOption&lt;&#39;self&gt;
 	/// Sets the horizontal alignment of the label text (default is left alignment). See AlignType.
 	Align(AlignType),
 	/// Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:
+	///
 	/// * `.` - dot
 	/// * `+` - plus
 	/// * `x` - cross

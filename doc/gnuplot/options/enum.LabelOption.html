@@ -34,7 +34,7 @@
     </nav>
 
     <section id='main' class="content enum"><a class='source'
-                       href='../../src/gnuplot/src/options.rs.html#100'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>LabelOption</a></h1><pre class='enum'>pub enum LabelOption&lt;'self&gt; {
+                       href='../../src/gnuplot/src/options.rs.html#101'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>LabelOption</a></h1><pre class='enum'>pub enum LabelOption&lt;'self&gt; {
     Offset(f64, f64),
     Font(&amp;'self str, f64),
     TextColor(&amp;'self str),
@@ -51,21 +51,24 @@
 (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</p>
 </div></td></tr><tr><td id='variant.Rotate'><code>Rotate</code></td><td><div class='docblock'><p>Rotates the label by a certain number of degrees</p>
 </div></td></tr><tr><td id='variant.Align'><code>Align</code></td><td><div class='docblock'><p>Sets the horizontal alignment of the label text (default is left alignment). See AlignType.</p>
-</div></td></tr><tr><td id='variant.MarkerSymbol'><code>MarkerSymbol</code></td><td><div class='docblock'><p>Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:
-* <code>.</code> - dot
-* <code>+</code> - plus
-* <code>x</code> - cross
-* <code>*</code> - star
-* <code>s</code> - empty square
-* <code>S</code> - filled square
-* <code>o</code> - empty circle
-* <code>O</code> - filled circle
-* <code>t</code> - empty triangle
-* <code>T</code> - filled triangle
-* <code>d</code> - empty del (upside down triangle)
-* <code>D</code> - filled del (upside down triangle)
-* <code>r</code> - empty rhombus
-* <code>R</code> - filled rhombus</p>
+</div></td></tr><tr><td id='variant.MarkerSymbol'><code>MarkerSymbol</code></td><td><div class='docblock'><p>Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:</p>
+
+<ul>
+<li><code>.</code> - dot</li>
+<li><code>+</code> - plus</li>
+<li><code>x</code> - cross</li>
+<li><code>*</code> - star</li>
+<li><code>s</code> - empty square</li>
+<li><code>S</code> - filled square</li>
+<li><code>o</code> - empty circle</li>
+<li><code>O</code> - filled circle</li>
+<li><code>t</code> - empty triangle</li>
+<li><code>T</code> - filled triangle</li>
+<li><code>d</code> - empty del (upside down triangle)</li>
+<li><code>D</code> - filled del (upside down triangle)</li>
+<li><code>r</code> - empty rhombus</li>
+<li><code>R</code> - filled rhombus</li>
+</ul>
 </div></td></tr><tr><td id='variant.MarkerColor'><code>MarkerColor</code></td><td><div class='docblock'><p>Sets the color of the marker. The passed string can be a color name
 (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</p>
 </div></td></tr><tr><td id='variant.MarkerSize'><code>MarkerSize</code></td><td><div class='docblock'><p>Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.</p>
