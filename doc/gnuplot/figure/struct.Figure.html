@@ -34,7 +34,7 @@
     </nav>
 
     <section id='main' class="content struct"><a class='source'
-                       href='../../src/gnuplot/src/figure.rs.html#43'>[src]</a><h1 class='fqn'>Struct <a href='../index.html'>gnuplot</a>::<a href='index.html'>figure</a>::<a class='struct' href=''>Figure</a></h1><pre class='struct'>pub struct Figure&lt;'self&gt; {
+                       href='../../src/gnuplot/src/figure.rs.html#41-48'>[src]</a><h1 class='fqn'>Struct <a href='../index.html'>gnuplot</a>::<a href='index.html'>figure</a>::<a class='struct' href=''>Figure</a></h1><pre class='struct'>pub struct Figure&lt;'self&gt; {
     priv axes: ~[AxesVariant],
     priv num_rows: u32,
     priv num_cols: u32,
@@ -42,9 +42,9 @@
     priv output_file: &amp;'self str,
 }</pre><div class='docblock'><p>A figure that may contain multiple axes</p>
 </div><h2 class='fields'>Fields</h2>
-<table><tr><td id='structfield.axes'><code>axes</code></td><td></td></tr><tr><td id='structfield.num_rows'><code>num_rows</code></td><td></td></tr><tr><td id='structfield.num_cols'><code>num_cols</code></td><td></td></tr><tr><td id='structfield.terminal'><code>terminal</code></td><td></td></tr><tr><td id='structfield.output_file'><code>output_file</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'self&gt; <a class='struct' href='struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'self&gt;</code></h3><div class='methods'><h4 id='method.new' class='method'><code>fn <span class='fnname'>new</span>() -&gt; <a class='struct' href='struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
+<table><tr><td id='structfield.axes'><code>axes</code></td><td></td></tr><tr><td id='structfield.num_rows'><code>num_rows</code></td><td></td></tr><tr><td id='structfield.num_cols'><code>num_cols</code></td><td></td></tr><tr><td id='structfield.terminal'><code>terminal</code></td><td></td></tr><tr><td id='structfield.output_file'><code>output_file</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'self&gt; <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'self&gt;</code></h3><div class='methods'><h4 id='method.new' class='method'><code>fn <span class='fnname'>new</span>() -&gt; <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Creates a new figure</p>
-</div><h4 id='method.set_terminal' class='method'><code>fn <span class='fnname'>set_terminal</span>&lt;'l&gt;(&amp;'l mut self, terminal: &amp;'self str, output_file: &amp;'self str) -&gt; &amp;'l mut <a class='struct' href='struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'self&gt;</code></h4>
+</div><h4 id='method.set_terminal' class='method'><code>fn <span class='fnname'>set_terminal</span>&lt;'l&gt;(&amp;'l mut self, terminal: &amp;'self str, output_file: &amp;'self str) -&gt; &amp;'l mut <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'self&gt;</code></h4>
 <div class='docblock'><p>Sets the terminal for gnuplot to use, as well as the file to output the figure to.
 Terminals that spawn a GUI don&#39;t need an output file, so pass an empty string for those.</p>
 
@@ -56,7 +56,7 @@ Terminals that spawn a GUI don&#39;t need an output file, so pass an empty strin
 <li>epscairo - Saves the figure as a EPS file</li>
 <li>pngcairo - Saves the figure as a PNG file</li>
 </ul>
-</div><h4 id='method.set_grid' class='method'><code>fn <span class='fnname'>set_grid</span>&lt;'l&gt;(&amp;'l mut self, rows: u32, cols: u32) -&gt; &amp;'l mut <a class='struct' href='struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'self&gt;</code></h4>
+</div><h4 id='method.set_grid' class='method'><code>fn <span class='fnname'>set_grid</span>&lt;'l&gt;(&amp;'l mut self, rows: u32, cols: u32) -&gt; &amp;'l mut <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'self&gt;</code></h4>
 <div class='docblock'><p>Sets the dimensions of the grid that you can use to
 place multiple axes on</p>
 
@@ -66,13 +66,13 @@ place multiple axes on</p>
 <li><code>rows</code> - Number of rows. Set to 0 to disable the grid</li>
 <li><code>cols</code> - Number of columns. Set to 0 to disable the grid</li>
 </ul>
-</div><h4 id='method.axes2d' class='method'><code>fn <span class='fnname'>axes2d</span>&lt;'l&gt;(&amp;'l mut self) -&gt; &amp;'l mut <a class='struct' href='../axes2d/struct.Axes2D.html' title='gnuplot::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.axes2d' class='method'><code>fn <span class='fnname'>axes2d</span>&lt;'l&gt;(&amp;'l mut self) -&gt; &amp;'l mut <a class='struct' href='../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Creates a set of 2D axes</p>
-</div><h4 id='method.axes3d' class='method'><code>fn <span class='fnname'>axes3d</span>&lt;'l&gt;(&amp;'l mut self) -&gt; &amp;'l mut <a class='struct' href='../axes3d/struct.Axes3D.html' title='gnuplot::axes3d::Axes3D'>Axes3D</a></code></h4>
+</div><h4 id='method.axes3d' class='method'><code>fn <span class='fnname'>axes3d</span>&lt;'l&gt;(&amp;'l mut self) -&gt; &amp;'l mut <a class='struct' href='../../gnuplot/internal/axes3d/struct.Axes3D.html' title='gnuplot::internal::axes3d::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Creates a set of 3D axes</p>
-</div><h4 id='method.show' class='method'><code>fn <span class='fnname'>show</span>&lt;'l&gt;(&amp;'l self) -&gt; &amp;'l <a class='struct' href='struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'l&gt;</code></h4>
+</div><h4 id='method.show' class='method'><code>fn <span class='fnname'>show</span>&lt;'l&gt;(&amp;'l self) -&gt; &amp;'l <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'l&gt;</code></h4>
 <div class='docblock'><p>Launch a gnuplot process and display the figure on it</p>
-</div><h4 id='method.echo' class='method'><code>fn <span class='fnname'>echo</span>&lt;'l&gt;(&amp;'l self, writer: &amp;fn(data: &amp;[u8])) -&gt; &amp;'l <a class='struct' href='struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'l&gt;</code></h4>
+</div><h4 id='method.echo' class='method'><code>fn <span class='fnname'>echo</span>&lt;'l&gt;(&amp;'l self, writer: &amp;fn(data: &amp;[u8])) -&gt; &amp;'l <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'l&gt;</code></h4>
 <div class='docblock'><p>Echo the commands that if piped to a gnuplot process would display the figure</p>
 
 <h1>Arguments</h1>
@@ -80,7 +80,7 @@ place multiple axes on</p>
 <ul>
 <li><code>writer</code> - A function pointer that will be called multiple times with the command text and data</li>
 </ul>
-</div><h4 id='method.echo_to_file' class='method'><code>fn <span class='fnname'>echo_to_file</span>&lt;'l&gt;(&amp;'l self, filename: &amp;str) -&gt; &amp;'l <a class='struct' href='struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'l&gt;</code></h4>
+</div><h4 id='method.echo_to_file' class='method'><code>fn <span class='fnname'>echo_to_file</span>&lt;'l&gt;(&amp;'l self, filename: &amp;str) -&gt; &amp;'l <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'l&gt;</code></h4>
 <div class='docblock'><p>Save to a file the the commands that if piped to a gnuplot process would display the figure</p>
 
 <h1>Arguments</h1>

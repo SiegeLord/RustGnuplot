@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>gnuplot::axes2d::private - Rust</title>
+    <title>gnuplot::internal::axes3d::Axes3DPrivate - Rust</title>
 
     <link href='http://fonts.googleapis.com/css?family=Oswald:700|Inconsolata:400'
           rel='stylesheet' type='text/css'>
@@ -22,7 +22,7 @@
     <section class="sidebar">
         
 
-        <p class='location'><a href='../../index.html'>gnuplot</a>&#8203;::<a href='../index.html'>axes2d</a></p><div class='block mod'><h2>Modules</h2><a class='mod current' href='../private/index.html'>private</a><br/></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='../struct.Axes2D.html'>Axes2D</a><br/></div>
+        <p class='location'><a href='../../index.html'>gnuplot</a>&#8203;::<a href='../index.html'>internal</a>&#8203;::<a href='index.html'>axes3d</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='external/index.html'>external</a><br/></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Axes3D.html'>Axes3D</a><br/></div><div class='block trait'><h2>Traits</h2><a class='trait current' href='trait.Axes3DPrivate.html'>Axes3DPrivate</a><br/></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.new_axes3d.html'>new_axes3d</a><br/></div>
     </section>
 
     <nav class="sub">
@@ -33,15 +33,17 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod"><a class='source'
-                       href='../../../src/gnuplot/src/axes2d.rs.html#702'>[src]</a><h1 class='fqn'>Module <a href='../../index.html'>gnuplot</a>::<a href='../index.html'>axes2d</a>::<a class='mod' href=''>private</a></h1><h2>Functions</h2>
-<table>
-                    <tr>
-                        <td><a class='fn' href='fn.new_axes2d.html'
-                               title='gnuplot::axes2d::private::new_axes2d'>new_axes2d</a></td>
-                        <td class='docblock short'></td>
-                    </tr>
-                </table></section>
+    <section id='main' class="content trait"><a class='source'
+                       href='../../../src/gnuplot/src/internal/axes3d.rs.html#22-25'>[src]</a><h1 class='fqn'>Trait <a href='../../index.html'>gnuplot</a>::<a href='../index.html'>internal</a>::<a href='index.html'>axes3d</a>::<a class='trait' href=''>Axes3DPrivate</a></h1><pre class='trait'>pub trait Axes3DPrivate {
+    fn <a href='#tymethod.get_common'
+                                    class='fnname'>get_common</a>&lt;'l&gt;(&amp;'l self) -&gt; &amp;'l AxesCommon;
+}</pre>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.get_common' class='method'><code>fn <span class='fnname'>get_common</span>&lt;'l&gt;(&amp;'l self) -&gt; &amp;'l AxesCommon</code></h3></div>
+                        <h2 id='implementors'>Implementors</h2>
+                        <ul class='item-list'>
+                    <li><code><a class='struct' href='../../../gnuplot/internal/axes3d/struct.Axes3D.html' title='gnuplot::internal::axes3d::Axes3D'>Axes3D</a></code></li></ul></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

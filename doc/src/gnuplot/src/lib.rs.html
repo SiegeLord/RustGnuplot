@@ -83,6 +83,12 @@
 <span id='48'>48</span>
 <span id='49'>49</span>
 <span id='50'>50</span>
+<span id='51'>51</span>
+<span id='52'>52</span>
+<span id='53'>53</span>
+<span id='54'>54</span>
+<span id='55'>55</span>
+<span id='56'>56</span>
 </pre><pre class='rust'>// Copyright (c) 2013 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
@@ -95,6 +101,9 @@
 #[comment = &quot;Rust gnuplot controller&quot;];
 #[license = &quot;zlib&quot;];
 #[crate_type = &quot;lib&quot;];
+
+#[feature(globs)];
+#[feature(macro_rules)];
 
 /*!
 A simple gnuplot controller.
@@ -115,8 +124,8 @@ fg.show();
 ~~~
 */
 
-pub use axes2d::*;
-pub use axes3d::*;
+pub use internal::axes2d::external::*;
+pub use internal::axes3d::external::*;
 pub use figure::*;
 pub use options::*;
 pub use datatype::*;
@@ -126,13 +135,16 @@ pub use coordinates::*;
 mod util;
 mod axes_common;
 mod writer;
-
-pub mod axes2d;
-pub mod axes3d;
 pub mod figure;
 pub mod options; 
 pub mod datatype;
 pub mod coordinates;
+
+mod internal
+{
+	pub mod axes2d;
+	pub mod axes3d;
+}
 </pre></section>
     <section id='search' class="content hidden"></section>
 

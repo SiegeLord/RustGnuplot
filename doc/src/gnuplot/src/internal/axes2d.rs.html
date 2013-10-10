@@ -7,7 +7,7 @@
 
     <link href='http://fonts.googleapis.com/css?family=Oswald:700|Inconsolata:400'
           rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="../../../gnuplot/main.css">
+    <link rel="stylesheet" type="text/css" href="../../../../gnuplot/main.css">
 
     
 </head>
@@ -835,6 +835,8 @@
 <span id='800'>800</span>
 <span id='801'>801</span>
 <span id='802'>802</span>
+<span id='803'>803</span>
+<span id='804'>804</span>
 </pre><pre class='rust'>// Copyright (c) 2013 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
@@ -844,6 +846,11 @@ use coordinates::*;
 use datatype::*;
 use options::*;
 use writer::*;
+
+pub mod external
+{
+	pub use super::Axes2D;
+}
 
 /// 2D axes that is used for drawing 2D plots
 pub struct Axes2D
@@ -1535,106 +1542,103 @@ impl Axes2D
 		self
 	}
 }
-
-mod private
+	
+struct Tics
 {
-	use axes_common::*;
-	use options::*;
-	use datatype::*;
-	use writer::*;
-	
-	struct Tics
+	common_options: ~[u8],
+	text_options: ~[u8],
+}
+
+pub fn new_axes2d() -&gt; Axes2D
+{
+	Axes2D{common: AxesCommon::new()}
+}
+
+pub trait Axes2DPrivate
+{
+	fn plot2&lt;T1: DataType, X1: Iterator&lt;T1&gt;, T2: DataType, X2: Iterator&lt;T2&gt;&gt;(&amp;mut self, plot_type: PlotType, x1: X1, x2: X2, options: &amp;[PlotOption]);
+	fn plot3&lt;T1: DataType, X1: Iterator&lt;T1&gt;, T2: DataType, X2: Iterator&lt;T2&gt;, T3: DataType, X3: Iterator&lt;T3&gt;&gt;(&amp;mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &amp;[PlotOption]);
+	fn write_out(&amp;self, writer: &amp;fn(data: &amp;[u8]));
+	fn get_common&lt;&#39;l&gt;(&amp;&#39;l self) -&gt; &amp;&#39;l AxesCommon;
+}
+
+impl Axes2DPrivate for Axes2D
+{
+	fn plot2&lt;T1: DataType, X1: Iterator&lt;T1&gt;,
+			 T2: DataType, X2: Iterator&lt;T2&gt;&gt;(&amp;mut self, plot_type: PlotType, x1: X1, x2: X2, options: &amp;[PlotOption])
 	{
-		common_options: ~[u8],
-		text_options: ~[u8],
-	}
-	
-	pub fn new_axes2d() -&gt; super::Axes2D
-	{
-		super::Axes2D
+		let l = self.common.elems.len();
+		self.common.elems.push(PlotElement::new());
+		let mut num_rows: i32 = 0;
+		
 		{
-			common: AxesCommon::new()
-		}
-	}
-	
-	impl super::Axes2D
-	{
-		pub fn plot2&lt;T1: DataType, X1: Iterator&lt;T1&gt;,
-				 T2: DataType, X2: Iterator&lt;T2&gt;&gt;(&amp;mut self, plot_type: PlotType, x1: X1, x2: X2, options: &amp;[PlotOption])
-		{
-			let l = self.common.elems.len();
-			self.common.elems.push(PlotElement::new());
-			let mut num_rows: i32 = 0;
-			
+			let data = &amp;mut self.common.elems[l].data;
+			for (x1, x2) in x1.zip(x2)
 			{
-				let data = &amp;mut self.common.elems[l].data;
-				for (x1, x2) in x1.zip(x2)
-				{
-					data.write_data(x1);
-					data.write_data(x2);
-					num_rows += 1;
-				}
+				data.write_data(x1);
+				data.write_data(x2);
+				num_rows += 1;
 			}
-			
-			self.common.write_common_commands(l, num_rows, 2, plot_type, options);
 		}
 		
-		pub fn plot3&lt;T1: DataType, X1: Iterator&lt;T1&gt;,
-				 T2: DataType, X2: Iterator&lt;T2&gt;,
-				 T3: DataType, X3: Iterator&lt;T3&gt;&gt;(&amp;mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &amp;[PlotOption])
+		self.common.write_common_commands(l, num_rows, 2, plot_type, options);
+	}
+	
+	fn plot3&lt;T1: DataType, X1: Iterator&lt;T1&gt;,
+			 T2: DataType, X2: Iterator&lt;T2&gt;,
+			 T3: DataType, X3: Iterator&lt;T3&gt;&gt;(&amp;mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &amp;[PlotOption])
+	{
+		let l = self.common.elems.len();
+		self.common.elems.push(PlotElement::new());
+		let mut num_rows: i32 = 0;
+		
 		{
-			let l = self.common.elems.len();
-			self.common.elems.push(PlotElement::new());
-			let mut num_rows: i32 = 0;
-			
+			let data = &amp;mut self.common.elems[l].data;
+			for ((x1, x2), x3) in x1.zip(x2).zip(x3)
 			{
-				let data = &amp;mut self.common.elems[l].data;
-				for ((x1, x2), x3) in x1.zip(x2).zip(x3)
-				{
-					data.write_data(x1);
-					data.write_data(x2);
-					data.write_data(x3);
-					num_rows += 1;
-				}
+				data.write_data(x1);
+				data.write_data(x2);
+				data.write_data(x3);
+				num_rows += 1;
 			}
-			
-			self.common.write_common_commands(l, num_rows, 3, plot_type, options);
 		}
 		
-		pub fn write_out(&amp;self, writer: &amp;fn(data: &amp;[u8]))
+		self.common.write_common_commands(l, num_rows, 3, plot_type, options);
+	}
+	
+	fn write_out(&amp;self, writer: &amp;fn(data: &amp;[u8]))
+	{
+		if self.common.elems.len() == 0
 		{
-			if self.common.elems.len() == 0
-			{
-				return;
-			}
-			
-			writer(self.common.commands);
-
-			writer(&quot;plot&quot;.as_bytes());
-			
-			let mut first = true;
-			for e in self.common.elems.iter()
-			{
-				if !first
-				{
-					writer(&quot;,&quot;.as_bytes());
-				}
-				writer(e.args);
-				first = false;
-			}
-			
-			writer(&quot;\n&quot;.as_bytes());
-			
-			for e in self.common.elems.iter()
-			{
-				writer(e.data);
-			}
+			return;
 		}
+		
+		writer(self.common.commands);
 
-		pub fn get_common&lt;&#39;l&gt;(&amp;&#39;l self) -&gt; &amp;&#39;l AxesCommon
+		writer(&quot;plot&quot;.as_bytes());
+		
+		let mut first = true;
+		for e in self.common.elems.iter()
 		{
-			&amp;self.common
+			if !first
+			{
+				writer(&quot;,&quot;.as_bytes());
+			}
+			writer(e.args);
+			first = false;
 		}
+		
+		writer(&quot;\n&quot;.as_bytes());
+		
+		for e in self.common.elems.iter()
+		{
+			writer(e.data);
+		}
+	}
+
+	fn get_common&lt;&#39;l&gt;(&amp;&#39;l self) -&gt; &amp;&#39;l AxesCommon
+	{
+		&amp;self.common
 	}
 }
 </pre></section>
@@ -1643,11 +1647,11 @@ mod private
     <section class="footer"></section>
 
     <script>
-        var rootPath = "../../../";
+        var rootPath = "../../../../";
     </script>
-    <script src="../../../gnuplot/jquery.js"></script>
-    <script src="../../../gnuplot/search-index.js"></script>
-    <script src="../../../gnuplot/main.js"></script>
+    <script src="../../../../gnuplot/jquery.js"></script>
+    <script src="../../../../gnuplot/search-index.js"></script>
+    <script src="../../../../gnuplot/main.js"></script>
 
     <div id="help" class="hidden">
         <div class="shortcuts">

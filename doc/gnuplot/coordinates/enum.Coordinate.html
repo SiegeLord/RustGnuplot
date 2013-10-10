@@ -34,7 +34,7 @@
     </nav>
 
     <section id='main' class="content enum"><a class='source'
-                       href='../../src/gnuplot/src/coordinates.rs.html#6'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>coordinates</a>::<a class='enum' href=''>Coordinate</a></h1><pre class='enum'>pub enum Coordinate {
+                       href='../../src/gnuplot/src/coordinates.rs.html#6-13'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>coordinates</a>::<a class='enum' href=''>Coordinate</a></h1><pre class='enum'>pub enum Coordinate {
     Graph(f64),
     Axis(f64),
 }</pre><div class='docblock'><p>Specifies how to interpret the coordinate passed to a plotting command</p>
@@ -42,7 +42,7 @@
 <table><tr><td id='variant.Graph'><code>Graph</code></td><td><div class='docblock'><p>Coordinates are done relative to a graph (i.e. an axis set). (0, 0) is the bottom left corner and (1, 1) is the top right corner.
 You&#39;d use this to place labels and other objects so that they remain in the same place relative to the graph no matter what you have plotted.</p>
 </div></td></tr><tr><td id='variant.Axis'><code>Axis</code></td><td><div class='docblock'><p>Coordinates match those on the axes. You&#39;d use this to place labels and other objects relative to regions of interest in the graph (e.g. labeling the peak of a function)</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='enum' href='../enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a></code></h3><div class='methods'><h4 id='method.write' class='method'><code>fn <span class='fnname'>write</span>&lt;T: <a class='trait' href='../writer/trait.PlotWriter.html' title='gnuplot::writer::PlotWriter'>PlotWriter</a>&gt;(&amp;self, writer: &amp;mut T)</code></h4>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='enum' href='../gnuplot/coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a></code></h3><div class='methods'><h4 id='method.write' class='method'><code>fn <span class='fnname'>write</span>&lt;T: <a class='trait' href='../../gnuplot/writer/trait.PlotWriter.html' title='gnuplot::writer::PlotWriter'>PlotWriter</a>&gt;(&amp;self, writer: &amp;mut T)</code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 

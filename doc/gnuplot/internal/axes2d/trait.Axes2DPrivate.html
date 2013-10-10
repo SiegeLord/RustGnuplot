@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>gnuplot::internal::axes2d::Axes2DPrivate - Rust</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Oswald:700|Inconsolata:400'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../../gnuplot/main.css">
+
+    
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things
+    </div>
+    <![endif]-->
+
+    <section class="sidebar">
+        
+
+        <p class='location'><a href='../../index.html'>gnuplot</a>&#8203;::<a href='../index.html'>internal</a>&#8203;::<a href='index.html'>axes2d</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='external/index.html'>external</a><br/></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Axes2D.html'>Axes2D</a><br/></div><div class='block trait'><h2>Traits</h2><a class='trait current' href='trait.Axes2DPrivate.html'>Axes2DPrivate</a><br/></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.new_axes2d.html'>new_axes2d</a><br/></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <input class="search-input" name="search"
+                   autocomplete="off" />
+            <button class="do-search">Search</button>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait"><a class='source'
+                       href='../../../src/gnuplot/src/internal/axes2d.rs.html#718-724'>[src]</a><h1 class='fqn'>Trait <a href='../../index.html'>gnuplot</a>::<a href='../index.html'>internal</a>::<a href='index.html'>axes2d</a>::<a class='trait' href=''>Axes2DPrivate</a></h1><pre class='trait'>pub trait Axes2DPrivate {
+    fn <a href='#tymethod.plot2'
+                                    class='fnname'>plot2</a>&lt;T1: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X1: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T1&gt;, T2: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X2: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T2&gt;&gt;(&amp;mut self, plot_type: <a class='enum' href='../../../gnuplot/axes_common/enum.PlotType.html' title='gnuplot::axes_common::PlotType'>PlotType</a>, x1: X1, x2: X2, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]);
+    fn <a href='#tymethod.plot3'
+                                    class='fnname'>plot3</a>&lt;T1: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X1: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T1&gt;, T2: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X2: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T2&gt;, T3: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X3: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T3&gt;&gt;(&amp;mut self, plot_type: <a class='enum' href='../../../gnuplot/axes_common/enum.PlotType.html' title='gnuplot::axes_common::PlotType'>PlotType</a>, x1: X1, x2: X2, x3: X3, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]);
+    fn <a href='#tymethod.write_out'
+                                    class='fnname'>write_out</a>(&amp;self, writer: &amp;fn(data: &amp;[u8]));
+    fn <a href='#tymethod.get_common'
+                                    class='fnname'>get_common</a>&lt;'l&gt;(&amp;'l self) -&gt; &amp;'l AxesCommon;
+}</pre>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.plot2' class='method'><code>fn <span class='fnname'>plot2</span>&lt;T1: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X1: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T1&gt;, T2: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X2: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T2&gt;&gt;(&amp;mut self, plot_type: <a class='enum' href='../../../gnuplot/axes_common/enum.PlotType.html' title='gnuplot::axes_common::PlotType'>PlotType</a>, x1: X1, x2: X2, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>])</code></h3><h3 id='tymethod.plot3' class='method'><code>fn <span class='fnname'>plot3</span>&lt;T1: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X1: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T1&gt;, T2: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X2: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T2&gt;, T3: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X3: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T3&gt;&gt;(&amp;mut self, plot_type: <a class='enum' href='../../../gnuplot/axes_common/enum.PlotType.html' title='gnuplot::axes_common::PlotType'>PlotType</a>, x1: X1, x2: X2, x3: X3, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>])</code></h3><h3 id='tymethod.write_out' class='method'><code>fn <span class='fnname'>write_out</span>(&amp;self, writer: &amp;fn(data: &amp;[u8]))</code></h3><h3 id='tymethod.get_common' class='method'><code>fn <span class='fnname'>get_common</span>&lt;'l&gt;(&amp;'l self) -&gt; &amp;'l AxesCommon</code></h3></div>
+                        <h2 id='implementors'>Implementors</h2>
+                        <ul class='item-list'>
+                    <li><code><a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></li></ul></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <script>
+        var rootPath = "../../../";
+    </script>
+    <script src="../../../gnuplot/jquery.js"></script>
+    <script src="../../../gnuplot/search-index.js"></script>
+    <script src="../../../gnuplot/main.js"></script>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&uarr;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&darr;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code> (or <code>str</code>), <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+</body>
+</html>
