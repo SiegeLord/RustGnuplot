@@ -3,10 +3,8 @@
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
 use axes_common::*;
-use axes2d::*;
-use axes2d::private::*;
-use axes3d::*;
-use axes3d::private::*;
+use internal::axes2d::*;
+use internal::axes3d::*;
 use writer::*;
 
 use std::io;

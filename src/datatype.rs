@@ -15,7 +15,7 @@ macro_rules! impl_data_type
 		{
 			fn get(&self) -> f64
 			{
-				self.to_f64()
+				self.to_f64().unwrap()
 			}
 		}
 	)
@@ -29,7 +29,7 @@ macro_rules! impl_data_type_ref
 		{
 			fn get(&self) -> f64
 			{
-				self.to_f64()
+				self.to_f64().unwrap()
 			}
 		}
 	)

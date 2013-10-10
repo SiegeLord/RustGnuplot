@@ -8,6 +8,11 @@ use datatype::*;
 use options::*;
 use writer::*;
 
+pub mod external
+{
+	pub use super::Axes2D;
+}
+
 /// 2D axes that is used for drawing 2D plots
 pub struct Axes2D
 {
@@ -698,105 +703,102 @@ impl Axes2D
 		self
 	}
 }
-
-mod private
+	
+struct Tics
 {
-	use axes_common::*;
-	use options::*;
-	use datatype::*;
-	use writer::*;
-	
-	struct Tics
+	common_options: ~[u8],
+	text_options: ~[u8],
+}
+
+pub fn new_axes2d() -> Axes2D
+{
+	Axes2D{common: AxesCommon::new()}
+}
+
+pub trait Axes2DPrivate
+{
+	fn plot2<T1: DataType, X1: Iterator<T1>, T2: DataType, X2: Iterator<T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption]);
+	fn plot3<T1: DataType, X1: Iterator<T1>, T2: DataType, X2: Iterator<T2>, T3: DataType, X3: Iterator<T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption]);
+	fn write_out(&self, writer: &fn(data: &[u8]));
+	fn get_common<'l>(&'l self) -> &'l AxesCommon;
+}
+
+impl Axes2DPrivate for Axes2D
+{
+	fn plot2<T1: DataType, X1: Iterator<T1>,
+			 T2: DataType, X2: Iterator<T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption])
 	{
-		common_options: ~[u8],
-		text_options: ~[u8],
-	}
-	
-	pub fn new_axes2d() -> super::Axes2D
-	{
-		super::Axes2D
+		let l = self.common.elems.len();
+		self.common.elems.push(PlotElement::new());
+		let mut num_rows: i32 = 0;
+		
 		{
-			common: AxesCommon::new()
-		}
-	}
-	
-	impl super::Axes2D
-	{
-		pub fn plot2<T1: DataType, X1: Iterator<T1>,
-				 T2: DataType, X2: Iterator<T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption])
-		{
-			let l = self.common.elems.len();
-			self.common.elems.push(PlotElement::new());
-			let mut num_rows: i32 = 0;
-			
+			let data = &mut self.common.elems[l].data;
+			for (x1, x2) in x1.zip(x2)
 			{
-				let data = &mut self.common.elems[l].data;
-				for (x1, x2) in x1.zip(x2)
-				{
-					data.write_data(x1);
-					data.write_data(x2);
-					num_rows += 1;
-				}
+				data.write_data(x1);
+				data.write_data(x2);
+				num_rows += 1;
 			}
-			
-			self.common.write_common_commands(l, num_rows, 2, plot_type, options);
 		}
 		
-		pub fn plot3<T1: DataType, X1: Iterator<T1>,
-				 T2: DataType, X2: Iterator<T2>,
-				 T3: DataType, X3: Iterator<T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption])
+		self.common.write_common_commands(l, num_rows, 2, plot_type, options);
+	}
+	
+	fn plot3<T1: DataType, X1: Iterator<T1>,
+			 T2: DataType, X2: Iterator<T2>,
+			 T3: DataType, X3: Iterator<T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption])
+	{
+		let l = self.common.elems.len();
+		self.common.elems.push(PlotElement::new());
+		let mut num_rows: i32 = 0;
+		
 		{
-			let l = self.common.elems.len();
-			self.common.elems.push(PlotElement::new());
-			let mut num_rows: i32 = 0;
-			
+			let data = &mut self.common.elems[l].data;
+			for ((x1, x2), x3) in x1.zip(x2).zip(x3)
 			{
-				let data = &mut self.common.elems[l].data;
-				for ((x1, x2), x3) in x1.zip(x2).zip(x3)
-				{
-					data.write_data(x1);
-					data.write_data(x2);
-					data.write_data(x3);
-					num_rows += 1;
-				}
+				data.write_data(x1);
+				data.write_data(x2);
+				data.write_data(x3);
+				num_rows += 1;
 			}
-			
-			self.common.write_common_commands(l, num_rows, 3, plot_type, options);
 		}
 		
-		pub fn write_out(&self, writer: &fn(data: &[u8]))
+		self.common.write_common_commands(l, num_rows, 3, plot_type, options);
+	}
+	
+	fn write_out(&self, writer: &fn(data: &[u8]))
+	{
+		if self.common.elems.len() == 0
 		{
-			if self.common.elems.len() == 0
-			{
-				return;
-			}
-			
-			writer(self.common.commands);
-
-			writer("plot".as_bytes());
-			
-			let mut first = true;
-			for e in self.common.elems.iter()
-			{
-				if !first
-				{
-					writer(",".as_bytes());
-				}
-				writer(e.args);
-				first = false;
-			}
-			
-			writer("\n".as_bytes());
-			
-			for e in self.common.elems.iter()
-			{
-				writer(e.data);
-			}
+			return;
 		}
+		
+		writer(self.common.commands);
 
-		pub fn get_common<'l>(&'l self) -> &'l AxesCommon
+		writer("plot".as_bytes());
+		
+		let mut first = true;
+		for e in self.common.elems.iter()
 		{
-			&self.common
+			if !first
+			{
+				writer(",".as_bytes());
+			}
+			writer(e.args);
+			first = false;
 		}
+		
+		writer("\n".as_bytes());
+		
+		for e in self.common.elems.iter()
+		{
+			writer(e.data);
+		}
+	}
+
+	fn get_common<'l>(&'l self) -> &'l AxesCommon
+	{
+		&self.common
 	}
 }

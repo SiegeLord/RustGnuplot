@@ -11,6 +11,9 @@
 #[license = "zlib"];
 #[crate_type = "lib"];
 
+#[feature(globs)];
+#[feature(macro_rules)];
+
 /*!
 A simple gnuplot controller.
 
@@ -30,8 +33,8 @@ fg.show();
 ~~~
 */
 
-pub use axes2d::*;
-pub use axes3d::*;
+pub use internal::axes2d::external::*;
+pub use internal::axes3d::external::*;
 pub use figure::*;
 pub use options::*;
 pub use datatype::*;
@@ -41,10 +44,13 @@ pub use coordinates::*;
 mod util;
 mod axes_common;
 mod writer;
-
-pub mod axes2d;
-pub mod axes3d;
 pub mod figure;
 pub mod options; 
 pub mod datatype;
 pub mod coordinates;
+
+mod internal
+{
+	pub mod axes2d;
+	pub mod axes3d;
+}

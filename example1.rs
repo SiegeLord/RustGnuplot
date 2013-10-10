@@ -1,4 +1,5 @@
 // This file is released into Public Domain.
+#[feature(globs)];
 
 extern mod gnuplot;
 
