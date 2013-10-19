@@ -8,6 +8,7 @@ use internal::axes3d::*;
 use writer::*;
 
 use std::io;
+use std::path::Path;
 use std::run::{Process, ProcessOptions};
 
 enum AxesVariant
@@ -208,7 +209,7 @@ impl<'self> Figure<'self>
 			return self;
 		}
 		
-		let file = io::file_writer(&Path(filename), [io::Create]).unwrap();
+		let file = io::file_writer(&Path::new(filename), [io::Create]).unwrap();
 		do self.echo |v|
 		{
 			file.write(v);

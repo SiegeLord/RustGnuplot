@@ -240,7 +240,7 @@ pub fn char_to_symbol(c: char) -> i32
 		'D' => 11,
 		'r' => 12,
 		'R' => 13,
-		a => fail!("Invalid symbol %c", a)
+		a => fail!("Invalid symbol {}", a)
 	}
 }
 

@@ -205,11 +205,11 @@ impl Axes2D
 			c.write_str("set ");
 			c.write_str(tick_type.to_str());
 			
-			do incr.map |&incr|
+			do incr.map |incr|
 			{
 				if incr <= 0.0
 				{
-					fail!("'incr' must be positive, but is actually %f", incr);
+					fail!("'incr' must be positive, but is actually {}", incr);
 				}		
 				c.write_str(" add ");
 				match (min, max)
