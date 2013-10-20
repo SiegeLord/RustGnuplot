@@ -4,7 +4,7 @@
 
 use options::*;
 use writer::*;
-use coordinates::*;
+use internal::coordinates::*;
 
 struct PlotElement
 {

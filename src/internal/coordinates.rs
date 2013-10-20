@@ -2,6 +2,13 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
+use writer::*;
+
+pub mod external
+{
+	pub use super::{Coordinate, Graph, Axis};
+}
+
 /// Specifies how to interpret the coordinate passed to a plotting command
 pub enum Coordinate
 {
@@ -12,22 +19,21 @@ pub enum Coordinate
 	Axis(f64)
 }
 
-mod private
+pub trait CoordinatePrivate
 {
-	use super::*;
-	use writer::*;
+	fn write<T: PlotWriter>(&self, writer: &mut T);
+}
 
-	impl super::Coordinate
+impl CoordinatePrivate for Coordinate
+{
+	fn write<T: PlotWriter>(&self, writer: &mut T)
 	{
-		pub fn write<T: PlotWriter>(&self, writer: &mut T)
+		let (name, x) = match *self
 		{
-			let (name, x) = match *self
-			{
-				Graph(x) => (" graph ", x),
-				Axis(x) => (" first ", x),
-			};
-			writer.write_str(name);
-			writer.write_float(x);
-		}
+			Graph(x) => (" graph ", x),
+			Axis(x) => (" first ", x),
+		};
+		writer.write_str(name);
+		writer.write_float(x);
 	}
 }

@@ -35,10 +35,10 @@ fg.show();
 
 pub use internal::axes2d::external::*;
 pub use internal::axes3d::external::*;
+pub use internal::coordinates::external::*;
 pub use figure::*;
 pub use options::*;
 pub use datatype::*;
-pub use coordinates::*;
 
 #[macro_escape]
 mod util;
@@ -47,10 +47,10 @@ mod writer;
 pub mod figure;
 pub mod options; 
 pub mod datatype;
-pub mod coordinates;
 
 mod internal
 {
 	pub mod axes2d;
 	pub mod axes3d;
+	pub mod coordinates;
 }

@@ -3,8 +3,8 @@
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
 use axes_common::*;
-use coordinates::*;
 use datatype::*;
+use internal::coordinates::*;
 use options::*;
 use writer::*;
 
