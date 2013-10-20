@@ -251,6 +251,7 @@
 <span id='216'>216</span>
 <span id='217'>217</span>
 <span id='218'>218</span>
+<span id='219'>219</span>
 </pre><pre class='rust'>// Copyright (c) 2013 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
@@ -261,6 +262,7 @@ use internal::axes3d::*;
 use writer::*;
 
 use std::io;
+use std::path::Path;
 use std::run::{Process, ProcessOptions};
 
 enum AxesVariant
@@ -461,7 +463,7 @@ impl&lt;&#39;self&gt; Figure&lt;&#39;self&gt;
 			return self;
 		}
 		
-		let file = io::file_writer(&amp;Path(filename), [io::Create]).unwrap();
+		let file = io::file_writer(&amp;Path::new(filename), [io::Create]).unwrap();
 		do self.echo |v|
 		{
 			file.write(v);

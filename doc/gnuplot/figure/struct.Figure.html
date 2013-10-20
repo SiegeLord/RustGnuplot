@@ -22,7 +22,7 @@
     <section class="sidebar">
         
 
-        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>figure</a></p><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Figure.html'>Figure</a><br/></div>
+        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>figure</a></p><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Figure.html'>Figure</a><br/></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AxesVariant.html'>AxesVariant</a><br/></div>
     </section>
 
     <nav class="sub">
@@ -34,15 +34,11 @@
     </nav>
 
     <section id='main' class="content struct"><a class='source'
-                       href='../../src/gnuplot/src/figure.rs.html#41-48'>[src]</a><h1 class='fqn'>Struct <a href='../index.html'>gnuplot</a>::<a href='index.html'>figure</a>::<a class='struct' href=''>Figure</a></h1><pre class='struct'>pub struct Figure&lt;'self&gt; {
-    priv axes: ~[AxesVariant],
-    priv num_rows: u32,
-    priv num_cols: u32,
-    priv terminal: &amp;'self str,
-    priv output_file: &amp;'self str,
+                       href='../../src/gnuplot/src/figure.rs.html#42-49'>[src]</a><h1 class='fqn'>Struct <a href='../index.html'>gnuplot</a>::<a href='index.html'>figure</a>::<a class='struct' href=''>Figure</a></h1><pre class='struct'>pub struct Figure&lt;'self&gt; {
+    // some fields omitted
 }</pre><div class='docblock'><p>A figure that may contain multiple axes</p>
 </div><h2 class='fields'>Fields</h2>
-<table><tr><td id='structfield.axes'><code>axes</code></td><td></td></tr><tr><td id='structfield.num_rows'><code>num_rows</code></td><td></td></tr><tr><td id='structfield.num_cols'><code>num_cols</code></td><td></td></tr><tr><td id='structfield.terminal'><code>terminal</code></td><td></td></tr><tr><td id='structfield.output_file'><code>output_file</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'self&gt; <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'self&gt;</code></h3><div class='methods'><h4 id='method.new' class='method'><code>fn <span class='fnname'>new</span>() -&gt; <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
+<table></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'self&gt; <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'self&gt;</code></h3><div class='methods'><h4 id='method.new' class='method'><code>fn <span class='fnname'>new</span>() -&gt; <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Creates a new figure</p>
 </div><h4 id='method.set_terminal' class='method'><code>fn <span class='fnname'>set_terminal</span>&lt;'l&gt;(&amp;'l mut self, terminal: &amp;'self str, output_file: &amp;'self str) -&gt; &amp;'l mut <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'self&gt;</code></h4>
 <div class='docblock'><p>Sets the terminal for gnuplot to use, as well as the file to output the figure to.

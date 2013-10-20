@@ -22,7 +22,7 @@
     <section class="sidebar">
         
 
-        <p class='location'><a href='../../index.html'>gnuplot</a>&#8203;::<a href='../index.html'>internal</a>&#8203;::<a href='index.html'>axes2d</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='external/index.html'>external</a><br/></div><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Axes2D.html'>Axes2D</a><br/></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.Axes2DPrivate.html'>Axes2DPrivate</a><br/></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.new_axes2d.html'>new_axes2d</a><br/></div>
+        <p class='location'><a href='../../index.html'>gnuplot</a>&#8203;::<a href='../index.html'>internal</a>&#8203;::<a href='index.html'>axes2d</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='external/index.html'>external</a><br/></div><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Axes2D.html'>Axes2D</a><br/></div>
     </section>
 
     <nav class="sub">
@@ -35,10 +35,10 @@
 
     <section id='main' class="content struct"><a class='source'
                        href='../../../src/gnuplot/src/internal/axes2d.rs.html#17-20'>[src]</a><h1 class='fqn'>Struct <a href='../../index.html'>gnuplot</a>::<a href='../index.html'>internal</a>::<a href='index.html'>axes2d</a>::<a class='struct' href=''>Axes2D</a></h1><pre class='struct'>pub struct Axes2D {
-    priv common: AxesCommon,
+    // some fields omitted
 }</pre><div class='docblock'><p>2D axes that is used for drawing 2D plots</p>
 </div><h2 class='fields'>Fields</h2>
-<table><tr><td id='structfield.common'><code>common</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h3><div class='methods'><h4 id='method.set_pos_grid' class='method'><code>fn <span class='fnname'>set_pos_grid</span>&lt;'l&gt;(&amp;'l mut self, row: u32, col: u32) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
+<table></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h3><div class='methods'><h4 id='method.set_pos_grid' class='method'><code>fn <span class='fnname'>set_pos_grid</span>&lt;'l&gt;(&amp;'l mut self, row: u32, col: u32) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Set the position of the axes on the figure using grid coordinates</p>
 
 <h1>Arguments</h1>
@@ -125,7 +125,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 <li><code>Align</code> - Specifies how to align the label</li>
 </ul></li>
 </ul>
-</div><h4 id='method.label' class='method'><code>fn <span class='fnname'>label</span>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, x: <a class='enum' href='../../../gnuplot/coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y: <a class='enum' href='../../../gnuplot/coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.label' class='method'><code>fn <span class='fnname'>label</span>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, x: <a class='enum' href='../../../gnuplot/internal/coordinates/enum.Coordinate.html' title='gnuplot::internal::coordinates::Coordinate'>Coordinate</a>, y: <a class='enum' href='../../../gnuplot/internal/coordinates/enum.Coordinate.html' title='gnuplot::internal::coordinates::Coordinate'>Coordinate</a>, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Adds a label to the plot, with an optional marker.</p>
 
 <h1>Arguments</h1>
@@ -209,7 +209,7 @@ location of the tic.</li>
 <li><code>LineWidth</code> - Specifies the width of the border</li>
 </ul></li>
 </ul>
-</div><h4 id='method.arrow' class='method'><code>fn <span class='fnname'>arrow</span>&lt;'l&gt;(&amp;'l mut self, x1: <a class='enum' href='../../../gnuplot/coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y1: <a class='enum' href='../../../gnuplot/coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, x2: <a class='enum' href='../../../gnuplot/coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y2: <a class='enum' href='../../../gnuplot/coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.arrow' class='method'><code>fn <span class='fnname'>arrow</span>&lt;'l&gt;(&amp;'l mut self, x1: <a class='enum' href='../../../gnuplot/internal/coordinates/enum.Coordinate.html' title='gnuplot::internal::coordinates::Coordinate'>Coordinate</a>, y1: <a class='enum' href='../../../gnuplot/internal/coordinates/enum.Coordinate.html' title='gnuplot::internal::coordinates::Coordinate'>Coordinate</a>, x2: <a class='enum' href='../../../gnuplot/internal/coordinates/enum.Coordinate.html' title='gnuplot::internal::coordinates::Coordinate'>Coordinate</a>, y2: <a class='enum' href='../../../gnuplot/internal/coordinates/enum.Coordinate.html' title='gnuplot::internal::coordinates::Coordinate'>Coordinate</a>, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Adds an arrow to the plot. The arrow is drawn from <code>(x1, y1)</code> to <code>(x2, y2)</code> with the arrow point towards <code>(x2, y2)</code>.</p>
 
 <h1>Arguments</h1>
@@ -394,11 +394,7 @@ Boxes start at the x-axis and go towards the y value of the datapoint.</p>
 <li><code>FillAlpha</code> - Sets the transparency of the box fill</li>
 </ul></li>
 </ul>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../../gnuplot/internal/axes2d/trait.Axes2DPrivate.html' title='gnuplot::internal::axes2d::Axes2DPrivate'>Axes2DPrivate</a> for <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h3><div class='methods'><h4 id='method.plot2' class='method'><code>fn <span class='fnname'>plot2</span>&lt;T1: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X1: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T1&gt;, T2: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X2: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T2&gt;&gt;(&amp;mut self, plot_type: <a class='enum' href='../../../gnuplot/axes_common/enum.PlotType.html' title='gnuplot::axes_common::PlotType'>PlotType</a>, x1: X1, x2: X2, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>])</code></h4>
-<h4 id='method.plot3' class='method'><code>fn <span class='fnname'>plot3</span>&lt;T1: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X1: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T1&gt;, T2: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X2: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T2&gt;, T3: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X3: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T3&gt;&gt;(&amp;mut self, plot_type: <a class='enum' href='../../../gnuplot/axes_common/enum.PlotType.html' title='gnuplot::axes_common::PlotType'>PlotType</a>, x1: X1, x2: X2, x3: X3, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>])</code></h4>
-<h4 id='method.write_out' class='method'><code>fn <span class='fnname'>write_out</span>(&amp;self, writer: &amp;fn(data: &amp;[u8]))</code></h4>
-<h4 id='method.get_common' class='method'><code>fn <span class='fnname'>get_common</span>&lt;'l&gt;(&amp;'l self) -&gt; &amp;'l AxesCommon</code></h4>
-</div></section>
+</div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

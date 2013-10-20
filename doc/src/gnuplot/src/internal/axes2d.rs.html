@@ -842,8 +842,8 @@
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
 use axes_common::*;
-use coordinates::*;
 use datatype::*;
+use internal::coordinates::*;
 use options::*;
 use writer::*;
 
@@ -1044,11 +1044,11 @@ impl Axes2D
 			c.write_str(&quot;set &quot;);
 			c.write_str(tick_type.to_str());
 			
-			do incr.map |&amp;incr|
+			do incr.map |incr|
 			{
 				if incr &lt;= 0.0
 				{
-					fail!(&quot;&#39;incr&#39; must be positive, but is actually %f&quot;, incr);
+					fail!(&quot;&#39;incr&#39; must be positive, but is actually {}&quot;, incr);
 				}		
 				c.write_str(&quot; add &quot;);
 				match (min, max)
