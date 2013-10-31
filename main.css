@@ -290,7 +290,7 @@ button {
     background-size: 15pt 15pt;
     background-position: 1pt center; 
     border-radius: 0.4em;
-    width: calc(100% - 6em);
+    width: 100%;
     padding-left: 16pt;
 }
 
