@@ -21,7 +21,7 @@
     <section class="sidebar">
         
 
-        <p class='location'><a href='../../index.html'>gnuplot</a>&#8203;::<a href='../index.html'>internal</a>&#8203;::<a href='index.html'>axes2d</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='external/index.html'>external</a><br/></div><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Axes2D.html'>Axes2D</a><br/></div>
+        <p class='location'><a href='../../index.html'>gnuplot</a>&#8203;::<a href='../index.html'>internal</a>&#8203;::<a href='index.html'>axes2d</a></p><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Axes2D.html'>Axes2D</a><br/></div>
     </section>
 
     <nav class="sub">
@@ -33,7 +33,7 @@
     </nav>
 
     <section id='main' class="content struct"><a class='source'
-                       href='../../../src/gnuplot/src/internal/axes2d.rs.html#17-20'>[src]</a><h1 class='fqn'>Struct <a href='../../index.html'>gnuplot</a>::<a href='../index.html'>internal</a>::<a href='index.html'>axes2d</a>::<a class='struct' href=''>Axes2D</a></h1><pre class='struct'>pub struct Axes2D {
+                       href='../../../src/gnuplot/src/internal/axes2d.rs.html#12-15'>[src]</a><h1 class='fqn'>Struct <a href='../../index.html'>gnuplot</a>::<a href='../index.html'>internal</a>::<a href='index.html'>axes2d</a>::<a class='struct' href=''>Axes2D</a></h1><pre class='struct'>pub struct Axes2D {
     // some fields omitted
 }</pre><div class='docblock'><p>2D axes that is used for drawing 2D plots</p>
 </div><h2 class='fields'>Fields</h2>
@@ -208,6 +208,23 @@ location of the tic.</li>
 <li><code>LineWidth</code> - Specifies the width of the border</li>
 </ul></li>
 </ul>
+</div><h4 id='method.set_x_axis' class='method'><code>fn <span class='fnname'>set_x_axis</span>&lt;'l&gt;(&amp;'l mut self, show: bool, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Sets the properties of x axis.</p>
+
+<h1>Arguments</h1>
+
+<ul>
+<li><code>show</code> - Whether or not draw the axis</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the border. Relevant options are:
+
+<ul>
+<li><code>Color</code> - Specifies the color of the border</li>
+<li><code>LineStyle</code> - Specifies the style of the border</li>
+<li><code>LineWidth</code> - Specifies the width of the border</li>
+</ul></li>
+</ul>
+</div><h4 id='method.set_y_axis' class='method'><code>fn <span class='fnname'>set_y_axis</span>&lt;'l&gt;(&amp;'l mut self, show: bool, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Like <code>set_x_axis</code> but for the y axis.</p>
 </div><h4 id='method.arrow' class='method'><code>fn <span class='fnname'>arrow</span>&lt;'l&gt;(&amp;'l mut self, x1: <a class='enum' href='../../../gnuplot/internal/coordinates/enum.Coordinate.html' title='gnuplot::internal::coordinates::Coordinate'>Coordinate</a>, y1: <a class='enum' href='../../../gnuplot/internal/coordinates/enum.Coordinate.html' title='gnuplot::internal::coordinates::Coordinate'>Coordinate</a>, x2: <a class='enum' href='../../../gnuplot/internal/coordinates/enum.Coordinate.html' title='gnuplot::internal::coordinates::Coordinate'>Coordinate</a>, y2: <a class='enum' href='../../../gnuplot/internal/coordinates/enum.Coordinate.html' title='gnuplot::internal::coordinates::Coordinate'>Coordinate</a>, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Adds an arrow to the plot. The arrow is drawn from <code>(x1, y1)</code> to <code>(x2, y2)</code> with the arrow point towards <code>(x2, y2)</code>.</p>
 

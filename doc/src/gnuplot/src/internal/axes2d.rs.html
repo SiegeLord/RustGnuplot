@@ -836,8 +836,47 @@
 <span id='802'>802</span>
 <span id='803'>803</span>
 <span id='804'>804</span>
+<span id='805'>805</span>
+<span id='806'>806</span>
+<span id='807'>807</span>
+<span id='808'>808</span>
+<span id='809'>809</span>
+<span id='810'>810</span>
+<span id='811'>811</span>
+<span id='812'>812</span>
+<span id='813'>813</span>
+<span id='814'>814</span>
+<span id='815'>815</span>
+<span id='816'>816</span>
+<span id='817'>817</span>
+<span id='818'>818</span>
+<span id='819'>819</span>
+<span id='820'>820</span>
+<span id='821'>821</span>
+<span id='822'>822</span>
+<span id='823'>823</span>
+<span id='824'>824</span>
+<span id='825'>825</span>
+<span id='826'>826</span>
+<span id='827'>827</span>
+<span id='828'>828</span>
+<span id='829'>829</span>
+<span id='830'>830</span>
+<span id='831'>831</span>
+<span id='832'>832</span>
+<span id='833'>833</span>
+<span id='834'>834</span>
+<span id='835'>835</span>
+<span id='836'>836</span>
+<span id='837'>837</span>
+<span id='838'>838</span>
+<span id='839'>839</span>
+<span id='840'>840</span>
+<span id='841'>841</span>
+<span id='842'>842</span>
+<span id='843'>843</span>
 </pre><pre class='rust'>// Copyright (c) 2013 by SiegeLord
-// 
+//
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
 use axes_common::*;
@@ -845,11 +884,6 @@ use datatype::*;
 use internal::coordinates::*;
 use options::*;
 use writer::*;
-
-pub mod external
-{
-	pub use super::Axes2D;
-}
 
 /// 2D axes that is used for drawing 2D plots
 pub struct Axes2D
@@ -869,8 +903,8 @@ impl Axes2D
 		self.common.grid_col = col;
 		self
 	}
-	
-	/// Set the position of the axes on the figure using screen coordinates. 
+
+	/// Set the position of the axes on the figure using screen coordinates.
 	/// The coordinates refer to the bottom-left corner of the axes
 	/// # Arguments
 	/// * `x` - X position. Ranges from 0 to 1
@@ -879,7 +913,7 @@ impl Axes2D
 	{
 		{
 			let c = &amp;mut self.common.commands;
-			
+
 			c.write_str(&quot;set origin &quot;);
 			c.write_float(x);
 			c.write_str(&quot;,&quot;);
@@ -888,7 +922,7 @@ impl Axes2D
 		}
 		self
 	}
-	
+
 	/// Set the size of the axes
 	/// # Arguments
 	/// * `w` - Width. Ranges from 0 to 1
@@ -897,7 +931,7 @@ impl Axes2D
 	{
 		{
 			let c = &amp;mut self.common.commands;
-			
+
 			c.write_str(&quot;set size &quot;);
 			c.write_float(w);
 			c.write_str(&quot;,&quot;);
@@ -906,7 +940,7 @@ impl Axes2D
 		}
 		self
 	}
-	
+
 	/// Set the aspect ratio of the axes
 	/// # Arguments
 	/// * `ratio` - The aspect ratio. Set to Auto to return the ratio to default
@@ -914,10 +948,10 @@ impl Axes2D
 	{
 		{
 			let c = &amp;mut self.common.commands;
-			
+
 			match ratio
 			{
-				Fix(r) =&gt; 
+				Fix(r) =&gt;
 				{
 					c.write_str(&quot;set size ratio &quot;);
 					c.write_float(r);
@@ -931,7 +965,7 @@ impl Axes2D
 		}
 		self
 	}
-	
+
 	/// Set the label for the X axis
 	/// # Arguments
 	/// * `text` - Text of the label. Pass an empty string to hide the label
@@ -945,7 +979,7 @@ impl Axes2D
 	{
 		self.set_label_common(XLabel, text, options)
 	}
-	
+
 	/// Set the label for the Y axis
 	/// # Arguments
 	/// * `text` - Text of the label. Pass an empty string to hide the label
@@ -973,7 +1007,7 @@ impl Axes2D
 	{
 		self.set_label_common(Title, text, options)
 	}
-	
+
 	/// Adds a label to the plot, with an optional marker.
 	/// # Arguments
 	/// * `text` - Text of the label
@@ -992,14 +1026,14 @@ impl Axes2D
 	{
 		self.set_label_common(Label(x, y), text, options)
 	}
-	
+
 	fn set_label_common&lt;&#39;l&gt;(&amp;&#39;l mut self, label_type: LabelType, text: &amp;str, options: &amp;[LabelOption]) -&gt; &amp;&#39;l mut Axes2D
 	{
 		{
 			let c = &amp;mut self.common.commands;
-			
+
 			c.write_str(&quot;set &quot;);
-			
+
 			let label_str = match label_type
 			{
 				XLabel =&gt; &quot;xlabel&quot;,
@@ -1013,19 +1047,19 @@ impl Axes2D
 			c.write_str(&quot; \&quot;&quot;);
 			c.write_str(text);
 			c.write_str(&quot;\&quot;&quot;);
-			
+
 			write_out_label_options(label_type, options, c);
-			
+
 			c.write_str(&quot;\n&quot;);
 		}
 		self
 	}
-	
+
 	fn set_ticks_common&lt;&#39;l&gt;(&amp;&#39;l mut self, tick_type: TickType, min: AutoOption&lt;f64&gt;, incr: Option&lt;f64&gt;, max: AutoOption&lt;f64&gt;, tick_options: &amp;[TickOption], label_options: &amp;[LabelOption]) -&gt; &amp;&#39;l mut Axes2D
 	{
 		{
 			let c = &amp;mut self.common.commands;
-			
+
 			let mut minor_intervals: u32 = 0;
 			first_opt!(tick_options,
 				MinorIntervals(i) =&gt;
@@ -1039,16 +1073,16 @@ impl Axes2D
 			c.write_str(&quot; &quot;);
 			c.write_int(minor_intervals as i32);
 			c.write_str(&quot;\n&quot;);
-			
+
 			c.write_str(&quot;set &quot;);
 			c.write_str(tick_type.to_str());
-			
+
 			do incr.map |incr|
 			{
 				if incr &lt;= 0.0
 				{
 					fail!(&quot;&#39;incr&#39; must be positive, but is actually {}&quot;, incr);
-				}		
+				}
 				c.write_str(&quot; add &quot;);
 				match (min, max)
 				{
@@ -1086,9 +1120,9 @@ impl Axes2D
 					}
 				}
 			};
-			
+
 			write_out_label_options(AxesTicks, label_options, c);
-			
+
 			first_opt!(tick_options,
 				OnAxis(b) =&gt;
 				{
@@ -1099,7 +1133,7 @@ impl Axes2D
 					});
 				}
 			)
-			
+
 			first_opt!(tick_options,
 				Mirror(b) =&gt;
 				{
@@ -1110,7 +1144,7 @@ impl Axes2D
 					});
 				}
 			)
-			
+
 			first_opt!(tick_options,
 				Inward(b) =&gt;
 				{
@@ -1121,34 +1155,34 @@ impl Axes2D
 					});
 				}
 			)
-			
+
 			let mut minor_scale = 0.5;
 			let mut major_scale = 0.5;
-			
+
 			first_opt!(tick_options,
 				MinorScale(s) =&gt;
 				{
 					minor_scale = s;
 				}
 			)
-			
+
 			first_opt!(tick_options,
 				MajorScale(s) =&gt;
 				{
 					major_scale = s;
 				}
 			)
-			
+
 			c.write_str(&quot; scale &quot;);
 			c.write_float(minor_scale);
 			c.write_str(&quot;,&quot;);
 			c.write_float(major_scale);
-			
+
 			c.write_str(&quot;\n&quot;);
 		}
 		self
 	}
-	
+
 	/// Sets the properties of the tics on the X axis. The first 3 arguments specify the range of the tics. The following combinations work for `(min, max)`:
 	///
 	/// * `Auto, Auto` - The tics span the entire axis range
@@ -1172,13 +1206,13 @@ impl Axes2D
 	{
 		self.set_ticks_common(XTics, min, incr, max, tick_options, label_options)
 	}
-	
+
 	/// Like `set_x_tics` but for the Y axis.
 	pub fn set_y_tics&lt;&#39;l&gt;(&amp;&#39;l mut self, min: AutoOption&lt;f64&gt;, incr: Option&lt;f64&gt;, max: AutoOption&lt;f64&gt;, tick_options: &amp;[TickOption], label_options: &amp;[LabelOption]) -&gt; &amp;&#39;l mut Axes2D
 	{
 		self.set_ticks_common(YTics, min, incr, max, tick_options, label_options)
 	}
-	
+
 	fn add_tics_common&lt;&#39;l, T: DataType&gt;(&amp;&#39;l mut self, tick_type: TickType, minor: bool, tics: &amp;[(&amp;str, T)]) -&gt; &amp;&#39;l mut Axes2D
 	{
 		{
@@ -1186,7 +1220,7 @@ impl Axes2D
 			c.write_str(&quot;set &quot;);
 			c.write_str(tick_type.to_str());
 			c.write_str(&quot; add (&quot;);
-			
+
 			let mut first = true;
 			for tic in tics.iter()
 			{
@@ -1210,7 +1244,7 @@ impl Axes2D
 		}
 		self
 	}
-	
+
 	/// Adds major tics to the X axis with specified labels at specified positions.
 	///
 	/// # Arguments
@@ -1222,19 +1256,19 @@ impl Axes2D
 	{
 		self.add_tics_common(XTics, false, tics)
 	}
-	
+
 	/// Like `set_x_major_tics` but for the minor tics of the X axis.
 	pub fn add_x_minor_tics&lt;&#39;l, T: DataType&gt;(&amp;&#39;l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;&#39;l mut Axes2D
 	{
 		self.add_tics_common(XTics, true, tics)
 	}
-	
+
 	/// Like `set_x_major_tics` but for the major tics of the Y axis.
 	pub fn add_y_major_tics&lt;&#39;l, T: DataType&gt;(&amp;&#39;l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;&#39;l mut Axes2D
 	{
 		self.add_tics_common(YTics, false, tics)
 	}
-	
+
 	/// Like `set_x_major_tics` but for the minor tics of the Y axis.
 	pub fn add_y_minor_tics&lt;&#39;l, T: DataType&gt;(&amp;&#39;l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;&#39;l mut Axes2D
 	{
@@ -1278,7 +1312,51 @@ impl Axes2D
 		}
 		self
 	}
+
+	fn set_axis_common&lt;&#39;l&gt;(&amp;&#39;l mut self, axis: &amp;str, show: bool, options: &amp;[PlotOption]) -&gt; &amp;&#39;l mut Axes2D
+	{
+		{
+			let c = &amp;mut self.common.commands;
+			if show
+			{
+				c.write_str(&quot;set &quot;);
+				c.write_str(axis);
+				c.write_str(&quot;zeroaxis &quot;);
+				AxesCommon::write_color_options(c, options, Some(&quot;black&quot;));
+				AxesCommon::write_line_options(c, options);
+			}
+			else
+			{
+				c.write_str(&quot;unset &quot;);
+				c.write_str(axis);
+				c.write_str(&quot;zeroaxis &quot;);
+			}
+
+			c.write_str(&quot;\n&quot;);
+		}
+		self
+	}
+
+	/// Sets the properties of x axis.
+	///
+	/// # Arguments
+	///
+	/// * `show` - Whether or not draw the axis
+	/// * `options` - Array of PlotOption controlling the appearance of the border. Relevant options are:
+	///      * `Color` - Specifies the color of the border
+	///      * `LineStyle` - Specifies the style of the border
+	///      * `LineWidth` - Specifies the width of the border
+	pub fn set_x_axis&lt;&#39;l&gt;(&amp;&#39;l mut self, show: bool, options: &amp;[PlotOption]) -&gt; &amp;&#39;l mut Axes2D
+	{
+		self.set_axis_common(&quot;x&quot;, show, options)
+	}
 	
+	/// Like `set_x_axis` but for the y axis.
+	pub fn set_y_axis&lt;&#39;l&gt;(&amp;&#39;l mut self, show: bool, options: &amp;[PlotOption]) -&gt; &amp;&#39;l mut Axes2D
+	{
+		self.set_axis_common(&quot;y&quot;, show, options)
+	}
+
 	/// Adds an arrow to the plot. The arrow is drawn from `(x1, y1)` to `(x2, y2)` with the arrow point towards `(x2, y2)`.
 	/// # Arguments
 	/// * `x1` - X coordinate of the arrow start
@@ -1303,7 +1381,7 @@ impl Axes2D
 			x2.write(c);
 			c.write_str(&quot;,&quot;);
 			y2.write(c);
-			
+
 			first_opt!(options,
 				ArrowType(s) =&gt;
 				{
@@ -1316,7 +1394,7 @@ impl Axes2D
 					});
 				}
 			)
-			
+
 			c.write_str(&quot; size graph &quot;);
 			let mut found_size = false;
 			first_opt!(options,
@@ -1331,15 +1409,15 @@ impl Axes2D
 				c.write_str(&quot;0.05&quot;);
 			}
 			c.write_str(&quot;,12&quot;);
-			
+
 			AxesCommon::write_color_options(c, options, Some(&quot;black&quot;));
 			AxesCommon::write_line_options(c, options);
-			
+
 			c.write_str(&quot;\n&quot;);
 		}
 		self
 	}
-	
+
 	/// Set the range of values for the X axis
 	/// # Arguments
 	/// * `min` - Minimum X value
@@ -1348,7 +1426,7 @@ impl Axes2D
 	{
 		{
 			let c = &amp;mut self.common.commands;
-			
+
 			c.write_str(&quot;set xrange [&quot;);
 			match min
 			{
@@ -1365,7 +1443,7 @@ impl Axes2D
 		}
 		self
 	}
-	
+
 	/// Set the range of values for the Y axis
 	/// # Arguments
 	/// * `min` - Minimum Y value
@@ -1374,7 +1452,7 @@ impl Axes2D
 	{
 		{
 			let c = &amp;mut self.common.commands;
-			
+
 			c.write_str(&quot;set yrange [&quot;);
 			match min
 			{
@@ -1391,7 +1469,7 @@ impl Axes2D
 		}
 		self
 	}
-	
+
 	/// Plot a 2D scatter-plot with lines connecting each data point
 	/// # Arguments
 	/// * `x` - Iterator for the x values
@@ -1406,7 +1484,7 @@ impl Axes2D
 		self.plot2(Lines, x, y, options);
 		self
 	}
-	
+
 	/// Plot a 2D scatter-plot with a point standing in for each data point
 	/// # Arguments
 	/// * `x` - Iterator for the x values
@@ -1421,7 +1499,7 @@ impl Axes2D
 		self.plot2(Points, x, y, options);
 		self
 	}
-	
+
 	/// A combination of lines and points methods (drawn in that order).
 	/// # Arguments
 	/// * `x` - Iterator for the x values
@@ -1432,7 +1510,7 @@ impl Axes2D
 		self.plot2(LinesPoints, x, y, options);
 		self
 	}
-	
+
 	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 	/// Additionally, error bars are attached to each data point in the X direction.
 	/// # Arguments
@@ -1446,7 +1524,7 @@ impl Axes2D
 	///     * `LineWidth` - Sets the width of the line
 	///     * `LineStyle` - Sets the style of the line
 	///     * `Color` - Sets the color
-	pub fn x_error_lines&lt;&#39;l, 
+	pub fn x_error_lines&lt;&#39;l,
 	                   Tx: DataType, X: Iterator&lt;Tx&gt;,
 	                   Ty: DataType, Y: Iterator&lt;Ty&gt;,
 	                   Txe: DataType, XE: Iterator&lt;Txe&gt;&gt;(&amp;&#39;l mut self, x: X, y: Y, x_error: XE, options: &amp;[PlotOption]) -&gt; &amp;&#39;l mut Axes2D
@@ -1454,7 +1532,7 @@ impl Axes2D
 		self.plot3(XErrorLines, x, y, x_error, options);
 		self
 	}
-	
+
 	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 	/// Additionally, error bars are attached to each data point in the Y direction.
 	/// # Arguments
@@ -1468,7 +1546,7 @@ impl Axes2D
 	///     * `LineWidth` - Sets the width of the line
 	///     * `LineStyle` - Sets the style of the line
 	///     * `Color` - Sets the color
-	pub fn y_error_lines&lt;&#39;l, 
+	pub fn y_error_lines&lt;&#39;l,
 	                   Tx: DataType, X: Iterator&lt;Tx&gt;,
 	                   Ty: DataType, Y: Iterator&lt;Ty&gt;,
 	                   Tye: DataType, YE: Iterator&lt;Tye&gt;&gt;(&amp;&#39;l mut self, x: X, y: Y, y_error: YE, options: &amp;[PlotOption]) -&gt; &amp;&#39;l mut Axes2D
@@ -1476,7 +1554,7 @@ impl Axes2D
 		self.plot3(YErrorLines, x, y, y_error, options);
 		self
 	}
-	
+
 	/// Plot a 2D scatter-plot of two curves (bound by `y_lo` and `y_hi`) with a filled region between them.
 	/// `FillRegion` plot option can be used to control what happens when the curves intersect. If set to Above, then the `y_lo &lt; y_hi` region is filled.
 	/// If set to Below, then the `y_lo &gt; y_hi` region is filled. Otherwise both regions are filled.
@@ -1489,7 +1567,7 @@ impl Axes2D
 	///     * `FillRegion` - Specifies the region between the two curves to fill
 	///     * `Color` - Sets the color of the filled region
 	///     * `FillAlpha` - Sets the transparency of the filled region
-	pub fn fill_between&lt;&#39;l, 
+	pub fn fill_between&lt;&#39;l,
 	                   Tx: DataType, X: Iterator&lt;Tx&gt;,
 	                   Tyl: DataType, YL: Iterator&lt;Tyl&gt;,
 	                   Tyh: DataType, YH: Iterator&lt;Tyh&gt;&gt;(&amp;&#39;l mut self, x: X, y_lo: YL, y_hi: YH, options: &amp;[PlotOption]) -&gt; &amp;&#39;l mut Axes2D
@@ -1497,7 +1575,7 @@ impl Axes2D
 		self.plot3(FillBetween, x, y_lo, y_hi, options);
 		self
 	}
-	
+
 	/// Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
 	/// Boxes start at the x-axis and go towards the y value of the datapoint.
 	/// # Arguments
@@ -1515,7 +1593,7 @@ impl Axes2D
 		self.plot2(Boxes, x, y, options);
 		self
 	}
-	
+
 	/// Plot a 2D scatter-plot using boxes of set (per box) width.
 	/// Boxes start at the x-axis and go towards the y value of the datapoint.
 	/// # Arguments
@@ -1541,7 +1619,7 @@ impl Axes2D
 		self
 	}
 }
-	
+
 struct Tics
 {
 	common_options: ~[u8],
@@ -1569,7 +1647,7 @@ impl Axes2DPrivate for Axes2D
 		let l = self.common.elems.len();
 		self.common.elems.push(PlotElement::new());
 		let mut num_rows: i32 = 0;
-		
+
 		{
 			let data = &amp;mut self.common.elems[l].data;
 			for (x1, x2) in x1.zip(x2)
@@ -1579,10 +1657,10 @@ impl Axes2DPrivate for Axes2D
 				num_rows += 1;
 			}
 		}
-		
+
 		self.common.write_common_commands(l, num_rows, 2, plot_type, options);
 	}
-	
+
 	fn plot3&lt;T1: DataType, X1: Iterator&lt;T1&gt;,
 			 T2: DataType, X2: Iterator&lt;T2&gt;,
 			 T3: DataType, X3: Iterator&lt;T3&gt;&gt;(&amp;mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &amp;[PlotOption])
@@ -1590,7 +1668,7 @@ impl Axes2DPrivate for Axes2D
 		let l = self.common.elems.len();
 		self.common.elems.push(PlotElement::new());
 		let mut num_rows: i32 = 0;
-		
+
 		{
 			let data = &amp;mut self.common.elems[l].data;
 			for ((x1, x2), x3) in x1.zip(x2).zip(x3)
@@ -1601,21 +1679,21 @@ impl Axes2DPrivate for Axes2D
 				num_rows += 1;
 			}
 		}
-		
+
 		self.common.write_common_commands(l, num_rows, 3, plot_type, options);
 	}
-	
+
 	fn write_out(&amp;self, writer: &amp;fn(data: &amp;[u8]))
 	{
 		if self.common.elems.len() == 0
 		{
 			return;
 		}
-		
+
 		writer(self.common.commands);
 
 		writer(&quot;plot&quot;.as_bytes());
-		
+
 		let mut first = true;
 		for e in self.common.elems.iter()
 		{
@@ -1626,9 +1704,9 @@ impl Axes2DPrivate for Axes2D
 			writer(e.args);
 			first = false;
 		}
-		
+
 		writer(&quot;\n&quot;.as_bytes());
-		
+
 		for e in self.common.elems.iter()
 		{
 			writer(e.data);
