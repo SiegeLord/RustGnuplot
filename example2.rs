@@ -62,11 +62,13 @@ fn main()
 	let mut fg = Figure::new();
 	
 	fg.axes2d()
-	.set_title("Border", [])
+	.set_title("Border and Axes", [])
 	.set_border(true, [Left, Bottom], [LineWidth(2.0)])
 	.set_x_tics(Auto, Some(1.0), Auto, [Mirror(false)], [])
 	.set_y_tics(Auto, Some(5.0), Auto, [Mirror(false)], [])
-	.lines(x3, y3, [LineWidth(2.0), Color("blue")]);
+	.lines(x3, y3, [LineWidth(2.0), Color("blue")])
+	.set_x_axis(true, [LineWidth(2.0), LineStyle(DotDotDash)])
+	.set_y_axis(true, [LineWidth(2.0), Color("red")]);
 	
 	fg.show();
 	fg.echo_to_file("fg10.gnuplot");
