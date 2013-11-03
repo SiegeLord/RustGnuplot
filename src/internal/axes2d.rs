@@ -8,11 +8,6 @@ use internal::coordinates::*;
 use options::*;
 use writer::*;
 
-pub mod external
-{
-	pub use super::Axes2D;
-}
-
 /// 2D axes that is used for drawing 2D plots
 pub struct Axes2D
 {

@@ -33,8 +33,8 @@ fg.show();
 ~~~
 */
 
-pub use internal::axes2d::external::*;
-pub use internal::axes3d::external::*;
+pub use internal::axes2d::Axes2D;
+pub use internal::axes3d::Axes2D;
 pub use internal::coordinates::external::*;
 pub use figure::*;
 pub use options::*;

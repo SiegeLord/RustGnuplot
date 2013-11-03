@@ -4,11 +4,6 @@
 
 use axes_common::*;
 
-pub mod external
-{
-	pub use super::Axes3D;
-}
-
 pub struct Axes3D
 {
 	priv common: AxesCommon
