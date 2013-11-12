@@ -7,9 +7,8 @@ use internal::axes2d::*;
 use internal::axes3d::*;
 use writer::*;
 
-use std::rt::io;
-use std::rt::io::Writer;
-use std::rt::io::file::FileInfo;
+use std::rt::io::File;
+use std::rt::io::buffered::BufferedWriter;
 use std::path::Path;
 use std::run::{Process, ProcessOptions};
 
@@ -211,7 +210,7 @@ impl<'self> Figure<'self>
 			return self;
 		}
 		
-		let mut file = Path::new(filename).open_writer(io::CreateOrTruncate).unwrap();
+		let mut file = BufferedWriter::new(File::create(&Path::new(filename)).unwrap());
 		do self.echo |v|
 		{
 			file.write(v);
