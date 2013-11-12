@@ -8,7 +8,7 @@
        url = "https://github.com/SiegeLord/RustGnuplot")];
 
 #[comment = "Rust gnuplot controller"];
-#[license = "zlib"];
+#[license = "LGPL"];
 #[crate_type = "lib"];
 
 #[feature(globs)];
