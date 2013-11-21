@@ -7,8 +7,8 @@ use internal::axes2d::*;
 use internal::axes3d::*;
 use writer::*;
 
-use std::rt::io::File;
-use std::rt::io::buffered::BufferedWriter;
+use std::io::File;
+use std::io::buffered::BufferedWriter;
 use std::path::Path;
 use std::run::{Process, ProcessOptions};
 
