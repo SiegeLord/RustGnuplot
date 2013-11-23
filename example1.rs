@@ -2,13 +2,30 @@
 #[feature(globs)];
 
 extern mod gnuplot;
+extern mod extra;
 
+use extra::getopts::groups::*;
 use std::iter::Repeat;
+use std::os;
 
 use gnuplot::*;
 
 fn main()
 {
+	let args = os::args();
+	
+	let opts = ~[
+        optflag("n", "no-show", "do not run the gnuplot process")
+    ];
+    
+    let matches = match getopts(args.tail(), opts)
+    {
+		Ok(m) => { m }
+        Err(f) => { fail!(f.to_err_msg()) }
+	};
+	
+	let show = !matches.opt_present("n");
+
 	let x = [0, 1, 2, 3, 4, 5];
 	let x = x.iter();
 	let y1 = x.map(|&v| { v * v }).to_owned_vec();
@@ -33,11 +50,17 @@ fn main()
 	.set_title("Goings nuts with the formatting", [Font("Times", 24.0), Offset(-10.0, 0.5)])
 	.label("Intersection", Axis(1.449), Axis(2.101), [MarkerSymbol('*'), Align(AlignCenter), Offset(0.0, -1.0), MarkerColor("red"), MarkerSize(2.0)]);
 	
-	fg.show();
+	if show
+	{
+		fg.show();
+	}
 	fg.echo_to_file("fg1.gnuplot");
 	
-	fg.set_terminal("pdfcairo", "fg1.pdf");
-	fg.show();
+	if show
+	{
+		fg.set_terminal("pdfcairo", "fg1.pdf");
+		fg.show();
+	}
 	
 	let mut fg = Figure::new();
 	
@@ -52,7 +75,10 @@ fn main()
 	.set_title("Plot2", []);
 	
 	fg.set_grid(1, 2);
-	fg.show();
+	if show
+	{
+		fg.show();
+	}
 	fg.echo_to_file("fg2.gnuplot");
 	
 	let mut fg = Figure::new();
@@ -67,7 +93,10 @@ fn main()
 	.points(x, y2, [Caption("Points"), PointSymbol('T'), Color("#ffaa77")])
 	.set_title("Inset", []);
 
-	fg.show();
+	if show
+	{
+		fg.show();
+	}
 	fg.echo_to_file("fg3.gnuplot");
 	
 	let mut fg = Figure::new();
@@ -77,7 +106,10 @@ fn main()
 	.set_y_range(Fix(-30.0), Auto)
 	.set_y_label("This axis is manually scaled on the low end", []);
 
-	fg.show();
+	if show
+	{
+		fg.show();
+	}
 	fg.echo_to_file("fg4.gnuplot");
 	
 	let mut fg = Figure::new();
@@ -87,7 +119,10 @@ fn main()
 	.y_error_lines(x, y2, y_err, [LineWidth(2.0), PointSymbol('S'), Color("blue")])
 	.set_title("Errors", []);
 
-	fg.show();
+	if show
+	{
+		fg.show();
+	}
 	fg.echo_to_file("fg5.gnuplot");
 	
 	let mut fg = Figure::new();
@@ -101,6 +136,9 @@ fn main()
 	.lines(x, y3, [Color("black"), LineWidth(2.0), LineStyle(DotDotDash), Caption("B")])
 	.set_title("Fill", []);
 
-	fg.show();
+	if show
+	{
+		fg.show();
+	}
 	fg.echo_to_file("fg6.gnuplot");
 }
