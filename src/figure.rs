@@ -215,6 +215,7 @@ impl<'self> Figure<'self>
 		{
 			file.write(v);
 		};
+		file.flush();
 		self
 	}
 }
