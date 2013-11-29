@@ -15,7 +15,7 @@ pub trait PlotWriter
 	fn write_float(&mut self, f: f64);
 }
 
-pub fn to_sci(v: f64, writer: &fn(&str))
+pub fn to_sci(v: f64, writer: |&str|)
 {
 	let e = v.abs();
 	if(e > 0.0)
@@ -60,6 +60,6 @@ impl PlotWriter for ~[u8]
 	
 	fn write_float(&mut self, f: f64)
 	{
-		do to_sci(f) |s| { self.write_str(s) };
+		to_sci(f, |s| { self.write_str(s) });
 	}
 }

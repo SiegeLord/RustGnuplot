@@ -200,7 +200,7 @@ impl Axes2D
 			c.write_str("set ");
 			c.write_str(tick_type.to_str());
 
-			do incr.map |incr|
+			incr.map(|incr|
 			{
 				if incr <= 0.0
 				{
@@ -242,7 +242,7 @@ impl Axes2D
 						c.write_float(max);
 					}
 				}
-			};
+			});
 
 			write_out_label_options(AxesTicks, label_options, c);
 
@@ -758,7 +758,7 @@ pub trait Axes2DPrivate
 {
 	fn plot2<T1: DataType, X1: Iterator<T1>, T2: DataType, X2: Iterator<T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption]);
 	fn plot3<T1: DataType, X1: Iterator<T1>, T2: DataType, X2: Iterator<T2>, T3: DataType, X3: Iterator<T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption]);
-	fn write_out(&self, writer: &fn(data: &[u8]));
+	fn write_out(&self, writer: |data: &[u8]|);
 	fn get_common<'l>(&'l self) -> &'l AxesCommon;
 }
 
@@ -806,7 +806,7 @@ impl Axes2DPrivate for Axes2D
 		self.common.write_common_commands(l, num_rows, 3, plot_type, options);
 	}
 
-	fn write_out(&self, writer: &fn(data: &[u8]))
+	fn write_out(&self, writer: |data: &[u8]|)
 	{
 		if self.common.elems.len() == 0
 		{

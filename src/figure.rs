@@ -20,7 +20,7 @@ enum AxesVariant
 
 impl AxesVariant
 {
-	fn write_out(&self, writer: &fn(data: &[u8]))
+	fn write_out(&self, writer: |data: &[u8]|)
 	{
 		match *self
 		{
@@ -126,10 +126,10 @@ impl<'self> Figure<'self>
 		let mut p = Process::new("gnuplot", [~"-p"], ProcessOptions::new());
 		let input = p.input();
 		
-		do self.echo |v|
+		self.echo(|v|
 		{
 			input.write(v);
-		};
+		});
 		
 		self
 	}
@@ -137,7 +137,7 @@ impl<'self> Figure<'self>
 	/// Echo the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
 	/// * `writer` - A function pointer that will be called multiple times with the command text and data
-	pub fn echo<'l>(&'l self, writer: &fn(data: &[u8])) -> &'l Figure<'l>
+	pub fn echo<'l>(&'l self, writer: |data: &[u8]|) -> &'l Figure<'l>
 	{
 		if self.axes.len() == 0
 		{
@@ -182,15 +182,15 @@ impl<'self> Figure<'self>
 				let y = (self.num_rows as f64 - c.grid_row as f64) * h;
 				
 				writer("set origin ".as_bytes());
-				do to_sci(x) |s| { writer(s.as_bytes()) };
+				to_sci(x, |s| { writer(s.as_bytes()) });
 				writer(",".as_bytes());
-				do to_sci(y) |s| { writer(s.as_bytes()) };
+				to_sci(y, |s| { writer(s.as_bytes()) });
 				writer("\n".as_bytes());
 				
 				writer("set size ".as_bytes());
-				do to_sci(w) |s| { writer(s.as_bytes()) };
+				to_sci(w, |s| { writer(s.as_bytes()) });
 				writer(",".as_bytes());
-				do to_sci(h) |s| { writer(s.as_bytes()) };
+				to_sci(h, |s| { writer(s.as_bytes()) });
 				writer("\n".as_bytes());
 			}
 			e.write_out(|s| writer(s));
@@ -211,10 +211,10 @@ impl<'self> Figure<'self>
 		}
 		
 		let mut file = BufferedWriter::new(File::create(&Path::new(filename)).unwrap());
-		do self.echo |v|
+		self.echo(|v|
 		{
 			file.write(v);
-		};
+		});
 		file.flush();
 		self
 	}
