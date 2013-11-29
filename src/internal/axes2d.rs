@@ -162,7 +162,7 @@ impl Axes2D
 				XLabel => "xlabel",
 				YLabel => "ylabel",
 				Title => "title",
-				Label(*) => "label",
+				Label(..) => "label",
 				_ => fail!("Invalid label type")
 			};
 			c.write_str(label_str);

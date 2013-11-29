@@ -39,7 +39,7 @@ impl LabelType
 	{
 		match *self
 		{
-			Label(*) => true,
+			Label(..) => true,
 			_ => false
 		}
 	}
