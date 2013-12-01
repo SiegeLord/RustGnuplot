@@ -519,18 +519,16 @@ impl Axes2D
 			)
 
 			c.write_str(" size graph ");
-			let mut found_size = false;
-			first_opt!(options,
+			first_opt_default!(options,
 				ArrowSize(s) =>
 				{
 					c.write_float(s);
-					found_size = true;
+				},
+				_ =>
+				{
+					c.write_str("0.05");
 				}
 			)
-			if !found_size
-			{
-				c.write_str("0.05");
-			}
 			c.write_str(",12");
 
 			AxesCommon::write_color_options(c, options, Some("black"));
@@ -589,6 +587,45 @@ impl Axes2D
 				Auto => c.write_str("*")
 			}
 			c.write_str("]\n");
+		}
+		self
+	}
+
+	/// Specifies the location and other properties of the legend
+	///
+	pub fn set_legend<'l>(&'l mut self, x: Coordinate, y: Coordinate, options: &'l [LegendOption]) -> &'l mut Axes2D
+	{
+		{
+			let c = &mut self.common.commands;
+			
+			c.write_str("set key at ");
+			x.write(c);
+			c.write_str(",");
+			y.write(c);
+			
+			first_opt_default!(options,
+				Horizontal =>
+				{
+					c.write_str(" horizontal");
+				},
+				_ =>
+				{
+					c.write_str(" vertical");
+				}
+			)
+			
+			first_opt_default!(options,
+				Invert =>
+				{
+					c.write_str(" invert");
+				},
+				_ =>
+				{
+					c.write_str(" noinvert");
+				}
+			)
+			
+			c.write_str("\n");
 		}
 		self
 	}

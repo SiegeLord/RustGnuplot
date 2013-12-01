@@ -161,6 +161,17 @@ pub enum BorderLocation2D
 	Right = 8
 }
 
+/// Legend options
+pub enum LegendOption<'self>
+{
+	/// Puts curve samples to the left of the label
+	Reverse,
+	/// Displays legend entries in opposite order
+	Invert,
+	/// Makes the legend horizontal
+	Horizontal
+}
+
 mod private
 {
 	use super::*;

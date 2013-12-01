@@ -87,7 +87,7 @@ fn main()
 	let mut fg = Figure::new();
 	
 	fg.axes2d()
-	.set_title("Border and Axes", [])
+	.set_title("Border, Axes", [])
 	.set_border(true, [Left, Bottom], [LineWidth(2.0)])
 	.set_x_tics(Auto, Some(1.0), Auto, [Mirror(false)], [])
 	.set_y_tics(Auto, Some(5.0), Auto, [Mirror(false)], [])

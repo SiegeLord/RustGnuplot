@@ -128,13 +128,16 @@ fn main()
 	let mut fg = Figure::new();
 
 	fg.axes2d()
+	.set_size(1.0, 0.8)
+	.set_pos(0.0, 0.2)
 	.fill_between(x, y1, y3, [Color("red"), FillAlpha(0.5), FillRegion(Above), Caption("A > B")])
 	.fill_between(x, y1, y3, [Color("green"), FillAlpha(0.5), FillRegion(Below), Caption("A < B")])
 	.fill_between(x, y2, y3, [Color("blue"), FillAlpha(0.5), FillRegion(Between), Caption("Between C and B")])
 	.lines(x, y1, [Color("black"), LineWidth(2.0), LineStyle(Dash), Caption("A")])
 	.lines(x, y2, [Color("black"), LineWidth(2.0), Caption("C")])
 	.lines(x, y3, [Color("black"), LineWidth(2.0), LineStyle(DotDotDash), Caption("B")])
-	.set_title("Fill", []);
+	.set_title("Fill and legend", [])
+	.set_legend(Graph(1.0), Graph(-0.2), [Horizontal]);
 
 	if show
 	{

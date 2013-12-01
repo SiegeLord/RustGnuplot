@@ -20,3 +20,30 @@ macro_rules! first_opt
 		}
 	)
 }
+
+macro_rules! first_opt_default
+{
+	($O: ident , $P: pat => $B: expr , _ => $E: expr ) =>
+	(
+		{
+			let mut found = false;
+			for o in $O.iter()
+			{
+				match *o
+				{
+					$P => 
+					{
+						found = true;
+						$B
+						break;
+					},
+					_ => ()
+				};
+			}
+			if !found
+			{
+				$E
+			}
+		}
+	)
+}
