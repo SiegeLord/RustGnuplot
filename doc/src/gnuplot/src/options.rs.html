@@ -215,6 +215,28 @@
 <span id='181'>181</span>
 <span id='182'>182</span>
 <span id='183'>183</span>
+<span id='184'>184</span>
+<span id='185'>185</span>
+<span id='186'>186</span>
+<span id='187'>187</span>
+<span id='188'>188</span>
+<span id='189'>189</span>
+<span id='190'>190</span>
+<span id='191'>191</span>
+<span id='192'>192</span>
+<span id='193'>193</span>
+<span id='194'>194</span>
+<span id='195'>195</span>
+<span id='196'>196</span>
+<span id='197'>197</span>
+<span id='198'>198</span>
+<span id='199'>199</span>
+<span id='200'>200</span>
+<span id='201'>201</span>
+<span id='202'>202</span>
+<span id='203'>203</span>
+<span id='204'>204</span>
+<span id='205'>205</span>
 </pre><pre class='rust'>// Copyright (c) 2013 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
@@ -272,12 +294,14 @@ pub enum FillRegion
 	Between
 }
 
-/// An enumeration of possible text alignments
+/// An enumeration of possible text and label alignments
 pub enum AlignType
 {
 	AlignLeft,
 	AlignRight,
-	AlignCenter
+	AlignCenter,
+	AlignTop,
+	AlignBottom
 }
 
 /// An enumeration of possible dash styles
@@ -318,7 +342,7 @@ pub enum AutoOption&lt;T&gt;
 pub enum LabelOption&lt;&#39;self&gt;
 {
 	/// Sets the offset of the label in characters
-	Offset(f64, f64),
+	TextOffset(f64, f64),
 	/// Sets the font of the label. The string specifies the font type (e.g. &quot;Arial&quot;) and the number specifies the size (the units are terminal dependent, but are often points)
 	Font(&amp;&#39;self str, f64),
 	/// Sets the color of the label text. The passed string can be a color name
@@ -327,7 +351,7 @@ pub enum LabelOption&lt;&#39;self&gt;
 	/// Rotates the label by a certain number of degrees
 	Rotate(f64),
 	/// Sets the horizontal alignment of the label text (default is left alignment). See AlignType.
-	Align(AlignType),
+	TextAlign(AlignType),
 	/// Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:
 	///
 	/// * `.` - dot
@@ -376,6 +400,26 @@ pub enum BorderLocation2D
 	Left = 2,
 	Top = 4,
 	Right = 8
+}
+
+/// Legend options
+pub enum LegendOption&lt;&#39;self&gt;
+{
+	/// Puts curve samples to the left of the label
+	Reverse,
+	/// Displays legend entries in opposite order
+	Invert,
+	/// Makes the legend horizontal (default is vertical)
+	Horizontal,
+	/// Specifies the location of the legend. The first argument specifies the horizontal
+	/// placement with respect to its position, and the second argument specifies the vertical placement
+	Placement(AlignType, AlignType),
+	/// Title of the legend
+	Title(&amp;&#39;self str),
+	/// Specifies the maximum number of rows, when the legend is vertical
+	MaxRows(u32),
+	/// Specifies the maximum number of columns, when the legend is horizontal
+	MaxCols(u32),
 }
 
 mod private

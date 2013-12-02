@@ -465,7 +465,7 @@ impl&lt;&#39;self&gt; Figure&lt;&#39;self&gt;
 			return self;
 		}
 		
-		let mut file = BufferedWriter::new(File::create(&amp;Path::new(filename)).unwrap());
+		let mut file = BufferedWriter::new(File::create(&amp;Path::init(filename)).unwrap());
 		self.echo(|v|
 		{
 			file.write(v);

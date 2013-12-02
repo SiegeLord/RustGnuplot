@@ -263,6 +263,24 @@ location of the tic.</li>
 <li><code>min</code> - Minimum Y value</li>
 <li><code>max</code> - Maximum Y value</li>
 </ul>
+</div><h4 id='method.set_legend' class='method'><code>fn <span class='fnname'>set_legend</span>&lt;'l&gt;(&amp;'l mut self, x: <a class='enum' href='../../../gnuplot/internal/coordinates/enum.Coordinate.html' title='gnuplot::internal::coordinates::Coordinate'>Coordinate</a>, y: <a class='enum' href='../../../gnuplot/internal/coordinates/enum.Coordinate.html' title='gnuplot::internal::coordinates::Coordinate'>Coordinate</a>, legend_options: &amp;'l [<a class='enum' href='../../../gnuplot/options/enum.LegendOption.html' title='gnuplot::options::LegendOption'>LegendOption</a>], text_options: &amp;'l [<a class='enum' href='../../../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Specifies the location and other properties of the legend</p>
+
+<h1>Arguments</h1>
+
+<ul>
+<li><code>x</code> - X coordinate of the legend</li>
+<li><code>y</code> - Y coordinate of the legend</li>
+<li><code>label_options</code> - Array of LegendOption options</li>
+<li><code>text_options</code> - Array of LabelOption options specifying the appearance of the plot titles. Valid options are:
+
+<ul>
+<li><code>Font</code></li>
+<li><code>TextColor</code></li>
+<li><code>TextAlign(AlignLeft)</code></li>
+<li><code>TextAlign(AlignRight)</code></li>
+</ul></li>
+</ul>
 </div><h4 id='method.lines' class='method'><code>fn <span class='fnname'>lines</span>&lt;'l, Tx: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;Tx&gt;, Ty: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;Ty&gt;&gt;(&amp;'l mut self, x: X, y: Y, options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Plot a 2D scatter-plot with lines connecting each data point</p>
 

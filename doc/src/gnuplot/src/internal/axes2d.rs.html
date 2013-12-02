@@ -875,6 +875,138 @@
 <span id='841'>841</span>
 <span id='842'>842</span>
 <span id='843'>843</span>
+<span id='844'>844</span>
+<span id='845'>845</span>
+<span id='846'>846</span>
+<span id='847'>847</span>
+<span id='848'>848</span>
+<span id='849'>849</span>
+<span id='850'>850</span>
+<span id='851'>851</span>
+<span id='852'>852</span>
+<span id='853'>853</span>
+<span id='854'>854</span>
+<span id='855'>855</span>
+<span id='856'>856</span>
+<span id='857'>857</span>
+<span id='858'>858</span>
+<span id='859'>859</span>
+<span id='860'>860</span>
+<span id='861'>861</span>
+<span id='862'>862</span>
+<span id='863'>863</span>
+<span id='864'>864</span>
+<span id='865'>865</span>
+<span id='866'>866</span>
+<span id='867'>867</span>
+<span id='868'>868</span>
+<span id='869'>869</span>
+<span id='870'>870</span>
+<span id='871'>871</span>
+<span id='872'>872</span>
+<span id='873'>873</span>
+<span id='874'>874</span>
+<span id='875'>875</span>
+<span id='876'>876</span>
+<span id='877'>877</span>
+<span id='878'>878</span>
+<span id='879'>879</span>
+<span id='880'>880</span>
+<span id='881'>881</span>
+<span id='882'>882</span>
+<span id='883'>883</span>
+<span id='884'>884</span>
+<span id='885'>885</span>
+<span id='886'>886</span>
+<span id='887'>887</span>
+<span id='888'>888</span>
+<span id='889'>889</span>
+<span id='890'>890</span>
+<span id='891'>891</span>
+<span id='892'>892</span>
+<span id='893'>893</span>
+<span id='894'>894</span>
+<span id='895'>895</span>
+<span id='896'>896</span>
+<span id='897'>897</span>
+<span id='898'>898</span>
+<span id='899'>899</span>
+<span id='900'>900</span>
+<span id='901'>901</span>
+<span id='902'>902</span>
+<span id='903'>903</span>
+<span id='904'>904</span>
+<span id='905'>905</span>
+<span id='906'>906</span>
+<span id='907'>907</span>
+<span id='908'>908</span>
+<span id='909'>909</span>
+<span id='910'>910</span>
+<span id='911'>911</span>
+<span id='912'>912</span>
+<span id='913'>913</span>
+<span id='914'>914</span>
+<span id='915'>915</span>
+<span id='916'>916</span>
+<span id='917'>917</span>
+<span id='918'>918</span>
+<span id='919'>919</span>
+<span id='920'>920</span>
+<span id='921'>921</span>
+<span id='922'>922</span>
+<span id='923'>923</span>
+<span id='924'>924</span>
+<span id='925'>925</span>
+<span id='926'>926</span>
+<span id='927'>927</span>
+<span id='928'>928</span>
+<span id='929'>929</span>
+<span id='930'>930</span>
+<span id='931'>931</span>
+<span id='932'>932</span>
+<span id='933'>933</span>
+<span id='934'>934</span>
+<span id='935'>935</span>
+<span id='936'>936</span>
+<span id='937'>937</span>
+<span id='938'>938</span>
+<span id='939'>939</span>
+<span id='940'>940</span>
+<span id='941'>941</span>
+<span id='942'>942</span>
+<span id='943'>943</span>
+<span id='944'>944</span>
+<span id='945'>945</span>
+<span id='946'>946</span>
+<span id='947'>947</span>
+<span id='948'>948</span>
+<span id='949'>949</span>
+<span id='950'>950</span>
+<span id='951'>951</span>
+<span id='952'>952</span>
+<span id='953'>953</span>
+<span id='954'>954</span>
+<span id='955'>955</span>
+<span id='956'>956</span>
+<span id='957'>957</span>
+<span id='958'>958</span>
+<span id='959'>959</span>
+<span id='960'>960</span>
+<span id='961'>961</span>
+<span id='962'>962</span>
+<span id='963'>963</span>
+<span id='964'>964</span>
+<span id='965'>965</span>
+<span id='966'>966</span>
+<span id='967'>967</span>
+<span id='968'>968</span>
+<span id='969'>969</span>
+<span id='970'>970</span>
+<span id='971'>971</span>
+<span id='972'>972</span>
+<span id='973'>973</span>
+<span id='974'>974</span>
+<span id='975'>975</span>
 </pre><pre class='rust'>// Copyright (c) 2013 by SiegeLord
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
@@ -1005,7 +1137,7 @@ impl Axes2D
 	///      * `Align` - Specifies how to align the label
 	pub fn set_title&lt;&#39;l&gt;(&amp;&#39;l mut self, text: &amp;str, options: &amp;[LabelOption]) -&gt; &amp;&#39;l mut Axes2D
 	{
-		self.set_label_common(Title, text, options)
+		self.set_label_common(TitleLabel, text, options)
 	}
 
 	/// Adds a label to the plot, with an optional marker.
@@ -1038,8 +1170,8 @@ impl Axes2D
 			{
 				XLabel =&gt; &quot;xlabel&quot;,
 				YLabel =&gt; &quot;ylabel&quot;,
-				Title =&gt; &quot;title&quot;,
-				Label(*) =&gt; &quot;label&quot;,
+				TitleLabel =&gt; &quot;title&quot;,
+				Label(..) =&gt; &quot;label&quot;,
 				_ =&gt; fail!(&quot;Invalid label type&quot;)
 			};
 			c.write_str(label_str);
@@ -1396,18 +1528,16 @@ impl Axes2D
 			)
 
 			c.write_str(&quot; size graph &quot;);
-			let mut found_size = false;
-			first_opt!(options,
+			first_opt_default!(options,
 				ArrowSize(s) =&gt;
 				{
 					c.write_float(s);
-					found_size = true;
+				},
+				_ =&gt;
+				{
+					c.write_str(&quot;0.05&quot;);
 				}
 			)
-			if !found_size
-			{
-				c.write_str(&quot;0.05&quot;);
-			}
 			c.write_str(&quot;,12&quot;);
 
 			AxesCommon::write_color_options(c, options, Some(&quot;black&quot;));
@@ -1466,6 +1596,140 @@ impl Axes2D
 				Auto =&gt; c.write_str(&quot;*&quot;)
 			}
 			c.write_str(&quot;]\n&quot;);
+		}
+		self
+	}
+
+	/// Specifies the location and other properties of the legend
+	/// # Arguments
+	/// * `x` - X coordinate of the legend
+	/// * `y` - Y coordinate of the legend
+	/// * `label_options` - Array of LegendOption options
+	/// * `text_options` - Array of LabelOption options specifying the appearance of the plot titles. Valid options are:
+	///     * `Font`
+	///     * `TextColor`
+	///     * `TextAlign(AlignLeft)`
+	///     * `TextAlign(AlignRight)`
+	pub fn set_legend&lt;&#39;l&gt;(&amp;&#39;l mut self, x: Coordinate, y: Coordinate, legend_options: &amp;&#39;l [LegendOption], text_options: &amp;&#39;l [LabelOption]) -&gt; &amp;&#39;l mut Axes2D
+	{
+		{
+			let c = &amp;mut self.common.commands;
+			
+			c.write_str(&quot;set key at&quot;);
+			x.write(c);
+			c.write_str(&quot;,&quot;);
+			y.write(c);
+			
+			first_opt_default!(legend_options,
+				Placement(h, v) =&gt;
+				{
+					c.write_str(match h
+					{
+						AlignLeft =&gt; &quot; left&quot;,
+						AlignRight =&gt; &quot; right&quot;,
+						_ =&gt; &quot; center&quot;
+					});
+					c.write_str(match v
+					{
+						AlignTop =&gt; &quot; top&quot;,
+						AlignBottom =&gt; &quot; bottom&quot;,
+						_ =&gt; &quot; center&quot;
+					});				},
+				_ =&gt;
+				{
+					c.write_str(&quot; right top&quot;);
+				}
+			)
+			
+			first_opt_default!(legend_options,
+				Horizontal =&gt;
+				{
+					c.write_str(&quot; horizontal&quot;);
+				},
+				_ =&gt;
+				{
+					c.write_str(&quot; vertical&quot;);
+				}
+			)
+			
+			first_opt_default!(legend_options,
+				Reverse =&gt;
+				{
+					c.write_str(&quot; reverse&quot;);
+				},
+				_ =&gt;
+				{
+					c.write_str(&quot; noreverse&quot;);
+				}
+			)
+			
+			first_opt_default!(legend_options,
+				Invert =&gt;
+				{
+					c.write_str(&quot; invert&quot;);
+				},
+				_ =&gt;
+				{
+					c.write_str(&quot; noinvert&quot;);
+				}
+			)
+			
+			first_opt!(legend_options,
+				Title(s) =&gt;
+				{
+					c.write_str(&quot; title \&quot;&quot;);
+					c.write_str(s);
+					c.write_str(&quot;\&quot;&quot;);
+				}
+			)
+			
+			first_opt!(text_options,
+				Font(f, s) =&gt;
+				{
+					c.write_str(&quot; font \&quot;&quot;);
+					c.write_str(f);
+					c.write_str(&quot;,&quot;);
+					c.write_str(s.to_str());
+					c.write_str(&quot;\&quot;&quot;);
+				}
+			)
+			first_opt!(text_options,
+				TextColor(s) =&gt;
+				{
+					c.write_str(&quot; textcolor rgb \&quot;&quot;);
+					c.write_str(s);
+					c.write_str(&quot;\&quot;&quot;);
+				}
+			)
+			first_opt!(text_options,
+				TextAlign(a) =&gt;
+				{
+					c.write_str(match(a)
+					{
+						AlignLeft =&gt; &quot; Left&quot;,
+						AlignRight =&gt; &quot; Right&quot;,
+						_ =&gt; &quot;&quot;
+					});
+				}
+			)
+			
+			first_opt!(legend_options,
+				MaxRows(r) =&gt;
+				{
+					c.write_str(&quot; maxrows &quot;);
+					c.write_int(r as i32);
+				}
+			)
+			
+			first_opt!(legend_options,
+				MaxCols(l) =&gt;
+				{
+					c.write_str(&quot; maxcols &quot;);
+					c.write_int(l as i32);
+				}
+			)
+			
+			c.write_str(&quot;\n&quot;);
 		}
 		self
 	}
