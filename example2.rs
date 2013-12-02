@@ -75,7 +75,7 @@ fn main()
 	.set_title("Axis Ticks", [])
 	.lines(x3, y3, [LineWidth(2.0), Color("blue")])
 	.add_x_major_tics([("Pos: %.2f", -2)])
-	.set_x_tics(Fix(0.0), Some(2.0), Auto, [MinorIntervals(2), MajorScale(2.0), MinorScale(0.5), OnAxis(true)], [TextColor("blue"), Align(AlignCenter)])
+	.set_x_tics(Fix(0.0), Some(2.0), Auto, [MinorIntervals(2), MajorScale(2.0), MinorScale(0.5), OnAxis(true)], [TextColor("blue"), TextAlign(AlignCenter)])
 	.set_y_tics(Auto, Some(2.0), Auto, [Mirror(false)], []);
 	
 	if show

@@ -47,8 +47,8 @@ fn main()
 	.lines_points(x, y3, [Caption("-2 x + 5"), PointSymbol('O'), Color("black"), LineStyle(SmallDot)])
 	.set_x_label("X Label", [Font("Arial", 24.0), TextColor("red"), Rotate(45.0)])
 	.set_y_label("Y Label", [Rotate(0.0)])
-	.set_title("Goings nuts with the formatting", [Font("Times", 24.0), Offset(-10.0, 0.5)])
-	.label("Intersection", Axis(1.449), Axis(2.101), [MarkerSymbol('*'), Align(AlignCenter), Offset(0.0, -1.0), MarkerColor("red"), MarkerSize(2.0)]);
+	.set_title("Goings nuts with the formatting", [Font("Times", 24.0), TextOffset(-10.0, 0.5)])
+	.label("Intersection", Axis(1.449), Axis(2.101), [MarkerSymbol('*'), TextAlign(AlignCenter), TextOffset(0.0, -1.0), MarkerColor("red"), MarkerSize(2.0)]);
 	
 	if show
 	{
@@ -137,7 +137,7 @@ fn main()
 	.lines(x, y2, [Color("black"), LineWidth(2.0), Caption("C")])
 	.lines(x, y3, [Color("black"), LineWidth(2.0), LineStyle(DotDotDash), Caption("B")])
 	.set_title("Fill and legend", [])
-	.set_legend(Graph(1.0), Graph(-0.2), [Horizontal]);
+	.set_legend(Graph(0.5), Graph(-0.2), [Horizontal, Placement(AlignCenter, AlignTop), Title("Legend Title")], [TextAlign(AlignRight)]);
 
 	if show
 	{

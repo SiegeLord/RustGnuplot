@@ -55,12 +55,14 @@ pub enum FillRegion
 	Between
 }
 
-/// An enumeration of possible text alignments
+/// An enumeration of possible text and label alignments
 pub enum AlignType
 {
 	AlignLeft,
 	AlignRight,
-	AlignCenter
+	AlignCenter,
+	AlignTop,
+	AlignBottom
 }
 
 /// An enumeration of possible dash styles
@@ -101,7 +103,7 @@ pub enum AutoOption<T>
 pub enum LabelOption<'self>
 {
 	/// Sets the offset of the label in characters
-	Offset(f64, f64),
+	TextOffset(f64, f64),
 	/// Sets the font of the label. The string specifies the font type (e.g. "Arial") and the number specifies the size (the units are terminal dependent, but are often points)
 	Font(&'self str, f64),
 	/// Sets the color of the label text. The passed string can be a color name
@@ -110,7 +112,7 @@ pub enum LabelOption<'self>
 	/// Rotates the label by a certain number of degrees
 	Rotate(f64),
 	/// Sets the horizontal alignment of the label text (default is left alignment). See AlignType.
-	Align(AlignType),
+	TextAlign(AlignType),
 	/// Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:
 	///
 	/// * `.` - dot
@@ -168,8 +170,17 @@ pub enum LegendOption<'self>
 	Reverse,
 	/// Displays legend entries in opposite order
 	Invert,
-	/// Makes the legend horizontal
-	Horizontal
+	/// Makes the legend horizontal (default is vertical)
+	Horizontal,
+	/// Specifies the location of the legend. The first argument specifies the horizontal
+	/// placement with respect to its position, and the second argument specifies the vertical placement
+	Placement(AlignType, AlignType),
+	/// Title of the legend
+	Title(&'self str),
+	/// Specifies the maximum number of rows, when the legend is vertical
+	MaxRows(u32),
+	/// Specifies the maximum number of columns, when the legend is horizontal
+	MaxCols(u32),
 }
 
 mod private

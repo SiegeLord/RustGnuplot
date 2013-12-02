@@ -28,7 +28,7 @@ pub enum LabelType
 {
 	XLabel,
 	YLabel,
-	Title,
+	TitleLabel,
 	Label(Coordinate, Coordinate),
 	AxesTicks,
 }
@@ -63,7 +63,7 @@ pub fn write_out_label_options<T: PlotWriter>(label_type: LabelType, options: &[
 	}
 	
 	first_opt!(options,
-		Offset(x, y) =>
+		TextOffset(x, y) =>
 		{
 			w.write_str(" offset character ");
 			w.write_float(x);	
@@ -134,13 +134,13 @@ pub fn write_out_label_options<T: PlotWriter>(label_type: LabelType, options: &[
 		}
 		
 		first_opt!(options,
-			Align(a) =>
+			TextAlign(a) =>
 			{
 				w.write_str(match(a)
 				{
 					AlignLeft => " left",
 					AlignRight => " right",
-					AlignCenter => " center",
+					_ => " center",
 				});
 			}
 		)

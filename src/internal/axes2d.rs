@@ -128,7 +128,7 @@ impl Axes2D
 	///      * `Align` - Specifies how to align the label
 	pub fn set_title<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Axes2D
 	{
-		self.set_label_common(Title, text, options)
+		self.set_label_common(TitleLabel, text, options)
 	}
 
 	/// Adds a label to the plot, with an optional marker.
@@ -161,7 +161,7 @@ impl Axes2D
 			{
 				XLabel => "xlabel",
 				YLabel => "ylabel",
-				Title => "title",
+				TitleLabel => "title",
 				Label(..) => "label",
 				_ => fail!("Invalid label type")
 			};
@@ -592,18 +592,47 @@ impl Axes2D
 	}
 
 	/// Specifies the location and other properties of the legend
-	///
-	pub fn set_legend<'l>(&'l mut self, x: Coordinate, y: Coordinate, options: &'l [LegendOption]) -> &'l mut Axes2D
+	/// # Arguments
+	/// * `x` - X coordinate of the legend
+	/// * `y` - Y coordinate of the legend
+	/// * `label_options` - Array of LegendOption options
+	/// * `text_options` - Array of LabelOption options specifying the appearance of the plot titles. Valid options are:
+	///     * `Font`
+	///     * `TextColor`
+	///     * `TextAlign(AlignLeft)`
+	///     * `TextAlign(AlignRight)`
+	pub fn set_legend<'l>(&'l mut self, x: Coordinate, y: Coordinate, legend_options: &'l [LegendOption], text_options: &'l [LabelOption]) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
 			
-			c.write_str("set key at ");
+			c.write_str("set key at");
 			x.write(c);
 			c.write_str(",");
 			y.write(c);
 			
-			first_opt_default!(options,
+			first_opt_default!(legend_options,
+				Placement(h, v) =>
+				{
+					c.write_str(match h
+					{
+						AlignLeft => " left",
+						AlignRight => " right",
+						_ => " center"
+					});
+					c.write_str(match v
+					{
+						AlignTop => " top",
+						AlignBottom => " bottom",
+						_ => " center"
+					});				},
+				_ =>
+				{
+					c.write_str(" right top");
+				}
+			)
+			
+			first_opt_default!(legend_options,
 				Horizontal =>
 				{
 					c.write_str(" horizontal");
@@ -614,7 +643,18 @@ impl Axes2D
 				}
 			)
 			
-			first_opt_default!(options,
+			first_opt_default!(legend_options,
+				Reverse =>
+				{
+					c.write_str(" reverse");
+				},
+				_ =>
+				{
+					c.write_str(" noreverse");
+				}
+			)
+			
+			first_opt_default!(legend_options,
 				Invert =>
 				{
 					c.write_str(" invert");
@@ -622,6 +662,61 @@ impl Axes2D
 				_ =>
 				{
 					c.write_str(" noinvert");
+				}
+			)
+			
+			first_opt!(legend_options,
+				Title(s) =>
+				{
+					c.write_str(" title \"");
+					c.write_str(s);
+					c.write_str("\"");
+				}
+			)
+			
+			first_opt!(text_options,
+				Font(f, s) =>
+				{
+					c.write_str(" font \"");
+					c.write_str(f);
+					c.write_str(",");
+					c.write_str(s.to_str());
+					c.write_str("\"");
+				}
+			)
+			first_opt!(text_options,
+				TextColor(s) =>
+				{
+					c.write_str(" textcolor rgb \"");
+					c.write_str(s);
+					c.write_str("\"");
+				}
+			)
+			first_opt!(text_options,
+				TextAlign(a) =>
+				{
+					c.write_str(match(a)
+					{
+						AlignLeft => " Left",
+						AlignRight => " Right",
+						_ => ""
+					});
+				}
+			)
+			
+			first_opt!(legend_options,
+				MaxRows(r) =>
+				{
+					c.write_str(" maxrows ");
+					c.write_int(r as i32);
+				}
+			)
+			
+			first_opt!(legend_options,
+				MaxCols(l) =>
+				{
+					c.write_str(" maxcols ");
+					c.write_int(l as i32);
 				}
 			)
 			
