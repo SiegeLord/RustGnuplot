@@ -210,7 +210,7 @@ impl<'self> Figure<'self>
 			return self;
 		}
 		
-		let mut file = BufferedWriter::new(File::create(&Path::init(filename)).unwrap());
+		let mut file = BufferedWriter::new(File::create(&Path::new(filename)).unwrap());
 		self.echo(|v|
 		{
 			file.write(v);
