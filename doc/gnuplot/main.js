@@ -16,9 +16,6 @@
     var resizeTimeout, interval;
 
     $('.js-only').removeClass('js-only');
-    
-    /* SIEGE PATCH */
-    $('.search-input').attr('placeholder', 'Search documentation...');
 
     function resizeShortBlocks() {
         if (resizeTimeout) {

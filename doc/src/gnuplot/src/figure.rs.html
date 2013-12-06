@@ -27,7 +27,9 @@
     <nav class="sub">
         <form class="search-form js-only">
             <input class="search-input" name="search"
-                   autocomplete="off" />
+                   autocomplete="off"
+                   placeholder="Search documentation..."
+                   type="search" />
             <button class="do-search">Search</button>
         </form>
     </nav>
@@ -465,7 +467,7 @@ impl&lt;&#39;self&gt; Figure&lt;&#39;self&gt;
 			return self;
 		}
 		
-		let mut file = BufferedWriter::new(File::create(&amp;Path::init(filename)).unwrap());
+		let mut file = BufferedWriter::new(File::create(&amp;Path::new(filename)).unwrap());
 		self.echo(|v|
 		{
 			file.write(v);

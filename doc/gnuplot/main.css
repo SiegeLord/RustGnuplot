@@ -285,13 +285,11 @@ button {
 .search-input {
     border: 2px solid #000000;
     background-color: #F6F2DB;
-    background-image: url('search.png');
     background-repeat: no-repeat;
     background-size: 15pt 15pt;
-    background-position: 1pt center; 
+    background-position: right center; 
     border-radius: 0.4em;
     width: 100%;
-    padding-left: 16pt;
 }
 
 .do-search {
