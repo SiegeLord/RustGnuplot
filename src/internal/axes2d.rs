@@ -178,7 +178,7 @@ impl Axes2D
 		self
 	}
 
-	fn set_ticks_common<'l>(&'l mut self, tick_type: TickType, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
+	fn set_tics_common<'l>(&'l mut self, tick_type: TickType, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
@@ -327,13 +327,13 @@ impl Axes2D
 	///      * `Align` - Specifies how to align the label
 	pub fn set_x_tics<'l>(&'l mut self, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
-		self.set_ticks_common(XTics, min, incr, max, tick_options, label_options)
+		self.set_tics_common(XTics, min, incr, max, tick_options, label_options)
 	}
 
 	/// Like `set_x_tics` but for the Y axis.
 	pub fn set_y_tics<'l>(&'l mut self, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
-		self.set_ticks_common(YTics, min, incr, max, tick_options, label_options)
+		self.set_tics_common(YTics, min, incr, max, tick_options, label_options)
 	}
 
 	fn add_tics_common<'l, T: DataType>(&'l mut self, tick_type: TickType, minor: bool, tics: &[(&str, T)]) -> &'l mut Axes2D
