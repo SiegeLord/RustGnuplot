@@ -239,6 +239,13 @@
 <span id='203'>203</span>
 <span id='204'>204</span>
 <span id='205'>205</span>
+<span id='206'>206</span>
+<span id='207'>207</span>
+<span id='208'>208</span>
+<span id='209'>209</span>
+<span id='210'>210</span>
+<span id='211'>211</span>
+<span id='212'>212</span>
 </pre><pre class='rust'>// Copyright (c) 2013 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
@@ -390,9 +397,16 @@ pub enum TickOption
 	/// Sets the scale of the minor ticks
 	MinorScale(f64),
 	/// Sets the scale of the major ticks
-	MajorScale(f64),
-	/// Sets the number of minor intervals between the major ticks
-	MinorIntervals(u32),
+	MajorScale(f64)
+}
+
+/// Specifies a type of axis tick
+pub enum Tick&lt;T&gt;
+{
+	/// Major ticks have position and an optional label. The label may have a single C-style format specifier which will be replaced by the location of the tick
+	Major(T, AutoOption&lt;~str&gt;),
+	/// Minor ticks only have position
+	Minor(T)
 }
 
 /// Plot border locations

@@ -249,6 +249,7 @@
 <span id='213'>213</span>
 <span id='214'>214</span>
 <span id='215'>215</span>
+<span id='216'>216</span>
 </pre><pre class='rust'>// Copyright (c) 2013 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
@@ -405,7 +406,7 @@ impl&lt;&#39;self&gt; Figure&lt;&#39;self&gt;
 		}
 		
 		writeln!(w, &quot;set termoption dashed&quot;);
-		writeln!(w, &quot;set termoption enhanced\n&quot;);
+		writeln!(w, &quot;set termoption enhanced&quot;);
 		writeln!(w, &quot;set multiplot&quot;);
 		// TODO: Maybe add an option for this (who seriously prefers them in the back though?)
 		writeln!(w, &quot;set tics front&quot;);
@@ -423,6 +424,7 @@ impl&lt;&#39;self&gt; Figure&lt;&#39;self&gt;
 		
 		for e in self.axes.iter()
 		{
+			writeln!(w, &quot;reset&quot;);
 			if do_layout
 			{
 				let c = e.get_common();
