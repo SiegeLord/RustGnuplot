@@ -4,62 +4,52 @@
 
 use datatype::*;
 
-use std::cast;
 use std::f64;
+use std::io::mem::MemWriter;
+use std::io::Writer;
 
 pub trait PlotWriter
 {
 	fn write_data<T: DataType>(&mut self, v: T);
 	fn write_str(&mut self, s: &str);
-	fn write_int(&mut self, i: i32);
+	fn write_i32(&mut self, i: i32);
 	fn write_float(&mut self, f: f64);
 }
 
-pub fn to_sci(v: f64, writer: |&str|)
+pub fn to_sci(v: f64, writer: &mut Writer)
 {
 	let e = v.abs();
 	if(e > 0.0)
 	{
 		let e = e.log10().floor();
-		writer(f64::to_str_digits(v / (10.0f64).pow(&e), 16));
-		writer("e");
-		writer(e.to_str());
+		write!(writer, "{}e{}", f64::to_str_digits(v / (10.0f64).pow(&e), 16), e);
 	}
 	else
 	{
-		writer("0.0");
+		write!(writer, "0.0");
 	}
 }
 
-impl PlotWriter for ~[u8]
+impl PlotWriter for MemWriter
 {
 	fn write_data<T: DataType>(&mut self, v: T)
 	{
-		let f = v.get();
-		let i: u64 = unsafe { cast::transmute(f) };
-		
-		self.push((i >> 0) as u8);
-		self.push((i >> 8) as u8);
-		self.push((i >> 16) as u8);
-		self.push((i >> 24) as u8);
-		self.push((i >> 32) as u8);
-		self.push((i >> 40) as u8);
-		self.push((i >> 48) as u8);
-		self.push((i >> 56) as u8);
+		self.write_le_f64(v.get());
 	}
 
 	fn write_str(&mut self, s: &str)
 	{
-		self.push_all(s.as_bytes());
+		self.write(s.as_bytes());
 	}
 	
-	fn write_int(&mut self, i: i32)
+	fn write_i32(&mut self, i: i32)
 	{
-		self.write_str(i.to_str());
+		let w = self as &mut Writer; 
+		write!(w, "{}", i);
 	}
 	
 	fn write_float(&mut self, f: f64)
 	{
-		to_sci(f, |s| { self.write_str(s) });
+		to_sci(f, self as &mut Writer);
 	}
 }

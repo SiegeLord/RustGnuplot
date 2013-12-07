@@ -54,7 +54,7 @@ fn main()
 	{
 		fg.show();
 	}
-	fg.echo_to_file("fg7.gnuplot");
+	fg.echo_to_file("fg8.gnuplot");
 	
 	let mut fg = Figure::new();
 	
@@ -67,30 +67,30 @@ fn main()
 	{
 		fg.show();
 	}
-	fg.echo_to_file("fg8.gnuplot");
+	fg.echo_to_file("fg9.gnuplot");
 	
 	let mut fg = Figure::new();
 	
 	fg.axes2d()
 	.set_title("Axis Ticks", [])
 	.lines(x3, y3, [LineWidth(2.0), Color("blue")])
-	.add_x_major_tics([("Pos: %.2f", -2)])
-	.set_x_tics(Fix(0.0), Some(2.0), Auto, [MinorIntervals(2), MajorScale(2.0), MinorScale(0.5), OnAxis(true)], [TextColor("blue"), TextAlign(AlignCenter)])
-	.set_y_tics(Auto, Some(2.0), Auto, [Mirror(false)], []);
+	.add_x_major_ticks([("Pos: %.2f", -2)])
+	.set_x_ticks(Fix(0.0), Some(2.0), Auto, [MinorIntervals(2), MajorScale(2.0), MinorScale(0.5), OnAxis(true)], [TextColor("blue"), TextAlign(AlignCenter)])
+	.set_y_ticks(Auto, Some(2.0), Auto, [Mirror(false)], []);
 	
 	if show
 	{
 		fg.show();
 	}
-	fg.echo_to_file("fg9.gnuplot");
+	fg.echo_to_file("fg10.gnuplot");
 	
 	let mut fg = Figure::new();
 	
 	fg.axes2d()
 	.set_title("Border, Axes", [])
 	.set_border(true, [Left, Bottom], [LineWidth(2.0)])
-	.set_x_tics(Auto, Some(1.0), Auto, [Mirror(false)], [])
-	.set_y_tics(Auto, Some(5.0), Auto, [Mirror(false)], [])
+	.set_x_ticks(Auto, Some(1.0), Auto, [Mirror(false)], [])
+	.set_y_ticks(Auto, Some(5.0), Auto, [Mirror(false)], [])
 	.lines(x3, y3, [LineWidth(2.0), Color("blue")])
 	.set_x_axis(true, [LineWidth(2.0), LineStyle(DotDotDash)])
 	.set_y_axis(true, [LineWidth(2.0), Color("red")]);
@@ -99,5 +99,5 @@ fn main()
 	{
 		fg.show();
 	}
-	fg.echo_to_file("fg10.gnuplot");
+	fg.echo_to_file("fg11.gnuplot");
 }

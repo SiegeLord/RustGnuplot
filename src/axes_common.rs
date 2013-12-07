@@ -2,14 +2,16 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
+use std::io::mem::MemWriter;
+
 use options::*;
 use writer::*;
 use internal::coordinates::*;
 
 struct PlotElement
 {
-	args: ~[u8],
-	data: ~[u8]
+	args: MemWriter,
+	data: MemWriter
 }
 
 impl PlotElement
@@ -18,8 +20,8 @@ impl PlotElement
 	{
 		PlotElement
 		{
-			args: ~[],
-			data: ~[],
+			args: MemWriter::new(),
+			data: MemWriter::new(),
 		}
 	}
 }
@@ -107,7 +109,7 @@ pub fn write_out_label_options<T: PlotWriter>(label_type: LabelType, options: &[
 			MarkerSymbol(s) =>
 			{
 				w.write_str(" point pt ");
-				w.write_int(char_to_symbol(s));
+				w.write_i32(char_to_symbol(s));
 				have_point = true;
 			}
 		)
@@ -147,20 +149,20 @@ pub fn write_out_label_options<T: PlotWriter>(label_type: LabelType, options: &[
 	}
 }
 
-pub enum TickType
+pub enum TickAxis
 {
-	XTics,
-	YTics,
+	XTicks,
+	YTicks,
 }
 
-impl TickType
+impl TickAxis
 {
 	pub fn to_str(&self) -> &str
 	{
 		match *self
 		{
-			XTics => "xtics",
-			YTics => "ytics",
+			XTicks => "xtics",
+			YTicks => "ytics",
 		}
 	}
 }
@@ -216,7 +218,7 @@ impl PlotType
 
 struct AxesCommon
 {
-	commands: ~[u8],
+	commands: MemWriter,
 	elems: ~[PlotElement],
 	grid_row: u32,
 	grid_col: u32
@@ -250,14 +252,14 @@ impl AxesCommon
 	{
 		AxesCommon
 		{
-			commands: ~[],
+			commands: MemWriter::new(),
 			elems: ~[],
 			grid_row: 0,
 			grid_col: 0,
 		}
 	}
 	
-	pub fn write_line_options(c: &mut ~[u8], options: &[PlotOption])
+	pub fn write_line_options(c: &mut MemWriter, options: &[PlotOption])
 	{
 		let mut found = false;
 		c.write_str(" lw ");
@@ -278,17 +280,17 @@ impl AxesCommon
 		first_opt!(options,
 			LineStyle(d) =>
 			{
-				c.write_int(d.to_int());
+				c.write_i32(d.to_int());
 				found = true;
 			}
 		)
 		if !found
 		{
-			c.write_int(1);
+			c.write_i32(1);
 		}
 	}
 
-	pub fn write_color_options<'l>(c: &mut ~[u8], options: &[PlotOption<'l>], default: Option<&'l str>)
+	pub fn write_color_options<'l>(c: &mut MemWriter, options: &[PlotOption<'l>], default: Option<&'l str>)
 	{
 		let mut col = default;
 		first_opt!(options,
@@ -313,13 +315,13 @@ impl AxesCommon
 	{
 		let args = &mut self.elems[elem_idx].args;
 		args.write_str(" \"-\" binary endian=little record=");
-		args.write_int(num_rows);
+		args.write_i32(num_rows);
 		args.write_str(" format=\"%float64\" using ");
 		
 		let mut col_idx: i32 = 1;
 		while(col_idx < num_cols + 1)
 		{
-			args.write_int(col_idx);
+			args.write_i32(col_idx);
 			if(col_idx < num_cols)
 			{
 				args.write_str(":");
@@ -405,7 +407,7 @@ impl AxesCommon
 				PointSymbol(s) =>
 				{
 					args.write_str(" pt ");
-					args.write_int(char_to_symbol(s));
+					args.write_i32(char_to_symbol(s));
 				}
 			)
 			

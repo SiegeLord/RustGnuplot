@@ -138,11 +138,11 @@ pub enum LabelOption<'self>
 }
 
 /// An enumeration of axis tick options
-pub enum TickOption
+pub enum TicOption
 {
 	/// Specifies whether the ticks are drawn at the borders of the plot, or on the axis
 	OnAxis(bool),
-	/// If the axes are drawn on the border, this specifies whether to draw the tics on the opposite border as well
+	/// If the axes are drawn on the border, this specifies whether to draw the ticks on the opposite border as well
 	Mirror(bool),
 	/// If the axes are drawn on the border, this specifies whether to draw the ticks pointing inward or outward
 	Inward(bool),
@@ -150,7 +150,7 @@ pub enum TickOption
 	MinorScale(f64),
 	/// Sets the scale of the major ticks
 	MajorScale(f64),
-	/// Sets the number of minor intervals between the major tics
+	/// Sets the number of minor intervals between the major ticks
 	MinorIntervals(u32),
 }
 

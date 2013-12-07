@@ -20,7 +20,7 @@ enum AxesVariant
 
 impl AxesVariant
 {
-	fn write_out(&self, writer: |data: &[u8]|)
+	fn write_out(&self, writer: &mut Writer)
 	{
 		match *self
 		{
@@ -124,12 +124,9 @@ impl<'self> Figure<'self>
 		}
 		
 		let mut p = Process::new("gnuplot", [~"-p"], ProcessOptions::new());
-		let input = p.input();
+		let mut input = p.input();
 		
-		self.echo(|v|
-		{
-			input.write(v);
-		});
+		self.echo(&mut input);
 		
 		self
 	}
@@ -137,8 +134,10 @@ impl<'self> Figure<'self>
 	/// Echo the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
 	/// * `writer` - A function pointer that will be called multiple times with the command text and data
-	pub fn echo<'l>(&'l self, writer: |data: &[u8]|) -> &'l Figure<'l>
+	pub fn echo<'l, T: Writer>(&'l self, writer: &mut T) -> &'l Figure<'l>
 	{
+		let w = writer as &mut Writer;
+		
 		if self.axes.len() == 0
 		{
 			return self;
@@ -146,25 +145,23 @@ impl<'self> Figure<'self>
 		
 		if self.terminal.len() > 0
 		{
-			writer("set terminal ".as_bytes());
-			writer(self.terminal.as_bytes());
-			writer("\n".as_bytes());
+			writeln!(w, "set terminal {}", self.terminal);
 		}
 		
 		if self.output_file.len() > 0
 		{
-			writer("set output \"".as_bytes());
-			writer(self.output_file.as_bytes());
-			writer("\"\n".as_bytes());
+			writeln!(w, "set output \"{}\"", self.output_file);
 		}
 		
-		writer("set termoption dashed\n".as_bytes());
-		writer("set termoption enhanced\n".as_bytes());
-		writer("set multiplot\n".as_bytes());
+		writeln!(w, "set termoption dashed");
+		writeln!(w, "set termoption enhanced\n");
+		writeln!(w, "set multiplot");
+		// TODO: Maybe add an option for this (who seriously prefers them in the back though?)
+		writeln!(w, "set tics front");
 		
 		let do_layout = self.num_rows > 0 && self.num_cols > 0;
 		
-		let (w, h) = if do_layout
+		let (width, height) = if do_layout
 		{
 			(1.0 / (self.num_cols as f64), 1.0 / (self.num_rows as f64))
 		}
@@ -178,25 +175,25 @@ impl<'self> Figure<'self>
 			if do_layout
 			{
 				let c = e.get_common();
-				let x = (c.grid_col as f64 - 1.0) * w;
-				let y = (self.num_rows as f64 - c.grid_row as f64) * h;
+				let x = (c.grid_col as f64 - 1.0) * width;
+				let y = (self.num_rows as f64 - c.grid_row as f64) * height;
 				
-				writer("set origin ".as_bytes());
-				to_sci(x, |s| { writer(s.as_bytes()) });
-				writer(",".as_bytes());
-				to_sci(y, |s| { writer(s.as_bytes()) });
-				writer("\n".as_bytes());
+				write!(w, "set origin ");
+				to_sci(x, w);
+				write!(w, ",");
+				to_sci(y, w);
+				write!(w, "\n");
 				
-				writer("set size ".as_bytes());
-				to_sci(w, |s| { writer(s.as_bytes()) });
-				writer(",".as_bytes());
-				to_sci(h, |s| { writer(s.as_bytes()) });
-				writer("\n".as_bytes());
+				write!(w, "set size ");
+				to_sci(width, w);
+				write!(w, ",");
+				to_sci(height, w);
+				write!(w, "\n");
 			}
-			e.write_out(|s| writer(s));
+			e.write_out(w);
 		}
 		
-		writer("unset multiplot\n".as_bytes());
+		writeln!(w, "unset multiplot");
 		self
 	}
 	
@@ -211,10 +208,7 @@ impl<'self> Figure<'self>
 		}
 		
 		let mut file = BufferedWriter::new(File::create(&Path::new(filename)).unwrap());
-		self.echo(|v|
-		{
-			file.write(v);
-		});
+		self.echo(&mut file);
 		file.flush();
 		self
 	}
