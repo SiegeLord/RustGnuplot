@@ -138,7 +138,7 @@ pub enum LabelOption<'self>
 }
 
 /// An enumeration of axis tick options
-pub enum TicOption
+pub enum TickOption
 {
 	/// Specifies whether the ticks are drawn at the borders of the plot, or on the axis
 	OnAxis(bool),

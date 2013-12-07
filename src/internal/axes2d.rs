@@ -180,13 +180,13 @@ impl Axes2D
 		self
 	}
 
-	fn set_ticks_common<'l>(&'l mut self, tic_type: TickAxis, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tic_options: &[TicOption], label_options: &[LabelOption]) -> &'l mut Axes2D
+	fn set_ticks_common<'l>(&'l mut self, tick_type: TickAxis, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
 
 			let mut minor_intervals: u32 = 0;
-			first_opt!(tic_options,
+			first_opt!(tick_options,
 				MinorIntervals(i) =>
 				{
 					minor_intervals = i;
@@ -194,13 +194,13 @@ impl Axes2D
 			)
 
 			c.write_str("set m");
-			c.write_str(tic_type.to_str());
+			c.write_str(tick_type.to_str());
 			c.write_str(" ");
 			c.write_i32(minor_intervals as i32);
 			c.write_str("\n");
 
 			c.write_str("set ");
-			c.write_str(tic_type.to_str());
+			c.write_str(tick_type.to_str());
 
 			incr.map(|incr|
 			{
@@ -248,7 +248,7 @@ impl Axes2D
 
 			write_out_label_options(AxesTicks, label_options, c);
 
-			first_opt!(tic_options,
+			first_opt!(tick_options,
 				OnAxis(b) =>
 				{
 					c.write_str(match(b)
@@ -259,7 +259,7 @@ impl Axes2D
 				}
 			)
 
-			first_opt!(tic_options,
+			first_opt!(tick_options,
 				Mirror(b) =>
 				{
 					c.write_str(match(b)
@@ -270,7 +270,7 @@ impl Axes2D
 				}
 			)
 
-			first_opt!(tic_options,
+			first_opt!(tick_options,
 				Inward(b) =>
 				{
 					c.write_str(match(b)
@@ -284,14 +284,14 @@ impl Axes2D
 			let mut minor_scale = 0.5;
 			let mut major_scale = 0.5;
 
-			first_opt!(tic_options,
+			first_opt!(tick_options,
 				MinorScale(s) =>
 				{
 					minor_scale = s;
 				}
 			)
 
-			first_opt!(tic_options,
+			first_opt!(tick_options,
 				MajorScale(s) =>
 				{
 					major_scale = s;
@@ -320,30 +320,30 @@ impl Axes2D
 	/// * `min` - Sets the location of where the ticks start
 	/// * `incr` - Sets the spacing between the major ticks.
 	/// * `max` - Sets the location of where the ticks end
-	/// * `tic_options` - Array of TicOption controlling the appearance of the ticks
+	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
 	/// * `label_options` - Array of LabelOption controlling the appearance of the tick labels. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	pub fn set_x_ticks<'l>(&'l mut self, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tic_options: &[TicOption], label_options: &[LabelOption]) -> &'l mut Axes2D
+	pub fn set_x_ticks<'l>(&'l mut self, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
-		self.set_ticks_common(XTicks, min, incr, max, tic_options, label_options)
+		self.set_ticks_common(XTicks, min, incr, max, tick_options, label_options)
 	}
 
 	/// Like `set_x_ticks` but for the Y axis.
-	pub fn set_y_ticks<'l>(&'l mut self, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tic_options: &[TicOption], label_options: &[LabelOption]) -> &'l mut Axes2D
+	pub fn set_y_ticks<'l>(&'l mut self, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
-		self.set_ticks_common(YTicks, min, incr, max, tic_options, label_options)
+		self.set_ticks_common(YTicks, min, incr, max, tick_options, label_options)
 	}
 
-	fn add_ticks_common<'l, T: DataType>(&'l mut self, tic_type: TickAxis, minor: bool, ticks: &[(&str, T)]) -> &'l mut Axes2D
+	fn add_ticks_common<'l, T: DataType>(&'l mut self, tick_type: TickAxis, minor: bool, ticks: &[(&str, T)]) -> &'l mut Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
 			c.write_str("set ");
-			c.write_str(tic_type.to_str());
+			c.write_str(tick_type.to_str());
 			c.write_str(" add (");
 
 			let mut first = true;
