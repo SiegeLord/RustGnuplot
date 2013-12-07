@@ -69,7 +69,7 @@ place multiple axes on</p>
 <div class='docblock'><p>Creates a set of 3D axes</p>
 </div><h4 id='method.show' class='method'><code>fn <span class='fnname'>show</span>&lt;'l&gt;(&amp;'l self) -&gt; &amp;'l <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'l&gt;</code></h4>
 <div class='docblock'><p>Launch a gnuplot process and display the figure on it</p>
-</div><h4 id='method.echo' class='method'><code>fn <span class='fnname'>echo</span>&lt;'l&gt;(&amp;'l self, writer: |data: &amp;[u8]|) -&gt; &amp;'l <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'l&gt;</code></h4>
+</div><h4 id='method.echo' class='method'><code>fn <span class='fnname'>echo</span>&lt;'l, T: <a class='trait' href='http://static.rust-lang.org/doc/master/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a>&gt;(&amp;'l self, writer: &amp;mut T) -&gt; &amp;'l <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a>&lt;'l&gt;</code></h4>
 <div class='docblock'><p>Echo the commands that if piped to a gnuplot process would display the figure</p>
 
 <h1>Arguments</h1>

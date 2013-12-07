@@ -249,12 +249,6 @@
 <span id='213'>213</span>
 <span id='214'>214</span>
 <span id='215'>215</span>
-<span id='216'>216</span>
-<span id='217'>217</span>
-<span id='218'>218</span>
-<span id='219'>219</span>
-<span id='220'>220</span>
-<span id='221'>221</span>
 </pre><pre class='rust'>// Copyright (c) 2013 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
@@ -277,7 +271,7 @@ enum AxesVariant
 
 impl AxesVariant
 {
-	fn write_out(&amp;self, writer: |data: &amp;[u8]|)
+	fn write_out(&amp;self, writer: &amp;mut Writer)
 	{
 		match *self
 		{
@@ -381,12 +375,9 @@ impl&lt;&#39;self&gt; Figure&lt;&#39;self&gt;
 		}
 		
 		let mut p = Process::new(&quot;gnuplot&quot;, [~&quot;-p&quot;], ProcessOptions::new());
-		let input = p.input();
+		let mut input = p.input();
 		
-		self.echo(|v|
-		{
-			input.write(v);
-		});
+		self.echo(&amp;mut input);
 		
 		self
 	}
@@ -394,8 +385,10 @@ impl&lt;&#39;self&gt; Figure&lt;&#39;self&gt;
 	/// Echo the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
 	/// * `writer` - A function pointer that will be called multiple times with the command text and data
-	pub fn echo&lt;&#39;l&gt;(&amp;&#39;l self, writer: |data: &amp;[u8]|) -&gt; &amp;&#39;l Figure&lt;&#39;l&gt;
+	pub fn echo&lt;&#39;l, T: Writer&gt;(&amp;&#39;l self, writer: &amp;mut T) -&gt; &amp;&#39;l Figure&lt;&#39;l&gt;
 	{
+		let w = writer as &amp;mut Writer;
+		
 		if self.axes.len() == 0
 		{
 			return self;
@@ -403,25 +396,23 @@ impl&lt;&#39;self&gt; Figure&lt;&#39;self&gt;
 		
 		if self.terminal.len() &gt; 0
 		{
-			writer(&quot;set terminal &quot;.as_bytes());
-			writer(self.terminal.as_bytes());
-			writer(&quot;\n&quot;.as_bytes());
+			writeln!(w, &quot;set terminal {}&quot;, self.terminal);
 		}
 		
 		if self.output_file.len() &gt; 0
 		{
-			writer(&quot;set output \&quot;&quot;.as_bytes());
-			writer(self.output_file.as_bytes());
-			writer(&quot;\&quot;\n&quot;.as_bytes());
+			writeln!(w, &quot;set output \&quot;{}\&quot;&quot;, self.output_file);
 		}
 		
-		writer(&quot;set termoption dashed\n&quot;.as_bytes());
-		writer(&quot;set termoption enhanced\n&quot;.as_bytes());
-		writer(&quot;set multiplot\n&quot;.as_bytes());
+		writeln!(w, &quot;set termoption dashed&quot;);
+		writeln!(w, &quot;set termoption enhanced\n&quot;);
+		writeln!(w, &quot;set multiplot&quot;);
+		// TODO: Maybe add an option for this (who seriously prefers them in the back though?)
+		writeln!(w, &quot;set tics front&quot;);
 		
 		let do_layout = self.num_rows &gt; 0 &amp;&amp; self.num_cols &gt; 0;
 		
-		let (w, h) = if do_layout
+		let (width, height) = if do_layout
 		{
 			(1.0 / (self.num_cols as f64), 1.0 / (self.num_rows as f64))
 		}
@@ -435,25 +426,25 @@ impl&lt;&#39;self&gt; Figure&lt;&#39;self&gt;
 			if do_layout
 			{
 				let c = e.get_common();
-				let x = (c.grid_col as f64 - 1.0) * w;
-				let y = (self.num_rows as f64 - c.grid_row as f64) * h;
+				let x = (c.grid_col as f64 - 1.0) * width;
+				let y = (self.num_rows as f64 - c.grid_row as f64) * height;
 				
-				writer(&quot;set origin &quot;.as_bytes());
-				to_sci(x, |s| { writer(s.as_bytes()) });
-				writer(&quot;,&quot;.as_bytes());
-				to_sci(y, |s| { writer(s.as_bytes()) });
-				writer(&quot;\n&quot;.as_bytes());
+				write!(w, &quot;set origin &quot;);
+				to_sci(x, w);
+				write!(w, &quot;,&quot;);
+				to_sci(y, w);
+				write!(w, &quot;\n&quot;);
 				
-				writer(&quot;set size &quot;.as_bytes());
-				to_sci(w, |s| { writer(s.as_bytes()) });
-				writer(&quot;,&quot;.as_bytes());
-				to_sci(h, |s| { writer(s.as_bytes()) });
-				writer(&quot;\n&quot;.as_bytes());
+				write!(w, &quot;set size &quot;);
+				to_sci(width, w);
+				write!(w, &quot;,&quot;);
+				to_sci(height, w);
+				write!(w, &quot;\n&quot;);
 			}
-			e.write_out(|s| writer(s));
+			e.write_out(w);
 		}
 		
-		writer(&quot;unset multiplot\n&quot;.as_bytes());
+		writeln!(w, &quot;unset multiplot&quot;);
 		self
 	}
 	
@@ -468,10 +459,7 @@ impl&lt;&#39;self&gt; Figure&lt;&#39;self&gt;
 		}
 		
 		let mut file = BufferedWriter::new(File::create(&amp;Path::new(filename)).unwrap());
-		self.echo(|v|
-		{
-			file.write(v);
-		});
+		self.echo(&amp;mut file);
 		file.flush();
 		self
 	}

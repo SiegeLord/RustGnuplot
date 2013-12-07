@@ -35,7 +35,7 @@
     </nav>
 
     <section id='main' class="content struct"><a class='source'
-                       href='../../../src/gnuplot/src/internal/axes2d.rs.html#12-15'>[src]</a><h1 class='fqn'>Struct <a href='../../index.html'>gnuplot</a>::<a href='../index.html'>internal</a>::<a href='index.html'>axes2d</a>::<a class='struct' href=''>Axes2D</a></h1><pre class='struct'>pub struct Axes2D {
+                       href='../../../src/gnuplot/src/internal/axes2d.rs.html#14-17'>[src]</a><h1 class='fqn'>Struct <a href='../../index.html'>gnuplot</a>::<a href='../index.html'>internal</a>::<a href='index.html'>axes2d</a>::<a class='struct' href=''>Axes2D</a></h1><pre class='struct'>pub struct Axes2D {
     // some fields omitted
 }</pre><div class='docblock'><p>2D axes that is used for drawing 2D plots</p>
 </div><h2 class='fields'>Fields</h2>
@@ -148,23 +148,23 @@ The coordinates refer to the bottom-left corner of the axes</p>
 <li><code>MarkerColor</code> - Specifies the color for the marker</li>
 </ul></li>
 </ul>
-</div><h4 id='method.set_x_tics' class='method'><code>fn <span class='fnname'>set_x_tics</span>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../../../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, incr: <a class='enum' href='http://static.rust-lang.org/doc/master/std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;f64&gt;, max: <a class='enum' href='../../../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, tick_options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>], label_options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
-<div class='docblock'><p>Sets the properties of the tics on the X axis. The first 3 arguments specify the range of the tics. The following combinations work for <code>(min, max)</code>:</p>
+</div><h4 id='method.set_x_ticks' class='method'><code>fn <span class='fnname'>set_x_ticks</span>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../../../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, incr: <a class='enum' href='http://static.rust-lang.org/doc/master/std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;f64&gt;, max: <a class='enum' href='../../../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, tick_options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>], label_options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Sets the properties of the ticks on the X axis. The first 3 arguments specify the range of the ticks. The following combinations work for <code>(min, max)</code>:</p>
 
 <ul>
-<li><code>Auto, Auto</code> - The tics span the entire axis range</li>
-<li><code>Fix, Auto</code> - The tics start at the specified location, and extend to positive infinity</li>
-<li><code>Fix, Fix</code> - The tics span a limited range</li>
+<li><code>Auto, Auto</code> - The ticks span the entire axis range</li>
+<li><code>Fix, Auto</code> - The ticks start at the specified location, and extend to positive infinity</li>
+<li><code>Fix, Fix</code> - The ticks span a limited range</li>
 </ul>
 
-<p>Pass <code>None</code> for <code>incr</code> to disable the automatically generated tics.</p>
+<p>Pass <code>None</code> for <code>incr</code> to disable the automatically generated ticks.</p>
 
 <h1>Arguments</h1>
 
 <ul>
-<li><code>min</code> - Sets the location of where the tics start</li>
-<li><code>incr</code> - Sets the spacing between the major tics.</li>
-<li><code>max</code> - Sets the location of where the tics end</li>
+<li><code>min</code> - Sets the location of where the ticks start</li>
+<li><code>incr</code> - Sets the spacing between the major ticks.</li>
+<li><code>max</code> - Sets the location of where the ticks end</li>
 <li><code>tick_options</code> - Array of TickOption controlling the appearance of the ticks</li>
 <li><code>label_options</code> - Array of LabelOption controlling the appearance of the tick labels. Relevant options are:
 
@@ -176,24 +176,24 @@ The coordinates refer to the bottom-left corner of the axes</p>
 <li><code>Align</code> - Specifies how to align the label</li>
 </ul></li>
 </ul>
-</div><h4 id='method.set_y_tics' class='method'><code>fn <span class='fnname'>set_y_tics</span>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../../../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, incr: <a class='enum' href='http://static.rust-lang.org/doc/master/std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;f64&gt;, max: <a class='enum' href='../../../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, tick_options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>], label_options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
-<div class='docblock'><p>Like <code>set_x_tics</code> but for the Y axis.</p>
-</div><h4 id='method.add_x_major_tics' class='method'><code>fn <span class='fnname'>add_x_major_tics</span>&lt;'l, T: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
-<div class='docblock'><p>Adds major tics to the X axis with specified labels at specified positions.</p>
+</div><h4 id='method.set_y_ticks' class='method'><code>fn <span class='fnname'>set_y_ticks</span>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../../../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, incr: <a class='enum' href='http://static.rust-lang.org/doc/master/std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;f64&gt;, max: <a class='enum' href='../../../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, tick_options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>], label_options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Like <code>set_x_ticks</code> but for the Y axis.</p>
+</div><h4 id='method.add_x_major_ticks' class='method'><code>fn <span class='fnname'>add_x_major_ticks</span>&lt;'l, T: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, ticks: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Adds major ticks to the X axis with specified labels at specified positions.</p>
 
 <h1>Arguments</h1>
 
 <ul>
-<li><code>tics</code> - Array of tuples specifying the locations and labels of the added tics.
+<li><code>tics</code> - Array of tuples specifying the locations and labels of the added ticks.
 The label can contain a single C printf style floating point formatting specifier which will be replaced by the
 location of the tic.</li>
 </ul>
-</div><h4 id='method.add_x_minor_tics' class='method'><code>fn <span class='fnname'>add_x_minor_tics</span>&lt;'l, T: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
-<div class='docblock'><p>Like <code>set_x_major_tics</code> but for the minor tics of the X axis.</p>
-</div><h4 id='method.add_y_major_tics' class='method'><code>fn <span class='fnname'>add_y_major_tics</span>&lt;'l, T: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
-<div class='docblock'><p>Like <code>set_x_major_tics</code> but for the major tics of the Y axis.</p>
-</div><h4 id='method.add_y_minor_tics' class='method'><code>fn <span class='fnname'>add_y_minor_tics</span>&lt;'l, T: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, tics: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
-<div class='docblock'><p>Like <code>set_x_major_tics</code> but for the minor tics of the Y axis.</p>
+</div><h4 id='method.add_x_minor_ticks' class='method'><code>fn <span class='fnname'>add_x_minor_ticks</span>&lt;'l, T: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, ticks: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Like <code>set_x_major_ticks</code> but for the minor ticks of the X axis.</p>
+</div><h4 id='method.add_y_major_ticks' class='method'><code>fn <span class='fnname'>add_y_major_ticks</span>&lt;'l, T: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, ticks: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Like <code>set_x_major_ticks</code> but for the major ticks of the Y axis.</p>
+</div><h4 id='method.add_y_minor_ticks' class='method'><code>fn <span class='fnname'>add_y_minor_ticks</span>&lt;'l, T: <a class='trait' href='../../../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>&gt;(&amp;'l mut self, ticks: &amp;[(&amp;str, T)]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Like <code>set_x_major_ticks</code> but for the minor ticks of the Y axis.</p>
 </div><h4 id='method.set_border' class='method'><code>fn <span class='fnname'>set_border</span>&lt;'l&gt;(&amp;'l mut self, front: bool, locations: &amp;[<a class='enum' href='../../../gnuplot/options/enum.BorderLocation2D.html' title='gnuplot::options::BorderLocation2D'>BorderLocation2D</a>], options: &amp;[<a class='enum' href='../../../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../../../gnuplot/internal/axes2d/struct.Axes2D.html' title='gnuplot::internal::axes2d::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Sets the properties of the plot border</p>
 
