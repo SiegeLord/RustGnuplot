@@ -45,8 +45,8 @@ fn main()
 	.lines(x, y1, [Caption("Data 1"), LineWidth(2.0), Color("black")])
 	.set_title("Plot1", [])
 	.set_aspect_ratio(Fix(1.0))
-	.set_x_ticks(Auto, Some(1.0), Auto, [Mirror(false)], [])
-	.set_y_ticks(Auto, Some(1.0), Auto, [Mirror(false)], [])
+	.set_x_ticks(Fix(1.0), 2, [Mirror(false)], [])
+	.set_y_ticks(Fix(1.0), 2, [Mirror(false)], [])
 	.set_border(true, [Left, Bottom], []);
 	
 	fg.axes2d()

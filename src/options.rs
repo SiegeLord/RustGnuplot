@@ -149,9 +149,16 @@ pub enum TickOption
 	/// Sets the scale of the minor ticks
 	MinorScale(f64),
 	/// Sets the scale of the major ticks
-	MajorScale(f64),
-	/// Sets the number of minor intervals between the major ticks
-	MinorIntervals(u32),
+	MajorScale(f64)
+}
+
+/// Specifies a type of axis tick
+pub enum Tick<T>
+{
+	/// Major ticks have position and an optional label. The label may have a single C-style format specifier which will be replaced by the location of the tick
+	Major(T, AutoOption<~str>),
+	/// Minor ticks only have position
+	Minor(T)
 }
 
 /// Plot border locations

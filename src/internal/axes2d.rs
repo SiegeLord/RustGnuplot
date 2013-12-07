@@ -2,7 +2,8 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::io::{Writer, Decorator};
+use std::io::{Writer, Decorator, SeekSet, Seek};
+use std::io::mem::MemWriter;
 
 use axes_common::*;
 use datatype::*;
@@ -14,6 +15,8 @@ use writer::*;
 pub struct Axes2D
 {
 	priv common: AxesCommon,
+	priv x_ticks: MemWriter,
+	priv y_ticks: MemWriter,
 }
 
 impl Axes2D
@@ -179,147 +182,114 @@ impl Axes2D
 		}
 		self
 	}
+	
+	fn set_ticks_options(c: &mut MemWriter, tick_options: &[TickOption], label_options: &[LabelOption])
+	{
+		write_out_label_options(AxesTicks, label_options, c);
 
-	fn set_ticks_common<'l>(&'l mut self, tick_type: TickAxis, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
+		first_opt!(tick_options,
+			OnAxis(b) =>
+			{
+				c.write_str(match(b)
+				{
+					true => " axis",
+					false => " border",
+				});
+			}
+		)
+
+		first_opt!(tick_options,
+			Mirror(b) =>
+			{
+				c.write_str(match(b)
+				{
+					true => " mirror",
+					false => " nomirror",
+				});
+			}
+		)
+
+		first_opt!(tick_options,
+			Inward(b) =>
+			{
+				c.write_str(match(b)
+				{
+					true => " in",
+					false => " out",
+				});
+			}
+		)
+
+		let mut minor_scale = 0.5;
+		let mut major_scale = 0.5;
+
+		first_opt!(tick_options,
+			MinorScale(s) =>
+			{
+				minor_scale = s;
+			}
+		)
+
+		first_opt!(tick_options,
+			MajorScale(s) =>
+			{
+				major_scale = s;
+			}
+		)
+
+		c.write_str(" scale ");
+		c.write_float(minor_scale);
+		c.write_str(",");
+		c.write_float(major_scale);
+	}
+
+	fn set_ticks_common<'l>(&'l mut self, tick_axis: TickAxis, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		{
-			let c = &mut self.common.commands;
-
-			let mut minor_intervals: u32 = 0;
-			first_opt!(tick_options,
-				MinorIntervals(i) =>
-				{
-					minor_intervals = i;
-				}
-			)
+			let c = match tick_axis
+			{
+				XTicks => &mut self.x_ticks,
+				YTicks => &mut self.y_ticks
+			};
+			c.seek(0, SeekSet);
 
 			c.write_str("set m");
-			c.write_str(tick_type.to_str());
+			c.write_str(tick_axis.to_str());
 			c.write_str(" ");
 			c.write_i32(minor_intervals as i32);
 			c.write_str("\n");
 
 			c.write_str("set ");
-			c.write_str(tick_type.to_str());
-
-			incr.map(|incr|
+			c.write_str(tick_axis.to_str());
+			
+			match incr
 			{
-				if incr <= 0.0
+				Auto =>
 				{
-					fail!("'incr' must be positive, but is actually {}", incr);
-				}
-				c.write_str(" add ");
-				match (min, max)
+					c.write_str(" autofreq");
+				},
+				Fix(incr) =>
 				{
-					(Auto, Auto) =>
+					if incr <= 0.0
 					{
-						c.write_float(incr);
-					},
-					(Fix(min), Auto) =>
-					{
-						c.write_float(min);
-						c.write_str(",");
-						c.write_float(incr);
-					},
-					(Auto, Fix(max)) =>
-					{
-						/* A possible bug in gnuplot */
-						c.write_float(incr);
-						let _ = max;
-					},
-					(Fix(min), Fix(max)) =>
-					{
-						let (min, max) = if min > max
-						{
-							(max, min)
-						}
-						else
-						{
-							(min, max)
-						};
-						c.write_float(min);
-						c.write_str(",");
-						c.write_float(incr);
-						c.write_str(",");
-						c.write_float(max);
+						fail!("'incr' must be positive, but is actually {}", incr);
 					}
+					c.write_str(" ");
+					c.write_float(incr);
 				}
-			});
+			}
 
-			write_out_label_options(AxesTicks, label_options, c);
-
-			first_opt!(tick_options,
-				OnAxis(b) =>
-				{
-					c.write_str(match(b)
-					{
-						true => " axis",
-						false => " border",
-					});
-				}
-			)
-
-			first_opt!(tick_options,
-				Mirror(b) =>
-				{
-					c.write_str(match(b)
-					{
-						true => " mirror",
-						false => " nomirror",
-					});
-				}
-			)
-
-			first_opt!(tick_options,
-				Inward(b) =>
-				{
-					c.write_str(match(b)
-					{
-						true => " in",
-						false => " out",
-					});
-				}
-			)
-
-			let mut minor_scale = 0.5;
-			let mut major_scale = 0.5;
-
-			first_opt!(tick_options,
-				MinorScale(s) =>
-				{
-					minor_scale = s;
-				}
-			)
-
-			first_opt!(tick_options,
-				MajorScale(s) =>
-				{
-					major_scale = s;
-				}
-			)
-
-			c.write_str(" scale ");
-			c.write_float(minor_scale);
-			c.write_str(",");
-			c.write_float(major_scale);
-
+			Axes2D::set_ticks_options(c, tick_options, label_options);
 			c.write_str("\n");
 		}
 		self
 	}
 
-	/// Sets the properties of the ticks on the X axis. The first 3 arguments specify the range of the ticks. The following combinations work for `(min, max)`:
-	///
-	/// * `Auto, Auto` - The ticks span the entire axis range
-	/// * `Fix, Auto` - The ticks start at the specified location, and extend to positive infinity
-	/// * `Fix, Fix` - The ticks span a limited range
-	///
-	/// Pass `None` for `incr` to disable the automatically generated ticks.
+	/// Sets the properties of the ticks on the X axis.
 	///
 	/// # Arguments
-	/// * `min` - Sets the location of where the ticks start
-	/// * `incr` - Sets the spacing between the major ticks.
-	/// * `max` - Sets the location of where the ticks end
+	/// * `incr` - Sets the spacing between the major ticks. Pass `Auto` to let gnuplot decide the spacing automatically.
+	/// * `minor_intervals` - Number of sub-intervals between minor ticks.
 	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
 	/// * `label_options` - Array of LabelOption controlling the appearance of the tick labels. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
@@ -327,29 +297,34 @@ impl Axes2D
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	pub fn set_x_ticks<'l>(&'l mut self, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
+	pub fn set_x_ticks<'l>(&'l mut self, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
-		self.set_ticks_common(XTicks, min, incr, max, tick_options, label_options)
+		self.set_ticks_common(XTicks, incr, minor_intervals, tick_options, label_options)
 	}
 
 	/// Like `set_x_ticks` but for the Y axis.
-	pub fn set_y_ticks<'l>(&'l mut self, min: AutoOption<f64>, incr: Option<f64>, max: AutoOption<f64>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
+	pub fn set_y_ticks<'l>(&'l mut self, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
-		self.set_ticks_common(YTicks, min, incr, max, tick_options, label_options)
+		self.set_ticks_common(YTicks, incr, minor_intervals, tick_options, label_options)
 	}
 
-	fn add_ticks_common<'l, T: DataType>(&'l mut self, tick_type: TickAxis, minor: bool, ticks: &[(&str, T)]) -> &'l mut Axes2D
+	fn set_ticks_custom_common<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, tick_axis: TickAxis, mut ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
 		{
-			let c = &mut self.common.commands;
+			let c = match tick_axis
+			{
+				XTicks => &mut self.x_ticks,
+				YTicks => &mut self.y_ticks
+			};
+			c.seek(0, SeekSet);
+			
 			c.write_str("set ");
-			c.write_str(tick_type.to_str());
-			c.write_str(" add (");
+			c.write_str(tick_axis.to_str());
+			c.write_str(" (");
 
 			let mut first = true;
-			for tic in ticks.iter()
+			for tick in ticks
 			{
-				let (ref label, ref pos) = *tic;
 				if first
 				{
 					first = false;
@@ -358,46 +333,63 @@ impl Axes2D
 				{
 					c.write_str(",");
 				}
-				c.write_str("\"");
-				c.write_str(*label);
-				c.write_str("\" ");
+				
+				let (ref pos, ref label, level) = match tick
+				{
+					Minor(ref pos) =>
+					{
+						(pos, &Auto, 1)
+					},
+					Major(ref pos, ref label) =>
+					{
+						(pos, label, 0)
+					}
+				};
+				
+				match **label
+				{
+					Fix(ref label) =>
+					{
+						c.write_str("\"");
+						c.write_str(*label);
+						c.write_str("\" ");
+					},
+					Auto => ()
+				}
 				c.write_float(pos.get());
 				c.write_str(" ");
-				c.write_str(if minor { "1" } else { "0" });
+				c.write_i32(level);
 			}
-			c.write_str(")\n");
+			c.write_str(")");
+			Axes2D::set_ticks_options(c, tick_options, label_options);
+			c.write_str("\n");
 		}
 		self
 	}
 
-	/// Adds major ticks to the X axis with specified labels at specified positions.
+	/// Sets ticks on the X axis with specified labels at specified positions.
 	///
 	/// # Arguments
 	///
-	/// * `tics` - Array of tuples specifying the locations and labels of the added ticks.
+	/// * `ticks` - Iterator specifying the locations and labels of the added ticks.
 	///     The label can contain a single C printf style floating point formatting specifier which will be replaced by the
 	///     location of the tic.
-	pub fn add_x_major_ticks<'l, T: DataType>(&'l mut self, ticks: &[(&str, T)]) -> &'l mut Axes2D
+	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
+	/// * `label_options` - Array of LabelOption controlling the appearance of the tick labels. Relevant options are:
+	///      * `Offset` - Specifies the offset of the label
+	///      * `Font` - Specifies the font of the label
+	///      * `TextColor` - Specifies the color of the label
+	///      * `Rotate` - Specifies the rotation of the label
+	///      * `Align` - Specifies how to align the label
+	pub fn set_x_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
-		self.add_ticks_common(XTicks, false, ticks)
+		self.set_ticks_custom_common(XTicks, ticks, tick_options, label_options)
 	}
 
-	/// Like `set_x_major_ticks` but for the minor ticks of the X axis.
-	pub fn add_x_minor_ticks<'l, T: DataType>(&'l mut self, ticks: &[(&str, T)]) -> &'l mut Axes2D
+	/// Like `set_x_ticks_custom` but for the the Y axis.
+	pub fn set_y_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
 	{
-		self.add_ticks_common(XTicks, true, ticks)
-	}
-
-	/// Like `set_x_major_ticks` but for the major ticks of the Y axis.
-	pub fn add_y_major_ticks<'l, T: DataType>(&'l mut self, ticks: &[(&str, T)]) -> &'l mut Axes2D
-	{
-		self.add_ticks_common(YTicks, false, ticks)
-	}
-
-	/// Like `set_x_major_ticks` but for the minor ticks of the Y axis.
-	pub fn add_y_minor_ticks<'l, T: DataType>(&'l mut self, ticks: &[(&str, T)]) -> &'l mut Axes2D
-	{
-		self.add_ticks_common(YTicks, true, ticks)
+		self.set_ticks_custom_common(YTicks, ticks, tick_options, label_options)
 	}
 
 	/// Sets the properties of the plot border
@@ -885,7 +877,12 @@ struct Tics
 
 pub fn new_axes2d() -> Axes2D
 {
-	Axes2D{common: AxesCommon::new()}
+	Axes2D
+	{
+		common: AxesCommon::new(),
+		x_ticks: MemWriter::new(),
+		y_ticks: MemWriter::new()
+	}
 }
 
 pub trait Axes2DPrivate
@@ -946,8 +943,9 @@ impl Axes2DPrivate for Axes2D
 		{
 			return;
 		}
-
 		writer.write(*self.common.commands.inner_ref());
+		writer.write(*self.x_ticks.inner_ref());
+		writer.write(*self.y_ticks.inner_ref());
 
 		write!(writer, "plot");
 

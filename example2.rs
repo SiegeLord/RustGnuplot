@@ -5,7 +5,7 @@ extern mod gnuplot;
 extern mod extra;
 
 use extra::getopts::groups::*;
-use std::iter::Repeat;
+use std::iter::{Repeat, range_step};
 use std::os;
 
 use gnuplot::*;
@@ -74,9 +74,9 @@ fn main()
 	fg.axes2d()
 	.set_title("Axis Ticks", [])
 	.lines(x3, y3, [LineWidth(2.0), Color("blue")])
-	.add_x_major_ticks([("Pos: %.2f", -2)])
-	.set_x_ticks(Fix(0.0), Some(2.0), Auto, [MinorIntervals(2), MajorScale(2.0), MinorScale(0.5), OnAxis(true)], [TextColor("blue"), TextAlign(AlignCenter)])
-	.set_y_ticks(Auto, Some(2.0), Auto, [Mirror(false)], []);
+	.set_x_ticks_custom(range_step(0, 10, 2).map(|x| Major(x as f32, Fix(~"%.2f ms"))).chain(range_step(1, 10, 2).map(|x| Minor(x as f32))).chain(Some(Major(-2.1f32, Fix(~"%.2f ms"))).move_iter()), 
+	                    [MajorScale(2.0), MinorScale(0.5), OnAxis(true)], [TextColor("blue"), TextAlign(AlignCenter)])
+	.set_y_ticks(Fix(2.0), 2, [Mirror(false)], []);
 	
 	if show
 	{
@@ -89,8 +89,8 @@ fn main()
 	fg.axes2d()
 	.set_title("Border, Axes", [])
 	.set_border(true, [Left, Bottom], [LineWidth(2.0)])
-	.set_x_ticks(Auto, Some(1.0), Auto, [Mirror(false)], [])
-	.set_y_ticks(Auto, Some(5.0), Auto, [Mirror(false)], [])
+	.set_x_ticks(Fix(1.0), 2, [Mirror(false)], [])
+	.set_y_ticks(Fix(5.0), 0, [Mirror(false)], [])
 	.lines(x3, y3, [LineWidth(2.0), Color("blue")])
 	.set_x_axis(true, [LineWidth(2.0), LineStyle(DotDotDash)])
 	.set_y_axis(true, [LineWidth(2.0), Color("red")]);

@@ -154,7 +154,7 @@ impl<'self> Figure<'self>
 		}
 		
 		writeln!(w, "set termoption dashed");
-		writeln!(w, "set termoption enhanced\n");
+		writeln!(w, "set termoption enhanced");
 		writeln!(w, "set multiplot");
 		// TODO: Maybe add an option for this (who seriously prefers them in the back though?)
 		writeln!(w, "set tics front");
@@ -172,6 +172,7 @@ impl<'self> Figure<'self>
 		
 		for e in self.axes.iter()
 		{
+			writeln!(w, "reset");
 			if do_layout
 			{
 				let c = e.get_common();
