@@ -35,13 +35,13 @@
     </nav>
 
     <section id='main' class="content enum"><a class='source'
-                       href='../../src/gnuplot/src/options.rs.html#7-48'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>PlotOption</a></h1><pre class='enum'>pub enum PlotOption&lt;'self&gt; {
+                       href='../../src/gnuplot/src/options.rs.html#7-48'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>PlotOption</a></h1><pre class='enum'>pub enum PlotOption&lt;'l&gt; {
     PointSymbol(char),
     PointSize(f64),
-    Caption(&amp;'self str),
+    Caption(&amp;'l str),
     LineWidth(f64),
-    Color(&amp;'self str),
-    BorderColor(&amp;'self str),
+    Color(&amp;'l str),
+    BorderColor(&amp;'l str),
     LineStyle(<a class='enum' href='../../gnuplot/options/enum.DashType.html' title='gnuplot::options::DashType'>DashType</a>),
     FillAlpha(f64),
     FillRegion(<a class='enum' href='../../gnuplot/options/enum.FillRegion.html' title='gnuplot::options::FillRegion'>FillRegion</a>),

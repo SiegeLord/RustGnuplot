@@ -35,12 +35,12 @@
     </nav>
 
     <section id='main' class="content enum"><a class='source'
-                       href='../../src/gnuplot/src/options.rs.html#174-191'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>LegendOption</a></h1><pre class='enum'>pub enum LegendOption&lt;'self&gt; {
+                       href='../../src/gnuplot/src/options.rs.html#174-191'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>LegendOption</a></h1><pre class='enum'>pub enum LegendOption&lt;'l&gt; {
     Reverse,
     Invert,
     Horizontal,
     Placement(<a class='enum' href='../../gnuplot/options/enum.AlignType.html' title='gnuplot::options::AlignType'>AlignType</a>, <a class='enum' href='../../gnuplot/options/enum.AlignType.html' title='gnuplot::options::AlignType'>AlignType</a>),
-    Title(&amp;'self str),
+    Title(&amp;'l str),
     MaxRows(u32),
     MaxCols(u32),
 }</pre><div class='docblock'><p>Legend options</p>

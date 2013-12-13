@@ -35,14 +35,14 @@
     </nav>
 
     <section id='main' class="content enum"><a class='source'
-                       href='../../src/gnuplot/src/options.rs.html#103-138'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>LabelOption</a></h1><pre class='enum'>pub enum LabelOption&lt;'self&gt; {
+                       href='../../src/gnuplot/src/options.rs.html#103-138'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>LabelOption</a></h1><pre class='enum'>pub enum LabelOption&lt;'l&gt; {
     TextOffset(f64, f64),
-    Font(&amp;'self str, f64),
-    TextColor(&amp;'self str),
+    Font(&amp;'l str, f64),
+    TextColor(&amp;'l str),
     Rotate(f64),
     TextAlign(<a class='enum' href='../../gnuplot/options/enum.AlignType.html' title='gnuplot::options::AlignType'>AlignType</a>),
     MarkerSymbol(char),
-    MarkerColor(&amp;'self str),
+    MarkerColor(&amp;'l str),
     MarkerSize(f64),
 }</pre><div class='docblock'><p>An enumeration of label options that control label attributes</p>
 </div><h2 class='variants'>Variants</h2>
