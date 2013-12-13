@@ -11,7 +11,7 @@ macro_rules! impl_data_type
 (
 	($T:ty) =>
 	(
-		impl<'self> DataType for &'self $T
+		impl<'l> DataType for &'l $T
 		{
 			fn get(&self) -> f64
 			{

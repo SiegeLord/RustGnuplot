@@ -869,12 +869,6 @@ impl Axes2D
 	}
 }
 
-struct Tics
-{
-	common_options: ~[u8],
-	text_options: ~[u8],
-}
-
 pub fn new_axes2d() -> Axes2D
 {
 	Axes2D

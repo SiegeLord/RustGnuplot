@@ -1,3 +1,4 @@
+*.rlib
 *.so
 example1
 example2

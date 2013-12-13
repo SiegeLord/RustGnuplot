@@ -2,10 +2,8 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-#[link(name = "gnuplot",
-       vers = "0.1",
-       author = "SiegeLord",
-       url = "https://github.com/SiegeLord/RustGnuplot")];
+#[pkgid="gnuplot#0.1"];
+#[link(name = "gnuplot")];
 
 #[comment = "Rust gnuplot controller"];
 #[license = "LGPL"];

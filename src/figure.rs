@@ -40,16 +40,16 @@ impl AxesVariant
 }
 
 /// A figure that may contain multiple axes
-pub struct Figure<'self>
+pub struct Figure<'l>
 {
 	priv axes: ~[AxesVariant],
 	priv num_rows: u32,
 	priv num_cols: u32,
-	priv terminal: &'self str,
-	priv output_file: &'self str
+	priv terminal: &'l str,
+	priv output_file: &'l str
 }
 
-impl<'self> Figure<'self>
+impl<'m> Figure<'m>
 {
 	/// Creates a new figure
 	pub fn new() -> Figure
@@ -73,7 +73,7 @@ impl<'self> Figure<'self>
 	/// * pdfcairo - Saves the figure as a PDF file
 	/// * epscairo - Saves the figure as a EPS file
 	/// * pngcairo - Saves the figure as a PNG file
-	pub fn set_terminal<'l>(&'l mut self, terminal: &'self str, output_file: &'self str) -> &'l mut Figure<'self>
+	pub fn set_terminal<'l>(&'l mut self, terminal: &'m str, output_file: &'m str) -> &'l mut Figure<'m>
 	{
 		self.terminal = terminal;
 		self.output_file = output_file;
@@ -85,7 +85,7 @@ impl<'self> Figure<'self>
 	/// # Arguments
 	/// * `rows` - Number of rows. Set to 0 to disable the grid
 	/// * `cols` - Number of columns. Set to 0 to disable the grid
-	pub fn set_grid<'l>(&'l mut self, rows: u32, cols: u32) -> &'l mut Figure<'self>
+	pub fn set_grid<'l>(&'l mut self, rows: u32, cols: u32) -> &'l mut Figure<'m>
 	{
 		self.num_rows = rows;
 		self.num_cols = cols;

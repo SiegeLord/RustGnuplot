@@ -4,7 +4,7 @@
 
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others
-pub enum PlotOption<'self>
+pub enum PlotOption<'l>
 {
 	/// Sets the symbol used for points. The valid characters are as follows:
 	///
@@ -26,15 +26,15 @@ pub enum PlotOption<'self>
 	/// Sets the size of the points. The size acts as a multiplier, with 1.0 being the default.
 	PointSize(f64),
 	/// Sets the caption of the plot element. Set to empty to hide it from the legend.
-	Caption(&'self str),
+	Caption(&'l str),
 	/// Sets the width of lines.
 	LineWidth(f64),
 	/// Sets the color of the plot element. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white). This specifies the fill color of a filled plot.
-	Color(&'self str),
+	Color(&'l str),
 	/// Sets the color of the border of a filled plot (if it has one). The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white).
-	BorderColor(&'self str),
+	BorderColor(&'l str),
 	/// Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.
 	LineStyle(DashType),
 	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque
@@ -100,15 +100,15 @@ pub enum AutoOption<T>
 }
 
 /// An enumeration of label options that control label attributes
-pub enum LabelOption<'self>
+pub enum LabelOption<'l>
 {
 	/// Sets the offset of the label in characters
 	TextOffset(f64, f64),
 	/// Sets the font of the label. The string specifies the font type (e.g. "Arial") and the number specifies the size (the units are terminal dependent, but are often points)
-	Font(&'self str, f64),
+	Font(&'l str, f64),
 	/// Sets the color of the label text. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
-	TextColor(&'self str),
+	TextColor(&'l str),
 	/// Rotates the label by a certain number of degrees
 	Rotate(f64),
 	/// Sets the horizontal alignment of the label text (default is left alignment). See AlignType.
@@ -132,7 +132,7 @@ pub enum LabelOption<'self>
 	MarkerSymbol(char),
 	/// Sets the color of the marker. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
-	MarkerColor(&'self str),
+	MarkerColor(&'l str),
 	/// Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.
 	MarkerSize(f64),
 }
@@ -171,7 +171,7 @@ pub enum BorderLocation2D
 }
 
 /// Legend options
-pub enum LegendOption<'self>
+pub enum LegendOption<'l>
 {
 	/// Puts curve samples to the left of the label
 	Reverse,
@@ -183,7 +183,7 @@ pub enum LegendOption<'self>
 	/// placement with respect to its position, and the second argument specifies the vertical placement
 	Placement(AlignType, AlignType),
 	/// Title of the legend
-	Title(&'self str),
+	Title(&'l str),
 	/// Specifies the maximum number of rows, when the legend is vertical
 	MaxRows(u32),
 	/// Specifies the maximum number of columns, when the legend is horizontal
