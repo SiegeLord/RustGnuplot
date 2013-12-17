@@ -123,7 +123,7 @@ impl<'m> Figure<'m>
 			return self;
 		}
 		
-		let mut p = Process::new("gnuplot", [~"-p"], ProcessOptions::new());
+		let mut p = Process::new("gnuplot", [~"-p"], ProcessOptions::new()).unwrap();
 		let mut input = p.input();
 		
 		self.echo(&mut input);
