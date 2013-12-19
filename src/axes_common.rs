@@ -8,7 +8,7 @@ use options::*;
 use writer::*;
 use internal::coordinates::*;
 
-struct PlotElement
+pub struct PlotElement
 {
 	args: MemWriter,
 	data: MemWriter
@@ -216,7 +216,7 @@ impl PlotType
 	}
 }
 
-struct AxesCommon
+pub struct AxesCommon
 {
 	commands: MemWriter,
 	elems: ~[PlotElement],
