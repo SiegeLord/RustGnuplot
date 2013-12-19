@@ -26,11 +26,13 @@
 
     <nav class="sub">
         <form class="search-form js-only">
-            <input class="search-input" name="search"
-                   autocomplete="off"
-                   placeholder="Search documentation..."
-                   type="search" />
             <button class="do-search">Search</button>
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Search documentation..."
+                       type="search" />
+            </div>
         </form>
     </nav>
 
@@ -375,7 +377,7 @@ impl&lt;&#39;m&gt; Figure&lt;&#39;m&gt;
 			return self;
 		}
 		
-		let mut p = Process::new(&quot;gnuplot&quot;, [~&quot;-p&quot;], ProcessOptions::new());
+		let mut p = Process::new(&quot;gnuplot&quot;, [~&quot;-p&quot;], ProcessOptions::new()).unwrap();
 		let mut input = p.input();
 		
 		self.echo(&amp;mut input);
