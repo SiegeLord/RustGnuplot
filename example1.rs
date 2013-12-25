@@ -15,13 +15,13 @@ fn main()
 	let args = os::args();
 	
 	let opts = ~[
-        optflag("n", "no-show", "do not run the gnuplot process")
-    ];
-    
-    let matches = match getopts(args.tail(), opts)
-    {
+		optflag("n", "no-show", "do not run the gnuplot process")
+	];
+	
+	let matches = match getopts(args.tail(), opts)
+	{
 		Ok(m) => { m }
-        Err(f) => { fail!(f.to_err_msg()) }
+		Err(f) => { fail!(f.to_err_msg()) }
 	};
 	
 	let show = !matches.opt_present("n");
