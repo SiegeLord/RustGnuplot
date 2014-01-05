@@ -2,6 +2,8 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
+use std::io::Writer;
+
 use writer::*;
 
 pub mod external
@@ -21,12 +23,12 @@ pub enum Coordinate
 
 pub trait CoordinatePrivate
 {
-	fn write<T: PlotWriter>(&self, writer: &mut T);
+	fn write<T: PlotWriter + Writer>(&self, writer: &mut T);
 }
 
 impl CoordinatePrivate for Coordinate
 {
-	fn write<T: PlotWriter>(&self, writer: &mut T)
+	fn write<T: PlotWriter + Writer>(&self, writer: &mut T)
 	{
 		let (name, x) = match *self
 		{

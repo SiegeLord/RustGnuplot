@@ -11,7 +11,6 @@ use std::io::Writer;
 pub trait PlotWriter
 {
 	fn write_data<T: DataType>(&mut self, v: T);
-	fn write_str(&mut self, s: &str);
 	fn write_i32(&mut self, i: i32);
 	fn write_float(&mut self, f: f64);
 }
@@ -35,11 +34,6 @@ impl PlotWriter for MemWriter
 	fn write_data<T: DataType>(&mut self, v: T)
 	{
 		self.write_le_f64(v.get());
-	}
-
-	fn write_str(&mut self, s: &str)
-	{
-		self.write(s.as_bytes());
 	}
 	
 	fn write_i32(&mut self, i: i32)

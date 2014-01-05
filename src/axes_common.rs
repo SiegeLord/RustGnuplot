@@ -3,6 +3,7 @@
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
 use std::io::mem::MemWriter;
+use std::io::Writer;
 
 use options::*;
 use writer::*;
@@ -47,7 +48,7 @@ impl LabelType
 	}
 }
 
-pub fn write_out_label_options<T: PlotWriter>(label_type: LabelType, options: &[LabelOption], writer: &mut T)
+pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, options: &[LabelOption], writer: &mut T)
 {
 	let w = writer;
 
