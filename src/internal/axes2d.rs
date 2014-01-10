@@ -2,7 +2,7 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::io::{Writer, Decorator, SeekSet, Seek};
+use std::io::{Writer, SeekSet, Seek};
 use std::io::mem::MemWriter;
 
 use axes_common::*;
@@ -937,9 +937,9 @@ impl Axes2DPrivate for Axes2D
 		{
 			return;
 		}
-		writer.write(*self.common.commands.inner_ref());
-		writer.write(*self.x_ticks.inner_ref());
-		writer.write(*self.y_ticks.inner_ref());
+		writer.write(self.common.commands.get_ref());
+		writer.write(self.x_ticks.get_ref());
+		writer.write(self.y_ticks.get_ref());
 
 		write!(writer, "plot");
 
@@ -950,7 +950,7 @@ impl Axes2DPrivate for Axes2D
 			{
 				write!(writer, ",");
 			}
-			writer.write(*e.args.inner_ref());
+			writer.write(e.args.get_ref());
 			first = false;
 		}
 
@@ -958,7 +958,7 @@ impl Axes2DPrivate for Axes2D
 
 		for e in self.common.elems.iter()
 		{
-			writer.write(*e.data.inner_ref());
+			writer.write(e.data.get_ref());
 		}
 	}
 
