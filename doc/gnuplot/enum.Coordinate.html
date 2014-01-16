@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>gnuplot::internal::coordinates::Coordinate - Rust</title>
+    <title>gnuplot::Coordinate - Rust</title>
 
     <link href='http://fonts.googleapis.com/css?family=Oswald:700|Inconsolata:400'
           rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="../../../gnuplot/main.css">
+    <link rel="stylesheet" type="text/css" href="../gnuplot/main.css">
 
     
 </head>
@@ -21,7 +21,7 @@
     <section class="sidebar">
         
 
-        <p class='location'><a href='../../index.html'>gnuplot</a>&#8203;::<a href='../index.html'>internal</a>&#8203;::<a href='index.html'>coordinates</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='external/index.html'>external</a><br/></div><div class='block enum'><h2>Enums</h2><a class='enum current' href='enum.Coordinate.html'>Coordinate</a><br/></div>
+        <p class='location'><a href='index.html'>gnuplot</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='datatype/index.html'>datatype</a><br/><a class='mod ' href='figure/index.html'>figure</a><br/><a class='mod ' href='options/index.html'>options</a><br/></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Axes2D.html'>Axes2D</a><br/><a class='struct ' href='struct.Axes2D.html'>Axes2D</a><br/></div><div class='block enum'><h2>Enums</h2><a class='enum current' href='enum.Coordinate.html'>Coordinate</a><br/></div>
     </section>
 
     <nav class="sub">
@@ -37,7 +37,7 @@
     </nav>
 
     <section id='main' class="content enum"><a class='source'
-                       href='../../../src/gnuplot/src/internal/coordinates.rs.html#13-20'>[src]</a><h1 class='fqn'>Enum <a href='../../index.html'>gnuplot</a>::<a href='../index.html'>internal</a>::<a href='index.html'>coordinates</a>::<a class='enum' href=''>Coordinate</a></h1><pre class='enum'>pub enum Coordinate {
+                       href='../src/gnuplot/tmp/RustGnuplot/src/internal/coordinates.rs.html#15-22'>[src]</a><h1 class='fqn'>Enum <a href='index.html'>gnuplot</a>::<a class='enum' href=''>Coordinate</a></h1><pre class='enum'>pub enum Coordinate {
     Graph(f64),
     Axis(f64),
 }</pre><div class='docblock'><p>Specifies how to interpret the coordinate passed to a plotting command</p>
@@ -45,17 +45,18 @@
 <table><tr><td id='variant.Graph'><code>Graph</code></td><td><div class='docblock'><p>Coordinates are done relative to a graph (i.e. an axis set). (0, 0) is the bottom left corner and (1, 1) is the top right corner.
 You&#39;d use this to place labels and other objects so that they remain in the same place relative to the graph no matter what you have plotted.</p>
 </div></td></tr><tr><td id='variant.Axis'><code>Axis</code></td><td><div class='docblock'><p>Coordinates match those on the axes. You&#39;d use this to place labels and other objects relative to regions of interest in the graph (e.g. labeling the peak of a function)</p>
-</div></td></tr></table></section>
+</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../gnuplot/internal/coordinates/trait.CoordinatePrivate.html' title='gnuplot::internal::coordinates::CoordinatePrivate'>CoordinatePrivate</a> for <a class='enum' href='../gnuplot/internal/coordinates/external/enum.Coordinate.html' title='gnuplot::internal::coordinates::external::Coordinate'>Coordinate</a></code></h3><div class='methods'><h4 id='method.write' class='method'><code>fn <span class='fnname'>write</span>&lt;T: <a class='trait' href='../gnuplot/writer/trait.PlotWriter.html' title='gnuplot::writer::PlotWriter'>PlotWriter</a> + <a class='trait' href='http://static.rust-lang.org/doc/master/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a>&gt;(&amp;self, writer: &amp;mut T)</code></h4>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
 
     <script>
-        var rootPath = "../../../";
+        var rootPath = "../";
     </script>
-    <script src="../../../gnuplot/jquery.js"></script>
-    <script src="../../../gnuplot/search-index.js"></script>
-    <script src="../../../gnuplot/main.js"></script>
+    <script src="../gnuplot/jquery.js"></script>
+    <script src="../gnuplot/search-index.js"></script>
+    <script src="../gnuplot/main.js"></script>
 
     <div id="help" class="hidden">
         <div class="shortcuts">

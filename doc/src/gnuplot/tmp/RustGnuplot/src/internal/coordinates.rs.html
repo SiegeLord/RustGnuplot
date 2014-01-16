@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>lib.rs.html -- source</title>
+    <title>coordinates.rs.html -- source</title>
 
     <link href='http://fonts.googleapis.com/css?family=Oswald:700|Inconsolata:400'
           rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="../../../gnuplot/main.css">
+    <link rel="stylesheet" type="text/css" href="../../../../../../gnuplot/main.css">
 
     
 </head>
@@ -77,70 +77,46 @@
 <span id='39'>39</span>
 <span id='40'>40</span>
 <span id='41'>41</span>
-<span id='42'>42</span>
-<span id='43'>43</span>
-<span id='44'>44</span>
-<span id='45'>45</span>
-<span id='46'>46</span>
-<span id='47'>47</span>
-<span id='48'>48</span>
-<span id='49'>49</span>
-<span id='50'>50</span>
-<span id='51'>51</span>
-<span id='52'>52</span>
-<span id='53'>53</span>
 </pre><pre class='rust'>// Copyright (c) 2013 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-#[crate_id=&quot;gnuplot#0.1&quot;];
+use std::io::Writer;
 
-#[comment = &quot;Rust gnuplot controller&quot;];
-#[license = &quot;LGPL&quot;];
-#[crate_type = &quot;lib&quot;];
+use writer::*;
 
-#[feature(globs)];
-#[feature(macro_rules)];
-
-/*!
-A simple gnuplot controller.
-
-# Example
-
-~~~ {.rust}
-use gnuplot::*;
-
-let x = [0, 1, 2];
-let y = [3, 4, 5];
-let mut fg = Figure::new();
+pub mod external
 {
-   fg.axes2d()
-   .lines(x.iter(), y.iter(), [Caption(&quot;A line&quot;), Color(&quot;black&quot;)]);
+	pub use super::{Coordinate, Graph, Axis};
 }
-fg.show();
-~~~
-*/
 
-pub use internal::axes2d::Axes2D;
-pub use internal::axes3d::Axes2D;
-pub use internal::coordinates::external::*;
-pub use figure::*;
-pub use options::*;
-pub use datatype::*;
-
-#[macro_escape]
-mod util;
-mod axes_common;
-mod writer;
-pub mod figure;
-pub mod options; 
-pub mod datatype;
-
-mod internal
+/// Specifies how to interpret the coordinate passed to a plotting command
+pub enum Coordinate
 {
-	pub mod axes2d;
-	pub mod axes3d;
-	pub mod coordinates;
+	/// Coordinates are done relative to a graph (i.e. an axis set). (0, 0) is the bottom left corner and (1, 1) is the top right corner.
+	/// You&#39;d use this to place labels and other objects so that they remain in the same place relative to the graph no matter what you have plotted.
+	Graph(f64),
+	/// Coordinates match those on the axes. You&#39;d use this to place labels and other objects relative to regions of interest in the graph (e.g. labeling the peak of a function)
+	Axis(f64)
+}
+
+pub trait CoordinatePrivate
+{
+	fn write&lt;T: PlotWriter + Writer&gt;(&amp;self, writer: &amp;mut T);
+}
+
+impl CoordinatePrivate for Coordinate
+{
+	fn write&lt;T: PlotWriter + Writer&gt;(&amp;self, writer: &amp;mut T)
+	{
+		let (name, x) = match *self
+		{
+			Graph(x) =&gt; (&quot; graph &quot;, x),
+			Axis(x) =&gt; (&quot; first &quot;, x),
+		};
+		writer.write_str(name);
+		writer.write_float(x);
+	}
 }
 </pre></section>
     <section id='search' class="content hidden"></section>
@@ -148,11 +124,11 @@ mod internal
     <section class="footer"></section>
 
     <script>
-        var rootPath = "../../../";
+        var rootPath = "../../../../../../";
     </script>
-    <script src="../../../gnuplot/jquery.js"></script>
-    <script src="../../../gnuplot/search-index.js"></script>
-    <script src="../../../gnuplot/main.js"></script>
+    <script src="../../../../../../gnuplot/jquery.js"></script>
+    <script src="../../../../../../gnuplot/search-index.js"></script>
+    <script src="../../../../../../gnuplot/main.js"></script>
 
     <div id="help" class="hidden">
         <div class="shortcuts">
