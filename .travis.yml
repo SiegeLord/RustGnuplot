@@ -4,6 +4,11 @@ before_install:
 install:
   - sudo apt-get install rust-nightly
 script:
-  - rustc src/lib.rs
-  - rustc example1.rs -Lsrc && ./example1 --no-show
-  - rustc example2.rs -Lsrc && ./example2 --no-show
+  - mkdir build
+  - cd build
+  - cmake .. -DCMAKE_INSTALL_PREFIX=/tmp
+  - make -j
+  - make doc -j
+  - cd examples
+  - ./example1 --no-show
+  - ./example2 --no-show

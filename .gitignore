@@ -1,8 +1,1 @@
-*.rlib
-*.so
-example1
-example2
-*.gnuplot
-*.pdf
-*.html
-doc
+build
