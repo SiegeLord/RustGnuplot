@@ -1,4 +1,4 @@
-// Copyright (c) 2013 by SiegeLord
+// Copyright (c) 2013-2014 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 

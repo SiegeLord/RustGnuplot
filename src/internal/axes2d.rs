@@ -1,9 +1,8 @@
-// Copyright (c) 2013 by SiegeLord
+// Copyright (c) 2013-2014 by SiegeLord
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::io::{Writer, SeekSet, Seek};
-use std::io::MemWriter;
+use std::io::Writer;
 
 use axes_common::*;
 use datatype::*;
@@ -14,384 +13,11 @@ use writer::*;
 /// 2D axes that is used for drawing 2D plots
 pub struct Axes2D
 {
-	priv common: AxesCommon,
-	priv x_ticks: MemWriter,
-	priv y_ticks: MemWriter,
+	priv common: AxesCommonData,
 }
 
 impl Axes2D
 {
-	/// Set the position of the axes on the figure using grid coordinates
-	/// # Arguments
-	/// * `row` - Row on the grid. Top-most row is 1
-	/// * `column` - Column on the grid. Left-most column is 1
-	pub fn set_pos_grid<'l>(&'l mut self, row: u32, col: u32) -> &'l mut Axes2D
-	{
-		self.common.grid_row = row;
-		self.common.grid_col = col;
-		self
-	}
-
-	/// Set the position of the axes on the figure using screen coordinates.
-	/// The coordinates refer to the bottom-left corner of the axes
-	/// # Arguments
-	/// * `x` - X position. Ranges from 0 to 1
-	/// * `y` - Y position. Ranges from 0 to 1
-	pub fn set_pos<'l>(&'l mut self, x: f64, y: f64) -> &'l mut Axes2D
-	{
-		{
-			let c = &mut self.common.commands;
-
-			c.write_str("set origin ");
-			c.write_float(x);
-			c.write_str(",");
-			c.write_float(y);
-			c.write_str("\n");
-		}
-		self
-	}
-
-	/// Set the size of the axes
-	/// # Arguments
-	/// * `w` - Width. Ranges from 0 to 1
-	/// * `h` - Height. Ranges from 0 to 1
-	pub fn set_size<'l>(&'l mut self, w: f64, h: f64) -> &'l mut Axes2D
-	{
-		{
-			let c = &mut self.common.commands;
-
-			c.write_str("set size ");
-			c.write_float(w);
-			c.write_str(",");
-			c.write_float(h);
-			c.write_str("\n");
-		}
-		self
-	}
-
-	/// Set the aspect ratio of the axes
-	/// # Arguments
-	/// * `ratio` - The aspect ratio. Set to Auto to return the ratio to default
-	pub fn set_aspect_ratio<'l>(&'l mut self, ratio: AutoOption<f64>) -> &'l mut Axes2D
-	{
-		{
-			let c = &mut self.common.commands;
-
-			match ratio
-			{
-				Fix(r) =>
-				{
-					c.write_str("set size ratio ");
-					c.write_float(r);
-				},
-				Auto =>
-				{
-					c.write_str("set size noratio");
-				}
-			}
-			c.write_str("\n");
-		}
-		self
-	}
-
-	/// Set the label for the X axis
-	/// # Arguments
-	/// * `text` - Text of the label. Pass an empty string to hide the label
-	/// * `options` - Array of LabelOption controlling the appearance of the label. Relevant options are:
-	///      * `Offset` - Specifies the offset of the label
-	///      * `Font` - Specifies the font of the label
-	///      * `TextColor` - Specifies the color of the label
-	///      * `Rotate` - Specifies the rotation of the label
-	///      * `Align` - Specifies how to align the label
-	pub fn set_x_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Axes2D
-	{
-		self.set_label_common(XLabel, text, options)
-	}
-
-	/// Set the label for the Y axis
-	/// # Arguments
-	/// * `text` - Text of the label. Pass an empty string to hide the label
-	/// * `options` - Array of LabelOption controlling the appearance of the label. Relevant options are:
-	///      * `Offset` - Specifies the offset of the label
-	///      * `Font` - Specifies the font of the label
-	///      * `TextColor` - Specifies the color of the label
-	///      * `Rotate` - Specifies the rotation of the label
-	///      * `Align` - Specifies how to align the label
-	pub fn set_y_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Axes2D
-	{
-		self.set_label_common(YLabel, text, options)
-	}
-
-	/// Set the title for the axes
-	/// # Arguments
-	/// * `text` - Text of the title. Pass an empty string to hide the title
-	/// * `options` - Array of LabelOption controlling the appearance of the title. Relevant options are:
-	///      * `Offset` - Specifies the offset of the label
-	///      * `Font` - Specifies the font of the label
-	///      * `TextColor` - Specifies the color of the label
-	///      * `Rotate` - Specifies the rotation of the label
-	///      * `Align` - Specifies how to align the label
-	pub fn set_title<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Axes2D
-	{
-		self.set_label_common(TitleLabel, text, options)
-	}
-
-	/// Adds a label to the plot, with an optional marker.
-	/// # Arguments
-	/// * `text` - Text of the label
-	/// * `x` - X coordinate of the label
-	/// * `y` - Y coordinate of the label
-	/// * `options` - Array of LabelOption controlling the appearance of the label. Relevant options are:
-	///      * `Offset` - Specifies the offset of the label
-	///      * `Font` - Specifies the font of the label
-	///      * `TextColor` - Specifies the color of the label
-	///      * `Rotate` - Specifies the rotation of the label
-	///      * `Align` - Specifies how to align the label
-	///      * `MarkerSymbol` - Specifies the symbol for the marker. Omit to hide the marker
-	///      * `MarkerSize` - Specifies the size for the marker
-	///      * `MarkerColor` - Specifies the color for the marker
-	pub fn label<'l>(&'l mut self, text: &str, x: Coordinate, y: Coordinate, options: &[LabelOption]) -> &'l mut Axes2D
-	{
-		self.set_label_common(Label(x, y), text, options)
-	}
-
-	fn set_label_common<'l>(&'l mut self, label_type: LabelType, text: &str, options: &[LabelOption]) -> &'l mut Axes2D
-	{
-		{
-			let c = &mut self.common.commands;
-
-			c.write_str("set ");
-
-			let label_str = match label_type
-			{
-				XLabel => "xlabel",
-				YLabel => "ylabel",
-				TitleLabel => "title",
-				Label(..) => "label",
-				_ => fail!("Invalid label type")
-			};
-			c.write_str(label_str);
-
-			c.write_str(" \"");
-			c.write_str(text);
-			c.write_str("\"");
-
-			write_out_label_options(label_type, options, c);
-
-			c.write_str("\n");
-		}
-		self
-	}
-	
-	fn set_ticks_options(c: &mut MemWriter, tick_options: &[TickOption], label_options: &[LabelOption])
-	{
-		write_out_label_options(AxesTicks, label_options, c);
-
-		first_opt!(tick_options,
-			OnAxis(b) =>
-			{
-				c.write_str(match(b)
-				{
-					true => " axis",
-					false => " border",
-				});
-			}
-		)
-
-		first_opt!(tick_options,
-			Mirror(b) =>
-			{
-				c.write_str(match(b)
-				{
-					true => " mirror",
-					false => " nomirror",
-				});
-			}
-		)
-
-		first_opt!(tick_options,
-			Inward(b) =>
-			{
-				c.write_str(match(b)
-				{
-					true => " in",
-					false => " out",
-				});
-			}
-		)
-
-		let mut minor_scale = 0.5;
-		let mut major_scale = 0.5;
-
-		first_opt!(tick_options,
-			MinorScale(s) =>
-			{
-				minor_scale = s;
-			}
-		)
-
-		first_opt!(tick_options,
-			MajorScale(s) =>
-			{
-				major_scale = s;
-			}
-		)
-
-		c.write_str(" scale ");
-		c.write_float(minor_scale);
-		c.write_str(",");
-		c.write_float(major_scale);
-	}
-
-	fn set_ticks_common<'l>(&'l mut self, tick_axis: TickAxis, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
-	{
-		{
-			let c = match tick_axis
-			{
-				XTicks => &mut self.x_ticks,
-				YTicks => &mut self.y_ticks
-			};
-			c.seek(0, SeekSet);
-
-			c.write_str("set m");
-			c.write_str(tick_axis.to_str());
-			c.write_str(" ");
-			c.write_i32(minor_intervals as i32);
-			c.write_str("\n");
-
-			c.write_str("set ");
-			c.write_str(tick_axis.to_str());
-			
-			match incr
-			{
-				Auto =>
-				{
-					c.write_str(" autofreq");
-				},
-				Fix(incr) =>
-				{
-					if incr <= 0.0
-					{
-						fail!("'incr' must be positive, but is actually {}", incr);
-					}
-					c.write_str(" ");
-					c.write_float(incr);
-				}
-			}
-
-			Axes2D::set_ticks_options(c, tick_options, label_options);
-			c.write_str("\n");
-		}
-		self
-	}
-
-	/// Sets the properties of the ticks on the X axis.
-	///
-	/// # Arguments
-	/// * `incr` - Sets the spacing between the major ticks. Pass `Auto` to let gnuplot decide the spacing automatically.
-	/// * `minor_intervals` - Number of sub-intervals between minor ticks.
-	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
-	/// * `label_options` - Array of LabelOption controlling the appearance of the tick labels. Relevant options are:
-	///      * `Offset` - Specifies the offset of the label
-	///      * `Font` - Specifies the font of the label
-	///      * `TextColor` - Specifies the color of the label
-	///      * `Rotate` - Specifies the rotation of the label
-	///      * `Align` - Specifies how to align the label
-	pub fn set_x_ticks<'l>(&'l mut self, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
-	{
-		self.set_ticks_common(XTicks, incr, minor_intervals, tick_options, label_options)
-	}
-
-	/// Like `set_x_ticks` but for the Y axis.
-	pub fn set_y_ticks<'l>(&'l mut self, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
-	{
-		self.set_ticks_common(YTicks, incr, minor_intervals, tick_options, label_options)
-	}
-
-	fn set_ticks_custom_common<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, tick_axis: TickAxis, mut ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
-	{
-		{
-			let c = match tick_axis
-			{
-				XTicks => &mut self.x_ticks,
-				YTicks => &mut self.y_ticks
-			};
-			c.seek(0, SeekSet);
-			
-			c.write_str("set ");
-			c.write_str(tick_axis.to_str());
-			c.write_str(" (");
-
-			let mut first = true;
-			for tick in ticks
-			{
-				if first
-				{
-					first = false;
-				}
-				else
-				{
-					c.write_str(",");
-				}
-				
-				let (ref pos, ref label, level) = match tick
-				{
-					Minor(ref pos) =>
-					{
-						(pos, &Auto, 1)
-					},
-					Major(ref pos, ref label) =>
-					{
-						(pos, label, 0)
-					}
-				};
-				
-				match **label
-				{
-					Fix(ref label) =>
-					{
-						c.write_str("\"");
-						c.write_str(*label);
-						c.write_str("\" ");
-					},
-					Auto => ()
-				}
-				c.write_float(pos.get());
-				c.write_str(" ");
-				c.write_i32(level);
-			}
-			c.write_str(")");
-			Axes2D::set_ticks_options(c, tick_options, label_options);
-			c.write_str("\n");
-		}
-		self
-	}
-
-	/// Sets ticks on the X axis with specified labels at specified positions.
-	///
-	/// # Arguments
-	///
-	/// * `ticks` - Iterator specifying the locations and labels of the added ticks.
-	///     The label can contain a single C printf style floating point formatting specifier which will be replaced by the
-	///     location of the tic.
-	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
-	/// * `label_options` - Array of LabelOption controlling the appearance of the tick labels. Relevant options are:
-	///      * `Offset` - Specifies the offset of the label
-	///      * `Font` - Specifies the font of the label
-	///      * `TextColor` - Specifies the color of the label
-	///      * `Rotate` - Specifies the rotation of the label
-	///      * `Align` - Specifies how to align the label
-	pub fn set_x_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
-	{
-		self.set_ticks_custom_common(XTicks, ticks, tick_options, label_options)
-	}
-
-	/// Like `set_x_ticks_custom` but for the the Y axis.
-	pub fn set_y_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes2D
-	{
-		self.set_ticks_custom_common(YTicks, ticks, tick_options, label_options)
-	}
-
 	/// Sets the properties of the plot border
 	///
 	/// # Arguments
@@ -422,8 +48,8 @@ impl Axes2D
 				" back "
 			});
 
-			AxesCommon::write_color_options(c, options, Some("black"));
-			AxesCommon::write_line_options(c, options);
+			AxesCommonData::write_color_options(c, options, Some("black"));
+			AxesCommonData::write_line_options(c, options);
 
 			c.write_str("\n");
 		}
@@ -439,8 +65,8 @@ impl Axes2D
 				c.write_str("set ");
 				c.write_str(axis);
 				c.write_str("zeroaxis ");
-				AxesCommon::write_color_options(c, options, Some("black"));
-				AxesCommon::write_line_options(c, options);
+				AxesCommonData::write_color_options(c, options, Some("black"));
+				AxesCommonData::write_line_options(c, options);
 			}
 			else
 			{
@@ -467,7 +93,7 @@ impl Axes2D
 	{
 		self.set_axis_common("x", show, options)
 	}
-	
+
 	/// Like `set_x_axis` but for the y axis.
 	pub fn set_y_axis<'l>(&'l mut self, show: bool, options: &[PlotOption]) -> &'l mut Axes2D
 	{
@@ -525,8 +151,8 @@ impl Axes2D
 			)
 			c.write_str(",12");
 
-			AxesCommon::write_color_options(c, options, Some("black"));
-			AxesCommon::write_line_options(c, options);
+			AxesCommonData::write_color_options(c, options, Some("black"));
+			AxesCommonData::write_line_options(c, options);
 
 			c.write_str("\n");
 		}
@@ -599,12 +225,12 @@ impl Axes2D
 	{
 		{
 			let c = &mut self.common.commands;
-			
+
 			c.write_str("set key at");
 			x.write(c);
 			c.write_str(",");
 			y.write(c);
-			
+
 			first_opt_default!(legend_options,
 				Placement(h, v) =>
 				{
@@ -625,7 +251,7 @@ impl Axes2D
 					c.write_str(" right top");
 				}
 			)
-			
+
 			first_opt_default!(legend_options,
 				Horizontal =>
 				{
@@ -636,7 +262,7 @@ impl Axes2D
 					c.write_str(" vertical");
 				}
 			)
-			
+
 			first_opt_default!(legend_options,
 				Reverse =>
 				{
@@ -647,7 +273,7 @@ impl Axes2D
 					c.write_str(" noreverse");
 				}
 			)
-			
+
 			first_opt_default!(legend_options,
 				Invert =>
 				{
@@ -658,7 +284,7 @@ impl Axes2D
 					c.write_str(" noinvert");
 				}
 			)
-			
+
 			first_opt!(legend_options,
 				Title(s) =>
 				{
@@ -667,7 +293,7 @@ impl Axes2D
 					c.write_str("\"");
 				}
 			)
-			
+
 			first_opt!(text_options,
 				Font(f, s) =>
 				{
@@ -697,7 +323,7 @@ impl Axes2D
 					});
 				}
 			)
-			
+
 			first_opt!(legend_options,
 				MaxRows(r) =>
 				{
@@ -705,7 +331,7 @@ impl Axes2D
 					c.write_i32(r as i32);
 				}
 			)
-			
+
 			first_opt!(legend_options,
 				MaxCols(l) =>
 				{
@@ -713,7 +339,7 @@ impl Axes2D
 					c.write_i32(l as i32);
 				}
 			)
-			
+
 			c.write_str("\n");
 		}
 		self
@@ -869,13 +495,19 @@ impl Axes2D
 	}
 }
 
+impl AxesCommon for Axes2D
+{
+	fn get_common_data<'l>(&'l mut self) -> &'l mut AxesCommonData
+	{
+		&mut self.common
+	}
+}
+
 pub fn new_axes2d() -> Axes2D
 {
 	Axes2D
 	{
-		common: AxesCommon::new(),
-		x_ticks: MemWriter::new(),
-		y_ticks: MemWriter::new()
+		common: AxesCommonData::new(),
 	}
 }
 
@@ -884,7 +516,7 @@ pub trait Axes2DPrivate
 	fn plot2<T1: DataType, X1: Iterator<T1>, T2: DataType, X2: Iterator<T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption]);
 	fn plot3<T1: DataType, X1: Iterator<T1>, T2: DataType, X2: Iterator<T2>, T3: DataType, X3: Iterator<T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption]);
 	fn write_out(&self, writer: &mut Writer);
-	fn get_common<'l>(&'l self) -> &'l AxesCommon;
+	fn get_common<'l>(&'l self) -> &'l AxesCommonData;
 }
 
 impl Axes2DPrivate for Axes2D
@@ -937,32 +569,13 @@ impl Axes2DPrivate for Axes2D
 		{
 			return;
 		}
-		writer.write(self.common.commands.get_ref());
-		writer.write(self.x_ticks.get_ref());
-		writer.write(self.y_ticks.get_ref());
 
-		write!(writer, "plot");
+		self.common.write_out_commands(writer);
 
-		let mut first = true;
-		for e in self.common.elems.iter()
-		{
-			if !first
-			{
-				write!(writer, ",");
-			}
-			writer.write(e.args.get_ref());
-			first = false;
-		}
-
-		write!(writer, "\n");
-
-		for e in self.common.elems.iter()
-		{
-			writer.write(e.data.get_ref());
-		}
+		self.common.write_out_elements("plot", writer);
 	}
 
-	fn get_common<'l>(&'l self) -> &'l AxesCommon
+	fn get_common<'l>(&'l self) -> &'l AxesCommonData
 	{
 		&self.common
 	}

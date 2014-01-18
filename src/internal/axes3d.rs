@@ -1,4 +1,4 @@
-// Copyright (c) 2013 by SiegeLord
+// Copyright (c) 2013-2014 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
@@ -6,22 +6,22 @@ use axes_common::*;
 
 pub struct Axes3D
 {
-	priv common: AxesCommon
+	priv common: AxesCommonData
 }
 
 pub fn new_axes3d() -> Axes3D
 {
-	Axes3D{common: AxesCommon::new()}
+	Axes3D{common: AxesCommonData::new()}
 }
 
 pub trait Axes3DPrivate
 {
-	fn get_common<'l>(&'l self) -> &'l AxesCommon;
+	fn get_common<'l>(&'l self) -> &'l AxesCommonData;
 }
 
 impl Axes3DPrivate for Axes3D
 {
-	fn get_common<'l>(&'l self) -> &'l AxesCommon
+	fn get_common<'l>(&'l self) -> &'l AxesCommonData
 	{
 		&self.common
 	}

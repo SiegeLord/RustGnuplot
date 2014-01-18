@@ -1,4 +1,4 @@
-// Copyright (c) 2013 by SiegeLord
+// Copyright (c) 2013-2014 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
@@ -36,6 +36,7 @@ pub use internal::coordinates::external::*;
 pub use figure::*;
 pub use options::*;
 pub use datatype::*;
+pub use axes_common::AxesCommon;
 
 #[macro_escape]
 mod util;
