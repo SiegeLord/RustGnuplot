@@ -89,7 +89,8 @@
 <span id='51'>51</span>
 <span id='52'>52</span>
 <span id='53'>53</span>
-</pre><pre class='rust'>// Copyright (c) 2013 by SiegeLord
+<span id='54'>54</span>
+</pre><pre class='rust'>// Copyright (c) 2013-2014 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
@@ -122,11 +123,12 @@ fg.show();
 */
 
 pub use internal::axes2d::Axes2D;
-pub use internal::axes3d::Axes2D;
+pub use internal::axes3d::Axes3D;
 pub use internal::coordinates::external::*;
 pub use figure::*;
 pub use options::*;
 pub use datatype::*;
+pub use axes_common::AxesCommon;
 
 #[macro_escape]
 mod util;
