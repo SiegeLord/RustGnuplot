@@ -650,7 +650,8 @@ impl AxesCommonData
 
 pub trait AxesCommon
 {
-	fn get_common_data<'l>(&'l mut self) -> &'l mut AxesCommonData;
+	fn get_common_data<'l>(&'l self) -> &'l AxesCommonData;
+	fn get_common_data_mut<'l>(&'l mut self) -> &'l mut AxesCommonData;
 
 	/// Set the position of the axes on the figure using grid coordinates
 	/// # Arguments
@@ -659,7 +660,7 @@ pub trait AxesCommon
 	fn set_pos_grid<'l>(&'l mut self, row: u32, col: u32) -> &'l mut Self
 	{
 		{
-			let c = self.get_common_data();
+			let c = self.get_common_data_mut();
 			c.grid_row = row;
 			c.grid_col = col;
 		}
@@ -674,7 +675,7 @@ pub trait AxesCommon
 	fn set_pos<'l>(&'l mut self, x: f64, y: f64) -> &'l mut Self
 	{
 		{
-			let c = &mut self.get_common_data().commands;
+			let c = &mut self.get_common_data_mut().commands;
 
 			c.write_str("set origin ");
 			c.write_float(x);
@@ -692,7 +693,7 @@ pub trait AxesCommon
 	fn set_size<'l>(&'l mut self, w: f64, h: f64) -> &'l mut Self
 	{
 		{
-			let c = &mut self.get_common_data().commands;
+			let c = &mut self.get_common_data_mut().commands;
 
 			c.write_str("set size ");
 			c.write_float(w);
@@ -709,7 +710,7 @@ pub trait AxesCommon
 	fn set_aspect_ratio<'l>(&'l mut self, ratio: AutoOption<f64>) -> &'l mut Self
 	{
 		{
-			let c = &mut self.get_common_data().commands;
+			let c = &mut self.get_common_data_mut().commands;
 
 			match ratio
 			{
@@ -739,7 +740,7 @@ pub trait AxesCommon
 	///      * `Align` - Specifies how to align the label
 	fn set_x_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Self
 	{
-		self.get_common_data().set_label_common(XLabel, text, options);
+		self.get_common_data_mut().set_label_common(XLabel, text, options);
 		self
 	}
 
@@ -754,7 +755,7 @@ pub trait AxesCommon
 	///      * `Align` - Specifies how to align the label
 	fn set_y_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Self
 	{
-		self.get_common_data().set_label_common(YLabel, text, options);
+		self.get_common_data_mut().set_label_common(YLabel, text, options);
 		self
 	}
 
@@ -769,7 +770,7 @@ pub trait AxesCommon
 	///      * `Align` - Specifies how to align the label
 	fn set_title<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Self
 	{
-		self.get_common_data().set_label_common(TitleLabel, text, options);
+		self.get_common_data_mut().set_label_common(TitleLabel, text, options);
 		self
 	}
 
@@ -789,7 +790,7 @@ pub trait AxesCommon
 	///      * `MarkerColor` - Specifies the color for the marker
 	fn label<'l>(&'l mut self, text: &str, x: Coordinate, y: Coordinate, options: &[LabelOption]) -> &'l mut Self
 	{
-		self.get_common_data().set_label_common(Label(x, y), text, options);
+		self.get_common_data_mut().set_label_common(Label(x, y), text, options);
 		self
 	}
 
@@ -807,14 +808,14 @@ pub trait AxesCommon
 	///      * `Align` - Specifies how to align the label
 	fn set_x_ticks<'l>(&'l mut self, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		self.get_common_data().set_ticks_common(XTicks, incr, minor_intervals, tick_options, label_options);
+		self.get_common_data_mut().set_ticks_common(XTicks, incr, minor_intervals, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks` but for the Y axis.
 	fn set_y_ticks<'l>(&'l mut self, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		self.get_common_data().set_ticks_common(YTicks, incr, minor_intervals, tick_options, label_options);
+		self.get_common_data_mut().set_ticks_common(YTicks, incr, minor_intervals, tick_options, label_options);
 		self
 	}
 
@@ -834,14 +835,14 @@ pub trait AxesCommon
 	///      * `Align` - Specifies how to align the label
 	fn set_x_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		self.get_common_data().set_ticks_custom_common(XTicks, ticks, tick_options, label_options);
+		self.get_common_data_mut().set_ticks_custom_common(XTicks, ticks, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
 	fn set_y_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		self.get_common_data().set_ticks_custom_common(YTicks, ticks, tick_options, label_options);
+		self.get_common_data_mut().set_ticks_custom_common(YTicks, ticks, tick_options, label_options);
 		self
 	}
 }

@@ -29,12 +29,12 @@ impl AxesVariant
 		}
 	}
 	
-	fn get_common<'l>(&'l self) -> &'l AxesCommonData
+	fn get_common_data<'l>(&'l self) -> &'l AxesCommonData
 	{
 		match *self
 		{
-			Axes2DType(ref a) => a.get_common(),
-			Axes3DType(ref a) => a.get_common()
+			Axes2DType(ref a) => a.get_common_data(),
+			Axes3DType(ref a) => a.get_common_data()
 		}
 	}
 }
@@ -175,7 +175,7 @@ impl<'m> Figure<'m>
 			writeln!(w, "reset");
 			if do_layout
 			{
-				let c = e.get_common();
+				let c = e.get_common_data();
 				let x = (c.grid_col as f64 - 1.0) * width;
 				let y = (self.num_rows as f64 - c.grid_row as f64) * height;
 				

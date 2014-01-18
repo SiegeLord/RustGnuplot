@@ -14,15 +14,25 @@ pub fn new_axes3d() -> Axes3D
 	Axes3D{common: AxesCommonData::new()}
 }
 
+impl AxesCommon for Axes3D
+{
+	fn get_common_data_mut<'l>(&'l mut self) -> &'l mut AxesCommonData
+	{
+		&mut self.common
+	}
+
+	fn get_common_data<'l>(&'l self) -> &'l AxesCommonData
+	{
+		&self.common
+	}
+}
+
 pub trait Axes3DPrivate
 {
-	fn get_common<'l>(&'l self) -> &'l AxesCommonData;
+
 }
 
 impl Axes3DPrivate for Axes3D
 {
-	fn get_common<'l>(&'l self) -> &'l AxesCommonData
-	{
-		&self.common
-	}
+
 }
