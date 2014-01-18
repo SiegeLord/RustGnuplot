@@ -11,7 +11,7 @@ See http://siegelord.github.io/RustGnuplot/ for documentation.
 ~~~
 mkdir build
 cd build
-cmake .. -GCMAKE_INSTALL_PREFIX=<your_prefix_goes_here>
+cmake .. -DCMAKE_INSTALL_PREFIX=<your_prefix_goes_here>
 make -j
 make install
 ~~~
