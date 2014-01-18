@@ -2,7 +2,7 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::io::mem::MemWriter;
+use std::io::MemWriter;
 use std::io::Writer;
 
 use options::*;

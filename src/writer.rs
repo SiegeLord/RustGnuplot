@@ -5,7 +5,7 @@
 use datatype::*;
 
 use std::f64;
-use std::io::mem::MemWriter;
+use std::io::MemWriter;
 use std::io::Writer;
 
 pub trait PlotWriter

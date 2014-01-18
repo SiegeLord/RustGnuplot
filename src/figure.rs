@@ -8,7 +8,7 @@ use internal::axes3d::*;
 use writer::*;
 
 use std::io::File;
-use std::io::buffered::BufferedWriter;
+use std::io::BufferedWriter;
 use std::path::Path;
 use std::run::{Process, ProcessOptions};
 
