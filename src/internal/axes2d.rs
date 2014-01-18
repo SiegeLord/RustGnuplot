@@ -495,7 +495,7 @@ impl Axes2D
 	}
 }
 
-impl AxesCommon for Axes2D
+impl AxesCommonPrivate for Axes2D
 {
 	fn get_common_data_mut<'l>(&'l mut self) -> &'l mut AxesCommonData
 	{
@@ -507,6 +507,8 @@ impl AxesCommon for Axes2D
 		&self.common
 	}
 }
+
+impl AxesCommon for Axes2D {}
 
 pub fn new_axes2d() -> Axes2D
 {

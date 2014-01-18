@@ -14,7 +14,7 @@ pub fn new_axes3d() -> Axes3D
 	Axes3D{common: AxesCommonData::new()}
 }
 
-impl AxesCommon for Axes3D
+impl AxesCommonPrivate for Axes3D
 {
 	fn get_common_data_mut<'l>(&'l mut self) -> &'l mut AxesCommonData
 	{
@@ -26,6 +26,8 @@ impl AxesCommon for Axes3D
 		&self.common
 	}
 }
+
+impl AxesCommon for Axes3D {}
 
 pub trait Axes3DPrivate
 {

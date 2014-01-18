@@ -648,11 +648,14 @@ impl AxesCommonData
 	}
 }
 
-pub trait AxesCommon
+pub trait AxesCommonPrivate
 {
 	fn get_common_data<'l>(&'l self) -> &'l AxesCommonData;
 	fn get_common_data_mut<'l>(&'l mut self) -> &'l mut AxesCommonData;
+}
 
+pub trait AxesCommon : AxesCommonPrivate
+{
 	/// Set the position of the axes on the figure using grid coordinates
 	/// # Arguments
 	/// * `row` - Row on the grid. Top-most row is 1
