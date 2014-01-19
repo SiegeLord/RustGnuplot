@@ -76,15 +76,100 @@
 <span id='38'>38</span>
 <span id='39'>39</span>
 <span id='40'>40</span>
+<span id='41'>41</span>
+<span id='42'>42</span>
+<span id='43'>43</span>
+<span id='44'>44</span>
+<span id='45'>45</span>
+<span id='46'>46</span>
+<span id='47'>47</span>
+<span id='48'>48</span>
+<span id='49'>49</span>
+<span id='50'>50</span>
+<span id='51'>51</span>
+<span id='52'>52</span>
+<span id='53'>53</span>
+<span id='54'>54</span>
+<span id='55'>55</span>
+<span id='56'>56</span>
+<span id='57'>57</span>
+<span id='58'>58</span>
+<span id='59'>59</span>
+<span id='60'>60</span>
+<span id='61'>61</span>
+<span id='62'>62</span>
+<span id='63'>63</span>
+<span id='64'>64</span>
+<span id='65'>65</span>
+<span id='66'>66</span>
+<span id='67'>67</span>
+<span id='68'>68</span>
+<span id='69'>69</span>
+<span id='70'>70</span>
+<span id='71'>71</span>
+<span id='72'>72</span>
+<span id='73'>73</span>
+<span id='74'>74</span>
+<span id='75'>75</span>
+<span id='76'>76</span>
+<span id='77'>77</span>
+<span id='78'>78</span>
+<span id='79'>79</span>
+<span id='80'>80</span>
+<span id='81'>81</span>
+<span id='82'>82</span>
+<span id='83'>83</span>
+<span id='84'>84</span>
+<span id='85'>85</span>
+<span id='86'>86</span>
+<span id='87'>87</span>
 </pre><pre class='rust'>// Copyright (c) 2013-2014 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
 use axes_common::*;
+use datatype::*;
+use options::*;
+use writer::PlotWriter;
 
 pub struct Axes3D
 {
 	priv common: AxesCommonData
+}
+
+impl Axes3D
+{
+	/// Draws a 3D surface
+	pub fn surface&lt;&#39;l, T: DataType, X: Iterator&lt;T&gt;&gt;(&amp;&#39;l mut self, mat: X, num_rows: i32, num_cols: i32, options: &amp;[PlotOption]) -&gt; &amp;&#39;l mut Axes3D
+	{
+		self.common.plot_matrix(Pm3D, mat, num_rows, num_cols, options);
+		self
+	}
+
+	/// Sets the 3D view.
+	///
+	/// #Arguments:
+	/// * `pitch` - Pitch, in degrees. Value of 0 is looking straight down on the XY plane, Z pointing out of the screen.
+	/// * `yaw` - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.
+	pub fn set_view&lt;&#39;l&gt;(&amp;&#39;l mut self, pitch: f64, yaw: f64) -&gt; &amp;&#39;l mut Axes3D
+	{
+		{
+			let c = &amp;mut self.common.commands;
+			c.write_str(&quot;set view &quot;);
+			c.write_float(pitch);
+			c.write_str(&quot;,&quot;);
+			c.write_float(yaw);
+			c.write_str(&quot;\n&quot;);
+		}
+		self
+	}
+
+	/// Sets the view to be a map. Useful for images and contour plots.
+	pub fn set_view_map&lt;&#39;l&gt;(&amp;&#39;l mut self) -&gt; &amp;&#39;l mut Axes3D
+	{
+		writeln!(&amp;mut self.common.commands, &quot;set view map&quot;);
+		self
+	}
 }
 
 pub fn new_axes3d() -&gt; Axes3D
@@ -109,12 +194,21 @@ impl AxesCommon for Axes3D {}
 
 pub trait Axes3DPrivate
 {
-
+	fn write_out(&amp;self, writer: &amp;mut Writer);
 }
 
 impl Axes3DPrivate for Axes3D
 {
+	fn write_out(&amp;self, writer: &amp;mut Writer)
+	{
+		if self.common.elems.len() == 0
+		{
+			return;
+		}
 
+		self.common.write_out_commands(writer);
+		self.common.write_out_elements(&quot;splot&quot;, writer);
+	}
 }
 </pre></section>
     <section id='search' class="content hidden"></section>

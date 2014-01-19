@@ -887,6 +887,82 @@
 <span id='849'>849</span>
 <span id='850'>850</span>
 <span id='851'>851</span>
+<span id='852'>852</span>
+<span id='853'>853</span>
+<span id='854'>854</span>
+<span id='855'>855</span>
+<span id='856'>856</span>
+<span id='857'>857</span>
+<span id='858'>858</span>
+<span id='859'>859</span>
+<span id='860'>860</span>
+<span id='861'>861</span>
+<span id='862'>862</span>
+<span id='863'>863</span>
+<span id='864'>864</span>
+<span id='865'>865</span>
+<span id='866'>866</span>
+<span id='867'>867</span>
+<span id='868'>868</span>
+<span id='869'>869</span>
+<span id='870'>870</span>
+<span id='871'>871</span>
+<span id='872'>872</span>
+<span id='873'>873</span>
+<span id='874'>874</span>
+<span id='875'>875</span>
+<span id='876'>876</span>
+<span id='877'>877</span>
+<span id='878'>878</span>
+<span id='879'>879</span>
+<span id='880'>880</span>
+<span id='881'>881</span>
+<span id='882'>882</span>
+<span id='883'>883</span>
+<span id='884'>884</span>
+<span id='885'>885</span>
+<span id='886'>886</span>
+<span id='887'>887</span>
+<span id='888'>888</span>
+<span id='889'>889</span>
+<span id='890'>890</span>
+<span id='891'>891</span>
+<span id='892'>892</span>
+<span id='893'>893</span>
+<span id='894'>894</span>
+<span id='895'>895</span>
+<span id='896'>896</span>
+<span id='897'>897</span>
+<span id='898'>898</span>
+<span id='899'>899</span>
+<span id='900'>900</span>
+<span id='901'>901</span>
+<span id='902'>902</span>
+<span id='903'>903</span>
+<span id='904'>904</span>
+<span id='905'>905</span>
+<span id='906'>906</span>
+<span id='907'>907</span>
+<span id='908'>908</span>
+<span id='909'>909</span>
+<span id='910'>910</span>
+<span id='911'>911</span>
+<span id='912'>912</span>
+<span id='913'>913</span>
+<span id='914'>914</span>
+<span id='915'>915</span>
+<span id='916'>916</span>
+<span id='917'>917</span>
+<span id='918'>918</span>
+<span id='919'>919</span>
+<span id='920'>920</span>
+<span id='921'>921</span>
+<span id='922'>922</span>
+<span id='923'>923</span>
+<span id='924'>924</span>
+<span id='925'>925</span>
+<span id='926'>926</span>
+<span id='927'>927</span>
 </pre><pre class='rust'>// Copyright (c) 2013-2014 by SiegeLord
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
@@ -1066,6 +1142,7 @@ pub enum PlotType
 	YErrorLines,
 	FillBetween,
 	Boxes,
+	Pm3D
 }
 
 impl PlotType
@@ -1204,23 +1281,97 @@ impl AxesCommonData
 			None =&gt; ()
 		}
 	}
+	
+	pub fn plot2&lt;T1: DataType, X1: Iterator&lt;T1&gt;,
+	             T2: DataType, X2: Iterator&lt;T2&gt;&gt;(&amp;mut self, plot_type: PlotType, x1: X1, x2: X2, options: &amp;[PlotOption])
+	{
+		let l = self.elems.len();
+		self.elems.push(PlotElement::new());
+		let mut num_rows = 0i32;
 
-	pub fn write_common_commands(&amp;mut self, elem_idx: uint, num_rows: i32, num_cols: i32, plot_type: PlotType, options: &amp;[PlotOption])
+		{
+			let data = &amp;mut self.elems[l].data;
+			for (x1, x2) in x1.zip(x2)
+			{
+				data.write_data(x1);
+				data.write_data(x2);
+				num_rows += 1;
+			}
+		}
+
+		self.write_common_commands(l, num_rows, 2, plot_type, false, options);
+	}
+
+	pub fn plot3&lt;T1: DataType, X1: Iterator&lt;T1&gt;,
+			     T2: DataType, X2: Iterator&lt;T2&gt;,
+			     T3: DataType, X3: Iterator&lt;T3&gt;&gt;(&amp;mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &amp;[PlotOption])
+	{
+		let l = self.elems.len();
+		self.elems.push(PlotElement::new());
+		let mut num_rows = 0i32;
+
+		{
+			let data = &amp;mut self.elems[l].data;
+			for ((x1, x2), x3) in x1.zip(x2).zip(x3)
+			{
+				data.write_data(x1);
+				data.write_data(x2);
+				data.write_data(x3);
+				num_rows += 1;
+			}
+		}
+
+		self.write_common_commands(l, num_rows, 3, plot_type, false, options);
+	}
+
+	pub fn plot_matrix&lt;T: DataType, X: Iterator&lt;T&gt;&gt;(&amp;mut self, plot_type: PlotType, mut mat: X, num_rows: i32, num_cols: i32, options: &amp;[PlotOption])
+	{
+		let l = self.elems.len();
+		self.elems.push(PlotElement::new());
+		
+		{
+			let mut count = 0i32;
+			let data = &amp;mut self.elems[l].data;
+			for x in mat
+			{
+				data.write_data(x);
+				count += 1;
+			}
+			
+			if count &lt; num_rows * num_cols
+			{
+				for _ in range(0, num_rows * num_cols - count)
+				{
+					use std::f64;
+					data.write_data(f64::NAN);
+				}
+			}
+		}
+		
+		self.write_common_commands(l, num_rows, num_cols, plot_type, true, options);
+	}
+
+	fn write_common_commands(&amp;mut self, elem_idx: uint, num_rows: i32, num_cols: i32, plot_type: PlotType, array: bool, options: &amp;[PlotOption])
 	{
 		let args = &amp;mut self.elems[elem_idx].args;
-		args.write_str(&quot; \&quot;-\&quot; binary endian=little record=&quot;);
-		args.write_i32(num_rows);
-		args.write_str(&quot; format=\&quot;%float64\&quot; using &quot;);
-
-		let mut col_idx: i32 = 1;
-		while(col_idx &lt; num_cols + 1)
+		if array
 		{
-			args.write_i32(col_idx);
-			if(col_idx &lt; num_cols)
+			write!(&amp;mut *args, r#&quot; &quot;-&quot; binary endian=little array=({},{}) format=&quot;%float64&quot; &quot;#, num_cols, num_rows);
+		}
+		else
+		{
+			write!(&amp;mut *args, r#&quot; &quot;-&quot; binary endian=little record={} format=&quot;%float64&quot; using &quot;#, num_rows);
+			
+			let mut col_idx: i32 = 1;
+			while(col_idx &lt; num_cols + 1)
 			{
-				args.write_str(&quot;:&quot;);
+				args.write_i32(col_idx);
+				if(col_idx &lt; num_cols)
+				{
+					args.write_str(&quot;:&quot;);
+				}
+				col_idx += 1;
 			}
-			col_idx += 1;
 		}
 
 		args.write_str(&quot; with &quot;);
@@ -1233,6 +1384,7 @@ impl AxesCommonData
 			YErrorLines =&gt; &quot;yerrorlines&quot;,
 			FillBetween =&gt; &quot;filledcurves&quot;,
 			Boxes =&gt; &quot;boxes&quot;,
+			Pm3D =&gt; &quot;pm3d&quot;
 		};
 		args.write_str(type_str);
 

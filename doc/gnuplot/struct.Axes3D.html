@@ -37,9 +37,22 @@
     </nav>
 
     <section id='main' class="content struct"><a class='source'
-                       href='../src/gnuplot/tmp/RustGnuplot/src/internal/axes3d.rs.html#7-10'>[src]</a><h1 class='fqn'>Struct <a href='index.html'>gnuplot</a>::<a class='struct' href=''>Axes3D</a></h1><pre class='struct'>pub struct Axes3D {
+                       href='../src/gnuplot/tmp/RustGnuplot/src/internal/axes3d.rs.html#10-13'>[src]</a><h1 class='fqn'>Struct <a href='index.html'>gnuplot</a>::<a class='struct' href=''>Axes3D</a></h1><pre class='struct'>pub struct Axes3D {
     // some fields omitted
-}</pre><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../gnuplot/axes_common/trait.AxesCommonPrivate.html' title='gnuplot::axes_common::AxesCommonPrivate'>AxesCommonPrivate</a> for <a class='struct' href='../gnuplot/internal/axes3d/struct.Axes3D.html' title='gnuplot::internal::axes3d::Axes3D'>Axes3D</a></code></h3><div class='methods'><h4 id='method.get_common_data_mut' class='method'><code>fn <span class='fnname'>get_common_data_mut</span>&lt;'l&gt;(&amp;'l mut self) -&gt; &amp;'l mut AxesCommonData</code></h4>
+}</pre><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../gnuplot/internal/axes3d/struct.Axes3D.html' title='gnuplot::internal::axes3d::Axes3D'>Axes3D</a></code></h3><div class='methods'><h4 id='method.surface' class='method'><code>fn <span class='fnname'>surface</span>&lt;'l, T: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T&gt;&gt;(&amp;'l mut self, mat: X, num_rows: i32, num_cols: i32, options: &amp;[<a class='enum' href='../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/internal/axes3d/struct.Axes3D.html' title='gnuplot::internal::axes3d::Axes3D'>Axes3D</a></code></h4>
+<div class='docblock'><p>Draws a 3D surface</p>
+</div><h4 id='method.set_view' class='method'><code>fn <span class='fnname'>set_view</span>&lt;'l&gt;(&amp;'l mut self, pitch: f64, yaw: f64) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/internal/axes3d/struct.Axes3D.html' title='gnuplot::internal::axes3d::Axes3D'>Axes3D</a></code></h4>
+<div class='docblock'><p>Sets the 3D view.</p>
+
+<h1>Arguments:</h1>
+
+<ul>
+<li><code>pitch</code> - Pitch, in degrees. Value of 0 is looking straight down on the XY plane, Z pointing out of the screen.</li>
+<li><code>yaw</code> - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.</li>
+</ul>
+</div><h4 id='method.set_view_map' class='method'><code>fn <span class='fnname'>set_view_map</span>&lt;'l&gt;(&amp;'l mut self) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/internal/axes3d/struct.Axes3D.html' title='gnuplot::internal::axes3d::Axes3D'>Axes3D</a></code></h4>
+<div class='docblock'><p>Sets the view to be a map. Useful for images and contour plots.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../gnuplot/axes_common/trait.AxesCommonPrivate.html' title='gnuplot::axes_common::AxesCommonPrivate'>AxesCommonPrivate</a> for <a class='struct' href='../gnuplot/internal/axes3d/struct.Axes3D.html' title='gnuplot::internal::axes3d::Axes3D'>Axes3D</a></code></h3><div class='methods'><h4 id='method.get_common_data_mut' class='method'><code>fn <span class='fnname'>get_common_data_mut</span>&lt;'l&gt;(&amp;'l mut self) -&gt; &amp;'l mut AxesCommonData</code></h4>
 <h4 id='method.get_common_data' class='method'><code>fn <span class='fnname'>get_common_data</span>&lt;'l&gt;(&amp;'l self) -&gt; &amp;'l AxesCommonData</code></h4>
 </div><h3 class='impl'><code>impl <a class='trait' href='../gnuplot/trait.AxesCommon.html' title='gnuplot::AxesCommon'>AxesCommon</a> for <a class='struct' href='../gnuplot/internal/axes3d/struct.Axes3D.html' title='gnuplot::internal::axes3d::Axes3D'>Axes3D</a></code></h3><div class='methods'><h4 id='method.set_pos_grid' class='method'><code>fn <span class='fnname'>set_pos_grid</span>&lt;'l&gt;(&amp;'l mut self, row: u32, col: u32) -&gt; &amp;'l mut Self</code></h4>
 <div class='docblock'><p>Set the position of the axes on the figure using grid coordinates</p>
@@ -193,7 +206,8 @@ location of the tic.</li>
 </ul>
 </div><h4 id='method.set_y_ticks_custom' class='method'><code>fn <span class='fnname'>set_y_ticks_custom</span>&lt;'l, T: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, TL: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;<a class='enum' href='../gnuplot/options/enum.Tick.html' title='gnuplot::options::Tick'>Tick</a>&lt;T&gt;&gt;&gt;(&amp;'l mut self, ticks: TL, tick_options: &amp;[<a class='enum' href='../gnuplot/options/enum.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>], label_options: &amp;[<a class='enum' href='../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut Self</code></h4>
 <div class='docblock'><p>Like <code>set_x_ticks_custom</code> but for the the Y axis.</p>
-</div></div><h3 class='impl'><code>impl <a class='trait' href='../gnuplot/internal/axes3d/trait.Axes3DPrivate.html' title='gnuplot::internal::axes3d::Axes3DPrivate'>Axes3DPrivate</a> for <a class='struct' href='../gnuplot/internal/axes3d/struct.Axes3D.html' title='gnuplot::internal::axes3d::Axes3D'>Axes3D</a></code></h3><div class='methods'></div></section>
+</div></div><h3 class='impl'><code>impl <a class='trait' href='../gnuplot/internal/axes3d/trait.Axes3DPrivate.html' title='gnuplot::internal::axes3d::Axes3DPrivate'>Axes3DPrivate</a> for <a class='struct' href='../gnuplot/internal/axes3d/struct.Axes3D.html' title='gnuplot::internal::axes3d::Axes3D'>Axes3D</a></code></h3><div class='methods'><h4 id='method.write_out' class='method'><code>fn <span class='fnname'>write_out</span>(&amp;self, writer: &amp;mut <a class='trait' href='http://static.rust-lang.org/doc/master/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a>)</code></h4>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
