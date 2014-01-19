@@ -58,7 +58,7 @@ fn main()
 	{
 		fg.show();
 	}
-	fg.echo_to_file("fg1.gnuplot");
+	fg.echo_to_file("fg1.1.gnuplot");
 	
 	if show
 	{
@@ -83,7 +83,7 @@ fn main()
 	{
 		fg.show();
 	}
-	fg.echo_to_file("fg2.gnuplot");
+	fg.echo_to_file("fg1.2.gnuplot");
 	
 	let mut fg = Figure::new();
 	
@@ -101,7 +101,7 @@ fn main()
 	{
 		fg.show();
 	}
-	fg.echo_to_file("fg3.gnuplot");
+	fg.echo_to_file("fg1.3.gnuplot");
 	
 	let mut fg = Figure::new();
 
@@ -114,7 +114,7 @@ fn main()
 	{
 		fg.show();
 	}
-	fg.echo_to_file("fg4.gnuplot");
+	fg.echo_to_file("fg1.4.gnuplot");
 	
 	let mut fg = Figure::new();
 
@@ -127,7 +127,7 @@ fn main()
 	{
 		fg.show();
 	}
-	fg.echo_to_file("fg5.gnuplot");
+	fg.echo_to_file("fg1.5.gnuplot");
 	
 	let mut fg = Figure::new();
 
@@ -147,7 +147,7 @@ fn main()
 	{
 		fg.show();
 	}
-	fg.echo_to_file("fg6.gnuplot");
+	fg.echo_to_file("fg1.6.gnuplot");
 	
 	let mut fg = Figure::new();
 	
@@ -166,5 +166,5 @@ fn main()
 	{
 		fg.show();
 	}
-	fg.echo_to_file("fg7.gnuplot");
+	fg.echo_to_file("fg1.7.gnuplot");
 }

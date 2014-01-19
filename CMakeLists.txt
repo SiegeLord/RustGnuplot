@@ -9,6 +9,7 @@ include(Rust)
 set(GNUPLOT_ROOT src/lib.rs)
 set(EXAMPLE1_ROOT examples/example1.rs)
 set(EXAMPLE2_ROOT examples/example2.rs)
+set(EXAMPLE3_ROOT examples/example3.rs)
 set(CUSTOM_CSS_SRC "${CMAKE_SOURCE_DIR}/doc/main.css")
 set(CUSTOM_CSS_DEST "${CMAKE_BINARY_DIR}/doc/gnuplot/main.css")
 
@@ -17,8 +18,6 @@ set(RUSTDOC_FLAGS "-L${CMAKE_BINARY_DIR}/lib")
 
 # Get the dependencies of all the crates
 get_rust_deps(${GNUPLOT_ROOT} GNUPLOT_DEPS)
-get_rust_deps(${EXAMPLE1_ROOT} EXAMPLE1_DEPS)
-get_rust_deps(${EXAMPLE2_ROOT} EXAMPLE2_DEPS)
 
 # Build the library
 rust_crate(${GNUPLOT_ROOT}
@@ -31,19 +30,24 @@ add_custom_target(library_target
                   DEPENDS ${GNUPLOT_FULL_TARGET})
 
 # Build examples
-rust_crate(${EXAMPLE1_ROOT}
-           TARGET_NAME EXAMPLE1
-           DESTINATION examples
-           DEPENDS "${GNUPLOT_FULL_TARGET};${EXAMPLE1_DEPS}")
+rust_crate_auto(${EXAMPLE1_ROOT}
+                TARGET_NAME EXAMPLE1
+                DESTINATION examples
+                DEPENDS "${GNUPLOT_FULL_TARGET}")
 
-rust_crate(${EXAMPLE2_ROOT}
-           TARGET_NAME EXAMPLE2
-           DESTINATION examples
-           DEPENDS "${GNUPLOT_FULL_TARGET};${EXAMPLE2_DEPS}")
+rust_crate_auto(${EXAMPLE2_ROOT}
+                TARGET_NAME EXAMPLE2
+                DESTINATION examples
+                DEPENDS "${GNUPLOT_FULL_TARGET}")
+
+rust_crate_auto(${EXAMPLE3_ROOT}
+                TARGET_NAME EXAMPLE3
+                DESTINATION examples
+                DEPENDS "${GNUPLOT_FULL_TARGET}")
 
 add_custom_target(examples_target
                   ALL
-                  DEPENDS ${EXAMPLE1_FULL_TARGET} ${EXAMPLE2_FULL_TARGET})
+                  DEPENDS ${EXAMPLE1_FULL_TARGET} ${EXAMPLE2_FULL_TARGET} ${EXAMPLE3_FULL_TARGET})
 
 
 # Build documentation

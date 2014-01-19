@@ -356,7 +356,7 @@ impl Axes2D
 	///     * `Color` - Sets the color
 	pub fn lines<'l, Tx: DataType, X: Iterator<Tx>, Ty: DataType, Y: Iterator<Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
 	{
-		self.plot2(Lines, x, y, options);
+		self.common.plot2(Lines, x, y, options);
 		self
 	}
 
@@ -371,7 +371,7 @@ impl Axes2D
 	///     * `Color` - Sets the color
 	pub fn points<'l, Tx: DataType, X: Iterator<Tx>, Ty: DataType, Y: Iterator<Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
 	{
-		self.plot2(Points, x, y, options);
+		self.common.plot2(Points, x, y, options);
 		self
 	}
 
@@ -382,7 +382,7 @@ impl Axes2D
 	/// * `options` - Array of PlotOption controlling the appearance of the plot element
 	pub fn lines_points<'l, Tx: DataType, X: Iterator<Tx>, Ty: DataType, Y: Iterator<Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
 	{
-		self.plot2(LinesPoints, x, y, options);
+		self.common.plot2(LinesPoints, x, y, options);
 		self
 	}
 
@@ -404,7 +404,7 @@ impl Axes2D
 	                   Ty: DataType, Y: Iterator<Ty>,
 	                   Txe: DataType, XE: Iterator<Txe>>(&'l mut self, x: X, y: Y, x_error: XE, options: &[PlotOption]) -> &'l mut Axes2D
 	{
-		self.plot3(XErrorLines, x, y, x_error, options);
+		self.common.plot3(XErrorLines, x, y, x_error, options);
 		self
 	}
 
@@ -426,7 +426,7 @@ impl Axes2D
 	                   Ty: DataType, Y: Iterator<Ty>,
 	                   Tye: DataType, YE: Iterator<Tye>>(&'l mut self, x: X, y: Y, y_error: YE, options: &[PlotOption]) -> &'l mut Axes2D
 	{
-		self.plot3(YErrorLines, x, y, y_error, options);
+		self.common.plot3(YErrorLines, x, y, y_error, options);
 		self
 	}
 
@@ -447,7 +447,7 @@ impl Axes2D
 	                   Tyl: DataType, YL: Iterator<Tyl>,
 	                   Tyh: DataType, YH: Iterator<Tyh>>(&'l mut self, x: X, y_lo: YL, y_hi: YH, options: &[PlotOption]) -> &'l mut Axes2D
 	{
-		self.plot3(FillBetween, x, y_lo, y_hi, options);
+		self.common.plot3(FillBetween, x, y_lo, y_hi, options);
 		self
 	}
 
@@ -465,7 +465,7 @@ impl Axes2D
 	///     * `FillAlpha` - Sets the transparency of the box fill
 	pub fn boxes<'l, Tx: DataType, X: Iterator<Tx>, Ty: DataType, Y: Iterator<Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
 	{
-		self.plot2(Boxes, x, y, options);
+		self.common.plot2(Boxes, x, y, options);
 		self
 	}
 
@@ -490,7 +490,7 @@ impl Axes2D
 	                      Tw: DataType,
 	                      W: Iterator<Tw>>(&'l mut self, x: X, y: Y, w: W, options: &[PlotOption]) -> &'l mut Axes2D
 	{
-		self.plot3(Boxes, x, y, w, options);
+		self.common.plot3(Boxes, x, y, w, options);
 		self
 	}
 }
@@ -520,55 +520,11 @@ pub fn new_axes2d() -> Axes2D
 
 pub trait Axes2DPrivate
 {
-	fn plot2<T1: DataType, X1: Iterator<T1>, T2: DataType, X2: Iterator<T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption]);
-	fn plot3<T1: DataType, X1: Iterator<T1>, T2: DataType, X2: Iterator<T2>, T3: DataType, X3: Iterator<T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption]);
 	fn write_out(&self, writer: &mut Writer);
 }
 
 impl Axes2DPrivate for Axes2D
 {
-	fn plot2<T1: DataType, X1: Iterator<T1>,
-			 T2: DataType, X2: Iterator<T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption])
-	{
-		let l = self.common.elems.len();
-		self.common.elems.push(PlotElement::new());
-		let mut num_rows: i32 = 0;
-
-		{
-			let data = &mut self.common.elems[l].data;
-			for (x1, x2) in x1.zip(x2)
-			{
-				data.write_data(x1);
-				data.write_data(x2);
-				num_rows += 1;
-			}
-		}
-
-		self.common.write_common_commands(l, num_rows, 2, plot_type, options);
-	}
-
-	fn plot3<T1: DataType, X1: Iterator<T1>,
-			 T2: DataType, X2: Iterator<T2>,
-			 T3: DataType, X3: Iterator<T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption])
-	{
-		let l = self.common.elems.len();
-		self.common.elems.push(PlotElement::new());
-		let mut num_rows: i32 = 0;
-
-		{
-			let data = &mut self.common.elems[l].data;
-			for ((x1, x2), x3) in x1.zip(x2).zip(x3)
-			{
-				data.write_data(x1);
-				data.write_data(x2);
-				data.write_data(x3);
-				num_rows += 1;
-			}
-		}
-
-		self.common.write_common_commands(l, num_rows, 3, plot_type, options);
-	}
-
 	fn write_out(&self, writer: &mut Writer)
 	{
 		if self.common.elems.len() == 0
@@ -577,7 +533,6 @@ impl Axes2DPrivate for Axes2D
 		}
 
 		self.common.write_out_commands(writer);
-
 		self.common.write_out_elements("plot", writer);
 	}
 }

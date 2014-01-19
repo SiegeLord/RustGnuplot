@@ -177,6 +177,7 @@ pub enum PlotType
 	YErrorLines,
 	FillBetween,
 	Boxes,
+	Pm3D
 }
 
 impl PlotType
@@ -315,23 +316,97 @@ impl AxesCommonData
 			None => ()
 		}
 	}
+	
+	pub fn plot2<T1: DataType, X1: Iterator<T1>,
+	             T2: DataType, X2: Iterator<T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption])
+	{
+		let l = self.elems.len();
+		self.elems.push(PlotElement::new());
+		let mut num_rows = 0i32;
 
-	pub fn write_common_commands(&mut self, elem_idx: uint, num_rows: i32, num_cols: i32, plot_type: PlotType, options: &[PlotOption])
+		{
+			let data = &mut self.elems[l].data;
+			for (x1, x2) in x1.zip(x2)
+			{
+				data.write_data(x1);
+				data.write_data(x2);
+				num_rows += 1;
+			}
+		}
+
+		self.write_common_commands(l, num_rows, 2, plot_type, false, options);
+	}
+
+	pub fn plot3<T1: DataType, X1: Iterator<T1>,
+			     T2: DataType, X2: Iterator<T2>,
+			     T3: DataType, X3: Iterator<T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption])
+	{
+		let l = self.elems.len();
+		self.elems.push(PlotElement::new());
+		let mut num_rows = 0i32;
+
+		{
+			let data = &mut self.elems[l].data;
+			for ((x1, x2), x3) in x1.zip(x2).zip(x3)
+			{
+				data.write_data(x1);
+				data.write_data(x2);
+				data.write_data(x3);
+				num_rows += 1;
+			}
+		}
+
+		self.write_common_commands(l, num_rows, 3, plot_type, false, options);
+	}
+
+	pub fn plot_matrix<T: DataType, X: Iterator<T>>(&mut self, plot_type: PlotType, mut mat: X, num_rows: i32, num_cols: i32, options: &[PlotOption])
+	{
+		let l = self.elems.len();
+		self.elems.push(PlotElement::new());
+		
+		{
+			let mut count = 0i32;
+			let data = &mut self.elems[l].data;
+			for x in mat
+			{
+				data.write_data(x);
+				count += 1;
+			}
+			
+			if count < num_rows * num_cols
+			{
+				for _ in range(0, num_rows * num_cols - count)
+				{
+					use std::f64;
+					data.write_data(f64::NAN);
+				}
+			}
+		}
+		
+		self.write_common_commands(l, num_rows, num_cols, plot_type, true, options);
+	}
+
+	fn write_common_commands(&mut self, elem_idx: uint, num_rows: i32, num_cols: i32, plot_type: PlotType, array: bool, options: &[PlotOption])
 	{
 		let args = &mut self.elems[elem_idx].args;
-		args.write_str(" \"-\" binary endian=little record=");
-		args.write_i32(num_rows);
-		args.write_str(" format=\"%float64\" using ");
-
-		let mut col_idx: i32 = 1;
-		while(col_idx < num_cols + 1)
+		if array
 		{
-			args.write_i32(col_idx);
-			if(col_idx < num_cols)
+			write!(&mut *args, r#" "-" binary endian=little array=({},{}) format="%float64" "#, num_cols, num_rows);
+		}
+		else
+		{
+			write!(&mut *args, r#" "-" binary endian=little record={} format="%float64" using "#, num_rows);
+			
+			let mut col_idx: i32 = 1;
+			while(col_idx < num_cols + 1)
 			{
-				args.write_str(":");
+				args.write_i32(col_idx);
+				if(col_idx < num_cols)
+				{
+					args.write_str(":");
+				}
+				col_idx += 1;
 			}
-			col_idx += 1;
 		}
 
 		args.write_str(" with ");
@@ -344,6 +419,7 @@ impl AxesCommonData
 			YErrorLines => "yerrorlines",
 			FillBetween => "filledcurves",
 			Boxes => "boxes",
+			Pm3D => "pm3d"
 		};
 		args.write_str(type_str);
 

@@ -25,7 +25,7 @@ impl AxesVariant
 		match *self
 		{
 			Axes2DType(ref a) => a.write_out(writer),
-			Axes3DType(_) => ()
+			Axes3DType(ref a) => a.write_out(writer)
 		}
 	}
 	
