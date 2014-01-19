@@ -21,7 +21,7 @@ pub fn to_sci(v: f64, writer: &mut Writer)
 	if(e > 0.0)
 	{
 		let e = e.log10().floor();
-		write!(writer, "{}e{}", f64::to_str_digits(v / (10.0f64).pow(&e), 16), e);
+		write!(writer, "{}e{}", f64::to_str_digits(v / (10.0f64).powf(&e), 16), e);
 	}
 	else
 	{
