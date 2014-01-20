@@ -6,6 +6,23 @@ A Gnuplot controller written in Rust.
 
 See http://siegelord.github.io/RustGnuplot/ for documentation.
 
+## Examples
+
+A somewhat involved 2D example:
+
+![2D Example plot](doc/fg1.1.png)
+
+## Features
+
+* Simple 2D plots
+	* lines
+	* points
+	* points + lines
+	* error bars
+	* ...and more!
+* Simple 3D plots
+	* TBA
+
 ## Building
 
 ~~~

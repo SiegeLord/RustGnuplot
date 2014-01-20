@@ -26,33 +26,33 @@ fn main()
 	
 	let show = !matches.opt_present("n");
 
-	let x = range(1.0, 6.0);
-	let y1 = x.map(|v| { v * v }).to_owned_vec();
+	let x = range(1.0, 8.0);
+	let y1 = x.map(|v| { let z = v - 4.0; z * z - 5.0}).to_owned_vec();
 	let y1 = y1.iter();
-	let y2 = x.map(|v| { -v * v + 10.0 }).to_owned_vec();
+	let y2 = x.map(|v| { let z = v - 4.0; -z * z + 5.0 }).to_owned_vec();
 	let y2 = y2.iter();
-	let y3 = x.map(|v| { -2.0 * v + 5.0 }).to_owned_vec();
+	let y3 = x.map(|v| { v - 4.0 }).to_owned_vec();
 	let y3 = y3.iter();
 	let x_err = Repeat::new(0.3);
 	let y_err = Repeat::new(5.0);
 	
 	let mut fg = Figure::new();
-	fg.set_grid(1, 2);
 
 	fg.axes2d()
-	.set_pos_grid(1, 1)
-	.fill_between(x, y1.map(|&y| y * 0.85 - 1.0), y1.map(|&y| y * 1.15 + 1.0), [Color("#aaaaff")])
-	.lines(x, y1, [Caption("Data 1"), LineWidth(2.0), Color("black")])
-	.set_title("Plot1", [])
-	.set_aspect_ratio(Fix(1.0))
+	.set_size(0.75, 1.0)
+	.set_title("Example Plot", [])
 	.set_x_ticks(Fix(1.0), 2, [Mirror(false)], [])
 	.set_y_ticks(Fix(1.0), 2, [Mirror(false)], [])
-	.set_border(true, [Left, Bottom], []);
-	
-	fg.axes2d()
-	.set_pos_grid(1, 2)
-	.points(x, y2, [Caption("Points"), PointSymbol('D'), Color("#ffaa77"), PointSize(2.0)])
-	.set_title("Plot2", []);
+	.set_legend(Graph(1.0), Graph(0.5), [Placement(AlignLeft, AlignCenter)], [TextAlign(AlignRight)])
+	.set_border(true, [Left, Bottom], [LineWidth(2.0)])
+	.set_x_label("Ordinate", [])
+	.set_y_label("Abscissa", [])
+	.arrow(Axis(5.7912), Axis(2.7912), Axis(5.7912), Axis(1.7912), [ArrowType(Closed), ArrowSize(0.1), LineWidth(2.0), Color("black")])
+	.label("Here", Axis(5.7912), Axis(3.1), [TextAlign(AlignCenter)])
+	.fill_between(x, y1.map(|&y| y * 0.85 - 1.0), y1.map(|&y| y * 1.15 + 1.0), [Color("#aaaaff")])
+	.lines(x, y1, [Caption("(x - 4)^2 - 5"), LineWidth(1.5), Color("black")])
+	.y_error_lines(x, y2, Repeat::new(1.0), [Caption("(x - 4)^2 + 5"), LineWidth(1.5), Color("red")])
+	.lines_points(x, y3, [Caption("x - 4"), PointSymbol('t'), LineWidth(1.5), LineStyle(Dash), Color("#11ff11")]);
 	
 	if show
 	{
@@ -62,7 +62,9 @@ fn main()
 	
 	if show
 	{
-		fg.set_terminal("pdfcairo", "fg1.pdf");
+		fg.set_terminal("pdfcairo", "fg1.1.pdf");
+		fg.show();
+		fg.set_terminal("pngcairo", "fg1.1.png");
 		fg.show();
 	}
 
@@ -91,7 +93,7 @@ fn main()
 	.lines(x, y1, [Caption("Lines"), LineWidth(3.0), Color("violet")]);
 
 	fg.axes2d()
-	.set_pos(0.1, 0.4)
+	.set_pos(0.2, 0.4)
 	.set_size(0.3, 0.6)
 	.set_aspect_ratio(Fix(1.0))
 	.points(x, y2, [Caption("Points"), PointSymbol('T'), Color("#ffaa77")])
@@ -154,13 +156,13 @@ fn main()
 	fg.axes2d()
 	.set_pos(0.1, 0.1)
 	.set_size(0.8, 0.8)
-	.lines(x, y1, [Caption("x^2"), LineWidth(3.0), Color("violet"), LineStyle(DotDash)])
-	.points(x, y2, [Caption("-x^2 + 10"), PointSymbol('S'), Color("#ffaa77")])
-	.lines_points(x, y3, [Caption("-2 x + 5"), PointSymbol('O'), Color("black"), LineStyle(SmallDot)])
+	.lines(x, y1, [Caption("(x - 4)^2 - 5"), LineWidth(3.0), Color("violet"), LineStyle(DotDash)])
+	.points(x, y2, [Caption("(x - 4)^2 + 5"), PointSymbol('S'), Color("#ffaa77")])
+	.lines_points(x, y3, [Caption("x - 4"), PointSymbol('O'), Color("black"), LineStyle(SmallDot)])
 	.set_x_label("X Label", [Font("Arial", 24.0), TextColor("red"), Rotate(45.0)])
 	.set_y_label("Y Label", [Rotate(0.0)])
 	.set_title("Goings nuts with the formatting", [Font("Times", 24.0), TextOffset(-10.0, 0.5)])
-	.label("Intersection", Axis(1.449), Axis(2.101), [MarkerSymbol('*'), TextAlign(AlignCenter), TextOffset(0.0, -1.0), MarkerColor("red"), MarkerSize(2.0)]);
+	.label("Intersection", Axis(2.208), Axis(-1.791), [MarkerSymbol('*'), TextAlign(AlignCenter), TextOffset(0.0, -1.0), MarkerColor("red"), MarkerSize(2.0)]);
 	
 	if show
 	{
