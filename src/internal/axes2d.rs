@@ -128,7 +128,7 @@ impl Axes2D
 			first_opt!(options,
 				ArrowType(s) =>
 				{
-					c.write_str(match(s)
+					c.write_str(match s
 					{
 						Open => "",
 						Closed => " empty",
@@ -315,7 +315,7 @@ impl Axes2D
 			first_opt!(text_options,
 				TextAlign(a) =>
 				{
-					c.write_str(match(a)
+					c.write_str(match a
 					{
 						AlignLeft => " Left",
 						AlignRight => " Right",

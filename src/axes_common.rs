@@ -139,7 +139,7 @@ pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, op
 		first_opt!(options,
 			TextAlign(a) =>
 			{
-				w.write_str(match(a)
+				w.write_str(match a
 				{
 					AlignLeft => " left",
 					AlignRight => " right",
@@ -398,10 +398,10 @@ impl AxesCommonData
 			write!(&mut *args, r#" "-" binary endian=little record={} format="%float64" using "#, num_rows);
 			
 			let mut col_idx: i32 = 1;
-			while(col_idx < num_cols + 1)
+			while col_idx < num_cols + 1
 			{
 				args.write_i32(col_idx);
-				if(col_idx < num_cols)
+				if col_idx < num_cols
 				{
 					args.write_str(":");
 				}
@@ -631,7 +631,7 @@ impl AxesCommonData
 		first_opt!(tick_options,
 			OnAxis(b) =>
 			{
-				c.write_str(match(b)
+				c.write_str(match b
 				{
 					true => " axis",
 					false => " border",
@@ -642,7 +642,7 @@ impl AxesCommonData
 		first_opt!(tick_options,
 			Mirror(b) =>
 			{
-				c.write_str(match(b)
+				c.write_str(match b
 				{
 					true => " mirror",
 					false => " nomirror",
@@ -653,7 +653,7 @@ impl AxesCommonData
 		first_opt!(tick_options,
 			Inward(b) =>
 			{
-				c.write_str(match(b)
+				c.write_str(match b
 				{
 					true => " in",
 					false => " out",
