@@ -4,7 +4,9 @@ A Gnuplot controller written in Rust.
 
 [![Build Status](https://travis-ci.org/SiegeLord/RustGnuplot.png)](https://travis-ci.org/SiegeLord/RustGnuplot)
 
-See http://siegelord.github.io/RustGnuplot/ for documentation.
+## Documentation
+
+See http://www.rust-ci.org/SiegeLord/RustGnuplot/doc/gnuplot/
 
 ## Examples
 
