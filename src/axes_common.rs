@@ -250,6 +250,13 @@ pub fn char_to_symbol(c: char) -> i32
 	}
 }
 
+enum DataSourceType
+{
+	Record,
+	Array,
+	SizedArray(f64, f64, f64, f64)
+}
+
 impl AxesCommonData
 {
 	pub fn new() -> AxesCommonData
@@ -334,7 +341,7 @@ impl AxesCommonData
 			}
 		}
 
-		self.write_common_commands(l, num_rows, 2, plot_type, false, options);
+		self.write_common_commands(l, num_rows, 2, plot_type, Record, options);
 	}
 
 	pub fn plot3<T1: DataType, X1: Iterator<T1>,
@@ -356,10 +363,11 @@ impl AxesCommonData
 			}
 		}
 
-		self.write_common_commands(l, num_rows, 3, plot_type, false, options);
+		self.write_common_commands(l, num_rows, 3, plot_type, Record, options);
 	}
 
-	pub fn plot_matrix<T: DataType, X: Iterator<T>>(&mut self, plot_type: PlotType, mut mat: X, num_rows: i32, num_cols: i32, options: &[PlotOption])
+	pub fn plot_matrix<T: DataType, X: Iterator<T>>(&mut self, plot_type: PlotType, mut mat: X, num_rows: i32, num_cols: i32,
+	                                                dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption])
 	{
 		let l = self.elems.len();
 		self.elems.push(PlotElement::new());
@@ -383,29 +391,79 @@ impl AxesCommonData
 			}
 		}
 		
-		self.write_common_commands(l, num_rows, num_cols, plot_type, true, options);
+		let source_type = match dimensions
+		{
+			Some((x1, y1, x2, y2)) => SizedArray(x1, y1, x2, y2),
+			None => Array
+		};
+		self.write_common_commands(l, num_rows, num_cols, plot_type, source_type, options);
 	}
 
-	fn write_common_commands(&mut self, elem_idx: uint, num_rows: i32, num_cols: i32, plot_type: PlotType, array: bool, options: &[PlotOption])
+	fn write_common_commands(&mut self, elem_idx: uint, num_rows: i32, num_cols: i32, plot_type: PlotType, source_type: DataSourceType, options: &[PlotOption])
 	{
 		let args = &mut self.elems[elem_idx].args;
-		if array
+		match source_type
 		{
-			write!(&mut *args, r#" "-" binary endian=little array=({},{}) format="%float64" "#, num_cols, num_rows);
-		}
-		else
-		{
-			write!(&mut *args, r#" "-" binary endian=little record={} format="%float64" using "#, num_rows);
-			
-			let mut col_idx: i32 = 1;
-			while col_idx < num_cols + 1
+			Record => 
 			{
-				args.write_i32(col_idx);
-				if col_idx < num_cols
+				write!(&mut *args, r#" "-" binary endian=little record={} format="%float64" using "#, num_rows);
+			
+				let mut col_idx: i32 = 1;
+				while col_idx < num_cols + 1
 				{
-					args.write_str(":");
+					args.write_i32(col_idx);
+					if col_idx < num_cols
+					{
+						args.write_str(":");
+					}
+					col_idx += 1;
 				}
-				col_idx += 1;
+			},
+			_ =>
+			{
+				write!(&mut *args, r#" "-" binary endian=little array=({},{}) format="%float64" "#, num_cols, num_rows);
+				
+				match source_type
+				{
+					SizedArray(x1, y1, x2, y2) =>
+					{
+						let (x1, x2) = if x1 > x2
+						{
+							(x2, x1)
+						}
+						else
+						{
+							(x1, x2)
+						};
+						
+						let (y1, y2) = if y1 > y2
+						{
+							(y2, y1)
+						}
+						else
+						{
+							(y1, y2)
+						};
+						write!(&mut *args, "origin=({:.16e},{:.16e},0) ", x1, y1);
+						if num_cols > 1
+						{
+							write!(&mut *args, "dx={:.16e} ", (x2 - x1) / (num_cols as f64 - 1.0));
+						}
+						else
+						{
+							write!(&mut *args, "dx=1 ");
+						}
+						if num_rows > 1
+						{
+							write!(&mut *args, "dy={:.16e} ", (y2 - y1) / (num_rows as f64 - 1.0));
+						}
+						else
+						{
+							write!(&mut *args, "dy=1 ");
+						}
+					},
+					_ => ()
+				}
 			}
 		}
 

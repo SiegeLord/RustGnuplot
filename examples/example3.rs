@@ -44,7 +44,7 @@ fn main()
 	
 	fg.axes3d()
 	.set_title("Surface", [])
-	.surface(z1.iter(), w, h, [])
+	.surface(z1.iter(), w, h, Some((-4.0, -4.0, 4.0, 4.0)), [])
 	.set_x_label("X", [])
 	.set_y_label("Y", [])
 	.set_view(45.0, 45.0);
@@ -59,7 +59,7 @@ fn main()
 
 	fg.axes3d()
 	.set_title("Map", [])
-	.surface(z1.iter(), w, h, [])
+	.surface(z1.iter(), w, h, None, [])
 	.set_x_label("X", [])
 	.set_y_label("Y", [])
 	.set_view_map();

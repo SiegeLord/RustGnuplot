@@ -15,9 +15,9 @@ pub struct Axes3D
 impl Axes3D
 {
 	/// Draws a 3D surface
-	pub fn surface<'l, T: DataType, X: Iterator<T>>(&'l mut self, mat: X, num_rows: i32, num_cols: i32, options: &[PlotOption]) -> &'l mut Axes3D
+	pub fn surface<'l, T: DataType, X: Iterator<T>>(&'l mut self, mat: X, num_rows: i32, num_cols: i32, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption]) -> &'l mut Axes3D
 	{
-		self.common.plot_matrix(Pm3D, mat, num_rows, num_cols, options);
+		self.common.plot_matrix(Pm3D, mat, num_rows, num_cols, dimensions, options);
 		self
 	}
 
