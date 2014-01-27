@@ -5,7 +5,6 @@
 use axes_common::*;
 use datatype::*;
 use options::*;
-use writer::PlotWriter;
 
 pub struct Axes3D
 {
@@ -28,14 +27,7 @@ impl Axes3D
 	/// * `yaw` - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.
 	pub fn set_view<'l>(&'l mut self, pitch: f64, yaw: f64) -> &'l mut Axes3D
 	{
-		{
-			let c = &mut self.common.commands;
-			c.write_str("set view ");
-			c.write_float(pitch);
-			c.write_str(",");
-			c.write_float(yaw);
-			c.write_str("\n");
-		}
+		writeln!(&mut self.common.commands, "set view {:.12e}{:.12e}", pitch, yaw);
 		self
 	}
 

@@ -2,9 +2,7 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::io::Writer;
-
-use writer::*;
+use std::fmt;
 
 pub mod external
 {
@@ -21,21 +19,15 @@ pub enum Coordinate
 	Axis(f64)
 }
 
-pub trait CoordinatePrivate
+impl fmt::Default for Coordinate
 {
-	fn write<T: PlotWriter + Writer>(&self, writer: &mut T);
-}
-
-impl CoordinatePrivate for Coordinate
-{
-	fn write<T: PlotWriter + Writer>(&self, writer: &mut T)
+	fn fmt(v: &Coordinate, buf: &mut fmt::Formatter)
 	{
-		let (name, x) = match *self
+		let (name, x) = match *v
 		{
 			Graph(x) => (" graph ", x),
 			Axis(x) => (" first ", x),
 		};
-		writer.write_str(name);
-		writer.write_float(x);
+		write!(buf.buf, "{}{:.16e}", name, x);
 	}
 }

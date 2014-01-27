@@ -5,7 +5,7 @@
 use std::io::{MemWriter, SeekSet, Writer};
 
 use datatype::*;
-use internal::coordinates::*;
+use coordinates::*;
 use options::*;
 use writer::*;
 
@@ -50,17 +50,13 @@ impl LabelType
 
 pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, options: &[LabelOption], writer: &mut T)
 {
-	let w = writer;
+	let w = writer as &mut Writer;
 
 	match label_type
 	{
 		Label(x, y) =>
 		{
-			w.write_str(" at ");
-			x.write(w);
-			w.write_str(",");
-			y.write(w);
-			w.write_str(" front");
+			write!(w, " at {},{} front", x, y);
 		}
 		_ => ()
 	}
@@ -68,38 +64,28 @@ pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, op
 	first_opt!(options,
 		TextOffset(x, y) =>
 		{
-			w.write_str(" offset character ");
-			w.write_float(x);
-			w.write_str(",");
-			w.write_float(y);
+			write!(w, " offset character {:.12e},{:.12e}", x, y);
 		}
 	)
 
 	first_opt!(options,
 		TextColor(s) =>
 		{
-			w.write_str(" tc rgb \"");
-			w.write_str(s);
-			w.write_str("\"");
+			write!(w, r#" tc rgb "{}""#, s);
 		}
 	)
 
 	first_opt!(options,
 		Font(f, s) =>
 		{
-			w.write_str(" font \"");
-			w.write_str(f);
-			w.write_str(",");
-			w.write_str(s.to_str());
-			w.write_str("\"");
+			write!(w, r#" font "{},{}""#, f, s);
 		}
 	)
 
 	first_opt!(options,
 		Rotate(a) =>
 		{
-			w.write_str(" rotate by ");
-			w.write_float(a);
+			write!(w, " rotate by {:.12e}", a);
 		}
 	)
 
@@ -109,8 +95,7 @@ pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, op
 		first_opt!(options,
 			MarkerSymbol(s) =>
 			{
-				w.write_str(" point pt ");
-				w.write_i32(char_to_symbol(s));
+				write!(w, " point pt {}", char_to_symbol(s));
 				have_point = true;
 			}
 		)
@@ -120,18 +105,14 @@ pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, op
 			first_opt!(options,
 				MarkerColor(s) =>
 				{
-					w.write_str(" lc rgb \"");
-					w.write_str(s);
-					w.write_str("\"");
+					write!(w, r#" lc rgb "{}""#, s);
 				}
 			)
 
 			first_opt!(options,
 				MarkerSize(z) =>
 				{
-					w.write_str(" ps ");
-					w.write_float(z);
-					w.write_str("");
+					write!(w, " ps {:.12e}", z);
 				}
 			)
 		}
@@ -139,7 +120,7 @@ pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, op
 		first_opt!(options,
 			TextAlign(a) =>
 			{
-				w.write_str(match a
+				write!(w, "{}", match a
 				{
 					AlignLeft => " left",
 					AlignRight => " right",
@@ -272,20 +253,20 @@ impl AxesCommonData
 		}
 	}
 
-	pub fn write_line_options(c: &mut MemWriter, options: &[PlotOption])
+	pub fn write_line_options(c: &mut Writer, options: &[PlotOption])
 	{
 		let mut found = false;
 		c.write_str(" lw ");
 		first_opt!(options,
 			LineWidth(w) =>
 			{
-				c.write_float(w);
+				write!(c, "{:.12e}", w);
 				found = true;
 			}
 		)
 		if !found
 		{
-			c.write_float(1.0);
+			c.write_str("1");
 		}
 
 		c.write_str(" lt ");
@@ -293,17 +274,17 @@ impl AxesCommonData
 		first_opt!(options,
 			LineStyle(d) =>
 			{
-				c.write_i32(d.to_int());
+				write!(c, "{}", d.to_int());
 				found = true;
 			}
 		)
 		if !found
 		{
-			c.write_i32(1);
+			c.write_str("1");
 		}
 	}
 
-	pub fn write_color_options<'l>(c: &mut MemWriter, options: &[PlotOption<'l>], default: Option<&'l str>)
+	pub fn write_color_options<'l>(c: &mut Writer, options: &[PlotOption<'l>], default: Option<&'l str>)
 	{
 		let mut col = default;
 		first_opt!(options,
@@ -316,9 +297,7 @@ impl AxesCommonData
 		{
 			Some(s) =>
 			{
-				c.write_str(" lc rgb \"");
-				c.write_str(s);
-				c.write_str("\"");
+				write!(c, r#" lc rgb "{}""#, s)
 			},
 			None => ()
 		}
@@ -401,17 +380,17 @@ impl AxesCommonData
 
 	fn write_common_commands(&mut self, elem_idx: uint, num_rows: i32, num_cols: i32, plot_type: PlotType, source_type: DataSourceType, options: &[PlotOption])
 	{
-		let args = &mut self.elems[elem_idx].args;
+		let args = &mut self.elems[elem_idx].args as &mut Writer;
 		match source_type
 		{
 			Record => 
 			{
-				write!(&mut *args, r#" "-" binary endian=little record={} format="%float64" using "#, num_rows);
+				write!(args, r#" "-" binary endian=little record={} format="%float64" using "#, num_rows);
 			
 				let mut col_idx: i32 = 1;
 				while col_idx < num_cols + 1
 				{
-					args.write_i32(col_idx);
+					write!(args, "{}", col_idx);
 					if col_idx < num_cols
 					{
 						args.write_str(":");
@@ -421,7 +400,7 @@ impl AxesCommonData
 			},
 			_ =>
 			{
-				write!(&mut *args, r#" "-" binary endian=little array=({},{}) format="%float64" "#, num_cols, num_rows);
+				write!(args, r#" "-" binary endian=little array=({},{}) format="%float64" "#, num_cols, num_rows);
 				
 				match source_type
 				{
@@ -444,22 +423,22 @@ impl AxesCommonData
 						{
 							(y1, y2)
 						};
-						write!(&mut *args, "origin=({:.16e},{:.16e},0) ", x1, y1);
+						write!(args, "origin=({:.12e},{:.12e},0) ", x1, y1);
 						if num_cols > 1
 						{
-							write!(&mut *args, "dx={:.16e} ", (x2 - x1) / (num_cols as f64 - 1.0));
+							write!(args, "dx={:.12e} ", (x2 - x1) / (num_cols as f64 - 1.0));
 						}
 						else
 						{
-							write!(&mut *args, "dx=1 ");
+							write!(args, "dx=1 ");
 						}
 						if num_rows > 1
 						{
-							write!(&mut *args, "dy={:.16e} ", (y2 - y1) / (num_rows as f64 - 1.0));
+							write!(args, "dy={:.12e} ", (y2 - y1) / (num_rows as f64 - 1.0));
 						}
 						else
 						{
-							write!(&mut *args, "dy=1 ");
+							write!(args, "dy=1 ");
 						}
 					},
 					_ => ()
@@ -513,7 +492,7 @@ impl AxesCommonData
 			first_opt!(options,
 				FillAlpha(a) =>
 				{
-					args.write_float(a);
+					write!(args, "{:.12e}", a);
 				}
 			)
 
@@ -523,9 +502,7 @@ impl AxesCommonData
 				first_opt!(options,
 					BorderColor(s) =>
 					{
-						args.write_str(" rgb \"");
-						args.write_str(s);
-						args.write_str("\"");
+						write!(args, r#" rgb "{}""#, s)
 					}
 				)
 			}
@@ -545,16 +522,14 @@ impl AxesCommonData
 			first_opt!(options,
 				PointSymbol(s) =>
 				{
-					args.write_str(" pt ");
-					args.write_i32(char_to_symbol(s));
+					write!(args, " pt {}", char_to_symbol(s));
 				}
 			)
 
 			first_opt!(options,
 				PointSize(z) =>
 				{
-					args.write_str(" ps ");
-					args.write_float(z);
+					write!(args, " ps {}", z);
 				}
 			)
 		}
@@ -673,9 +648,7 @@ impl AxesCommonData
 				},
 				Auto => ()
 			}
-			c.write_float(pos.get());
-			c.write_str(" ");
-			c.write_i32(level);
+			write!(&mut *c, "{:.12e} {}", pos.get(), level);
 		}
 		c.write_str(")");
 		AxesCommonData::set_ticks_options(c, tick_options, label_options);
@@ -736,10 +709,7 @@ impl AxesCommonData
 			}
 		)
 
-		c.write_str(" scale ");
-		c.write_float(minor_scale);
-		c.write_str(",");
-		c.write_float(major_scale);
+		write!(&mut *c, " scale {:.12e},{:.12e}", minor_scale, major_scale);
 	}
 
 	fn set_ticks_common(&mut self, tick_axis: TickAxis, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption])
@@ -751,11 +721,7 @@ impl AxesCommonData
 		};
 		c.seek(0, SeekSet);
 
-		c.write_str("set m");
-		c.write_str(tick_axis.to_str());
-		c.write_str(" ");
-		c.write_i32(minor_intervals as i32);
-		c.write_str("\n");
+		writeln!(&mut *c, "set m{} {}", tick_axis.to_str(), minor_intervals as i32);
 
 		c.write_str("set ");
 		c.write_str(tick_axis.to_str());
@@ -773,7 +739,7 @@ impl AxesCommonData
 					fail!("'incr' must be positive, but is actually {}", incr);
 				}
 				c.write_str(" ");
-				c.write_float(incr);
+				write!(&mut *c, " {:.12e}", incr);
 			}
 		}
 
@@ -811,15 +777,7 @@ pub trait AxesCommon : AxesCommonPrivate
 	/// * `y` - Y position. Ranges from 0 to 1
 	fn set_pos<'l>(&'l mut self, x: f64, y: f64) -> &'l mut Self
 	{
-		{
-			let c = &mut self.get_common_data_mut().commands;
-
-			c.write_str("set origin ");
-			c.write_float(x);
-			c.write_str(",");
-			c.write_float(y);
-			c.write_str("\n");
-		}
+		writeln!(&mut self.get_common_data_mut().commands, "set origin {:.12e},{:.12e}", x, y);
 		self
 	}
 
@@ -829,15 +787,7 @@ pub trait AxesCommon : AxesCommonPrivate
 	/// * `h` - Height. Ranges from 0 to 1
 	fn set_size<'l>(&'l mut self, w: f64, h: f64) -> &'l mut Self
 	{
-		{
-			let c = &mut self.get_common_data_mut().commands;
-
-			c.write_str("set size ");
-			c.write_float(w);
-			c.write_str(",");
-			c.write_float(h);
-			c.write_str("\n");
-		}
+		writeln!(&mut self.get_common_data_mut().commands, "set size {:.12e},{:.12e}", w, h);
 		self
 	}
 
@@ -847,21 +797,19 @@ pub trait AxesCommon : AxesCommonPrivate
 	fn set_aspect_ratio<'l>(&'l mut self, ratio: AutoOption<f64>) -> &'l mut Self
 	{
 		{
-			let c = &mut self.get_common_data_mut().commands;
+			let c = &mut self.get_common_data_mut().commands as &mut Writer;
 
 			match ratio
 			{
 				Fix(r) =>
 				{
-					c.write_str("set size ratio ");
-					c.write_float(r);
+					writeln!(c, "set size ratio {:.12e}", r);
 				},
 				Auto =>
 				{
-					c.write_str("set size noratio");
+					writeln!(c, "set size noratio");
 				}
 			}
-			c.write_str("\n");
 		}
 		self
 	}

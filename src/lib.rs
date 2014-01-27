@@ -30,12 +30,12 @@ fg.show();
 ~~~
 */
 
+pub use coordinates::*;
+pub use datatype::*;
+pub use figure::*;
 pub use internal::axes2d::Axes2D;
 pub use internal::axes3d::Axes3D;
-pub use internal::coordinates::external::*;
-pub use figure::*;
 pub use options::*;
-pub use datatype::*;
 pub use axes_common::AxesCommon;
 
 #[macro_escape]
@@ -45,10 +45,10 @@ mod writer;
 pub mod figure;
 pub mod options; 
 pub mod datatype;
+pub mod coordinates;
 
 mod internal
 {
 	pub mod axes2d;
 	pub mod axes3d;
-	pub mod coordinates;
 }

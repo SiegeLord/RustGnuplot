@@ -6,9 +6,8 @@ use std::io::Writer;
 
 use axes_common::*;
 use datatype::*;
-use internal::coordinates::*;
+use coordinates::*;
 use options::*;
-use writer::*;
 
 /// 2D axes that is used for drawing 2D plots
 pub struct Axes2D
@@ -31,14 +30,14 @@ impl Axes2D
 	pub fn set_border<'l>(&'l mut self, front: bool, locations: &[BorderLocation2D], options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		{
-			let c = &mut self.common.commands;
+			let c = &mut self.common.commands as &mut Writer;
 			c.write_str("set border ");
 			let mut f: i32 = 0;
 			for &l in locations.iter()
 			{
 				f |= (l as i32);
 			}
-			c.write_i32(f);
+			write!(c, "{}", f);
 			c.write_str( if front
 			{
 				" front "
@@ -59,7 +58,7 @@ impl Axes2D
 	fn set_axis_common<'l>(&'l mut self, axis: &str, show: bool, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		{
-			let c = &mut self.common.commands;
+			let c = &mut self.common.commands as &mut Writer;
 			if show
 			{
 				c.write_str("set ");
@@ -115,15 +114,8 @@ impl Axes2D
 	pub fn arrow<'l>(&'l mut self, x1: Coordinate, y1: Coordinate, x2: Coordinate, y2: Coordinate, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		{
-			let c = &mut self.common.commands;
-			c.write_str("set arrow from ");
-			x1.write(c);
-			c.write_str(",");
-			y1.write(c);
-			c.write_str(" to ");
-			x2.write(c);
-			c.write_str(",");
-			y2.write(c);
+			let c = &mut self.common.commands as &mut Writer;
+			write!(c, "set arrow from {},{} to {},{}", x1, y1, x2, y2);
 
 			first_opt!(options,
 				ArrowType(s) =>
@@ -140,9 +132,9 @@ impl Axes2D
 
 			c.write_str(" size graph ");
 			first_opt_default!(options,
-				ArrowSize(s) =>
+				ArrowSize(z) =>
 				{
-					c.write_float(s);
+					write!(c, "{:.12e}", z);
 				},
 				_ =>
 				{
@@ -166,18 +158,18 @@ impl Axes2D
 	pub fn set_x_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Axes2D
 	{
 		{
-			let c = &mut self.common.commands;
+			let c = &mut self.common.commands as &mut Writer;
 
 			c.write_str("set xrange [");
 			match min
 			{
-				Fix(v) => c.write_float(v),
+				Fix(v) => write!(c, "{:.12e}", v),
 				Auto => c.write_str("*")
 			}
 			c.write_str(":");
 			match max
 			{
-				Fix(v) => c.write_float(v),
+				Fix(v) => write!(c, "{:.12e}", v),
 				Auto => c.write_str("*")
 			}
 			c.write_str("]\n");
@@ -192,18 +184,18 @@ impl Axes2D
 	pub fn set_y_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Axes2D
 	{
 		{
-			let c = &mut self.common.commands;
+			let c = &mut self.common.commands as &mut Writer;
 
 			c.write_str("set yrange [");
 			match min
 			{
-				Fix(v) => c.write_float(v),
+				Fix(v) => write!(c, "{:.12e}", v),
 				Auto => c.write_str("*")
 			}
 			c.write_str(":");
 			match max
 			{
-				Fix(v) => c.write_float(v),
+				Fix(v) => write!(c, "{:.12e}", v),
 				Auto => c.write_str("*")
 			}
 			c.write_str("]\n");
@@ -224,12 +216,9 @@ impl Axes2D
 	pub fn set_legend<'l>(&'l mut self, x: Coordinate, y: Coordinate, legend_options: &'l [LegendOption], text_options: &'l [LabelOption]) -> &'l mut Axes2D
 	{
 		{
-			let c = &mut self.common.commands;
+			let c = &mut self.common.commands as &mut Writer;
 
-			c.write_str("set key at");
-			x.write(c);
-			c.write_str(",");
-			y.write(c);
+			write!(c, "set key at {},{}", x, y);
 
 			first_opt_default!(legend_options,
 				Placement(h, v) =>
@@ -327,16 +316,14 @@ impl Axes2D
 			first_opt!(legend_options,
 				MaxRows(r) =>
 				{
-					c.write_str(" maxrows ");
-					c.write_i32(r as i32);
+					write!(c, " maxrows {}", r as i32);
 				}
 			)
 
 			first_opt!(legend_options,
 				MaxCols(l) =>
 				{
-					c.write_str(" maxcols ");
-					c.write_i32(l as i32);
+					write!(c, " maxcols {}", l as i32);
 				}
 			)
 

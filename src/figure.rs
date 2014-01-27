@@ -5,7 +5,6 @@
 use axes_common::*;
 use internal::axes2d::*;
 use internal::axes3d::*;
-use writer::*;
 
 use std::io::File;
 use std::io::BufferedWriter;
@@ -179,17 +178,8 @@ impl<'m> Figure<'m>
 				let x = (c.grid_col as f64 - 1.0) * width;
 				let y = (self.num_rows as f64 - c.grid_row as f64) * height;
 				
-				write!(w, "set origin ");
-				to_sci(x, w);
-				write!(w, ",");
-				to_sci(y, w);
-				write!(w, "\n");
-				
-				write!(w, "set size ");
-				to_sci(width, w);
-				write!(w, ",");
-				to_sci(height, w);
-				write!(w, "\n");
+				writeln!(w, "set origin {:.12e},{:.12e}", x, y);
+				writeln!(w, "set size {:.12e},{:.12e}", width, height);
 			}
 			e.write_out(w);
 		}
