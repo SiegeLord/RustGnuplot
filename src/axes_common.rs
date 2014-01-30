@@ -626,11 +626,12 @@ impl AxesCommonData
 				c.write_str(",");
 			}
 
+			let a = Auto;
 			let (ref pos, ref label, level) = match tick
 			{
 				Minor(ref pos) =>
 				{
-					(pos, &Auto, 1)
+					(pos, &a, 1)
 				},
 				Major(ref pos, ref label) =>
 				{
