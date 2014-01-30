@@ -2,13 +2,16 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
+use std::io::MemWriter;
+
 use axes_common::*;
 use datatype::*;
 use options::*;
 
 pub struct Axes3D
 {
-	priv common: AxesCommonData
+	priv common: AxesCommonData,
+	priv z_ticks: MemWriter
 }
 
 impl Axes3D
@@ -37,11 +40,50 @@ impl Axes3D
 		writeln!(&mut self.common.commands, "set view map");
 		self
 	}
+
+	/// Set the label for the Z axis
+	/// # Arguments
+	/// * `text` - Text of the label. Pass an empty string to hide the label
+	/// * `options` - Array of LabelOption controlling the appearance of the label. Relevant options are:
+	///      * `Offset` - Specifies the offset of the label
+	///      * `Font` - Specifies the font of the label
+	///      * `TextColor` - Specifies the color of the label
+	///      * `Rotate` - Specifies the rotation of the label
+	///      * `Align` - Specifies how to align the label
+	pub fn set_z_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Axes3D
+	{
+		self.get_common_data_mut().set_label_common(ZLabel, text, options);
+		self
+	}
+
+	/// Like `set_x_ticks` but for the Z axis.
+	pub fn set_z_ticks<'l>(&'l mut self, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes3D
+	{
+		AxesCommonData::set_ticks_common(&mut self.z_ticks, ZTickAxis, incr, minor_intervals, tick_options, label_options);
+		self
+	}
+
+	/// Like `set_x_ticks_custom` but for the the Y axis.
+	pub fn set_z_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes3D
+	{
+		AxesCommonData::set_ticks_custom_common(&mut self.z_ticks, ZTickAxis, ticks, tick_options, label_options);
+		self
+	}
+
+	/// Set the range of values for the Z axis
+	/// # Arguments
+	/// * `min` - Minimum Z value
+	/// * `max` - Maximum Z value
+	pub fn set_z_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Axes3D
+	{
+		self.get_common_data_mut().set_range_common(ZTickAxis, min, max);
+		self
+	}
 }
 
 pub fn new_axes3d() -> Axes3D
 {
-	Axes3D{common: AxesCommonData::new()}
+	Axes3D{ common: AxesCommonData::new(), z_ticks: MemWriter::new() }
 }
 
 impl AxesCommonPrivate for Axes3D
@@ -74,6 +116,7 @@ impl Axes3DPrivate for Axes3D
 		}
 
 		self.common.write_out_commands(writer);
+		writer.write(self.z_ticks.get_ref());
 		self.common.write_out_elements("splot", writer);
 	}
 }

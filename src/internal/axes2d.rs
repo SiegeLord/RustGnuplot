@@ -151,58 +151,6 @@ impl Axes2D
 		self
 	}
 
-	/// Set the range of values for the X axis
-	/// # Arguments
-	/// * `min` - Minimum X value
-	/// * `max` - Maximum X value
-	pub fn set_x_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Axes2D
-	{
-		{
-			let c = &mut self.common.commands as &mut Writer;
-
-			c.write_str("set xrange [");
-			match min
-			{
-				Fix(v) => write!(c, "{:.12e}", v),
-				Auto => c.write_str("*")
-			}
-			c.write_str(":");
-			match max
-			{
-				Fix(v) => write!(c, "{:.12e}", v),
-				Auto => c.write_str("*")
-			}
-			c.write_str("]\n");
-		}
-		self
-	}
-
-	/// Set the range of values for the Y axis
-	/// # Arguments
-	/// * `min` - Minimum Y value
-	/// * `max` - Maximum Y value
-	pub fn set_y_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Axes2D
-	{
-		{
-			let c = &mut self.common.commands as &mut Writer;
-
-			c.write_str("set yrange [");
-			match min
-			{
-				Fix(v) => write!(c, "{:.12e}", v),
-				Auto => c.write_str("*")
-			}
-			c.write_str(":");
-			match max
-			{
-				Fix(v) => write!(c, "{:.12e}", v),
-				Auto => c.write_str("*")
-			}
-			c.write_str("]\n");
-		}
-		self
-	}
-
 	/// Specifies the location and other properties of the legend
 	/// # Arguments
 	/// * `x` - X coordinate of the legend

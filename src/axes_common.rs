@@ -31,6 +31,7 @@ pub enum LabelType
 {
 	XLabel,
 	YLabel,
+	ZLabel,
 	TitleLabel,
 	Label(Coordinate, Coordinate),
 	AxesTicks,
@@ -133,18 +134,30 @@ pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, op
 
 pub enum TickAxis
 {
-	XTicks,
-	YTicks,
+	XTickAxis,
+	YTickAxis,
+	ZTickAxis,
 }
 
 impl TickAxis
 {
-	pub fn to_str(&self) -> &str
+	pub fn to_tick_str(&self) -> &str
 	{
 		match *self
 		{
-			XTicks => "xtics",
-			YTicks => "ytics",
+			XTickAxis => "xtics",
+			YTickAxis => "ytics",
+			ZTickAxis => "ztics",
+		}
+	}
+
+	pub fn to_range_str(&self) -> &str
+	{
+		match *self
+		{
+			XTickAxis => "xrange",
+			YTickAxis => "yrange",
+			ZTickAxis => "zrange",
 		}
 	}
 }
@@ -576,7 +589,7 @@ impl AxesCommonData
 		}
 	}
 
-	fn set_label_common(&mut self, label_type: LabelType, text: &str, options: &[LabelOption])
+	pub fn set_label_common(&mut self, label_type: LabelType, text: &str, options: &[LabelOption])
 	{
 		let c = &mut self.commands;
 
@@ -586,6 +599,7 @@ impl AxesCommonData
 		{
 			XLabel => "xlabel",
 			YLabel => "ylabel",
+			ZLabel => "zlabel",
 			TitleLabel => "title",
 			Label(..) => "label",
 			_ => fail!("Invalid label type")
@@ -601,17 +615,13 @@ impl AxesCommonData
 		c.write_str("\n");
 	}
 
-	fn set_ticks_custom_common<T: DataType, TL: Iterator<Tick<T>>>(&mut self, tick_axis: TickAxis, mut ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
+	pub fn set_ticks_custom_common<T: DataType, TL: Iterator<Tick<T>>>(c: &mut MemWriter, tick_axis: TickAxis,
+	                                                                   mut ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
 	{
-		let c = match tick_axis
-		{
-			XTicks => &mut self.x_ticks,
-			YTicks => &mut self.y_ticks
-		};
 		c.seek(0, SeekSet);
 
 		c.write_str("set ");
-		c.write_str(tick_axis.to_str());
+		c.write_str(tick_axis.to_tick_str());
 		c.write_str(" (");
 
 		let mut first = true;
@@ -713,19 +723,14 @@ impl AxesCommonData
 		write!(&mut *c, " scale {:.12e},{:.12e}", minor_scale, major_scale);
 	}
 
-	fn set_ticks_common(&mut self, tick_axis: TickAxis, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption])
+	pub fn set_ticks_common(c: &mut MemWriter, tick_axis: TickAxis, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption])
 	{
-		let c = match tick_axis
-		{
-			XTicks => &mut self.x_ticks,
-			YTicks => &mut self.y_ticks
-		};
 		c.seek(0, SeekSet);
 
-		writeln!(&mut *c, "set m{} {}", tick_axis.to_str(), minor_intervals as i32);
+		writeln!(&mut *c, "set m{} {}", tick_axis.to_tick_str(), minor_intervals as i32);
 
 		c.write_str("set ");
-		c.write_str(tick_axis.to_str());
+		c.write_str(tick_axis.to_tick_str());
 
 		match incr
 		{
@@ -746,6 +751,27 @@ impl AxesCommonData
 
 		AxesCommonData::set_ticks_options(c, tick_options, label_options);
 		c.write_str("\n");
+	}
+
+	pub fn set_range_common(&mut self, axis: TickAxis, min: AutoOption<f64>, max: AutoOption<f64>)
+	{
+		let c = &mut self.commands as &mut Writer;
+
+		c.write_str("set ");
+		c.write_str(axis.to_range_str());
+		c.write_str(" [");
+		match min
+		{
+			Fix(v) => write!(c, "{:.12e}", v),
+			Auto => c.write_str("*")
+		}
+		c.write_str(":");
+		match max
+		{
+			Fix(v) => write!(c, "{:.12e}", v),
+			Auto => c.write_str("*")
+		}
+		c.write_str("]\n");
 	}
 }
 
@@ -894,14 +920,14 @@ pub trait AxesCommon : AxesCommonPrivate
 	///      * `Align` - Specifies how to align the label
 	fn set_x_ticks<'l>(&'l mut self, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		self.get_common_data_mut().set_ticks_common(XTicks, incr, minor_intervals, tick_options, label_options);
+		AxesCommonData::set_ticks_common(&mut self.get_common_data_mut().x_ticks, XTickAxis, incr, minor_intervals, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks` but for the Y axis.
 	fn set_y_ticks<'l>(&'l mut self, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		self.get_common_data_mut().set_ticks_common(YTicks, incr, minor_intervals, tick_options, label_options);
+		AxesCommonData::set_ticks_common(&mut self.get_common_data_mut().y_ticks, YTickAxis, incr, minor_intervals, tick_options, label_options);
 		self
 	}
 
@@ -921,14 +947,34 @@ pub trait AxesCommon : AxesCommonPrivate
 	///      * `Align` - Specifies how to align the label
 	fn set_x_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		self.get_common_data_mut().set_ticks_custom_common(XTicks, ticks, tick_options, label_options);
+		AxesCommonData::set_ticks_custom_common(&mut self.get_common_data_mut().x_ticks, XTickAxis, ticks, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
 	fn set_y_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		self.get_common_data_mut().set_ticks_custom_common(YTicks, ticks, tick_options, label_options);
+		AxesCommonData::set_ticks_custom_common(&mut self.get_common_data_mut().y_ticks, YTickAxis, ticks, tick_options, label_options);
+		self
+	}
+
+	/// Set the range of values for the X axis
+	/// # Arguments
+	/// * `min` - Minimum X value
+	/// * `max` - Maximum X value
+	fn set_x_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
+	{
+		self.get_common_data_mut().set_range_common(XTickAxis, min, max);
+		self
+	}
+
+	/// Set the range of values for the Y axis
+	/// # Arguments
+	/// * `min` - Minimum Y value
+	/// * `max` - Maximum Y value
+	fn set_y_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
+	{
+		self.get_common_data_mut().set_range_common(YTickAxis, min, max);
 		self
 	}
 }

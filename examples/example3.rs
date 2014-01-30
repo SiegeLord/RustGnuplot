@@ -47,6 +47,9 @@ fn main()
 	.surface(z1.iter(), w, h, Some((-4.0, -4.0, 4.0, 4.0)), [])
 	.set_x_label("X", [])
 	.set_y_label("Y", [])
+	.set_z_label("Z", [])
+	.set_z_range(Fix(-1.0), Fix(1.0))
+	.set_z_ticks(Fix(1.0), 2, [Mirror(false)], [])
 	.set_view(45.0, 45.0);
 	
 	if show
