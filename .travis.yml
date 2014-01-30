@@ -15,6 +15,7 @@ script:
   - cd examples
   - ./example1 --no-show
   - ./example2 --no-show
+  - ./example3 --no-show
 after_script:
   - cd ..
   - curl http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN | sh
