@@ -84,7 +84,7 @@ impl Axes2D
 	/// # Arguments
 	///
 	/// * `show` - Whether or not draw the axis
-	/// * `options` - Array of PlotOption controlling the appearance of the border. Relevant options are:
+	/// * `options` - Array of PlotOption controlling the appearance of the axis. Relevant options are:
 	///      * `Color` - Specifies the color of the border
 	///      * `LineStyle` - Specifies the style of the border
 	///      * `LineWidth` - Specifies the width of the border
