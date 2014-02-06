@@ -19,15 +19,15 @@ pub enum Coordinate
 	Axis(f64)
 }
 
-impl fmt::Default for Coordinate
+impl fmt::Show for Coordinate
 {
-	fn fmt(v: &Coordinate, buf: &mut fmt::Formatter)
+	fn fmt(v: &Coordinate, buf: &mut fmt::Formatter) -> fmt::Result
 	{
 		let (name, x) = match *v
 		{
 			Graph(x) => (" graph ", x),
 			Axis(x) => (" first ", x),
 		};
-		write!(buf.buf, "{}{:.16e}", name, x);
+		write!(buf.buf, "{}{:.16e}", name, x)
 	}
 }

@@ -310,7 +310,7 @@ impl AxesCommonData
 		{
 			Some(s) =>
 			{
-				write!(c, r#" lc rgb "{}""#, s)
+				write!(c, r#" lc rgb "{}""#, s);
 			},
 			None => ()
 		}
@@ -515,7 +515,7 @@ impl AxesCommonData
 				first_opt!(options,
 					BorderColor(s) =>
 					{
-						write!(args, r#" rgb "{}""#, s)
+						write!(args, r#" rgb "{}""#, s);
 					}
 				)
 			}
@@ -764,13 +764,13 @@ impl AxesCommonData
 		{
 			Fix(v) => write!(c, "{:.12e}", v),
 			Auto => c.write_str("*")
-		}
+		};
 		c.write_str(":");
 		match max
 		{
 			Fix(v) => write!(c, "{:.12e}", v),
 			Auto => c.write_str("*")
-		}
+		};
 		c.write_str("]\n");
 	}
 }

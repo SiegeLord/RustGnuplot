@@ -10,6 +10,7 @@
 
 #[feature(globs)];
 #[feature(macro_rules)];
+#[allow(unused_must_use)];
 
 /*!
 A simple gnuplot controller.
