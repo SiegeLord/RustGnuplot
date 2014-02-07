@@ -24,7 +24,7 @@ rust_crate(${GNUPLOT_ROOT}
            TARGET_NAME GNUPLOT
            DESTINATION lib
            DEPENDS "${GNUPLOT_DEPS}"
-           OTHER_RUSTC_FLAGS --rlib)
+           OTHER_RUSTC_FLAGS --crate-type rlib)
 
 add_custom_target(library_target
                   ALL
