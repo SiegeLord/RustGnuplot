@@ -2,9 +2,9 @@
 #[feature(globs)];
 
 extern mod gnuplot;
-extern mod extra;
+extern mod getopts;
 
-use extra::getopts::groups::*;
+use getopts::*;
 use std::iter::{Repeat, range_step};
 use std::os;
 

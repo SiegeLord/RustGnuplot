@@ -2,9 +2,9 @@
 #[feature(globs)];
 
 extern mod gnuplot;
-extern mod extra;
+extern mod getopts;
 
-use extra::getopts::groups::*;
+use getopts::*;
 use std::num::{cos, sqrt};
 use std::os;
 use std::vec;
