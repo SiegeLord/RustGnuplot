@@ -21,9 +21,9 @@ pub enum Coordinate
 
 impl fmt::Show for Coordinate
 {
-	fn fmt(v: &Coordinate, buf: &mut fmt::Formatter) -> fmt::Result
+	fn fmt(&self, buf: &mut fmt::Formatter) -> fmt::Result
 	{
-		let (name, x) = match *v
+		let (name, x) = match *self
 		{
 			Graph(x) => (" graph ", x),
 			Axis(x) => (" first ", x),
