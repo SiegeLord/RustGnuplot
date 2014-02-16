@@ -1,8 +1,8 @@
 // This file is released into Public Domain.
 #[feature(globs)];
 
-extern mod gnuplot;
-extern mod getopts;
+extern crate gnuplot;
+extern crate getopts;
 
 use getopts::*;
 use std::iter::{Repeat, range_step};
