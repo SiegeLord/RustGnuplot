@@ -35,7 +35,7 @@ impl Axes2D
 			let mut f: i32 = 0;
 			for &l in locations.iter()
 			{
-				f |= (l as i32);
+				f |= l as i32;
 			}
 			write!(c, "{}", f);
 			c.write_str( if front
