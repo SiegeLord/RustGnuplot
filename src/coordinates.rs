@@ -4,11 +4,6 @@
 
 use std::fmt;
 
-pub mod external
-{
-	pub use super::{Coordinate, Graph, Axis};
-}
-
 /// Specifies how to interpret the coordinate passed to a plotting command
 pub enum Coordinate
 {
