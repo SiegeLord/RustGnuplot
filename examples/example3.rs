@@ -7,7 +7,7 @@ extern crate getopts;
 use getopts::*;
 use std::num::{cos, sqrt};
 use std::os;
-use std::vec;
+use std::vec::Vec;
 
 use gnuplot::*;
 
@@ -29,7 +29,7 @@ fn main()
 
 	let w = 61i32;
 	let h = 61i32;
-	let mut z1 = vec::with_capacity((w * h) as uint);
+	let mut z1 = Vec::with_capacity((w * h) as uint);
 	for i in range(0, h)
 	{
 		for j in range(0, w)
