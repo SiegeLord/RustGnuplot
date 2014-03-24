@@ -29,7 +29,7 @@ impl Axes3D
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	pub fn surface<'l, T: DataType, X: Iterator<T>>(&'l mut self, mat: X, num_rows: i32, num_cols: i32, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption]) -> &'l mut Axes3D
 	{
-		self.common.plot_matrix(Pm3D, mat, num_rows, num_cols, dimensions, options);
+		self.common.plot_matrix(Pm3D, true, mat, num_rows, num_cols, dimensions, options);
 		self
 	}
 

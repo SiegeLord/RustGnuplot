@@ -26,12 +26,12 @@ fn main()
 	
 	let show = !matches.opt_present("n");
 
-	let x = range(1.0, 8.0);
-	let y1 = x.map(|v| { let z = v - 4.0; z * z - 5.0}).to_owned_vec();
+	let x = range(1.0f32, 8.0);
+	let y1: Vec<f32> = x.map(|v| { let z = v - 4.0; z * z - 5.0}).collect();
 	let y1 = y1.iter();
-	let y2 = x.map(|v| { let z = v - 4.0; -z * z + 5.0 }).to_owned_vec();
+	let y2: Vec<f32> = x.map(|v| { let z = v - 4.0; -z * z + 5.0 }).collect();
 	let y2 = y2.iter();
-	let y3 = x.map(|v| { v - 4.0 }).to_owned_vec();
+	let y3: Vec<f32> = x.map(|v| { v - 4.0 }).collect();
 	let y3 = y3.iter();
 	let x_err = Repeat::new(0.3);
 	let y_err = Repeat::new(5.0);

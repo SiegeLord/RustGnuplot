@@ -26,21 +26,34 @@ fn main()
 	
 	let show = !matches.opt_present("n");
 
-	let x = [1, 2, 3, 4, 5];
+	let x = [1i32, 2, 3, 4, 5];
 	let x = x.iter();
-	let y1 = x.map(|&v| { v * v }).to_owned_vec();
+	let y1: Vec<i32> = x.map(|&v| { v * v }).collect();
 	let y1 = y1.iter();
 	
-	let x2 = [1, 4, 5];
+	let x2 = [1i32, 4, 5];
 	let x2 = x2.iter();
-	let y2 = x2.map(|&v| { v * v }).to_owned_vec();
+	let y2: Vec<i32> = x2.map(|&v| { v * v }).collect();
 	let y2 = y2.iter();
 	let w = Repeat::new(0.5);
 	
-	let x3 = [-3, -2, -1, 0, 2, 3];
+	let x3 = [-3i32, -2, -1, 0, 2, 3];
 	let x3 = x3.iter();
-	let y3 = x3.map(|&v| { v * v * v }).to_owned_vec();
+	let y3: Vec<i32> = x3.map(|&v| { v * v * v }).collect();
 	let y3 = y3.iter();
+	
+	let zw = 16i32;
+	let zh = 16i32;
+	let mut z1 = Vec::with_capacity((zw * zh) as uint);
+	for i in range(0, zh)
+	{
+		for j in range(0, zw)
+		{
+			let y = 8.0 * (i as f64) / zh as f64 - 4.0;
+			let x = 8.0 * (j as f64) / zw as f64 - 4.0;
+			z1.push(x + y);
+		}
+	}
 	
 	let mut fg = Figure::new();
 	
@@ -100,4 +113,16 @@ fn main()
 		fg.show();
 	}
 	fg.echo_to_file("fg2.4.gnuplot");
+	
+	let mut fg = Figure::new();
+	
+	fg.axes2d()
+	.set_title("Image", [])
+	.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), []);
+	
+	if show
+	{
+		fg.show();
+	}
+	fg.echo_to_file("fg2.5.gnuplot");
 }

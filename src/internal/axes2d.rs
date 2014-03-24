@@ -428,6 +428,26 @@ impl Axes2D
 		self.common.plot3(Boxes, x, y, w, options);
 		self
 	}
+
+	/// Draws an image from a rectangular array of data by connecting the individual datapoints with polygons.
+	///
+	/// #Arguments:
+	/// * `mat` - Row-major 2D array signifying the value of the datapoints. The X and Y coordinates of the datapoints are determined automatically,
+	///           and optionally scaled using the `dimensions` argument.
+	/// * `num_rows` - Number of rows in the data array
+	/// * `num_cols` - Number of columns in the data array
+	/// * `dimensions` - Optional X and Y coordinates of the first and last data points (with the rest of the coordinates spaced evenly between).
+	///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.
+	/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	pub fn image<'l,
+	              T: DataType,
+	              X: Iterator<T>>(&'l mut self, mat: X, num_rows: i32, num_cols: i32, dimensions: Option<(f64, f64, f64, f64)>,
+	                              options: &[PlotOption]) -> &'l mut Axes2D
+	{
+		self.common.plot_matrix(Image, false, mat, num_rows, num_cols, dimensions, options);
+		self
+	}
 }
 
 impl AxesCommonPrivate for Axes2D

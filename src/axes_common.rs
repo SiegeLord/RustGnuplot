@@ -171,7 +171,8 @@ pub enum PlotType
 	YErrorLines,
 	FillBetween,
 	Boxes,
-	Pm3D
+	Pm3D,
+	Image,
 }
 
 impl PlotType
@@ -248,7 +249,7 @@ enum DataSourceType
 {
 	Record,
 	Array,
-	SizedArray(f64, f64, f64, f64)
+	SizedArray(f64, f64, f64, f64),
 }
 
 impl AxesCommonData
@@ -333,7 +334,7 @@ impl AxesCommonData
 			}
 		}
 
-		self.write_common_commands(l, num_rows, 2, plot_type, Record, options);
+		self.write_common_commands(l, num_rows, 2, plot_type, Record, false, options);
 	}
 
 	pub fn plot3<T1: DataType, X1: Iterator<T1>,
@@ -355,10 +356,10 @@ impl AxesCommonData
 			}
 		}
 
-		self.write_common_commands(l, num_rows, 3, plot_type, Record, options);
+		self.write_common_commands(l, num_rows, 3, plot_type, Record, false, options);
 	}
 
-	pub fn plot_matrix<T: DataType, X: Iterator<T>>(&mut self, plot_type: PlotType, mut mat: X, num_rows: i32, num_cols: i32,
+	pub fn plot_matrix<T: DataType, X: Iterator<T>>(&mut self, plot_type: PlotType, is_3d: bool, mut mat: X, num_rows: i32, num_cols: i32,
 	                                                dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption])
 	{
 		let l = self.elems.len();
@@ -388,10 +389,11 @@ impl AxesCommonData
 			Some((x1, y1, x2, y2)) => SizedArray(x1, y1, x2, y2),
 			None => Array
 		};
-		self.write_common_commands(l, num_rows, num_cols, plot_type, source_type, options);
+		self.write_common_commands(l, num_rows, num_cols, plot_type, source_type, is_3d, options);
 	}
 
-	fn write_common_commands(&mut self, elem_idx: uint, num_rows: i32, num_cols: i32, plot_type: PlotType, source_type: DataSourceType, options: &[PlotOption])
+	fn write_common_commands(&mut self, elem_idx: uint, num_rows: i32, num_cols: i32, plot_type: PlotType,
+	                         source_type: DataSourceType, is_3d: bool, options: &[PlotOption])
 	{
 		let args = &mut self.elems[elem_idx].args as &mut Writer;
 		match source_type
@@ -436,7 +438,12 @@ impl AxesCommonData
 						{
 							(y1, y2)
 						};
-						write!(args, "origin=({:.12e},{:.12e},0) ", x1, y1);
+						write!(args, "origin=({:.12e},{:.12e}", x1, y1);
+						if is_3d
+						{
+							write!(args, ",0");
+						}
+						write!(args, ") ");
 						if num_cols > 1
 						{
 							write!(args, "dx={:.12e} ", (x2 - x1) / (num_cols as f64 - 1.0));
@@ -469,7 +476,8 @@ impl AxesCommonData
 			YErrorLines => "yerrorlines",
 			FillBetween => "filledcurves",
 			Boxes => "boxes",
-			Pm3D => "pm3d"
+			Pm3D => "pm3d",
+			Image => "image",
 		};
 		args.write_str(type_str);
 
