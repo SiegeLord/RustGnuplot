@@ -1,5 +1,5 @@
 // This file is released into Public Domain.
-#[feature(globs)];
+#![feature(globs)]
 
 extern crate gnuplot;
 extern crate getopts;

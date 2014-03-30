@@ -2,15 +2,15 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-#[crate_id="gnuplot#0.1"];
+#![crate_id="gnuplot#0.1"]
 
-#[comment = "Rust gnuplot controller"];
-#[license = "LGPL"];
-#[crate_type = "lib"];
+#![comment = "Rust gnuplot controller"]
+#![license = "LGPL"]
+#![crate_type = "lib"]
 
-#[feature(globs)];
-#[feature(macro_rules)];
-#[allow(unused_must_use)];
+#![feature(globs)]
+#![feature(macro_rules)]
+#![allow(unused_must_use)]
 
 /*!
 A simple gnuplot controller.
