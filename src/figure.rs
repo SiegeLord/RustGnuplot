@@ -41,11 +41,11 @@ impl AxesVariant
 /// A figure that may contain multiple axes
 pub struct Figure<'l>
 {
-	priv axes: ~[AxesVariant],
-	priv num_rows: u32,
-	priv num_cols: u32,
-	priv terminal: &'l str,
-	priv output_file: &'l str
+	axes: ~[AxesVariant],
+	num_rows: u32,
+	num_cols: u32,
+	terminal: &'l str,
+	output_file: &'l str
 }
 
 impl<'m> Figure<'m>

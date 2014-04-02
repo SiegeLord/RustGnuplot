@@ -12,7 +12,7 @@ use options::*;
 /// 2D axes that is used for drawing 2D plots
 pub struct Axes2D
 {
-	priv common: AxesCommonData,
+	common: AxesCommonData,
 }
 
 impl Axes2D

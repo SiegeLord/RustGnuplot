@@ -10,8 +10,8 @@ use options::*;
 
 pub struct Axes3D
 {
-	priv common: AxesCommonData,
-	priv z_ticks: MemWriter
+	common: AxesCommonData,
+	z_ticks: MemWriter
 }
 
 impl Axes3D

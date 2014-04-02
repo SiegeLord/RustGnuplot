@@ -11,8 +11,8 @@ use writer::*;
 
 pub struct PlotElement
 {
-	args: MemWriter,
-	data: MemWriter
+	pub args: MemWriter,
+	pub data: MemWriter
 }
 
 impl PlotElement
@@ -215,12 +215,12 @@ impl PlotType
 
 pub struct AxesCommonData
 {
-	commands: MemWriter,
-	elems: ~[PlotElement],
-	grid_row: u32,
-	grid_col: u32,
-	x_ticks: MemWriter,
-	y_ticks: MemWriter,
+	pub commands: MemWriter,
+	pub elems: ~[PlotElement],
+	pub grid_row: u32,
+	pub grid_col: u32,
+	pub x_ticks: MemWriter,
+	pub y_ticks: MemWriter,
 }
 
 pub fn char_to_symbol(c: char) -> i32
