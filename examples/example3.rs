@@ -5,7 +5,6 @@ extern crate gnuplot;
 extern crate getopts;
 
 use getopts::*;
-use std::num::{cos, sqrt};
 use std::os;
 use std::vec::Vec;
 
@@ -36,7 +35,7 @@ fn main()
 		{
 			let y = 8.0 * (i as f64) / h as f64 - 4.0;
 			let x = 8.0 * (j as f64) / w as f64 - 4.0;
-			z1.push(cos(x) * cos(y) / (sqrt(x*x + y*y) + 1.0));
+			z1.push(x.cos() * y.cos() / ((x*x + y*y).sqrt() + 1.0));
 		}
 	}
 	
