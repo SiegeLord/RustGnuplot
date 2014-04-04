@@ -57,6 +57,7 @@ impl Axes3D
 	}
 
 	/// Set the label for the Z axis
+	///
 	/// # Arguments
 	/// * `text` - Text of the label. Pass an empty string to hide the label
 	/// * `options` - Array of LabelOption controlling the appearance of the label. Relevant options are:
@@ -86,6 +87,7 @@ impl Axes3D
 	}
 
 	/// Set the range of values for the Z axis
+	///
 	/// # Arguments
 	/// * `min` - Minimum Z value
 	/// * `max` - Maximum Z value
@@ -95,7 +97,8 @@ impl Axes3D
 		self
 	}
 
-	/// Show contours (lines of equal Z value)
+	/// Show contours (lines of equal Z value) at automatically determined levels.
+	///
 	/// # Arguments
 	/// * `base` - Show contours on the base of the plot (XY plane)
 	/// * `surface` - Show the contours on the surface itself
@@ -113,6 +116,7 @@ impl Axes3D
 	}
 
 	/// Show contours (lines of equal Z value) at specific levels.
+	///
 	/// # Arguments
 	/// * `base` - Show contours on the base of the plot (XY plane)
 	/// * `surface` - Show the contours on the surface itself
