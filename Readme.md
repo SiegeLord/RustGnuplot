@@ -6,7 +6,7 @@ A Gnuplot controller written in Rust.
 
 ## Documentation
 
-See http://www.rust-ci.org/SiegeLord/RustGnuplot/doc/gnuplot/
+See [here](http://siegelord.github.io/RustGnuplot/doc/gnuplot/index.html)
 
 ## Examples
 
