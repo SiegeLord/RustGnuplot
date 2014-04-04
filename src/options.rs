@@ -99,6 +99,19 @@ pub enum AutoOption<T>
 	Auto
 }
 
+impl<T> AutoOption<T>
+{
+	/// Same as `Option::map`
+	pub fn map<U>(&self, func: |&T| -> U) -> AutoOption<U>
+	{
+		match *self
+		{
+			Fix(ref v) => Fix(func(v)),
+			Auto => Auto
+		}
+	}
+}
+
 /// An enumeration of label options that control label attributes
 pub enum LabelOption<'l>
 {

@@ -79,28 +79,28 @@ fn main()
 	fg.axes3d()
 	.set_pos_grid(1, 1)
 	.set_title("Base", [])
-	.show_contours(true, false, Cubic(10), Auto)
+	.show_contours(true, false, Cubic(10), Fix(""), Auto)
 	.surface(z1.iter(), w, h, Some((-4.0, -4.0, 4.0, 4.0)), [])
 	.set_view(45.0, 45.0);
 
 	fg.axes3d()
 	.set_pos_grid(1, 2)
 	.set_title("Surface", [])
-	.show_contours(false, true, Linear, Auto)
+	.show_contours(false, true, Linear, Fix(""), Auto)
 	.surface(z1.iter(), w, h, Some((-4.0, -4.0, 4.0, 4.0)), [])
 	.set_view(45.0, 45.0);
 
 	fg.axes3d()
 	.set_pos_grid(2, 1)
 	.set_title("Both + Fix Levels", [])
-	.show_contours(true, true, Linear, Fix(1))
+	.show_contours(true, true, Linear, Fix("%f"), Fix(1))
 	.surface(z1.iter(), w, h, Some((-4.0, -4.0, 4.0, 4.0)), [])
 	.set_view(45.0, 45.0);
 	
 	fg.axes3d()
 	.set_pos_grid(2, 2)
 	.set_title("Custom Levels", [])
-	.show_contours_custom(true, false, Linear, Some(0f32).iter())
+	.show_contours_custom(true, false, Linear, Fix(""), Some(0f32).iter())
 	.surface(z1.iter(), w, h, Some((-4.0, -4.0, 4.0, 4.0)), [])
 	.set_view(45.0, 45.0);
 	

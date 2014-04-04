@@ -17,6 +17,7 @@ pub struct Axes3D
 	contour_auto: AutoOption<u32>,
 	contour_levels: Option<Vec<f64>>,
 	contour_style: ContourStyle,
+	contour_label: AutoOption<~str>,
 }
 
 impl Axes3D
@@ -103,15 +104,18 @@ impl Axes3D
 	/// * `base` - Show contours on the base of the plot (XY plane)
 	/// * `surface` - Show the contours on the surface itself
 	/// * `style` - Style of the contours
+	/// * `label` - Auto sets the label automatically and enables the legend, Fix() allows you specify a format string (using C style formatting),
+	///             otherwise an empty string disables the legend and labels.
 	/// * `levels` - Auto picks some default number of levels, otherwise you can pass a set nominal number instead. The number is nominal as
 	///              contours are placed at nice values of Z, and thus there may be fewer of them than this number.
-	pub fn show_contours<'l>(&'l mut self, base: bool, surface: bool, style: ContourStyle, levels: AutoOption<u32>) -> &'l mut Axes3D
+	pub fn show_contours<'l>(&'l mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>, levels: AutoOption<u32>) -> &'l mut Axes3D
 	{
 		self.contour_base = base;
 		self.contour_surface = surface;
 		self.contour_style = style;
 		self.contour_auto = levels;
 		self.contour_levels = None;
+		self.contour_label = label.map(|l| l.to_owned());
 		self
 	}
 
@@ -121,14 +125,19 @@ impl Axes3D
 	/// * `base` - Show contours on the base of the plot (XY plane)
 	/// * `surface` - Show the contours on the surface itself
 	/// * `style` - Style of the contours
+	/// * `label` - Auto sets the label automatically and enables the legend, Fix() allows you specify a format string (using C style formatting),
+	///             otherwise an empty string disables the legend and labels.
 	/// * `levels` - Iterator for a set of levels.
-	pub fn show_contours_custom<'l, T: DataType, TC: Iterator<T>>(&'l mut self, base: bool, surface: bool, style: ContourStyle, levels: TC) -> &'l mut Axes3D
+	pub fn show_contours_custom<'l, T: DataType,
+	                            TC: Iterator<T>>(&'l mut self, base: bool, surface: bool,
+	                                             style: ContourStyle, label: AutoOption<&str>, levels: TC) -> &'l mut Axes3D
 	{
 		self.contour_base = base;
 		self.contour_surface = surface;
 		self.contour_style = style;
 		self.contour_auto = Auto;
 		self.contour_levels = Some(levels.map(|l| l.get()).collect());
+		self.contour_label = label.map(|l| l.to_owned());
 		self
 	}
 }
@@ -144,6 +153,7 @@ pub fn new_axes3d() -> Axes3D
 		contour_auto: Auto,
 		contour_levels: None,
 		contour_style: Linear,
+		contour_label: Auto
 	}
 }
 
@@ -195,6 +205,20 @@ impl Axes3DPrivate for Axes3D
 		if self.contour_base || self.contour_surface
 		{
 			writeln!(w, "show contour");
+			
+			match self.contour_label
+			{
+				Auto => writeln!(w, "set clabel"),
+				Fix(ref s) => if s.len() == 0
+				{
+					writeln!(w, "unset clabel")
+				}
+				else
+				{
+					writeln!(w, r#"set clabel "{}""#, s)
+				}
+			};
+			
 			write!(w, "set contour ");
 			write!(w, "{}", match (self.contour_base, self.contour_surface)
 			{
@@ -204,42 +228,82 @@ impl Axes3DPrivate for Axes3D
 				_ => unreachable!()
 			});
 			write!(w, "\n");
-			write!(w, "set cntrparam ");
-			match self.contour_style
+			
+			fn set_cntrparam(w: &mut Writer, wr: |&mut Writer|)
 			{
-				Linear => write!(w, "linear "),
-				Cubic(pt) => write!(w, "cubic points {} ", clamp(pt, 2, 100)),
-				Spline(pt, ord) => write!(w, "bspline points {} order {}", clamp(pt, 2, 100), clamp(ord, 2, 10)),
-			};
-			write!(w, "\n");
-			write!(w, "set cntrparam ");
-			write!(w, "levels ");
-			match self.contour_levels
+				write!(w, "set cntrparam ");
+				wr(w);
+				write!(w, "\n");
+			}
+			
+			set_cntrparam(w, |w|
 			{
-				Some(ref ls) => 
+				write!(w, "{}", match self.contour_style
 				{
-					write!(w, "discrete ");
-					let mut left = ls.len();
-					for &l in ls.iter()
+					Linear => "linear ",
+					Cubic(..) => "cubicspline",
+					Spline(..) => "bspline",
+				});
+			});
+
+			set_cntrparam(w, |w|
+			{
+				let pt = match self.contour_style
+				{
+					Cubic(pt) => Some(pt),
+					Spline(pt, _) => Some(pt),
+					_ => None
+				};
+
+				pt.map(|pt|
+				{
+					write!(w, "points {}", clamp(pt, 2, 100));
+				});
+			});
+			
+			set_cntrparam(w, |w|
+			{
+				let ord = match self.contour_style
+				{
+					Spline(_, ord) => Some(ord),
+					_ => None
+				};
+
+				ord.map(|ord|
+				{
+					write!(w, "order {}", clamp(ord, 2, 10));
+				});
+			});
+
+			set_cntrparam(w, |w|
+			{
+				write!(w, "levels ");
+				match self.contour_levels
+				{
+					Some(ref ls) => 
 					{
-						write!(w, "{:.12e}", l);
-						if left > 1
+						write!(w, "discrete ");
+						let mut left = ls.len();
+						for &l in ls.iter()
 						{
-							write!(w, ",");
+							write!(w, "{:.12e}", l);
+							if left > 1
+							{
+								write!(w, ",");
+							}
+							left -= 1;
 						}
-						left -= 1;
-					}
-				},
-				None => 
-				{
-					match self.contour_auto
+					},
+					None => 
 					{
-						Auto => write!(w, "auto "),
-						Fix(f) => write!(w, "{}", f),
-					};
-				}
-			};
-			write!(w, "\n");
+						match self.contour_auto
+						{
+							Auto => write!(w, "auto "),
+							Fix(f) => write!(w, "{}", f),
+						};
+					}
+				};
+			});
 		}
 
 		self.common.write_out_commands(w);
