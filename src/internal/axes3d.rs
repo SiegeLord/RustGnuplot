@@ -204,7 +204,15 @@ impl Axes3DPrivate for Axes3D
 		
 		if self.contour_base || self.contour_surface
 		{
-			writeln!(w, "show contour");
+			write!(w, "set contour ");
+			write!(w, "{}", match (self.contour_base, self.contour_surface)
+			{
+				(true, false) => "base",
+				(false, true) => "surface",
+				(true, true) => "both",
+				_ => unreachable!()
+			});
+			write!(w, "\n");
 			
 			match self.contour_label
 			{
@@ -218,16 +226,6 @@ impl Axes3DPrivate for Axes3D
 					writeln!(w, r#"set clabel "{}""#, s)
 				}
 			};
-			
-			write!(w, "set contour ");
-			write!(w, "{}", match (self.contour_base, self.contour_surface)
-			{
-				(true, false) => "base",
-				(false, true) => "surface",
-				(true, true) => "both",
-				_ => unreachable!()
-			});
-			write!(w, "\n");
 			
 			fn set_cntrparam(w: &mut Writer, wr: |&mut Writer|)
 			{
