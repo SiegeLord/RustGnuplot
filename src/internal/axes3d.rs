@@ -8,6 +8,7 @@ use axes_common::*;
 use datatype::*;
 use options::*;
 
+/// 3D axes that is used for drawing 3D plots
 pub struct Axes3D
 {
 	common: AxesCommonData,
