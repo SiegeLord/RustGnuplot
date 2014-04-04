@@ -10,37 +10,8 @@ use std::os;
 
 use gnuplot::*;
 
-fn main()
+fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 {
-	let args = os::args();
-	
-	let opts = 
-	[
-		optflag("n", "no-show", "do not run the gnuplot process."),
-		optflag("h", "help", "show this help and exit."),
-		optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM")
-	];
-	
-	let matches = match getopts(args.tail(), opts)
-	{
-		Ok(m) => m,
-		Err(f) => fail!("{}", f)
-	};
-	if matches.opt_present("h")
-	{
-		println!("{}", usage("A RustGnuplot example.", opts));
-		return;
-	}
-	
-	let show = !matches.opt_present("n");
-	let set_term = |fg: &mut Figure|
-	{
-		matches.opt_str("t").map(|t|
-		{
-			fg.set_terminal(t, "");
-		});
-	};
-
 	let x = [1i32, 2, 3, 4, 5];
 	let x = x.iter();
 	let y1: Vec<i32> = x.map(|&v| { v * v }).collect();
@@ -79,11 +50,7 @@ fn main()
 	.arrow(Graph(0.5), Graph(1.0), Axis(1.0), Axis(1.0), [ArrowType(Filled), ArrowSize(0.1), LineStyle(DotDotDash), LineWidth(2.0), Color("red")])
 	.arrow(Graph(0.5), Graph(1.0), Axis(3.0), Axis(9.0), [ArrowType(Open), Color("green")]);
 	
-	if show
-	{
-		fg.show();
-	}
-	fg.echo_to_file("fg2.1.gnuplot");
+	show(&mut fg, "fg2.1.gnuplot");
 	
 	let mut fg = Figure::new();
 	set_term(&mut fg);
@@ -93,11 +60,7 @@ fn main()
 	.boxes(x2, y2, [LineWidth(2.0), Color("cyan"), BorderColor("blue"), LineStyle(DotDash)])
 	.boxes_set_width(x, y1, w, [LineWidth(2.0), Color("gray"), BorderColor("black")]);
 	
-	if show
-	{
-		fg.show();
-	}
-	fg.echo_to_file("fg2.2.gnuplot");
+	show(&mut fg, "fg2.2.gnuplot");
 	
 	let mut fg = Figure::new();
 	set_term(&mut fg);
@@ -109,11 +72,7 @@ fn main()
 						[MajorScale(2.0), MinorScale(0.5), OnAxis(true)], [TextColor("blue"), TextAlign(AlignCenter)])
 	.set_y_ticks(Fix(2.0), 2, [Mirror(false)], []);
 	
-	if show
-	{
-		fg.show();
-	}
-	fg.echo_to_file("fg2.3.gnuplot");
+	show(&mut fg, "fg2.3.gnuplot");
 	
 	let mut fg = Figure::new();
 	set_term(&mut fg);
@@ -127,11 +86,7 @@ fn main()
 	.set_x_axis(true, [LineWidth(2.0), LineStyle(DotDotDash)])
 	.set_y_axis(true, [LineWidth(2.0), Color("red")]);
 	
-	if show
-	{
-		fg.show();
-	}
-	fg.echo_to_file("fg2.4.gnuplot");
+	show(&mut fg, "fg2.4.gnuplot");
 	
 	let mut fg = Figure::new();
 	set_term(&mut fg);
@@ -140,9 +95,45 @@ fn main()
 	.set_title("Image", [])
 	.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), []);
 	
-	if show
+	show(&mut fg, "fg2.5.gnuplot");
+}
+
+fn main()
+{
+	let args = os::args();
+	
+	let opts = 
+	[
+		optflag("n", "no-show", "do not run the gnuplot process."),
+		optflag("h", "help", "show this help and exit."),
+		optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM")
+	];
+	
+	let matches = match getopts(args.tail(), opts)
 	{
-		fg.show();
+		Ok(m) => m,
+		Err(f) => fail!("{}", f)
+	};
+	if matches.opt_present("h")
+	{
+		println!("{}", usage("A RustGnuplot example.", opts));
+		return;
 	}
-	fg.echo_to_file("fg2.5.gnuplot");
+	
+	example(
+	|fg, filename|
+	{
+		if !matches.opt_present("n")
+		{
+			fg.show();
+		}
+		fg.echo_to_file(filename);
+	},
+	|fg|
+	{
+		matches.opt_str("t").map(|t|
+		{
+			fg.set_terminal(t, "");
+		});
+	});
 }

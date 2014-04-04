@@ -10,37 +10,8 @@ use std::os;
 
 use gnuplot::*;
 
-fn main()
+fn example(show_plots: bool, show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 {
-	let args = os::args();
-	
-	let opts = 
-	[
-		optflag("n", "no-show", "do not run the gnuplot process."),
-		optflag("h", "help", "show this help and exit."),
-		optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM")
-	];
-	
-	let matches = match getopts(args.tail(), opts)
-	{
-		Ok(m) => m,
-		Err(f) => fail!("{}", f)
-	};
-	if matches.opt_present("h")
-	{
-		println!("{}", usage("A RustGnuplot example.", opts));
-		return;
-	}
-	
-	let show = !matches.opt_present("n");
-	let set_term = |fg: &mut Figure|
-	{
-		matches.opt_str("t").map(|t|
-		{
-			fg.set_terminal(t, "");
-		});
-	};
-
 	let x = range(1.0f32, 8.0);
 	let y1: Vec<f32> = x.map(|v| { let z = v - 4.0; z * z - 5.0}).collect();
 	let y1 = y1.iter();
@@ -70,13 +41,9 @@ fn main()
 	.y_error_lines(x, y2, Repeat::new(1.0), [Caption("(x - 4)^2 + 5"), LineWidth(1.5), Color("red")])
 	.lines_points(x, y3, [Caption("x - 4"), PointSymbol('t'), LineWidth(1.5), LineStyle(Dash), Color("#11ff11")]);
 	
-	if show
-	{
-		fg.show();
-	}
-	fg.echo_to_file("fg1.1.gnuplot");
+	show(&mut fg, "fg1.1.gnuplot");
 	
-	if show
+	if show_plots
 	{
 		fg.set_terminal("pdfcairo", "fg1.1.pdf");
 		fg.show();
@@ -98,11 +65,7 @@ fn main()
 	.set_title("Plot2", []);
 	
 	fg.set_grid(1, 2);
-	if show
-	{
-		fg.show();
-	}
-	fg.echo_to_file("fg1.2.gnuplot");
+	show(&mut fg, "fg1.2.gnuplot");
 	
 	let mut fg = Figure::new();
 	set_term(&mut fg);
@@ -117,11 +80,7 @@ fn main()
 	.points(x, y2, [Caption("Points"), PointSymbol('T'), Color("#ffaa77")])
 	.set_title("Inset", []);
 
-	if show
-	{
-		fg.show();
-	}
-	fg.echo_to_file("fg1.3.gnuplot");
+	show(&mut fg, "fg1.3.gnuplot");
 	
 	let mut fg = Figure::new();
 	set_term(&mut fg);
@@ -131,11 +90,7 @@ fn main()
 	.set_y_range(Fix(-30.0), Auto)
 	.set_y_label("This axis is manually scaled on the low end", []);
 
-	if show
-	{
-		fg.show();
-	}
-	fg.echo_to_file("fg1.4.gnuplot");
+	show(&mut fg, "fg1.4.gnuplot");
 	
 	let mut fg = Figure::new();
 	set_term(&mut fg);
@@ -145,11 +100,7 @@ fn main()
 	.y_error_lines(x, y2, y_err, [LineWidth(2.0), PointSymbol('S'), Color("blue")])
 	.set_title("Errors", []);
 
-	if show
-	{
-		fg.show();
-	}
-	fg.echo_to_file("fg1.5.gnuplot");
+	show(&mut fg, "fg1.5.gnuplot");
 	
 	let mut fg = Figure::new();
 	set_term(&mut fg);
@@ -166,11 +117,7 @@ fn main()
 	.set_title("Fill and legend", [])
 	.set_legend(Graph(0.5), Graph(-0.2), [Horizontal, Placement(AlignCenter, AlignTop), Title("Legend Title")], [TextAlign(AlignRight)]);
 
-	if show
-	{
-		fg.show();
-	}
-	fg.echo_to_file("fg1.6.gnuplot");
+	show(&mut fg, "fg1.6.gnuplot");
 	
 	let mut fg = Figure::new();
 	set_term(&mut fg);
@@ -186,9 +133,46 @@ fn main()
 	.set_title("Goings nuts with the formatting", [Font("Times", 24.0), TextOffset(-10.0, 0.5)])
 	.label("Intersection", Axis(2.208), Axis(-1.791), [MarkerSymbol('*'), TextAlign(AlignCenter), TextOffset(0.0, -1.0), MarkerColor("red"), MarkerSize(2.0)]);
 	
-	if show
+	show(&mut fg, "fg1.7.gnuplot");
+}
+
+fn main()
+{
+	let args = os::args();
+	
+	let opts = 
+	[
+		optflag("n", "no-show", "do not run the gnuplot process."),
+		optflag("h", "help", "show this help and exit."),
+		optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM")
+	];
+	
+	let matches = match getopts(args.tail(), opts)
 	{
-		fg.show();
+		Ok(m) => m,
+		Err(f) => fail!("{}", f)
+	};
+	if matches.opt_present("h")
+	{
+		println!("{}", usage("A RustGnuplot example.", opts));
+		return;
 	}
-	fg.echo_to_file("fg1.7.gnuplot");
+
+	example(
+	!matches.opt_present("n"),
+	|fg, filename|
+	{
+		if !matches.opt_present("n")
+		{
+			fg.show();
+		}
+		fg.echo_to_file(filename);
+	},
+	|fg|
+	{
+		matches.opt_str("t").map(|t|
+		{
+			fg.set_terminal(t, "");
+		});
+	});
 }
