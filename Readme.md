@@ -23,7 +23,9 @@ A somewhat involved 2D example:
 	* error bars
 	* ...and more!
 * Simple 3D plots
-	* TBA
+	* surface plots
+	* heatmaps
+	* contours
 
 ## Building
 
