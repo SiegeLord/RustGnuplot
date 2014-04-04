@@ -39,16 +39,16 @@ impl AxesVariant
 }
 
 /// A figure that may contain multiple axes
-pub struct Figure<'l>
+pub struct Figure
 {
 	axes: ~[AxesVariant],
 	num_rows: u32,
 	num_cols: u32,
-	terminal: &'l str,
-	output_file: &'l str
+	terminal: ~str,
+	output_file: ~str
 }
 
-impl<'m> Figure<'m>
+impl Figure
 {
 	/// Creates a new figure
 	pub fn new() -> Figure
@@ -58,8 +58,8 @@ impl<'m> Figure<'m>
 			axes: ~[],
 			num_rows: 0,
 			num_cols: 0,
-			terminal: "",
-			output_file: ""
+			terminal: ~"",
+			output_file: ~""
 		}
 	}
 	
@@ -72,10 +72,10 @@ impl<'m> Figure<'m>
 	/// * pdfcairo - Saves the figure as a PDF file
 	/// * epscairo - Saves the figure as a EPS file
 	/// * pngcairo - Saves the figure as a PNG file
-	pub fn set_terminal<'l>(&'l mut self, terminal: &'m str, output_file: &'m str) -> &'l mut Figure<'m>
+	pub fn set_terminal<'l>(&'l mut self, terminal: &str, output_file: &str) -> &'l mut Figure
 	{
-		self.terminal = terminal;
-		self.output_file = output_file;
+		self.terminal = terminal.to_owned();
+		self.output_file = output_file.to_owned();
 		self
 	}
 	
@@ -84,7 +84,7 @@ impl<'m> Figure<'m>
 	/// # Arguments
 	/// * `rows` - Number of rows. Set to 0 to disable the grid
 	/// * `cols` - Number of columns. Set to 0 to disable the grid
-	pub fn set_grid<'l>(&'l mut self, rows: u32, cols: u32) -> &'l mut Figure<'m>
+	pub fn set_grid<'l>(&'l mut self, rows: u32, cols: u32) -> &'l mut Figure
 	{
 		self.num_rows = rows;
 		self.num_cols = cols;
@@ -115,7 +115,7 @@ impl<'m> Figure<'m>
 	}
 	
 	/// Launch a gnuplot process and display the figure on it
-	pub fn show<'l>(&'l self) -> &'l Figure<'l>
+	pub fn show<'l>(&'l self) -> &'l Figure
 	{
 		if self.axes.len() == 0
 		{
@@ -131,7 +131,7 @@ impl<'m> Figure<'m>
 	/// Echo the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
 	/// * `writer` - A function pointer that will be called multiple times with the command text and data
-	pub fn echo<'l, T: Writer>(&'l self, writer: &mut T) -> &'l Figure<'l>
+	pub fn echo<'l, T: Writer>(&'l self, writer: &mut T) -> &'l Figure
 	{
 		let w = writer as &mut Writer;
 		
@@ -189,7 +189,7 @@ impl<'m> Figure<'m>
 	/// Save to a file the the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
 	/// * `filename` - Name of the file
-	pub fn echo_to_file<'l>(&'l self, filename: &str) -> &'l Figure<'l>
+	pub fn echo_to_file<'l>(&'l self, filename: &str) -> &'l Figure
 	{
 		if self.axes.len() == 0
 		{

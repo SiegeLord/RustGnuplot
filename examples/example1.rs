@@ -14,17 +14,32 @@ fn main()
 {
 	let args = os::args();
 	
-	let opts = ~[
-		optflag("n", "no-show", "do not run the gnuplot process")
+	let opts = 
+	[
+		optflag("n", "no-show", "do not run the gnuplot process."),
+		optflag("h", "help", "show this help and exit."),
+		optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM")
 	];
 	
 	let matches = match getopts(args.tail(), opts)
 	{
-		Ok(m) => { m }
-		Err(f) => { fail!(f.to_err_msg()) }
+		Ok(m) => m,
+		Err(f) => fail!("{}", f)
 	};
+	if matches.opt_present("h")
+	{
+		println!("{}", usage("A RustGnuplot example.", opts));
+		return;
+	}
 	
 	let show = !matches.opt_present("n");
+	let set_term = |fg: &mut Figure|
+	{
+		matches.opt_str("t").map(|t|
+		{
+			fg.set_terminal(t, "");
+		});
+	};
 
 	let x = range(1.0f32, 8.0);
 	let y1: Vec<f32> = x.map(|v| { let z = v - 4.0; z * z - 5.0}).collect();
@@ -37,6 +52,7 @@ fn main()
 	let y_err = Repeat::new(5.0);
 	
 	let mut fg = Figure::new();
+	set_term(&mut fg);
 
 	fg.axes2d()
 	.set_size(0.75, 1.0)
@@ -69,6 +85,7 @@ fn main()
 	}
 
 	let mut fg = Figure::new();
+	set_term(&mut fg);
 	
 	fg.axes2d()
 	.set_pos_grid(1, 1)
@@ -88,6 +105,7 @@ fn main()
 	fg.echo_to_file("fg1.2.gnuplot");
 	
 	let mut fg = Figure::new();
+	set_term(&mut fg);
 	
 	fg.axes2d()
 	.lines(x, y1, [Caption("Lines"), LineWidth(3.0), Color("violet")]);
@@ -106,6 +124,7 @@ fn main()
 	fg.echo_to_file("fg1.3.gnuplot");
 	
 	let mut fg = Figure::new();
+	set_term(&mut fg);
 
 	fg.axes2d()
 	.lines(x, y1, [Caption("Lines"), LineWidth(3.0), Color("violet")])
@@ -119,6 +138,7 @@ fn main()
 	fg.echo_to_file("fg1.4.gnuplot");
 	
 	let mut fg = Figure::new();
+	set_term(&mut fg);
 
 	fg.axes2d()
 	.x_error_lines(x, y1, x_err, [LineWidth(2.0), PointSymbol('O'), Color("red")])
@@ -132,6 +152,7 @@ fn main()
 	fg.echo_to_file("fg1.5.gnuplot");
 	
 	let mut fg = Figure::new();
+	set_term(&mut fg);
 
 	fg.axes2d()
 	.set_size(1.0, 0.8)
@@ -152,6 +173,7 @@ fn main()
 	fg.echo_to_file("fg1.6.gnuplot");
 	
 	let mut fg = Figure::new();
+	set_term(&mut fg);
 	
 	fg.axes2d()
 	.set_pos(0.1, 0.1)

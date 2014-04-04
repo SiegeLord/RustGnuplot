@@ -14,17 +14,32 @@ fn main()
 {
 	let args = os::args();
 	
-	let opts = ~[
-		optflag("n", "no-show", "do not run the gnuplot process")
+	let opts = 
+	[
+		optflag("n", "no-show", "do not run the gnuplot process."),
+		optflag("h", "help", "show this help and exit."),
+		optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM")
 	];
 	
 	let matches = match getopts(args.tail(), opts)
 	{
-		Ok(m) => { m }
-		Err(f) => { fail!(f.to_err_msg()) }
+		Ok(m) => m,
+		Err(f) => fail!("{}", f)
 	};
+	if matches.opt_present("h")
+	{
+		println!("{}", usage("A RustGnuplot example.", opts));
+		return;
+	}
 	
 	let show = !matches.opt_present("n");
+	let set_term = |fg: &mut Figure|
+	{
+		matches.opt_str("t").map(|t|
+		{
+			fg.set_terminal(t, "");
+		});
+	};
 
 	let w = 61i32;
 	let h = 61i32;
@@ -40,6 +55,7 @@ fn main()
 	}
 	
 	let mut fg = Figure::new();
+	set_term(&mut fg);
 	
 	fg.axes3d()
 	.set_title("Surface", [])
@@ -58,6 +74,7 @@ fn main()
 	fg.echo_to_file("fg3.1.gnuplot");
 
 	let mut fg = Figure::new();
+	set_term(&mut fg);
 
 	fg.axes3d()
 	.set_title("Map", [])
@@ -73,7 +90,7 @@ fn main()
 	fg.echo_to_file("fg3.2.gnuplot");
 	
 	let mut fg = Figure::new();
-	
+	set_term(&mut fg);
 	fg.set_grid(2, 2);
 	
 	fg.axes3d()
