@@ -40,7 +40,7 @@ impl Axes3D
 	/// * `yaw` - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.
 	pub fn set_view<'l>(&'l mut self, pitch: f64, yaw: f64) -> &'l mut Axes3D
 	{
-		writeln!(&mut self.common.commands, "set view {:.12e}{:.12e}", pitch, yaw);
+		writeln!(&mut self.common.commands, "set view {:.12e},{:.12e}", pitch, yaw);
 		self
 	}
 
