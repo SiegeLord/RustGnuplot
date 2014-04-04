@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <title>gnuplot::options::AutoOption - Rust</title>
 
-    <link href='http://fonts.googleapis.com/css?family=Oswald:700|Inconsolata:400'
+    <link href='http://fonts.googleapis.com/css?family=Oswald:700|Inconsolata:400,700'
           rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="../../gnuplot/main.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
 
     
 </head>
@@ -21,7 +21,7 @@
     <section class="sidebar">
         
 
-        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>options</a></p><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AlignType.html'>AlignType</a><br/><a class='enum ' href='enum.ArrowheadType.html'>ArrowheadType</a><br/><a class='enum current' href='enum.AutoOption.html'>AutoOption</a><br/><a class='enum ' href='enum.BorderLocation2D.html'>BorderLocation2D</a><br/><a class='enum ' href='enum.DashType.html'>DashType</a><br/><a class='enum ' href='enum.FillRegion.html'>FillRegion</a><br/><a class='enum ' href='enum.LabelOption.html'>LabelOption</a><br/><a class='enum ' href='enum.LegendOption.html'>LegendOption</a><br/><a class='enum ' href='enum.PlotOption.html'>PlotOption</a><br/><a class='enum ' href='enum.Tick.html'>Tick</a><br/><a class='enum ' href='enum.TickOption.html'>TickOption</a><br/></div>
+        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>options</a></p><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AlignType.html'>AlignType</a><br/><a class='enum ' href='enum.ArrowheadType.html'>ArrowheadType</a><br/><a class='enum current' href='enum.AutoOption.html'>AutoOption</a><br/><a class='enum ' href='enum.BorderLocation2D.html'>BorderLocation2D</a><br/><a class='enum ' href='enum.ContourStyle.html'>ContourStyle</a><br/><a class='enum ' href='enum.DashType.html'>DashType</a><br/><a class='enum ' href='enum.FillRegion.html'>FillRegion</a><br/><a class='enum ' href='enum.LabelOption.html'>LabelOption</a><br/><a class='enum ' href='enum.LegendOption.html'>LegendOption</a><br/><a class='enum ' href='enum.PlotOption.html'>PlotOption</a><br/><a class='enum ' href='enum.Tick.html'>Tick</a><br/><a class='enum ' href='enum.TickOption.html'>TickOption</a><br/></div>
     </section>
 
     <nav class="sub">
@@ -37,7 +37,7 @@
     </nav>
 
     <section id='main' class="content enum"><a class='source'
-                       href='../../src/gnuplot/tmp/RustGnuplot/src/options.rs.html#94-100'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>AutoOption</a></h1><pre class='enum'>pub enum AutoOption&lt;T&gt; {
+                              href='../../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/options.rs.html#94-100'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>AutoOption</a></h1><pre class='rust enum'>pub enum AutoOption&lt;T&gt; {
     Fix(T),
     Auto,
 }</pre><div class='docblock'><p>An enumeration of something that can either be fixed (e.g. the maximum of X values),
@@ -45,17 +45,12 @@ or automatically determined</p>
 </div><h2 class='variants'>Variants</h2>
 <table><tr><td id='variant.Fix'><code>Fix</code></td><td><div class='docblock'><p>Fixes the value to a specific value</p>
 </div></td></tr><tr><td id='variant.Auto'><code>Auto</code></td><td><div class='docblock'><p>Lets the value scale automatically</p>
-</div></td></tr></table></section>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;T&gt; <a class='enum' href='../../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;T&gt;</code></h3><div class='methods'><h4 id='method.map' class='method'><code>fn <a href='#method.map' class='fnname'>map</a>&lt;U&gt;(&amp;self, func: |&amp;T| -&gt; U) -&gt; <a class='enum' href='../../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;U&gt;</code></h4>
+<div class='docblock'><p>Same as <code>Option::map</code></p>
+</div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
-
-    <script>
-        var rootPath = "../../";
-    </script>
-    <script src="../../gnuplot/jquery.js"></script>
-    <script src="../../gnuplot/search-index.js"></script>
-    <script src="../../gnuplot/main.js"></script>
 
     <div id="help" class="hidden">
         <div class="shortcuts">
@@ -87,5 +82,13 @@ or automatically determined</p>
             </p>
         </div>
     </div>
+
+    <script>
+        var rootPath = "../../";
+        var currentCrate = "gnuplot";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script async src="../../search-index.js"></script>
 </body>
 </html>

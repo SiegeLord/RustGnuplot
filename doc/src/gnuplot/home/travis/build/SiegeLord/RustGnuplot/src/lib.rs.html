@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <title>lib.rs.html -- source</title>
 
-    <link href='http://fonts.googleapis.com/css?family=Oswald:700|Inconsolata:400'
+    <link href='http://fonts.googleapis.com/css?family=Oswald:700|Inconsolata:400,700'
           rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="../../../../../gnuplot/main.css">
+    <link rel="stylesheet" type="text/css" href="../../../../../../../../main.css">
 
     
 </head>
@@ -90,20 +90,23 @@
 <span id='52'>52</span>
 <span id='53'>53</span>
 <span id='54'>54</span>
-</pre><pre class='rust'>// Copyright (c) 2013-2014 by SiegeLord
+<span id='55'>55</span>
+</pre><pre class='rust '>
+<span class='comment'>// Copyright (c) 2013-2014 by SiegeLord
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-#[crate_id=&quot;gnuplot#0.1&quot;];
+</span><span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_id</span><span class='op'>=</span><span class='string'>&quot;gnuplot#0.1&quot;</span>]</span>
 
-#[comment = &quot;Rust gnuplot controller&quot;];
-#[license = &quot;LGPL&quot;];
-#[crate_type = &quot;lib&quot;];
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>comment</span> <span class='op'>=</span> <span class='string'>&quot;Rust gnuplot controller&quot;</span>]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>license</span> <span class='op'>=</span> <span class='string'>&quot;LGPL&quot;</span>]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_type</span> <span class='op'>=</span> <span class='string'>&quot;lib&quot;</span>]</span>
 
-#[feature(globs)];
-#[feature(macro_rules)];
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>globs</span>)]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>macro_rules</span>)]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>allow</span>(<span class='ident'>unused_must_use</span>)]</span>
 
-/*!
+<span class='doccomment'>/*!
 A simple gnuplot controller.
 
 # Example
@@ -121,40 +124,34 @@ let mut fg = Figure::new();
 fg.show();
 ~~~
 */
+</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>coordinates</span>::<span class='op'>*</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>datatype</span>::<span class='op'>*</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>figure</span>::<span class='op'>*</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>internal</span>::<span class='ident'>axes2d</span>::<span class='ident'>Axes2D</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>internal</span>::<span class='ident'>axes3d</span>::<span class='ident'>Axes3D</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>options</span>::<span class='op'>*</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>axes_common</span>::<span class='ident'>AxesCommon</span>;
 
-pub use internal::axes2d::Axes2D;
-pub use internal::axes3d::Axes3D;
-pub use internal::coordinates::external::*;
-pub use figure::*;
-pub use options::*;
-pub use datatype::*;
-pub use axes_common::AxesCommon;
+<span class='attribute'>#[<span class='ident'>macro_escape</span>]</span>
+<span class='kw'>mod</span> <span class='ident'>util</span>;
+<span class='kw'>mod</span> <span class='ident'>axes_common</span>;
+<span class='kw'>mod</span> <span class='ident'>writer</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>figure</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>options</span>; 
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>datatype</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>coordinates</span>;
 
-#[macro_escape]
-mod util;
-mod axes_common;
-mod writer;
-pub mod figure;
-pub mod options; 
-pub mod datatype;
-
-mod internal
+<span class='kw'>mod</span> <span class='ident'>internal</span>
 {
-	pub mod axes2d;
-	pub mod axes3d;
-	pub mod coordinates;
+	<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>axes2d</span>;
+	<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>axes3d</span>;
 }
-</pre></section>
+</pre>
+</section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
-
-    <script>
-        var rootPath = "../../../../../";
-    </script>
-    <script src="../../../../../gnuplot/jquery.js"></script>
-    <script src="../../../../../gnuplot/search-index.js"></script>
-    <script src="../../../../../gnuplot/main.js"></script>
 
     <div id="help" class="hidden">
         <div class="shortcuts">
@@ -186,5 +183,13 @@ mod internal
             </p>
         </div>
     </div>
+
+    <script>
+        var rootPath = "../../../../../../../../";
+        var currentCrate = "gnuplot";
+    </script>
+    <script src="../../../../../../../../jquery.js"></script>
+    <script src="../../../../../../../../main.js"></script>
+    <script async src="../../../../../../../../search-index.js"></script>
 </body>
 </html>

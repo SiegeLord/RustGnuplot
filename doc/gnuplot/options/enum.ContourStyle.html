@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>gnuplot::options::Tick - Rust</title>
+    <title>gnuplot::options::ContourStyle - Rust</title>
 
     <link href='http://fonts.googleapis.com/css?family=Oswald:700|Inconsolata:400,700'
           rel='stylesheet' type='text/css'>
@@ -21,7 +21,7 @@
     <section class="sidebar">
         
 
-        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>options</a></p><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AlignType.html'>AlignType</a><br/><a class='enum ' href='enum.ArrowheadType.html'>ArrowheadType</a><br/><a class='enum ' href='enum.AutoOption.html'>AutoOption</a><br/><a class='enum ' href='enum.BorderLocation2D.html'>BorderLocation2D</a><br/><a class='enum ' href='enum.ContourStyle.html'>ContourStyle</a><br/><a class='enum ' href='enum.DashType.html'>DashType</a><br/><a class='enum ' href='enum.FillRegion.html'>FillRegion</a><br/><a class='enum ' href='enum.LabelOption.html'>LabelOption</a><br/><a class='enum ' href='enum.LegendOption.html'>LegendOption</a><br/><a class='enum ' href='enum.PlotOption.html'>PlotOption</a><br/><a class='enum current' href='enum.Tick.html'>Tick</a><br/><a class='enum ' href='enum.TickOption.html'>TickOption</a><br/></div>
+        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>options</a></p><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AlignType.html'>AlignType</a><br/><a class='enum ' href='enum.ArrowheadType.html'>ArrowheadType</a><br/><a class='enum ' href='enum.AutoOption.html'>AutoOption</a><br/><a class='enum ' href='enum.BorderLocation2D.html'>BorderLocation2D</a><br/><a class='enum current' href='enum.ContourStyle.html'>ContourStyle</a><br/><a class='enum ' href='enum.DashType.html'>DashType</a><br/><a class='enum ' href='enum.FillRegion.html'>FillRegion</a><br/><a class='enum ' href='enum.LabelOption.html'>LabelOption</a><br/><a class='enum ' href='enum.LegendOption.html'>LegendOption</a><br/><a class='enum ' href='enum.PlotOption.html'>PlotOption</a><br/><a class='enum ' href='enum.Tick.html'>Tick</a><br/><a class='enum ' href='enum.TickOption.html'>TickOption</a><br/></div>
     </section>
 
     <nav class="sub">
@@ -37,13 +37,23 @@
     </nav>
 
     <section id='main' class="content enum"><a class='source'
-                              href='../../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/options.rs.html#169-175'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>Tick</a></h1><pre class='rust enum'>pub enum Tick&lt;T&gt; {
-    Major(T, <a class='enum' href='../../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;~str&gt;),
-    Minor(T),
-}</pre><div class='docblock'><p>Specifies a type of axis tick</p>
+                              href='../../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/options.rs.html#207-223'>[src]</a><h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>ContourStyle</a></h1><pre class='rust enum'>pub enum ContourStyle {
+    Linear,
+    Cubic(u32),
+    Spline(u32, u32),
+}</pre><div class='docblock'><p>Specifies how the contours are drawn</p>
 </div><h2 class='variants'>Variants</h2>
-<table><tr><td id='variant.Major'><code>Major</code></td><td><div class='docblock'><p>Major ticks have position and an optional label. The label may have a single C-style format specifier which will be replaced by the location of the tick</p>
-</div></td></tr><tr><td id='variant.Minor'><code>Minor</code></td><td><div class='docblock'><p>Minor ticks only have position</p>
+<table><tr><td id='variant.Linear'><code>Linear</code></td><td><div class='docblock'><p>Draw lines between points of equal value</p>
+</div></td></tr><tr><td id='variant.Cubic'><code>Cubic</code></td><td><div class='docblock'><p>Draw somewhat smoother curves between points with equal value.</p>
+
+<p>The argument specifies the number of points to use to approximate the
+curve for the final drawing step (clamped to range from 2 to 100).</p>
+</div></td></tr><tr><td id='variant.Spline'><code>Spline</code></td><td><div class='docblock'><p>Draw an even smoother curve, this time approximating the locations of
+points with equal value (clamped to range from 2 to 100).</p>
+
+<p>The first argument specifies the number of points to use to approximate
+the curve for the final drawing step. The second argument specifies the
+order of the polynomial (clamped to range from 2 to 10).</p>
 </div></td></tr></table></section>
     <section id='search' class="content hidden"></section>
 

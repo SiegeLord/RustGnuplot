@@ -158,6 +158,15 @@ body {
     padding-right: 5px;
     margin-right: 10px;
 }
+.line-numbers .line-highlighted {
+/*
+    background-color: #DBE7F6;
+*/
+/*
+    border-right: 5pt solid #000;
+*/
+    font-weight: bold;
+}
 
 .content .highlighted {
     cursor: pointer;
@@ -365,3 +374,15 @@ button {
 .stability.Stable { border-color: #AEC516; color: #7c8b10; }
 .stability.Frozen { border-color: #009431; color: #007726; }
 .stability.Locked { border-color: #0084B6; color: #00668c; }
+
+/* Code highlighting */
+pre.rust .kw { font-weight: bold; color: #0000d0; }
+pre.rust .kw-2 { color: #0000d0; }
+pre.rust .number { color: #3C037F; }
+pre.rust .string { color: #E028C2; }
+pre.rust .self, pre.rust .boolval { font-weight: bold; color: #0000d0; }
+pre.rust .attribute, pre.rust .attribute .ident { color: #6D1173; }
+pre.rust .comment { color: #017106; }
+pre.rust .doccomment { color: #3F5FBF; }
+pre.rust .macro, pre.rust .macro-nonterminal { color: #007F7F; }
+pre.rust .lifetime { color: #0000d0; }
