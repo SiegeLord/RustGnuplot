@@ -190,6 +190,25 @@ pub enum LegendOption<'l>
 	MaxCols(u32),
 }
 
+/// Specifies how the contours are drawn
+pub enum ContourStyle
+{
+	/// Draw lines between points of equal value
+	Linear,
+	/// Draw somewhat smoother curves between points with equal value.
+	///
+	/// The argument specifies the number of points to use to approximate the
+	/// curve for the final drawing step (clamped to range from 2 to 100).
+	Cubic(u32),
+	/// Draw an even smoother curve, this time approximating the locations of
+	/// points with equal value (clamped to range from 2 to 100).
+	///
+	/// The first argument specifies the number of points to use to approximate
+	/// the curve for the final drawing step. The second argument specifies the
+	/// order of the polynomial (clamped to range from 2 to 10).
+	Spline(u32, u32)
+}
+
 mod private
 {
 	use super::*;

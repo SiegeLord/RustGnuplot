@@ -11,7 +11,12 @@ use options::*;
 pub struct Axes3D
 {
 	common: AxesCommonData,
-	z_ticks: MemWriter
+	z_ticks: MemWriter,
+	contour_base: bool,
+	contour_surface: bool,
+	contour_auto: AutoOption<u32>,
+	contour_levels: Option<Vec<f64>>,
+	contour_style: ContourStyle,
 }
 
 impl Axes3D
@@ -89,11 +94,53 @@ impl Axes3D
 		self.get_common_data_mut().set_range_common(ZTickAxis, min, max);
 		self
 	}
+
+	/// Show contours (lines of equal Z value)
+	/// # Arguments
+	/// * `base` - Show contours on the base of the plot (XY plane)
+	/// * `surface` - Show the contours on the surface itself
+	/// * `style` - Style of the contours
+	/// * `levels` - Auto picks some default number of levels, otherwise you can pass a set nominal number instead. The number is nominal as
+	///              contours are placed at nice values of Z, and thus there may be fewer of them than this number.
+	pub fn show_contours<'l>(&'l mut self, base: bool, surface: bool, style: ContourStyle, levels: AutoOption<u32>) -> &'l mut Axes3D
+	{
+		self.contour_base = base;
+		self.contour_surface = surface;
+		self.contour_style = style;
+		self.contour_auto = levels;
+		self.contour_levels = None;
+		self
+	}
+
+	/// Show contours (lines of equal Z value) at specific levels.
+	/// # Arguments
+	/// * `base` - Show contours on the base of the plot (XY plane)
+	/// * `surface` - Show the contours on the surface itself
+	/// * `style` - Style of the contours
+	/// * `levels` - Iterator for a set of levels.
+	pub fn show_contours_custom<'l, T: DataType, TC: Iterator<T>>(&'l mut self, base: bool, surface: bool, style: ContourStyle, levels: TC) -> &'l mut Axes3D
+	{
+		self.contour_base = base;
+		self.contour_surface = surface;
+		self.contour_style = style;
+		self.contour_auto = Auto;
+		self.contour_levels = Some(levels.map(|l| l.get()).collect());
+		self
+	}
 }
 
 pub fn new_axes3d() -> Axes3D
 {
-	Axes3D{ common: AxesCommonData::new(), z_ticks: MemWriter::new() }
+	Axes3D
+	{
+		common: AxesCommonData::new(),
+		z_ticks: MemWriter::new(),
+		contour_base: false,
+		contour_surface: false,
+		contour_auto: Auto,
+		contour_levels: None,
+		contour_style: Linear,
+	}
 }
 
 impl AxesCommonPrivate for Axes3D
@@ -118,15 +165,81 @@ pub trait Axes3DPrivate
 
 impl Axes3DPrivate for Axes3D
 {
-	fn write_out(&self, writer: &mut Writer)
+	fn write_out(&self, w: &mut Writer)
 	{
+		fn clamp<T: Ord>(val: T, min: T, max: T) -> T
+		{			
+			if val < min
+			{
+				min
+			}
+			else if val > max
+			{
+				max
+			}
+			else
+			{
+				val
+			}
+		}
+		
 		if self.common.elems.len() == 0
 		{
 			return;
 		}
+		
+		if self.contour_base || self.contour_surface
+		{
+			writeln!(w, "show contour");
+			write!(w, "set contour ");
+			write!(w, "{}", match (self.contour_base, self.contour_surface)
+			{
+				(true, false) => "base",
+				(false, true) => "surface",
+				(true, true) => "both",
+				_ => unreachable!()
+			});
+			write!(w, "\n");
+			write!(w, "set cntrparam ");
+			match self.contour_style
+			{
+				Linear => write!(w, "linear "),
+				Cubic(pt) => write!(w, "cubic points {} ", clamp(pt, 2, 100)),
+				Spline(pt, ord) => write!(w, "bspline points {} order {}", clamp(pt, 2, 100), clamp(ord, 2, 10)),
+			};
+			write!(w, "\n");
+			write!(w, "set cntrparam ");
+			write!(w, "levels ");
+			match self.contour_levels
+			{
+				Some(ref ls) => 
+				{
+					write!(w, "discrete ");
+					let mut left = ls.len();
+					for &l in ls.iter()
+					{
+						write!(w, "{:.12e}", l);
+						if left > 1
+						{
+							write!(w, ",");
+						}
+						left -= 1;
+					}
+				},
+				None => 
+				{
+					match self.contour_auto
+					{
+						Auto => write!(w, "auto "),
+						Fix(f) => write!(w, "{}", f),
+					};
+				}
+			};
+			write!(w, "\n");
+		}
 
-		self.common.write_out_commands(writer);
-		writer.write(self.z_ticks.get_ref());
-		self.common.write_out_elements("splot", writer);
+		self.common.write_out_commands(w);
+		w.write(self.z_ticks.get_ref());
+		self.common.write_out_elements("splot", w);
 	}
 }
