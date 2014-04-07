@@ -38,14 +38,9 @@
 
     <section id='main' class="content struct"><a class='source'
                               href='../../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/figure.rs.html#42-49'>[src]</a><h1 class='fqn'>Struct <a href='../index.html'>gnuplot</a>::<a href='index.html'>figure</a>::<a class='struct' href=''>Figure</a></h1><pre class='rust struct'>pub struct Figure {
-    axes: ~[AxesVariant],
-    num_rows: u32,
-    num_cols: u32,
-    terminal: ~str,
-    output_file: ~str,
+    // some fields omitted
 }</pre><div class='docblock'><p>A figure that may contain multiple axes</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr><td id='structfield.axes'><code>axes</code></td><td></td></tr><tr><td id='structfield.num_rows'><code>num_rows</code></td><td></td></tr><tr><td id='structfield.num_cols'><code>num_cols</code></td><td></td></tr><tr><td id='structfield.terminal'><code>terminal</code></td><td></td></tr><tr><td id='structfield.output_file'><code>output_file</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h3><div class='methods'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h3><div class='methods'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Creates a new figure</p>
 </div><h4 id='method.set_terminal' class='method'><code>fn <a href='#method.set_terminal' class='fnname'>set_terminal</a>&lt;'l&gt;(&amp;'l mut self, terminal: &amp;str, output_file: &amp;str) -&gt; &amp;'l mut <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Sets the terminal for gnuplot to use, as well as the file to output the figure to.
