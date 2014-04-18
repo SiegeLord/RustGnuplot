@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="The gnuplot library documentation.">
+
     <title>gnuplot::Axes3D - Rust</title>
 
-    <link href='http://fonts.googleapis.com/css?family=Oswald:700|Inconsolata:400,700'
+    <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700'
           rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="../main.css">
 
@@ -26,7 +29,6 @@
 
     <nav class="sub">
         <form class="search-form js-only">
-            <button class="do-search">Search</button>
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
@@ -36,8 +38,9 @@
         </form>
     </nav>
 
-    <section id='main' class="content struct"><a class='source'
-                              href='../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/internal/axes3d.rs.html#12-22'>[src]</a><h1 class='fqn'>Struct <a href='index.html'>gnuplot</a>::<a class='struct' href=''>Axes3D</a></h1><pre class='rust struct'>pub struct Axes3D {
+    <section id='main' class="content struct">
+<h1 class='fqn'>Struct <a href='index.html'>gnuplot</a>::<a class='struct' href=''>Axes3D</a><a class='source'href='../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/internal/axes3d.rs.html#12-22'>[src]</a></h1>
+<pre class='rust struct'>pub struct Axes3D {
     // some fields omitted
 }</pre><div class='docblock'><p>3D axes that is used for drawing 3D plots</p>
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h3><div class='methods'><h4 id='method.surface' class='method'><code>fn <a href='#method.surface' class='fnname'>surface</a>&lt;'l, T: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;T&gt;&gt;(&amp;'l mut self, mat: X, num_rows: i32, num_cols: i32, dimensions: <a class='enum' href='http://static.rust-lang.org/doc/master/std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;(f64, f64, f64, f64)&gt;, options: &amp;[<a class='enum' href='../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>

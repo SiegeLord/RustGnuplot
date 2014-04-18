@@ -23,33 +23,44 @@
 body {
     font: 10pt sans-serif;
     line-height: 165%;
-    background: #450E00;
+    background: #000030;
 }
 
 h1, .sidebar .location {
-    font: 700 13pt sans-serif;
+    font: 16pt sans-serif;
 }
 
-h2, h3, h4 {
-    font: 700 13pt sans-serif;
+h2 {
+    font: 16pt sans-serif;
+}
+
+h3, h4 {
+    font: 13pt sans-serif;
 }
 
 .methods h3, h4 {
-    border-radius: 1.0em;
+    margin-right: -15pt;
     box-shadow: 1px 1px 2px #000000;
-    padding: 1.0em 1.0em 1.0em 1.0em;
-    background: #F8EEC9;
+    border-top-left-radius: 1em;
+    border-bottom-left-radius: 1em;
+    padding: 10pt 10pt 10pt 15pt;
+    background: #D1D1D1;
 }
 
-h2 code, h3 code, h4 code {
+h2 code, h3 code, h4 code, .methods h3 code {
     text-transform: none;
-    font-size: 1.2em;
+    font-size: 12pt;
+}
+
+h3 code {
+    text-transform: none;
+    font-size: 16pt;
 }
 
 pre {
     border-radius: 1.0em;
-    background: #F1E7BE;
-    box-shadow: inset 1px 1px 2px #000000;
+    background: #F3F3F3;
+    box-shadow: inset 1pt 1pt 2pt #000000;
 }
 
 pre.rust {
@@ -66,7 +77,7 @@ code {
 }
 
 h1.fqn {
-    font-size: 26px;
+    font-size: 20pt;
     font-weight: normal;
 }
 
@@ -76,7 +87,9 @@ nav {
 }
 
 nav.sub {
-    padding-top: 20px;
+    padding-top: 10pt;
+    padding-bottom: 10pt;
+    padding-right: 5pt;
     font: 700 16px sans-serif;
     text-transform: uppercase;
     text-align: right;
@@ -92,16 +105,17 @@ html, body {
 body {
     position: relative;
     height: auto;
-    padding-bottom: 20px;
+    padding-bottom: 15pt;
 }
 
 .sidebar {
-    width: 200px;
+    width: 170pt;
     max-height: 100%;
     position: fixed;
     left: 0;
     top: 0;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     border-bottom-right-radius: 1.0em;
 }
 
@@ -114,9 +128,7 @@ body {
 .js-only, .hidden { display: none; }
 
 .sidebar {
-    background: #F5ECC0;
-    box-shadow: 1px 1px 2px #000000;
-    padding: 10px;
+    background: #E1E1E1;
 }
 
 .sidebar img {
@@ -124,10 +136,14 @@ body {
     display: block;
 }
 
-.sidebar .location { margin-bottom: 10px; }
+.sidebar .location {
+    margin-bottom: 10pt;
+    margin-top: 10pt;
+    padding: 3pt;
+}
 
 .block {
-    margin-bottom: 10px;
+    margin-bottom: 10pt;
 }
 .block h2 { margin-top: 0; }
 .block a {
@@ -140,14 +156,57 @@ body {
 }
 
 .content {
-    background: #F5ECC0;
-    padding: 20px 20px 20px 40px;
-    border-radius: 1.0em;
+    background: #E1E1E1;
+    padding: 15pt 15pt 15pt 15pt;
+    border-radius: 10pt;
     box-shadow: 1px 1px 2px #000000;
 }
 .content h1 { margin-top: 0; }
-.content h1, .content h2 { margin-left: -20px; }
-.content pre { padding: 20px; }
+
+.content h1.fqn, .content h2, .content > h3 {
+    background-color: #000030;
+    background-image: linear-gradient( #000030, #000090 );
+    margin-left: -15pt;
+    margin-right: -15pt;
+    color: #FFFFFF;
+    padding: 3pt;
+}
+
+.content > h3 {
+    font-size: 16pt;
+}
+
+.sidebar h2 {
+    background-color: #000030;
+    background-image: linear-gradient( #000030, #000090 );
+    margin-bottom: 10pt;
+    color: #FFFFFF;
+    padding: 3pt;
+}
+
+.content > h3.impl {
+    margin-left: -15pt;
+    margin-right: -15pt;
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: #D1D1D1;
+    background-image: none;
+    color: black;
+    padding: 3pt;
+    padding-top: 10pt;
+    padding-bottom: 10pt;
+    box-shadow: 1px 1px 2px #000000;
+}
+
+.content h1.fqn a:hover[href], .content h2 a:hover[href] {
+    text-shadow: 0 0 0.25em #EEEEEC;
+}
+
+.content h1.fqn a, .content h2 a {
+    color: #FCFCFC
+}
+
+.content pre { padding: 15pt; }
 .content pre.line-numbers {
     float: left;
     border: none;
@@ -159,29 +218,13 @@ body {
     margin-right: 10px;
 }
 .line-numbers .line-highlighted {
-/*
-    background-color: #DBE7F6;
-*/
-/*
-    border-right: 5pt solid #000;
-*/
     font-weight: bold;
 }
 
 .content .highlighted {
     cursor: pointer;
-    background: #F1E7BE;
-    border-radius: 0.2em;
-    box-shadow: 1px 1px 2px #000000;
+    background: #C6C6C6;
 }
-/*.content .highlighted a { color: #000 !important; }
-
-.content .highlighted.trait { background-color: #fece7e; }
-.content .highlighted.mod { background-color: #afc6e4; }
-.content .highlighted.enum { background-color: #b4d1b9; }
-.content .highlighted.struct { background-color: #e7b1a0; }
-.content .highlighted.fn { background-color: #c6afb3; }
-*/
 
 .docblock.short.nowrap {
     display: block;
@@ -199,9 +242,9 @@ body {
     margin-left: 0;
 }
 
-.docblock h1 { font-size: 1.1em; }
-.docblock h2 { font-size: 1.05em; }
-.docblock h3, .docblock h4, .docblock h5 { font-size: 1em; }
+.docblock h1 { font-size: 13pt; }
+.docblock h2 { font-size: 14pt; }
+.docblock h3, .docblock h4, .docblock h5 { font-size: 10pt; }
 
 .content .source { float: right; }
 .content table {
@@ -231,12 +274,16 @@ body {
 .content .multi-column li { width: 100%; display: inline-block; }
 
 .content .method { font-size: 1em; }
-.content .methods { margin-left: 20px; }
+/*
+.content .methods { margin-left: 20pt; }
+*/
+/*
 .content .methods .docblock { margin-left: 20px; }
+*/
+.content .methods .docblock { margin-left: 15pt; }
 
 nav {
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+
 }
 nav.main {
     padding: 20px 0;
@@ -252,17 +299,21 @@ nav.main .separator {
     height: 23px;
     margin: 0 20px;
 }
+
 nav.sum { text-align: right; }
+
 nav.sub form { display: inline; }
 
 nav, .content {
-    margin-left: 220px;
-    margin-right: 20px;
+    margin-left: 180pt;
+    margin-right: 15pt;
 }
 
+/*
 a {
     color: #000
 }
+*/
 
 a[href] {
     text-decoration: none;
@@ -292,13 +343,15 @@ button {
 .content .fnname { font-weight: bold; }
 
 .search-input {
-    border: 2px solid #000000;
-    background-color: #F6F2DB;
+    border: none;
+    background-color: #FCFCFC;
     background-repeat: no-repeat;
     background-size: 15pt 15pt;
     background-position: right center;
-    border-radius: 0.4em;
+    border-radius: 0.6em;
     width: 100%;
+    height: 20pt;
+    padding-left: 5pt;
 }
 
 .do-search {

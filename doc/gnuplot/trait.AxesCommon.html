@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="The gnuplot library documentation.">
+
     <title>gnuplot::AxesCommon - Rust</title>
 
-    <link href='http://fonts.googleapis.com/css?family=Oswald:700|Inconsolata:400,700'
+    <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700'
           rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="../main.css">
 
@@ -26,7 +29,6 @@
 
     <nav class="sub">
         <form class="search-form js-only">
-            <button class="do-search">Search</button>
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
@@ -36,8 +38,9 @@
         </form>
     </nav>
 
-    <section id='main' class="content trait"><a class='source'
-                              href='../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/axes_common.rs.html#792-988'>[src]</a><h1 class='fqn'>Trait <a href='index.html'>gnuplot</a>::<a class='trait' href=''>AxesCommon</a></h1><pre class='rust trait'>pub trait AxesCommon: <a class='trait' href='../gnuplot/axes_common/trait.AxesCommonPrivate.html' title='gnuplot::axes_common::AxesCommonPrivate'>AxesCommonPrivate</a> {
+    <section id='main' class="content trait">
+<h1 class='fqn'>Trait <a href='index.html'>gnuplot</a>::<a class='trait' href=''>AxesCommon</a><a class='source'href='../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/axes_common.rs.html#792-988'>[src]</a></h1>
+<pre class='rust trait'>pub trait AxesCommon: <a class='trait' href='../gnuplot/axes_common/trait.AxesCommonPrivate.html' title='gnuplot::axes_common::AxesCommonPrivate'>AxesCommonPrivate</a> {
     fn <a href='#method.set_pos_grid' class='fnname'>set_pos_grid</a>&lt;'l&gt;(&amp;'l mut self, row: u32, col: u32) -&gt; &amp;'l mut Self { ... }
     fn <a href='#method.set_pos' class='fnname'>set_pos</a>&lt;'l&gt;(&amp;'l mut self, x: f64, y: f64) -&gt; &amp;'l mut Self { ... }
     fn <a href='#method.set_size' class='fnname'>set_size</a>&lt;'l&gt;(&amp;'l mut self, w: f64, h: f64) -&gt; &amp;'l mut Self { ... }
