@@ -242,6 +242,8 @@
 <span id='202'>202</span>
 <span id='203'>203</span>
 <span id='204'>204</span>
+<span id='205'>205</span>
+<span id='206'>206</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2013-2014 by SiegeLord
 // 
@@ -286,7 +288,7 @@
 <span class='doccomment'>/// A figure that may contain multiple axes
 </span><span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Figure</span>
 {
-	<span class='ident'>axes</span>: <span class='kw-2'>~</span>[<span class='ident'>AxesVariant</span>],
+	<span class='ident'>axes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>AxesVariant</span><span class='op'>&gt;</span>,
 	<span class='ident'>num_rows</span>: <span class='ident'>u32</span>,
 	<span class='ident'>num_cols</span>: <span class='ident'>u32</span>,
 	<span class='ident'>terminal</span>: <span class='kw-2'>~</span><span class='ident'>str</span>,
@@ -300,7 +302,7 @@
 	{
 		<span class='ident'>Figure</span>
 		{
-			<span class='ident'>axes</span>: <span class='kw-2'>~</span>[],
+			<span class='ident'>axes</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
 			<span class='ident'>num_rows</span>: <span class='number'>0</span>,
 			<span class='ident'>num_cols</span>: <span class='number'>0</span>,
 			<span class='ident'>terminal</span>: <span class='kw-2'>~</span><span class='string'>&quot;&quot;</span>,
@@ -341,7 +343,8 @@
 </span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>axes2d</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
 	{
 		<span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>push</span>(<span class='ident'>Axes2DType</span>(<span class='ident'>new_axes2d</span>()));
-		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>axes</span>[<span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>]
+		<span class='kw'>let</span> <span class='ident'>l</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>len</span>();
+		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>as_mut_slice</span>()[<span class='ident'>l</span> <span class='op'>-</span> <span class='number'>1</span>]
 		{
 			<span class='ident'>Axes2DType</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
 			_ <span class='op'>=&gt;</span> <span class='macro'>fail</span><span class='macro'>!</span>()
@@ -352,7 +355,8 @@
 </span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>axes3d</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
 	{
 		<span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>push</span>(<span class='ident'>Axes3DType</span>(<span class='ident'>new_axes3d</span>()));
-		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>axes</span>[<span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>]
+		<span class='kw'>let</span> <span class='ident'>l</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>len</span>();
+		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>as_mut_slice</span>()[<span class='ident'>l</span> <span class='op'>-</span> <span class='number'>1</span>]
 		{
 			<span class='ident'>Axes3DType</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
 			_ <span class='op'>=&gt;</span> <span class='macro'>fail</span><span class='macro'>!</span>()
