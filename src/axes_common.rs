@@ -216,7 +216,7 @@ impl PlotType
 pub struct AxesCommonData
 {
 	pub commands: MemWriter,
-	pub elems: ~[PlotElement],
+	pub elems: Vec<PlotElement>,
 	pub grid_row: u32,
 	pub grid_col: u32,
 	pub x_ticks: MemWriter,
@@ -259,7 +259,7 @@ impl AxesCommonData
 		AxesCommonData
 		{
 			commands: MemWriter::new(),
-			elems: ~[],
+			elems: Vec::new(),
 			grid_row: 0,
 			grid_col: 0,
 			x_ticks: MemWriter::new(),
@@ -325,7 +325,7 @@ impl AxesCommonData
 		let mut num_rows = 0i32;
 
 		{
-			let data = &mut self.elems[l].data;
+			let data = &mut self.elems.as_mut_slice()[l].data;
 			for (x1, x2) in x1.zip(x2)
 			{
 				data.write_data(x1);
@@ -346,7 +346,7 @@ impl AxesCommonData
 		let mut num_rows = 0i32;
 
 		{
-			let data = &mut self.elems[l].data;
+			let data = &mut self.elems.as_mut_slice()[l].data;
 			for ((x1, x2), x3) in x1.zip(x2).zip(x3)
 			{
 				data.write_data(x1);
@@ -367,7 +367,7 @@ impl AxesCommonData
 		
 		{
 			let mut count = 0i32;
-			let data = &mut self.elems[l].data;
+			let data = &mut self.elems.as_mut_slice()[l].data;
 			for x in mat
 			{
 				data.write_data(x);
@@ -395,7 +395,7 @@ impl AxesCommonData
 	fn write_common_commands(&mut self, elem_idx: uint, num_rows: i32, num_cols: i32, plot_type: PlotType,
 	                         source_type: DataSourceType, is_3d: bool, options: &[PlotOption])
 	{
-		let args = &mut self.elems[elem_idx].args as &mut Writer;
+		let args = &mut self.elems.as_mut_slice()[elem_idx].args as &mut Writer;
 		match source_type
 		{
 			Record => 

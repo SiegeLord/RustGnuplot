@@ -41,7 +41,7 @@ impl AxesVariant
 /// A figure that may contain multiple axes
 pub struct Figure
 {
-	axes: ~[AxesVariant],
+	axes: Vec<AxesVariant>,
 	num_rows: u32,
 	num_cols: u32,
 	terminal: ~str,
@@ -55,7 +55,7 @@ impl Figure
 	{
 		Figure
 		{
-			axes: ~[],
+			axes: Vec::new(),
 			num_rows: 0,
 			num_cols: 0,
 			terminal: ~"",
@@ -96,7 +96,8 @@ impl Figure
 	pub fn axes2d<'l>(&'l mut self) -> &'l mut Axes2D
 	{
 		self.axes.push(Axes2DType(new_axes2d()));
-		match self.axes[self.axes.len() - 1]
+		let l = self.axes.len();
+		match self.axes.as_mut_slice()[l - 1]
 		{
 			Axes2DType(ref mut a) => a,
 			_ => fail!()
@@ -107,7 +108,8 @@ impl Figure
 	pub fn axes3d<'l>(&'l mut self) -> &'l mut Axes3D
 	{
 		self.axes.push(Axes3DType(new_axes3d()));
-		match self.axes[self.axes.len() - 1]
+		let l = self.axes.len();
+		match self.axes.as_mut_slice()[l - 1]
 		{
 			Axes3DType(ref mut a) => a,
 			_ => fail!()
