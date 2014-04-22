@@ -57,16 +57,6 @@ Terminals that spawn a GUI don&#39;t need an output file, so pass an empty strin
 <li>epscairo - Saves the figure as a EPS file</li>
 <li>pngcairo - Saves the figure as a PNG file</li>
 </ul>
-</div><h4 id='method.set_grid' class='method'><code>fn <a href='#method.set_grid' class='fnname'>set_grid</a>&lt;'l&gt;(&amp;'l mut self, rows: u32, cols: u32) -&gt; &amp;'l mut <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
-<div class='docblock'><p>Sets the dimensions of the grid that you can use to
-place multiple axes on</p>
-
-<h1 id="arguments" class='section-link'><a
-                           href="#arguments">Arguments</a></h1>
-<ul>
-<li><code>rows</code> - Number of rows. Set to 0 to disable the grid</li>
-<li><code>cols</code> - Number of columns. Set to 0 to disable the grid</li>
-</ul>
 </div><h4 id='method.axes2d' class='method'><code>fn <a href='#method.axes2d' class='fnname'>axes2d</a>&lt;'l&gt;(&amp;'l mut self) -&gt; &amp;'l mut <a class='struct' href='../../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Creates a set of 2D axes</p>
 </div><h4 id='method.axes3d' class='method'><code>fn <a href='#method.axes3d' class='fnname'>axes3d</a>&lt;'l&gt;(&amp;'l mut self) -&gt; &amp;'l mut <a class='struct' href='../../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
@@ -76,16 +66,16 @@ place multiple axes on</p>
 </div><h4 id='method.echo' class='method'><code>fn <a href='#method.echo' class='fnname'>echo</a>&lt;'l, T: <a class='trait' href='http://static.rust-lang.org/doc/master/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a>&gt;(&amp;'l self, writer: &amp;mut T) -&gt; &amp;'l <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Echo the commands that if piped to a gnuplot process would display the figure</p>
 
-<h1 id="arguments-1" class='section-link'><a
-                           href="#arguments-1">Arguments</a></h1>
+<h1 id="arguments" class='section-link'><a
+                           href="#arguments">Arguments</a></h1>
 <ul>
 <li><code>writer</code> - A function pointer that will be called multiple times with the command text and data</li>
 </ul>
 </div><h4 id='method.echo_to_file' class='method'><code>fn <a href='#method.echo_to_file' class='fnname'>echo_to_file</a>&lt;'l&gt;(&amp;'l self, filename: &amp;str) -&gt; &amp;'l <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Save to a file the the commands that if piped to a gnuplot process would display the figure</p>
 
-<h1 id="arguments-2" class='section-link'><a
-                           href="#arguments-2">Arguments</a></h1>
+<h1 id="arguments-1" class='section-link'><a
+                           href="#arguments-1">Arguments</a></h1>
 <ul>
 <li><code>filename</code> - Name of the file</li>
 </ul>

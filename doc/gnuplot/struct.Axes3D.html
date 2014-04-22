@@ -131,14 +131,16 @@
 </ul>
 </div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../gnuplot/axes_common/trait.AxesCommonPrivate.html' title='gnuplot::axes_common::AxesCommonPrivate'>AxesCommonPrivate</a> for <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h3><div class='methods'><h4 id='method.get_common_data_mut' class='method'><code>fn <a href='#method.get_common_data_mut' class='fnname'>get_common_data_mut</a>&lt;'l&gt;(&amp;'l mut self) -&gt; &amp;'l mut AxesCommonData</code></h4>
 <h4 id='method.get_common_data' class='method'><code>fn <a href='#method.get_common_data' class='fnname'>get_common_data</a>&lt;'l&gt;(&amp;'l self) -&gt; &amp;'l AxesCommonData</code></h4>
-</div><h3 class='impl'><code>impl <a class='trait' href='../gnuplot/axes_common/trait.AxesCommon.html' title='gnuplot::axes_common::AxesCommon'>AxesCommon</a> for <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h3><div class='methods'><h4 id='method.set_pos_grid' class='method'><code>fn <a href='#method.set_pos_grid' class='fnname'>set_pos_grid</a>&lt;'l&gt;(&amp;'l mut self, row: u32, col: u32) -&gt; &amp;'l mut Self</code></h4>
-<div class='docblock'><p>Set the position of the axes on the figure using grid coordinates</p>
+</div><h3 class='impl'><code>impl <a class='trait' href='../gnuplot/axes_common/trait.AxesCommon.html' title='gnuplot::axes_common::AxesCommon'>AxesCommon</a> for <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h3><div class='methods'><h4 id='method.set_pos_grid' class='method'><code>fn <a href='#method.set_pos_grid' class='fnname'>set_pos_grid</a>&lt;'l&gt;(&amp;'l mut self, nrow: u32, ncol: u32, pos: u32) -&gt; &amp;'l mut Self</code></h4>
+<div class='docblock'><p>Set the position of the axes on the figure using grid coordinates.</p>
 
 <h1 id="arguments-4" class='section-link'><a
                            href="#arguments-4">Arguments</a></h1>
 <ul>
-<li><code>row</code> - Row on the grid. Top-most row is 1</li>
-<li><code>column</code> - Column on the grid. Left-most column is 1</li>
+<li><code>nrow</code> - Number of rows in the grid. Must be greater than 0.</li>
+<li><code>ncol</code> - Number of columns in the grid. Must be greater than 0.</li>
+<li><code>pos</code> - Which grid cell to place this axes in, counting from top-left corner,
+      going left and then down, starting at 0.</li>
 </ul>
 </div><h4 id='method.set_pos' class='method'><code>fn <a href='#method.set_pos' class='fnname'>set_pos</a>&lt;'l&gt;(&amp;'l mut self, x: f64, y: f64) -&gt; &amp;'l mut Self</code></h4>
 <div class='docblock'><p>Set the position of the axes on the figure using screen coordinates.

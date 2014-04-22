@@ -1026,6 +1026,15 @@
 <span id='986'>986</span>
 <span id='987'>987</span>
 <span id='988'>988</span>
+<span id='989'>989</span>
+<span id='990'>990</span>
+<span id='991'>991</span>
+<span id='992'>992</span>
+<span id='993'>993</span>
+<span id='994'>994</span>
+<span id='995'>995</span>
+<span id='996'>996</span>
+<span id='997'>997</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2013-2014 by SiegeLord
 //
@@ -1246,8 +1255,9 @@
 {
 	<span class='kw'>pub</span> <span class='ident'>commands</span>: <span class='ident'>MemWriter</span>,
 	<span class='kw'>pub</span> <span class='ident'>elems</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>PlotElement</span><span class='op'>&gt;</span>,
-	<span class='kw'>pub</span> <span class='ident'>grid_row</span>: <span class='ident'>u32</span>,
-	<span class='kw'>pub</span> <span class='ident'>grid_col</span>: <span class='ident'>u32</span>,
+	<span class='kw'>pub</span> <span class='ident'>grid_rows</span>: <span class='ident'>u32</span>,
+	<span class='kw'>pub</span> <span class='ident'>grid_cols</span>: <span class='ident'>u32</span>,
+	<span class='kw'>pub</span> <span class='ident'>grid_pos</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>,
 	<span class='kw'>pub</span> <span class='ident'>x_ticks</span>: <span class='ident'>MemWriter</span>,
 	<span class='kw'>pub</span> <span class='ident'>y_ticks</span>: <span class='ident'>MemWriter</span>,
 }
@@ -1289,8 +1299,9 @@
 		{
 			<span class='ident'>commands</span>: <span class='ident'>MemWriter</span>::<span class='ident'>new</span>(),
 			<span class='ident'>elems</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-			<span class='ident'>grid_row</span>: <span class='number'>0</span>,
-			<span class='ident'>grid_col</span>: <span class='number'>0</span>,
+			<span class='ident'>grid_rows</span>: <span class='number'>0</span>,
+			<span class='ident'>grid_cols</span>: <span class='number'>0</span>,
+			<span class='ident'>grid_pos</span>: <span class='prelude-val'>None</span>,
 			<span class='ident'>x_ticks</span>: <span class='ident'>MemWriter</span>::<span class='ident'>new</span>(),
 			<span class='ident'>y_ticks</span>: <span class='ident'>MemWriter</span>::<span class='ident'>new</span>()
 		}
@@ -1820,16 +1831,22 @@
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>AxesCommon</span> : <span class='ident'>AxesCommonPrivate</span>
 {
-	<span class='doccomment'>/// Set the position of the axes on the figure using grid coordinates
+	<span class='doccomment'>/// Set the position of the axes on the figure using grid coordinates.
 </span>	<span class='doccomment'>/// # Arguments
-</span>	<span class='doccomment'>/// * `row` - Row on the grid. Top-most row is 1
-</span>	<span class='doccomment'>/// * `column` - Column on the grid. Left-most column is 1
-</span>	<span class='kw'>fn</span> <span class='ident'>set_pos_grid</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>row</span>: <span class='ident'>u32</span>, <span class='ident'>col</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Self</span>
+</span>	<span class='doccomment'>/// * `nrow` - Number of rows in the grid. Must be greater than 0.
+</span>	<span class='doccomment'>/// * `ncol` - Number of columns in the grid. Must be greater than 0.
+</span>	<span class='doccomment'>/// * `pos` - Which grid cell to place this axes in, counting from top-left corner,
+</span>	<span class='doccomment'>///           going left and then down, starting at 0.
+</span>	<span class='kw'>fn</span> <span class='ident'>set_pos_grid</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>nrow</span>: <span class='ident'>u32</span>, <span class='ident'>ncol</span>: <span class='ident'>u32</span>, <span class='ident'>pos</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Self</span>
 	{
+		<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>nrow</span> <span class='op'>&gt;</span> <span class='number'>0</span>);
+		<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>ncol</span> <span class='op'>&gt;</span> <span class='number'>0</span>);
+		<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>pos</span> <span class='op'>&lt;</span> <span class='ident'>nrow</span> <span class='op'>*</span> <span class='ident'>ncol</span>);
 		{
 			<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_common_data_mut</span>();
-			<span class='ident'>c</span>.<span class='ident'>grid_row</span> <span class='op'>=</span> <span class='ident'>row</span>;
-			<span class='ident'>c</span>.<span class='ident'>grid_col</span> <span class='op'>=</span> <span class='ident'>col</span>;
+			<span class='ident'>c</span>.<span class='ident'>grid_rows</span> <span class='op'>=</span> <span class='ident'>nrow</span>;
+			<span class='ident'>c</span>.<span class='ident'>grid_cols</span> <span class='op'>=</span> <span class='ident'>ncol</span>;
+			<span class='ident'>c</span>.<span class='ident'>grid_pos</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>pos</span>);
 		}
 		<span class='self'>self</span>
 	}
@@ -1841,6 +1858,7 @@
 </span>	<span class='doccomment'>/// * `y` - Y position. Ranges from 0 to 1
 </span>	<span class='kw'>fn</span> <span class='ident'>set_pos</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>f64</span>, <span class='ident'>y</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Self</span>
 	{
+		<span class='self'>self</span>.<span class='ident'>get_common_data_mut</span>().<span class='ident'>grid_pos</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
 		<span class='macro'>writeln</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>get_common_data_mut</span>().<span class='ident'>commands</span>, <span class='string'>&quot;set origin {:.12e},{:.12e}&quot;</span>, <span class='ident'>x</span>, <span class='ident'>y</span>);
 		<span class='self'>self</span>
 	}
