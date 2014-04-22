@@ -79,19 +79,6 @@ impl Figure
 		self
 	}
 	
-	/// Sets the dimensions of the grid that you can use to
-	/// place multiple axes on
-	/// # Arguments
-	/// * `rows` - Number of rows. Set to 0 to disable the grid
-	/// * `cols` - Number of columns. Set to 0 to disable the grid
-	pub fn set_grid<'l>(&'l mut self, rows: u32, cols: u32) -> &'l mut Figure
-	{
-		self.num_rows = rows;
-		self.num_cols = cols;
-		self
-	}
-	
-	
 	/// Creates a set of 2D axes
 	pub fn axes2d<'l>(&'l mut self) -> &'l mut Axes2D
 	{
@@ -158,29 +145,21 @@ impl Figure
 		// TODO: Maybe add an option for this (who seriously prefers them in the back though?)
 		writeln!(w, "set tics front");
 		
-		let do_layout = self.num_rows > 0 && self.num_cols > 0;
-		
-		let (width, height) = if do_layout
-		{
-			(1.0 / (self.num_cols as f64), 1.0 / (self.num_rows as f64))
-		}
-		else
-		{
-			(0.0, 0.0)
-		};
-		
 		for e in self.axes.iter()
 		{
 			writeln!(w, "reset");
-			if do_layout
+
+			let c = e.get_common_data();
+			c.grid_pos.map(|pos|
 			{
-				let c = e.get_common_data();
-				let x = (c.grid_col as f64 - 1.0) * width;
-				let y = (self.num_rows as f64 - c.grid_row as f64) * height;
+				let width = 1.0 / (c.grid_cols as f64);
+				let height = 1.0 / (c.grid_rows as f64);
+				let x = (pos % c.grid_cols) as f64 * width;
+				let y = 1.0 - (1.0 + (pos / c.grid_cols) as f64) * height;
 				
 				writeln!(w, "set origin {:.12e},{:.12e}", x, y);
 				writeln!(w, "set size {:.12e},{:.12e}", width, height);
-			}
+			});
 			e.write_out(w);
 		}
 		

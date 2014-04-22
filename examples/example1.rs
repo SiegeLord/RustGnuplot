@@ -55,16 +55,15 @@ fn example(show_plots: bool, show: |fg: &mut Figure, filename: &str|, set_term: 
 	set_term(&mut fg);
 	
 	fg.axes2d()
-	.set_pos_grid(1, 1)
+	.set_pos_grid(2, 2, 0)
 	.lines(x, y1, [Caption("Lines"), LineWidth(3.0), Color("violet")])
 	.set_title("Plot1", []);
 	
 	fg.axes2d()
-	.set_pos_grid(1, 2)
+	.set_pos_grid(2, 1, 1)
 	.points(x, y2, [Caption("Points"), PointSymbol('D'), Color("#ffaa77"), PointSize(2.0)])
 	.set_title("Plot2", []);
 	
-	fg.set_grid(1, 2);
 	show(&mut fg, "fg1.2.gnuplot");
 	
 	let mut fg = Figure::new();

@@ -217,8 +217,9 @@ pub struct AxesCommonData
 {
 	pub commands: MemWriter,
 	pub elems: Vec<PlotElement>,
-	pub grid_row: u32,
-	pub grid_col: u32,
+	pub grid_rows: u32,
+	pub grid_cols: u32,
+	pub grid_pos: Option<u32>,
 	pub x_ticks: MemWriter,
 	pub y_ticks: MemWriter,
 }
@@ -260,8 +261,9 @@ impl AxesCommonData
 		{
 			commands: MemWriter::new(),
 			elems: Vec::new(),
-			grid_row: 0,
-			grid_col: 0,
+			grid_rows: 0,
+			grid_cols: 0,
+			grid_pos: None,
 			x_ticks: MemWriter::new(),
 			y_ticks: MemWriter::new()
 		}
@@ -791,16 +793,22 @@ pub trait AxesCommonPrivate
 
 pub trait AxesCommon : AxesCommonPrivate
 {
-	/// Set the position of the axes on the figure using grid coordinates
+	/// Set the position of the axes on the figure using grid coordinates.
 	/// # Arguments
-	/// * `row` - Row on the grid. Top-most row is 1
-	/// * `column` - Column on the grid. Left-most column is 1
-	fn set_pos_grid<'l>(&'l mut self, row: u32, col: u32) -> &'l mut Self
+	/// * `nrow` - Number of rows in the grid. Must be greater than 0.
+	/// * `ncol` - Number of columns in the grid. Must be greater than 0.
+	/// * `pos` - Which grid cell to place this axes in, counting from top-left corner,
+	///           going left and then down, starting at 0.
+	fn set_pos_grid<'l>(&'l mut self, nrow: u32, ncol: u32, pos: u32) -> &'l mut Self
 	{
+		assert!(nrow > 0);
+		assert!(ncol > 0);
+		assert!(pos < nrow * ncol);
 		{
 			let c = self.get_common_data_mut();
-			c.grid_row = row;
-			c.grid_col = col;
+			c.grid_rows = nrow;
+			c.grid_cols = ncol;
+			c.grid_pos = Some(pos);
 		}
 		self
 	}
@@ -812,6 +820,7 @@ pub trait AxesCommon : AxesCommonPrivate
 	/// * `y` - Y position. Ranges from 0 to 1
 	fn set_pos<'l>(&'l mut self, x: f64, y: f64) -> &'l mut Self
 	{
+		self.get_common_data_mut().grid_pos = None;
 		writeln!(&mut self.get_common_data_mut().commands, "set origin {:.12e},{:.12e}", x, y);
 		self
 	}
