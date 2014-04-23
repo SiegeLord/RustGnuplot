@@ -45,10 +45,12 @@ p {
 
 .methods h3, h4 {
     margin-right: -15pt;
+    margin-top: 10pt;
+    margin-bottom: 10pt;
     box-shadow: 1px 1px 2px #000000;
     border-top-left-radius: 1em;
     border-bottom-left-radius: 1em;
-    padding: 10pt 10pt 10pt 15pt;
+    padding: 5pt 5pt 5pt 15pt;
     background: #D1D1D1;
 }
 
@@ -195,14 +197,12 @@ body {
 .content > h3.impl {
     margin-left: -15pt;
     margin-right: -15pt;
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-top: 10pt;
+    margin-bottom: 10pt;
     background-color: #D1D1D1;
     background-image: none;
     color: black;
     padding: 3pt;
-    padding-top: 10pt;
-    padding-bottom: 10pt;
     box-shadow: 1px 1px 2px #000000;
 }
 
@@ -214,7 +214,10 @@ body {
     color: #FCFCFC
 }
 
-.content pre { padding: 15pt; }
+.content pre {
+    padding: 15pt;
+    padding-top: 10pt;
+}
 .content pre.line-numbers {
     float: left;
     border: none;
@@ -325,6 +328,13 @@ a:hover[href] {
     border: 1px dotted #000000;
     margin: -1px -1px -1px -1px;
 }
+
+/*
+.sidebar > a:hover[href] {
+    border: none;
+    margin: 0;
+}
+*/
 
 td a {
     font-weight: bold;
