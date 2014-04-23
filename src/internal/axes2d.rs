@@ -473,6 +473,7 @@ pub fn new_axes2d() -> Axes2D
 	}
 }
 
+#[doc(hidden)]
 pub trait Axes2DPrivate
 {
 	fn write_out(&self, writer: &mut Writer);

@@ -785,6 +785,7 @@ impl AxesCommonData
 	}
 }
 
+#[doc(hidden)]
 pub trait AxesCommonPrivate
 {
 	fn get_common_data<'l>(&'l self) -> &'l AxesCommonData;
