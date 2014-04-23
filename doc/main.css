@@ -171,7 +171,10 @@ body {
     border-radius: 10pt;
     box-shadow: 1px 1px 2px #000000;
 }
-.content h1 { margin-top: 0; }
+.content h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
 
 .content h1.fqn, .content > h2, .content > h3 {
     background-color: #000030;
@@ -265,6 +268,16 @@ body {
 .content td:first-child { padding-right: 20px; }
 .content td p:first-child { margin-top: 0; }
 .content td h1, .content td h2 { margin-left: 0; font-size: 1.1em; }
+
+ul {
+    margin-top: 3pt;
+    margin-bottom: 3pt;
+}
+
+ol {
+    margin-top: 3pt;
+    margin-bottom: 3pt;
+}
 
 .content .item-list {
     list-style-type: none;
