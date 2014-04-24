@@ -173,7 +173,6 @@ body {
 }
 .content h1 {
     margin-top: 0;
-    margin-bottom: 0;
 }
 
 .content h1.fqn, .content > h2, .content > h3 {
@@ -220,6 +219,7 @@ body {
 .content pre {
     padding: 15pt;
     padding-top: 10pt;
+    padding-bottom: 10pt;
 }
 .content pre.line-numbers {
     float: left;
