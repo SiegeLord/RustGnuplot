@@ -324,7 +324,7 @@ impl AxesCommonData
 	{
 		let l = self.elems.len();
 		self.elems.push(PlotElement::new());
-		let mut num_rows = 0i32;
+		let mut num_rows = 0;
 
 		{
 			let data = &mut self.elems.as_mut_slice()[l].data;
@@ -345,7 +345,7 @@ impl AxesCommonData
 	{
 		let l = self.elems.len();
 		self.elems.push(PlotElement::new());
-		let mut num_rows = 0i32;
+		let mut num_rows = 0;
 
 		{
 			let data = &mut self.elems.as_mut_slice()[l].data;
@@ -361,14 +361,14 @@ impl AxesCommonData
 		self.write_common_commands(l, num_rows, 3, plot_type, Record, false, options);
 	}
 
-	pub fn plot_matrix<T: DataType, X: Iterator<T>>(&mut self, plot_type: PlotType, is_3d: bool, mut mat: X, num_rows: i32, num_cols: i32,
+	pub fn plot_matrix<T: DataType, X: Iterator<T>>(&mut self, plot_type: PlotType, is_3d: bool, mut mat: X, num_rows: uint, num_cols: uint,
 	                                                dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption])
 	{
 		let l = self.elems.len();
 		self.elems.push(PlotElement::new());
 		
 		{
-			let mut count = 0i32;
+			let mut count = 0;
 			let data = &mut self.elems.as_mut_slice()[l].data;
 			for x in mat
 			{
@@ -394,7 +394,7 @@ impl AxesCommonData
 		self.write_common_commands(l, num_rows, num_cols, plot_type, source_type, is_3d, options);
 	}
 
-	fn write_common_commands(&mut self, elem_idx: uint, num_rows: i32, num_cols: i32, plot_type: PlotType,
+	fn write_common_commands(&mut self, elem_idx: uint, num_rows: uint, num_cols: uint, plot_type: PlotType,
 	                         source_type: DataSourceType, is_3d: bool, options: &[PlotOption])
 	{
 		let args = &mut self.elems.as_mut_slice()[elem_idx].args as &mut Writer;
@@ -404,7 +404,7 @@ impl AxesCommonData
 			{
 				write!(args, r#" "-" binary endian=little record={} format="%float64" using "#, num_rows);
 			
-				let mut col_idx: i32 = 1;
+				let mut col_idx = 1;
 				while col_idx < num_cols + 1
 				{
 					write!(args, "{}", col_idx);

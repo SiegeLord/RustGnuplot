@@ -34,7 +34,7 @@ impl Axes3D
 	///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.
 	/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-	pub fn surface<'l, T: DataType, X: Iterator<T>>(&'l mut self, mat: X, num_rows: i32, num_cols: i32, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption]) -> &'l mut Axes3D
+	pub fn surface<'l, T: DataType, X: Iterator<T>>(&'l mut self, mat: X, num_rows: uint, num_cols: uint, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption]) -> &'l mut Axes3D
 	{
 		self.common.plot_matrix(Pm3D, true, mat, num_rows, num_cols, dimensions, options);
 		self

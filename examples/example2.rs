@@ -28,8 +28,8 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 	let y3: Vec<i32> = x3.map(|&v| { v * v * v }).collect();
 	let y3 = y3.iter();
 	
-	let zw = 16i32;
-	let zh = 16i32;
+	let zw = 16u;
+	let zh = 16u;
 	let mut z1 = Vec::with_capacity((zw * zh) as uint);
 	for i in range(0, zh)
 	{

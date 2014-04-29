@@ -12,8 +12,8 @@ use gnuplot::*;
 
 fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 {
-	let w = 61i32;
-	let h = 61i32;
+	let w = 61u;
+	let h = 61u;
 	let mut z1 = Vec::with_capacity((w * h) as uint);
 	for i in range(0, h)
 	{
