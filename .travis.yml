@@ -6,10 +6,10 @@ env:
     - secure: cMdl5JREmUN4TRXLV2lZBfOWcNem52fZR60Jl0w39xYv0RbC+NM6EwSzYgyrJeYgMlONGpam+70nO8g/gmcqLw40ve22wvs4FqcANytquHUDultx2kpkfjqxzzTCYznqR082AK7Iva88RfULXJgEQRymVtF7LRod2t2PS7ma8To=
     - secure: NlRCSw0MsRyQQIx4KWCg2smQ1gwtA2EULEbTbHB4RlTCcLk6WWHJaF4pmQzZR0c7lNntOLbcqCrgrZ+ivstz6gIOtETNW2GaKJ5cepFkLxLVkAI60vIl9k3p4mv/y+bvtabsQrCoEZ2NCWqrtoZJP15JUdhiIHyZz2ejgE98YeU=
 before_install:
-  - yes | sudo add-apt-repository ppa:hansjorg/rust
-  - sudo apt-get update
+  - wget http://static.rust-lang.org/dist/rust-nightly-x86_64-unknown-linux-gnu.tar.gz
+  - tar xf rust-nightly-x86_64-unknown-linux-gnu.tar.gz
 install:
-  - sudo apt-get install rust-nightly
+  - sudo ./rust-nightly-x86_64-unknown-linux-gnu/install.sh
 script:
   - mkdir build
   - cd build
