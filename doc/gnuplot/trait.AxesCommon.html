@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="The gnuplot library documentation.">
 
     <title>gnuplot::AxesCommon - Rust</title>
 
-    <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700'
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
           rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="../main.css">
 
@@ -33,13 +33,13 @@
                 <input class="search-input" name="search"
                        autocomplete="off"
                        placeholder="Search documentation..."
-                       type="search" />
+                       type="search">
             </div>
         </form>
     </nav>
 
     <section id='main' class="content trait">
-<h1 class='fqn'>Trait <a href='index.html'>gnuplot</a>::<a class='trait' href=''>AxesCommon</a><a class='source'href='../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/axes_common.rs.html#795-998'>[src]</a></h1>
+<h1 class='fqn'>Trait <a href='index.html'>gnuplot</a>::<a class='trait' href=''>AxesCommon</a><a class='source' href='../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/axes_common.rs.html#795-998'>[src]</a></h1>
 <pre class='rust trait'>pub trait AxesCommon: AxesCommonPrivate {
     fn <a href='#method.set_pos_grid' class='fnname'>set_pos_grid</a>&lt;'l&gt;(&amp;'l mut self, nrow: u32, ncol: u32, pos: u32) -&gt; &amp;'l mut Self { ... }
     fn <a href='#method.set_pos' class='fnname'>set_pos</a>&lt;'l&gt;(&amp;'l mut self, x: f64, y: f64) -&gt; &amp;'l mut Self { ... }
@@ -60,7 +60,7 @@
             <div class='methods'>
         <h3 id='method.set_pos_grid' class='method'><code>fn <a href='#method.set_pos_grid' class='fnname'>set_pos_grid</a>&lt;'l&gt;(&amp;'l mut self, nrow: u32, ncol: u32, pos: u32) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Set the position of the axes on the figure using grid coordinates.</p>
 
-<h1 id="arguments" class='section-link'><a
+<h1 id="arguments" class='section-header'><a
                            href="#arguments">Arguments</a></h1>
 <ul>
 <li><code>nrow</code> - Number of rows in the grid. Must be greater than 0.</li>
@@ -71,7 +71,7 @@
 </div><h3 id='method.set_pos' class='method'><code>fn <a href='#method.set_pos' class='fnname'>set_pos</a>&lt;'l&gt;(&amp;'l mut self, x: f64, y: f64) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Set the position of the axes on the figure using screen coordinates.
 The coordinates refer to the bottom-left corner of the axes</p>
 
-<h1 id="arguments-1" class='section-link'><a
+<h1 id="arguments-1" class='section-header'><a
                            href="#arguments-1">Arguments</a></h1>
 <ul>
 <li><code>x</code> - X position. Ranges from 0 to 1</li>
@@ -79,7 +79,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 </ul>
 </div><h3 id='method.set_size' class='method'><code>fn <a href='#method.set_size' class='fnname'>set_size</a>&lt;'l&gt;(&amp;'l mut self, w: f64, h: f64) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Set the size of the axes</p>
 
-<h1 id="arguments-2" class='section-link'><a
+<h1 id="arguments-2" class='section-header'><a
                            href="#arguments-2">Arguments</a></h1>
 <ul>
 <li><code>w</code> - Width. Ranges from 0 to 1</li>
@@ -87,14 +87,14 @@ The coordinates refer to the bottom-left corner of the axes</p>
 </ul>
 </div><h3 id='method.set_aspect_ratio' class='method'><code>fn <a href='#method.set_aspect_ratio' class='fnname'>set_aspect_ratio</a>&lt;'l&gt;(&amp;'l mut self, ratio: <a class='enum' href='../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Set the aspect ratio of the axes</p>
 
-<h1 id="arguments-3" class='section-link'><a
+<h1 id="arguments-3" class='section-header'><a
                            href="#arguments-3">Arguments</a></h1>
 <ul>
 <li><code>ratio</code> - The aspect ratio. Set to Auto to return the ratio to default</li>
 </ul>
 </div><h3 id='method.set_x_label' class='method'><code>fn <a href='#method.set_x_label' class='fnname'>set_x_label</a>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, options: &amp;[<a class='enum' href='../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Set the label for the X axis</p>
 
-<h1 id="arguments-4" class='section-link'><a
+<h1 id="arguments-4" class='section-header'><a
                            href="#arguments-4">Arguments</a></h1>
 <ul>
 <li><code>text</code> - Text of the label. Pass an empty string to hide the label</li>
@@ -110,7 +110,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 </ul>
 </div><h3 id='method.set_y_label' class='method'><code>fn <a href='#method.set_y_label' class='fnname'>set_y_label</a>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, options: &amp;[<a class='enum' href='../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Set the label for the Y axis</p>
 
-<h1 id="arguments-5" class='section-link'><a
+<h1 id="arguments-5" class='section-header'><a
                            href="#arguments-5">Arguments</a></h1>
 <ul>
 <li><code>text</code> - Text of the label. Pass an empty string to hide the label</li>
@@ -126,7 +126,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 </ul>
 </div><h3 id='method.set_title' class='method'><code>fn <a href='#method.set_title' class='fnname'>set_title</a>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, options: &amp;[<a class='enum' href='../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Set the title for the axes</p>
 
-<h1 id="arguments-6" class='section-link'><a
+<h1 id="arguments-6" class='section-header'><a
                            href="#arguments-6">Arguments</a></h1>
 <ul>
 <li><code>text</code> - Text of the title. Pass an empty string to hide the title</li>
@@ -142,7 +142,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 </ul>
 </div><h3 id='method.label' class='method'><code>fn <a href='#method.label' class='fnname'>label</a>&lt;'l&gt;(&amp;'l mut self, text: &amp;str, x: <a class='enum' href='../gnuplot/coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y: <a class='enum' href='../gnuplot/coordinates/enum.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, options: &amp;[<a class='enum' href='../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Adds a label to the plot, with an optional marker.</p>
 
-<h1 id="arguments-7" class='section-link'><a
+<h1 id="arguments-7" class='section-header'><a
                            href="#arguments-7">Arguments</a></h1>
 <ul>
 <li><code>text</code> - Text of the label</li>
@@ -163,7 +163,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 </ul>
 </div><h3 id='method.set_x_ticks' class='method'><code>fn <a href='#method.set_x_ticks' class='fnname'>set_x_ticks</a>&lt;'l&gt;(&amp;'l mut self, incr: <a class='enum' href='../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, minor_intervals: u32, tick_options: &amp;[<a class='enum' href='../gnuplot/options/enum.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>], label_options: &amp;[<a class='enum' href='../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Sets the properties of the ticks on the X axis.</p>
 
-<h1 id="arguments-8" class='section-link'><a
+<h1 id="arguments-8" class='section-header'><a
                            href="#arguments-8">Arguments</a></h1>
 <ul>
 <li><code>incr</code> - Sets the spacing between the major ticks. Pass <code>Auto</code> to let gnuplot decide the spacing automatically.</li>
@@ -182,7 +182,7 @@ The coordinates refer to the bottom-left corner of the axes</p>
 </div><h3 id='method.set_y_ticks' class='method'><code>fn <a href='#method.set_y_ticks' class='fnname'>set_y_ticks</a>&lt;'l&gt;(&amp;'l mut self, incr: <a class='enum' href='../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, minor_intervals: u32, tick_options: &amp;[<a class='enum' href='../gnuplot/options/enum.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>], label_options: &amp;[<a class='enum' href='../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Like <code>set_x_ticks</code> but for the Y axis.</p>
 </div><h3 id='method.set_x_ticks_custom' class='method'><code>fn <a href='#method.set_x_ticks_custom' class='fnname'>set_x_ticks_custom</a>&lt;'l, T: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, TL: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;<a class='enum' href='../gnuplot/options/enum.Tick.html' title='gnuplot::options::Tick'>Tick</a>&lt;T&gt;&gt;&gt;(&amp;'l mut self, ticks: TL, tick_options: &amp;[<a class='enum' href='../gnuplot/options/enum.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>], label_options: &amp;[<a class='enum' href='../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Sets ticks on the X axis with specified labels at specified positions.</p>
 
-<h1 id="arguments-9" class='section-link'><a
+<h1 id="arguments-9" class='section-header'><a
                            href="#arguments-9">Arguments</a></h1>
 <ul>
 <li><code>ticks</code> - Iterator specifying the locations and labels of the added ticks.
@@ -202,7 +202,7 @@ location of the tic.</li>
 </div><h3 id='method.set_y_ticks_custom' class='method'><code>fn <a href='#method.set_y_ticks_custom' class='fnname'>set_y_ticks_custom</a>&lt;'l, T: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, TL: <a class='trait' href='http://static.rust-lang.org/doc/master/std/iter/trait.Iterator.html' title='std::iter::Iterator'>Iterator</a>&lt;<a class='enum' href='../gnuplot/options/enum.Tick.html' title='gnuplot::options::Tick'>Tick</a>&lt;T&gt;&gt;&gt;(&amp;'l mut self, ticks: TL, tick_options: &amp;[<a class='enum' href='../gnuplot/options/enum.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>], label_options: &amp;[<a class='enum' href='../gnuplot/options/enum.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Like <code>set_x_ticks_custom</code> but for the the Y axis.</p>
 </div><h3 id='method.set_x_range' class='method'><code>fn <a href='#method.set_x_range' class='fnname'>set_x_range</a>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, max: <a class='enum' href='../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Set the range of values for the X axis</p>
 
-<h1 id="arguments-10" class='section-link'><a
+<h1 id="arguments-10" class='section-header'><a
                            href="#arguments-10">Arguments</a></h1>
 <ul>
 <li><code>min</code> - Minimum X value</li>
@@ -210,7 +210,7 @@ location of the tic.</li>
 </ul>
 </div><h3 id='method.set_y_range' class='method'><code>fn <a href='#method.set_y_range' class='fnname'>set_y_range</a>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;, max: <a class='enum' href='../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;f64&gt;) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Set the range of values for the Y axis</p>
 
-<h1 id="arguments-11" class='section-link'><a
+<h1 id="arguments-11" class='section-header'><a
                            href="#arguments-11">Arguments</a></h1>
 <ul>
 <li><code>min</code> - Minimum Y value</li>

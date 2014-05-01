@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="The gnuplot library documentation.">
 
     <title>gnuplot::figure::Figure - Rust</title>
 
-    <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700'
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
           rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
@@ -33,13 +33,13 @@
                 <input class="search-input" name="search"
                        autocomplete="off"
                        placeholder="Search documentation..."
-                       type="search" />
+                       type="search">
             </div>
         </form>
     </nav>
 
     <section id='main' class="content struct">
-<h1 class='fqn'>Struct <a href='../index.html'>gnuplot</a>::<a href='index.html'>figure</a>::<a class='struct' href=''>Figure</a><a class='source'href='../../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/figure.rs.html#42-49'>[src]</a></h1>
+<h1 class='fqn'>Struct <a href='../index.html'>gnuplot</a>::<a href='index.html'>figure</a>::<a class='struct' href=''>Figure</a><a class='source' href='../../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/figure.rs.html#42-49'>[src]</a></h1>
 <pre class='rust struct'>pub struct Figure {
     // some fields omitted
 }</pre><div class='docblock'><p>A figure that may contain multiple axes</p>
@@ -66,7 +66,7 @@ Terminals that spawn a GUI don&#39;t need an output file, so pass an empty strin
 </div><h4 id='method.echo' class='method'><code>fn <a href='#method.echo' class='fnname'>echo</a>&lt;'l, T: <a class='trait' href='http://static.rust-lang.org/doc/master/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a>&gt;(&amp;'l self, writer: &amp;mut T) -&gt; &amp;'l <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Echo the commands that if piped to a gnuplot process would display the figure</p>
 
-<h1 id="arguments" class='section-link'><a
+<h1 id="arguments" class='section-header'><a
                            href="#arguments">Arguments</a></h1>
 <ul>
 <li><code>writer</code> - A function pointer that will be called multiple times with the command text and data</li>
@@ -74,7 +74,7 @@ Terminals that spawn a GUI don&#39;t need an output file, so pass an empty strin
 </div><h4 id='method.echo_to_file' class='method'><code>fn <a href='#method.echo_to_file' class='fnname'>echo_to_file</a>&lt;'l&gt;(&amp;'l self, filename: &amp;str) -&gt; &amp;'l <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Save to a file the the commands that if piped to a gnuplot process would display the figure</p>
 
-<h1 id="arguments-1" class='section-link'><a
+<h1 id="arguments-1" class='section-header'><a
                            href="#arguments-1">Arguments</a></h1>
 <ul>
 <li><code>filename</code> - Name of the file</li>
