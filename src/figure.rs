@@ -58,8 +58,8 @@ impl Figure
 			axes: Vec::new(),
 			num_rows: 0,
 			num_cols: 0,
-			terminal: ~"",
-			output_file: ~""
+			terminal: "".to_owned(),
+			output_file: "".to_owned()
 		}
 	}
 	
@@ -111,7 +111,7 @@ impl Figure
 			return self;
 		}
 		
-		let mut p = Process::new("gnuplot", [~"-p"]).unwrap();
+		let mut p = Process::new("gnuplot", ["-p".to_owned()]).unwrap();
 		self.echo(p.stdin.as_mut().unwrap());
 		
 		self

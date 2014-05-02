@@ -68,7 +68,8 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 	fg.axes2d()
 	.set_title("Axis Ticks", [])
 	.lines(x3, y3, [LineWidth(2.0), Color("blue")])
-	.set_x_ticks_custom(range_step(0, 10, 2).map(|x| Major(x as f32, Fix(~"%.2f ms"))).chain(range_step(1, 10, 2).map(|x| Minor(x as f32))).chain(Some(Major(-2.1f32, Fix(~"%.2f ms"))).move_iter()), 
+	.set_x_ticks_custom(range_step(0, 10, 2).map(|x| Major(x as f32, Fix("%.2f ms".to_owned())))
+	                    .chain(range_step(1, 10, 2).map(|x| Minor(x as f32))).chain(Some(Major(-2.1f32, Fix("%.2f ms".to_owned()))).move_iter()), 
 						[MajorScale(2.0), MinorScale(0.5), OnAxis(true)], [TextColor("blue"), TextAlign(AlignCenter)])
 	.set_y_ticks(Fix(2.0), 2, [Mirror(false)], []);
 	
