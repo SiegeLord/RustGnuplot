@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="The gnuplot library documentation.">
 
-    <title>gnuplot::options::ArrowheadType - Rust</title>
+    <title>gnuplot::options::FillRegion - Rust</title>
 
     <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
           rel='stylesheet' type='text/css'>
@@ -24,7 +24,7 @@
     <section class="sidebar">
         
 
-        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>options</a></p><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AlignType.html'>AlignType</a><br/><a class='enum current' href='enum.ArrowheadType.html'>ArrowheadType</a><br/><a class='enum ' href='enum.AutoOption.html'>AutoOption</a><br/><a class='enum ' href='enum.BorderLocation2D.html'>BorderLocation2D</a><br/><a class='enum ' href='enum.ContourStyle.html'>ContourStyle</a><br/><a class='enum ' href='enum.DashType.html'>DashType</a><br/><a class='enum ' href='enum.FillRegion.html'>FillRegion</a><br/><a class='enum ' href='enum.LabelOption.html'>LabelOption</a><br/><a class='enum ' href='enum.LegendOption.html'>LegendOption</a><br/><a class='enum ' href='enum.PlotOption.html'>PlotOption</a><br/><a class='enum ' href='enum.Tick.html'>Tick</a><br/><a class='enum ' href='enum.TickOption.html'>TickOption</a><br/></div>
+        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>options</a></p>
     </section>
 
     <nav class="sub">
@@ -38,20 +38,15 @@
         </form>
     </nav>
 
-    <section id='main' class="content enum">
-<h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>ArrowheadType</a><a class='source' href='../../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/options.rs.html#80-90'>[src]</a></h1>
-<pre class='rust enum'>pub enum ArrowheadType {
-    Open,
-    Closed,
-    Filled,
-    NoArrow,
-}</pre><div class='docblock'><p>An enumeration of possible arrow head styles</p>
+    <section id='main' class="content type">
+<h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='type' href=''>FillRegion</a><a class='source' href='../../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/options.rs.html#51-56'>[src]</a></h1>
+<pre class='rust enum'>pub enum FillRegion {
+    Above,
+    Below,
+    Between,
+}</pre><div class='docblock'><p>An enumeration of possible fill regions</p>
 </div><h2 class='variants'>Variants</h2>
-<table><tr><td id='variant.Open'><code>Open</code></td><td><div class='docblock'><p>An arrow head shaped like a &#39;V&#39;</p>
-</div></td></tr><tr><td id='variant.Closed'><code>Closed</code></td><td><div class='docblock'><p>An arrow head shaped like an outlined triangle</p>
-</div></td></tr><tr><td id='variant.Filled'><code>Filled</code></td><td><div class='docblock'><p>An arrow head shaped like a filled triangle</p>
-</div></td></tr><tr><td id='variant.NoArrow'><code>NoArrow</code></td><td><div class='docblock'><p>No arrow head</p>
-</div></td></tr></table></section>
+<table><tr><td id='variant.Above'><code>Above</code></td><td></td></tr><tr><td id='variant.Below'><code>Below</code></td><td></td></tr><tr><td id='variant.Between'><code>Between</code></td><td></td></tr></table></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

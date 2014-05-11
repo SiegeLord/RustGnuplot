@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="The gnuplot library documentation.">
 
-    <title>gnuplot::options::TickOption - Rust</title>
+    <title>gnuplot::options::AlignType - Rust</title>
 
     <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600'
           rel='stylesheet' type='text/css'>
@@ -24,7 +24,7 @@
     <section class="sidebar">
         
 
-        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>options</a></p><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AlignType.html'>AlignType</a><br/><a class='enum ' href='enum.ArrowheadType.html'>ArrowheadType</a><br/><a class='enum ' href='enum.AutoOption.html'>AutoOption</a><br/><a class='enum ' href='enum.BorderLocation2D.html'>BorderLocation2D</a><br/><a class='enum ' href='enum.ContourStyle.html'>ContourStyle</a><br/><a class='enum ' href='enum.DashType.html'>DashType</a><br/><a class='enum ' href='enum.FillRegion.html'>FillRegion</a><br/><a class='enum ' href='enum.LabelOption.html'>LabelOption</a><br/><a class='enum ' href='enum.LegendOption.html'>LegendOption</a><br/><a class='enum ' href='enum.PlotOption.html'>PlotOption</a><br/><a class='enum ' href='enum.Tick.html'>Tick</a><br/><a class='enum current' href='enum.TickOption.html'>TickOption</a><br/></div>
+        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>options</a></p>
     </section>
 
     <nav class="sub">
@@ -38,22 +38,17 @@
         </form>
     </nav>
 
-    <section id='main' class="content enum">
-<h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='enum' href=''>TickOption</a><a class='source' href='../../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/options.rs.html#154-166'>[src]</a></h1>
-<pre class='rust enum'>pub enum TickOption {
-    OnAxis(bool),
-    Mirror(bool),
-    Inward(bool),
-    MinorScale(f64),
-    MajorScale(f64),
-}</pre><div class='docblock'><p>An enumeration of axis tick options</p>
+    <section id='main' class="content type">
+<h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='type' href=''>AlignType</a><a class='source' href='../../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/options.rs.html#59-66'>[src]</a></h1>
+<pre class='rust enum'>pub enum AlignType {
+    AlignLeft,
+    AlignRight,
+    AlignCenter,
+    AlignTop,
+    AlignBottom,
+}</pre><div class='docblock'><p>An enumeration of possible text and label alignments</p>
 </div><h2 class='variants'>Variants</h2>
-<table><tr><td id='variant.OnAxis'><code>OnAxis</code></td><td><div class='docblock'><p>Specifies whether the ticks are drawn at the borders of the plot, or on the axis</p>
-</div></td></tr><tr><td id='variant.Mirror'><code>Mirror</code></td><td><div class='docblock'><p>If the axes are drawn on the border, this specifies whether to draw the ticks on the opposite border as well</p>
-</div></td></tr><tr><td id='variant.Inward'><code>Inward</code></td><td><div class='docblock'><p>If the axes are drawn on the border, this specifies whether to draw the ticks pointing inward or outward</p>
-</div></td></tr><tr><td id='variant.MinorScale'><code>MinorScale</code></td><td><div class='docblock'><p>Sets the scale of the minor ticks</p>
-</div></td></tr><tr><td id='variant.MajorScale'><code>MajorScale</code></td><td><div class='docblock'><p>Sets the scale of the major ticks</p>
-</div></td></tr></table></section>
+<table><tr><td id='variant.AlignLeft'><code>AlignLeft</code></td><td></td></tr><tr><td id='variant.AlignRight'><code>AlignRight</code></td><td></td></tr><tr><td id='variant.AlignCenter'><code>AlignCenter</code></td><td></td></tr><tr><td id='variant.AlignTop'><code>AlignTop</code></td><td></td></tr><tr><td id='variant.AlignBottom'><code>AlignBottom</code></td><td></td></tr></table></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
