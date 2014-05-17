@@ -9,7 +9,7 @@ use internal::axes3d::*;
 use std::io::File;
 use std::io::BufferedWriter;
 use std::path::Path;
-use std::io::Process;
+use std::io::process::Command;
 
 enum AxesVariant
 {
@@ -111,7 +111,7 @@ impl Figure
 			return self;
 		}
 		
-		let mut p = Process::new("gnuplot", ["-p".to_owned()]).unwrap();
+		let mut p = Command::new("gnuplot").arg("-p").spawn().unwrap();
 		self.echo(p.stdin.as_mut().unwrap());
 		
 		self

@@ -88,7 +88,7 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 
 fn main()
 {
-	let args = os::args();
+	let args: Vec<_> = os::args().iter().map(|s| s.to_strbuf()).collect();;
 	
 	let opts = 
 	[
@@ -121,7 +121,7 @@ fn main()
 	{
 		matches.opt_str("t").map(|t|
 		{
-			fg.set_terminal(t, "");
+			fg.set_terminal(t.as_slice(), "");
 		});
 	});
 }

@@ -23,6 +23,6 @@ impl fmt::Show for Coordinate
 			Graph(x) => (" graph ", x),
 			Axis(x) => (" first ", x),
 		};
-		write!(buf.buf, "{}{:.16e}", name, x)
+		write!(buf, "{}{:.16e}", name, x)
 	}
 }
