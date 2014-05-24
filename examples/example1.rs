@@ -137,7 +137,7 @@ fn example(show_plots: bool, show: |fg: &mut Figure, filename: &str|, set_term: 
 
 fn main()
 {
-	let args: Vec<_> = os::args().iter().map(|s| s.to_strbuf()).collect();;
+	let args = os::args();
 	
 	let opts = 
 	[

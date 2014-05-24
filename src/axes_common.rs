@@ -664,7 +664,7 @@ impl AxesCommonData
 				Fix(ref label) =>
 				{
 					c.write_str("\"");
-					c.write_str(*label);
+					c.write_str(label.as_slice());
 					c.write_str("\" ");
 				},
 				Auto => ()

@@ -44,8 +44,8 @@ pub struct Figure
 	axes: Vec<AxesVariant>,
 	num_rows: u32,
 	num_cols: u32,
-	terminal: ~str,
-	output_file: ~str
+	terminal: StrBuf,
+	output_file: StrBuf
 }
 
 impl Figure
