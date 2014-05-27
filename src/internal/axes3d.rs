@@ -18,7 +18,7 @@ pub struct Axes3D
 	contour_auto: AutoOption<u32>,
 	contour_levels: Option<Vec<f64>>,
 	contour_style: ContourStyle,
-	contour_label: AutoOption<StrBuf>,
+	contour_label: AutoOption<String>,
 }
 
 impl Axes3D

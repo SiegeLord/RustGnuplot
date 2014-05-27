@@ -169,7 +169,7 @@ pub enum TickOption
 pub enum Tick<T>
 {
 	/// Major ticks have position and an optional label. The label may have a single C-style format specifier which will be replaced by the location of the tick
-	Major(T, AutoOption<StrBuf>),
+	Major(T, AutoOption<String>),
 	/// Minor ticks only have position
 	Minor(T)
 }
