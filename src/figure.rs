@@ -58,8 +58,8 @@ impl Figure
 			axes: Vec::new(),
 			num_rows: 0,
 			num_cols: 0,
-			terminal: "".to_owned(),
-			output_file: "".to_owned()
+			terminal: "".to_string(),
+			output_file: "".to_string()
 		}
 	}
 	
@@ -74,8 +74,8 @@ impl Figure
 	/// * pngcairo - Saves the figure as a PNG file
 	pub fn set_terminal<'l>(&'l mut self, terminal: &str, output_file: &str) -> &'l mut Figure
 	{
-		self.terminal = terminal.to_owned();
-		self.output_file = output_file.to_owned();
+		self.terminal = terminal.to_string();
+		self.output_file = output_file.to_string();
 		self
 	}
 	

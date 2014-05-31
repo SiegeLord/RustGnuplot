@@ -116,7 +116,7 @@ impl Axes3D
 		self.contour_style = style;
 		self.contour_auto = levels;
 		self.contour_levels = None;
-		self.contour_label = label.map(|l| l.to_owned());
+		self.contour_label = label.map(|l| l.to_string());
 		self
 	}
 
@@ -138,7 +138,7 @@ impl Axes3D
 		self.contour_style = style;
 		self.contour_auto = Auto;
 		self.contour_levels = Some(levels.map(|l| l.get()).collect());
-		self.contour_label = label.map(|l| l.to_owned());
+		self.contour_label = label.map(|l| l.to_string());
 		self
 	}
 }
@@ -183,7 +183,7 @@ impl Axes3DPrivate for Axes3D
 {
 	fn write_out(&self, w: &mut Writer)
 	{
-		fn clamp<T: Ord>(val: T, min: T, max: T) -> T
+		fn clamp<T: PartialOrd>(val: T, min: T, max: T) -> T
 		{			
 			if val < min
 			{
