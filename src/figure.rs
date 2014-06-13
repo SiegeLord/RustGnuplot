@@ -42,8 +42,6 @@ impl AxesVariant
 pub struct Figure
 {
 	axes: Vec<AxesVariant>,
-	num_rows: u32,
-	num_cols: u32,
 	terminal: String,
 	output_file: String
 }
@@ -56,8 +54,6 @@ impl Figure
 		Figure
 		{
 			axes: Vec::new(),
-			num_rows: 0,
-			num_cols: 0,
 			terminal: "".to_string(),
 			output_file: "".to_string()
 		}
