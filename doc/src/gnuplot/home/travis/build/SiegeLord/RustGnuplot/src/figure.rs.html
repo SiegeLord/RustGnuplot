@@ -219,10 +219,6 @@
 <span id='179'>179</span>
 <span id='180'>180</span>
 <span id='181'>181</span>
-<span id='182'>182</span>
-<span id='183'>183</span>
-<span id='184'>184</span>
-<span id='185'>185</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2013-2014 by SiegeLord
 // 
@@ -268,8 +264,6 @@
 </span><span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Figure</span>
 {
 	<span class='ident'>axes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>AxesVariant</span><span class='op'>&gt;</span>,
-	<span class='ident'>num_rows</span>: <span class='ident'>u32</span>,
-	<span class='ident'>num_cols</span>: <span class='ident'>u32</span>,
 	<span class='ident'>terminal</span>: <span class='ident'>String</span>,
 	<span class='ident'>output_file</span>: <span class='ident'>String</span>
 }
@@ -282,8 +276,6 @@
 		<span class='ident'>Figure</span>
 		{
 			<span class='ident'>axes</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-			<span class='ident'>num_rows</span>: <span class='number'>0</span>,
-			<span class='ident'>num_cols</span>: <span class='number'>0</span>,
 			<span class='ident'>terminal</span>: <span class='string'>&quot;&quot;</span>.<span class='ident'>to_string</span>(),
 			<span class='ident'>output_file</span>: <span class='string'>&quot;&quot;</span>.<span class='ident'>to_string</span>()
 		}
