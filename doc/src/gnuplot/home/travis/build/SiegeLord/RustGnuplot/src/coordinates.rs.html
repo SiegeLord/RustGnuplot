@@ -31,7 +31,7 @@
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Search documentation..."
+                       placeholder="Click or press 's' to search, '?' for more options..."
                        type="search">
             </div>
         </form>
@@ -72,14 +72,14 @@
 
 </span><span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
 
-<span class='doccomment'>/// Specifies how to interpret the coordinate passed to a plotting command
-</span><span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Coordinate</span>
+<span class='doccomment'>/// Specifies how to interpret the coordinate passed to a plotting command</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Coordinate</span>
 {
-	<span class='doccomment'>/// Coordinates are done relative to a graph (i.e. an axis set). (0, 0) is the bottom left corner and (1, 1) is the top right corner.
-</span>	<span class='doccomment'>/// You&#39;d use this to place labels and other objects so that they remain in the same place relative to the graph no matter what you have plotted.
-</span>	<span class='ident'>Graph</span>(<span class='ident'>f64</span>),
-	<span class='doccomment'>/// Coordinates match those on the axes. You&#39;d use this to place labels and other objects relative to regions of interest in the graph (e.g. labeling the peak of a function)
-</span>	<span class='ident'>Axis</span>(<span class='ident'>f64</span>)
+	<span class='doccomment'>/// Coordinates are done relative to a graph (i.e. an axis set). (0, 0) is the bottom left corner and (1, 1) is the top right corner.</span>
+	<span class='doccomment'>/// You&#39;d use this to place labels and other objects so that they remain in the same place relative to the graph no matter what you have plotted.</span>
+	<span class='ident'>Graph</span>(<span class='ident'>f64</span>),
+	<span class='doccomment'>/// Coordinates match those on the axes. You&#39;d use this to place labels and other objects relative to regions of interest in the graph (e.g. labeling the peak of a function)</span>
+	<span class='ident'>Axis</span>(<span class='ident'>f64</span>)
 }
 
 <span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Show</span> <span class='kw'>for</span> <span class='ident'>Coordinate</span>

@@ -31,7 +31,7 @@
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Search documentation..."
+                       placeholder="Click or press 's' to search, '?' for more options..."
                        type="search">
             </div>
         </form>
@@ -286,61 +286,61 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-</span><span class='doccomment'>/// An enumeration of plot options you can supply to plotting commands, governing
-</span><span class='doccomment'>/// things like line width, color and others
-</span><span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>PlotOption</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>
+</span><span class='doccomment'>/// An enumeration of plot options you can supply to plotting commands, governing</span>
+<span class='doccomment'>/// things like line width, color and others</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>PlotOption</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>
 {
-	<span class='doccomment'>/// Sets the symbol used for points. The valid characters are as follows:
-</span>	<span class='doccomment'>///
-</span>	<span class='doccomment'>/// * `.` - dot
-</span>	<span class='doccomment'>/// * `+` - plus
-</span>	<span class='doccomment'>/// * `x` - cross
-</span>	<span class='doccomment'>/// * `*` - star
-</span>	<span class='doccomment'>/// * `s` - empty square
-</span>	<span class='doccomment'>/// * `S` - filled square
-</span>	<span class='doccomment'>/// * `o` - empty circle
-</span>	<span class='doccomment'>/// * `O` - filled circle
-</span>	<span class='doccomment'>/// * `t` - empty triangle
-</span>	<span class='doccomment'>/// * `T` - filled triangle
-</span>	<span class='doccomment'>/// * `d` - empty del (upside down triangle)
-</span>	<span class='doccomment'>/// * `D` - filled del (upside down triangle)
-</span>	<span class='doccomment'>/// * `r` - empty rhombus
-</span>	<span class='doccomment'>/// * `R` - filled rhombus
-</span>	<span class='ident'>PointSymbol</span>(<span class='ident'>char</span>),
-	<span class='doccomment'>/// Sets the size of the points. The size acts as a multiplier, with 1.0 being the default.
-</span>	<span class='ident'>PointSize</span>(<span class='ident'>f64</span>),
-	<span class='doccomment'>/// Sets the caption of the plot element. Set to empty to hide it from the legend.
-</span>	<span class='ident'>Caption</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>),
-	<span class='doccomment'>/// Sets the width of lines.
-</span>	<span class='ident'>LineWidth</span>(<span class='ident'>f64</span>),
-	<span class='doccomment'>/// Sets the color of the plot element. The passed string can be a color name
-</span>	<span class='doccomment'>/// (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white). This specifies the fill color of a filled plot.
-</span>	<span class='ident'>Color</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>),
-	<span class='doccomment'>/// Sets the color of the border of a filled plot (if it has one). The passed string can be a color name
-</span>	<span class='doccomment'>/// (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white).
-</span>	<span class='ident'>BorderColor</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>),
-	<span class='doccomment'>/// Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.
-</span>	<span class='ident'>LineStyle</span>(<span class='ident'>DashType</span>),
-	<span class='doccomment'>/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque
-</span>	<span class='ident'>FillAlpha</span>(<span class='ident'>f64</span>),
-	<span class='doccomment'>/// Sets the fill region. See FillRegion for the available regions.
-</span>	<span class='ident'>FillRegion</span>(<span class='ident'>FillRegion</span>),
-	<span class='doccomment'>/// Sets what an arrowhead looks like
-</span>	<span class='ident'>ArrowType</span>(<span class='ident'>ArrowheadType</span>),
-	<span class='doccomment'>/// Sets the size of the arrowhead. This is specified in the units of graph (i.e. `1.0` would make the arrow as big as the graph).
-</span>	<span class='ident'>ArrowSize</span>(<span class='ident'>f64</span>),
+	<span class='doccomment'>/// Sets the symbol used for points. The valid characters are as follows:</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// * `.` - dot</span>
+	<span class='doccomment'>/// * `+` - plus</span>
+	<span class='doccomment'>/// * `x` - cross</span>
+	<span class='doccomment'>/// * `*` - star</span>
+	<span class='doccomment'>/// * `s` - empty square</span>
+	<span class='doccomment'>/// * `S` - filled square</span>
+	<span class='doccomment'>/// * `o` - empty circle</span>
+	<span class='doccomment'>/// * `O` - filled circle</span>
+	<span class='doccomment'>/// * `t` - empty triangle</span>
+	<span class='doccomment'>/// * `T` - filled triangle</span>
+	<span class='doccomment'>/// * `d` - empty del (upside down triangle)</span>
+	<span class='doccomment'>/// * `D` - filled del (upside down triangle)</span>
+	<span class='doccomment'>/// * `r` - empty rhombus</span>
+	<span class='doccomment'>/// * `R` - filled rhombus</span>
+	<span class='ident'>PointSymbol</span>(<span class='ident'>char</span>),
+	<span class='doccomment'>/// Sets the size of the points. The size acts as a multiplier, with 1.0 being the default.</span>
+	<span class='ident'>PointSize</span>(<span class='ident'>f64</span>),
+	<span class='doccomment'>/// Sets the caption of the plot element. Set to empty to hide it from the legend.</span>
+	<span class='ident'>Caption</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>),
+	<span class='doccomment'>/// Sets the width of lines.</span>
+	<span class='ident'>LineWidth</span>(<span class='ident'>f64</span>),
+	<span class='doccomment'>/// Sets the color of the plot element. The passed string can be a color name</span>
+	<span class='doccomment'>/// (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white). This specifies the fill color of a filled plot.</span>
+	<span class='ident'>Color</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>),
+	<span class='doccomment'>/// Sets the color of the border of a filled plot (if it has one). The passed string can be a color name</span>
+	<span class='doccomment'>/// (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white).</span>
+	<span class='ident'>BorderColor</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>),
+	<span class='doccomment'>/// Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.</span>
+	<span class='ident'>LineStyle</span>(<span class='ident'>DashType</span>),
+	<span class='doccomment'>/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque</span>
+	<span class='ident'>FillAlpha</span>(<span class='ident'>f64</span>),
+	<span class='doccomment'>/// Sets the fill region. See FillRegion for the available regions.</span>
+	<span class='ident'>FillRegion</span>(<span class='ident'>FillRegion</span>),
+	<span class='doccomment'>/// Sets what an arrowhead looks like</span>
+	<span class='ident'>ArrowType</span>(<span class='ident'>ArrowheadType</span>),
+	<span class='doccomment'>/// Sets the size of the arrowhead. This is specified in the units of graph (i.e. `1.0` would make the arrow as big as the graph).</span>
+	<span class='ident'>ArrowSize</span>(<span class='ident'>f64</span>),
 }
 
-<span class='doccomment'>/// An enumeration of possible fill regions
-</span><span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>FillRegion</span>
+<span class='doccomment'>/// An enumeration of possible fill regions</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>FillRegion</span>
 {
 	<span class='ident'>Above</span>,
 	<span class='ident'>Below</span>,
 	<span class='ident'>Between</span>
 }
 
-<span class='doccomment'>/// An enumeration of possible text and label alignments
-</span><span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AlignType</span>
+<span class='doccomment'>/// An enumeration of possible text and label alignments</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AlignType</span>
 {
 	<span class='ident'>AlignLeft</span>,
 	<span class='ident'>AlignRight</span>,
@@ -349,8 +349,8 @@
 	<span class='ident'>AlignBottom</span>
 }
 
-<span class='doccomment'>/// An enumeration of possible dash styles
-</span><span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>DashType</span>
+<span class='doccomment'>/// An enumeration of possible dash styles</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>DashType</span>
 {
 	<span class='ident'>Solid</span>,
 	<span class='ident'>SmallDot</span>,
@@ -360,33 +360,33 @@
 	<span class='ident'>DotDotDash</span>
 }
 
-<span class='doccomment'>/// An enumeration of possible arrow head styles
-</span><span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ArrowheadType</span>
+<span class='doccomment'>/// An enumeration of possible arrow head styles</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ArrowheadType</span>
 {
-	<span class='doccomment'>/// An arrow head shaped like a &#39;V&#39;
-</span>	<span class='ident'>Open</span>,
-	<span class='doccomment'>/// An arrow head shaped like an outlined triangle
-</span>	<span class='ident'>Closed</span>,
-	<span class='doccomment'>/// An arrow head shaped like a filled triangle
-</span>	<span class='ident'>Filled</span>,
-	<span class='doccomment'>/// No arrow head
-</span>	<span class='ident'>NoArrow</span>,
+	<span class='doccomment'>/// An arrow head shaped like a &#39;V&#39;</span>
+	<span class='ident'>Open</span>,
+	<span class='doccomment'>/// An arrow head shaped like an outlined triangle</span>
+	<span class='ident'>Closed</span>,
+	<span class='doccomment'>/// An arrow head shaped like a filled triangle</span>
+	<span class='ident'>Filled</span>,
+	<span class='doccomment'>/// No arrow head</span>
+	<span class='ident'>NoArrow</span>,
 }
 
-<span class='doccomment'>/// An enumeration of something that can either be fixed (e.g. the maximum of X values),
-</span><span class='doccomment'>/// or automatically determined
-</span><span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
+<span class='doccomment'>/// An enumeration of something that can either be fixed (e.g. the maximum of X values),</span>
+<span class='doccomment'>/// or automatically determined</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
 {
-	<span class='doccomment'>/// Fixes the value to a specific value
-</span>	<span class='ident'>Fix</span>(<span class='ident'>T</span>),
-	<span class='doccomment'>/// Lets the value scale automatically
-</span>	<span class='ident'>Auto</span>
+	<span class='doccomment'>/// Fixes the value to a specific value</span>
+	<span class='ident'>Fix</span>(<span class='ident'>T</span>),
+	<span class='doccomment'>/// Lets the value scale automatically</span>
+	<span class='ident'>Auto</span>
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
 {
-	<span class='doccomment'>/// Same as `Option::map`
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>map</span><span class='op'>&lt;</span><span class='ident'>U</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>func</span>: <span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>T</span><span class='op'>|</span> <span class='op'>-&gt;</span> <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>U</span><span class='op'>&gt;</span>
+	<span class='doccomment'>/// Same as `Option::map`</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>map</span><span class='op'>&lt;</span><span class='ident'>U</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>func</span>: <span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>T</span><span class='op'>|</span> <span class='op'>-&gt;</span> <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>U</span><span class='op'>&gt;</span>
 	{
 		<span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span>
 		{
@@ -396,70 +396,70 @@
 	}
 }
 
-<span class='doccomment'>/// An enumeration of label options that control label attributes
-</span><span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>LabelOption</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>
+<span class='doccomment'>/// An enumeration of label options that control label attributes</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>LabelOption</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>
 {
-	<span class='doccomment'>/// Sets the offset of the label in characters
-</span>	<span class='ident'>TextOffset</span>(<span class='ident'>f64</span>, <span class='ident'>f64</span>),
-	<span class='doccomment'>/// Sets the font of the label. The string specifies the font type (e.g. &quot;Arial&quot;) and the number specifies the size (the units are terminal dependent, but are often points)
-</span>	<span class='ident'>Font</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>, <span class='ident'>f64</span>),
-	<span class='doccomment'>/// Sets the color of the label text. The passed string can be a color name
-</span>	<span class='doccomment'>/// (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)
-</span>	<span class='ident'>TextColor</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>),
-	<span class='doccomment'>/// Rotates the label by a certain number of degrees
-</span>	<span class='ident'>Rotate</span>(<span class='ident'>f64</span>),
-	<span class='doccomment'>/// Sets the horizontal alignment of the label text (default is left alignment). See AlignType.
-</span>	<span class='ident'>TextAlign</span>(<span class='ident'>AlignType</span>),
-	<span class='doccomment'>/// Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:
-</span>	<span class='doccomment'>///
-</span>	<span class='doccomment'>/// * `.` - dot
-</span>	<span class='doccomment'>/// * `+` - plus
-</span>	<span class='doccomment'>/// * `x` - cross
-</span>	<span class='doccomment'>/// * `*` - star
-</span>	<span class='doccomment'>/// * `s` - empty square
-</span>	<span class='doccomment'>/// * `S` - filled square
-</span>	<span class='doccomment'>/// * `o` - empty circle
-</span>	<span class='doccomment'>/// * `O` - filled circle
-</span>	<span class='doccomment'>/// * `t` - empty triangle
-</span>	<span class='doccomment'>/// * `T` - filled triangle
-</span>	<span class='doccomment'>/// * `d` - empty del (upside down triangle)
-</span>	<span class='doccomment'>/// * `D` - filled del (upside down triangle)
-</span>	<span class='doccomment'>/// * `r` - empty rhombus
-</span>	<span class='doccomment'>/// * `R` - filled rhombus
-</span>	<span class='ident'>MarkerSymbol</span>(<span class='ident'>char</span>),
-	<span class='doccomment'>/// Sets the color of the marker. The passed string can be a color name
-</span>	<span class='doccomment'>/// (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)
-</span>	<span class='ident'>MarkerColor</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>),
-	<span class='doccomment'>/// Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.
-</span>	<span class='ident'>MarkerSize</span>(<span class='ident'>f64</span>),
+	<span class='doccomment'>/// Sets the offset of the label in characters</span>
+	<span class='ident'>TextOffset</span>(<span class='ident'>f64</span>, <span class='ident'>f64</span>),
+	<span class='doccomment'>/// Sets the font of the label. The string specifies the font type (e.g. &quot;Arial&quot;) and the number specifies the size (the units are terminal dependent, but are often points)</span>
+	<span class='ident'>Font</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>, <span class='ident'>f64</span>),
+	<span class='doccomment'>/// Sets the color of the label text. The passed string can be a color name</span>
+	<span class='doccomment'>/// (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</span>
+	<span class='ident'>TextColor</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>),
+	<span class='doccomment'>/// Rotates the label by a certain number of degrees</span>
+	<span class='ident'>Rotate</span>(<span class='ident'>f64</span>),
+	<span class='doccomment'>/// Sets the horizontal alignment of the label text (default is left alignment). See AlignType.</span>
+	<span class='ident'>TextAlign</span>(<span class='ident'>AlignType</span>),
+	<span class='doccomment'>/// Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// * `.` - dot</span>
+	<span class='doccomment'>/// * `+` - plus</span>
+	<span class='doccomment'>/// * `x` - cross</span>
+	<span class='doccomment'>/// * `*` - star</span>
+	<span class='doccomment'>/// * `s` - empty square</span>
+	<span class='doccomment'>/// * `S` - filled square</span>
+	<span class='doccomment'>/// * `o` - empty circle</span>
+	<span class='doccomment'>/// * `O` - filled circle</span>
+	<span class='doccomment'>/// * `t` - empty triangle</span>
+	<span class='doccomment'>/// * `T` - filled triangle</span>
+	<span class='doccomment'>/// * `d` - empty del (upside down triangle)</span>
+	<span class='doccomment'>/// * `D` - filled del (upside down triangle)</span>
+	<span class='doccomment'>/// * `r` - empty rhombus</span>
+	<span class='doccomment'>/// * `R` - filled rhombus</span>
+	<span class='ident'>MarkerSymbol</span>(<span class='ident'>char</span>),
+	<span class='doccomment'>/// Sets the color of the marker. The passed string can be a color name</span>
+	<span class='doccomment'>/// (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</span>
+	<span class='ident'>MarkerColor</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>),
+	<span class='doccomment'>/// Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.</span>
+	<span class='ident'>MarkerSize</span>(<span class='ident'>f64</span>),
 }
 
-<span class='doccomment'>/// An enumeration of axis tick options
-</span><span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>TickOption</span>
+<span class='doccomment'>/// An enumeration of axis tick options</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>TickOption</span>
 {
-	<span class='doccomment'>/// Specifies whether the ticks are drawn at the borders of the plot, or on the axis
-</span>	<span class='ident'>OnAxis</span>(<span class='ident'>bool</span>),
-	<span class='doccomment'>/// If the axes are drawn on the border, this specifies whether to draw the ticks on the opposite border as well
-</span>	<span class='ident'>Mirror</span>(<span class='ident'>bool</span>),
-	<span class='doccomment'>/// If the axes are drawn on the border, this specifies whether to draw the ticks pointing inward or outward
-</span>	<span class='ident'>Inward</span>(<span class='ident'>bool</span>),
-	<span class='doccomment'>/// Sets the scale of the minor ticks
-</span>	<span class='ident'>MinorScale</span>(<span class='ident'>f64</span>),
-	<span class='doccomment'>/// Sets the scale of the major ticks
-</span>	<span class='ident'>MajorScale</span>(<span class='ident'>f64</span>)
+	<span class='doccomment'>/// Specifies whether the ticks are drawn at the borders of the plot, or on the axis</span>
+	<span class='ident'>OnAxis</span>(<span class='ident'>bool</span>),
+	<span class='doccomment'>/// If the axes are drawn on the border, this specifies whether to draw the ticks on the opposite border as well</span>
+	<span class='ident'>Mirror</span>(<span class='ident'>bool</span>),
+	<span class='doccomment'>/// If the axes are drawn on the border, this specifies whether to draw the ticks pointing inward or outward</span>
+	<span class='ident'>Inward</span>(<span class='ident'>bool</span>),
+	<span class='doccomment'>/// Sets the scale of the minor ticks</span>
+	<span class='ident'>MinorScale</span>(<span class='ident'>f64</span>),
+	<span class='doccomment'>/// Sets the scale of the major ticks</span>
+	<span class='ident'>MajorScale</span>(<span class='ident'>f64</span>)
 }
 
-<span class='doccomment'>/// Specifies a type of axis tick
-</span><span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Tick</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
+<span class='doccomment'>/// Specifies a type of axis tick</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Tick</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
 {
-	<span class='doccomment'>/// Major ticks have position and an optional label. The label may have a single C-style format specifier which will be replaced by the location of the tick
-</span>	<span class='ident'>Major</span>(<span class='ident'>T</span>, <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>),
-	<span class='doccomment'>/// Minor ticks only have position
-</span>	<span class='ident'>Minor</span>(<span class='ident'>T</span>)
+	<span class='doccomment'>/// Major ticks have position and an optional label. The label may have a single C-style format specifier which will be replaced by the location of the tick</span>
+	<span class='ident'>Major</span>(<span class='ident'>T</span>, <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>),
+	<span class='doccomment'>/// Minor ticks only have position</span>
+	<span class='ident'>Minor</span>(<span class='ident'>T</span>)
 }
 
-<span class='doccomment'>/// Plot border locations
-</span><span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>BorderLocation2D</span>
+<span class='doccomment'>/// Plot border locations</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>BorderLocation2D</span>
 {
 	<span class='ident'>Bottom</span> <span class='op'>=</span> <span class='number'>1</span>,
 	<span class='ident'>Left</span> <span class='op'>=</span> <span class='number'>2</span>,
@@ -467,43 +467,43 @@
 	<span class='ident'>Right</span> <span class='op'>=</span> <span class='number'>8</span>
 }
 
-<span class='doccomment'>/// Legend options
-</span><span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>LegendOption</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>
+<span class='doccomment'>/// Legend options</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>LegendOption</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>
 {
-	<span class='doccomment'>/// Puts curve samples to the left of the label
-</span>	<span class='ident'>Reverse</span>,
-	<span class='doccomment'>/// Displays legend entries in opposite order
-</span>	<span class='ident'>Invert</span>,
-	<span class='doccomment'>/// Makes the legend horizontal (default is vertical)
-</span>	<span class='ident'>Horizontal</span>,
-	<span class='doccomment'>/// Specifies the location of the legend. The first argument specifies the horizontal
-</span>	<span class='doccomment'>/// placement with respect to its position, and the second argument specifies the vertical placement
-</span>	<span class='ident'>Placement</span>(<span class='ident'>AlignType</span>, <span class='ident'>AlignType</span>),
-	<span class='doccomment'>/// Title of the legend
-</span>	<span class='ident'>Title</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>),
-	<span class='doccomment'>/// Specifies the maximum number of rows, when the legend is vertical
-</span>	<span class='ident'>MaxRows</span>(<span class='ident'>u32</span>),
-	<span class='doccomment'>/// Specifies the maximum number of columns, when the legend is horizontal
-</span>	<span class='ident'>MaxCols</span>(<span class='ident'>u32</span>),
+	<span class='doccomment'>/// Puts curve samples to the left of the label</span>
+	<span class='ident'>Reverse</span>,
+	<span class='doccomment'>/// Displays legend entries in opposite order</span>
+	<span class='ident'>Invert</span>,
+	<span class='doccomment'>/// Makes the legend horizontal (default is vertical)</span>
+	<span class='ident'>Horizontal</span>,
+	<span class='doccomment'>/// Specifies the location of the legend. The first argument specifies the horizontal</span>
+	<span class='doccomment'>/// placement with respect to its position, and the second argument specifies the vertical placement</span>
+	<span class='ident'>Placement</span>(<span class='ident'>AlignType</span>, <span class='ident'>AlignType</span>),
+	<span class='doccomment'>/// Title of the legend</span>
+	<span class='ident'>Title</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>str</span>),
+	<span class='doccomment'>/// Specifies the maximum number of rows, when the legend is vertical</span>
+	<span class='ident'>MaxRows</span>(<span class='ident'>u32</span>),
+	<span class='doccomment'>/// Specifies the maximum number of columns, when the legend is horizontal</span>
+	<span class='ident'>MaxCols</span>(<span class='ident'>u32</span>),
 }
 
-<span class='doccomment'>/// Specifies how the contours are drawn
-</span><span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ContourStyle</span>
+<span class='doccomment'>/// Specifies how the contours are drawn</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ContourStyle</span>
 {
-	<span class='doccomment'>/// Draw lines between points of equal value
-</span>	<span class='ident'>Linear</span>,
-	<span class='doccomment'>/// Draw somewhat smoother curves between points with equal value.
-</span>	<span class='doccomment'>///
-</span>	<span class='doccomment'>/// The argument specifies the number of points to use to approximate the
-</span>	<span class='doccomment'>/// curve for the final drawing step (clamped to range from 2 to 100).
-</span>	<span class='ident'>Cubic</span>(<span class='ident'>u32</span>),
-	<span class='doccomment'>/// Draw an even smoother curve, this time approximating the locations of
-</span>	<span class='doccomment'>/// points with equal value (clamped to range from 2 to 100).
-</span>	<span class='doccomment'>///
-</span>	<span class='doccomment'>/// The first argument specifies the number of points to use to approximate
-</span>	<span class='doccomment'>/// the curve for the final drawing step. The second argument specifies the
-</span>	<span class='doccomment'>/// order of the polynomial (clamped to range from 2 to 10).
-</span>	<span class='ident'>Spline</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>)
+	<span class='doccomment'>/// Draw lines between points of equal value</span>
+	<span class='ident'>Linear</span>,
+	<span class='doccomment'>/// Draw somewhat smoother curves between points with equal value.</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// The argument specifies the number of points to use to approximate the</span>
+	<span class='doccomment'>/// curve for the final drawing step (clamped to range from 2 to 100).</span>
+	<span class='ident'>Cubic</span>(<span class='ident'>u32</span>),
+	<span class='doccomment'>/// Draw an even smoother curve, this time approximating the locations of</span>
+	<span class='doccomment'>/// points with equal value (clamped to range from 2 to 100).</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// The first argument specifies the number of points to use to approximate</span>
+	<span class='doccomment'>/// the curve for the final drawing step. The second argument specifies the</span>
+	<span class='doccomment'>/// order of the polynomial (clamped to range from 2 to 10).</span>
+	<span class='ident'>Spline</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>)
 }
 
 <span class='kw'>mod</span> <span class='ident'>private</span>

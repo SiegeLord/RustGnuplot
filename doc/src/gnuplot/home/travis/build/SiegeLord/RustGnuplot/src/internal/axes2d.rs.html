@@ -31,7 +31,7 @@
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Search documentation..."
+                       placeholder="Click or press 's' to search, '?' for more options..."
                        type="search">
             </div>
         </form>
@@ -543,25 +543,25 @@
 <span class='kw'>use</span> <span class='ident'>coordinates</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>options</span>::<span class='op'>*</span>;
 
-<span class='doccomment'>/// 2D axes that is used for drawing 2D plots
-</span><span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Axes2D</span>
+<span class='doccomment'>/// 2D axes that is used for drawing 2D plots</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Axes2D</span>
 {
 	<span class='ident'>common</span>: <span class='ident'>AxesCommonData</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>Axes2D</span>
 {
-	<span class='doccomment'>/// Sets the properties of the plot border
-</span>	<span class='doccomment'>///
-</span>	<span class='doccomment'>/// # Arguments
-</span>	<span class='doccomment'>///
-</span>	<span class='doccomment'>/// * `front` - Whether or not to draw the border above or below the plot contents
-</span>	<span class='doccomment'>/// * `locations` - Which locations of the border to draw
-</span>	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the border. Relevant options are:
-</span>	<span class='doccomment'>///      * `Color` - Specifies the color of the border
-</span>	<span class='doccomment'>///      * `LineStyle` - Specifies the style of the border
-</span>	<span class='doccomment'>///      * `LineWidth` - Specifies the width of the border
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_border</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>front</span>: <span class='ident'>bool</span>, <span class='ident'>locations</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>BorderLocation2D</span>], <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class='doccomment'>/// Sets the properties of the plot border</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// # Arguments</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// * `front` - Whether or not to draw the border above or below the plot contents</span>
+	<span class='doccomment'>/// * `locations` - Which locations of the border to draw</span>
+	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the border. Relevant options are:</span>
+	<span class='doccomment'>///      * `Color` - Specifies the color of the border</span>
+	<span class='doccomment'>///      * `LineStyle` - Specifies the style of the border</span>
+	<span class='doccomment'>///      * `LineWidth` - Specifies the width of the border</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_border</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>front</span>: <span class='ident'>bool</span>, <span class='ident'>locations</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>BorderLocation2D</span>], <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
 	{
 		{
 			<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>commands</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>;
@@ -613,39 +613,39 @@
 		<span class='self'>self</span>
 	}
 
-	<span class='doccomment'>/// Sets the properties of x axis.
-</span>	<span class='doccomment'>///
-</span>	<span class='doccomment'>/// # Arguments
-</span>	<span class='doccomment'>///
-</span>	<span class='doccomment'>/// * `show` - Whether or not draw the axis
-</span>	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the axis. Relevant options are:
-</span>	<span class='doccomment'>///      * `Color` - Specifies the color of the border
-</span>	<span class='doccomment'>///      * `LineStyle` - Specifies the style of the border
-</span>	<span class='doccomment'>///      * `LineWidth` - Specifies the width of the border
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_x_axis</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>show</span>: <span class='ident'>bool</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class='doccomment'>/// Sets the properties of x axis.</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// # Arguments</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// * `show` - Whether or not draw the axis</span>
+	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the axis. Relevant options are:</span>
+	<span class='doccomment'>///      * `Color` - Specifies the color of the border</span>
+	<span class='doccomment'>///      * `LineStyle` - Specifies the style of the border</span>
+	<span class='doccomment'>///      * `LineWidth` - Specifies the width of the border</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_x_axis</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>show</span>: <span class='ident'>bool</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
 	{
 		<span class='self'>self</span>.<span class='ident'>set_axis_common</span>(<span class='string'>&quot;x&quot;</span>, <span class='ident'>show</span>, <span class='ident'>options</span>)
 	}
 
-	<span class='doccomment'>/// Like `set_x_axis` but for the y axis.
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_y_axis</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>show</span>: <span class='ident'>bool</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class='doccomment'>/// Like `set_x_axis` but for the y axis.</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_y_axis</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>show</span>: <span class='ident'>bool</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
 	{
 		<span class='self'>self</span>.<span class='ident'>set_axis_common</span>(<span class='string'>&quot;y&quot;</span>, <span class='ident'>show</span>, <span class='ident'>options</span>)
 	}
 
-	<span class='doccomment'>/// Adds an arrow to the plot. The arrow is drawn from `(x1, y1)` to `(x2, y2)` with the arrow point towards `(x2, y2)`.
-</span>	<span class='doccomment'>/// # Arguments
-</span>	<span class='doccomment'>/// * `x1` - X coordinate of the arrow start
-</span>	<span class='doccomment'>/// * `y1` - Y coordinate of the arrow start
-</span>	<span class='doccomment'>/// * `x2` - X coordinate of the arrow end
-</span>	<span class='doccomment'>/// * `y2` - Y coordinate of the arrow end
-</span>	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the arrowhead and arrow shaft. Relevant options are:
-</span>	<span class='doccomment'>///      * `ArrowType` - Specifies the style of the arrow head (or an option to omit it)
-</span>	<span class='doccomment'>///      * `ArrowSize` - Sets the size of the arrow head (in graph units)
-</span>	<span class='doccomment'>///      * `Color` - Specifies the color of the arrow
-</span>	<span class='doccomment'>///      * `LineStyle` - Specifies the style of the arrow shaft
-</span>	<span class='doccomment'>///      * `LineWidth` - Specifies the width of the arrow shaft
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>arrow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x1</span>: <span class='ident'>Coordinate</span>, <span class='ident'>y1</span>: <span class='ident'>Coordinate</span>, <span class='ident'>x2</span>: <span class='ident'>Coordinate</span>, <span class='ident'>y2</span>: <span class='ident'>Coordinate</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class='doccomment'>/// Adds an arrow to the plot. The arrow is drawn from `(x1, y1)` to `(x2, y2)` with the arrow point towards `(x2, y2)`.</span>
+	<span class='doccomment'>/// # Arguments</span>
+	<span class='doccomment'>/// * `x1` - X coordinate of the arrow start</span>
+	<span class='doccomment'>/// * `y1` - Y coordinate of the arrow start</span>
+	<span class='doccomment'>/// * `x2` - X coordinate of the arrow end</span>
+	<span class='doccomment'>/// * `y2` - Y coordinate of the arrow end</span>
+	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the arrowhead and arrow shaft. Relevant options are:</span>
+	<span class='doccomment'>///      * `ArrowType` - Specifies the style of the arrow head (or an option to omit it)</span>
+	<span class='doccomment'>///      * `ArrowSize` - Sets the size of the arrow head (in graph units)</span>
+	<span class='doccomment'>///      * `Color` - Specifies the color of the arrow</span>
+	<span class='doccomment'>///      * `LineStyle` - Specifies the style of the arrow shaft</span>
+	<span class='doccomment'>///      * `LineWidth` - Specifies the width of the arrow shaft</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>arrow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x1</span>: <span class='ident'>Coordinate</span>, <span class='ident'>y1</span>: <span class='ident'>Coordinate</span>, <span class='ident'>x2</span>: <span class='ident'>Coordinate</span>, <span class='ident'>y2</span>: <span class='ident'>Coordinate</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
 	{
 		{
 			<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>commands</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>;
@@ -685,17 +685,17 @@
 		<span class='self'>self</span>
 	}
 
-	<span class='doccomment'>/// Specifies the location and other properties of the legend
-</span>	<span class='doccomment'>/// # Arguments
-</span>	<span class='doccomment'>/// * `x` - X coordinate of the legend
-</span>	<span class='doccomment'>/// * `y` - Y coordinate of the legend
-</span>	<span class='doccomment'>/// * `label_options` - Array of LegendOption options
-</span>	<span class='doccomment'>/// * `text_options` - Array of LabelOption options specifying the appearance of the plot titles. Valid options are:
-</span>	<span class='doccomment'>///     * `Font`
-</span>	<span class='doccomment'>///     * `TextColor`
-</span>	<span class='doccomment'>///     * `TextAlign(AlignLeft)`
-</span>	<span class='doccomment'>///     * `TextAlign(AlignRight)`
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_legend</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>Coordinate</span>, <span class='ident'>y</span>: <span class='ident'>Coordinate</span>, <span class='ident'>legend_options</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> [<span class='ident'>LegendOption</span>], <span class='ident'>text_options</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> [<span class='ident'>LabelOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class='doccomment'>/// Specifies the location and other properties of the legend</span>
+	<span class='doccomment'>/// # Arguments</span>
+	<span class='doccomment'>/// * `x` - X coordinate of the legend</span>
+	<span class='doccomment'>/// * `y` - Y coordinate of the legend</span>
+	<span class='doccomment'>/// * `label_options` - Array of LegendOption options</span>
+	<span class='doccomment'>/// * `text_options` - Array of LabelOption options specifying the appearance of the plot titles. Valid options are:</span>
+	<span class='doccomment'>///     * `Font`</span>
+	<span class='doccomment'>///     * `TextColor`</span>
+	<span class='doccomment'>///     * `TextAlign(AlignLeft)`</span>
+	<span class='doccomment'>///     * `TextAlign(AlignRight)`</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_legend</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>Coordinate</span>, <span class='ident'>y</span>: <span class='ident'>Coordinate</span>, <span class='ident'>legend_options</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> [<span class='ident'>LegendOption</span>], <span class='ident'>text_options</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> [<span class='ident'>LabelOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
 	{
 		{
 			<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>commands</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>;
@@ -814,61 +814,61 @@
 		<span class='self'>self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot with lines connecting each data point
-</span>	<span class='doccomment'>/// # Arguments
-</span>	<span class='doccomment'>/// * `x` - Iterator for the x values
-</span>	<span class='doccomment'>/// * `y` - Iterator for the y values
-</span>	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
-</span>	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-</span>	<span class='doccomment'>///     * `LineWidth` - Sets the width of the line
-</span>	<span class='doccomment'>///     * `LineStyle` - Sets the style of the line
-</span>	<span class='doccomment'>///     * `Color` - Sets the color
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>lines</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tx</span><span class='op'>&gt;</span>, <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Ty</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class='doccomment'>/// Plot a 2D scatter-plot with lines connecting each data point</span>
+	<span class='doccomment'>/// # Arguments</span>
+	<span class='doccomment'>/// * `x` - Iterator for the x values</span>
+	<span class='doccomment'>/// * `y` - Iterator for the y values</span>
+	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
+	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class='doccomment'>///     * `LineWidth` - Sets the width of the line</span>
+	<span class='doccomment'>///     * `LineStyle` - Sets the style of the line</span>
+	<span class='doccomment'>///     * `Color` - Sets the color</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>lines</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tx</span><span class='op'>&gt;</span>, <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Ty</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
 	{
 		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot2</span>(<span class='ident'>Lines</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>options</span>);
 		<span class='self'>self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot with a point standing in for each data point
-</span>	<span class='doccomment'>/// # Arguments
-</span>	<span class='doccomment'>/// * `x` - Iterator for the x values
-</span>	<span class='doccomment'>/// * `y` - Iterator for the y values
-</span>	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
-</span>	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-</span>	<span class='doccomment'>///     * `PointSymbol` - Sets symbol for each point
-</span>	<span class='doccomment'>///     * `PointSize` - Sets the size of each point
-</span>	<span class='doccomment'>///     * `Color` - Sets the color
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>points</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tx</span><span class='op'>&gt;</span>, <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Ty</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class='doccomment'>/// Plot a 2D scatter-plot with a point standing in for each data point</span>
+	<span class='doccomment'>/// # Arguments</span>
+	<span class='doccomment'>/// * `x` - Iterator for the x values</span>
+	<span class='doccomment'>/// * `y` - Iterator for the y values</span>
+	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
+	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class='doccomment'>///     * `PointSymbol` - Sets symbol for each point</span>
+	<span class='doccomment'>///     * `PointSize` - Sets the size of each point</span>
+	<span class='doccomment'>///     * `Color` - Sets the color</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>points</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tx</span><span class='op'>&gt;</span>, <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Ty</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
 	{
 		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot2</span>(<span class='ident'>Points</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>options</span>);
 		<span class='self'>self</span>
 	}
 
-	<span class='doccomment'>/// A combination of lines and points methods (drawn in that order).
-</span>	<span class='doccomment'>/// # Arguments
-</span>	<span class='doccomment'>/// * `x` - Iterator for the x values
-</span>	<span class='doccomment'>/// * `y` - Iterator for the y values
-</span>	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>lines_points</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tx</span><span class='op'>&gt;</span>, <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Ty</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class='doccomment'>/// A combination of lines and points methods (drawn in that order).</span>
+	<span class='doccomment'>/// # Arguments</span>
+	<span class='doccomment'>/// * `x` - Iterator for the x values</span>
+	<span class='doccomment'>/// * `y` - Iterator for the y values</span>
+	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>lines_points</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tx</span><span class='op'>&gt;</span>, <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Ty</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
 	{
 		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot2</span>(<span class='ident'>LinesPoints</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>options</span>);
 		<span class='self'>self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
-</span>	<span class='doccomment'>/// Additionally, error bars are attached to each data point in the X direction.
-</span>	<span class='doccomment'>/// # Arguments
-</span>	<span class='doccomment'>/// * `x` - Iterator for the x values
-</span>	<span class='doccomment'>/// * `y` - Iterator for the y valuess
-</span>	<span class='doccomment'>/// * `x_error` - Iterator for the error associated with the x value
-</span>	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
-</span>	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-</span>	<span class='doccomment'>///     * `PointSymbol` - Sets symbol for each point
-</span>	<span class='doccomment'>///     * `PointSize` - Sets the size of each point
-</span>	<span class='doccomment'>///     * `LineWidth` - Sets the width of the line
-</span>	<span class='doccomment'>///     * `LineStyle` - Sets the style of the line
-</span>	<span class='doccomment'>///     * `Color` - Sets the color
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>x_error_lines</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
+	<span class='doccomment'>/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.</span>
+	<span class='doccomment'>/// Additionally, error bars are attached to each data point in the X direction.</span>
+	<span class='doccomment'>/// # Arguments</span>
+	<span class='doccomment'>/// * `x` - Iterator for the x values</span>
+	<span class='doccomment'>/// * `y` - Iterator for the y valuess</span>
+	<span class='doccomment'>/// * `x_error` - Iterator for the error associated with the x value</span>
+	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
+	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class='doccomment'>///     * `PointSymbol` - Sets symbol for each point</span>
+	<span class='doccomment'>///     * `PointSize` - Sets the size of each point</span>
+	<span class='doccomment'>///     * `LineWidth` - Sets the width of the line</span>
+	<span class='doccomment'>///     * `LineStyle` - Sets the style of the line</span>
+	<span class='doccomment'>///     * `Color` - Sets the color</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>x_error_lines</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
 	                   <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tx</span><span class='op'>&gt;</span>,
 	                   <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Ty</span><span class='op'>&gt;</span>,
 	                   <span class='ident'>Txe</span>: <span class='ident'>DataType</span>, <span class='ident'>XE</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Txe</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>x_error</span>: <span class='ident'>XE</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
@@ -877,20 +877,20 @@
 		<span class='self'>self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
-</span>	<span class='doccomment'>/// Additionally, error bars are attached to each data point in the Y direction.
-</span>	<span class='doccomment'>/// # Arguments
-</span>	<span class='doccomment'>/// * `x` - Iterator for the x values
-</span>	<span class='doccomment'>/// * `y` - Iterator for the y values
-</span>	<span class='doccomment'>/// * `y_error` - Iterator for the error associated with the y values
-</span>	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
-</span>	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-</span>	<span class='doccomment'>///     * `PointSymbol` - Sets symbol for each point
-</span>	<span class='doccomment'>///     * `PointSize` - Sets the size of each point
-</span>	<span class='doccomment'>///     * `LineWidth` - Sets the width of the line
-</span>	<span class='doccomment'>///     * `LineStyle` - Sets the style of the line
-</span>	<span class='doccomment'>///     * `Color` - Sets the color
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>y_error_lines</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
+	<span class='doccomment'>/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.</span>
+	<span class='doccomment'>/// Additionally, error bars are attached to each data point in the Y direction.</span>
+	<span class='doccomment'>/// # Arguments</span>
+	<span class='doccomment'>/// * `x` - Iterator for the x values</span>
+	<span class='doccomment'>/// * `y` - Iterator for the y values</span>
+	<span class='doccomment'>/// * `y_error` - Iterator for the error associated with the y values</span>
+	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
+	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class='doccomment'>///     * `PointSymbol` - Sets symbol for each point</span>
+	<span class='doccomment'>///     * `PointSize` - Sets the size of each point</span>
+	<span class='doccomment'>///     * `LineWidth` - Sets the width of the line</span>
+	<span class='doccomment'>///     * `LineStyle` - Sets the style of the line</span>
+	<span class='doccomment'>///     * `Color` - Sets the color</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>y_error_lines</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
 	                   <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tx</span><span class='op'>&gt;</span>,
 	                   <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Ty</span><span class='op'>&gt;</span>,
 	                   <span class='ident'>Tye</span>: <span class='ident'>DataType</span>, <span class='ident'>YE</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tye</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>y_error</span>: <span class='ident'>YE</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
@@ -899,19 +899,19 @@
 		<span class='self'>self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot of two curves (bound by `y_lo` and `y_hi`) with a filled region between them.
-</span>	<span class='doccomment'>/// `FillRegion` plot option can be used to control what happens when the curves intersect. If set to Above, then the `y_lo &lt; y_hi` region is filled.
-</span>	<span class='doccomment'>/// If set to Below, then the `y_lo &gt; y_hi` region is filled. Otherwise both regions are filled.
-</span>	<span class='doccomment'>/// # Arguments
-</span>	<span class='doccomment'>/// * `x` - Iterator for the x values
-</span>	<span class='doccomment'>/// * `y_lo` - Iterator for the bottom y values
-</span>	<span class='doccomment'>/// * `y_hi` - Iterator for the top y values
-</span>	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
-</span>	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-</span>	<span class='doccomment'>///     * `FillRegion` - Specifies the region between the two curves to fill
-</span>	<span class='doccomment'>///     * `Color` - Sets the color of the filled region
-</span>	<span class='doccomment'>///     * `FillAlpha` - Sets the transparency of the filled region
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fill_between</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
+	<span class='doccomment'>/// Plot a 2D scatter-plot of two curves (bound by `y_lo` and `y_hi`) with a filled region between them.</span>
+	<span class='doccomment'>/// `FillRegion` plot option can be used to control what happens when the curves intersect. If set to Above, then the `y_lo &lt; y_hi` region is filled.</span>
+	<span class='doccomment'>/// If set to Below, then the `y_lo &gt; y_hi` region is filled. Otherwise both regions are filled.</span>
+	<span class='doccomment'>/// # Arguments</span>
+	<span class='doccomment'>/// * `x` - Iterator for the x values</span>
+	<span class='doccomment'>/// * `y_lo` - Iterator for the bottom y values</span>
+	<span class='doccomment'>/// * `y_hi` - Iterator for the top y values</span>
+	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
+	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class='doccomment'>///     * `FillRegion` - Specifies the region between the two curves to fill</span>
+	<span class='doccomment'>///     * `Color` - Sets the color of the filled region</span>
+	<span class='doccomment'>///     * `FillAlpha` - Sets the transparency of the filled region</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fill_between</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
 	                   <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tx</span><span class='op'>&gt;</span>,
 	                   <span class='ident'>Tyl</span>: <span class='ident'>DataType</span>, <span class='ident'>YL</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tyl</span><span class='op'>&gt;</span>,
 	                   <span class='ident'>Tyh</span>: <span class='ident'>DataType</span>, <span class='ident'>YH</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tyh</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y_lo</span>: <span class='ident'>YL</span>, <span class='ident'>y_hi</span>: <span class='ident'>YH</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
@@ -920,38 +920,38 @@
 		<span class='self'>self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
-</span>	<span class='doccomment'>/// Boxes start at the x-axis and go towards the y value of the datapoint.
-</span>	<span class='doccomment'>/// # Arguments
-</span>	<span class='doccomment'>/// * `x` - Iterator for the x values (center of the box)
-</span>	<span class='doccomment'>/// * `y` - Iterator for the y values
-</span>	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
-</span>	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-</span>	<span class='doccomment'>///     * `LineWidth` - Sets the width of the border
-</span>	<span class='doccomment'>///     * `LineStyle` - Sets the style of the border
-</span>	<span class='doccomment'>///     * `BorderColor` - Sets the color of the border
-</span>	<span class='doccomment'>///     * `Color` - Sets the color of the box fill
-</span>	<span class='doccomment'>///     * `FillAlpha` - Sets the transparency of the box fill
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>boxes</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tx</span><span class='op'>&gt;</span>, <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Ty</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class='doccomment'>/// Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).</span>
+	<span class='doccomment'>/// Boxes start at the x-axis and go towards the y value of the datapoint.</span>
+	<span class='doccomment'>/// # Arguments</span>
+	<span class='doccomment'>/// * `x` - Iterator for the x values (center of the box)</span>
+	<span class='doccomment'>/// * `y` - Iterator for the y values</span>
+	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
+	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class='doccomment'>///     * `LineWidth` - Sets the width of the border</span>
+	<span class='doccomment'>///     * `LineStyle` - Sets the style of the border</span>
+	<span class='doccomment'>///     * `BorderColor` - Sets the color of the border</span>
+	<span class='doccomment'>///     * `Color` - Sets the color of the box fill</span>
+	<span class='doccomment'>///     * `FillAlpha` - Sets the transparency of the box fill</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>boxes</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tx</span><span class='op'>&gt;</span>, <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Ty</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
 	{
 		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot2</span>(<span class='ident'>Boxes</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>options</span>);
 		<span class='self'>self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot using boxes of set (per box) width.
-</span>	<span class='doccomment'>/// Boxes start at the x-axis and go towards the y value of the datapoint.
-</span>	<span class='doccomment'>/// # Arguments
-</span>	<span class='doccomment'>/// * `x` - Iterator for the x values (center of the box)
-</span>	<span class='doccomment'>/// * `y` - Iterator for the y values
-</span>	<span class='doccomment'>/// * `w` - Iterator for the box width values
-</span>	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
-</span>	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-</span>	<span class='doccomment'>///     * `LineWidth` - Sets the width of the border
-</span>	<span class='doccomment'>///     * `LineStyle` - Sets the style of the border
-</span>	<span class='doccomment'>///     * `BorderColor` - Sets the color of the border
-</span>	<span class='doccomment'>///     * `Color` - Sets the color of the box fill
-</span>	<span class='doccomment'>///     * `FillAlpha` - Sets the transparency of the box fill
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>boxes_set_width</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
+	<span class='doccomment'>/// Plot a 2D scatter-plot using boxes of set (per box) width.</span>
+	<span class='doccomment'>/// Boxes start at the x-axis and go towards the y value of the datapoint.</span>
+	<span class='doccomment'>/// # Arguments</span>
+	<span class='doccomment'>/// * `x` - Iterator for the x values (center of the box)</span>
+	<span class='doccomment'>/// * `y` - Iterator for the y values</span>
+	<span class='doccomment'>/// * `w` - Iterator for the box width values</span>
+	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
+	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class='doccomment'>///     * `LineWidth` - Sets the width of the border</span>
+	<span class='doccomment'>///     * `LineStyle` - Sets the style of the border</span>
+	<span class='doccomment'>///     * `BorderColor` - Sets the color of the border</span>
+	<span class='doccomment'>///     * `Color` - Sets the color of the box fill</span>
+	<span class='doccomment'>///     * `FillAlpha` - Sets the transparency of the box fill</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>boxes_set_width</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
 	                      <span class='ident'>Tx</span>: <span class='ident'>DataType</span>,
 	                      <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Tx</span><span class='op'>&gt;</span>,
 	                      <span class='ident'>Ty</span>: <span class='ident'>DataType</span>,
@@ -963,18 +963,18 @@
 		<span class='self'>self</span>
 	}
 
-	<span class='doccomment'>/// Draws an image from a rectangular array of data by connecting the individual datapoints with polygons.
-</span>	<span class='doccomment'>///
-</span>	<span class='doccomment'>/// #Arguments:
-</span>	<span class='doccomment'>/// * `mat` - Row-major 2D array signifying the value of the datapoints. The X and Y coordinates of the datapoints are determined automatically,
-</span>	<span class='doccomment'>///           and optionally scaled using the `dimensions` argument.
-</span>	<span class='doccomment'>/// * `num_rows` - Number of rows in the data array
-</span>	<span class='doccomment'>/// * `num_cols` - Number of columns in the data array
-</span>	<span class='doccomment'>/// * `dimensions` - Optional X and Y coordinates of the first and last data points (with the rest of the coordinates spaced evenly between).
-</span>	<span class='doccomment'>///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.
-</span>	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:
-</span>	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-</span>	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>image</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
+	<span class='doccomment'>/// Draws an image from a rectangular array of data by connecting the individual datapoints with polygons.</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// #Arguments:</span>
+	<span class='doccomment'>/// * `mat` - Row-major 2D array signifying the value of the datapoints. The X and Y coordinates of the datapoints are determined automatically,</span>
+	<span class='doccomment'>///           and optionally scaled using the `dimensions` argument.</span>
+	<span class='doccomment'>/// * `num_rows` - Number of rows in the data array</span>
+	<span class='doccomment'>/// * `num_cols` - Number of columns in the data array</span>
+	<span class='doccomment'>/// * `dimensions` - Optional X and Y coordinates of the first and last data points (with the rest of the coordinates spaced evenly between).</span>
+	<span class='doccomment'>///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.</span>
+	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:</span>
+	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>image</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
 	              <span class='ident'>T</span>: <span class='ident'>DataType</span>,
 	              <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>mat</span>: <span class='ident'>X</span>, <span class='ident'>num_rows</span>: <span class='ident'>uint</span>, <span class='ident'>num_cols</span>: <span class='ident'>uint</span>, <span class='ident'>dimensions</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>f64</span>, <span class='ident'>f64</span>, <span class='ident'>f64</span>, <span class='ident'>f64</span>)<span class='op'>&gt;</span>,
 	                              <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
