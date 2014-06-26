@@ -651,11 +651,11 @@ impl AxesCommonData
 			{
 				Minor(ref pos) =>
 				{
-					(pos, &a, 1)
+					(pos, &a, 1u)
 				},
 				Major(ref pos, ref label) =>
 				{
-					(pos, label, 0)
+					(pos, label, 0u)
 				}
 			};
 
