@@ -158,11 +158,13 @@ body {
 .block a {
     font-weight: bold;
     margin-left: 15px;
+    margin-right: 15px;
+    display: block;
 }
 
 .block a:hover[href] {
     margin-left: 14px;
-    margin-right: 0px;
+    margin-right: 14px;
 }
 
 .content {
@@ -427,20 +429,47 @@ button {
     padding: 20px;
 }
 
-.stability {
-    border-left: 5px solid #000;
-    border-radius: 3px;
-    padding: 0 3px;
-    float: right;
-    background: #fff;
-    text-transform: lowercase;
+.fqn .stability {
+    margin-right: 4pt;
+    float: left;
+    width: 1.0em;
+    text-overflow: clip;
+    white-space: nowrap; 
+    overflow: hidden;
 }
-.stability.Deprecated { border-color: #D60027; color: #880017; }
-.stability.Experimental { border-color: #EC5315; color: #a53c0e; }
-.stability.Unstable { border-color: #FFD700; color: #b39800; }
-.stability.Stable { border-color: #AEC516; color: #7c8b10; }
-.stability.Frozen { border-color: #009431; color: #007726; }
-.stability.Locked { border-color: #0084B6; color: #00668c; }
+
+.stability {
+    text-transform: lowercase;
+    margin-right: 2pt;
+}
+
+.fqn .stability::before { content: "⬠    "; }
+.stability::before { content: "⬠"; }
+
+.fqn .stability.Deprecated::before { content: "✖   "; }
+.stability.Deprecated::before { content: "✖"; }
+
+.fqn .stability.Experimental::before { content: "⚒   "; }
+.stability.Experimental::before { content: "⚒"; }
+
+.fqn .stability.Unstable::before { content: "☢   "; }
+.stability.Unstable::before { content: "☢"; }
+
+.fqn .stability.Stable::before { content: "✔   "; }
+.stability.Stable::before { content: "✔"; }
+
+.fqn .stability.Frozen::before { content: "❄   "; }
+.stability.Frozen::before { content: "❄"; }
+
+.fqn .stability.Locked::before { content: "⚷    "; }
+.stability.Locked::before { content: "⚷"; }
+
+.stability.Deprecated { border-color: #D60027; color: #880017 !important; }
+.stability.Experimental { border-color: #EC5315; color: #a53c0e !important; }
+.stability.Unstable { border-color: #FFD700; color: #b39800 !important; }
+.stability.Stable { border-color: #AEC516; color: #7c8b10 !important; }
+.stability.Frozen { border-color: #009431; color: #007726 !important; }
+.stability.Locked { border-color: #0084B6; color: #00668c !important; }
 
 /* Code highlighting */
 pre.rust .kw { font-weight: bold; color: #0000d0; }
@@ -453,3 +482,14 @@ pre.rust .comment { color: #017106; }
 pre.rust .doccomment { color: #3F5FBF; }
 pre.rust .macro, pre.rust .macro-nonterminal { color: #007F7F; }
 pre.rust .lifetime { color: #0000d0; }
+
+.rusttest { display: none; }
+pre.rust { position: relative; }
+pre.rust a { transform: scaleX(-1); }
+.test-arrow {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 250%;
+}
