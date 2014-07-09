@@ -2,7 +2,7 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-#![crate_id="gnuplot#0.1"]
+#![crate_name="gnuplot"]
 
 #![comment = "Rust gnuplot controller"]
 #![license = "LGPL"]

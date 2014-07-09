@@ -42,23 +42,34 @@ endif()
 mark_as_advanced(RUSTDOC_FLAGS)
 
 # Fetches the dependencies of a Rust crate with local crate root located at
-# local_root_file and places them into out_var.
+# local_root_file and places them into out_var. Optionally also builds the crate.
 #
 # Optional arguments:
 # OTHER_RUSTC_FLAGS - Other flags to pass to rustc.
+# DESTINATION - If compiling, where to place the compilation artifacts.
+# COMPILE - Whether or not to produce artifacts (it won't by default).
+#           NOTE! This will force the compillation of this crate every time the
+#           project is reconfigured, so use with care!
 #
 # NOTE: Only the first target's dependencies are fetched!
 function(get_rust_deps local_root_file out_var)
-	cmake_parse_arguments("OPT" "" "" "OTHER_RUSTC_FLAGS" ${ARGN})
+	cmake_parse_arguments("OPT" "COMPILE" "DESTINATION" "OTHER_RUSTC_FLAGS" ${ARGN})
 
 	set(root_file "${CMAKE_SOURCE_DIR}/${local_root_file}")
 
 	set(dep_dir "${CMAKE_BINARY_DIR}/CMakeFiles/.cmake_rust_dependencies")
 	file(MAKE_DIRECTORY "${dep_dir}")
 
-	message(STATUS "Getting Rust dependency info for crate root ${local_root_file}")
+	if(OPT_COMPILE)
+		file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/${OPT_DESTINATION}")
+		set(flags --out-dir "${CMAKE_BINARY_DIR}/${OPT_DESTINATION}")
+		message(STATUS "Compiling and getting Rust dependency info for crate root ${local_root_file}")
+	else()
+		set(flags --no-analysis)
+		message(STATUS "Getting Rust dependency info for crate root ${local_root_file}")
+	endif()
 
-	execute_process(COMMAND ${RUSTC_EXECUTABLE} ${RUSTC_FLAGS} ${OPT_OTHER_RUSTC_FLAGS} --no-analysis --dep-info "${dep_dir}/deps" "${root_file}")
+	execute_process(COMMAND ${RUSTC_EXECUTABLE} ${RUSTC_FLAGS} ${OPT_OTHER_RUSTC_FLAGS} ${flags} --dep-info "${dep_dir}/deps" "${root_file}")
 
 	# Read and parse the dependency information
 	file(READ "${dep_dir}/deps" crate_deps)
@@ -110,7 +121,7 @@ function(rust_crate local_root_file)
 
 	set(root_file "${CMAKE_SOURCE_DIR}/${local_root_file}")
 
-	execute_process(COMMAND ${RUSTC_EXECUTABLE} ${RUSTC_FLAGS} ${OPT_OTHER_RUSTC_FLAGS} --crate-file-name "${root_file}"
+	execute_process(COMMAND ${RUSTC_EXECUTABLE} ${RUSTC_FLAGS} ${OPT_OTHER_RUSTC_FLAGS} --print-file-name "${root_file}"
 	                OUTPUT_VARIABLE rel_crate_filenames
 	                OUTPUT_STRIP_TRAILING_WHITESPACE)
 
@@ -210,7 +221,7 @@ function(rust_doc local_root_file)
 
 	set(root_file "${CMAKE_SOURCE_DIR}/${local_root_file}")
 
-	execute_process(COMMAND ${RUSTC_EXECUTABLE} ${RUSTC_FLAGS} ${OPT_OTHER_RUSTC_FLAGS} --crate-name "${root_file}"
+	execute_process(COMMAND ${RUSTC_EXECUTABLE} ${RUSTC_FLAGS} ${OPT_OTHER_RUSTC_FLAGS} --print-crate-name "${root_file}"
 	                OUTPUT_VARIABLE crate_name
 	                OUTPUT_STRIP_TRAILING_WHITESPACE)
 
