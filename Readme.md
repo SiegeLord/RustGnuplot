@@ -29,6 +29,15 @@ A somewhat involved 2D example:
 
 ## Building
 
+### Via Cargo
+
+The included packages are:
+
+* gnuplot - For the main gnuplot library
+* gnuplot_examples - Some examples to try out
+
+### Via CMake 2.8
+
 ~~~
 mkdir build
 cd build
