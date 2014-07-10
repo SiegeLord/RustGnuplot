@@ -1,0 +1,24 @@
+[package]
+
+name = "gnuplot_examples"
+version = "0.0.0"
+authors = [ "SiegeLord <slabode@aim.com>" ]
+
+[[bin]]
+
+name = "example1"
+path = "example1.rs"
+
+[[bin]]
+
+name = "example2"
+path = "example2.rs"
+
+[[bin]]
+
+name = "example3"
+path = "example3.rs"
+
+[dependencies.gnuplot]
+
+path = ".."

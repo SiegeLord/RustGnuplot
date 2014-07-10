@@ -8,18 +8,3 @@ authors = [ "SiegeLord <slabode@aim.com>" ]
 
 name = "gnuplot"
 path = "src/lib.rs"
-
-[[bin]]
-
-name = "example1"
-path = "examples/example1.rs"
-
-[[bin]]
-
-name = "example2"
-path = "examples/example2.rs"
-
-[[bin]]
-
-name = "example3"
-path = "examples/example3.rs"
