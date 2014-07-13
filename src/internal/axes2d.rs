@@ -237,7 +237,7 @@ impl Axes2D
 					c.write_str(" font \"");
 					c.write_str(f);
 					c.write_str(",");
-					c.write_str(s.to_str().as_slice());
+					c.write_str(s.to_string().as_slice());
 					c.write_str("\"");
 				}
 			)
