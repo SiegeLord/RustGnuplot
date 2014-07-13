@@ -212,6 +212,8 @@ body {
 
 .content h1.fqn a:hover[href], .content > h2 a:hover[href] {
     text-shadow: 0 0 0.25em #EEEEEC;
+    border: 0px;
+    margin: 0px;
 }
 
 .content h1.fqn a, .content > h2 a {
@@ -262,7 +264,6 @@ body {
 .docblock h2 { font-size: 14pt; }
 .docblock h3, .docblock h4, .docblock h5 { font-size: 10pt; }
 
-.content .source { float: right; }
 .content table {
     border-collapse: separate;
 }
@@ -493,3 +494,17 @@ pre.rust a { transform: scaleX(-1); }
     right: 10px;
     font-size: 250%;
 }
+
+.content .out-of-band {
+    float: right;
+}
+
+.summary {
+    padding-right: 0px;
+    height: 12pt;
+}
+.summary.Deprecated { background-color: #A071A8; }
+.summary.Experimental { background-color: #D46D6A; }
+.summary.Unstable { background-color: #D4B16A; }
+.summary.Stable { background-color: #54A759; }
+.summary.Unmarked { background-color: #FFFFFF; }
