@@ -35,7 +35,7 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 	.set_y_label("Y", [])
 	.set_z_label("Z", [])
 	.set_z_range(Fix(-1.0), Fix(1.0))
-	.set_z_ticks(Fix(1.0), 2, [Mirror(false)], [])
+	.set_z_ticks(Some((Fix(1.0), 1)), [Mirror(false)], [])
 	.set_view(45.0, 45.0);
 	
 	show(&mut fg, "fg3.1.gnuplot");

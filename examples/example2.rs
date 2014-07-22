@@ -71,7 +71,7 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 	.set_x_ticks_custom(range_step(0u, 10, 2).map(|x| Major(x as f32, Fix("%.2f ms".to_string())))
 	                    .chain(range_step(1u, 10, 2).map(|x| Minor(x as f32))).chain(Some(Major(-2.1f32, Fix("%.2f ms".to_string()))).move_iter()), 
 						[MajorScale(2.0), MinorScale(0.5), OnAxis(true)], [TextColor("blue"), TextAlign(AlignCenter)])
-	.set_y_ticks(Fix(2.0), 2, [Mirror(false)], []);
+	.set_y_ticks(Some((Fix(2.0), 1)), [Mirror(false)], []);
 	
 	show(&mut fg, "fg2.3.gnuplot");
 	
@@ -81,8 +81,8 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 	fg.axes2d()
 	.set_title("Border, Axes", [])
 	.set_border(true, [Left, Bottom], [LineWidth(2.0)])
-	.set_x_ticks(Fix(1.0), 2, [Mirror(false)], [])
-	.set_y_ticks(Fix(5.0), 0, [Mirror(false)], [])
+	.set_x_ticks(Some((Fix(1.0), 1)), [Mirror(false)], [])
+	.set_y_ticks(Some((Fix(5.0), 0)), [Mirror(false)], [])
 	.lines(x3, y3, [LineWidth(2.0), Color("blue")])
 	.set_x_axis(true, [LineWidth(2.0), LineStyle(DotDotDash)])
 	.set_y_axis(true, [LineWidth(2.0), Color("red")]);
@@ -97,6 +97,18 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 	.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), []);
 	
 	show(&mut fg, "fg2.5.gnuplot");
+	
+	let mut fg = Figure::new();
+	set_term(&mut fg);
+
+	fg.axes2d()
+	.set_title("Image without borders", [])
+	.set_border(false, [], [])
+	.set_x_ticks(None, [], [])
+	.set_y_ticks(None, [], [])
+	.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), []);
+	
+	show(&mut fg, "fg2.6.gnuplot");
 }
 
 fn main()

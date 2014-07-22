@@ -733,33 +733,47 @@ impl AxesCommonData
 		write!(&mut *c, " scale {:.12e},{:.12e}", minor_scale, major_scale);
 	}
 
-	pub fn set_ticks_common(c: &mut MemWriter, tick_axis: TickAxis, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption])
+	pub fn set_ticks_common(c: &mut MemWriter, tick_axis: TickAxis, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])
 	{
 		c.seek(0, SeekSet);
-
-		writeln!(&mut *c, "set m{} {}", tick_axis.to_tick_str(), minor_intervals as i32);
-
-		c.write_str("set ");
-		c.write_str(tick_axis.to_tick_str());
-
-		match incr
+		
+		match tick_placement
 		{
-			Auto =>
+			Some((incr, mticks)) =>
 			{
-				c.write_str(" autofreq");
-			},
-			Fix(incr) =>
-			{
-				if incr <= 0.0
+				if mticks > 0
 				{
-					fail!("'incr' must be positive, but is actually {}", incr);
+					writeln!(&mut *c, "set m{} {}", tick_axis.to_tick_str(), mticks as i32 + 1);
 				}
-				c.write_str(" ");
-				write!(&mut *c, " {:.12e}", incr);
+
+				c.write_str("set ");
+				c.write_str(tick_axis.to_tick_str());
+
+				match incr
+				{
+					Auto =>
+					{
+						c.write_str(" autofreq");
+					},
+					Fix(incr) =>
+					{
+						if incr <= 0.0
+						{
+							fail!("'incr' must be positive, but is actually {}", incr);
+						}
+						c.write_str(" ");
+						write!(&mut *c, " {:.12e}", incr);
+					}
+				}
+
+				AxesCommonData::set_ticks_options(c, tick_options, label_options);
+			},
+			None =>
+			{
+				write!(&mut *c, "unset m{0}\nunset {0}", tick_axis.to_tick_str());
 			}
 		}
-
-		AxesCommonData::set_ticks_options(c, tick_options, label_options);
+		
 		c.write_str("\n");
 	}
 
@@ -927,8 +941,9 @@ pub trait AxesCommon : AxesCommonPrivate
 	/// Sets the properties of the ticks on the X axis.
 	///
 	/// # Arguments
-	/// * `incr` - Sets the spacing between the major ticks. Pass `Auto` to let gnuplot decide the spacing automatically.
-	/// * `minor_intervals` - Number of sub-intervals between minor ticks.
+	/// * `tick_placement` - Controls the placement of the ticks. Pass `None` to hide the ticks. Otherwise, the first tuple value controls the spacing
+	///                      of the major ticks (in axes units), otherwise set it to `Auto` to let gnuplot decide the spacing automatically. The second
+	///                      tuple value specifies the number of minor ticks.
 	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
 	/// * `label_options` - Array of LabelOption controlling the appearance of the tick labels. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
@@ -936,16 +951,16 @@ pub trait AxesCommon : AxesCommonPrivate
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_ticks<'l>(&'l mut self, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_x_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		AxesCommonData::set_ticks_common(&mut self.get_common_data_mut().x_ticks, XTickAxis, incr, minor_intervals, tick_options, label_options);
+		AxesCommonData::set_ticks_common(&mut self.get_common_data_mut().x_ticks, XTickAxis, tick_placement, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks` but for the Y axis.
-	fn set_y_ticks<'l>(&'l mut self, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_y_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		AxesCommonData::set_ticks_common(&mut self.get_common_data_mut().y_ticks, YTickAxis, incr, minor_intervals, tick_options, label_options);
+		AxesCommonData::set_ticks_common(&mut self.get_common_data_mut().y_ticks, YTickAxis, tick_placement, tick_options, label_options);
 		self
 	}
 

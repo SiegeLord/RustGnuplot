@@ -75,9 +75,9 @@ impl Axes3D
 	}
 
 	/// Like `set_x_ticks` but for the Z axis.
-	pub fn set_z_ticks<'l>(&'l mut self, incr: AutoOption<f64>, minor_intervals: u32, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes3D
+	pub fn set_z_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes3D
 	{
-		AxesCommonData::set_ticks_common(&mut self.z_ticks, ZTickAxis, incr, minor_intervals, tick_options, label_options);
+		AxesCommonData::set_ticks_common(&mut self.z_ticks, ZTickAxis, tick_placement, tick_options, label_options);
 		self
 	}
 
