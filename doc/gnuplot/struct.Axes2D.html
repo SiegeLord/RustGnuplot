@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The gnuplot library documentation.">
+
+    <title>gnuplot::Axes2D - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    
+    
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'><a href='index.html'>gnuplot</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='coordinates/index.html'>coordinates</a><a class='mod ' href='datatype/index.html'>datatype</a><a class='mod ' href='figure/index.html'>figure</a><a class='mod ' href='options/index.html'>options</a></div><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Axes2D.html'>Axes2D</a><a class='struct ' href='struct.Axes3D.html'>Axes3D</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.AxesCommon.html'>AxesCommon</a></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'>Struct <a href='index.html'>gnuplot</a>::<a class='struct' href=''>Axes2D</a><span class='out-of-band'><a id='src-7455' href='../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/internal/axes2d.rs.html#13-16'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Axes2D {
+    // some fields omitted
+}</pre><div class='docblock'><p>2D axes that is used for drawing 2D plots</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h3><div class='impl-methods'><h4 id='method.set_border' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_border' class='fnname'>set_border</a>&lt;'l&gt;(&amp;'l mut self, front: <a href='http://doc.rust-lang.org/master/std/primitive.bool.html'>bool</a>, locations: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.BorderLocation2D.html' title='gnuplot::options::BorderLocation2D'>BorderLocation2D</a>]</a>, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Sets the properties of the plot border</p>
+
+<h1 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h1>
+<ul>
+<li><code>front</code> - Whether or not to draw the border above or below the plot contents</li>
+<li><code>locations</code> - Which locations of the border to draw</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the border. Relevant options are:
+
+<ul>
+<li><code>Color</code> - Specifies the color of the border</li>
+<li><code>LineStyle</code> - Specifies the style of the border</li>
+<li><code>LineWidth</code> - Specifies the width of the border</li>
+</ul></li>
+</ul>
+</div><h4 id='method.set_x_axis' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_x_axis' class='fnname'>set_x_axis</a>&lt;'l&gt;(&amp;'l mut self, show: <a href='http://doc.rust-lang.org/master/std/primitive.bool.html'>bool</a>, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Sets the properties of x axis.</p>
+
+<h1 id="arguments-1" class='section-header'><a
+                           href="#arguments-1">Arguments</a></h1>
+<ul>
+<li><code>show</code> - Whether or not draw the axis</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the axis. Relevant options are:
+
+<ul>
+<li><code>Color</code> - Specifies the color of the border</li>
+<li><code>LineStyle</code> - Specifies the style of the border</li>
+<li><code>LineWidth</code> - Specifies the width of the border</li>
+</ul></li>
+</ul>
+</div><h4 id='method.set_y_axis' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_y_axis' class='fnname'>set_y_axis</a>&lt;'l&gt;(&amp;'l mut self, show: <a href='http://doc.rust-lang.org/master/std/primitive.bool.html'>bool</a>, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Like <code>set_x_axis</code> but for the y axis.</p>
+</div><h4 id='method.arrow' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.arrow' class='fnname'>arrow</a>&lt;'l&gt;(&amp;'l mut self, x1: <a class='type' href='../gnuplot/coordinates/type.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y1: <a class='type' href='../gnuplot/coordinates/type.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, x2: <a class='type' href='../gnuplot/coordinates/type.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y2: <a class='type' href='../gnuplot/coordinates/type.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Adds an arrow to the plot. The arrow is drawn from <code>(x1, y1)</code> to <code>(x2, y2)</code> with the arrow point towards <code>(x2, y2)</code>.</p>
+
+<h1 id="arguments-2" class='section-header'><a
+                           href="#arguments-2">Arguments</a></h1>
+<ul>
+<li><code>x1</code> - X coordinate of the arrow start</li>
+<li><code>y1</code> - Y coordinate of the arrow start</li>
+<li><code>x2</code> - X coordinate of the arrow end</li>
+<li><code>y2</code> - Y coordinate of the arrow end</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the arrowhead and arrow shaft. Relevant options are:
+
+<ul>
+<li><code>ArrowType</code> - Specifies the style of the arrow head (or an option to omit it)</li>
+<li><code>ArrowSize</code> - Sets the size of the arrow head (in graph units)</li>
+<li><code>Color</code> - Specifies the color of the arrow</li>
+<li><code>LineStyle</code> - Specifies the style of the arrow shaft</li>
+<li><code>LineWidth</code> - Specifies the width of the arrow shaft</li>
+</ul></li>
+</ul>
+</div><h4 id='method.set_legend' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_legend' class='fnname'>set_legend</a>&lt;'l&gt;(&amp;'l mut self, x: <a class='type' href='../gnuplot/coordinates/type.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y: <a class='type' href='../gnuplot/coordinates/type.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, legend_options: &amp;'l <a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.LegendOption.html' title='gnuplot::options::LegendOption'>LegendOption</a>]</a>, text_options: &amp;'l <a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Specifies the location and other properties of the legend</p>
+
+<h1 id="arguments-3" class='section-header'><a
+                           href="#arguments-3">Arguments</a></h1>
+<ul>
+<li><code>x</code> - X coordinate of the legend</li>
+<li><code>y</code> - Y coordinate of the legend</li>
+<li><code>label_options</code> - Array of LegendOption options</li>
+<li><code>text_options</code> - Array of LabelOption options specifying the appearance of the plot titles. Valid options are:
+
+<ul>
+<li><code>Font</code></li>
+<li><code>TextColor</code></li>
+<li><code>TextAlign(AlignLeft)</code></li>
+<li><code>TextAlign(AlignRight)</code></li>
+</ul></li>
+</ul>
+</div><h4 id='method.lines' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.lines' class='fnname'>lines</a>&lt;'l, Tx: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Tx&gt;, Ty: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Ty&gt;&gt;(&amp;'l mut self, x: X, y: Y, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Plot a 2D scatter-plot with lines connecting each data point</p>
+
+<h1 id="arguments-4" class='section-header'><a
+                           href="#arguments-4">Arguments</a></h1>
+<ul>
+<li><code>x</code> - Iterator for the x values</li>
+<li><code>y</code> - Iterator for the y values</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
+
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>LineWidth</code> - Sets the width of the line</li>
+<li><code>LineStyle</code> - Sets the style of the line</li>
+<li><code>Color</code> - Sets the color</li>
+</ul></li>
+</ul>
+</div><h4 id='method.points' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.points' class='fnname'>points</a>&lt;'l, Tx: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Tx&gt;, Ty: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Ty&gt;&gt;(&amp;'l mut self, x: X, y: Y, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Plot a 2D scatter-plot with a point standing in for each data point</p>
+
+<h1 id="arguments-5" class='section-header'><a
+                           href="#arguments-5">Arguments</a></h1>
+<ul>
+<li><code>x</code> - Iterator for the x values</li>
+<li><code>y</code> - Iterator for the y values</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
+
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>PointSymbol</code> - Sets symbol for each point</li>
+<li><code>PointSize</code> - Sets the size of each point</li>
+<li><code>Color</code> - Sets the color</li>
+</ul></li>
+</ul>
+</div><h4 id='method.lines_points' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.lines_points' class='fnname'>lines_points</a>&lt;'l, Tx: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Tx&gt;, Ty: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Ty&gt;&gt;(&amp;'l mut self, x: X, y: Y, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>A combination of lines and points methods (drawn in that order).</p>
+
+<h1 id="arguments-6" class='section-header'><a
+                           href="#arguments-6">Arguments</a></h1>
+<ul>
+<li><code>x</code> - Iterator for the x values</li>
+<li><code>y</code> - Iterator for the y values</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the plot element</li>
+</ul>
+</div><h4 id='method.x_error_lines' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.x_error_lines' class='fnname'>x_error_lines</a>&lt;'l, Tx: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Tx&gt;, Ty: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Ty&gt;, Txe: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, XE: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Txe&gt;&gt;(&amp;'l mut self, x: X, y: Y, x_error: XE, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
+Additionally, error bars are attached to each data point in the X direction.</p>
+
+<h1 id="arguments-7" class='section-header'><a
+                           href="#arguments-7">Arguments</a></h1>
+<ul>
+<li><code>x</code> - Iterator for the x values</li>
+<li><code>y</code> - Iterator for the y valuess</li>
+<li><code>x_error</code> - Iterator for the error associated with the x value</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
+
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>PointSymbol</code> - Sets symbol for each point</li>
+<li><code>PointSize</code> - Sets the size of each point</li>
+<li><code>LineWidth</code> - Sets the width of the line</li>
+<li><code>LineStyle</code> - Sets the style of the line</li>
+<li><code>Color</code> - Sets the color</li>
+</ul></li>
+</ul>
+</div><h4 id='method.y_error_lines' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.y_error_lines' class='fnname'>y_error_lines</a>&lt;'l, Tx: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Tx&gt;, Ty: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Ty&gt;, Tye: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, YE: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Tye&gt;&gt;(&amp;'l mut self, x: X, y: Y, y_error: YE, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
+Additionally, error bars are attached to each data point in the Y direction.</p>
+
+<h1 id="arguments-8" class='section-header'><a
+                           href="#arguments-8">Arguments</a></h1>
+<ul>
+<li><code>x</code> - Iterator for the x values</li>
+<li><code>y</code> - Iterator for the y values</li>
+<li><code>y_error</code> - Iterator for the error associated with the y values</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
+
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>PointSymbol</code> - Sets symbol for each point</li>
+<li><code>PointSize</code> - Sets the size of each point</li>
+<li><code>LineWidth</code> - Sets the width of the line</li>
+<li><code>LineStyle</code> - Sets the style of the line</li>
+<li><code>Color</code> - Sets the color</li>
+</ul></li>
+</ul>
+</div><h4 id='method.fill_between' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.fill_between' class='fnname'>fill_between</a>&lt;'l, Tx: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Tx&gt;, Tyl: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, YL: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Tyl&gt;, Tyh: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, YH: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Tyh&gt;&gt;(&amp;'l mut self, x: X, y_lo: YL, y_hi: YH, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Plot a 2D scatter-plot of two curves (bound by <code>y_lo</code> and <code>y_hi</code>) with a filled region between them.
+<code>FillRegion</code> plot option can be used to control what happens when the curves intersect. If set to Above, then the <code>y_lo &lt; y_hi</code> region is filled.
+If set to Below, then the <code>y_lo &gt; y_hi</code> region is filled. Otherwise both regions are filled.</p>
+
+<h1 id="arguments-9" class='section-header'><a
+                           href="#arguments-9">Arguments</a></h1>
+<ul>
+<li><code>x</code> - Iterator for the x values</li>
+<li><code>y_lo</code> - Iterator for the bottom y values</li>
+<li><code>y_hi</code> - Iterator for the top y values</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
+
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>FillRegion</code> - Specifies the region between the two curves to fill</li>
+<li><code>Color</code> - Sets the color of the filled region</li>
+<li><code>FillAlpha</code> - Sets the transparency of the filled region</li>
+</ul></li>
+</ul>
+</div><h4 id='method.boxes' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.boxes' class='fnname'>boxes</a>&lt;'l, Tx: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Tx&gt;, Ty: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Ty&gt;&gt;(&amp;'l mut self, x: X, y: Y, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
+Boxes start at the x-axis and go towards the y value of the datapoint.</p>
+
+<h1 id="arguments-10" class='section-header'><a
+                           href="#arguments-10">Arguments</a></h1>
+<ul>
+<li><code>x</code> - Iterator for the x values (center of the box)</li>
+<li><code>y</code> - Iterator for the y values</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
+
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>LineWidth</code> - Sets the width of the border</li>
+<li><code>LineStyle</code> - Sets the style of the border</li>
+<li><code>BorderColor</code> - Sets the color of the border</li>
+<li><code>Color</code> - Sets the color of the box fill</li>
+<li><code>FillAlpha</code> - Sets the transparency of the box fill</li>
+</ul></li>
+</ul>
+</div><h4 id='method.boxes_set_width' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.boxes_set_width' class='fnname'>boxes_set_width</a>&lt;'l, Tx: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Tx&gt;, Ty: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, Y: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Ty&gt;, Tw: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, W: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;Tw&gt;&gt;(&amp;'l mut self, x: X, y: Y, w: W, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Plot a 2D scatter-plot using boxes of set (per box) width.
+Boxes start at the x-axis and go towards the y value of the datapoint.</p>
+
+<h1 id="arguments-11" class='section-header'><a
+                           href="#arguments-11">Arguments</a></h1>
+<ul>
+<li><code>x</code> - Iterator for the x values (center of the box)</li>
+<li><code>y</code> - Iterator for the y values</li>
+<li><code>w</code> - Iterator for the box width values</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
+
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+<li><code>LineWidth</code> - Sets the width of the border</li>
+<li><code>LineStyle</code> - Sets the style of the border</li>
+<li><code>BorderColor</code> - Sets the color of the border</li>
+<li><code>Color</code> - Sets the color of the box fill</li>
+<li><code>FillAlpha</code> - Sets the transparency of the box fill</li>
+</ul></li>
+</ul>
+</div><h4 id='method.image' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.image' class='fnname'>image</a>&lt;'l, T: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;T&gt;&gt;(&amp;'l mut self, mat: X, num_rows: <a href='http://doc.rust-lang.org/master/std/primitive.uint.html'>uint</a>, num_cols: <a href='http://doc.rust-lang.org/master/std/primitive.uint.html'>uint</a>, dimensions: <a class='type' href='http://doc.rust-lang.org/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.tuple.html'>(<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>, <a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>, <a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>, <a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>)</a>&gt;, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+<div class='docblock'><p>Draws an image from a rectangular array of data by connecting the individual datapoints with polygons.</p>
+
+<h1 id="arguments:" class='section-header'><a
+                           href="#arguments:">Arguments:</a></h1>
+<ul>
+<li><code>mat</code> - Row-major 2D array signifying the value of the datapoints. The X and Y coordinates of the datapoints are determined automatically,
+      and optionally scaled using the <code>dimensions</code> argument.</li>
+<li><code>num_rows</code> - Number of rows in the data array</li>
+<li><code>num_cols</code> - Number of columns in the data array</li>
+<li><code>dimensions</code> - Optional X and Y coordinates of the first and last data points (with the rest of the coordinates spaced evenly between).
+             By default this will be <code>(0, 0)</code> and <code>(num_rows - 1, num_cols - 1)</code>.</li>
+<li><code>options</code> - Array of PlotOption controlling the appearance of the surface. Relevant options are:
+
+<ul>
+<li><code>Caption</code> - Specifies the caption for this dataset. Use an empty string to hide it (default).</li>
+</ul></li>
+</ul>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='trait' href='../gnuplot/trait.AxesCommon.html' title='gnuplot::AxesCommon'>AxesCommon</a> for <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h3><div class='impl-methods'><h4 id='method.set_pos_grid' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_pos_grid' class='fnname'>set_pos_grid</a>&lt;'l&gt;(&amp;'l mut self, nrow: <a href='http://doc.rust-lang.org/master/std/primitive.u32.html'>u32</a>, ncol: <a href='http://doc.rust-lang.org/master/std/primitive.u32.html'>u32</a>, pos: <a href='http://doc.rust-lang.org/master/std/primitive.u32.html'>u32</a>) -&gt; &amp;'l mut Self</code></h4>
+<h4 id='method.set_pos' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_pos' class='fnname'>set_pos</a>&lt;'l&gt;(&amp;'l mut self, x: <a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>, y: <a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>) -&gt; &amp;'l mut Self</code></h4>
+<h4 id='method.set_size' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_size' class='fnname'>set_size</a>&lt;'l&gt;(&amp;'l mut self, w: <a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>, h: <a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>) -&gt; &amp;'l mut Self</code></h4>
+<h4 id='method.set_aspect_ratio' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_aspect_ratio' class='fnname'>set_aspect_ratio</a>&lt;'l&gt;(&amp;'l mut self, ratio: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self</code></h4>
+<h4 id='method.set_x_label' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_x_label' class='fnname'>set_x_label</a>&lt;'l&gt;(&amp;'l mut self, text: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.str.html'>str</a>, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]</a>) -&gt; &amp;'l mut Self</code></h4>
+<h4 id='method.set_y_label' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_y_label' class='fnname'>set_y_label</a>&lt;'l&gt;(&amp;'l mut self, text: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.str.html'>str</a>, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]</a>) -&gt; &amp;'l mut Self</code></h4>
+<h4 id='method.set_title' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_title' class='fnname'>set_title</a>&lt;'l&gt;(&amp;'l mut self, text: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.str.html'>str</a>, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]</a>) -&gt; &amp;'l mut Self</code></h4>
+<h4 id='method.label' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.label' class='fnname'>label</a>&lt;'l&gt;(&amp;'l mut self, text: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.str.html'>str</a>, x: <a class='type' href='../gnuplot/coordinates/type.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, y: <a class='type' href='../gnuplot/coordinates/type.Coordinate.html' title='gnuplot::coordinates::Coordinate'>Coordinate</a>, options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]</a>) -&gt; &amp;'l mut Self</code></h4>
+<h4 id='method.set_x_ticks' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_x_ticks' class='fnname'>set_x_ticks</a>&lt;'l&gt;(&amp;'l mut self, tick_placement: <a class='type' href='http://doc.rust-lang.org/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.tuple.html'>(<a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;, <a href='http://doc.rust-lang.org/master/std/primitive.u32.html'>u32</a>)</a>&gt;, tick_options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>]</a>, label_options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]</a>) -&gt; &amp;'l mut Self</code></h4>
+<h4 id='method.set_y_ticks' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_y_ticks' class='fnname'>set_y_ticks</a>&lt;'l&gt;(&amp;'l mut self, tick_placement: <a class='type' href='http://doc.rust-lang.org/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.tuple.html'>(<a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;, <a href='http://doc.rust-lang.org/master/std/primitive.u32.html'>u32</a>)</a>&gt;, tick_options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>]</a>, label_options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]</a>) -&gt; &amp;'l mut Self</code></h4>
+<h4 id='method.set_x_ticks_custom' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_x_ticks_custom' class='fnname'>set_x_ticks_custom</a>&lt;'l, T: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, TL: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;<a class='type' href='../gnuplot/options/type.Tick.html' title='gnuplot::options::Tick'>Tick</a>&lt;T&gt;&gt;&gt;(&amp;'l mut self, ticks: TL, tick_options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>]</a>, label_options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]</a>) -&gt; &amp;'l mut Self</code></h4>
+<h4 id='method.set_y_ticks_custom' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_y_ticks_custom' class='fnname'>set_y_ticks_custom</a>&lt;'l, T: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, TL: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;<a class='type' href='../gnuplot/options/type.Tick.html' title='gnuplot::options::Tick'>Tick</a>&lt;T&gt;&gt;&gt;(&amp;'l mut self, ticks: TL, tick_options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>]</a>, label_options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]</a>) -&gt; &amp;'l mut Self</code></h4>
+<h4 id='method.set_x_range' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_x_range' class='fnname'>set_x_range</a>&lt;'l&gt;(&amp;'l mut self, min: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;, max: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self</code></h4>
+<h4 id='method.set_y_range' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_y_range' class='fnname'>set_y_range</a>&lt;'l&gt;(&amp;'l mut self, min: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;, max: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code> (or <code>str</code>), <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "gnuplot";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script async src="../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The gnuplot library documentation.">
+
+    <title>gnuplot::options::LegendOption - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body>
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'><a href='../index.html'>gnuplot</a>&#8203;::<a href='index.html'>options</a></p>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content type">
+<h1 class='fqn'>Enum <a href='../index.html'>gnuplot</a>::<a href='index.html'>options</a>::<a class='type' href=''>LegendOption</a><span class='out-of-band'><a id='src-6880' href='../../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/options.rs.html#187-204'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum LegendOption&lt;'l&gt; {
+    Reverse,
+    Invert,
+    Horizontal,
+    Placement(<a class='type' href='../../gnuplot/options/type.AlignType.html' title='gnuplot::options::AlignType'>AlignType</a>, <a class='type' href='../../gnuplot/options/type.AlignType.html' title='gnuplot::options::AlignType'>AlignType</a>),
+    Title(&amp;'l <a href='http://doc.rust-lang.org/master/std/primitive.str.html'>str</a>),
+    MaxRows(<a href='http://doc.rust-lang.org/master/std/primitive.u32.html'>u32</a>),
+    MaxCols(<a href='http://doc.rust-lang.org/master/std/primitive.u32.html'>u32</a>),
+}</pre><div class='docblock'><p>Legend options</p>
+</div><h2 class='variants'>Variants</h2>
+<table><tr><td id='variant.Reverse'><a class='stability Unmarked' title='No stability level'></a><code>Reverse</code></td><td><div class='docblock'><p>Puts curve samples to the left of the label</p>
+</div></td></tr><tr><td id='variant.Invert'><a class='stability Unmarked' title='No stability level'></a><code>Invert</code></td><td><div class='docblock'><p>Displays legend entries in opposite order</p>
+</div></td></tr><tr><td id='variant.Horizontal'><a class='stability Unmarked' title='No stability level'></a><code>Horizontal</code></td><td><div class='docblock'><p>Makes the legend horizontal (default is vertical)</p>
+</div></td></tr><tr><td id='variant.Placement'><a class='stability Unmarked' title='No stability level'></a><code>Placement</code></td><td><div class='docblock'><p>Specifies the location of the legend. The first argument specifies the horizontal
+placement with respect to its position, and the second argument specifies the vertical placement</p>
+</div></td></tr><tr><td id='variant.Title'><a class='stability Unmarked' title='No stability level'></a><code>Title</code></td><td><div class='docblock'><p>Title of the legend</p>
+</div></td></tr><tr><td id='variant.MaxRows'><a class='stability Unmarked' title='No stability level'></a><code>MaxRows</code></td><td><div class='docblock'><p>Specifies the maximum number of rows, when the legend is vertical</p>
+</div></td></tr><tr><td id='variant.MaxCols'><a class='stability Unmarked' title='No stability level'></a><code>MaxCols</code></td><td><div class='docblock'><p>Specifies the maximum number of columns, when the legend is horizontal</p>
+</div></td></tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code> (or <code>str</code>), <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "gnuplot";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>
