@@ -2,8 +2,6 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::io::MemWriter;
-
 use axes_common::*;
 use datatype::*;
 use options::*;
@@ -12,7 +10,7 @@ use options::*;
 pub struct Axes3D
 {
 	common: AxesCommonData,
-	z_ticks: MemWriter,
+	z_ticks: ResetMemWriter,
 	contour_base: bool,
 	contour_surface: bool,
 	contour_auto: AutoOption<u32>,
@@ -148,7 +146,7 @@ pub fn new_axes3d() -> Axes3D
 	Axes3D
 	{
 		common: AxesCommonData::new(),
-		z_ticks: MemWriter::new(),
+		z_ticks: ResetMemWriter::new(),
 		contour_base: false,
 		contour_surface: false,
 		contour_auto: Auto,

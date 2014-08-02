@@ -2,12 +2,51 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::io::{MemWriter, SeekSet, Writer};
+use std::io::{MemWriter, Writer, IoResult};
 
 use datatype::*;
 use coordinates::*;
 use options::*;
 use writer::*;
+
+pub struct ResetMemWriter
+{
+	buf: Vec<u8>,
+}
+
+impl ResetMemWriter {
+	pub fn new() -> ResetMemWriter
+	{
+		ResetMemWriter{ buf: Vec::with_capacity(128) }
+	}
+
+	pub fn get_ref<'l>(&'l self) -> &'l [u8]
+	{
+		self.buf.as_slice()
+	}
+
+	pub fn truncate(&mut self, new_len: uint)
+	{
+		self.buf.truncate(new_len);
+	}
+}
+
+impl Writer for ResetMemWriter
+{
+	fn write(&mut self, buf: &[u8]) -> IoResult<()>
+	{
+		self.buf.push_all(buf);
+		Ok(())
+	}
+}
+
+impl PlotWriter for ResetMemWriter
+{
+	fn write_data<T: DataType>(&mut self, v: T)
+	{
+		self.write_le_f64(v.get());
+	}
+}
 
 pub struct PlotElement
 {
@@ -220,8 +259,8 @@ pub struct AxesCommonData
 	pub grid_rows: u32,
 	pub grid_cols: u32,
 	pub grid_pos: Option<u32>,
-	pub x_ticks: MemWriter,
-	pub y_ticks: MemWriter,
+	pub x_ticks: ResetMemWriter,
+	pub y_ticks: ResetMemWriter,
 }
 
 pub fn char_to_symbol(c: char) -> i32
@@ -264,8 +303,8 @@ impl AxesCommonData
 			grid_rows: 0,
 			grid_cols: 0,
 			grid_pos: None,
-			x_ticks: MemWriter::new(),
-			y_ticks: MemWriter::new()
+			x_ticks: ResetMemWriter::new(),
+			y_ticks: ResetMemWriter::new()
 		}
 	}
 
@@ -625,10 +664,10 @@ impl AxesCommonData
 		c.write_str("\n");
 	}
 
-	pub fn set_ticks_custom_common<T: DataType, TL: Iterator<Tick<T>>>(c: &mut MemWriter, tick_axis: TickAxis,
+	pub fn set_ticks_custom_common<T: DataType, TL: Iterator<Tick<T>>>(c: &mut ResetMemWriter, tick_axis: TickAxis,
 	                                                                   mut ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
 	{
-		c.seek(0, SeekSet);
+		c.truncate(0);
 
 		c.write_str("set ");
 		c.write_str(tick_axis.to_tick_str());
@@ -676,7 +715,7 @@ impl AxesCommonData
 		c.write_str("\n");
 	}
 
-	fn set_ticks_options(c: &mut MemWriter, tick_options: &[TickOption], label_options: &[LabelOption])
+	fn set_ticks_options(c: &mut ResetMemWriter, tick_options: &[TickOption], label_options: &[LabelOption])
 	{
 		write_out_label_options(AxesTicks, label_options, c);
 
@@ -733,9 +772,9 @@ impl AxesCommonData
 		write!(&mut *c, " scale {:.12e},{:.12e}", minor_scale, major_scale);
 	}
 
-	pub fn set_ticks_common(c: &mut MemWriter, tick_axis: TickAxis, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])
+	pub fn set_ticks_common(c: &mut ResetMemWriter, tick_axis: TickAxis, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])
 	{
-		c.seek(0, SeekSet);
+		c.truncate(0);
 		
 		match tick_placement
 		{
