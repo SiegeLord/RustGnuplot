@@ -8,11 +8,11 @@ env:
 before_install:
   - wget http://static.rust-lang.org/dist/rust-nightly-x86_64-unknown-linux-gnu.tar.gz
   - tar xf rust-nightly-x86_64-unknown-linux-gnu.tar.gz
-  - wget http://static.rust-lang.org/cargo-dist/cargo-nightly-linux.tar.gz
-  - tar xf cargo-nightly-linux.tar.gz
+  - wget http://static.rust-lang.org/cargo-dist/cargo-nightly-x86_64-unknown-linux-gnu.tar.gz
+  - tar xf cargo-nightly-x86_64-unknown-linux-gnu.tar.gz
 install:
   - sudo ./rust-nightly-x86_64-unknown-linux-gnu/install.sh
-  - sudo ./cargo-nightly/install.sh
+  - sudo ./cargo-nightly-x86_64-unknown-linux-gnu/install.sh
 script:
   - cd examples
   - cargo build
