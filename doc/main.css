@@ -499,6 +499,14 @@ pre.rust a { transform: scaleX(-1); }
     float: right;
 }
 
+.content .in-band {
+    display: inline-block;
+}
+
+.collapse-toggle .inner {
+    font: 10pt monospace;
+}
+
 .summary {
     padding-right: 0px;
     height: 12pt;
