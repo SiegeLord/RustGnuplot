@@ -44,7 +44,7 @@
 <h1 class='fqn'><div class='in-band'>Trait <a href='index.html'>gnuplot</a>::<wbr><a class='trait' href=''>AxesCommon</a><wbr></div><div class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-4625' href='../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/axes_common.rs.html#848-1052'>[src]</a></div></h1>
+        </span><a id='src-4984' href='../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/axes_common.rs.html#935-1162'>[src]</a></div></h1>
 <pre class='rust trait'>pub trait AxesCommon: AxesCommonPrivate {
     fn <a href='#method.set_pos_grid' class='fnname'>set_pos_grid</a>&lt;'l&gt;(&amp;'l mut self, nrow: <a href='http://doc.rust-lang.org/master/std/primitive.u32.html'>u32</a>, ncol: <a href='http://doc.rust-lang.org/master/std/primitive.u32.html'>u32</a>, pos: <a href='http://doc.rust-lang.org/master/std/primitive.u32.html'>u32</a>) -&gt; &amp;'l mut Self { ... }
     fn <a href='#method.set_pos' class='fnname'>set_pos</a>&lt;'l&gt;(&amp;'l mut self, x: <a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>, y: <a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>) -&gt; &amp;'l mut Self { ... }
@@ -60,6 +60,8 @@
     fn <a href='#method.set_y_ticks_custom' class='fnname'>set_y_ticks_custom</a>&lt;'l, T: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, TL: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;<a class='type' href='../gnuplot/options/type.Tick.html' title='gnuplot::options::Tick'>Tick</a>&lt;T&gt;&gt;&gt;(&amp;'l mut self, ticks: TL, tick_options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>]</a>, label_options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]</a>) -&gt; &amp;'l mut Self { ... }
     fn <a href='#method.set_x_range' class='fnname'>set_x_range</a>&lt;'l&gt;(&amp;'l mut self, min: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;, max: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self { ... }
     fn <a href='#method.set_y_range' class='fnname'>set_y_range</a>&lt;'l&gt;(&amp;'l mut self, min: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;, max: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self { ... }
+    fn <a href='#method.set_x_log' class='fnname'>set_x_log</a>&lt;'l&gt;(&amp;'l mut self, base: <a class='type' href='http://doc.rust-lang.org/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self { ... }
+    fn <a href='#method.set_y_log' class='fnname'>set_y_log</a>&lt;'l&gt;(&amp;'l mut self, base: <a class='type' href='http://doc.rust-lang.org/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self { ... }
 }</pre>
             <h2 id='provided-methods'>Provided Methods</h2>
             <div class='methods'>
@@ -173,7 +175,8 @@ The coordinates refer to the bottom-left corner of the axes</p>
 <ul>
 <li><code>tick_placement</code> - Controls the placement of the ticks. Pass <code>None</code> to hide the ticks. Otherwise, the first tuple value controls the spacing
                  of the major ticks (in axes units), otherwise set it to <code>Auto</code> to let gnuplot decide the spacing automatically. The second
-                 tuple value specifies the number of minor ticks.</li>
+                 tuple value specifies the number of minor ticks. For logarithmic axes, non-zero values mean that the number of ticks usually
+                 equals to <code>ceil(log_base) - 2</code>.</li>
 <li><code>tick_options</code> - Array of TickOption controlling the appearance of the ticks</li>
 <li><code>label_options</code> - Array of LabelOption controlling the appearance of the tick labels. Relevant options are:
 
@@ -206,7 +209,7 @@ location of the tic.</li>
 </ul></li>
 </ul>
 </div><h3 id='method.set_y_ticks_custom' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_y_ticks_custom' class='fnname'>set_y_ticks_custom</a>&lt;'l, T: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, TL: <a class='trait' href='http://doc.rust-lang.org/master/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;<a class='type' href='../gnuplot/options/type.Tick.html' title='gnuplot::options::Tick'>Tick</a>&lt;T&gt;&gt;&gt;(&amp;'l mut self, ticks: TL, tick_options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.TickOption.html' title='gnuplot::options::TickOption'>TickOption</a>]</a>, label_options: &amp;<a href='http://doc.rust-lang.org/master/std/primitive.slice.html'>[<a class='type' href='../gnuplot/options/type.LabelOption.html' title='gnuplot::options::LabelOption'>LabelOption</a>]</a>) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Like <code>set_x_ticks_custom</code> but for the the Y axis.</p>
-</div><h3 id='method.set_x_range' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_x_range' class='fnname'>set_x_range</a>&lt;'l&gt;(&amp;'l mut self, min: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;, max: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Set the range of values for the X axis</p>
+</div><h3 id='method.set_x_range' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_x_range' class='fnname'>set_x_range</a>&lt;'l&gt;(&amp;'l mut self, min: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;, max: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Set the range of values for the X axis.</p>
 
 <h1 id="arguments-10" class='section-header'><a
                            href="#arguments-10">Arguments</a></h1>
@@ -214,13 +217,27 @@ location of the tic.</li>
 <li><code>min</code> - Minimum X value</li>
 <li><code>max</code> - Maximum X value</li>
 </ul>
-</div><h3 id='method.set_y_range' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_y_range' class='fnname'>set_y_range</a>&lt;'l&gt;(&amp;'l mut self, min: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;, max: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Set the range of values for the Y axis</p>
+</div><h3 id='method.set_y_range' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_y_range' class='fnname'>set_y_range</a>&lt;'l&gt;(&amp;'l mut self, min: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;, max: <a class='type' href='../gnuplot/options/type.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Set the range of values for the Y axis.</p>
 
 <h1 id="arguments-11" class='section-header'><a
                            href="#arguments-11">Arguments</a></h1>
 <ul>
 <li><code>min</code> - Minimum Y value</li>
 <li><code>max</code> - Maximum Y value</li>
+</ul>
+</div><h3 id='method.set_x_log' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_x_log' class='fnname'>set_x_log</a>&lt;'l&gt;(&amp;'l mut self, base: <a class='type' href='http://doc.rust-lang.org/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Sets the X axis be logarithmic. Note that the range must be non-negative for this to be valid.</p>
+
+<h1 id="arguments-12" class='section-header'><a
+                           href="#arguments-12">Arguments</a></h1>
+<ul>
+<li><code>base</code> - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic</li>
+</ul>
+</div><h3 id='method.set_y_log' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_y_log' class='fnname'>set_y_log</a>&lt;'l&gt;(&amp;'l mut self, base: <a class='type' href='http://doc.rust-lang.org/master/core/option/type.Option.html' title='core::option::Option'>Option</a>&lt;<a href='http://doc.rust-lang.org/master/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self</code></h3><div class='docblock'><p>Sets the Y axis be logarithmic. Note that the range must be non-negative for this to be valid.</p>
+
+<h1 id="arguments-13" class='section-header'><a
+                           href="#arguments-13">Arguments</a></h1>
+<ul>
+<li><code>base</code> - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic</li>
 </ul>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
