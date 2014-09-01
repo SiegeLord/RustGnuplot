@@ -109,6 +109,22 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 	.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), []);
 	
 	show(&mut fg, "fg2.6.gnuplot");
+
+	let x4 = [1f32, 10.0, 100.0];
+	let y4 = [1f32, 3f32, 9f32];
+
+	let mut fg = Figure::new();
+	set_term(&mut fg);
+
+	fg.axes2d()
+	.set_title("Logarithmic", [])
+	.lines(x4.iter(), y4.iter(), [])
+	.set_x_ticks(Some((Auto, 1)), [], [])
+	.set_y_ticks(Some((Auto, 1)), [], [])
+	.set_x_log(Some(10.0))
+	.set_y_log(Some(3.0));
+
+	show(&mut fg, "fg2.7.gnuplot");
 }
 
 fn main()

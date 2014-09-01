@@ -10,7 +10,7 @@ use options::*;
 pub struct Axes3D
 {
 	common: AxesCommonData,
-	z_ticks: ResetMemWriter,
+	z_axis: AxisData,
 	contour_base: bool,
 	contour_surface: bool,
 	contour_auto: AutoOption<u32>,
@@ -75,14 +75,14 @@ impl Axes3D
 	/// Like `set_x_ticks` but for the Z axis.
 	pub fn set_z_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes3D
 	{
-		AxesCommonData::set_ticks_common(&mut self.z_ticks, ZTickAxis, tick_placement, tick_options, label_options);
+		self.z_axis.set_ticks(tick_placement, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
 	pub fn set_z_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes3D
 	{
-		AxesCommonData::set_ticks_custom_common(&mut self.z_ticks, ZTickAxis, ticks, tick_options, label_options);
+		self.z_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
 	}
 
@@ -93,7 +93,17 @@ impl Axes3D
 	/// * `max` - Maximum Z value
 	pub fn set_z_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Axes3D
 	{
-		self.get_common_data_mut().set_range_common(ZTickAxis, min, max);
+		self.z_axis.set_range(min, max);
+		self
+	}
+
+	/// Sets the Z axis be logarithmic. Note that the range must be non-negative for this to be valid.
+	///
+	/// # Arguments
+	/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic
+	pub fn set_z_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Axes3D
+	{
+		self.z_axis.set_log(base);
 		self
 	}
 
@@ -146,7 +156,7 @@ pub fn new_axes3d() -> Axes3D
 	Axes3D
 	{
 		common: AxesCommonData::new(),
-		z_ticks: ResetMemWriter::new(),
+		z_axis: AxisData::new(ZTickAxis),
 		contour_base: false,
 		contour_surface: false,
 		contour_auto: Auto,
@@ -305,7 +315,7 @@ impl Axes3DPrivate for Axes3D
 		}
 
 		self.common.write_out_commands(w);
-		w.write(self.z_ticks.get_ref());
+		self.z_axis.write_out_commands(w);
 		self.common.write_out_elements("splot", w);
 	}
 }

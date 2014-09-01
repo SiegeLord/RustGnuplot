@@ -180,6 +180,16 @@ pub enum TickAxis
 
 impl TickAxis
 {
+	pub fn to_axis_str(&self) -> &str
+	{
+		match *self
+		{
+			XTickAxis => "x",
+			YTickAxis => "y",
+			ZTickAxis => "z",
+		}
+	}
+
 	pub fn to_tick_str(&self) -> &str
 	{
 		match *self
@@ -252,6 +262,256 @@ impl PlotType
 	}
 }
 
+pub struct AxisData
+{
+	pub ticks_buf: ResetMemWriter,
+	pub log_base: Option<f64>,
+	pub mticks: i32,
+	pub axis: TickAxis,
+	pub min: AutoOption<f64>,
+	pub max: AutoOption<f64>,
+}
+
+impl AxisData
+{
+	pub fn new(axis: TickAxis) -> AxisData
+	{
+		AxisData
+		{
+			ticks_buf: ResetMemWriter::new(),
+			log_base: None,
+			mticks: 0,
+			axis: axis,
+			min: Auto,
+			max: Auto,
+		}
+	}
+	
+	pub fn write_out_commands(&self, w: &mut Writer)
+	{
+		let log = match self.log_base
+		{
+			Some(base) =>
+			{
+				w.write_str("set logscale ");
+				w.write_str(self.axis.to_axis_str());
+				write!(w, " {:.12e}", base);
+				true
+			},
+			None =>
+			{
+				w.write_str("unset logscale ");
+				w.write_str(self.axis.to_axis_str());
+				false
+			}
+		};
+
+		w.write_str("\n");
+		if self.mticks > 0
+		{
+			write!(w, "set m{} ", self.axis.to_tick_str());
+			if log
+			{
+				writeln!(w, "default");
+			}
+			else
+			{
+				writeln!(w, "{}", self.mticks as i32 + 1);
+			}
+		}
+		else
+		{
+			writeln!(w, "unset m{}", self.axis.to_tick_str());
+		}
+
+		w.write_str("\n");
+		w.write_str("set ");
+		w.write_str(self.axis.to_range_str());
+		w.write_str(" [");
+		match self.min
+		{
+			Fix(v) => write!(w, "{:.12e}", v),
+			Auto => w.write_str("*")
+		};
+		w.write_str(":");
+		match self.max
+		{
+			Fix(v) => write!(w, "{:.12e}", v),
+			Auto => w.write_str("*")
+		};
+		w.write_str("]\n");
+		
+		w.write(self.ticks_buf.get_ref());
+	}
+	
+	pub fn set_ticks_custom<T: DataType, TL: Iterator<Tick<T>>>(&mut self, mut ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
+	{
+		// Set to 0 so that we don't get any non-custom ticks
+		self.mticks = 0;
+		{
+			let c = &mut self.ticks_buf;
+			c.truncate(0);
+
+			c.write_str("set ");
+			c.write_str(self.axis.to_tick_str());
+			c.write_str(" (");
+
+			let mut first = true;
+			for tick in ticks
+			{
+				if first
+				{
+					first = false;
+				}
+				else
+				{
+					c.write_str(",");
+				}
+
+				let a = Auto;
+				let (ref pos, ref label, level) = match tick
+				{
+					Minor(ref pos) =>
+					{
+						(pos, &a, 1u)
+					},
+					Major(ref pos, ref label) =>
+					{
+						(pos, label, 0u)
+					}
+				};
+
+				match **label
+				{
+					Fix(ref label) =>
+					{
+						c.write_str("\"");
+						c.write_str(label.as_slice());
+						c.write_str("\" ");
+					},
+					Auto => ()
+				}
+				write!(&mut *c, "{:.12e} {}", pos.get(), level);
+			}
+			c.write_str(")");
+		}
+		self.set_ticks_options(tick_options, label_options);
+		self.ticks_buf.write_str("\n");
+	}
+
+	fn set_ticks_options(&mut self, tick_options: &[TickOption], label_options: &[LabelOption])
+	{
+		let c = &mut self.ticks_buf;
+		write_out_label_options(AxesTicks, label_options, c);
+
+		first_opt!(tick_options,
+			OnAxis(b) =>
+			{
+				c.write_str(match b
+				{
+					true => " axis",
+					false => " border",
+				});
+			}
+		)
+
+		first_opt!(tick_options,
+			Mirror(b) =>
+			{
+				c.write_str(match b
+				{
+					true => " mirror",
+					false => " nomirror",
+				});
+			}
+		)
+
+		first_opt!(tick_options,
+			Inward(b) =>
+			{
+				c.write_str(match b
+				{
+					true => " in",
+					false => " out",
+				});
+			}
+		)
+
+		let mut minor_scale = 0.5;
+		let mut major_scale = 0.5;
+
+		first_opt!(tick_options,
+			MinorScale(s) =>
+			{
+				minor_scale = s;
+			}
+		)
+
+		first_opt!(tick_options,
+			MajorScale(s) =>
+			{
+				major_scale = s;
+			}
+		)
+
+		write!(&mut *c, " scale {:.12e},{:.12e}", minor_scale, major_scale);
+	}
+
+	pub fn set_ticks(&mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])
+	{
+		self.ticks_buf.truncate(0);
+			
+		self.mticks = match tick_placement
+		{
+			Some((incr, mticks)) =>
+			{
+				{
+					let c = &mut self.ticks_buf;
+					c.write_str("set ");
+					c.write_str(self.axis.to_tick_str());
+
+					match incr
+					{
+						Auto =>
+						{
+							c.write_str(" autofreq");
+						},
+						Fix(incr) =>
+						{
+							if incr <= 0.0
+							{
+								fail!("'incr' must be positive, but is actually {}", incr);
+							}
+							c.write_str(" ");
+							write!(&mut *c, " {:.12e}", incr);
+						}
+					}
+				}
+
+				self.set_ticks_options(tick_options, label_options);
+				mticks as i32
+			},
+			None =>
+			{
+				write!(&mut self.ticks_buf, "unset {0}", self.axis.to_tick_str());
+				0
+			}
+		};
+		self.ticks_buf.write_str("\n");
+	}
+
+	pub fn set_range(&mut self, min: AutoOption<f64>, max: AutoOption<f64>)
+	{
+		self.min = min;
+		self.max = max;
+	}
+
+	pub fn set_log(&mut self, base: Option<f64>)
+	{
+		self.log_base = base;
+	}
+}
+
 pub struct AxesCommonData
 {
 	pub commands: MemWriter,
@@ -259,8 +519,8 @@ pub struct AxesCommonData
 	pub grid_rows: u32,
 	pub grid_cols: u32,
 	pub grid_pos: Option<u32>,
-	pub x_ticks: ResetMemWriter,
-	pub y_ticks: ResetMemWriter,
+	pub x_axis: AxisData,
+	pub y_axis: AxisData,
 }
 
 pub fn char_to_symbol(c: char) -> i32
@@ -303,8 +563,8 @@ impl AxesCommonData
 			grid_rows: 0,
 			grid_cols: 0,
 			grid_pos: None,
-			x_ticks: ResetMemWriter::new(),
-			y_ticks: ResetMemWriter::new()
+			x_axis: AxisData::new(XTickAxis),
+			y_axis: AxisData::new(YTickAxis),
 		}
 	}
 
@@ -611,8 +871,8 @@ impl AxesCommonData
 	pub fn write_out_commands(&self, writer: &mut Writer)
 	{
 		writer.write(self.commands.get_ref());
-		writer.write(self.x_ticks.get_ref());
-		writer.write(self.y_ticks.get_ref());
+		self.x_axis.write_out_commands(writer);
+		self.y_axis.write_out_commands(writer);
 	}
 
 	pub fn write_out_elements(&self, cmd: &str, writer: &mut Writer)
@@ -662,179 +922,6 @@ impl AxesCommonData
 		write_out_label_options(label_type, options, c);
 
 		c.write_str("\n");
-	}
-
-	pub fn set_ticks_custom_common<T: DataType, TL: Iterator<Tick<T>>>(c: &mut ResetMemWriter, tick_axis: TickAxis,
-	                                                                   mut ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
-	{
-		c.truncate(0);
-
-		c.write_str("set ");
-		c.write_str(tick_axis.to_tick_str());
-		c.write_str(" (");
-
-		let mut first = true;
-		for tick in ticks
-		{
-			if first
-			{
-				first = false;
-			}
-			else
-			{
-				c.write_str(",");
-			}
-
-			let a = Auto;
-			let (ref pos, ref label, level) = match tick
-			{
-				Minor(ref pos) =>
-				{
-					(pos, &a, 1u)
-				},
-				Major(ref pos, ref label) =>
-				{
-					(pos, label, 0u)
-				}
-			};
-
-			match **label
-			{
-				Fix(ref label) =>
-				{
-					c.write_str("\"");
-					c.write_str(label.as_slice());
-					c.write_str("\" ");
-				},
-				Auto => ()
-			}
-			write!(&mut *c, "{:.12e} {}", pos.get(), level);
-		}
-		c.write_str(")");
-		AxesCommonData::set_ticks_options(c, tick_options, label_options);
-		c.write_str("\n");
-	}
-
-	fn set_ticks_options(c: &mut ResetMemWriter, tick_options: &[TickOption], label_options: &[LabelOption])
-	{
-		write_out_label_options(AxesTicks, label_options, c);
-
-		first_opt!(tick_options,
-			OnAxis(b) =>
-			{
-				c.write_str(match b
-				{
-					true => " axis",
-					false => " border",
-				});
-			}
-		)
-
-		first_opt!(tick_options,
-			Mirror(b) =>
-			{
-				c.write_str(match b
-				{
-					true => " mirror",
-					false => " nomirror",
-				});
-			}
-		)
-
-		first_opt!(tick_options,
-			Inward(b) =>
-			{
-				c.write_str(match b
-				{
-					true => " in",
-					false => " out",
-				});
-			}
-		)
-
-		let mut minor_scale = 0.5;
-		let mut major_scale = 0.5;
-
-		first_opt!(tick_options,
-			MinorScale(s) =>
-			{
-				minor_scale = s;
-			}
-		)
-
-		first_opt!(tick_options,
-			MajorScale(s) =>
-			{
-				major_scale = s;
-			}
-		)
-
-		write!(&mut *c, " scale {:.12e},{:.12e}", minor_scale, major_scale);
-	}
-
-	pub fn set_ticks_common(c: &mut ResetMemWriter, tick_axis: TickAxis, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])
-	{
-		c.truncate(0);
-		
-		match tick_placement
-		{
-			Some((incr, mticks)) =>
-			{
-				if mticks > 0
-				{
-					writeln!(&mut *c, "set m{} {}", tick_axis.to_tick_str(), mticks as i32 + 1);
-				}
-
-				c.write_str("set ");
-				c.write_str(tick_axis.to_tick_str());
-
-				match incr
-				{
-					Auto =>
-					{
-						c.write_str(" autofreq");
-					},
-					Fix(incr) =>
-					{
-						if incr <= 0.0
-						{
-							fail!("'incr' must be positive, but is actually {}", incr);
-						}
-						c.write_str(" ");
-						write!(&mut *c, " {:.12e}", incr);
-					}
-				}
-
-				AxesCommonData::set_ticks_options(c, tick_options, label_options);
-			},
-			None =>
-			{
-				write!(&mut *c, "unset m{0}\nunset {0}", tick_axis.to_tick_str());
-			}
-		}
-		
-		c.write_str("\n");
-	}
-
-	pub fn set_range_common(&mut self, axis: TickAxis, min: AutoOption<f64>, max: AutoOption<f64>)
-	{
-		let c = &mut self.commands as &mut Writer;
-
-		c.write_str("set ");
-		c.write_str(axis.to_range_str());
-		c.write_str(" [");
-		match min
-		{
-			Fix(v) => write!(c, "{:.12e}", v),
-			Auto => c.write_str("*")
-		};
-		c.write_str(":");
-		match max
-		{
-			Fix(v) => write!(c, "{:.12e}", v),
-			Auto => c.write_str("*")
-		};
-		c.write_str("]\n");
 	}
 }
 
@@ -982,7 +1069,8 @@ pub trait AxesCommon : AxesCommonPrivate
 	/// # Arguments
 	/// * `tick_placement` - Controls the placement of the ticks. Pass `None` to hide the ticks. Otherwise, the first tuple value controls the spacing
 	///                      of the major ticks (in axes units), otherwise set it to `Auto` to let gnuplot decide the spacing automatically. The second
-	///                      tuple value specifies the number of minor ticks.
+	///                      tuple value specifies the number of minor ticks. For logarithmic axes, non-zero values mean that the number of ticks usually
+	///                      equals to `ceil(log_base) - 2`.
 	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
 	/// * `label_options` - Array of LabelOption controlling the appearance of the tick labels. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
@@ -992,14 +1080,14 @@ pub trait AxesCommon : AxesCommonPrivate
 	///      * `Align` - Specifies how to align the label
 	fn set_x_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		AxesCommonData::set_ticks_common(&mut self.get_common_data_mut().x_ticks, XTickAxis, tick_placement, tick_options, label_options);
+		self.get_common_data_mut().x_axis.set_ticks(tick_placement, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks` but for the Y axis.
 	fn set_y_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		AxesCommonData::set_ticks_common(&mut self.get_common_data_mut().y_ticks, YTickAxis, tick_placement, tick_options, label_options);
+		self.get_common_data_mut().y_axis.set_ticks(tick_placement, tick_options, label_options);
 		self
 	}
 
@@ -1019,34 +1107,56 @@ pub trait AxesCommon : AxesCommonPrivate
 	///      * `Align` - Specifies how to align the label
 	fn set_x_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		AxesCommonData::set_ticks_custom_common(&mut self.get_common_data_mut().x_ticks, XTickAxis, ticks, tick_options, label_options);
+		self.get_common_data_mut().x_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
 	fn set_y_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
-		AxesCommonData::set_ticks_custom_common(&mut self.get_common_data_mut().y_ticks, YTickAxis, ticks, tick_options, label_options);
+		self.get_common_data_mut().y_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
 	}
 
-	/// Set the range of values for the X axis
+	/// Set the range of values for the X axis.
+	///
 	/// # Arguments
 	/// * `min` - Minimum X value
 	/// * `max` - Maximum X value
 	fn set_x_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
 	{
-		self.get_common_data_mut().set_range_common(XTickAxis, min, max);
+		self.get_common_data_mut().x_axis.set_range(min, max);
 		self
 	}
 
-	/// Set the range of values for the Y axis
+	/// Set the range of values for the Y axis.
+	///
 	/// # Arguments
 	/// * `min` - Minimum Y value
 	/// * `max` - Maximum Y value
 	fn set_y_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
 	{
-		self.get_common_data_mut().set_range_common(YTickAxis, min, max);
+		self.get_common_data_mut().y_axis.set_range(min, max);
+		self
+	}
+
+	/// Sets the X axis be logarithmic. Note that the range must be non-negative for this to be valid.
+	///
+	/// # Arguments
+	/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic
+	fn set_x_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
+	{
+		self.get_common_data_mut().x_axis.set_log(base);
+		self
+	}
+
+	/// Sets the Y axis be logarithmic. Note that the range must be non-negative for this to be valid.
+	///
+	/// # Arguments
+	/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic
+	fn set_y_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
+	{
+		self.get_common_data_mut().y_axis.set_log(base);
 		self
 	}
 }
