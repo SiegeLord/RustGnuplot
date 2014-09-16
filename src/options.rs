@@ -76,6 +76,22 @@ pub enum DashType
 	DotDotDash
 }
 
+impl DashType
+{
+	pub fn to_int(&self) -> i32
+	{
+		match *self
+		{
+			Solid => 1,
+			SmallDot => 0,
+			Dash => 2,
+			Dot => 3,
+			DotDash => 4,
+			DotDotDash => 5
+		}
+	}
+}
+
 /// An enumeration of possible arrow head styles
 pub enum ArrowheadType
 {
@@ -220,25 +236,4 @@ pub enum ContourStyle
 	/// the curve for the final drawing step. The second argument specifies the
 	/// order of the polynomial (clamped to range from 2 to 10).
 	Spline(u32, u32)
-}
-
-mod private
-{
-	use super::*;
-	
-	impl super::DashType
-	{
-		pub fn to_int(&self) -> i32
-		{
-			match *self
-			{
-				Solid => 1,
-				SmallDot => 0,
-				Dash => 2,
-				Dot => 3,
-				DotDash => 4,
-				DotDotDash => 5
-			}
-		}
-	}
 }
