@@ -40,7 +40,7 @@ pub enum PlotOption<'l>
 	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque
 	FillAlpha(f64),
 	/// Sets the fill region. See FillRegion for the available regions.
-	FillRegion(FillRegion),
+	FillRegion(FillRegionType),
 	/// Sets what an arrowhead looks like
 	ArrowType(ArrowheadType),
 	/// Sets the size of the arrowhead. This is specified in the units of graph (i.e. `1.0` would make the arrow as big as the graph).
@@ -48,7 +48,7 @@ pub enum PlotOption<'l>
 }
 
 /// An enumeration of possible fill regions
-pub enum FillRegion
+pub enum FillRegionType
 {
 	Above,
 	Below,
