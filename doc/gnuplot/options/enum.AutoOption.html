@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `AutoOption` enum in crate `gnuplot`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, AutoOption">
+
+    <title>gnuplot::options::AutoOption - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'><a href='../index.html'>gnuplot</a>::<wbr><a href='index.html'>options</a></p><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AlignType.html'>AlignType</a><a class='enum ' href='enum.ArrowheadType.html'>ArrowheadType</a><a class='enum current' href='enum.AutoOption.html'>AutoOption</a><a class='enum ' href='enum.BorderLocation2D.html'>BorderLocation2D</a><a class='enum ' href='enum.ContourStyle.html'>ContourStyle</a><a class='enum ' href='enum.DashType.html'>DashType</a><a class='enum ' href='enum.FillRegionType.html'>FillRegionType</a><a class='enum ' href='enum.LabelOption.html'>LabelOption</a><a class='enum ' href='enum.LegendOption.html'>LegendOption</a><a class='enum ' href='enum.PlotOption.html'>PlotOption</a><a class='enum ' href='enum.Tick.html'>Tick</a><a class='enum ' href='enum.TickOption.html'>TickOption</a></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><div class='in-band'>Enum <a href='../index.html'>gnuplot</a>::<wbr><a href='index.html'>options</a>::<wbr><a class='enum' href=''>AutoOption</a><wbr></div><div class='out-of-band'><span id='render-detail'>
+            <a id="collapse-all" href="#">[-]
+            </a>&nbsp;<a id="expand-all" href="#">[+]</a>
+        </span><a id='src-6853' href='../../src/gnuplot/home/travis/build/SiegeLord/RustGnuplot/src/options.rs.html#110-116'>[src]</a></div></h1>
+<pre class='rust enum'>pub enum AutoOption&lt;T&gt; {
+    Fix(T),
+    Auto,
+}</pre><div class='docblock'><p>An enumeration of something that can either be fixed (e.g. the maximum of X values),
+or automatically determined</p>
+</div><h2 class='variants'>Variants</h2>
+<table><tr><td id='variant.Fix'><a class='stability Unmarked' title='No stability level'></a><code>Fix</code></td><td><div class='docblock'><p>Fixes the value to a specific value</p>
+</div></td></tr><tr><td id='variant.Auto'><a class='stability Unmarked' title='No stability level'></a><code>Auto</code></td><td><div class='docblock'><p>Lets the value scale automatically</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;T&gt; <a class='enum' href='../../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;T&gt;</code></h3><div class='impl-methods'><h4 id='method.map' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.map' class='fnname'>map</a>&lt;U&gt;(&amp;self, func: |&amp;T| -&gt; U) -&gt; <a class='enum' href='../../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;U&gt;</code></h4>
+<div class='docblock'><p>Same as <code>Option::map</code></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "gnuplot";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>
