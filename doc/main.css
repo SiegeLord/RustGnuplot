@@ -393,6 +393,7 @@ button {
     text-overflow: ellipsis;
     overflow: hidden;
     display: block;
+    font-weight: normal;
 }
 
 #help {
