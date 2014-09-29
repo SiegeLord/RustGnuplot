@@ -31,10 +31,13 @@ A somewhat involved 2D example:
 
 ### Via Cargo
 
-The included packages are:
+```
+[dependencies.gnuplot]
 
-* gnuplot - For the main gnuplot library
-* gnuplot_examples - Some examples to try out
+git = "https://github.com/SiegeLord/RustGnuplot.git"
+```
+
+Also included is the`gnuplot_examples` package, which shows some example usages.
 
 ### Via CMake 2.8
 

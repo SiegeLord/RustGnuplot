@@ -4,7 +4,7 @@ name = "gnuplot"
 version = "0.0.0"
 authors = [ "SiegeLord <slabode@aim.com>" ]
 
-[[lib]]
+[lib]
 
 name = "gnuplot"
 path = "src/lib.rs"
