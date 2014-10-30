@@ -141,7 +141,7 @@ fn main()
 	let matches = match getopts(args.tail(), opts)
 	{
 		Ok(m) => m,
-		Err(f) => fail!("{}", f)
+		Err(f) => panic!("{}", f)
 	};
 	if matches.opt_present("h")
 	{

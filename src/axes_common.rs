@@ -480,7 +480,7 @@ impl AxisData
 						{
 							if incr <= 0.0
 							{
-								fail!("'incr' must be positive, but is actually {}", incr);
+								panic!("'incr' must be positive, but is actually {}", incr);
 							}
 							c.write_str(" ");
 							write!(&mut *c, " {:.12e}", incr);
@@ -541,7 +541,7 @@ pub fn char_to_symbol(c: char) -> i32
 		'D' => 11,
 		'r' => 12,
 		'R' => 13,
-		a => fail!("Invalid symbol {}", a)
+		a => panic!("Invalid symbol {}", a)
 	}
 }
 
@@ -911,7 +911,7 @@ impl AxesCommonData
 			ZLabel => "zlabel",
 			TitleLabel => "title",
 			Label(..) => "label",
-			_ => fail!("Invalid label type")
+			_ => panic!("Invalid label type")
 		};
 		c.write_str(label_str);
 

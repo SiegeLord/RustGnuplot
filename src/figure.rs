@@ -83,7 +83,7 @@ impl Figure
 		match self.axes.as_mut_slice()[l - 1]
 		{
 			Axes2DType(ref mut a) => a,
-			_ => fail!()
+			_ => panic!()
 		}
 	}
 	
@@ -95,7 +95,7 @@ impl Figure
 		match self.axes.as_mut_slice()[l - 1]
 		{
 			Axes3DType(ref mut a) => a,
-			_ => fail!()
+			_ => panic!()
 		}
 	}
 	
