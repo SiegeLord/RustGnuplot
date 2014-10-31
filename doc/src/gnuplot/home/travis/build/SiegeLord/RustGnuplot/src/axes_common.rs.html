@@ -1685,7 +1685,7 @@
 						{
 							<span class='kw'>if</span> <span class='ident'>incr</span> <span class='op'>&lt;=</span> <span class='number'>0.0</span>
 							{
-								<span class='macro'>fail</span><span class='macro'>!</span>(<span class='string'>&quot;&#39;incr&#39; must be positive, but is actually {}&quot;</span>, <span class='ident'>incr</span>);
+								<span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;&#39;incr&#39; must be positive, but is actually {}&quot;</span>, <span class='ident'>incr</span>);
 							}
 							<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; &quot;</span>);
 							<span class='macro'>write</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>c</span>, <span class='string'>&quot; {:.12e}&quot;</span>, <span class='ident'>incr</span>);
@@ -1746,7 +1746,7 @@
 		<span class='string'>&#39;D&#39;</span> <span class='op'>=&gt;</span> <span class='number'>11</span>,
 		<span class='string'>&#39;r&#39;</span> <span class='op'>=&gt;</span> <span class='number'>12</span>,
 		<span class='string'>&#39;R&#39;</span> <span class='op'>=&gt;</span> <span class='number'>13</span>,
-		<span class='ident'>a</span> <span class='op'>=&gt;</span> <span class='macro'>fail</span><span class='macro'>!</span>(<span class='string'>&quot;Invalid symbol {}&quot;</span>, <span class='ident'>a</span>)
+		<span class='ident'>a</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Invalid symbol {}&quot;</span>, <span class='ident'>a</span>)
 	}
 }
 
@@ -2116,7 +2116,7 @@
 			<span class='ident'>ZLabel</span> <span class='op'>=&gt;</span> <span class='string'>&quot;zlabel&quot;</span>,
 			<span class='ident'>TitleLabel</span> <span class='op'>=&gt;</span> <span class='string'>&quot;title&quot;</span>,
 			<span class='ident'>Label</span>(..) <span class='op'>=&gt;</span> <span class='string'>&quot;label&quot;</span>,
-			_ <span class='op'>=&gt;</span> <span class='macro'>fail</span><span class='macro'>!</span>(<span class='string'>&quot;Invalid label type&quot;</span>)
+			_ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Invalid label type&quot;</span>)
 		};
 		<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='ident'>label_str</span>);
 

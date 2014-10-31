@@ -307,7 +307,7 @@
 		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>as_mut_slice</span>()[<span class='ident'>l</span> <span class='op'>-</span> <span class='number'>1</span>]
 		{
 			<span class='ident'>Axes2DType</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-			_ <span class='op'>=&gt;</span> <span class='macro'>fail</span><span class='macro'>!</span>()
+			_ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>()
 		}
 	}
 	
@@ -319,7 +319,7 @@
 		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>as_mut_slice</span>()[<span class='ident'>l</span> <span class='op'>-</span> <span class='number'>1</span>]
 		{
 			<span class='ident'>Axes3DType</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-			_ <span class='op'>=&gt;</span> <span class='macro'>fail</span><span class='macro'>!</span>()
+			_ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>()
 		}
 	}
 	
