@@ -11,6 +11,8 @@ use std::io::BufferedWriter;
 use std::path::Path;
 use std::io::process::Command;
 
+pub use self::AxesVariant::*;
+
 enum AxesVariant
 {
 	Axes2DType(Axes2D),

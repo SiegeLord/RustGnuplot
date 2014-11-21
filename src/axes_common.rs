@@ -9,6 +9,12 @@ use coordinates::*;
 use options::*;
 use writer::*;
 
+pub use self::LabelType::*;
+pub use self::PlotType::*;
+pub use self::TickAxis::*;
+pub use self::PlotType::*;
+pub use self::DataSourceType::*;
+
 pub struct ResetMemWriter
 {
 	buf: Vec<u8>,

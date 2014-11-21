@@ -4,6 +4,8 @@
 
 use std::fmt;
 
+pub use self::Coordinate::*;
+
 /// Specifies how to interpret the coordinate passed to a plotting command
 pub enum Coordinate
 {

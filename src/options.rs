@@ -2,6 +2,19 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
+pub use self::PlotOption::*;
+pub use self::FillRegionType::*;
+pub use self::AlignType::*;
+pub use self::DashType::*;
+pub use self::ArrowheadType::*;
+pub use self::AutoOption::*;
+pub use self::LabelOption::*;
+pub use self::TickOption::*;
+pub use self::Tick::*;
+pub use self::BorderLocation2D::*;
+pub use self::LegendOption::*;
+pub use self::ContourStyle::*;
+
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others
 pub enum PlotOption<'l>
