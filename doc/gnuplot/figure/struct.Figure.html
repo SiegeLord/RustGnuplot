@@ -48,7 +48,7 @@
 <pre class='rust struct'>pub struct Figure {
     // some fields omitted
 }</pre><div class='docblock'><p>A figure that may contain multiple axes</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h3><div class='impl-methods'><h4 id='method.new' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Creates a new figure</p>
 </div><h4 id='method.set_terminal' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_terminal' class='fnname'>set_terminal</a>&lt;'l&gt;(&amp;'l mut self, terminal: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, output_file: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; &amp;'l mut <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Sets the terminal for gnuplot to use, as well as the file to output the figure to.
@@ -79,8 +79,8 @@ Terminals that spawn a GUI don&#39;t need an output file, so pass an empty strin
 </div><h4 id='method.echo_to_file' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.echo_to_file' class='fnname'>echo_to_file</a>&lt;'l&gt;(&amp;'l self, filename: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; &amp;'l <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Save to a file the the commands that if piped to a gnuplot process would display the figure</p>
 
-<h1 id="arguments-1" class='section-header'><a
-                           href="#arguments-1">Arguments</a></h1>
+<h1 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h1>
 <ul>
 <li><code>filename</code> - Name of the file</li>
 </ul>

@@ -48,7 +48,7 @@
 <pre class='rust struct'>pub struct Axes3D {
     // some fields omitted
 }</pre><div class='docblock'><p>3D axes that is used for drawing 3D plots</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h3><div class='impl-methods'><h4 id='method.surface' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.surface' class='fnname'>surface</a>&lt;'l, T: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://doc.rust-lang.org/nightly/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;T&gt;&gt;(&amp;'l mut self, mat: X, num_rows: <a href='http://doc.rust-lang.org/nightly/std/primitive.uint.html'>uint</a>, num_cols: <a href='http://doc.rust-lang.org/nightly/std/primitive.uint.html'>uint</a>, dimensions: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>)</a>&gt;, options: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='enum' href='../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a><a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h3><div class='impl-items'><h4 id='method.surface' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.surface' class='fnname'>surface</a>&lt;'l, T: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, X: <a class='trait' href='http://doc.rust-lang.org/nightly/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;T&gt;&gt;(&amp;'l mut self, mat: X, num_rows: <a href='http://doc.rust-lang.org/nightly/std/primitive.uint.html'>uint</a>, num_cols: <a href='http://doc.rust-lang.org/nightly/std/primitive.uint.html'>uint</a>, dimensions: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>)</a>&gt;, options: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='enum' href='../gnuplot/options/enum.PlotOption.html' title='gnuplot::options::PlotOption'>PlotOption</a><a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Draws a 3D surface from a rectangular array of data by connecting the individual datapoints with polygons.</p>
 
 <h1 id="arguments:" class='section-header'><a
@@ -69,8 +69,8 @@
 </div><h4 id='method.set_view' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_view' class='fnname'>set_view</a>&lt;'l&gt;(&amp;'l mut self, pitch: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, yaw: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Sets the 3D view.</p>
 
-<h1 id="arguments:-1" class='section-header'><a
-                           href="#arguments:-1">Arguments:</a></h1>
+<h1 id="arguments:" class='section-header'><a
+                           href="#arguments:">Arguments:</a></h1>
 <ul>
 <li><code>pitch</code> - Pitch, in degrees. Value of 0 is looking straight down on the XY plane, Z pointing out of the screen.</li>
 <li><code>yaw</code> - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.</li>
@@ -101,8 +101,8 @@
 </div><h4 id='method.set_z_range' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_z_range' class='fnname'>set_z_range</a>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;, max: <a class='enum' href='../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Set the range of values for the Z axis</p>
 
-<h1 id="arguments-1" class='section-header'><a
-                           href="#arguments-1">Arguments</a></h1>
+<h1 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h1>
 <ul>
 <li><code>min</code> - Minimum Z value</li>
 <li><code>max</code> - Maximum Z value</li>
@@ -110,16 +110,16 @@
 </div><h4 id='method.set_z_log' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_z_log' class='fnname'>set_z_log</a>&lt;'l&gt;(&amp;'l mut self, base: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Sets the Z axis be logarithmic. Note that the range must be non-negative for this to be valid.</p>
 
-<h1 id="arguments-2" class='section-header'><a
-                           href="#arguments-2">Arguments</a></h1>
+<h1 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h1>
 <ul>
 <li><code>base</code> - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic</li>
 </ul>
 </div><h4 id='method.show_contours' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.show_contours' class='fnname'>show_contours</a>&lt;'l&gt;(&amp;'l mut self, base: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, surface: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, style: <a class='enum' href='../gnuplot/options/enum.ContourStyle.html' title='gnuplot::options::ContourStyle'>ContourStyle</a>, label: <a class='enum' href='../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;&amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;, levels: <a class='enum' href='../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>&gt;) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Show contours (lines of equal Z value) at automatically determined levels.</p>
 
-<h1 id="arguments-3" class='section-header'><a
-                           href="#arguments-3">Arguments</a></h1>
+<h1 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h1>
 <ul>
 <li><code>base</code> - Show contours on the base of the plot (XY plane)</li>
 <li><code>surface</code> - Show the contours on the surface itself</li>
@@ -132,8 +132,8 @@
 </div><h4 id='method.show_contours_custom' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.show_contours_custom' class='fnname'>show_contours_custom</a>&lt;'l, T: <a class='trait' href='../gnuplot/datatype/trait.DataType.html' title='gnuplot::datatype::DataType'>DataType</a>, TC: <a class='trait' href='http://doc.rust-lang.org/nightly/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;T&gt;&gt;(&amp;'l mut self, base: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, surface: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, style: <a class='enum' href='../gnuplot/options/enum.ContourStyle.html' title='gnuplot::options::ContourStyle'>ContourStyle</a>, label: <a class='enum' href='../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;&amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;, levels: TC) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Show contours (lines of equal Z value) at specific levels.</p>
 
-<h1 id="arguments-4" class='section-header'><a
-                           href="#arguments-4">Arguments</a></h1>
+<h1 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h1>
 <ul>
 <li><code>base</code> - Show contours on the base of the plot (XY plane)</li>
 <li><code>surface</code> - Show the contours on the surface itself</li>
@@ -142,7 +142,7 @@
         otherwise an empty string disables the legend and labels.</li>
 <li><code>levels</code> - Iterator for a set of levels.</li>
 </ul>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='trait' href='../gnuplot/trait.AxesCommon.html' title='gnuplot::AxesCommon'>AxesCommon</a> for <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h3><div class='impl-methods'><h4 id='method.set_pos_grid' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_pos_grid' class='fnname'>set_pos_grid</a>&lt;'l&gt;(&amp;'l mut self, nrow: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, ncol: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, pos: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; &amp;'l mut Self</code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='trait' href='../gnuplot/trait.AxesCommon.html' title='gnuplot::AxesCommon'>AxesCommon</a> for <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h3><div class='impl-items'><h4 id='method.set_pos_grid' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_pos_grid' class='fnname'>set_pos_grid</a>&lt;'l&gt;(&amp;'l mut self, nrow: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, ncol: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, pos: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; &amp;'l mut Self</code></h4>
 <h4 id='method.set_pos' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_pos' class='fnname'>set_pos</a>&lt;'l&gt;(&amp;'l mut self, x: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, y: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; &amp;'l mut Self</code></h4>
 <h4 id='method.set_size' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_size' class='fnname'>set_size</a>&lt;'l&gt;(&amp;'l mut self, w: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, h: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; &amp;'l mut Self</code></h4>
 <h4 id='method.set_aspect_ratio' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_aspect_ratio' class='fnname'>set_aspect_ratio</a>&lt;'l&gt;(&amp;'l mut self, ratio: <a class='enum' href='../gnuplot/options/enum.AutoOption.html' title='gnuplot::options::AutoOption'>AutoOption</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut Self</code></h4>
