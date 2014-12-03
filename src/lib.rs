@@ -4,8 +4,6 @@
 
 #![crate_name="gnuplot"]
 
-#![comment = "Rust gnuplot controller"]
-#![license = "LGPL"]
 #![crate_type = "lib"]
 
 #![feature(globs)]

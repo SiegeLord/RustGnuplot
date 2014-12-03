@@ -2,7 +2,12 @@
 
 name = "gnuplot"
 version = "0.0.0"
+license = "LGPL-3.0"
+repository = "https://github.com/SiegeLord/RustGnuplot"
+documentation = "http://siegelord.github.io/RustGnuplot/doc/gnuplot/index.html"
+keywords = ["plots", "graphics"]
 authors = [ "SiegeLord <slabode@aim.com>" ]
+description = "Rust gnuplot controller"
 
 [lib]
 
