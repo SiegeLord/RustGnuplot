@@ -8,7 +8,7 @@ macro_rules! first_opt
 	(
 		for o in $O.iter()
 		{
-			match *o
+			match o
 			{
 				$P => 
 				{
@@ -29,7 +29,7 @@ macro_rules! first_opt_default
 			let mut found = false;
 			for o in $O.iter()
 			{
-				match *o
+				match o
 				{
 					$P => 
 					{

@@ -68,6 +68,8 @@ pub enum FillRegionType
 	Between
 }
 
+impl Copy for FillRegionType {}
+
 /// An enumeration of possible text and label alignments
 pub enum AlignType
 {
@@ -77,6 +79,8 @@ pub enum AlignType
 	AlignTop,
 	AlignBottom
 }
+
+impl Copy for AlignType {}
 
 /// An enumeration of possible dash styles
 pub enum DashType
@@ -88,6 +92,8 @@ pub enum DashType
 	DotDash,
 	DotDotDash
 }
+
+impl Copy for DashType {}
 
 impl DashType
 {
@@ -117,6 +123,8 @@ pub enum ArrowheadType
 	/// No arrow head
 	NoArrow,
 }
+
+impl Copy for ArrowheadType {}
 
 /// An enumeration of something that can either be fixed (e.g. the maximum of X values),
 /// or automatically determined
@@ -194,6 +202,8 @@ pub enum TickOption
 	MajorScale(f64)
 }
 
+impl Copy for TickOption {}
+
 /// Specifies a type of axis tick
 pub enum Tick<T>
 {
@@ -211,6 +221,8 @@ pub enum BorderLocation2D
 	Top = 4,
 	Right = 8
 }
+
+impl Copy for BorderLocation2D {}
 
 /// Legend options
 pub enum LegendOption<'l>
@@ -250,3 +262,5 @@ pub enum ContourStyle
 	/// order of the polynomial (clamped to range from 2 to 10).
 	Spline(u32, u32)
 }
+
+impl Copy for ContourStyle {}

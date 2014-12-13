@@ -16,6 +16,8 @@ pub enum Coordinate
 	Axis(f64)
 }
 
+impl Copy for Coordinate {}
+
 impl fmt::Show for Coordinate
 {
 	fn fmt(&self, buf: &mut fmt::Formatter) -> fmt::Result
