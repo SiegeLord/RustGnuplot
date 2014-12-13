@@ -72,6 +72,7 @@ impl PlotElement
 	}
 }
 
+#[deriving(Copy)]
 pub enum LabelType
 {
 	XLabel,
