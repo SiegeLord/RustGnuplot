@@ -72,6 +72,7 @@ impl PlotElement
 	}
 }
 
+#[deriving(Copy)]
 pub enum LabelType
 {
 	XLabel,
@@ -100,7 +101,7 @@ pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, op
 
 	match label_type
 	{
-		Label(ref x, ref y) =>
+		Label(x, y) =>
 		{
 			write!(w, " at {},{} front", x, y);
 		}
