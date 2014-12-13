@@ -108,30 +108,30 @@ pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, op
 	}
 
 	first_opt!(options,
-		&TextOffset(ref x, ref y) =>
+		TextOffset(x, y) =>
 		{
-			write!(w, " offset character {:.12e},{:.12e}", *x, *y);
+			write!(w, " offset character {:.12e},{:.12e}", x, y);
 		}
 	)
 
 	first_opt!(options,
-		&TextColor(ref s) =>
+		TextColor(s) =>
 		{
-			write!(w, r#" tc rgb "{}""#, *s);
+			write!(w, r#" tc rgb "{}""#, s);
 		}
 	)
 
 	first_opt!(options,
-		&Font(ref f, ref s) =>
+		Font(f, s) =>
 		{
-			write!(w, r#" font "{},{}""#, *f, *s);
+			write!(w, r#" font "{},{}""#, f, s);
 		}
 	)
 
 	first_opt!(options,
-		&Rotate(ref a) =>
+		Rotate(a) =>
 		{
-			write!(w, " rotate by {:.12e}", *a);
+			write!(w, " rotate by {:.12e}", a);
 		}
 	)
 
@@ -139,9 +139,9 @@ pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, op
 	{
 		let mut have_point = false;
 		first_opt!(options,
-			&MarkerSymbol(ref s) =>
+			MarkerSymbol(s) =>
 			{
-				write!(w, " point pt {}", char_to_symbol(*s));
+				write!(w, " point pt {}", char_to_symbol(s));
 				have_point = true;
 			}
 		)
@@ -149,24 +149,24 @@ pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, op
 		if have_point
 		{
 			first_opt!(options,
-				&MarkerColor(ref s) =>
+				MarkerColor(s) =>
 				{
-					write!(w, r#" lc rgb "{}""#, *s);
+					write!(w, r#" lc rgb "{}""#, s);
 				}
 			)
 
 			first_opt!(options,
-				&MarkerSize(ref z) =>
+				MarkerSize(z) =>
 				{
-					write!(w, " ps {:.12e}", *z);
+					write!(w, " ps {:.12e}", z);
 				}
 			)
 		}
 
 		first_opt!(options,
-			&TextAlign(ref a) =>
+			TextAlign(a) =>
 			{
-				write!(w, "{}", match *a
+				write!(w, "{}", match a
 				{
 					AlignLeft => " left",
 					AlignRight => " right",
@@ -411,9 +411,9 @@ impl AxisData
 		write_out_label_options(AxesTicks, label_options, c);
 
 		first_opt!(tick_options,
-			&OnAxis(ref b) =>
+			OnAxis(b) =>
 			{
-				c.write_str(match *b
+				c.write_str(match b
 				{
 					true => " axis",
 					false => " border",
@@ -422,9 +422,9 @@ impl AxisData
 		)
 
 		first_opt!(tick_options,
-			&Mirror(ref b) =>
+			Mirror(b) =>
 			{
-				c.write_str(match *b
+				c.write_str(match b
 				{
 					true => " mirror",
 					false => " nomirror",
@@ -433,9 +433,9 @@ impl AxisData
 		)
 
 		first_opt!(tick_options,
-			&Inward(ref b) =>
+			Inward(b) =>
 			{
-				c.write_str(match *b
+				c.write_str(match b
 				{
 					true => " in",
 					false => " out",
@@ -447,16 +447,16 @@ impl AxisData
 		let mut major_scale = 0.5;
 
 		first_opt!(tick_options,
-			&MinorScale(ref s) =>
+			MinorScale(s) =>
 			{
-				minor_scale = *s;
+				minor_scale = s;
 			}
 		)
 
 		first_opt!(tick_options,
-			&MajorScale(ref s) =>
+			MajorScale(s) =>
 			{
-				major_scale = *s;
+				major_scale = s;
 			}
 		)
 
@@ -579,9 +579,9 @@ impl AxesCommonData
 		let mut found = false;
 		c.write_str(" lw ");
 		first_opt!(options,
-			&LineWidth(ref w) =>
+			LineWidth(w) =>
 			{
-				write!(c, "{:.12e}", *w);
+				write!(c, "{:.12e}", w);
 				found = true;
 			}
 		)
@@ -593,7 +593,7 @@ impl AxesCommonData
 		c.write_str(" lt ");
 		let mut found = false;
 		first_opt!(options,
-			&LineStyle(ref d) =>
+			LineStyle(d) =>
 			{
 				write!(c, "{}", d.to_int());
 				found = true;
@@ -609,9 +609,9 @@ impl AxesCommonData
 	{
 		let mut col = default;
 		first_opt!(options,
-			&Color(ref s) =>
+			Color(s) =>
 			{
-				col = Some(*s)
+				col = Some(s)
 			}
 		)
 		match col
@@ -796,10 +796,10 @@ impl AxesCommonData
 				{
 					let mut found = false;
 					first_opt!(options,
-						&FillRegion(ref d) =>
+						FillRegion(d) =>
 						{
 							found = true;
-							args.write_str(match *d
+							args.write_str(match d
 							{
 								Above => " above",
 								Below => " below",
@@ -818,9 +818,9 @@ impl AxesCommonData
 			args.write_str(" fill transparent solid ");
 
 			first_opt!(options,
-				&FillAlpha(ref a) =>
+				FillAlpha(a) =>
 				{
-					write!(args, "{:.12e}", *a);
+					write!(args, "{:.12e}", a);
 				}
 			)
 
@@ -828,9 +828,9 @@ impl AxesCommonData
 			{
 				args.write_str(" border");
 				first_opt!(options,
-					&BorderColor(ref s) =>
+					BorderColor(s) =>
 					{
-						write!(args, r#" rgb "{}""#, *s);
+						write!(args, r#" rgb "{}""#, s);
 					}
 				)
 			}
@@ -848,16 +848,16 @@ impl AxesCommonData
 		if plot_type.is_points()
 		{
 			first_opt!(options,
-				&PointSymbol(ref s) =>
+				PointSymbol(s) =>
 				{
-					write!(args, " pt {}", char_to_symbol(*s));
+					write!(args, " pt {}", char_to_symbol(s));
 				}
 			)
 
 			first_opt!(options,
-				&PointSize(ref z) =>
+				PointSize(z) =>
 				{
-					write!(args, " ps {}", *z);
+					write!(args, " ps {}", z);
 				}
 			)
 		}
@@ -866,9 +866,9 @@ impl AxesCommonData
 
 		args.write_str(" t \"");
 		first_opt!(options,
-			&Caption(ref s) =>
+			Caption(s) =>
 			{
-				args.write_str(*s);
+				args.write_str(s);
 			}
 		)
 		args.write_str("\"");

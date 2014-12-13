@@ -7,6 +7,7 @@ use std::fmt;
 pub use self::Coordinate::*;
 
 /// Specifies how to interpret the coordinate passed to a plotting command
+#[deriving(Copy)]
 pub enum Coordinate
 {
 	/// Coordinates are done relative to a graph (i.e. an axis set). (0, 0) is the bottom left corner and (1, 1) is the top right corner.
@@ -15,8 +16,6 @@ pub enum Coordinate
 	/// Coordinates match those on the axes. You'd use this to place labels and other objects relative to regions of interest in the graph (e.g. labeling the peak of a function)
 	Axis(f64)
 }
-
-impl Copy for Coordinate {}
 
 impl fmt::Show for Coordinate
 {

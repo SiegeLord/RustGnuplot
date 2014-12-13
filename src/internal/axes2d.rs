@@ -118,9 +118,9 @@ impl Axes2D
 			write!(c, "set arrow from {},{} to {},{}", x1, y1, x2, y2);
 
 			first_opt!(options,
-				&ArrowType(ref s) =>
+				ArrowType(s) =>
 				{
-					c.write_str(match *s
+					c.write_str(match s
 					{
 						Open => "",
 						Closed => " empty",
@@ -132,9 +132,9 @@ impl Axes2D
 
 			c.write_str(" size graph ");
 			first_opt_default!(options,
-				&ArrowSize(ref z) =>
+				ArrowSize(z) =>
 				{
-					write!(c, "{:.12e}", *z);
+					write!(c, "{:.12e}", z);
 				},
 				_ =>
 				{
@@ -169,15 +169,15 @@ impl Axes2D
 			write!(c, "set key at {},{}", x, y);
 
 			first_opt_default!(legend_options,
-				&Placement(ref h, ref v) =>
+				Placement(h, v) =>
 				{
-					c.write_str(match *h
+					c.write_str(match h
 					{
 						AlignLeft => " left",
 						AlignRight => " right",
 						_ => " center"
 					});
-					c.write_str(match *v
+					c.write_str(match v
 					{
 						AlignTop => " top",
 						AlignBottom => " bottom",
@@ -190,7 +190,7 @@ impl Axes2D
 			)
 
 			first_opt_default!(legend_options,
-				&Horizontal =>
+				Horizontal =>
 				{
 					c.write_str(" horizontal");
 				},
@@ -201,7 +201,7 @@ impl Axes2D
 			)
 
 			first_opt_default!(legend_options,
-				&Reverse =>
+				Reverse =>
 				{
 					c.write_str(" reverse");
 				},
@@ -212,7 +212,7 @@ impl Axes2D
 			)
 
 			first_opt_default!(legend_options,
-				&Invert =>
+				Invert =>
 				{
 					c.write_str(" invert");
 				},
@@ -223,36 +223,36 @@ impl Axes2D
 			)
 
 			first_opt!(legend_options,
-				&Title(ref s) =>
+				Title(s) =>
 				{
 					c.write_str(" title \"");
-					c.write_str(*s);
+					c.write_str(s);
 					c.write_str("\"");
 				}
 			)
 
 			first_opt!(text_options,
-				&Font(ref f, ref s) =>
+				Font(f, s) =>
 				{
 					c.write_str(" font \"");
-					c.write_str(*f);
+					c.write_str(f);
 					c.write_str(",");
 					c.write_str(s.to_string().as_slice());
 					c.write_str("\"");
 				}
 			)
 			first_opt!(text_options,
-				&TextColor(ref s) =>
+				TextColor(s) =>
 				{
 					c.write_str(" textcolor rgb \"");
-					c.write_str(*s);
+					c.write_str(s);
 					c.write_str("\"");
 				}
 			)
 			first_opt!(text_options,
-				&TextAlign(ref a) =>
+				TextAlign(a) =>
 				{
-					c.write_str(match *a
+					c.write_str(match a
 					{
 						AlignLeft => " Left",
 						AlignRight => " Right",
@@ -262,16 +262,16 @@ impl Axes2D
 			)
 
 			first_opt!(legend_options,
-				&MaxRows(ref r) =>
+				MaxRows(r) =>
 				{
-					write!(c, " maxrows {}", *r as i32);
+					write!(c, " maxrows {}", r as i32);
 				}
 			)
 
 			first_opt!(legend_options,
-				&MaxCols(ref l) =>
+				MaxCols(l) =>
 				{
-					write!(c, " maxcols {}", *l as i32);
+					write!(c, " maxcols {}", l as i32);
 				}
 			)
 
