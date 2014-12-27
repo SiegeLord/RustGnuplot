@@ -1,15 +1,15 @@
 // This file is released into Public Domain.
 #![feature(globs)]
+#![feature(unboxed_closures)]
 
 extern crate gnuplot;
-extern crate getopts;
 
-use getopts::*;
-use std::os;
 use std::vec::Vec;
 use std::num::{Float, FloatMath};
 
 use gnuplot::*;
+
+mod common;
 
 fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 {
@@ -89,40 +89,5 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 
 fn main()
 {
-	let args = os::args();
-	
-	let opts = 
-	&[
-		optflag("n", "no-show", "do not run the gnuplot process."),
-		optflag("h", "help", "show this help and exit."),
-		optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM")
-	];
-	
-	let matches = match getopts(args.tail(), opts)
-	{
-		Ok(m) => m,
-		Err(f) => panic!("{}", f)
-	};
-	if matches.opt_present("h")
-	{
-		println!("{}", usage("A RustGnuplot example.", opts));
-		return;
-	}
-
-	example(
-	|fg, filename|
-	{
-		if !matches.opt_present("n")
-		{
-			fg.show();
-		}
-		fg.echo_to_file(filename);
-	},
-	|fg|
-	{
-		matches.opt_str("t").map(|t|
-		{
-			fg.set_terminal(t.as_slice(), "");
-		});
-	});
+	common::run().map(|(_, f, t)| example(|fg, fi| f.call((fg, fi)), |fg| t.call((fg,))));
 }

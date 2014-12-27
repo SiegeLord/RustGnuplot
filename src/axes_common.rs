@@ -78,6 +78,7 @@ pub enum LabelType
 	XLabel,
 	YLabel,
 	ZLabel,
+	CBLabel,
 	TitleLabel,
 	Label(Coordinate, Coordinate),
 	AxesTicks,
@@ -183,6 +184,7 @@ pub enum TickAxis
 	XTickAxis,
 	YTickAxis,
 	ZTickAxis,
+	CBTickAxis,
 }
 
 impl TickAxis
@@ -194,6 +196,7 @@ impl TickAxis
 			XTickAxis => "x",
 			YTickAxis => "y",
 			ZTickAxis => "z",
+			CBTickAxis => "cb",
 		}
 	}
 
@@ -204,6 +207,7 @@ impl TickAxis
 			XTickAxis => "xtics",
 			YTickAxis => "ytics",
 			ZTickAxis => "ztics",
+			CBTickAxis => "cbtics",
 		}
 	}
 
@@ -214,6 +218,7 @@ impl TickAxis
 			XTickAxis => "xrange",
 			YTickAxis => "yrange",
 			ZTickAxis => "zrange",
+			CBTickAxis => "cbrange",
 		}
 	}
 }
@@ -528,6 +533,7 @@ pub struct AxesCommonData
 	pub grid_pos: Option<u32>,
 	pub x_axis: AxisData,
 	pub y_axis: AxisData,
+	pub cb_axis: AxisData,
 }
 
 pub fn char_to_symbol(c: char) -> i32
@@ -572,6 +578,7 @@ impl AxesCommonData
 			grid_pos: None,
 			x_axis: AxisData::new(XTickAxis),
 			y_axis: AxisData::new(YTickAxis),
+			cb_axis: AxisData::new(CBTickAxis),
 		}
 	}
 
@@ -880,6 +887,7 @@ impl AxesCommonData
 		writer.write(self.commands.get_ref());
 		self.x_axis.write_out_commands(writer);
 		self.y_axis.write_out_commands(writer);
+		self.cb_axis.write_out_commands(writer);
 	}
 
 	pub fn write_out_elements(&self, cmd: &str, writer: &mut Writer)
@@ -916,6 +924,7 @@ impl AxesCommonData
 			XLabel => "xlabel",
 			YLabel => "ylabel",
 			ZLabel => "zlabel",
+			CBLabel => "cblabe",
 			TitleLabel => "title",
 			Label(..) => "label",
 			_ => panic!("Invalid label type")
@@ -1021,18 +1030,17 @@ pub trait AxesCommon : AxesCommonPrivate
 		self
 	}
 
-	/// Set the label for the Y axis
-	/// # Arguments
-	/// * `text` - Text of the label. Pass an empty string to hide the label
-	/// * `options` - Array of LabelOption controlling the appearance of the label. Relevant options are:
-	///      * `Offset` - Specifies the offset of the label
-	///      * `Font` - Specifies the font of the label
-	///      * `TextColor` - Specifies the color of the label
-	///      * `Rotate` - Specifies the rotation of the label
-	///      * `Align` - Specifies how to align the label
+	/// Like `set_x_label`, but for the Y axis
 	fn set_y_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Self
 	{
 		self.get_common_data_mut().set_label_common(YLabel, text, options);
+		self
+	}
+
+	/// Like `set_x_label`, but for the color bar
+	fn set_cb_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Self
+	{
+		self.get_common_data_mut().set_label_common(CBLabel, text, options);
 		self
 	}
 
@@ -1098,6 +1106,13 @@ pub trait AxesCommon : AxesCommonPrivate
 		self
 	}
 
+	/// Like `set_x_ticks` but for the color bar axis.
+	fn set_cb_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	{
+		self.get_common_data_mut().cb_axis.set_ticks(tick_placement, tick_options, label_options);
+		self
+	}
+
 	/// Sets ticks on the X axis with specified labels at specified positions.
 	///
 	/// # Arguments
@@ -1125,6 +1140,13 @@ pub trait AxesCommon : AxesCommonPrivate
 		self
 	}
 
+	/// Like `set_x_ticks_custom` but for the the color bar axis.
+	fn set_cb_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	{
+		self.get_common_data_mut().cb_axis.set_ticks_custom(ticks, tick_options, label_options);
+		self
+	}
+
 	/// Set the range of values for the X axis.
 	///
 	/// # Arguments
@@ -1147,6 +1169,17 @@ pub trait AxesCommon : AxesCommonPrivate
 		self
 	}
 
+	/// Set the range of values for the color bar axis.
+	///
+	/// # Arguments
+	/// * `min` - Minimum Y value
+	/// * `max` - Maximum Y value
+	fn set_cb_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
+	{
+		self.get_common_data_mut().cb_axis.set_range(min, max);
+		self
+	}
+
 	/// Sets the X axis be logarithmic. Note that the range must be non-negative for this to be valid.
 	///
 	/// # Arguments
@@ -1164,6 +1197,16 @@ pub trait AxesCommon : AxesCommonPrivate
 	fn set_y_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
 	{
 		self.get_common_data_mut().y_axis.set_log(base);
+		self
+	}
+
+	/// Sets the color bar axis be logarithmic. Note that the range must be non-negative for this to be valid.
+	///
+	/// # Arguments
+	/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic
+	fn set_cb_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
+	{
+		self.get_common_data_mut().cb_axis.set_log(base);
 		self
 	}
 }

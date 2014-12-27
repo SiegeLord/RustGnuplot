@@ -19,6 +19,11 @@ path = "example2.rs"
 name = "example3"
 path = "example3.rs"
 
+[[bin]]
+
+name = "example4"
+path = "example4.rs"
+
 [dependencies.gnuplot]
 
 path = ".."
