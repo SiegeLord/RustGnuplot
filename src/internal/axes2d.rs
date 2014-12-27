@@ -117,7 +117,7 @@ impl Axes2D
 			let c = &mut self.common.commands as &mut Writer;
 			write!(c, "set arrow from {},{} to {},{}", x1, y1, x2, y2);
 
-			first_opt!(options,
+			first_opt!{options,
 				ArrowType(s) =>
 				{
 					c.write_str(match s
@@ -128,10 +128,10 @@ impl Axes2D
 						NoArrow => " nohead",
 					});
 				}
-			)
+			}
 
 			c.write_str(" size graph ");
-			first_opt_default!(options,
+			first_opt_default!{options,
 				ArrowSize(z) =>
 				{
 					write!(c, "{:.12e}", z);
@@ -140,7 +140,7 @@ impl Axes2D
 				{
 					c.write_str("0.05");
 				}
-			)
+			}
 			c.write_str(",12");
 
 			AxesCommonData::write_color_options(c, options, Some("black"));
@@ -168,7 +168,7 @@ impl Axes2D
 
 			write!(c, "set key at {},{}", x, y);
 
-			first_opt_default!(legend_options,
+			first_opt_default!{legend_options,
 				Placement(h, v) =>
 				{
 					c.write_str(match h
@@ -187,9 +187,9 @@ impl Axes2D
 				{
 					c.write_str(" right top");
 				}
-			)
+			}
 
-			first_opt_default!(legend_options,
+			first_opt_default!{legend_options,
 				Horizontal =>
 				{
 					c.write_str(" horizontal");
@@ -198,9 +198,9 @@ impl Axes2D
 				{
 					c.write_str(" vertical");
 				}
-			)
+			}
 
-			first_opt_default!(legend_options,
+			first_opt_default!{legend_options,
 				Reverse =>
 				{
 					c.write_str(" reverse");
@@ -209,9 +209,9 @@ impl Axes2D
 				{
 					c.write_str(" noreverse");
 				}
-			)
+			}
 
-			first_opt_default!(legend_options,
+			first_opt_default!{legend_options,
 				Invert =>
 				{
 					c.write_str(" invert");
@@ -220,18 +220,18 @@ impl Axes2D
 				{
 					c.write_str(" noinvert");
 				}
-			)
+			}
 
-			first_opt!(legend_options,
+			first_opt!{legend_options,
 				Title(s) =>
 				{
 					c.write_str(" title \"");
 					c.write_str(s);
 					c.write_str("\"");
 				}
-			)
+			}
 
-			first_opt!(text_options,
+			first_opt!{text_options,
 				Font(f, s) =>
 				{
 					c.write_str(" font \"");
@@ -240,16 +240,16 @@ impl Axes2D
 					c.write_str(s.to_string().as_slice());
 					c.write_str("\"");
 				}
-			)
-			first_opt!(text_options,
+			}
+			first_opt!{text_options,
 				TextColor(s) =>
 				{
 					c.write_str(" textcolor rgb \"");
 					c.write_str(s);
 					c.write_str("\"");
 				}
-			)
-			first_opt!(text_options,
+			}
+			first_opt!{text_options,
 				TextAlign(a) =>
 				{
 					c.write_str(match a
@@ -259,21 +259,21 @@ impl Axes2D
 						_ => ""
 					});
 				}
-			)
+			}
 
-			first_opt!(legend_options,
+			first_opt!{legend_options,
 				MaxRows(r) =>
 				{
 					write!(c, " maxrows {}", r as i32);
 				}
-			)
+			}
 
-			first_opt!(legend_options,
+			first_opt!{legend_options,
 				MaxCols(l) =>
 				{
 					write!(c, " maxcols {}", l as i32);
 				}
-			)
+			}
 
 			c.write_str("\n");
 		}

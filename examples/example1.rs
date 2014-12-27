@@ -5,7 +5,7 @@ extern crate gnuplot;
 extern crate getopts;
 
 use getopts::*;
-use std::iter::Repeat;
+use std::iter::repeat;
 use std::os;
 
 use gnuplot::*;
@@ -20,8 +20,8 @@ fn example(show_plots: bool, show: |fg: &mut Figure, filename: &str|, set_term: 
 	let y2 = y2.iter();
 	let y3: Vec<f32> = x.map(|&v| { v - 4.0 }).collect();
 	let y3 = y3.iter();
-	let x_err = Repeat::new(0.3f32);
-	let y_err = Repeat::new(5.0f32);
+	let x_err = repeat(0.3f32);
+	let y_err = repeat(5.0f32);
 	
 	let mut fg = Figure::new();
 	set_term(&mut fg);
@@ -39,7 +39,7 @@ fn example(show_plots: bool, show: |fg: &mut Figure, filename: &str|, set_term: 
 	.label("Here", Axis(5.7912), Axis(3.1), &[TextAlign(AlignCenter)])
 	.fill_between(x, y1.map(|&y| y * 0.85 - 1.0), y1.map(|&y| y * 1.15 + 1.0), &[Color("#aaaaff")])
 	.lines(x, y1, &[Caption("(x - 4)^2 - 5"), LineWidth(1.5), Color("black")])
-	.y_error_lines(x, y2, Repeat::new(1.0f32), &[Caption("(x - 4)^2 + 5"), LineWidth(1.5), Color("red")])
+	.y_error_lines(x, y2, repeat(1.0f32), &[Caption("(x - 4)^2 + 5"), LineWidth(1.5), Color("red")])
 	.lines_points(x, y3, &[Caption("x - 4"), PointSymbol('t'), LineWidth(1.5), LineStyle(Dash), Color("#11ff11")]);
 	
 	show(&mut fg, "fg1.1.gnuplot");

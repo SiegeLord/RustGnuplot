@@ -24,7 +24,7 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(rustc DEFAULT_MSG RUSTC_EXECUTABLE)
 mark_as_advanced(RUSTC_EXECUTABLE)
 
-execute_process(COMMAND ${RUSTC_EXECUTABLE} -v
+execute_process(COMMAND ${RUSTC_EXECUTABLE} -Vv
                 OUTPUT_VARIABLE RUSTC_TARGET_TRIPLE
                 OUTPUT_STRIP_TRAILING_WHITESPACE)
 string(REGEX MATCH "host:[ \t](.*)" RUSTC_TARGET_TRIPLE "${RUSTC_TARGET_TRIPLE}")

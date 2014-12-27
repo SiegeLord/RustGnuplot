@@ -5,7 +5,7 @@ extern crate gnuplot;
 extern crate getopts;
 
 use getopts::*;
-use std::iter::{Repeat, range_step};
+use std::iter::{repeat, range_step};
 use std::os;
 
 use gnuplot::*;
@@ -21,7 +21,7 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 	let x2 = x2.iter();
 	let y2: Vec<i32> = x2.map(|&v| { v * v }).collect();
 	let y2 = y2.iter();
-	let w = Repeat::new(0.5f32);
+	let w = repeat(0.5f32);
 	
 	let x3 = &[-3i32, -2, -1, 0, 2, 3];
 	let x3 = x3.iter();
