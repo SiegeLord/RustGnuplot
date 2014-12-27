@@ -109,7 +109,7 @@ impl Figure
 			return self;
 		}
 		
-		let mut p = Command::new("gnuplot").arg("-p").spawn().unwrap();
+		let mut p = Command::new("gnuplot").arg("-p").spawn().ok().expect("Couldn't spawn gnuplot");
 		self.echo(p.stdin.as_mut().unwrap());
 		
 		self
