@@ -19,7 +19,7 @@ script:
   - ./example1 --no-show
   - ./example2 --no-show
   - ./example3 --no-show
-  - ./example3 --no-show
+  - ./example4 --no-show
   - cd ..
 after_success:
   - curl http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN | sh
