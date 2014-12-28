@@ -39,7 +39,7 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 
 	let mut fg = Figure::new();
 	set_term(&mut fg);
-	
+
 	fg.axes3d()
 	.set_title("Surface", &[])
 	.surface(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[])
@@ -52,6 +52,76 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 	.set_view(45.0, 45.0);
 
 	show(&mut fg, "fg4.2.gnuplot");
+
+	let mut fg = Figure::new();
+	set_term(&mut fg);
+
+	fg.axes3d()
+	.set_title("Cube Helix Palette", &[])
+	.surface(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[])
+	.set_x_label("X", &[])
+	.set_y_label("Y", &[])
+	.set_z_label("Z", &[])
+	.set_z_range(Fix(-1.0), Fix(1.0))
+	.set_z_ticks(Some((Fix(1.0), 1)), &[Mirror(false)], &[])
+	.set_cb_range(Fix(-1.0), Fix(1.0))
+	.set_palette(HELIX)
+	.set_view(45.0, 45.0);
+
+	show(&mut fg, "fg4.3.gnuplot");
+
+	let mut fg = Figure::new();
+	set_term(&mut fg);
+
+	fg.axes3d()
+	.set_title("Gray Palette", &[])
+	.surface(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[])
+	.set_x_label("X", &[])
+	.set_y_label("Y", &[])
+	.set_z_label("Z", &[])
+	.set_z_range(Fix(-1.0), Fix(1.0))
+	.set_z_ticks(Some((Fix(1.0), 1)), &[Mirror(false)], &[])
+	.set_palette(GRAY)
+	.set_view(45.0, 45.0);
+
+	show(&mut fg, "fg4.4.gnuplot");
+
+	let mut fg = Figure::new();
+	set_term(&mut fg);
+
+	fg.axes3d()
+	.set_title("Black Body Palette", &[])
+	.surface(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[])
+	.set_x_label("X", &[])
+	.set_y_label("Y", &[])
+	.set_z_label("Z", &[])
+	.set_z_range(Fix(-1.0), Fix(1.0))
+	.set_z_ticks(Some((Fix(1.0), 1)), &[Mirror(false)], &[])
+	.set_palette(HOT)
+	.set_view(45.0, 45.0);
+
+	show(&mut fg, "fg4.5.gnuplot");
+
+	let palette: [(f32, f32, f32, f32); 6] = [
+		(0.00, 1.0, 0.0, 0.0),
+		(0.33, 1.0, 0.0, 0.0),
+		(0.33, 0.0, 1.0, 0.0),
+		(0.66, 0.0, 1.0, 0.0),
+		(0.66, 0.0, 0.0, 1.0),
+		(1.00, 0.0, 0.0, 1.0)];
+
+	fg.axes3d()
+	.set_title("Custom Palette", &[])
+	.surface(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[])
+	.set_x_label("X", &[])
+	.set_y_label("Y", &[])
+	.set_z_label("Z", &[])
+	.set_z_range(Fix(-1.0), Fix(1.0))
+	.set_z_ticks(Some((Fix(1.0), 1)), &[Mirror(false)], &[])
+	.set_custom_palette(palette.iter().map(|&x| x))
+	.set_view(45.0, 45.0);
+
+	show(&mut fg, "fg4.5.gnuplot");
 }
 
 fn main()

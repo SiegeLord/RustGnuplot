@@ -1209,4 +1209,81 @@ pub trait AxesCommon : AxesCommonPrivate
 		self.get_common_data_mut().cb_axis.set_log(base);
 		self
 	}
+
+	/// Sets the palette used for 3D surface and image plots
+	///
+	/// # Arguments
+	/// * `palette` - What palette type to use
+	fn set_palette(&mut self, palette: PaletteType) -> &mut Self
+	{
+		{
+			let c = &mut self.get_common_data_mut().commands as &mut Writer;
+			match palette
+			{
+				Gray(gamma) =>
+				{
+					assert!(gamma > 0.0, "Gamma must be positive");
+					writeln!(c, "set palette gray gamma {:.12e}", gamma);
+				},
+				Formula(r, g, b) =>
+				{
+					assert!(r >= -36 && r <= 36, "Invalid r formula!");
+					assert!(g >= -36 && g <= 36, "Invalid g formula!");
+					assert!(b >= -36 && b <= 36, "Invalid b formula!");
+					writeln!(c, "set palette rgbformulae {},{},{}", r, g, b);
+				},
+				CubeHelix(start, rev, sat, gamma) =>
+				{
+					assert!(sat >= 0.0, "Saturation must be non-negative");
+					assert!(gamma > 0.0, "Gamma must be positive");
+					writeln!(c, "set palette cubehelix start {:.12e} cycles {:.12e} saturation {:.12e} gamma {:.12e}", start, rev, sat, gamma);
+				},
+			}
+		}
+		self
+	}
+
+	/// Sets a custom palette used for 3D surface and image plots. A custom palette
+	/// is specified by a sequence of 4-tuples (with at least one element). The first
+	/// element is the grayscale value that is mapped to the remaining three elements
+	/// which specify the red, green and blue components of the color.
+	/// The grayscale values must be non-decreasing. All values must range from 0 to 1.
+	///
+	/// # Arguments
+	/// * `palette_generator` - The palette generator
+	fn set_custom_palette<T: Iterator<(f32, f32, f32, f32)>>(&mut self, palette_generator: T) -> &mut Self
+	{
+		let mut palette_generator = palette_generator;
+		{
+			let c = &mut self.get_common_data_mut().commands as &mut Writer;
+			write!(c, "set palette defined (");
+
+			let mut first = true;
+			let mut old_x = 0.0;
+			for (x, r, g, b) in palette_generator
+			{
+				if first
+				{
+					old_x = x;
+					first = false;
+				}
+				else
+				{
+					write!(c, ",");
+				}
+				assert!(x >= old_x, "The gray levels must be non-decreasing!");
+				old_x = x;
+
+				write!(c, "{:.12e} {:.12e} {:.12e} {:.12e}", x, r, g, b);
+			}
+
+			if first
+			{
+				panic!("Need at least 1 element in the generator");
+			}
+
+			writeln!(c, ")");
+		}
+		self
+	}
 }

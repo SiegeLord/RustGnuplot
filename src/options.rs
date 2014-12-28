@@ -14,6 +14,7 @@ pub use self::Tick::*;
 pub use self::BorderLocation2D::*;
 pub use self::LegendOption::*;
 pub use self::ContourStyle::*;
+pub use self::PaletteType::*;
 
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others
@@ -261,3 +262,27 @@ pub enum ContourStyle
 	/// order of the polynomial (clamped to range from 2 to 10).
 	Spline(u32, u32)
 }
+
+/// Specifies what sort of palette to use
+#[deriving(Copy)]
+pub enum PaletteType
+{
+	/// Use a gray palette with a specified gamma
+	Gray(f32),
+	/// Use a palette with that uses a predefined formula for each color component.
+	/// Each formula is identified by an integer between [-36, 36]. See gnuplot documentation, or use the pre-defined constants.
+	Formula(i32, i32, i32),
+	/// Use a cube helix palette, with a certain start (in radians), cycles, saturation and gamma.
+	CubeHelix(f32, f32, f32, f32),
+}
+
+/// A gray palette
+pub const GRAY: PaletteType = Gray(1.0);
+/// Default Gnuplot palette
+pub const COLOR: PaletteType = Formula(3, 11, 16);
+/// Classic rainbow palette with terrible perceptual properties
+pub const RAINBOW: PaletteType = Formula(33, 13, 10);
+/// A black body palette
+pub const HOT: PaletteType = Formula(34, 35, 36);
+/// A nice default for a cube helix
+pub const HELIX: PaletteType = CubeHelix(0.5, -0.8, 2.0, 1.0);
