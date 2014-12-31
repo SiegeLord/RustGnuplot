@@ -78,7 +78,7 @@ impl Figure
 	}
 	
 	/// Creates a set of 2D axes
-	pub fn axes2d<'l>(&'l mut self) -> &'l mut Axes2D
+	pub fn axes2d(&mut self) -> &mut Axes2D
 	{
 		self.axes.push(Axes2DType(new_axes2d()));
 		let l = self.axes.len();
@@ -90,7 +90,7 @@ impl Figure
 	}
 	
 	/// Creates a set of 3D axes
-	pub fn axes3d<'l>(&'l mut self) -> &'l mut Axes3D
+	pub fn axes3d(&mut self) -> &mut Axes3D
 	{
 		self.axes.push(Axes3DType(new_axes3d()));
 		let l = self.axes.len();
@@ -102,7 +102,7 @@ impl Figure
 	}
 	
 	/// Launch a gnuplot process and display the figure on it
-	pub fn show<'l>(&'l self) -> &'l Figure
+	pub fn show(&self) -> &Figure
 	{
 		if self.axes.len() == 0
 		{
