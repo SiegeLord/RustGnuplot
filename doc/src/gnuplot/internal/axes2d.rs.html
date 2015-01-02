@@ -654,7 +654,7 @@
 			<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>commands</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>;
 			<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>c</span>, <span class='string'>&quot;set arrow from {},{} to {},{}&quot;</span>, <span class='ident'>x1</span>, <span class='ident'>y1</span>, <span class='ident'>x2</span>, <span class='ident'>y2</span>);
 
-			<span class='macro'>first_opt</span><span class='macro'>!</span>(<span class='ident'>options</span>,
+			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>options</span>,
 				<span class='ident'>ArrowType</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span>
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='kw'>match</span> <span class='ident'>s</span>
@@ -665,10 +665,10 @@
 						<span class='ident'>NoArrow</span> <span class='op'>=&gt;</span> <span class='string'>&quot; nohead&quot;</span>,
 					});
 				}
-			)
+			}
 
 			<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; size graph &quot;</span>);
-			<span class='macro'>first_opt_default</span><span class='macro'>!</span>(<span class='ident'>options</span>,
+			<span class='macro'>first_opt_default</span><span class='macro'>!</span>{<span class='ident'>options</span>,
 				<span class='ident'>ArrowSize</span>(<span class='ident'>z</span>) <span class='op'>=&gt;</span>
 				{
 					<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>c</span>, <span class='string'>&quot;{:.12e}&quot;</span>, <span class='ident'>z</span>);
@@ -677,7 +677,7 @@
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;0.05&quot;</span>);
 				}
-			)
+			}
 			<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;,12&quot;</span>);
 
 			<span class='ident'>AxesCommonData</span>::<span class='ident'>write_color_options</span>(<span class='ident'>c</span>, <span class='ident'>options</span>, <span class='prelude-val'>Some</span>(<span class='string'>&quot;black&quot;</span>));
@@ -705,7 +705,7 @@
 
 			<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>c</span>, <span class='string'>&quot;set key at {},{}&quot;</span>, <span class='ident'>x</span>, <span class='ident'>y</span>);
 
-			<span class='macro'>first_opt_default</span><span class='macro'>!</span>(<span class='ident'>legend_options</span>,
+			<span class='macro'>first_opt_default</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
 				<span class='ident'>Placement</span>(<span class='ident'>h</span>, <span class='ident'>v</span>) <span class='op'>=&gt;</span>
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='kw'>match</span> <span class='ident'>h</span>
@@ -724,9 +724,9 @@
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; right top&quot;</span>);
 				}
-			)
+			}
 
-			<span class='macro'>first_opt_default</span><span class='macro'>!</span>(<span class='ident'>legend_options</span>,
+			<span class='macro'>first_opt_default</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
 				<span class='ident'>Horizontal</span> <span class='op'>=&gt;</span>
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; horizontal&quot;</span>);
@@ -735,9 +735,9 @@
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; vertical&quot;</span>);
 				}
-			)
+			}
 
-			<span class='macro'>first_opt_default</span><span class='macro'>!</span>(<span class='ident'>legend_options</span>,
+			<span class='macro'>first_opt_default</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
 				<span class='ident'>Reverse</span> <span class='op'>=&gt;</span>
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; reverse&quot;</span>);
@@ -746,9 +746,9 @@
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; noreverse&quot;</span>);
 				}
-			)
+			}
 
-			<span class='macro'>first_opt_default</span><span class='macro'>!</span>(<span class='ident'>legend_options</span>,
+			<span class='macro'>first_opt_default</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
 				<span class='ident'>Invert</span> <span class='op'>=&gt;</span>
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; invert&quot;</span>);
@@ -757,18 +757,18 @@
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; noinvert&quot;</span>);
 				}
-			)
+			}
 
-			<span class='macro'>first_opt</span><span class='macro'>!</span>(<span class='ident'>legend_options</span>,
+			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
 				<span class='ident'>Title</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span>
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; title \&quot;&quot;</span>);
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='ident'>s</span>);
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\&quot;&quot;</span>);
 				}
-			)
+			}
 
-			<span class='macro'>first_opt</span><span class='macro'>!</span>(<span class='ident'>text_options</span>,
+			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>text_options</span>,
 				<span class='ident'>Font</span>(<span class='ident'>f</span>, <span class='ident'>s</span>) <span class='op'>=&gt;</span>
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; font \&quot;&quot;</span>);
@@ -777,16 +777,16 @@
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='ident'>s</span>.<span class='ident'>to_string</span>().<span class='ident'>as_slice</span>());
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\&quot;&quot;</span>);
 				}
-			)
-			<span class='macro'>first_opt</span><span class='macro'>!</span>(<span class='ident'>text_options</span>,
+			}
+			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>text_options</span>,
 				<span class='ident'>TextColor</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span>
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; textcolor rgb \&quot;&quot;</span>);
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='ident'>s</span>);
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\&quot;&quot;</span>);
 				}
-			)
-			<span class='macro'>first_opt</span><span class='macro'>!</span>(<span class='ident'>text_options</span>,
+			}
+			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>text_options</span>,
 				<span class='ident'>TextAlign</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span>
 				{
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='kw'>match</span> <span class='ident'>a</span>
@@ -796,21 +796,21 @@
 						_ <span class='op'>=&gt;</span> <span class='string'>&quot;&quot;</span>
 					});
 				}
-			)
+			}
 
-			<span class='macro'>first_opt</span><span class='macro'>!</span>(<span class='ident'>legend_options</span>,
+			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
 				<span class='ident'>MaxRows</span>(<span class='ident'>r</span>) <span class='op'>=&gt;</span>
 				{
 					<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>c</span>, <span class='string'>&quot; maxrows {}&quot;</span>, <span class='ident'>r</span> <span class='kw'>as</span> <span class='ident'>i32</span>);
 				}
-			)
+			}
 
-			<span class='macro'>first_opt</span><span class='macro'>!</span>(<span class='ident'>legend_options</span>,
+			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
 				<span class='ident'>MaxCols</span>(<span class='ident'>l</span>) <span class='op'>=&gt;</span>
 				{
 					<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>c</span>, <span class='string'>&quot; maxcols {}&quot;</span>, <span class='ident'>l</span> <span class='kw'>as</span> <span class='ident'>i32</span>);
 				}
-			)
+			}
 
 			<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\n&quot;</span>);
 		}

@@ -44,7 +44,7 @@
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>gnuplot</a>::<wbr><a href='index.html'>figure</a>::<wbr><a class='struct' href=''>Figure</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-6173' href='../../src/gnuplot/figure.rs.html#44-49'>[src]</a></span></h1>
+        </span><a id='src-6403' href='../../src/gnuplot/figure.rs.html#44-49'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Figure {
     // some fields omitted
 }</pre><div class='docblock'><p>A figure that may contain multiple axes</p>
@@ -62,11 +62,11 @@ Terminals that spawn a GUI don&#39;t need an output file, so pass an empty strin
 <li>epscairo - Saves the figure as a EPS file</li>
 <li>pngcairo - Saves the figure as a PNG file</li>
 </ul>
-</div><h4 id='method.axes2d' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.axes2d' class='fnname'>axes2d</a>&lt;'l&gt;(&amp;'l mut self) -&gt; &amp;'l mut <a class='struct' href='../../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.axes2d' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.axes2d' class='fnname'>axes2d</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Creates a set of 2D axes</p>
-</div><h4 id='method.axes3d' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.axes3d' class='fnname'>axes3d</a>&lt;'l&gt;(&amp;'l mut self) -&gt; &amp;'l mut <a class='struct' href='../../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
+</div><h4 id='method.axes3d' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.axes3d' class='fnname'>axes3d</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Creates a set of 3D axes</p>
-</div><h4 id='method.show' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.show' class='fnname'>show</a>&lt;'l&gt;(&amp;'l self) -&gt; &amp;'l <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
+</div><h4 id='method.show' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.show' class='fnname'>show</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Launch a gnuplot process and display the figure on it</p>
 </div><h4 id='method.echo' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.echo' class='fnname'>echo</a>&lt;'l, T: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a>&gt;(&amp;'l self, writer: &amp;mut T) -&gt; &amp;'l <a class='struct' href='../../gnuplot/figure/struct.Figure.html' title='gnuplot::figure::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Echo the commands that if piped to a gnuplot process would display the figure</p>

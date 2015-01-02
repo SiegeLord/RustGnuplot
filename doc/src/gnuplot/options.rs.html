@@ -303,6 +303,31 @@
 <span id='261'>261</span>
 <span id='262'>262</span>
 <span id='263'>263</span>
+<span id='264'>264</span>
+<span id='265'>265</span>
+<span id='266'>266</span>
+<span id='267'>267</span>
+<span id='268'>268</span>
+<span id='269'>269</span>
+<span id='270'>270</span>
+<span id='271'>271</span>
+<span id='272'>272</span>
+<span id='273'>273</span>
+<span id='274'>274</span>
+<span id='275'>275</span>
+<span id='276'>276</span>
+<span id='277'>277</span>
+<span id='278'>278</span>
+<span id='279'>279</span>
+<span id='280'>280</span>
+<span id='281'>281</span>
+<span id='282'>282</span>
+<span id='283'>283</span>
+<span id='284'>284</span>
+<span id='285'>285</span>
+<span id='286'>286</span>
+<span id='287'>287</span>
+<span id='288'>288</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class='comment'>// </span>
@@ -320,6 +345,7 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>BorderLocation2D</span>::<span class='op'>*</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>LegendOption</span>::<span class='op'>*</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>ContourStyle</span>::<span class='op'>*</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>PaletteType</span>::<span class='op'>*</span>;
 
 <span class='doccomment'>/// An enumeration of plot options you can supply to plotting commands, governing</span>
 <span class='doccomment'>/// things like line width, color and others</span>
@@ -567,6 +593,30 @@
 	<span class='doccomment'>/// order of the polynomial (clamped to range from 2 to 10).</span>
 	<span class='ident'>Spline</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>)
 }
+
+<span class='doccomment'>/// Specifies what sort of palette to use</span>
+<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Copy</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>PaletteType</span>
+{
+	<span class='doccomment'>/// Use a gray palette with a specified gamma</span>
+	<span class='ident'>Gray</span>(<span class='ident'>f32</span>),
+	<span class='doccomment'>/// Use a palette with that uses a predefined formula for each color component.</span>
+	<span class='doccomment'>/// Each formula is identified by an integer between [-36, 36]. See gnuplot documentation, or use the pre-defined constants.</span>
+	<span class='ident'>Formula</span>(<span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>),
+	<span class='doccomment'>/// Use a cube helix palette, with a certain start (in radians), cycles, saturation and gamma.</span>
+	<span class='ident'>CubeHelix</span>(<span class='ident'>f32</span>, <span class='ident'>f32</span>, <span class='ident'>f32</span>, <span class='ident'>f32</span>),
+}
+
+<span class='doccomment'>/// A gray palette</span>
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>GRAY</span>: <span class='ident'>PaletteType</span> <span class='op'>=</span> <span class='ident'>Gray</span>(<span class='number'>1.0</span>);
+<span class='doccomment'>/// Default Gnuplot palette</span>
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>COLOR</span>: <span class='ident'>PaletteType</span> <span class='op'>=</span> <span class='ident'>Formula</span>(<span class='number'>3</span>, <span class='number'>11</span>, <span class='number'>16</span>);
+<span class='doccomment'>/// Classic rainbow palette with terrible perceptual properties</span>
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>RAINBOW</span>: <span class='ident'>PaletteType</span> <span class='op'>=</span> <span class='ident'>Formula</span>(<span class='number'>33</span>, <span class='number'>13</span>, <span class='number'>10</span>);
+<span class='doccomment'>/// A black body palette</span>
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>HOT</span>: <span class='ident'>PaletteType</span> <span class='op'>=</span> <span class='ident'>Formula</span>(<span class='number'>34</span>, <span class='number'>35</span>, <span class='number'>36</span>);
+<span class='doccomment'>/// A nice default for a cube helix</span>
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>HELIX</span>: <span class='ident'>PaletteType</span> <span class='op'>=</span> <span class='ident'>CubeHelix</span>(<span class='number'>0.5</span>, <span class='op'>-</span><span class='number'>0.8</span>, <span class='number'>2.0</span>, <span class='number'>1.0</span>);
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
