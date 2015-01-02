@@ -13,12 +13,12 @@ script:
   - cmake .. -DCMAKE_INSTALL_PREFIX=/tmp
   - make -j
   - make doc -j
+  - make install
   - cd examples
   - ./example1 --no-show
   - ./example2 --no-show
   - ./example3 --no-show
   - ./example4 --no-show
-  - make install
   - cd ..
 after_success:
   - curl http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN | sh
