@@ -93,6 +93,8 @@
 <span id='51'>51</span>
 <span id='52'>52</span>
 <span id='53'>53</span>
+<span id='54'>54</span>
+<span id='55'>55</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class='comment'>// </span>
@@ -111,17 +113,19 @@ A simple gnuplot controller.
 
 # Example
 
-~~~ {.rust}
-use gnuplot::*;
+~~~no_run
+# #![feature(globs)]
+# extern crate gnuplot;
+# fn main() {
+use gnuplot::{Figure, Caption, Color};
 
-let x = [0, 1, 2];
-let y = [3, 4, 5];
+let x = &amp;[0u32, 1, 2];
+let y = &amp;[3u32, 4, 5];
 let mut fg = Figure::new();
-{
-   fg.axes2d()
-   .lines(x.iter(), y.iter(), [Caption(&quot;A line&quot;), Color(&quot;black&quot;)]);
-}
+fg.axes2d()
+.lines(x.iter(), y.iter(), &amp;[Caption(&quot;A line&quot;), Color(&quot;black&quot;)]);
 fg.show();
+# }
 ~~~
 */</span>
 
