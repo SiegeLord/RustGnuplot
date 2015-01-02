@@ -1,7 +1,7 @@
 [package]
 
 name = "gnuplot"
-version = "0.0.1"
+version = "0.0.2"
 license = "LGPL-3.0"
 repository = "https://github.com/SiegeLord/RustGnuplot"
 documentation = "http://siegelord.github.io/RustGnuplot/doc/gnuplot/index.html"
@@ -13,3 +13,23 @@ description = "Rust gnuplot controller"
 
 name = "gnuplot"
 path = "src/lib.rs"
+
+[[example]]
+
+name = "example1"
+path = "examples/example1.rs"
+
+[[example]]
+
+name = "example2"
+path = "examples/example2.rs"
+
+[[example]]
+
+name = "example3"
+path = "examples/example3.rs"
+
+[[example]]
+
+name = "example4"
+path = "examples/example4.rs"

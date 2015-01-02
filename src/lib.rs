@@ -15,17 +15,19 @@ A simple gnuplot controller.
 
 # Example
 
-~~~ {.rust}
-use gnuplot::*;
+~~~no_run
+# #![feature(globs)]
+# extern crate gnuplot;
+# fn main() {
+use gnuplot::{Figure, Caption, Color};
 
-let x = [0, 1, 2];
-let y = [3, 4, 5];
+let x = &[0u32, 1, 2];
+let y = &[3u32, 4, 5];
 let mut fg = Figure::new();
-{
-   fg.axes2d()
-   .lines(x.iter(), y.iter(), [Caption("A line"), Color("black")]);
-}
+fg.axes2d()
+.lines(x.iter(), y.iter(), &[Caption("A line"), Color("black")]);
 fg.show();
+# }
 ~~~
 */
 
