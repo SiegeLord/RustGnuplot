@@ -32,7 +32,7 @@ impl Axes3D
 	///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.
 	/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-	pub fn surface<'l, T: DataType, X: Iterator<T>>(&'l mut self, mat: X, num_rows: uint, num_cols: uint, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption]) -> &'l mut Axes3D
+	pub fn surface<'l, T: DataType, X: Iterator<Item = T>>(&'l mut self, mat: X, num_rows: uint, num_cols: uint, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption]) -> &'l mut Axes3D
 	{
 		self.common.plot_matrix(Pm3D, true, mat, num_rows, num_cols, dimensions, options);
 		self
@@ -80,7 +80,7 @@ impl Axes3D
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	pub fn set_z_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes3D
+	pub fn set_z_ticks_custom<'l, T: DataType, TL: Iterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes3D
 	{
 		self.z_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
@@ -138,7 +138,7 @@ impl Axes3D
 	///             otherwise an empty string disables the legend and labels.
 	/// * `levels` - Iterator for a set of levels.
 	pub fn show_contours_custom<'l, T: DataType,
-	                            TC: Iterator<T>>(&'l mut self, base: bool, surface: bool,
+	                            TC: Iterator<Item = T>>(&'l mut self, base: bool, surface: bool,
 	                                             style: ContourStyle, label: AutoOption<&str>, levels: TC) -> &'l mut Axes3D
 	{
 		self.contour_base = base;

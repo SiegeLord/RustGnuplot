@@ -2,6 +2,8 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
+use std::num::ToPrimitive;
+
 pub trait DataType
 {
 	fn get(&self) -> f64;

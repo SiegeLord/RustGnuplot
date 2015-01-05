@@ -71,7 +71,7 @@ impl PlotElement
 	}
 }
 
-#[deriving(Copy)]
+#[derive(Copy)]
 pub enum LabelType
 {
 	XLabel,
@@ -355,7 +355,7 @@ impl AxisData
 		w.write(self.ticks_buf.get_ref());
 	}
 	
-	pub fn set_ticks_custom<T: DataType, TL: Iterator<Tick<T>>>(&mut self, mut ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
+	pub fn set_ticks_custom<T: DataType, TL: Iterator<Item = Tick<T>>>(&mut self, mut ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
 	{
 		// Set to 0 so that we don't get any non-custom ticks
 		self.mticks = 0;
@@ -631,8 +631,8 @@ impl AxesCommonData
 		}
 	}
 	
-	pub fn plot2<T1: DataType, X1: Iterator<T1>,
-	             T2: DataType, X2: Iterator<T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption])
+	pub fn plot2<T1: DataType, X1: Iterator<Item = T1>,
+	             T2: DataType, X2: Iterator<Item = T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption])
 	{
 		let l = self.elems.len();
 		self.elems.push(PlotElement::new());
@@ -651,9 +651,9 @@ impl AxesCommonData
 		self.write_common_commands(l, num_rows, 2, plot_type, Record, false, options);
 	}
 
-	pub fn plot3<T1: DataType, X1: Iterator<T1>,
-			     T2: DataType, X2: Iterator<T2>,
-			     T3: DataType, X3: Iterator<T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption])
+	pub fn plot3<T1: DataType, X1: Iterator<Item = T1>,
+			     T2: DataType, X2: Iterator<Item = T2>,
+			     T3: DataType, X3: Iterator<Item = T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption])
 	{
 		let l = self.elems.len();
 		self.elems.push(PlotElement::new());
@@ -673,7 +673,7 @@ impl AxesCommonData
 		self.write_common_commands(l, num_rows, 3, plot_type, Record, false, options);
 	}
 
-	pub fn plot_matrix<T: DataType, X: Iterator<T>>(&mut self, plot_type: PlotType, is_3d: bool, mut mat: X, num_rows: uint, num_cols: uint,
+	pub fn plot_matrix<T: DataType, X: Iterator<Item = T>>(&mut self, plot_type: PlotType, is_3d: bool, mut mat: X, num_rows: uint, num_cols: uint,
 	                                                dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption])
 	{
 		let l = self.elems.len();
@@ -1126,21 +1126,21 @@ pub trait AxesCommon : AxesCommonPrivate
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_x_ticks_custom<'l, T: DataType, TL: Iterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
 		self.get_common_data_mut().x_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	fn set_y_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_y_ticks_custom<'l, T: DataType, TL: Iterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
 		self.get_common_data_mut().y_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the color bar axis.
-	fn set_cb_ticks_custom<'l, T: DataType, TL: Iterator<Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_cb_ticks_custom<'l, T: DataType, TL: Iterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
 		self.get_common_data_mut().cb_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
@@ -1250,7 +1250,7 @@ pub trait AxesCommon : AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `palette_generator` - The palette generator
-	fn set_custom_palette<T: Iterator<(f32, f32, f32, f32)>>(&mut self, palette_generator: T) -> &mut Self
+	fn set_custom_palette<T: Iterator<Item = (f32, f32, f32, f32)>>(&mut self, palette_generator: T) -> &mut Self
 	{
 		let mut palette_generator = palette_generator;
 		{
