@@ -349,7 +349,7 @@
 
 <span class='doccomment'>/// An enumeration of plot options you can supply to plotting commands, governing</span>
 <span class='doccomment'>/// things like line width, color and others</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>PlotOption</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>
 {
 	<span class='doccomment'>/// Sets the symbol used for points. The valid characters are as follows:</span>
@@ -394,7 +394,7 @@
 }
 
 <span class='doccomment'>/// An enumeration of possible fill regions</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>FillRegionType</span>
 {
 	<span class='ident'>Above</span>,
@@ -403,7 +403,7 @@
 }
 
 <span class='doccomment'>/// An enumeration of possible text and label alignments</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AlignType</span>
 {
 	<span class='ident'>AlignLeft</span>,
@@ -414,7 +414,7 @@
 }
 
 <span class='doccomment'>/// An enumeration of possible dash styles</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>DashType</span>
 {
 	<span class='ident'>Solid</span>,
@@ -442,7 +442,7 @@
 }
 
 <span class='doccomment'>/// An enumeration of possible arrow head styles</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ArrowheadType</span>
 {
 	<span class='doccomment'>/// An arrow head shaped like a &#39;V&#39;</span>
@@ -457,7 +457,7 @@
 
 <span class='doccomment'>/// An enumeration of something that can either be fixed (e.g. the maximum of X values),</span>
 <span class='doccomment'>/// or automatically determined</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
 {
 	<span class='doccomment'>/// Fixes the value to a specific value</span>
@@ -480,7 +480,7 @@
 }
 
 <span class='doccomment'>/// An enumeration of label options that control label attributes</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>LabelOption</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>
 {
 	<span class='doccomment'>/// Sets the offset of the label in characters</span>
@@ -519,7 +519,7 @@
 }
 
 <span class='doccomment'>/// An enumeration of axis tick options</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>TickOption</span>
 {
 	<span class='doccomment'>/// Specifies whether the ticks are drawn at the borders of the plot, or on the axis</span>
@@ -544,7 +544,7 @@
 }
 
 <span class='doccomment'>/// Plot border locations</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>BorderLocation2D</span>
 {
 	<span class='ident'>Bottom</span> <span class='op'>=</span> <span class='number'>1</span>,
@@ -554,7 +554,7 @@
 }
 
 <span class='doccomment'>/// Legend options</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>LegendOption</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>
 {
 	<span class='doccomment'>/// Puts curve samples to the left of the label</span>
@@ -575,7 +575,7 @@
 }
 
 <span class='doccomment'>/// Specifies how the contours are drawn</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ContourStyle</span>
 {
 	<span class='doccomment'>/// Draw lines between points of equal value</span>
@@ -595,7 +595,7 @@
 }
 
 <span class='doccomment'>/// Specifies what sort of palette to use</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>PaletteType</span>
 {
 	<span class='doccomment'>/// Use a gray palette with a specified gamma</span>
