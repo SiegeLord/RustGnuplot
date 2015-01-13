@@ -1,21 +1,21 @@
 // This file is released into Public Domain.
-#![feature(globs)]
 #![feature(unboxed_closures)]
+#![allow(unstable)]
 
 extern crate gnuplot;
 
 use std::vec::Vec;
-use std::num::{Float, FloatMath};
+use std::num::Float;
 
 use gnuplot::*;
 
 mod common;
 
-fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
+fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&mut Figure)>(mut show: F, mut set_term: G)
 {
-	let w = 61u;
-	let h = 61u;
-	let mut z1 = Vec::with_capacity((w * h) as uint);
+	let w = 61us;
+	let h = 61us;
+	let mut z1 = Vec::with_capacity((w * h) as usize);
 	for i in range(0, h)
 	{
 		for j in range(0, w)

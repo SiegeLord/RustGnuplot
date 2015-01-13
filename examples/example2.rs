@@ -1,6 +1,6 @@
 // This file is released into Public Domain.
-#![feature(globs)]
 #![feature(unboxed_closures)]
+#![allow(unstable)]
 
 extern crate gnuplot;
 
@@ -10,7 +10,7 @@ use gnuplot::*;
 
 mod common;
 
-fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
+fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&mut Figure)>(mut show: F, mut set_term: G)
 {
 	let x = &[1i32, 2, 3, 4, 5];
 	let x = x.iter();
@@ -28,9 +28,9 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 	let y3: Vec<i32> = x3.map(|&v| { v * v * v }).collect();
 	let y3 = y3.iter();
 	
-	let zw = 16u;
-	let zh = 16u;
-	let mut z1 = Vec::with_capacity((zw * zh) as uint);
+	let zw = 16us;
+	let zh = 16us;
+	let mut z1 = Vec::with_capacity((zw * zh) as usize);
 	for i in range(0, zh)
 	{
 		for j in range(0, zw)
@@ -68,8 +68,8 @@ fn example(show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
 	fg.axes2d()
 	.set_title("Axis Ticks", &[])
 	.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
-	.set_x_ticks_custom(range_step(0u, 10, 2).map(|x| Major(x as f32, Fix("%.2f ms".to_string())))
-	                    .chain(range_step(1u, 10, 2).map(|x| Minor(x as f32))).chain(Some(Major(-2.1f32, Fix("%.2f ms".to_string()))).into_iter()), 
+	.set_x_ticks_custom(range_step(0us, 10, 2).map(|x| Major(x as f32, Fix("%.2f ms".to_string())))
+	                    .chain(range_step(1us, 10, 2).map(|x| Minor(x as f32))).chain(Some(Major(-2.1f32, Fix("%.2f ms".to_string()))).into_iter()), 
 						&[MajorScale(2.0), MinorScale(0.5), OnAxis(true)], &[TextColor("blue"), TextAlign(AlignCenter)])
 	.set_y_ticks(Some((Fix(2.0), 1)), &[Mirror(false)], &[]);
 	

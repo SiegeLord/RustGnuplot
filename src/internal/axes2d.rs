@@ -442,7 +442,7 @@ impl Axes2D
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	pub fn image<'l,
 	              T: DataType,
-	              X: Iterator<Item = T>>(&'l mut self, mat: X, num_rows: uint, num_cols: uint, dimensions: Option<(f64, f64, f64, f64)>,
+	              X: Iterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>,
 	                              options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.common.plot_matrix(Image, false, mat, num_rows, num_cols, dimensions, options);

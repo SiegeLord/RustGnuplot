@@ -32,7 +32,7 @@ pub fn run() -> Option<(bool, Box<Fn(/*fg: */&mut Figure, /*filename: */&str) + 
 	let term = matches.opt_str("t").map(|s| s.to_string());
 	
 	Some((!no_show,
-		(box move |fg: &mut Figure, filename|
+		Box::new(move |&: fg: &mut Figure, filename: &str|
 		{
 			if !no_show
 			{
@@ -40,7 +40,7 @@ pub fn run() -> Option<(bool, Box<Fn(/*fg: */&mut Figure, /*filename: */&str) + 
 			}
 			fg.echo_to_file(filename);
 		}) as Box<Fn(&mut _, &_)>,
-		(box move |fg: &mut Figure|
+		Box::new(move |&: fg: &mut Figure|
 		{
 			term.as_ref().map(|t|
 			{

@@ -138,11 +138,11 @@ pub enum AutoOption<T>
 impl<T> AutoOption<T>
 {
 	/// Same as `Option::map`
-	pub fn map<U>(&self, func: |&T| -> U) -> AutoOption<U>
+	pub fn map<U, F: FnOnce(T) -> U>(self, f: F) -> AutoOption<U>
 	{
-		match *self
+		match self
 		{
-			Fix(ref v) => Fix(func(v)),
+			Fix(v) => Fix(f(v)),
 			Auto => Auto
 		}
 	}

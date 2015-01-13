@@ -6,8 +6,7 @@
 
 #![crate_type = "lib"]
 
-#![feature(globs)]
-#![feature(macro_rules)]
+#![allow(unstable)]
 #![allow(unused_must_use)]
 
 /*!
@@ -39,7 +38,7 @@ pub use internal::axes3d::Axes3D;
 pub use options::*;
 pub use axes_common::AxesCommon;
 
-#[macro_escape]
+#[macro_use]
 mod util;
 mod axes_common;
 mod writer;

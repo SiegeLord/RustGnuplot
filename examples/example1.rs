@@ -1,6 +1,6 @@
 // This file is released into Public Domain.
-#![feature(globs)]
 #![feature(unboxed_closures)]
+#![allow(unstable)]
 
 extern crate gnuplot;
 
@@ -10,7 +10,7 @@ use gnuplot::*;
 
 mod common;
 
-fn example(show_plots: bool, show: |fg: &mut Figure, filename: &str|, set_term: |fg: &mut Figure|)
+fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&mut Figure)>(show_plots: bool, mut show: F, mut set_term: G)
 {
 	let x = &[1.0f32, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
 	let x = x.iter();

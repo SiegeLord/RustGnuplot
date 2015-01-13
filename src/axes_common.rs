@@ -30,7 +30,7 @@ impl ResetMemWriter {
 		self.buf.as_slice()
 	}
 
-	pub fn truncate(&mut self, new_len: uint)
+	pub fn truncate(&mut self, new_len: usize)
 	{
 		self.buf.truncate(new_len);
 	}
@@ -384,11 +384,11 @@ impl AxisData
 				{
 					Minor(ref pos) =>
 					{
-						(pos, &a, 1u)
+						(pos, &a, 1us)
 					},
 					Major(ref pos, ref label) =>
 					{
-						(pos, label, 0u)
+						(pos, label, 0us)
 					}
 				};
 
@@ -673,7 +673,7 @@ impl AxesCommonData
 		self.write_common_commands(l, num_rows, 3, plot_type, Record, false, options);
 	}
 
-	pub fn plot_matrix<T: DataType, X: Iterator<Item = T>>(&mut self, plot_type: PlotType, is_3d: bool, mut mat: X, num_rows: uint, num_cols: uint,
+	pub fn plot_matrix<T: DataType, X: Iterator<Item = T>>(&mut self, plot_type: PlotType, is_3d: bool, mut mat: X, num_rows: usize, num_cols: usize,
 	                                                dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption])
 	{
 		let l = self.elems.len();
@@ -706,7 +706,7 @@ impl AxesCommonData
 		self.write_common_commands(l, num_rows, num_cols, plot_type, source_type, is_3d, options);
 	}
 
-	fn write_common_commands(&mut self, elem_idx: uint, num_rows: uint, num_cols: uint, plot_type: PlotType,
+	fn write_common_commands(&mut self, elem_idx: usize, num_rows: usize, num_cols: usize, plot_type: PlotType,
 	                         source_type: DataSourceType, is_3d: bool, options: &[PlotOption])
 	{
 		let args = &mut self.elems.as_mut_slice()[elem_idx].args as &mut Writer;
