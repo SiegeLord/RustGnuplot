@@ -7,10 +7,11 @@ extern crate gnuplot;
 use std::iter::repeat;
 
 use gnuplot::*;
+use common::*;
 
 mod common;
 
-fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&mut Figure)>(show_plots: bool, mut show: F, mut set_term: G)
+fn example(c: Common)
 {
 	let x = &[1.0f32, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
 	let x = x.iter();
@@ -24,7 +25,7 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	let y_err = repeat(5.0f32);
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 
 	fg.axes2d()
 	.set_size(0.75, 1.0)
@@ -42,9 +43,9 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.y_error_lines(x, y2, repeat(1.0f32), &[Caption("(x - 4)^2 + 5"), LineWidth(1.5), Color("red")])
 	.lines_points(x, y3, &[Caption("x - 4"), PointSymbol('t'), LineWidth(1.5), LineStyle(Dash), Color("#11ff11")]);
 	
-	show(&mut fg, "fg1.1.gnuplot");
+	c.show(&mut fg, "fg1.1.gnuplot");
 	
-	if show_plots
+	if !c.no_show
 	{
 		fg.set_terminal("pdfcairo", "fg1.1.pdf");
 		fg.show();
@@ -53,7 +54,7 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	}
 
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 	
 	fg.axes2d()
 	.set_pos_grid(2, 2, 0)
@@ -65,10 +66,10 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.points(x, y2, &[Caption("Points"), PointSymbol('D'), Color("#ffaa77"), PointSize(2.0)])
 	.set_title("Plot2", &[]);
 	
-	show(&mut fg, "fg1.2.gnuplot");
+	c.show(&mut fg, "fg1.2.gnuplot");
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 	
 	fg.axes2d()
 	.lines(x, y1, &[Caption("Lines"), LineWidth(3.0), Color("violet")]);
@@ -80,30 +81,30 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.points(x, y2, &[Caption("Points"), PointSymbol('T'), Color("#ffaa77")])
 	.set_title("Inset", &[]);
 
-	show(&mut fg, "fg1.3.gnuplot");
+	c.show(&mut fg, "fg1.3.gnuplot");
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 
 	fg.axes2d()
 	.lines(x, y1, &[Caption("Lines"), LineWidth(3.0), Color("violet")])
 	.set_y_range(Fix(-30.0), Auto)
 	.set_y_label("This axis is manually scaled on the low end", &[]);
 
-	show(&mut fg, "fg1.4.gnuplot");
+	c.show(&mut fg, "fg1.4.gnuplot");
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 
 	fg.axes2d()
 	.x_error_lines(x, y1, x_err, &[LineWidth(2.0), PointSymbol('O'), Color("red")])
 	.y_error_lines(x, y2, y_err, &[LineWidth(2.0), PointSymbol('S'), Color("blue")])
 	.set_title("Errors", &[]);
 
-	show(&mut fg, "fg1.5.gnuplot");
+	c.show(&mut fg, "fg1.5.gnuplot");
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 
 	fg.axes2d()
 	.set_size(1.0, 0.8)
@@ -117,10 +118,10 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.set_title("Fill and legend", &[])
 	.set_legend(Graph(0.5), Graph(-0.2), &[Horizontal, Placement(AlignCenter, AlignTop), Title("Legend Title")], &[TextAlign(AlignRight)]);
 
-	show(&mut fg, "fg1.6.gnuplot");
+	c.show(&mut fg, "fg1.6.gnuplot");
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 	
 	fg.axes2d()
 	.set_pos(0.1, 0.1)
@@ -133,10 +134,10 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.set_title("Goings nuts with the formatting", &[Font("Times", 24.0), TextOffset(-10.0, 0.5)])
 	.label("Intersection", Axis(2.208), Axis(-1.791), &[MarkerSymbol('*'), TextAlign(AlignCenter), TextOffset(0.0, -1.0), MarkerColor("red"), MarkerSize(2.0)]);
 	
-	show(&mut fg, "fg1.7.gnuplot");
+	c.show(&mut fg, "fg1.7.gnuplot");
 }
 
 fn main()
 {
-	common::run().map(|(show, f, t)| example(show, |fg, fi| f.call((fg, fi)), |fg| t.call((fg,))));
+	Common::new().map(|c| example(c));
 }

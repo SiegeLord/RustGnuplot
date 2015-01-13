@@ -7,10 +7,11 @@ extern crate gnuplot;
 use std::num::Float;
 
 use gnuplot::*;
+use common::*;
 
 mod common;
 
-fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&mut Figure)>(mut show: F, mut set_term: G)
+fn example(c: Common)
 {
 	let zw = 61us;
 	let zh = 61us;
@@ -26,7 +27,7 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	}
 
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 
 	fg.axes2d()
 	.set_title("Image", &[])
@@ -35,10 +36,10 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.set_cb_label("Label", &[Rotate(0.0)])
 	.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[]);
 
-	show(&mut fg, "fg4.1.gnuplot");
+	c.show(&mut fg, "fg4.1.gnuplot");
 
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 
 	fg.axes3d()
 	.set_title("Surface", &[])
@@ -51,10 +52,10 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.set_cb_range(Fix(-1.0), Fix(1.0))
 	.set_view(45.0, 45.0);
 
-	show(&mut fg, "fg4.2.gnuplot");
+	c.show(&mut fg, "fg4.2.gnuplot");
 
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 
 	fg.axes3d()
 	.set_title("Cube Helix Palette", &[])
@@ -68,10 +69,10 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.set_palette(HELIX)
 	.set_view(45.0, 45.0);
 
-	show(&mut fg, "fg4.3.gnuplot");
+	c.show(&mut fg, "fg4.3.gnuplot");
 
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 
 	fg.axes3d()
 	.set_title("Gray Palette", &[])
@@ -84,10 +85,10 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.set_palette(GRAY)
 	.set_view(45.0, 45.0);
 
-	show(&mut fg, "fg4.4.gnuplot");
+	c.show(&mut fg, "fg4.4.gnuplot");
 
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 
 	fg.axes3d()
 	.set_title("Black Body Palette", &[])
@@ -100,7 +101,7 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.set_palette(HOT)
 	.set_view(45.0, 45.0);
 
-	show(&mut fg, "fg4.5.gnuplot");
+	c.show(&mut fg, "fg4.5.gnuplot");
 
 	let palette: [(f32, f32, f32, f32); 6] = [
 		(0.00, 1.0, 0.0, 0.0),
@@ -121,10 +122,10 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.set_custom_palette(palette.iter().map(|&x| x))
 	.set_view(45.0, 45.0);
 
-	show(&mut fg, "fg4.5.gnuplot");
+	c.show(&mut fg, "fg4.5.gnuplot");
 }
 
 fn main()
 {
-	common::run().map(|(_, f, t)| example(|fg, fi| f.call((fg, fi)), |fg| t.call((fg,))));
+	Common::new().map(|c| example(c));
 }

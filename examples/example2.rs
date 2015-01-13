@@ -7,10 +7,11 @@ extern crate gnuplot;
 use std::iter::{repeat, range_step};
 
 use gnuplot::*;
+use common::*;
 
 mod common;
 
-fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&mut Figure)>(mut show: F, mut set_term: G)
+fn example(c: Common)
 {
 	let x = &[1i32, 2, 3, 4, 5];
 	let x = x.iter();
@@ -42,7 +43,7 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	}
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 	
 	fg.axes2d()
 	.set_title("Arrows", &[])
@@ -50,20 +51,20 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.arrow(Graph(0.5), Graph(1.0), Axis(1.0), Axis(1.0), &[ArrowType(Filled), ArrowSize(0.1), LineStyle(DotDotDash), LineWidth(2.0), Color("red")])
 	.arrow(Graph(0.5), Graph(1.0), Axis(3.0), Axis(9.0), &[ArrowType(Open), Color("green")]);
 	
-	show(&mut fg, "fg2.1.gnuplot");
+	c.show(&mut fg, "fg2.1.gnuplot");
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 	
 	fg.axes2d()
 	.set_title("Boxes", &[])
 	.boxes(x2, y2, &[LineWidth(2.0), Color("cyan"), BorderColor("blue"), LineStyle(DotDash)])
 	.boxes_set_width(x, y1, w, &[LineWidth(2.0), Color("gray"), BorderColor("black")]);
 	
-	show(&mut fg, "fg2.2.gnuplot");
+	c.show(&mut fg, "fg2.2.gnuplot");
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 	
 	fg.axes2d()
 	.set_title("Axis Ticks", &[])
@@ -73,10 +74,10 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 						&[MajorScale(2.0), MinorScale(0.5), OnAxis(true)], &[TextColor("blue"), TextAlign(AlignCenter)])
 	.set_y_ticks(Some((Fix(2.0), 1)), &[Mirror(false)], &[]);
 	
-	show(&mut fg, "fg2.3.gnuplot");
+	c.show(&mut fg, "fg2.3.gnuplot");
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 	
 	fg.axes2d()
 	.set_title("Border, Axes", &[])
@@ -87,19 +88,19 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.set_x_axis(true, &[LineWidth(2.0), LineStyle(DotDotDash)])
 	.set_y_axis(true, &[LineWidth(2.0), Color("red")]);
 	
-	show(&mut fg, "fg2.4.gnuplot");
+	c.show(&mut fg, "fg2.4.gnuplot");
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 	
 	fg.axes2d()
 	.set_title("Image", &[])
 	.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[]);
 	
-	show(&mut fg, "fg2.5.gnuplot");
+	c.show(&mut fg, "fg2.5.gnuplot");
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 
 	fg.axes2d()
 	.set_title("Image without borders", &[])
@@ -108,13 +109,13 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.set_y_ticks(None, &[], &[])
 	.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[]);
 	
-	show(&mut fg, "fg2.6.gnuplot");
+	c.show(&mut fg, "fg2.6.gnuplot");
 
 	let x4 = &[1f32, 10.0, 100.0];
 	let y4 = &[1f32, 3f32, 9f32];
 
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 
 	fg.axes2d()
 	.set_title("Logarithmic", &[])
@@ -124,10 +125,10 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.set_x_log(Some(10.0))
 	.set_y_log(Some(3.0));
 
-	show(&mut fg, "fg2.7.gnuplot");
+	c.show(&mut fg, "fg2.7.gnuplot");
 }
 
 fn main()
 {
-	common::run().map(|(_, f, t)| example(|fg, fi| f.call((fg, fi)), |fg| t.call((fg,))));
+	Common::new().map(|c| example(c));
 }

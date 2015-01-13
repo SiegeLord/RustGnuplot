@@ -8,10 +8,11 @@ use std::vec::Vec;
 use std::num::Float;
 
 use gnuplot::*;
+use common::*;
 
 mod common;
 
-fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&mut Figure)>(mut show: F, mut set_term: G)
+fn example(c: Common)
 {
 	let w = 61us;
 	let h = 61us;
@@ -27,7 +28,7 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	}
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 	
 	fg.axes3d()
 	.set_title("Surface", &[])
@@ -39,10 +40,10 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.set_z_ticks(Some((Fix(1.0), 1)), &[Mirror(false)], &[])
 	.set_view(45.0, 45.0);
 	
-	show(&mut fg, "fg3.1.gnuplot");
+	c.show(&mut fg, "fg3.1.gnuplot");
 
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 
 	fg.axes3d()
 	.set_title("Map", &[])
@@ -51,10 +52,10 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.set_y_label("Y", &[])
 	.set_view_map();
 	
-	show(&mut fg, "fg3.2.gnuplot");
+	c.show(&mut fg, "fg3.2.gnuplot");
 	
 	let mut fg = Figure::new();
-	set_term(&mut fg);
+	c.set_term(&mut fg);
 	
 	fg.axes3d()
 	.set_pos_grid(2, 2, 0)
@@ -84,10 +85,10 @@ fn example<F: FnMut(/*fg: */&mut Figure, /*filename: */&str), G: FnMut(/*fg: */&
 	.surface(z1.iter(), w, h, Some((-4.0, -4.0, 4.0, 4.0)), &[])
 	.set_view(45.0, 45.0);
 	
-	show(&mut fg, "fg3.3.gnuplot");
+	c.show(&mut fg, "fg3.3.gnuplot");
 }
 
 fn main()
 {
-	common::run().map(|(_, f, t)| example(|fg, fi| f.call((fg, fi)), |fg| t.call((fg,))));
+	Common::new().map(|c| example(c));
 }
