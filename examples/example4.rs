@@ -111,6 +111,9 @@ fn example(c: Common)
 		(0.66, 0.0, 0.0, 1.0),
 		(1.00, 0.0, 0.0, 1.0)];
 
+	let mut fg = Figure::new();
+	c.set_term(&mut fg);
+
 	fg.axes3d()
 	.set_title("Custom Palette", &[])
 	.surface(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[])

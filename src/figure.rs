@@ -6,10 +6,11 @@ use axes_common::*;
 use axes2d::*;
 use axes3d::*;
 
+use std::cell::RefCell;
 use std::io::File;
 use std::io::BufferedWriter;
 use std::path::Path;
-use std::io::process::Command;
+use std::io::process::{Command, Process};
 
 pub use self::AxesVariant::*;
 
@@ -45,7 +46,9 @@ pub struct Figure
 {
 	axes: Vec<AxesVariant>,
 	terminal: String,
-	output_file: String
+	output_file: String,
+	// RefCell so that we can echo to it
+	gnuplot: RefCell<Option<Process>>
 }
 
 impl Figure
@@ -57,7 +60,8 @@ impl Figure
 		{
 			axes: Vec::new(),
 			terminal: "".to_string(),
-			output_file: "".to_string()
+			output_file: "".to_string(),
+			gnuplot: RefCell::new(None),
 		}
 	}
 	
@@ -85,7 +89,7 @@ impl Figure
 		match self.axes.as_mut_slice()[l - 1]
 		{
 			Axes2DType(ref mut a) => a,
-			_ => panic!()
+			_ => unreachable!()
 		}
 	}
 	
@@ -97,21 +101,36 @@ impl Figure
 		match self.axes.as_mut_slice()[l - 1]
 		{
 			Axes3DType(ref mut a) => a,
-			_ => panic!()
+			_ => unreachable!()
 		}
 	}
 	
-	/// Launch a gnuplot process and display the figure on it
-	pub fn show(&self) -> &Figure
+	/// Launch a gnuplot process, if it hasn't been spawned already by a call to
+	/// this function, and display the figure on it.
+	pub fn show(&mut self) -> &Figure
 	{
 		if self.axes.len() == 0
 		{
 			return self;
 		}
+
+		if self.gnuplot.borrow().is_none()
+		{
+			*self.gnuplot.borrow_mut() = Some(Command::new("gnuplot").arg("-p").spawn().ok().expect("Couldn't spawn gnuplot"));
+		}
 		
-		let mut p = Command::new("gnuplot").arg("-p").spawn().ok().expect("Couldn't spawn gnuplot");
-		self.echo(p.stdin.as_mut().unwrap());
+		self.gnuplot.borrow_mut().as_mut().map(|p|
+		{
+			self.echo(p.stdin.as_mut().unwrap());
+		});
 		
+		self
+	}
+
+	/// Clears all axes on this figure.
+	pub fn clear_axes(&mut self) -> &Figure
+	{
+		self.axes.clear();
 		self
 	}
 	
@@ -139,7 +158,10 @@ impl Figure
 		
 		writeln!(w, "set termoption dashed");
 		writeln!(w, "set termoption enhanced");
-		writeln!(w, "set multiplot");
+		if self.axes.len() > 1
+		{
+			writeln!(w, "set multiplot");
+		}
 		// TODO: Maybe add an option for this (who seriously prefers them in the back though?)
 		writeln!(w, "set tics front");
 		
@@ -160,8 +182,11 @@ impl Figure
 			});
 			e.write_out(w);
 		}
-		
-		writeln!(w, "unset multiplot");
+
+		if self.axes.len() > 1
+		{
+			writeln!(w, "unset multiplot");
+		}
 		self
 	}
 	

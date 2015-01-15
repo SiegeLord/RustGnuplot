@@ -33,3 +33,8 @@ path = "examples/example3.rs"
 
 name = "example4"
 path = "examples/example4.rs"
+
+[[example]]
+
+name = "animation_example"
+path = "examples/animation_example.rs"
