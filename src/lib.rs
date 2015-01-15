@@ -33,22 +33,19 @@ fg.show();
 pub use coordinates::*;
 pub use datatype::*;
 pub use figure::*;
-pub use internal::axes2d::Axes2D;
-pub use internal::axes3d::Axes3D;
+pub use axes2d::Axes2D;
+pub use axes3d::Axes3D;
 pub use options::*;
 pub use axes_common::AxesCommon;
 
 #[macro_use]
 mod util;
+
+mod axes2d;
+mod axes3d;
 mod axes_common;
 mod writer;
-pub mod figure;
-pub mod options; 
-pub mod datatype;
-pub mod coordinates;
-
-mod internal
-{
-	pub mod axes2d;
-	pub mod axes3d;
-}
+mod figure;
+mod options; 
+mod datatype;
+mod coordinates;
