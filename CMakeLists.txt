@@ -11,6 +11,7 @@ set(EXAMPLE1_ROOT examples/example1.rs)
 set(EXAMPLE2_ROOT examples/example2.rs)
 set(EXAMPLE3_ROOT examples/example3.rs)
 set(EXAMPLE4_ROOT examples/example4.rs)
+set(ANIMATION_EXAMPLE_ROOT examples/animation_example.rs)
 set(CUSTOM_CSS_SRC "${CMAKE_SOURCE_DIR}/doc/main.css")
 set(CUSTOM_CSS_DEST "${CMAKE_BINARY_DIR}/doc/main.css")
 
@@ -52,9 +53,14 @@ rust_crate_auto(${EXAMPLE4_ROOT}
                 DESTINATION examples
                 DEPENDS "${GNUPLOT_FULL_TARGET}")
 
+rust_crate_auto(${ANIMATION_EXAMPLE_ROOT}
+                TARGET_NAME ANIMATION_EXAMPLE
+                DESTINATION examples
+                DEPENDS "${GNUPLOT_FULL_TARGET}")
+
 add_custom_target(examples_target
                   ALL
-                  DEPENDS ${EXAMPLE1_FULL_TARGET} ${EXAMPLE2_FULL_TARGET} ${EXAMPLE3_FULL_TARGET} ${EXAMPLE4_FULL_TARGET})
+                  DEPENDS ${EXAMPLE1_FULL_TARGET} ${EXAMPLE2_FULL_TARGET} ${EXAMPLE3_FULL_TARGET} ${EXAMPLE4_FULL_TARGET} ${ANIMATION_EXAMPLE_FULL_TARGET})
 
 
 # Build documentation
