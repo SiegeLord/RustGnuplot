@@ -91,9 +91,6 @@
 <span id="49">49</span>
 <span id="50">50</span>
 <span id="51">51</span>
-<span id="52">52</span>
-<span id="53">53</span>
-<span id="54">54</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class='comment'>// </span>
@@ -130,25 +127,22 @@ fg.show();
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>coordinates</span>::<span class='op'>*</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>datatype</span>::<span class='op'>*</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>figure</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>internal</span>::<span class='ident'>axes2d</span>::<span class='ident'>Axes2D</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>internal</span>::<span class='ident'>axes3d</span>::<span class='ident'>Axes3D</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>axes2d</span>::<span class='ident'>Axes2D</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>axes3d</span>::<span class='ident'>Axes3D</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>options</span>::<span class='op'>*</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>axes_common</span>::<span class='ident'>AxesCommon</span>;
 
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>mod</span> <span class='ident'>util</span>;
+
+<span class='kw'>mod</span> <span class='ident'>axes2d</span>;
+<span class='kw'>mod</span> <span class='ident'>axes3d</span>;
 <span class='kw'>mod</span> <span class='ident'>axes_common</span>;
 <span class='kw'>mod</span> <span class='ident'>writer</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>figure</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>options</span>; 
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>datatype</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>coordinates</span>;
-
-<span class='kw'>mod</span> <span class='ident'>internal</span>
-{
-	<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>axes2d</span>;
-	<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>axes3d</span>;
-}
+<span class='kw'>mod</span> <span class='ident'>figure</span>;
+<span class='kw'>mod</span> <span class='ident'>options</span>; 
+<span class='kw'>mod</span> <span class='ident'>datatype</span>;
+<span class='kw'>mod</span> <span class='ident'>coordinates</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

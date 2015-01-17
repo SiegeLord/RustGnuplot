@@ -223,19 +223,45 @@
 <span id="181">181</span>
 <span id="182">182</span>
 <span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class='comment'>// </span>
 <span class='comment'>// All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.</span>
 
 <span class='kw'>use</span> <span class='ident'>axes_common</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>internal</span>::<span class='ident'>axes2d</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>internal</span>::<span class='ident'>axes3d</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>axes2d</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>axes3d</span>::<span class='op'>*</span>;
 
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>RefCell</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>File</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>BufferedWriter</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>process</span>::<span class='ident'>Command</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>process</span>::{<span class='ident'>Command</span>, <span class='ident'>Process</span>};
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>AxesVariant</span>::<span class='op'>*</span>;
 
@@ -271,7 +297,9 @@
 {
 	<span class='ident'>axes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>AxesVariant</span><span class='op'>&gt;</span>,
 	<span class='ident'>terminal</span>: <span class='ident'>String</span>,
-	<span class='ident'>output_file</span>: <span class='ident'>String</span>
+	<span class='ident'>output_file</span>: <span class='ident'>String</span>,
+	<span class='comment'>// RefCell so that we can echo to it</span>
+	<span class='ident'>gnuplot</span>: <span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Process</span><span class='op'>&gt;&gt;</span>
 }
 
 <span class='kw'>impl</span> <span class='ident'>Figure</span>
@@ -283,7 +311,8 @@
 		{
 			<span class='ident'>axes</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
 			<span class='ident'>terminal</span>: <span class='string'>&quot;&quot;</span>.<span class='ident'>to_string</span>(),
-			<span class='ident'>output_file</span>: <span class='string'>&quot;&quot;</span>.<span class='ident'>to_string</span>()
+			<span class='ident'>output_file</span>: <span class='string'>&quot;&quot;</span>.<span class='ident'>to_string</span>(),
+			<span class='ident'>gnuplot</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
 		}
 	}
 	
@@ -311,7 +340,7 @@
 		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>as_mut_slice</span>()[<span class='ident'>l</span> <span class='op'>-</span> <span class='number'>1</span>]
 		{
 			<span class='ident'>Axes2DType</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-			_ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>()
+			_ <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>()
 		}
 	}
 	
@@ -323,21 +352,36 @@
 		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>as_mut_slice</span>()[<span class='ident'>l</span> <span class='op'>-</span> <span class='number'>1</span>]
 		{
 			<span class='ident'>Axes3DType</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-			_ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>()
+			_ <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>()
 		}
 	}
 	
-	<span class='doccomment'>/// Launch a gnuplot process and display the figure on it</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>show</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>Figure</span>
+	<span class='doccomment'>/// Launch a gnuplot process, if it hasn&#39;t been spawned already by a call to</span>
+	<span class='doccomment'>/// this function, and display the figure on it.</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>show</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>Figure</span>
 	{
 		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span>
 		{
 			<span class='kw'>return</span> <span class='self'>self</span>;
 		}
+
+		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>gnuplot</span>.<span class='ident'>borrow</span>().<span class='ident'>is_none</span>()
+		{
+			<span class='op'>*</span><span class='self'>self</span>.<span class='ident'>gnuplot</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>Command</span>::<span class='ident'>new</span>(<span class='string'>&quot;gnuplot&quot;</span>).<span class='ident'>arg</span>(<span class='string'>&quot;-p&quot;</span>).<span class='ident'>spawn</span>().<span class='ident'>ok</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Couldn&#39;t spawn gnuplot&quot;</span>));
+		}
 		
-		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>Command</span>::<span class='ident'>new</span>(<span class='string'>&quot;gnuplot&quot;</span>).<span class='ident'>arg</span>(<span class='string'>&quot;-p&quot;</span>).<span class='ident'>spawn</span>().<span class='ident'>ok</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Couldn&#39;t spawn gnuplot&quot;</span>);
-		<span class='self'>self</span>.<span class='ident'>echo</span>(<span class='ident'>p</span>.<span class='ident'>stdin</span>.<span class='ident'>as_mut</span>().<span class='ident'>unwrap</span>());
+		<span class='self'>self</span>.<span class='ident'>gnuplot</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>as_mut</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span>
+		{
+			<span class='self'>self</span>.<span class='ident'>echo</span>(<span class='ident'>p</span>.<span class='ident'>stdin</span>.<span class='ident'>as_mut</span>().<span class='ident'>unwrap</span>());
+		});
 		
+		<span class='self'>self</span>
+	}
+
+	<span class='doccomment'>/// Clears all axes on this figure.</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>clear_axes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>Figure</span>
+	{
+		<span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>clear</span>();
 		<span class='self'>self</span>
 	}
 	
@@ -365,7 +409,10 @@
 		
 		<span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;set termoption dashed&quot;</span>);
 		<span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;set termoption enhanced&quot;</span>);
-		<span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;set multiplot&quot;</span>);
+		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>1</span>
+		{
+			<span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;set multiplot&quot;</span>);
+		}
 		<span class='comment'>// TODO: Maybe add an option for this (who seriously prefers them in the back though?)</span>
 		<span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;set tics front&quot;</span>);
 		
@@ -386,8 +433,11 @@
 			});
 			<span class='ident'>e</span>.<span class='ident'>write_out</span>(<span class='ident'>w</span>);
 		}
-		
-		<span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;unset multiplot&quot;</span>);
+
+		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>axes</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>1</span>
+		{
+			<span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;unset multiplot&quot;</span>);
+		}
 		<span class='self'>self</span>
 	}
 	

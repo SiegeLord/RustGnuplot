@@ -44,11 +44,11 @@
 <h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>gnuplot</a><wbr></span><span class='out-of-band'><a href='stability.html'>[stability]</a> <span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-0' href='../src/gnuplot/lib.rs.html#5-54'>[src]</a></span></h1>
+        </span><a id='src-0' href='../src/gnuplot/lib.rs.html#5-51'>[src]</a></span></h1>
 <div class='docblock'><p>A simple gnuplot controller.</p>
 
 <h1 id="example" class='section-header'><a
-                           href="#example">Example</a></h1><pre class='rust '>
+                           href="#example">Example</a></h1><pre id='rust-example-rendered' class='rust '>
 <span class='kw'>use</span> <span class='ident'>gnuplot</span>::{<span class='ident'>Figure</span>, <span class='ident'>Caption</span>, <span class='ident'>Color</span>};
 
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='number'>0u32</span>, <span class='number'>1</span>, <span class='number'>2</span>];
@@ -58,33 +58,7 @@
 .<span class='ident'>lines</span>(<span class='ident'>x</span>.<span class='ident'>iter</span>(), <span class='ident'>y</span>.<span class='ident'>iter</span>(), <span class='kw-2'>&amp;</span>[<span class='ident'>Caption</span>(<span class='string'>&quot;A line&quot;</span>), <span class='ident'>Color</span>(<span class='string'>&quot;black&quot;</span>)]);
 <span class='ident'>fg</span>.<span class='ident'>show</span>();
 </pre>
-</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
-<table><tr><td><code>pub use <a class='mod' href='../gnuplot/coordinates/index.html' title='gnuplot::coordinates'>coordinates</a>::*;</code></td></tr><tr><td><code>pub use <a class='mod' href='../gnuplot/datatype/index.html' title='gnuplot::datatype'>datatype</a>::*;</code></td></tr><tr><td><code>pub use <a class='mod' href='../gnuplot/figure/index.html' title='gnuplot::figure'>figure</a>::*;</code></td></tr><tr><td><code>pub use <a class='mod' href='../gnuplot/options/index.html' title='gnuplot::options'>options</a>::*;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
-<table>
-                    <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='mod' href='coordinates/index.html'
-                               title='gnuplot::coordinates'>coordinates</a></td>
-                        <td class='docblock short'></td>
-                    </tr>
-                
-                    <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='mod' href='datatype/index.html'
-                               title='gnuplot::datatype'>datatype</a></td>
-                        <td class='docblock short'></td>
-                    </tr>
-                
-                    <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='mod' href='figure/index.html'
-                               title='gnuplot::figure'>figure</a></td>
-                        <td class='docblock short'></td>
-                    </tr>
-                
-                    <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='mod' href='options/index.html'
-                               title='gnuplot::options'>options</a></td>
-                        <td class='docblock short'></td>
-                    </tr>
-                </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Axes2D.html'
@@ -99,11 +73,161 @@
                         <td class='docblock short'><p>3D axes that is used for drawing 3D plots</p>
 </td>
                     </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Figure.html'
+                               title='gnuplot::Figure'>Figure</a></td>
+                        <td class='docblock short'><p>A figure that may contain multiple axes</p>
+</td>
+                    </tr>
+                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.AlignType.html'
+                               title='gnuplot::AlignType'>AlignType</a></td>
+                        <td class='docblock short'><p>An enumeration of possible text and label alignments</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.ArrowheadType.html'
+                               title='gnuplot::ArrowheadType'>ArrowheadType</a></td>
+                        <td class='docblock short'><p>An enumeration of possible arrow head styles</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.AutoOption.html'
+                               title='gnuplot::AutoOption'>AutoOption</a></td>
+                        <td class='docblock short'><p>An enumeration of something that can either be fixed (e.g. the maximum of X values),
+or automatically determined</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.BorderLocation2D.html'
+                               title='gnuplot::BorderLocation2D'>BorderLocation2D</a></td>
+                        <td class='docblock short'><p>Plot border locations</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.ContourStyle.html'
+                               title='gnuplot::ContourStyle'>ContourStyle</a></td>
+                        <td class='docblock short'><p>Specifies how the contours are drawn</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.Coordinate.html'
+                               title='gnuplot::Coordinate'>Coordinate</a></td>
+                        <td class='docblock short'><p>Specifies how to interpret the coordinate passed to a plotting command</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.DashType.html'
+                               title='gnuplot::DashType'>DashType</a></td>
+                        <td class='docblock short'><p>An enumeration of possible dash styles</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.FillRegionType.html'
+                               title='gnuplot::FillRegionType'>FillRegionType</a></td>
+                        <td class='docblock short'><p>An enumeration of possible fill regions</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.LabelOption.html'
+                               title='gnuplot::LabelOption'>LabelOption</a></td>
+                        <td class='docblock short'><p>An enumeration of label options that control label attributes</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.LegendOption.html'
+                               title='gnuplot::LegendOption'>LegendOption</a></td>
+                        <td class='docblock short'><p>Legend options</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.PaletteType.html'
+                               title='gnuplot::PaletteType'>PaletteType</a></td>
+                        <td class='docblock short'><p>Specifies what sort of palette to use</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.PlotOption.html'
+                               title='gnuplot::PlotOption'>PlotOption</a></td>
+                        <td class='docblock short'><p>An enumeration of plot options you can supply to plotting commands, governing
+things like line width, color and others</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.Tick.html'
+                               title='gnuplot::Tick'>Tick</a></td>
+                        <td class='docblock short'><p>Specifies a type of axis tick</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.TickOption.html'
+                               title='gnuplot::TickOption'>TickOption</a></td>
+                        <td class='docblock short'><p>An enumeration of axis tick options</p>
+</td>
+                    </tr>
+                </table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='constant' href='constant.COLOR.html'
+                               title='gnuplot::COLOR'>COLOR</a></td>
+                        <td class='docblock short'><p>Default Gnuplot palette</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='constant' href='constant.GRAY.html'
+                               title='gnuplot::GRAY'>GRAY</a></td>
+                        <td class='docblock short'><p>A gray palette</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='constant' href='constant.HELIX.html'
+                               title='gnuplot::HELIX'>HELIX</a></td>
+                        <td class='docblock short'><p>A nice default for a cube helix</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='constant' href='constant.HOT.html'
+                               title='gnuplot::HOT'>HOT</a></td>
+                        <td class='docblock short'><p>A black body palette</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='constant' href='constant.RAINBOW.html'
+                               title='gnuplot::RAINBOW'>RAINBOW</a></td>
+                        <td class='docblock short'><p>Classic rainbow palette with terrible perceptual properties</p>
+</td>
+                    </tr>
                 </table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='trait' href='trait.AxesCommon.html'
                                title='gnuplot::AxesCommon'>AxesCommon</a></td>
+                        <td class='docblock short'></td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='trait' href='trait.DataType.html'
+                               title='gnuplot::DataType'>DataType</a></td>
                         <td class='docblock short'></td>
                     </tr>
                 </table></section>
