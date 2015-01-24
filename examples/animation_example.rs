@@ -15,7 +15,7 @@ fn main()
 	println!("This is a silly example of doing an animation... Ctrl-C to quit.");
 	let mut fg = Figure::new();
 	let mut x = vec![];
-	for i in 0..100
+	for i in 0..100i32
 	{
 		x.push(i as f32 * 0.1 - 5.0);
 	}
