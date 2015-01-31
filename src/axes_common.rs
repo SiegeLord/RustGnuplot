@@ -2,7 +2,7 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::io::{MemWriter, Writer, IoResult};
+use std::old_io::{MemWriter, Writer, IoResult};
 
 use datatype::*;
 use coordinates::*;
@@ -38,7 +38,7 @@ impl ResetMemWriter {
 
 impl Writer for ResetMemWriter
 {
-	fn write(&mut self, buf: &[u8]) -> IoResult<()>
+	fn write_all(&mut self, buf: &[u8]) -> IoResult<()>
 	{
 		self.buf.push_all(buf);
 		Ok(())
@@ -352,7 +352,7 @@ impl AxisData
 		};
 		w.write_str("]\n");
 		
-		w.write(self.ticks_buf.get_ref());
+		w.write_all(self.ticks_buf.get_ref());
 	}
 	
 	pub fn set_ticks_custom<T: DataType, TL: Iterator<Item = Tick<T>>>(&mut self, mut ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
@@ -883,7 +883,7 @@ impl AxesCommonData
 
 	pub fn write_out_commands(&self, writer: &mut Writer)
 	{
-		writer.write(self.commands.get_ref());
+		writer.write_all(self.commands.get_ref());
 		self.x_axis.write_out_commands(writer);
 		self.y_axis.write_out_commands(writer);
 		self.cb_axis.write_out_commands(writer);
@@ -900,7 +900,7 @@ impl AxesCommonData
 			{
 				write!(writer, ",");
 			}
-			writer.write(e.args.get_ref());
+			writer.write_all(e.args.get_ref());
 			first = false;
 		}
 
@@ -908,7 +908,7 @@ impl AxesCommonData
 
 		for e in self.elems.iter()
 		{
-			writer.write(e.data.get_ref());
+			writer.write_all(e.data.get_ref());
 		}
 	}
 

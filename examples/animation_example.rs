@@ -4,7 +4,7 @@
 
 extern crate gnuplot;
 
-use std::io::timer::sleep;
+use std::old_io::timer::sleep;
 use std::num::Float;
 use std::time::duration::Duration;
 

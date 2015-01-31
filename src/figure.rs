@@ -7,10 +7,10 @@ use axes2d::*;
 use axes3d::*;
 
 use std::cell::RefCell;
-use std::io::File;
-use std::io::BufferedWriter;
+use std::old_io::File;
+use std::old_io::BufferedWriter;
 use std::path::Path;
-use std::io::process::{Command, Process};
+use std::old_io::process::{Command, Process};
 
 pub use self::AxesVariant::*;
 

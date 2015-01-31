@@ -2,7 +2,7 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::io::Writer;
+use std::old_io::Writer;
 
 use axes_common::*;
 use datatype::*;

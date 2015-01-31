@@ -4,8 +4,8 @@
 
 use datatype::*;
 
-use std::io::MemWriter;
-use std::io::Writer;
+use std::old_io::MemWriter;
+use std::old_io::Writer;
 
 pub trait PlotWriter
 {

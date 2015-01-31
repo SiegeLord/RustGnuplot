@@ -6,7 +6,10 @@
 
 #![crate_type = "lib"]
 
-#![allow(unstable)]
+#![feature(io)]
+#![feature(core)]
+#![feature(collections)]
+#![feature(path)]
 #![allow(unused_must_use)]
 
 /*!
