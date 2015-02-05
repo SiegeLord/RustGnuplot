@@ -6,6 +6,37 @@ use self::getopts::*;
 use std::os;
 use gnuplot::*;
 
+#[derive(Copy)]
+pub struct BetterIterator<'l, T: 'l>
+{
+	idx: usize,
+	slice: &'l [T]
+}
+
+impl<'l, T: 'l> Iterator for BetterIterator<'l, T>
+{
+	type Item = &'l T;
+	fn next(&mut self) -> Option<&'l T>
+	{
+		let ret = self.slice.get(self.idx);
+		self.idx += 1;
+		ret
+	}
+}
+
+pub trait BetterIteratorExt<'l, T>
+{
+	fn iter2(self) -> BetterIterator<'l, T>;
+}
+
+impl<'l, T: 'l> BetterIteratorExt<'l, T> for &'l [T]
+{
+	fn iter2(self) -> BetterIterator<'l, T>
+	{
+		BetterIterator{ idx: 0, slice: self }
+	}
+}
+
 pub struct Common
 {
 	pub no_show: bool,

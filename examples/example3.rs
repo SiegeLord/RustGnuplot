@@ -17,9 +17,9 @@ fn example(c: Common)
 	let w = 61us;
 	let h = 61us;
 	let mut z1 = Vec::with_capacity((w * h) as usize);
-	for i in range(0, h)
+	for i in 0..h
 	{
-		for j in range(0, w)
+		for j in 0..w
 		{
 			let y = 8.0 * (i as f64) / h as f64 - 4.0;
 			let x = 8.0 * (j as f64) / w as f64 - 4.0;

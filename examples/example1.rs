@@ -14,13 +14,13 @@ mod common;
 fn example(c: Common)
 {
 	let x = &[1.0f32, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
-	let x = x.iter();
+	let x = x.iter2();
 	let y1: Vec<f32> = x.map(|&v| { let z = v - 4.0; z * z - 5.0}).collect();
-	let y1 = y1.iter();
+	let y1 = y1.iter2();
 	let y2: Vec<f32> = x.map(|&v| { let z = v - 4.0; -z * z + 5.0 }).collect();
-	let y2 = y2.iter();
+	let y2 = y2.iter2();
 	let y3: Vec<f32> = x.map(|&v| { v - 4.0 }).collect();
-	let y3 = y3.iter();
+	let y3 = y3.iter2();
 	let x_err = repeat(0.3f32);
 	let y_err = repeat(5.0f32);
 	

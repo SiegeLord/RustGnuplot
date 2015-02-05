@@ -14,27 +14,27 @@ mod common;
 fn example(c: Common)
 {
 	let x = &[1i32, 2, 3, 4, 5];
-	let x = x.iter();
+	let x = x.iter2();
 	let y1: Vec<i32> = x.map(|&v| { v * v }).collect();
-	let y1 = y1.iter();
+	let y1 = y1.iter2();
 	
 	let x2 = &[1i32, 4, 5];
-	let x2 = x2.iter();
+	let x2 = x2.iter2();
 	let y2: Vec<i32> = x2.map(|&v| { v * v }).collect();
-	let y2 = y2.iter();
+	let y2 = y2.iter2();
 	let w = repeat(0.5f32);
 	
 	let x3 = &[-3i32, -2, -1, 0, 2, 3];
-	let x3 = x3.iter();
+	let x3 = x3.iter2();
 	let y3: Vec<i32> = x3.map(|&v| { v * v * v }).collect();
-	let y3 = y3.iter();
+	let y3 = y3.iter2();
 	
 	let zw = 16us;
 	let zh = 16us;
 	let mut z1 = Vec::with_capacity((zw * zh) as usize);
-	for i in range(0, zh)
+	for i in 0..zh
 	{
-		for j in range(0, zw)
+		for j in 0..zw
 		{
 			let y = 8.0 * (i as f64) / zh as f64 - 4.0;
 			let x = 8.0 * (j as f64) / zw as f64 - 4.0;
