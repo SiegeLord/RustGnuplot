@@ -1,6 +1,10 @@
 // This file is released into Public Domain.
 #![feature(unboxed_closures)]
-#![allow(unstable)]
+#![feature(core)]
+#![feature(collections)]
+#![feature(os)]
+#![feature(rustc_private)]
+#![feature(env)]
 
 extern crate gnuplot;
 

@@ -3,7 +3,7 @@
 extern crate getopts;
 
 use self::getopts::*;
-use std::os;
+use std::env;
 use gnuplot::*;
 
 #[derive(Copy)]
@@ -47,7 +47,7 @@ impl Common
 {
 	pub fn new() -> Option<Common>
 	{
-		let args = os::args();
+		let args = env::args();
 
 		let opts =
 		&[
@@ -56,7 +56,7 @@ impl Common
 			optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM")
 		];
 
-		let matches = match getopts(args.tail(), opts)
+		let matches = match getopts(args.map(|s| s.to_string_lossy().into_owned()).collect::<Vec<_>>().tail(), opts)
 		{
 			Ok(m) => m,
 			Err(f) => panic!("{}", f)

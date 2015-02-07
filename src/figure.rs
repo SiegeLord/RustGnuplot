@@ -9,7 +9,7 @@ use axes3d::*;
 use std::cell::RefCell;
 use std::old_io::File;
 use std::old_io::BufferedWriter;
-use std::path::Path;
+use std::old_path::Path;
 use std::old_io::process::{Command, Process};
 
 pub use self::AxesVariant::*;

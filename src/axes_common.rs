@@ -355,7 +355,7 @@ impl AxisData
 		w.write_all(self.ticks_buf.get_ref());
 	}
 	
-	pub fn set_ticks_custom<T: DataType, TL: Iterator<Item = Tick<T>>>(&mut self, mut ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
+	pub fn set_ticks_custom<T: DataType, TL: Iterator<Item = Tick<T>>>(&mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
 	{
 		// Set to 0 so that we don't get any non-custom ticks
 		self.mticks = 0;
@@ -673,7 +673,7 @@ impl AxesCommonData
 		self.write_common_commands(l, num_rows, 3, plot_type, Record, false, options);
 	}
 
-	pub fn plot_matrix<T: DataType, X: Iterator<Item = T>>(&mut self, plot_type: PlotType, is_3d: bool, mut mat: X, num_rows: usize, num_cols: usize,
+	pub fn plot_matrix<T: DataType, X: Iterator<Item = T>>(&mut self, plot_type: PlotType, is_3d: bool, mat: X, num_rows: usize, num_cols: usize,
 	                                                dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption])
 	{
 		let l = self.elems.len();
@@ -1252,7 +1252,6 @@ pub trait AxesCommon : AxesCommonPrivate
 	/// * `palette_generator` - The palette generator
 	fn set_custom_palette<T: Iterator<Item = (f32, f32, f32, f32)>>(&mut self, palette_generator: T) -> &mut Self
 	{
-		let mut palette_generator = palette_generator;
 		{
 			let c = &mut self.get_common_data_mut().commands as &mut Writer;
 			write!(c, "set palette defined (");
