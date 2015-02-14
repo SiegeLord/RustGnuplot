@@ -2,8 +2,6 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::old_io::{MemWriter, Writer, IoResult};
-
 use datatype::*;
 use coordinates::*;
 use options::*;
@@ -14,38 +12,7 @@ pub use self::TickAxis::*;
 pub use self::PlotType::*;
 pub use self::DataSourceType::*;
 
-pub struct ResetMemWriter
-{
-	buf: Vec<u8>,
-}
-
-impl ResetMemWriter {
-	pub fn new() -> ResetMemWriter
-	{
-		ResetMemWriter{ buf: Vec::with_capacity(128) }
-	}
-
-	pub fn get_ref<'l>(&'l self) -> &'l [u8]
-	{
-		self.buf.as_slice()
-	}
-
-	pub fn truncate(&mut self, new_len: usize)
-	{
-		self.buf.truncate(new_len);
-	}
-}
-
-impl Writer for ResetMemWriter
-{
-	fn write_all(&mut self, buf: &[u8]) -> IoResult<()>
-	{
-		self.buf.push_all(buf);
-		Ok(())
-	}
-}
-
-impl PlotWriter for ResetMemWriter
+impl PlotWriter for Vec<u8>
 {
 	fn write_data<T: DataType>(&mut self, v: T)
 	{
@@ -55,8 +22,8 @@ impl PlotWriter for ResetMemWriter
 
 pub struct PlotElement
 {
-	pub args: MemWriter,
-	pub data: MemWriter
+	pub args: Vec<u8>,
+	pub data: Vec<u8>
 }
 
 impl PlotElement
@@ -65,8 +32,8 @@ impl PlotElement
 	{
 		PlotElement
 		{
-			args: MemWriter::new(),
-			data: MemWriter::new(),
+			args: vec![],
+			data: vec![],
 		}
 	}
 }
@@ -275,7 +242,7 @@ impl PlotType
 
 pub struct AxisData
 {
-	pub ticks_buf: ResetMemWriter,
+	pub ticks_buf: Vec<u8>,
 	pub log_base: Option<f64>,
 	pub mticks: i32,
 	pub axis: TickAxis,
@@ -289,7 +256,7 @@ impl AxisData
 	{
 		AxisData
 		{
-			ticks_buf: ResetMemWriter::new(),
+			ticks_buf: vec![],
 			log_base: None,
 			mticks: 0,
 			axis: axis,
@@ -352,7 +319,7 @@ impl AxisData
 		};
 		w.write_str("]\n");
 		
-		w.write_all(self.ticks_buf.get_ref());
+		w.write_all(&self.ticks_buf[]);
 	}
 	
 	pub fn set_ticks_custom<T: DataType, TL: Iterator<Item = Tick<T>>>(&mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
@@ -525,7 +492,7 @@ impl AxisData
 
 pub struct AxesCommonData
 {
-	pub commands: MemWriter,
+	pub commands: Vec<u8>,
 	pub elems: Vec<PlotElement>,
 	pub grid_rows: u32,
 	pub grid_cols: u32,
@@ -570,7 +537,7 @@ impl AxesCommonData
 	{
 		AxesCommonData
 		{
-			commands: MemWriter::new(),
+			commands: vec![],
 			elems: Vec::new(),
 			grid_rows: 0,
 			grid_cols: 0,
@@ -883,7 +850,7 @@ impl AxesCommonData
 
 	pub fn write_out_commands(&self, writer: &mut Writer)
 	{
-		writer.write_all(self.commands.get_ref());
+		writer.write_all(&self.commands[]);
 		self.x_axis.write_out_commands(writer);
 		self.y_axis.write_out_commands(writer);
 		self.cb_axis.write_out_commands(writer);
@@ -900,7 +867,7 @@ impl AxesCommonData
 			{
 				write!(writer, ",");
 			}
-			writer.write_all(e.args.get_ref());
+			writer.write_all(&e.args[]);
 			first = false;
 		}
 
@@ -908,7 +875,7 @@ impl AxesCommonData
 
 		for e in self.elems.iter()
 		{
-			writer.write_all(e.data.get_ref());
+			writer.write_all(&e.data[]);
 		}
 	}
 

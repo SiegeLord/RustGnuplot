@@ -4,18 +4,7 @@
 
 use datatype::*;
 
-use std::old_io::MemWriter;
-use std::old_io::Writer;
-
 pub trait PlotWriter
 {
 	fn write_data<T: DataType>(&mut self, v: T);
-}
-
-impl PlotWriter for MemWriter
-{
-	fn write_data<T: DataType>(&mut self, v: T)
-	{
-		self.write_le_f64(v.get());
-	}
 }

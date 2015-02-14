@@ -56,7 +56,7 @@ impl Common
 			optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM")
 		];
 
-		let matches = match getopts(args.map(|s| s.to_string_lossy().into_owned()).collect::<Vec<_>>().tail(), opts)
+		let matches = match getopts(args.collect::<Vec<_>>().tail(), opts)
 		{
 			Ok(m) => m,
 			Err(f) => panic!("{}", f)
@@ -87,7 +87,7 @@ impl Common
 	{
 		self.term.as_ref().map(|t|
 		{
-			fg.set_terminal(t.as_slice(), "");
+			fg.set_terminal(&t[], "");
 		});
 	}
 }

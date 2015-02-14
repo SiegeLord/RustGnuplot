@@ -1,6 +1,5 @@
 // This file is released into Public Domain.
 #![feature(unboxed_closures)]
-#![feature(core)]
 #![feature(std_misc)]
 #![feature(io)]
 

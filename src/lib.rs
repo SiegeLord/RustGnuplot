@@ -7,9 +7,8 @@
 #![crate_type = "lib"]
 
 #![feature(io)]
-#![feature(core)]
-#![feature(collections)]
 #![feature(path)]
+#![feature(core)]
 #![allow(unused_must_use)]
 
 /*!
