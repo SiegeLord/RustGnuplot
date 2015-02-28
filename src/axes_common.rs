@@ -319,7 +319,7 @@ impl AxisData
 		};
 		w.write_str("]\n");
 		
-		w.write_all(&self.ticks_buf[]);
+		w.write_all(&self.ticks_buf[..]);
 	}
 	
 	pub fn set_ticks_custom<T: DataType, TL: Iterator<Item = Tick<T>>>(&mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
@@ -351,11 +351,11 @@ impl AxisData
 				{
 					Minor(ref pos) =>
 					{
-						(pos, &a, 1us)
+						(pos, &a, 1)
 					},
 					Major(ref pos, ref label) =>
 					{
-						(pos, label, 0us)
+						(pos, label, 0)
 					}
 				};
 
@@ -850,7 +850,7 @@ impl AxesCommonData
 
 	pub fn write_out_commands(&self, writer: &mut Writer)
 	{
-		writer.write_all(&self.commands[]);
+		writer.write_all(&self.commands[..]);
 		self.x_axis.write_out_commands(writer);
 		self.y_axis.write_out_commands(writer);
 		self.cb_axis.write_out_commands(writer);
@@ -867,7 +867,7 @@ impl AxesCommonData
 			{
 				write!(writer, ",");
 			}
-			writer.write_all(&e.args[]);
+			writer.write_all(&e.args[..]);
 			first = false;
 		}
 
@@ -875,7 +875,7 @@ impl AxesCommonData
 
 		for e in self.elems.iter()
 		{
-			writer.write_all(&e.data[]);
+			writer.write_all(&e.data[..]);
 		}
 	}
 

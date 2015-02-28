@@ -15,8 +15,8 @@ mod common;
 
 fn example(c: Common)
 {
-	let zw = 61us;
-	let zh = 61us;
+	let zw = 61;
+	let zh = 61;
 	let mut z1 = Vec::with_capacity((zw * zh) as usize);
 	for i in 0..zh
 	{

@@ -1,7 +1,7 @@
 // This file is released into Public Domain.
 #![feature(unboxed_closures)]
 #![feature(std_misc)]
-#![feature(io)]
+#![feature(old_io)]
 
 extern crate gnuplot;
 

@@ -32,8 +32,8 @@ fn example(c: Common)
 	let y3: Vec<i32> = x3.map(|&v| { v * v * v }).collect();
 	let y3 = y3.iter2();
 	
-	let zw = 16us;
-	let zh = 16us;
+	let zw = 16;
+	let zh = 16;
 	let mut z1 = Vec::with_capacity((zw * zh) as usize);
 	for i in 0..zh
 	{
@@ -72,8 +72,8 @@ fn example(c: Common)
 	fg.axes2d()
 	.set_title("Axis Ticks", &[])
 	.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
-	.set_x_ticks_custom(range_step(0us, 10, 2).map(|x| Major(x as f32, Fix("%.2f ms".to_string())))
-	                    .chain(range_step(1us, 10, 2).map(|x| Minor(x as f32))).chain(Some(Major(-2.1f32, Fix("%.2f ms".to_string()))).into_iter()), 
+	.set_x_ticks_custom(range_step(0, 10, 2).map(|x| Major(x as f32, Fix("%.2f ms".to_string())))
+	                    .chain(range_step(1, 10, 2).map(|x| Minor(x as f32))).chain(Some(Major(-2.1f32, Fix("%.2f ms".to_string()))).into_iter()), 
 						&[MajorScale(2.0), MinorScale(0.5), OnAxis(true)], &[TextColor("blue"), TextAlign(AlignCenter)])
 	.set_y_ticks(Some((Fix(2.0), 1)), &[Mirror(false)], &[]);
 	

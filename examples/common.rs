@@ -87,7 +87,7 @@ impl Common
 	{
 		self.term.as_ref().map(|t|
 		{
-			fg.set_terminal(&t[], "");
+			fg.set_terminal(&t[..], "");
 		});
 	}
 }
