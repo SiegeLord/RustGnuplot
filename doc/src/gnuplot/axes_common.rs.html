@@ -1294,10 +1294,14 @@
 <span id="1252">1252</span>
 <span id="1253">1253</span>
 <span id="1254">1254</span>
+<span id="1255">1255</span>
+<span id="1256">1256</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class='comment'>//</span>
 <span class='comment'>// All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.</span>
+
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>old_io</span>::<span class='ident'>Writer</span>;
 
 <span class='kw'>use</span> <span class='ident'>datatype</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>coordinates</span>::<span class='op'>*</span>;
@@ -1954,7 +1958,7 @@
 			
 			<span class='kw'>if</span> <span class='ident'>count</span> <span class='op'>&lt;</span> <span class='ident'>num_rows</span> <span class='op'>*</span> <span class='ident'>num_cols</span>
 			{
-				<span class='kw'>for</span> _ <span class='kw'>in</span> <span class='ident'>range</span>(<span class='number'>0</span>, <span class='ident'>num_rows</span> <span class='op'>*</span> <span class='ident'>num_cols</span> <span class='op'>-</span> <span class='ident'>count</span>)
+				<span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>num_rows</span> <span class='op'>*</span> <span class='ident'>num_cols</span> <span class='op'>-</span> <span class='ident'>count</span>
 				{
 					<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>f64</span>;
 					<span class='ident'>data</span>.<span class='ident'>write_data</span>(<span class='ident'>f64</span>::<span class='ident'>NAN</span>);
