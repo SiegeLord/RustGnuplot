@@ -2,15 +2,16 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use axes_common::*;
-use axes2d::*;
-use axes3d::*;
-
 use std::cell::RefCell;
+use std::old_io::Writer;
 use std::old_io::File;
 use std::old_io::BufferedWriter;
 use std::old_path::Path;
 use std::old_io::process::{Command, Process};
+
+use axes_common::*;
+use axes2d::*;
+use axes3d::*;
 
 pub use self::AxesVariant::*;
 

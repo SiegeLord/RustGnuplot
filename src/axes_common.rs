@@ -2,6 +2,8 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
+use std::old_io::Writer;
+
 use datatype::*;
 use coordinates::*;
 use options::*;
@@ -657,7 +659,7 @@ impl AxesCommonData
 			
 			if count < num_rows * num_cols
 			{
-				for _ in range(0, num_rows * num_cols - count)
+				for _ in 0..num_rows * num_cols - count
 				{
 					use std::f64;
 					data.write_data(f64::NAN);
