@@ -608,7 +608,7 @@ impl AxesCommonData
 		let mut num_rows = 0;
 
 		{
-			let data = &mut self.elems.as_mut_slice()[l].data;
+			let data = &mut self.elems[l].data;
 			for (x1, x2) in x1.zip(x2)
 			{
 				data.write_data(x1);
@@ -629,7 +629,7 @@ impl AxesCommonData
 		let mut num_rows = 0;
 
 		{
-			let data = &mut self.elems.as_mut_slice()[l].data;
+			let data = &mut self.elems[l].data;
 			for ((x1, x2), x3) in x1.zip(x2).zip(x3)
 			{
 				data.write_data(x1);
@@ -650,7 +650,7 @@ impl AxesCommonData
 		
 		{
 			let mut count = 0;
-			let data = &mut self.elems.as_mut_slice()[l].data;
+			let data = &mut self.elems[l].data;
 			for x in mat
 			{
 				data.write_data(x);
@@ -678,7 +678,7 @@ impl AxesCommonData
 	fn write_common_commands(&mut self, elem_idx: usize, num_rows: usize, num_cols: usize, plot_type: PlotType,
 	                         source_type: DataSourceType, is_3d: bool, options: &[PlotOption])
 	{
-		let args = &mut self.elems.as_mut_slice()[elem_idx].args as &mut Writer;
+		let args = &mut self.elems[elem_idx].args as &mut Writer;
 		match source_type
 		{
 			Record => 

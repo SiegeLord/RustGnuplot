@@ -87,7 +87,7 @@ impl Figure
 	{
 		self.axes.push(Axes2DType(new_axes2d()));
 		let l = self.axes.len();
-		match self.axes.as_mut_slice()[l - 1]
+		match *&mut self.axes[l - 1]
 		{
 			Axes2DType(ref mut a) => a,
 			_ => unreachable!()
@@ -99,7 +99,7 @@ impl Figure
 	{
 		self.axes.push(Axes3DType(new_axes3d()));
 		let l = self.axes.len();
-		match self.axes.as_mut_slice()[l - 1]
+		match *&mut self.axes[l - 1]
 		{
 			Axes3DType(ref mut a) => a,
 			_ => unreachable!()
