@@ -7,7 +7,7 @@ use std::fmt;
 pub use self::Coordinate::*;
 
 /// Specifies how to interpret the coordinate passed to a plotting command
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum Coordinate
 {
 	/// Coordinates are done relative to a graph (i.e. an axis set). (0, 0) is the bottom left corner and (1, 1) is the top right corner.

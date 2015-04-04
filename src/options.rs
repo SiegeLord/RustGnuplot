@@ -18,7 +18,7 @@ pub use self::PaletteType::*;
 
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum PlotOption<'l>
 {
 	/// Sets the symbol used for points. The valid characters are as follows:
@@ -63,7 +63,7 @@ pub enum PlotOption<'l>
 }
 
 /// An enumeration of possible fill regions
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum FillRegionType
 {
 	Above,
@@ -72,7 +72,7 @@ pub enum FillRegionType
 }
 
 /// An enumeration of possible text and label alignments
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum AlignType
 {
 	AlignLeft,
@@ -83,7 +83,7 @@ pub enum AlignType
 }
 
 /// An enumeration of possible dash styles
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum DashType
 {
 	Solid,
@@ -111,7 +111,7 @@ impl DashType
 }
 
 /// An enumeration of possible arrow head styles
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum ArrowheadType
 {
 	/// An arrow head shaped like a 'V'
@@ -126,7 +126,7 @@ pub enum ArrowheadType
 
 /// An enumeration of something that can either be fixed (e.g. the maximum of X values),
 /// or automatically determined
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum AutoOption<T>
 {
 	/// Fixes the value to a specific value
@@ -149,7 +149,7 @@ impl<T> AutoOption<T>
 }
 
 /// An enumeration of label options that control label attributes
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum LabelOption<'l>
 {
 	/// Sets the offset of the label in characters
@@ -188,7 +188,7 @@ pub enum LabelOption<'l>
 }
 
 /// An enumeration of axis tick options
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum TickOption
 {
 	/// Specifies whether the ticks are drawn at the borders of the plot, or on the axis
@@ -213,7 +213,7 @@ pub enum Tick<T>
 }
 
 /// Plot border locations
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum BorderLocation2D
 {
 	Bottom = 1,
@@ -223,7 +223,7 @@ pub enum BorderLocation2D
 }
 
 /// Legend options
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum LegendOption<'l>
 {
 	/// Puts curve samples to the left of the label
@@ -244,7 +244,7 @@ pub enum LegendOption<'l>
 }
 
 /// Specifies how the contours are drawn
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum ContourStyle
 {
 	/// Draw lines between points of equal value
@@ -264,7 +264,7 @@ pub enum ContourStyle
 }
 
 /// Specifies what sort of palette to use
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum PaletteType
 {
 	/// Use a gray palette with a specified gamma

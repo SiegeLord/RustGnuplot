@@ -6,7 +6,7 @@ use self::getopts::*;
 use std::env;
 use gnuplot::*;
 
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub struct BetterIterator<'l, T: 'l>
 {
 	idx: usize,
