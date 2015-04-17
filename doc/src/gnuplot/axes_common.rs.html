@@ -1301,7 +1301,7 @@
 <span class='comment'>//</span>
 <span class='comment'>// All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>old_io</span>::<span class='ident'>Writer</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Write</span>;
 
 <span class='kw'>use</span> <span class='ident'>datatype</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>coordinates</span>::<span class='op'>*</span>;
@@ -1665,7 +1665,7 @@
 					<span class='ident'>Fix</span>(<span class='kw-2'>ref</span> <span class='ident'>label</span>) <span class='op'>=&gt;</span>
 					{
 						<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\&quot;&quot;</span>);
-						<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='ident'>label</span>.<span class='ident'>as_slice</span>());
+						<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>label</span>[..]);
 						<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\&quot; &quot;</span>);
 					},
 					<span class='ident'>Auto</span> <span class='op'>=&gt;</span> ()

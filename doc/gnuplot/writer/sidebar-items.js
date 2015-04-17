@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["PlotWriter",""]]});
+initSidebarItems({"trait":[["PlotWriter",""],["Writer",""]]});

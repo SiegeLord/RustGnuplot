@@ -534,17 +534,19 @@
 <span id="492">492</span>
 <span id="493">493</span>
 <span id="494">494</span>
+<span id="495">495</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class='comment'>//</span>
 <span class='comment'>// All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>old_io</span>::<span class='ident'>Writer</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Write</span>;
 
 <span class='kw'>use</span> <span class='ident'>axes_common</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>datatype</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>coordinates</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>options</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>writer</span>::<span class='ident'>Writer</span>;
 
 <span class='doccomment'>/// 2D axes that is used for drawing 2D plots</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Axes2D</span>
@@ -774,7 +776,7 @@
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; font \&quot;&quot;</span>);
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='ident'>f</span>);
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;,&quot;</span>);
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='ident'>s</span>.<span class='ident'>to_string</span>().<span class='ident'>as_slice</span>());
+					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>.<span class='ident'>to_string</span>()[..]);
 					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\&quot;&quot;</span>);
 				}
 			}
