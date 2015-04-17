@@ -2,11 +2,12 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::old_io::Writer;
+use std::io::Write;
 
 use axes_common::*;
 use datatype::*;
 use options::*;
+use writer::Writer;
 
 /// 3D axes that is used for drawing 3D plots
 pub struct Axes3D

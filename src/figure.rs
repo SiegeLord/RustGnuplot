@@ -3,15 +3,14 @@
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
 use std::cell::RefCell;
-use std::old_io::Writer;
-use std::old_io::File;
-use std::old_io::BufferedWriter;
-use std::old_path::Path;
-use std::old_io::process::{Command, Process};
+use std::process::{Child, Command, Stdio};
+use std::io::{BufWriter, Write};
+use std::fs::File;
 
 use axes_common::*;
 use axes2d::*;
 use axes3d::*;
+use writer::Writer;
 
 pub use self::AxesVariant::*;
 
@@ -49,7 +48,7 @@ pub struct Figure
 	terminal: String,
 	output_file: String,
 	// RefCell so that we can echo to it
-	gnuplot: RefCell<Option<Process>>
+	gnuplot: RefCell<Option<Child>>
 }
 
 impl Figure
@@ -117,12 +116,17 @@ impl Figure
 
 		if self.gnuplot.borrow().is_none()
 		{
-			*self.gnuplot.borrow_mut() = Some(Command::new("gnuplot").arg("-p").spawn().ok().expect("Couldn't spawn gnuplot"));
+			*self.gnuplot.borrow_mut() =
+				Some(Command::new("gnuplot")
+				.arg("-p")
+				.stdin(Stdio::piped())
+				.spawn()
+				.ok().expect("Couldn't spawn gnuplot"));
 		}
 		
 		self.gnuplot.borrow_mut().as_mut().map(|p|
 		{
-			self.echo(p.stdin.as_mut().unwrap());
+			self.echo(p.stdin.as_mut().expect("No stdin!?"));
 		});
 		
 		self
@@ -201,7 +205,7 @@ impl Figure
 			return self;
 		}
 		
-		let mut file = BufferedWriter::new(File::create(&Path::new(filename)).unwrap());
+		let mut file = BufWriter::new(File::create(filename).unwrap());
 		self.echo(&mut file);
 		file.flush();
 		self

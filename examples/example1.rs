@@ -2,7 +2,6 @@
 #![feature(unboxed_closures)]
 #![feature(collections)]
 #![feature(rustc_private)]
-#![feature(env)]
 
 extern crate gnuplot;
 

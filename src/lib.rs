@@ -6,8 +6,6 @@
 
 #![crate_type = "lib"]
 
-#![feature(old_io)]
-#![feature(old_path)]
 #![feature(core)]
 #![allow(unused_must_use)]
 

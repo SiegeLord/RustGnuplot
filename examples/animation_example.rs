@@ -1,13 +1,9 @@
 // This file is released into Public Domain.
 #![feature(unboxed_closures)]
-#![feature(std_misc)]
-#![feature(old_io)]
 
 extern crate gnuplot;
 
-use std::old_io::timer::sleep;
-use std::num::Float;
-use std::time::duration::Duration;
+use std::thread::sleep_ms;
 
 use gnuplot::*;
 
@@ -30,6 +26,6 @@ fn main()
 		.lines(x.iter(), x.iter().map(|&x| (x + t).sin()), &[]);
 		t += 0.1;
 		fg.show();
-		sleep(Duration::milliseconds(500));
+		sleep_ms(500);
 	}
 }

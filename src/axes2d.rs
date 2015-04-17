@@ -2,12 +2,13 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::old_io::Writer;
+use std::io::Write;
 
 use axes_common::*;
 use datatype::*;
 use coordinates::*;
 use options::*;
+use writer::Writer;
 
 /// 2D axes that is used for drawing 2D plots
 pub struct Axes2D
@@ -237,7 +238,7 @@ impl Axes2D
 					c.write_str(" font \"");
 					c.write_str(f);
 					c.write_str(",");
-					c.write_str(s.to_string().as_slice());
+					c.write_str(&s.to_string()[..]);
 					c.write_str("\"");
 				}
 			}

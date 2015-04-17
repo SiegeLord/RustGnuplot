@@ -2,12 +2,10 @@
 #![feature(unboxed_closures)]
 #![feature(collections)]
 #![feature(rustc_private)]
-#![feature(env)]
 
 extern crate gnuplot;
 
 use std::vec::Vec;
-use std::num::Float;
 
 use gnuplot::*;
 use common::*;

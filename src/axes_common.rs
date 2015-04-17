@@ -2,7 +2,7 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::old_io::Writer;
+use std::io::Write;
 
 use datatype::*;
 use coordinates::*;
@@ -366,7 +366,7 @@ impl AxisData
 					Fix(ref label) =>
 					{
 						c.write_str("\"");
-						c.write_str(label.as_slice());
+						c.write_str(&label[..]);
 						c.write_str("\" ");
 					},
 					Auto => ()
