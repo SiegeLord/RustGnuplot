@@ -41,9 +41,9 @@
     </nav>
 
     <section id='main' class="content enum">
-<h1 class='fqn'><span class='in-band'>Enum <a href='index.html'>gnuplot</a>::<wbr><a class='enum' href=''>PlotOption</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Enum <a href='index.html'>gnuplot</a>::<wbr><a class='enum' href=''>PlotOption</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-10573' href='../src/gnuplot/options.rs.html#22-63'>[src]</a></span></h1>
+        </span><a id='src-10573' class='srclink' href='../src/gnuplot/options.rs.html#22-63'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum PlotOption&lt;'l&gt; {
     PointSymbol(<a href='http://doc.rust-lang.org/nightly/std/primitive.char.html'>char</a>),
     PointSize(<a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>),
@@ -59,7 +59,7 @@
 }</pre><div class='docblock'><p>An enumeration of plot options you can supply to plotting commands, governing
 things like line width, color and others</p>
 </div><h2 class='variants'>Variants</h2>
-<table><tr><td id='variant.PointSymbol'><a class='stability Unmarked' title='No stability level'></a><code>PointSymbol</code></td><td><div class='docblock'><p>Sets the symbol used for points. The valid characters are as follows:</p>
+<table><tr><td id='variant.PointSymbol'><code>PointSymbol</code></td><td><div class='docblock'><p>Sets the symbol used for points. The valid characters are as follows:</p>
 
 <ul>
 <li><code>.</code> - dot</li>
@@ -77,21 +77,21 @@ things like line width, color and others</p>
 <li><code>r</code> - empty rhombus</li>
 <li><code>R</code> - filled rhombus</li>
 </ul>
-</div></td></tr><tr><td id='variant.PointSize'><a class='stability Unmarked' title='No stability level'></a><code>PointSize</code></td><td><div class='docblock'><p>Sets the size of the points. The size acts as a multiplier, with 1.0 being the default.</p>
-</div></td></tr><tr><td id='variant.Caption'><a class='stability Unmarked' title='No stability level'></a><code>Caption</code></td><td><div class='docblock'><p>Sets the caption of the plot element. Set to empty to hide it from the legend.</p>
-</div></td></tr><tr><td id='variant.LineWidth'><a class='stability Unmarked' title='No stability level'></a><code>LineWidth</code></td><td><div class='docblock'><p>Sets the width of lines.</p>
-</div></td></tr><tr><td id='variant.Color'><a class='stability Unmarked' title='No stability level'></a><code>Color</code></td><td><div class='docblock'><p>Sets the color of the plot element. The passed string can be a color name
+</div></td></tr><tr><td id='variant.PointSize'><code>PointSize</code></td><td><div class='docblock'><p>Sets the size of the points. The size acts as a multiplier, with 1.0 being the default.</p>
+</div></td></tr><tr><td id='variant.Caption'><code>Caption</code></td><td><div class='docblock'><p>Sets the caption of the plot element. Set to empty to hide it from the legend.</p>
+</div></td></tr><tr><td id='variant.LineWidth'><code>LineWidth</code></td><td><div class='docblock'><p>Sets the width of lines.</p>
+</div></td></tr><tr><td id='variant.Color'><code>Color</code></td><td><div class='docblock'><p>Sets the color of the plot element. The passed string can be a color name
 (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white). This specifies the fill color of a filled plot.</p>
-</div></td></tr><tr><td id='variant.BorderColor'><a class='stability Unmarked' title='No stability level'></a><code>BorderColor</code></td><td><div class='docblock'><p>Sets the color of the border of a filled plot (if it has one). The passed string can be a color name
+</div></td></tr><tr><td id='variant.BorderColor'><code>BorderColor</code></td><td><div class='docblock'><p>Sets the color of the border of a filled plot (if it has one). The passed string can be a color name
 (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white).</p>
-</div></td></tr><tr><td id='variant.LineStyle'><a class='stability Unmarked' title='No stability level'></a><code>LineStyle</code></td><td><div class='docblock'><p>Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.</p>
-</div></td></tr><tr><td id='variant.FillAlpha'><a class='stability Unmarked' title='No stability level'></a><code>FillAlpha</code></td><td><div class='docblock'><p>Sets the transparency of a filled plot. <code>0.0</code> - fully transparent, <code>1.0</code> - fully opaque</p>
-</div></td></tr><tr><td id='variant.FillRegion'><a class='stability Unmarked' title='No stability level'></a><code>FillRegion</code></td><td><div class='docblock'><p>Sets the fill region. See FillRegion for the available regions.</p>
-</div></td></tr><tr><td id='variant.ArrowType'><a class='stability Unmarked' title='No stability level'></a><code>ArrowType</code></td><td><div class='docblock'><p>Sets what an arrowhead looks like</p>
-</div></td></tr><tr><td id='variant.ArrowSize'><a class='stability Unmarked' title='No stability level'></a><code>ArrowSize</code></td><td><div class='docblock'><p>Sets the size of the arrowhead. This is specified in the units of graph (i.e. <code>1.0</code> would make the arrow as big as the graph).</p>
-</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;'l&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../gnuplot/enum.PlotOption.html' title='gnuplot::PlotOption'>PlotOption</a>&lt;'l&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../gnuplot/enum.PlotOption.html' title='gnuplot::PlotOption'>PlotOption</a>&lt;'l&gt;</code></h4>
-<h4 id='method.clone_from' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
-</div><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;'l&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../gnuplot/enum.PlotOption.html' title='gnuplot::PlotOption'>PlotOption</a>&lt;'l&gt;</code></h3><div class='impl-items'></div></section>
+</div></td></tr><tr><td id='variant.LineStyle'><code>LineStyle</code></td><td><div class='docblock'><p>Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.</p>
+</div></td></tr><tr><td id='variant.FillAlpha'><code>FillAlpha</code></td><td><div class='docblock'><p>Sets the transparency of a filled plot. <code>0.0</code> - fully transparent, <code>1.0</code> - fully opaque</p>
+</div></td></tr><tr><td id='variant.FillRegion'><code>FillRegion</code></td><td><div class='docblock'><p>Sets the fill region. See FillRegion for the available regions.</p>
+</div></td></tr><tr><td id='variant.ArrowType'><code>ArrowType</code></td><td><div class='docblock'><p>Sets what an arrowhead looks like</p>
+</div></td></tr><tr><td id='variant.ArrowSize'><code>ArrowSize</code></td><td><div class='docblock'><p>Sets the size of the arrowhead. This is specified in the units of graph (i.e. <code>1.0</code> would make the arrow as big as the graph).</p>
+</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl&lt;'l&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../gnuplot/enum.PlotOption.html' title='gnuplot::PlotOption'>PlotOption</a>&lt;'l&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../gnuplot/enum.PlotOption.html' title='gnuplot::PlotOption'>PlotOption</a>&lt;'l&gt;</code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div><h3 class='impl'><code>impl&lt;'l&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../gnuplot/enum.PlotOption.html' title='gnuplot::PlotOption'>PlotOption</a>&lt;'l&gt;</code></h3><div class='impl-items'></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

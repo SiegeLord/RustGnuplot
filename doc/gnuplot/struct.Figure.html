@@ -41,15 +41,15 @@
     </nav>
 
     <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>gnuplot</a>::<wbr><a class='struct' href=''>Figure</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>gnuplot</a>::<wbr><a class='struct' href=''>Figure</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-9743' href='../src/gnuplot/figure.rs.html#45-52'>[src]</a></span></h1>
+        </span><a id='src-9743' class='srclink' href='../src/gnuplot/figure.rs.html#45-52'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Figure {
     // some fields omitted
 }</pre><div class='docblock'><p>A figure that may contain multiple axes</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Creates a new figure</p>
-</div><h4 id='method.set_terminal' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_terminal' class='fnname'>set_terminal</a>&lt;'l&gt;(&amp;'l mut self, terminal: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, output_file: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
+</div><h4 id='method.set_terminal' class='method'><code>fn <a href='#method.set_terminal' class='fnname'>set_terminal</a>&lt;'l&gt;(&amp;'l mut self, terminal: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, output_file: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Sets the terminal for gnuplot to use, as well as the file to output the figure to.
 Terminals that spawn a GUI don&#39;t need an output file, so pass an empty string for those.</p>
 
@@ -61,16 +61,16 @@ Terminals that spawn a GUI don&#39;t need an output file, so pass an empty strin
 <li>epscairo - Saves the figure as a EPS file</li>
 <li>pngcairo - Saves the figure as a PNG file</li>
 </ul>
-</div><h4 id='method.axes2d' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.axes2d' class='fnname'>axes2d</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
+</div><h4 id='method.axes2d' class='method'><code>fn <a href='#method.axes2d' class='fnname'>axes2d</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Creates a set of 2D axes</p>
-</div><h4 id='method.axes3d' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.axes3d' class='fnname'>axes3d</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
+</div><h4 id='method.axes3d' class='method'><code>fn <a href='#method.axes3d' class='fnname'>axes3d</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Creates a set of 3D axes</p>
-</div><h4 id='method.show' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.show' class='fnname'>show</a>(&amp;mut self) -&gt; &amp;<a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
+</div><h4 id='method.show' class='method'><code>fn <a href='#method.show' class='fnname'>show</a>(&amp;mut self) -&gt; &amp;<a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Launch a gnuplot process, if it hasn&#39;t been spawned already by a call to
 this function, and display the figure on it.</p>
-</div><h4 id='method.clear_axes' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.clear_axes' class='fnname'>clear_axes</a>(&amp;mut self) -&gt; &amp;<a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
+</div><h4 id='method.clear_axes' class='method'><code>fn <a href='#method.clear_axes' class='fnname'>clear_axes</a>(&amp;mut self) -&gt; &amp;<a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Clears all axes on this figure.</p>
-</div><h4 id='method.echo' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.echo' class='fnname'>echo</a>&lt;'l, T: Writer&gt;(&amp;'l self, writer: &amp;mut T) -&gt; &amp;'l <a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
+</div><h4 id='method.echo' class='method'><code>fn <a href='#method.echo' class='fnname'>echo</a>&lt;'l, T: Writer&gt;(&amp;'l self, writer: &amp;mut T) -&gt; &amp;'l <a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Echo the commands that if piped to a gnuplot process would display the figure</p>
 
 <h1 id="arguments" class='section-header'><a
@@ -78,7 +78,7 @@ this function, and display the figure on it.</p>
 <ul>
 <li><code>writer</code> - A function pointer that will be called multiple times with the command text and data</li>
 </ul>
-</div><h4 id='method.echo_to_file' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.echo_to_file' class='fnname'>echo_to_file</a>&lt;'l&gt;(&amp;'l self, filename: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; &amp;'l <a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
+</div><h4 id='method.echo_to_file' class='method'><code>fn <a href='#method.echo_to_file' class='fnname'>echo_to_file</a>&lt;'l&gt;(&amp;'l self, filename: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; &amp;'l <a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Save to a file the the commands that if piped to a gnuplot process would display the figure</p>
 
 <h1 id="arguments" class='section-header'><a
