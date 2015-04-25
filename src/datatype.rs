@@ -2,8 +2,6 @@
 // 
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::num::ToPrimitive;
-
 pub trait DataType
 {
 	fn get(&self) -> f64;
@@ -17,7 +15,7 @@ macro_rules! impl_data_type
 		{
 			fn get(&self) -> f64
 			{
-				self.to_f64().unwrap()
+				**self as f64
 			}
 		}
 	)
@@ -31,7 +29,7 @@ macro_rules! impl_data_type_ref
 		{
 			fn get(&self) -> f64
 			{
-				self.to_f64().unwrap()
+				*self as f64
 			}
 		}
 	)

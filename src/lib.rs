@@ -3,11 +3,10 @@
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
 #![crate_name="gnuplot"]
-
 #![crate_type = "lib"]
 
-#![feature(core)]
 #![allow(unused_must_use)]
+#![deny(unstable_features)]
 
 /*!
 A simple gnuplot controller.
@@ -15,7 +14,6 @@ A simple gnuplot controller.
 # Example
 
 ~~~no_run
-# #![feature(globs)]
 # extern crate gnuplot;
 # fn main() {
 use gnuplot::{Figure, Caption, Color};
