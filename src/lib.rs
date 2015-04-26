@@ -6,7 +6,7 @@
 #![crate_type = "lib"]
 
 #![allow(unused_must_use)]
-#![deny(unstable_features)]
+#![forbid(unstable_features)]
 
 /*!
 A simple gnuplot controller.
