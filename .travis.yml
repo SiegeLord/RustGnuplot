@@ -1,5 +1,5 @@
 language: rust
-rust: nightly
+rust: stable
 notifications:
   email:
     on_success: never
@@ -8,19 +8,13 @@ env:
     - secure: cMdl5JREmUN4TRXLV2lZBfOWcNem52fZR60Jl0w39xYv0RbC+NM6EwSzYgyrJeYgMlONGpam+70nO8g/gmcqLw40ve22wvs4FqcANytquHUDultx2kpkfjqxzzTCYznqR082AK7Iva88RfULXJgEQRymVtF7LRod2t2PS7ma8To=
     - secure: NlRCSw0MsRyQQIx4KWCg2smQ1gwtA2EULEbTbHB4RlTCcLk6WWHJaF4pmQzZR0c7lNntOLbcqCrgrZ+ivstz6gIOtETNW2GaKJ5cepFkLxLVkAI60vIl9k3p4mv/y+bvtabsQrCoEZ2NCWqrtoZJP15JUdhiIHyZz2ejgE98YeU=
 script:
+  - cargo build
   - cargo test
-  - mkdir build
-  - cd build
-  - cmake .. -DCMAKE_INSTALL_PREFIX=/tmp
-  - make -j
-  - make doc -j
-  - make install
-  - cd examples
-  - ./example1 --no-show
-  - ./example2 --no-show
-  - ./example3 --no-show
-  - ./example4 --no-show
-  - cd ..
+  - cargo doc
+  - cargo run --example example1 -- --no-show
+  - cargo run --example example2 -- --no-show
+  - cargo run --example example3 -- --no-show
+  - cargo run --example example4 -- --no-show
 after_success:
   - curl http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN | sh
   - ../doc/gh_pages_upload.sh
