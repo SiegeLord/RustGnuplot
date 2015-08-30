@@ -1,9 +1,4 @@
 // This file is released into Public Domain.
-#![feature(unboxed_closures)]
-#![feature(collections)]
-#![feature(rustc_private)]
-#![feature(step_by)]
-
 extern crate gnuplot;
 
 use std::iter::repeat;
@@ -19,18 +14,18 @@ fn example(c: Common)
 	let x = x.iter2();
 	let y1: Vec<i32> = x.map(|&v| { v * v }).collect();
 	let y1 = y1.iter2();
-	
+
 	let x2 = &[1i32, 4, 5];
 	let x2 = x2.iter2();
 	let y2: Vec<i32> = x2.map(|&v| { v * v }).collect();
 	let y2 = y2.iter2();
 	let w = repeat(0.5f32);
-	
+
 	let x3 = &[-3i32, -2, -1, 0, 2, 3];
 	let x3 = x3.iter2();
 	let y3: Vec<i32> = x3.map(|&v| { v * v * v }).collect();
 	let y3 = y3.iter2();
-	
+
 	let zw = 16;
 	let zh = 16;
 	let mut z1 = Vec::with_capacity((zw * zh) as usize);
@@ -43,44 +38,44 @@ fn example(c: Common)
 			z1.push(x + y);
 		}
 	}
-	
+
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
-	
+
 	fg.axes2d()
 	.set_title("Arrows", &[])
 	.lines(x, y1, &[LineWidth(3.0), Color("brown"), LineStyle(DotDash)])
 	.arrow(Graph(0.5), Graph(1.0), Axis(1.0), Axis(1.0), &[ArrowType(Filled), ArrowSize(0.1), LineStyle(DotDotDash), LineWidth(2.0), Color("red")])
 	.arrow(Graph(0.5), Graph(1.0), Axis(3.0), Axis(9.0), &[ArrowType(Open), Color("green")]);
-	
+
 	c.show(&mut fg, "fg2.1.gnuplot");
-	
+
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
-	
+
 	fg.axes2d()
 	.set_title("Boxes", &[])
 	.boxes(x2, y2, &[LineWidth(2.0), Color("cyan"), BorderColor("blue"), LineStyle(DotDash)])
 	.boxes_set_width(x, y1, w, &[LineWidth(2.0), Color("gray"), BorderColor("black")]);
-	
+
 	c.show(&mut fg, "fg2.2.gnuplot");
-	
+
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
-	
+
 	fg.axes2d()
 	.set_title("Axis Ticks", &[])
 	.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
-	.set_x_ticks_custom((0..10).step_by(2).map(|x| Major(x as f32, Fix("%.2f ms".to_string())))
-	                    .chain((1..10).step_by(2).map(|x| Minor(x as f32))).chain(Some(Major(-2.1f32, Fix("%.2f ms".to_string()))).into_iter()),
+	.set_x_ticks_custom((0..5).map(|i| 2 * i).map(|x| Major(x as f32, Fix("%.2f ms".to_string())))
+	                    .chain((0..5).map(|i| 2 * i + 1).map(|x| Minor(x as f32))).chain(Some(Major(-2.1f32, Fix("%.2f ms".to_string()))).into_iter()),
 						&[MajorScale(2.0), MinorScale(0.5), OnAxis(true)], &[TextColor("blue"), TextAlign(AlignCenter)])
 	.set_y_ticks(Some((Fix(2.0), 1)), &[Mirror(false)], &[]);
-	
+
 	c.show(&mut fg, "fg2.3.gnuplot");
-	
+
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
-	
+
 	fg.axes2d()
 	.set_title("Border, Axes", &[])
 	.set_border(true, &[Left, Bottom], &[LineWidth(2.0)])
@@ -89,18 +84,18 @@ fn example(c: Common)
 	.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
 	.set_x_axis(true, &[LineWidth(2.0), LineStyle(DotDotDash)])
 	.set_y_axis(true, &[LineWidth(2.0), Color("red")]);
-	
+
 	c.show(&mut fg, "fg2.4.gnuplot");
-	
+
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
-	
+
 	fg.axes2d()
 	.set_title("Image", &[])
 	.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[]);
-	
+
 	c.show(&mut fg, "fg2.5.gnuplot");
-	
+
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
 
@@ -110,7 +105,7 @@ fn example(c: Common)
 	.set_x_ticks(None, &[], &[])
 	.set_y_ticks(None, &[], &[])
 	.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[]);
-	
+
 	c.show(&mut fg, "fg2.6.gnuplot");
 
 	let x4 = &[1f32, 10.0, 100.0];

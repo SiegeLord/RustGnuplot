@@ -1,8 +1,4 @@
 // This file is released into Public Domain.
-#![feature(unboxed_closures)]
-#![feature(collections)]
-#![feature(rustc_private)]
-
 extern crate gnuplot;
 
 use gnuplot::*;

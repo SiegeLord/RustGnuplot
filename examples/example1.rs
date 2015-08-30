@@ -1,8 +1,4 @@
 // This file is released into Public Domain.
-#![feature(unboxed_closures)]
-#![feature(collections)]
-#![feature(rustc_private)]
-
 extern crate gnuplot;
 
 use std::iter::repeat;
@@ -24,7 +20,7 @@ fn example(c: Common)
 	let y3 = y3.iter2();
 	let x_err = repeat(0.3f32);
 	let y_err = repeat(5.0f32);
-	
+
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
 
@@ -43,9 +39,9 @@ fn example(c: Common)
 	.lines(x, y1, &[Caption("(x - 4)^2 - 5"), LineWidth(1.5), Color("black")])
 	.y_error_lines(x, y2, repeat(1.0f32), &[Caption("(x - 4)^2 + 5"), LineWidth(1.5), Color("red")])
 	.lines_points(x, y3, &[Caption("x - 4"), PointSymbol('t'), LineWidth(1.5), LineStyle(Dash), Color("#11ff11")]);
-	
+
 	c.show(&mut fg, "fg1.1.gnuplot");
-	
+
 	if !c.no_show
 	{
 		fg.set_terminal("pdfcairo", "fg1.1.pdf");
@@ -56,22 +52,22 @@ fn example(c: Common)
 
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
-	
+
 	fg.axes2d()
 	.set_pos_grid(2, 2, 0)
 	.lines(x, y1, &[Caption("Lines"), LineWidth(3.0), Color("violet")])
 	.set_title("Plot1", &[]);
-	
+
 	fg.axes2d()
 	.set_pos_grid(2, 1, 1)
 	.points(x, y2, &[Caption("Points"), PointSymbol('D'), Color("#ffaa77"), PointSize(2.0)])
 	.set_title("Plot2", &[]);
-	
+
 	c.show(&mut fg, "fg1.2.gnuplot");
-	
+
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
-	
+
 	fg.axes2d()
 	.lines(x, y1, &[Caption("Lines"), LineWidth(3.0), Color("violet")]);
 
@@ -83,7 +79,7 @@ fn example(c: Common)
 	.set_title("Inset", &[]);
 
 	c.show(&mut fg, "fg1.3.gnuplot");
-	
+
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
 
@@ -93,7 +89,7 @@ fn example(c: Common)
 	.set_y_label("This axis is manually scaled on the low end", &[]);
 
 	c.show(&mut fg, "fg1.4.gnuplot");
-	
+
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
 
@@ -103,7 +99,7 @@ fn example(c: Common)
 	.set_title("Errors", &[]);
 
 	c.show(&mut fg, "fg1.5.gnuplot");
-	
+
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
 
@@ -120,10 +116,10 @@ fn example(c: Common)
 	.set_legend(Graph(0.5), Graph(-0.2), &[Horizontal, Placement(AlignCenter, AlignTop), Title("Legend Title")], &[TextAlign(AlignRight)]);
 
 	c.show(&mut fg, "fg1.6.gnuplot");
-	
+
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
-	
+
 	fg.axes2d()
 	.set_pos(0.1, 0.1)
 	.set_size(0.8, 0.8)
@@ -134,7 +130,7 @@ fn example(c: Common)
 	.set_y_label("Y Label", &[Rotate(0.0)])
 	.set_title("Goings nuts with the formatting", &[Font("Times", 24.0), TextOffset(-10.0, 0.5)])
 	.label("Intersection", Axis(2.208), Axis(-1.791), &[MarkerSymbol('*'), TextAlign(AlignCenter), TextOffset(0.0, -1.0), MarkerColor("red"), MarkerSize(2.0)]);
-	
+
 	c.show(&mut fg, "fg1.7.gnuplot");
 }
 

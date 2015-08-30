@@ -47,23 +47,22 @@ impl Common
 {
 	pub fn new() -> Option<Common>
 	{
-		let args = env::args();
+		let args: Vec<_> = env::args().collect();
 
-		let opts =
-		&[
-			optflag("n", "no-show", "do not run the gnuplot process."),
-			optflag("h", "help", "show this help and exit."),
-			optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM")
-		];
+        let mut opts = Options::new();
 
-		let matches = match getopts(args.collect::<Vec<_>>().tail(), opts)
+        opts.optflag("n", "no-show", "do not run the gnuplot process.");
+        opts.optflag("h", "help", "show this help and exit.");
+        opts.optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM");
+
+		let matches = match opts.parse(&args[1..])
 		{
 			Ok(m) => m,
 			Err(f) => panic!("{}", f)
 		};
 		if matches.opt_present("h")
 		{
-			println!("{}", usage("A RustGnuplot example.", opts));
+			println!("{}", opts.usage("A RustGnuplot example."));
 			return None;
 		}
 

@@ -1,6 +1,4 @@
 // This file is released into Public Domain.
-#![feature(unboxed_closures)]
-
 extern crate gnuplot;
 
 use std::thread::sleep_ms;
