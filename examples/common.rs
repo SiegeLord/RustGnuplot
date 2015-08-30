@@ -49,11 +49,11 @@ impl Common
 	{
 		let args: Vec<_> = env::args().collect();
 
-        let mut opts = Options::new();
+		let mut opts = Options::new();
 
-        opts.optflag("n", "no-show", "do not run the gnuplot process.");
-        opts.optflag("h", "help", "show this help and exit.");
-        opts.optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM");
+		opts.optflag("n", "no-show", "do not run the gnuplot process.");
+		opts.optflag("h", "help", "show this help and exit.");
+		opts.optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM");
 
 		let matches = match opts.parse(&args[1..])
 		{
