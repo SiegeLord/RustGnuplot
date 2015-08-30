@@ -1,5 +1,5 @@
 // Copyright (c) 2013-2014 by SiegeLord
-// 
+//
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
 use std::io::Write;
@@ -35,7 +35,7 @@ impl Axes3D
 	///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.
 	/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-	pub fn surface<'l, T: DataType, X: Iterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption]) -> &'l mut Axes3D
+	pub fn surface<'l, T: DataType, X: IntoIterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption]) -> &'l mut Axes3D
 	{
 		self.common.plot_matrix(Pm3D, true, mat, num_rows, num_cols, dimensions, options);
 		self
@@ -83,7 +83,7 @@ impl Axes3D
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	pub fn set_z_ticks_custom<'l, T: DataType, TL: Iterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes3D
+	pub fn set_z_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Axes3D
 	{
 		self.z_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
@@ -139,16 +139,16 @@ impl Axes3D
 	/// * `style` - Style of the contours
 	/// * `label` - Auto sets the label automatically and enables the legend, Fix() allows you specify a format string (using C style formatting),
 	///             otherwise an empty string disables the legend and labels.
-	/// * `levels` - Iterator for a set of levels.
+	/// * `levels` - A set of levels.
 	pub fn show_contours_custom<'l, T: DataType,
-	                            TC: Iterator<Item = T>>(&'l mut self, base: bool, surface: bool,
+	                            TC: IntoIterator<Item = T>>(&'l mut self, base: bool, surface: bool,
 	                                             style: ContourStyle, label: AutoOption<&str>, levels: TC) -> &'l mut Axes3D
 	{
 		self.contour_base = base;
 		self.contour_surface = surface;
 		self.contour_style = style;
 		self.contour_auto = Auto;
-		self.contour_levels = Some(levels.map(|l| l.get()).collect());
+		self.contour_levels = Some(levels.into_iter().map(|l| l.get()).collect());
 		self.contour_label = label.map(|l| l.to_string());
 		self
 	}
@@ -195,7 +195,7 @@ impl Axes3DPrivate for Axes3D
 	fn write_out(&self, w: &mut Writer)
 	{
 		fn clamp<T: PartialOrd>(val: T, min: T, max: T) -> T
-		{			
+		{
 			if val < min
 			{
 				min
@@ -209,12 +209,12 @@ impl Axes3DPrivate for Axes3D
 				val
 			}
 		}
-		
+
 		if self.common.elems.len() == 0
 		{
 			return;
 		}
-		
+
 		if self.contour_base || self.contour_surface
 		{
 			write!(w, "set contour ");
@@ -226,7 +226,7 @@ impl Axes3DPrivate for Axes3D
 				_ => unreachable!()
 			});
 			write!(w, "\n");
-			
+
 			match self.contour_label
 			{
 				Auto => writeln!(w, "set clabel"),
@@ -239,14 +239,14 @@ impl Axes3DPrivate for Axes3D
 					writeln!(w, r#"set clabel "{}""#, s)
 				}
 			};
-			
+
 			fn set_cntrparam<F: FnOnce(&mut Writer)>(w: &mut Writer, wr: F)
 			{
 				write!(w, "set cntrparam ");
 				wr(w);
 				write!(w, "\n");
 			}
-			
+
 			set_cntrparam(w, |w|
 			{
 				write!(w, "{}", match self.contour_style
@@ -271,7 +271,7 @@ impl Axes3DPrivate for Axes3D
 					write!(w, "points {}", clamp(pt, 2, 100));
 				});
 			});
-			
+
 			set_cntrparam(w, |w|
 			{
 				let ord = match self.contour_style
@@ -291,7 +291,7 @@ impl Axes3DPrivate for Axes3D
 				write!(w, "levels ");
 				match self.contour_levels
 				{
-					Some(ref ls) => 
+					Some(ref ls) =>
 					{
 						write!(w, "discrete ");
 						let mut left = ls.len();
@@ -305,7 +305,7 @@ impl Axes3DPrivate for Axes3D
 							left -= 1;
 						}
 					},
-					None => 
+					None =>
 					{
 						match self.contour_auto
 						{

@@ -266,7 +266,7 @@ impl AxisData
 			max: Auto,
 		}
 	}
-	
+
 	pub fn write_out_commands(&self, w: &mut Writer)
 	{
 		let log = match self.log_base
@@ -320,11 +320,11 @@ impl AxisData
 			Auto => w.write_str("*")
 		};
 		w.write_str("]\n");
-		
+
 		w.write_all(&self.ticks_buf[..]);
 	}
-	
-	pub fn set_ticks_custom<T: DataType, TL: Iterator<Item = Tick<T>>>(&mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
+
+	pub fn set_ticks_custom<T: DataType, TL: IntoIterator<Item = Tick<T>>>(&mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
 	{
 		// Set to 0 so that we don't get any non-custom ticks
 		self.mticks = 0;
@@ -440,7 +440,7 @@ impl AxisData
 	pub fn set_ticks(&mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])
 	{
 		self.ticks_buf.truncate(0);
-			
+
 		self.mticks = match tick_placement
 		{
 			Some((incr, mticks)) =>
@@ -599,9 +599,9 @@ impl AxesCommonData
 			None => ()
 		}
 	}
-	
-	pub fn plot2<T1: DataType, X1: Iterator<Item = T1>,
-	             T2: DataType, X2: Iterator<Item = T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption])
+
+	pub fn plot2<T1: DataType, X1: IntoIterator<Item = T1>,
+	             T2: DataType, X2: IntoIterator<Item = T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption])
 	{
 		let l = self.elems.len();
 		self.elems.push(PlotElement::new());
@@ -609,7 +609,7 @@ impl AxesCommonData
 
 		{
 			let data = &mut self.elems[l].data;
-			for (x1, x2) in x1.zip(x2)
+			for (x1, x2) in x1.into_iter().zip(x2.into_iter())
 			{
 				data.write_data(x1);
 				data.write_data(x2);
@@ -620,9 +620,9 @@ impl AxesCommonData
 		self.write_common_commands(l, num_rows, 2, plot_type, Record, false, options);
 	}
 
-	pub fn plot3<T1: DataType, X1: Iterator<Item = T1>,
-			     T2: DataType, X2: Iterator<Item = T2>,
-			     T3: DataType, X3: Iterator<Item = T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption])
+	pub fn plot3<T1: DataType, X1: IntoIterator<Item = T1>,
+			     T2: DataType, X2: IntoIterator<Item = T2>,
+			     T3: DataType, X3: IntoIterator<Item = T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption])
 	{
 		let l = self.elems.len();
 		self.elems.push(PlotElement::new());
@@ -630,7 +630,7 @@ impl AxesCommonData
 
 		{
 			let data = &mut self.elems[l].data;
-			for ((x1, x2), x3) in x1.zip(x2).zip(x3)
+			for ((x1, x2), x3) in x1.into_iter().zip(x2.into_iter()).zip(x3.into_iter())
 			{
 				data.write_data(x1);
 				data.write_data(x2);
@@ -642,12 +642,12 @@ impl AxesCommonData
 		self.write_common_commands(l, num_rows, 3, plot_type, Record, false, options);
 	}
 
-	pub fn plot_matrix<T: DataType, X: Iterator<Item = T>>(&mut self, plot_type: PlotType, is_3d: bool, mat: X, num_rows: usize, num_cols: usize,
+	pub fn plot_matrix<T: DataType, X: IntoIterator<Item = T>>(&mut self, plot_type: PlotType, is_3d: bool, mat: X, num_rows: usize, num_cols: usize,
 	                                                dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption])
 	{
 		let l = self.elems.len();
 		self.elems.push(PlotElement::new());
-		
+
 		{
 			let mut count = 0;
 			let data = &mut self.elems[l].data;
@@ -656,7 +656,7 @@ impl AxesCommonData
 				data.write_data(x);
 				count += 1;
 			}
-			
+
 			if count < num_rows * num_cols
 			{
 				for _ in 0..num_rows * num_cols - count
@@ -666,7 +666,7 @@ impl AxesCommonData
 				}
 			}
 		}
-		
+
 		let source_type = match dimensions
 		{
 			Some((x1, y1, x2, y2)) => SizedArray(x1, y1, x2, y2),
@@ -681,10 +681,10 @@ impl AxesCommonData
 		let args = &mut self.elems[elem_idx].args as &mut Writer;
 		match source_type
 		{
-			Record => 
+			Record =>
 			{
 				write!(args, r#" "-" binary endian=little record={} format="%float64" using "#, num_rows);
-			
+
 				let mut col_idx = 1;
 				while col_idx < num_cols + 1
 				{
@@ -699,7 +699,7 @@ impl AxesCommonData
 			_ =>
 			{
 				write!(args, r#" "-" binary endian=little array=({},{}) format="%float64" "#, num_cols, num_rows);
-				
+
 				match source_type
 				{
 					SizedArray(x1, y1, x2, y2) =>
@@ -712,7 +712,7 @@ impl AxesCommonData
 						{
 							(x1, x2)
 						};
-						
+
 						let (y1, y2) = if y1 > y2
 						{
 							(y2, y1)
@@ -1085,7 +1085,7 @@ pub trait AxesCommon : AxesCommonPrivate
 	///
 	/// # Arguments
 	///
-	/// * `ticks` - Iterator specifying the locations and labels of the added ticks.
+	/// * `ticks` - The locations and labels of the added ticks.
 	///     The label can contain a single C printf style floating point formatting specifier which will be replaced by the
 	///     location of the tic.
 	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
@@ -1095,21 +1095,21 @@ pub trait AxesCommon : AxesCommonPrivate
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_ticks_custom<'l, T: DataType, TL: Iterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_x_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
 		self.get_common_data_mut().x_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	fn set_y_ticks_custom<'l, T: DataType, TL: Iterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_y_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
 		self.get_common_data_mut().y_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the color bar axis.
-	fn set_cb_ticks_custom<'l, T: DataType, TL: Iterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_cb_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
 	{
 		self.get_common_data_mut().cb_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
@@ -1219,7 +1219,7 @@ pub trait AxesCommon : AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `palette_generator` - The palette generator
-	fn set_custom_palette<T: Iterator<Item = (f32, f32, f32, f32)>>(&mut self, palette_generator: T) -> &mut Self
+	fn set_custom_palette<T: IntoIterator<Item = (f32, f32, f32, f32)>>(&mut self, palette_generator: T) -> &mut Self
 	{
 		{
 			let c = &mut self.get_common_data_mut().commands as &mut Writer;

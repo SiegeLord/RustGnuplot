@@ -283,14 +283,14 @@ impl Axes2D
 
 	/// Plot a 2D scatter-plot with lines connecting each data point
 	/// # Arguments
-	/// * `x` - Iterator for the x values
-	/// * `y` - Iterator for the y values
+	/// * `x` - x values
+	/// * `y` - y values
 	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `LineWidth` - Sets the width of the line
 	///     * `LineStyle` - Sets the style of the line
 	///     * `Color` - Sets the color
-	pub fn lines<'l, Tx: DataType, X: Iterator<Item = Tx>, Ty: DataType, Y: Iterator<Item = Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
+	pub fn lines<'l, Tx: DataType, X: IntoIterator<Item = Tx>, Ty: DataType, Y: IntoIterator<Item = Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.common.plot2(Lines, x, y, options);
 		self
@@ -298,14 +298,14 @@ impl Axes2D
 
 	/// Plot a 2D scatter-plot with a point standing in for each data point
 	/// # Arguments
-	/// * `x` - Iterator for the x values
-	/// * `y` - Iterator for the y values
+	/// * `x` - x values
+	/// * `y` - y values
 	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `PointSymbol` - Sets symbol for each point
 	///     * `PointSize` - Sets the size of each point
 	///     * `Color` - Sets the color
-	pub fn points<'l, Tx: DataType, X: Iterator<Item = Tx>, Ty: DataType, Y: Iterator<Item = Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
+	pub fn points<'l, Tx: DataType, X: IntoIterator<Item = Tx>, Ty: DataType, Y: IntoIterator<Item = Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.common.plot2(Points, x, y, options);
 		self
@@ -313,10 +313,10 @@ impl Axes2D
 
 	/// A combination of lines and points methods (drawn in that order).
 	/// # Arguments
-	/// * `x` - Iterator for the x values
-	/// * `y` - Iterator for the y values
+	/// * `x` - x values
+	/// * `y` - y values
 	/// * `options` - Array of PlotOption controlling the appearance of the plot element
-	pub fn lines_points<'l, Tx: DataType, X: Iterator<Item = Tx>, Ty: DataType, Y: Iterator<Item = Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
+	pub fn lines_points<'l, Tx: DataType, X: IntoIterator<Item = Tx>, Ty: DataType, Y: IntoIterator<Item = Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.common.plot2(LinesPoints, x, y, options);
 		self
@@ -325,9 +325,9 @@ impl Axes2D
 	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 	/// Additionally, error bars are attached to each data point in the X direction.
 	/// # Arguments
-	/// * `x` - Iterator for the x values
-	/// * `y` - Iterator for the y valuess
-	/// * `x_error` - Iterator for the error associated with the x value
+	/// * `x` - x values
+	/// * `y` - y valuess
+	/// * `x_error` - Errors associated with the x value
 	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `PointSymbol` - Sets symbol for each point
@@ -336,9 +336,9 @@ impl Axes2D
 	///     * `LineStyle` - Sets the style of the line
 	///     * `Color` - Sets the color
 	pub fn x_error_lines<'l,
-	                   Tx: DataType, X: Iterator<Item = Tx>,
-	                   Ty: DataType, Y: Iterator<Item = Ty>,
-	                   Txe: DataType, XE: Iterator<Item = Txe>>(&'l mut self, x: X, y: Y, x_error: XE, options: &[PlotOption]) -> &'l mut Axes2D
+	                   Tx: DataType, X: IntoIterator<Item = Tx>,
+	                   Ty: DataType, Y: IntoIterator<Item = Ty>,
+	                   Txe: DataType, XE: IntoIterator<Item = Txe>>(&'l mut self, x: X, y: Y, x_error: XE, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.common.plot3(XErrorLines, x, y, x_error, options);
 		self
@@ -347,9 +347,9 @@ impl Axes2D
 	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 	/// Additionally, error bars are attached to each data point in the Y direction.
 	/// # Arguments
-	/// * `x` - Iterator for the x values
-	/// * `y` - Iterator for the y values
-	/// * `y_error` - Iterator for the error associated with the y values
+	/// * `x` - x values
+	/// * `y` - y values
+	/// * `y_error` - Errors associated with the y values
 	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `PointSymbol` - Sets symbol for each point
@@ -358,9 +358,9 @@ impl Axes2D
 	///     * `LineStyle` - Sets the style of the line
 	///     * `Color` - Sets the color
 	pub fn y_error_lines<'l,
-	                   Tx: DataType, X: Iterator<Item = Tx>,
-	                   Ty: DataType, Y: Iterator<Item = Ty>,
-	                   Tye: DataType, YE: Iterator<Item = Tye>>(&'l mut self, x: X, y: Y, y_error: YE, options: &[PlotOption]) -> &'l mut Axes2D
+	                   Tx: DataType, X: IntoIterator<Item = Tx>,
+	                   Ty: DataType, Y: IntoIterator<Item = Ty>,
+	                   Tye: DataType, YE: IntoIterator<Item = Tye>>(&'l mut self, x: X, y: Y, y_error: YE, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.common.plot3(YErrorLines, x, y, y_error, options);
 		self
@@ -370,18 +370,18 @@ impl Axes2D
 	/// `FillRegion` plot option can be used to control what happens when the curves intersect. If set to Above, then the `y_lo < y_hi` region is filled.
 	/// If set to Below, then the `y_lo > y_hi` region is filled. Otherwise both regions are filled.
 	/// # Arguments
-	/// * `x` - Iterator for the x values
-	/// * `y_lo` - Iterator for the bottom y values
-	/// * `y_hi` - Iterator for the top y values
+	/// * `x` - x values
+	/// * `y_lo` - Bottom y values
+	/// * `y_hi` - Top y values
 	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `FillRegion` - Specifies the region between the two curves to fill
 	///     * `Color` - Sets the color of the filled region
 	///     * `FillAlpha` - Sets the transparency of the filled region
 	pub fn fill_between<'l,
-	                   Tx: DataType, X: Iterator<Item = Tx>,
-	                   Tyl: DataType, YL: Iterator<Item = Tyl>,
-	                   Tyh: DataType, YH: Iterator<Item = Tyh>>(&'l mut self, x: X, y_lo: YL, y_hi: YH, options: &[PlotOption]) -> &'l mut Axes2D
+	                   Tx: DataType, X: IntoIterator<Item = Tx>,
+	                   Tyl: DataType, YL: IntoIterator<Item = Tyl>,
+	                   Tyh: DataType, YH: IntoIterator<Item = Tyh>>(&'l mut self, x: X, y_lo: YL, y_hi: YH, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.common.plot3(FillBetween, x, y_lo, y_hi, options);
 		self
@@ -390,8 +390,8 @@ impl Axes2D
 	/// Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
 	/// Boxes start at the x-axis and go towards the y value of the datapoint.
 	/// # Arguments
-	/// * `x` - Iterator for the x values (center of the box)
-	/// * `y` - Iterator for the y values
+	/// * `x` - x values (center of the box)
+	/// * `y` - y values
 	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `LineWidth` - Sets the width of the border
@@ -399,7 +399,7 @@ impl Axes2D
 	///     * `BorderColor` - Sets the color of the border
 	///     * `Color` - Sets the color of the box fill
 	///     * `FillAlpha` - Sets the transparency of the box fill
-	pub fn boxes<'l, Tx: DataType, X: Iterator<Item = Tx>, Ty: DataType, Y: Iterator<Item = Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
+	pub fn boxes<'l, Tx: DataType, X: IntoIterator<Item = Tx>, Ty: DataType, Y: IntoIterator<Item = Ty>>(&'l mut self, x: X, y: Y, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.common.plot2(Boxes, x, y, options);
 		self
@@ -408,9 +408,9 @@ impl Axes2D
 	/// Plot a 2D scatter-plot using boxes of set (per box) width.
 	/// Boxes start at the x-axis and go towards the y value of the datapoint.
 	/// # Arguments
-	/// * `x` - Iterator for the x values (center of the box)
-	/// * `y` - Iterator for the y values
-	/// * `w` - Iterator for the box width values
+	/// * `x` - x values (center of the box)
+	/// * `y` - y values
+	/// * `w` - Box width values
 	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	///     * `LineWidth` - Sets the width of the border
@@ -420,11 +420,11 @@ impl Axes2D
 	///     * `FillAlpha` - Sets the transparency of the box fill
 	pub fn boxes_set_width<'l,
 	                      Tx: DataType,
-	                      X: Iterator<Item = Tx>,
+	                      X: IntoIterator<Item = Tx>,
 	                      Ty: DataType,
-	                      Y: Iterator<Item = Ty>,
+	                      Y: IntoIterator<Item = Ty>,
 	                      Tw: DataType,
-	                      W: Iterator<Item = Tw>>(&'l mut self, x: X, y: Y, w: W, options: &[PlotOption]) -> &'l mut Axes2D
+	                      W: IntoIterator<Item = Tw>>(&'l mut self, x: X, y: Y, w: W, options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.common.plot3(Boxes, x, y, w, options);
 		self
@@ -443,7 +443,7 @@ impl Axes2D
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	pub fn image<'l,
 	              T: DataType,
-	              X: Iterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>,
+	              X: IntoIterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>,
 	                              options: &[PlotOption]) -> &'l mut Axes2D
 	{
 		self.common.plot_matrix(Image, false, mat, num_rows, num_cols, dimensions, options);
