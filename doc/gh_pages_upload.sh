@@ -1,6 +1,8 @@
 if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 	echo Starting gh-pages upload...
 
+	cp -r doc $HOME/doc
+
 	# Go to home and setup git
 	cd $HOME
 	git config --global user.email "travis@travis-ci.org"
@@ -12,7 +14,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 	# Copy over the documentation
 	cd gh-pages
 	rm -rf doc
-	cp -r $HOME/target/doc .
+	cp -r $HOME/doc .
 
 	# Add, commit and push files
 	git add -f --all .
