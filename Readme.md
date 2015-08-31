@@ -4,6 +4,8 @@ A Gnuplot controller written in Rust.
 
 [![Build Status](https://travis-ci.org/SiegeLord/RustGnuplot.png)](https://travis-ci.org/SiegeLord/RustGnuplot)
 
+[![](http://meritbadge.herokuapp.com/gnuplot)](https://crates.io/crates/gnuplot)
+
 ## Documentation
 
 See [here](http://siegelord.github.io/RustGnuplot/doc/gnuplot/index.html)
@@ -32,12 +34,8 @@ A somewhat involved 2D example:
 ### Via Cargo
 
 ```
-[dependencies.gnuplot]
-
-git = "https://github.com/SiegeLord/RustGnuplot.git"
+cargo build
 ```
-
-Also included is the`gnuplot_examples` package, which shows some example usages.
 
 ### Via CMake 2.8
 
