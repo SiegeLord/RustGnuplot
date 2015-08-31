@@ -34,7 +34,7 @@
             <div class="search-container">
                 <input class="search-input" name="search"
                        autocomplete="off"
-                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
                        type="search">
             </div>
         </form>
@@ -366,7 +366,7 @@
 <span id="324">324</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2013-2014 by SiegeLord</span>
-<span class='comment'>// </span>
+<span class='comment'>//</span>
 <span class='comment'>// All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Write</span>;
@@ -402,7 +402,7 @@
 	<span class='doccomment'>///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.</span>
 	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:</span>
 	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>surface</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>T</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>T</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>mat</span>: <span class='ident'>X</span>, <span class='ident'>num_rows</span>: <span class='ident'>usize</span>, <span class='ident'>num_cols</span>: <span class='ident'>usize</span>, <span class='ident'>dimensions</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>f64</span>, <span class='ident'>f64</span>, <span class='ident'>f64</span>, <span class='ident'>f64</span>)<span class='op'>&gt;</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>surface</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>T</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>T</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>mat</span>: <span class='ident'>X</span>, <span class='ident'>num_rows</span>: <span class='ident'>usize</span>, <span class='ident'>num_cols</span>: <span class='ident'>usize</span>, <span class='ident'>dimensions</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>f64</span>, <span class='ident'>f64</span>, <span class='ident'>f64</span>, <span class='ident'>f64</span>)<span class='op'>&gt;</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
 	{
 		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot_matrix</span>(<span class='ident'>Pm3D</span>, <span class='boolval'>true</span>, <span class='ident'>mat</span>, <span class='ident'>num_rows</span>, <span class='ident'>num_cols</span>, <span class='ident'>dimensions</span>, <span class='ident'>options</span>);
 		<span class='self'>self</span>
@@ -450,7 +450,7 @@
 	}
 
 	<span class='doccomment'>/// Like `set_x_ticks_custom` but for the the Y axis.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_z_ticks_custom</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>T</span>: <span class='ident'>DataType</span>, <span class='ident'>TL</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tick</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>ticks</span>: <span class='ident'>TL</span>, <span class='ident'>tick_options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>TickOption</span>], <span class='ident'>label_options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>LabelOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_z_ticks_custom</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>T</span>: <span class='ident'>DataType</span>, <span class='ident'>TL</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tick</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>ticks</span>: <span class='ident'>TL</span>, <span class='ident'>tick_options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>TickOption</span>], <span class='ident'>label_options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>LabelOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
 	{
 		<span class='self'>self</span>.<span class='ident'>z_axis</span>.<span class='ident'>set_ticks_custom</span>(<span class='ident'>ticks</span>, <span class='ident'>tick_options</span>, <span class='ident'>label_options</span>);
 		<span class='self'>self</span>
@@ -506,16 +506,16 @@
 	<span class='doccomment'>/// * `style` - Style of the contours</span>
 	<span class='doccomment'>/// * `label` - Auto sets the label automatically and enables the legend, Fix() allows you specify a format string (using C style formatting),</span>
 	<span class='doccomment'>///             otherwise an empty string disables the legend and labels.</span>
-	<span class='doccomment'>/// * `levels` - Iterator for a set of levels.</span>
+	<span class='doccomment'>/// * `levels` - A set of levels.</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>show_contours_custom</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>T</span>: <span class='ident'>DataType</span>,
-	                            <span class='ident'>TC</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>T</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>base</span>: <span class='ident'>bool</span>, <span class='ident'>surface</span>: <span class='ident'>bool</span>,
+	                            <span class='ident'>TC</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>T</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>base</span>: <span class='ident'>bool</span>, <span class='ident'>surface</span>: <span class='ident'>bool</span>,
 	                                             <span class='ident'>style</span>: <span class='ident'>ContourStyle</span>, <span class='ident'>label</span>: <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span>, <span class='ident'>levels</span>: <span class='ident'>TC</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
 	{
 		<span class='self'>self</span>.<span class='ident'>contour_base</span> <span class='op'>=</span> <span class='ident'>base</span>;
 		<span class='self'>self</span>.<span class='ident'>contour_surface</span> <span class='op'>=</span> <span class='ident'>surface</span>;
 		<span class='self'>self</span>.<span class='ident'>contour_style</span> <span class='op'>=</span> <span class='ident'>style</span>;
 		<span class='self'>self</span>.<span class='ident'>contour_auto</span> <span class='op'>=</span> <span class='ident'>Auto</span>;
-		<span class='self'>self</span>.<span class='ident'>contour_levels</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>levels</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>l</span><span class='op'>|</span> <span class='ident'>l</span>.<span class='ident'>get</span>()).<span class='ident'>collect</span>());
+		<span class='self'>self</span>.<span class='ident'>contour_levels</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>levels</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>l</span><span class='op'>|</span> <span class='ident'>l</span>.<span class='ident'>get</span>()).<span class='ident'>collect</span>());
 		<span class='self'>self</span>.<span class='ident'>contour_label</span> <span class='op'>=</span> <span class='ident'>label</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>l</span><span class='op'>|</span> <span class='ident'>l</span>.<span class='ident'>to_string</span>());
 		<span class='self'>self</span>
 	}
@@ -562,7 +562,7 @@
 	<span class='kw'>fn</span> <span class='ident'>write_out</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>w</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>)
 	{
 		<span class='kw'>fn</span> <span class='ident'>clamp</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>PartialOrd</span><span class='op'>&gt;</span>(<span class='ident'>val</span>: <span class='ident'>T</span>, <span class='ident'>min</span>: <span class='ident'>T</span>, <span class='ident'>max</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span>
-		{			
+		{
 			<span class='kw'>if</span> <span class='ident'>val</span> <span class='op'>&lt;</span> <span class='ident'>min</span>
 			{
 				<span class='ident'>min</span>
@@ -576,12 +576,12 @@
 				<span class='ident'>val</span>
 			}
 		}
-		
+
 		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>elems</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span>
 		{
 			<span class='kw'>return</span>;
 		}
-		
+
 		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>contour_base</span> <span class='op'>||</span> <span class='self'>self</span>.<span class='ident'>contour_surface</span>
 		{
 			<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;set contour &quot;</span>);
@@ -593,7 +593,7 @@
 				_ <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>()
 			});
 			<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;\n&quot;</span>);
-			
+
 			<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>contour_label</span>
 			{
 				<span class='ident'>Auto</span> <span class='op'>=&gt;</span> <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;set clabel&quot;</span>),
@@ -606,14 +606,14 @@
 					<span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>r#&quot;set clabel &quot;{}&quot;&quot;#</span>, <span class='ident'>s</span>)
 				}
 			};
-			
+
 			<span class='kw'>fn</span> <span class='ident'>set_cntrparam</span><span class='op'>&lt;</span><span class='ident'>F</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>)<span class='op'>&gt;</span>(<span class='ident'>w</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>, <span class='ident'>wr</span>: <span class='ident'>F</span>)
 			{
 				<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;set cntrparam &quot;</span>);
 				<span class='ident'>wr</span>(<span class='ident'>w</span>);
 				<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;\n&quot;</span>);
 			}
-			
+
 			<span class='ident'>set_cntrparam</span>(<span class='ident'>w</span>, <span class='op'>|</span><span class='ident'>w</span><span class='op'>|</span>
 			{
 				<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;{}&quot;</span>, <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>contour_style</span>
@@ -638,7 +638,7 @@
 					<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;points {}&quot;</span>, <span class='ident'>clamp</span>(<span class='ident'>pt</span>, <span class='number'>2</span>, <span class='number'>100</span>));
 				});
 			});
-			
+
 			<span class='ident'>set_cntrparam</span>(<span class='ident'>w</span>, <span class='op'>|</span><span class='ident'>w</span><span class='op'>|</span>
 			{
 				<span class='kw'>let</span> <span class='ident'>ord</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>contour_style</span>
@@ -658,7 +658,7 @@
 				<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;levels &quot;</span>);
 				<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>contour_levels</span>
 				{
-					<span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>ls</span>) <span class='op'>=&gt;</span> 
+					<span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>ls</span>) <span class='op'>=&gt;</span>
 					{
 						<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;discrete &quot;</span>);
 						<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>left</span> <span class='op'>=</span> <span class='ident'>ls</span>.<span class='ident'>len</span>();
@@ -672,7 +672,7 @@
 							<span class='ident'>left</span> <span class='op'>-=</span> <span class='number'>1</span>;
 						}
 					},
-					<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> 
+					<span class='prelude-val'>None</span> <span class='op'>=&gt;</span>
 					{
 						<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>contour_auto</span>
 						{
@@ -696,37 +696,44 @@
     <section class="footer"></section>
 
     <div id="help" class="hidden">
-        <div class="shortcuts">
-            <h1>Keyboard shortcuts</h1>
-            <dl>
-                <dt>?</dt>
-                <dd>Show this help dialog</dd>
-                <dt>S</dt>
-                <dd>Focus the search field</dd>
-                <dt>&larrb;</dt>
-                <dd>Move up in search results</dd>
-                <dt>&rarrb;</dt>
-                <dd>Move down in search results</dd>
-                <dt>&#9166;</dt>
-                <dd>Go to active search result</dd>
-            </dl>
-        </div>
-        <div class="infos">
-            <h1>Search tricks</h1>
-            <p>
-                Prefix searches with a type followed by a colon (e.g.
-                <code>fn:</code>) to restrict the search to a given type.
-            </p>
-            <p>
-                Accepted types are: <code>fn</code>, <code>mod</code>,
-                <code>struct</code>, <code>enum</code>,
-                <code>trait</code>, <code>typedef</code> (or
-                <code>tdef</code>).
-            </p>
-            <p>
-                Search functions by type signature (e.g.
-                <code>vec -> usize</code>)
-            </p>
+        <div>
+            <div class="shortcuts">
+                <h1>Keyboard Shortcuts</h1>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h1>Search Tricks</h1>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
         </div>
     </div>
 
