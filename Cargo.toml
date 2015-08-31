@@ -15,7 +15,8 @@ name = "gnuplot"
 path = "src/lib.rs"
 
 [dev-dependencies]
-getopts = "0.2"
+
+getopts = "=0.2.14"
 
 [[example]]
 

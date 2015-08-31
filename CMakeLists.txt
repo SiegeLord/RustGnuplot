@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(RustGnuplot NONE)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+find_package(cargo)
 find_package(rustc)
 find_package(rustdoc)
 include(Rust)
@@ -14,9 +15,14 @@ set(EXAMPLE4_ROOT examples/example4.rs)
 set(ANIMATION_EXAMPLE_ROOT examples/animation_example.rs)
 set(CUSTOM_CSS_SRC "${CMAKE_SOURCE_DIR}/doc/main.css")
 set(CUSTOM_CSS_DEST "${CMAKE_BINARY_DIR}/doc/main.css")
+set(CARGO_DEPENDENCY_DIR "${CMAKE_BINARY_DIR}/getopts_dep/target/debug/deps")
 
-set(RUSTC_FLAGS "-L${CMAKE_BINARY_DIR}/lib")
-set(RUSTDOC_FLAGS "-L${CMAKE_BINARY_DIR}/lib")
+set(RUSTC_FLAGS -L${CMAKE_BINARY_DIR}/lib -L ${CARGO_DEPENDENCY_DIR} --extern getopts=${CARGO_DEPENDENCY_DIR}/libgetopts-1be2f24cd9708e15.rlib)
+set(RUSTDOC_FLAGS -L${CMAKE_BINARY_DIR}/lib -L ${CARGO_DEPENDENCY_DIR} --extern getopts=${CARGO_DEPENDENCY_DIR}/libgetopts-1be2f24cd9708e15.rlib)
+
+cargo_dependency(getopts_dep
+                 PACKAGE_NAMES getopts
+                 PACKAGE_VERSIONS =0.2.14)
 
 # Get the dependencies of all the crates
 get_rust_deps(${GNUPLOT_ROOT} GNUPLOT_DEPS)
