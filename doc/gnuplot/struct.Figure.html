@@ -24,10 +24,10 @@
 
     
 
-    <section class="sidebar">
+    <nav class="sidebar">
         
         <p class='location'><a href='index.html'>gnuplot</a></p><script>window.sidebarCurrent = {name: 'Figure', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
-    </section>
+    </nav>
 
     <nav class="sub">
         <form class="search-form js-only">
@@ -75,16 +75,14 @@ this function, and display the figure on it.</p>
 </div><h4 id='method.echo' class='method'><code>fn <a href='#method.echo' class='fnname'>echo</a>&lt;'l, T: Writer&gt;(&amp;'l self, writer: &amp;mut T) -&gt; &amp;'l <a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Echo the commands that if piped to a gnuplot process would display the figure</p>
 
-<h1 id="arguments" class='section-header'><a
-                           href="#arguments">Arguments</a></h1>
+<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
 <ul>
 <li><code>writer</code> - A function pointer that will be called multiple times with the command text and data</li>
 </ul>
 </div><h4 id='method.echo_to_file' class='method'><code>fn <a href='#method.echo_to_file' class='fnname'>echo_to_file</a>&lt;'l&gt;(&amp;'l self, filename: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; &amp;'l <a class='struct' href='../gnuplot/struct.Figure.html' title='gnuplot::Figure'>Figure</a></code></h4>
 <div class='docblock'><p>Save to a file the the commands that if piped to a gnuplot process would display the figure</p>
 
-<h1 id="arguments" class='section-header'><a
-                           href="#arguments">Arguments</a></h1>
+<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
 <ul>
 <li><code>filename</code> - Name of the file</li>
 </ul>
@@ -93,10 +91,12 @@ this function, and display the figure on it.</p>
 
     <section class="footer"></section>
 
-    <div id="help" class="hidden">
+    <aside id="help" class="hidden">
         <div>
+            <h1 class="hidden">Help</h1>
+
             <div class="shortcuts">
-                <h1>Keyboard Shortcuts</h1>
+                <h2>Keyboard Shortcuts</h2>
 
                 <dl>
                     <dt>?</dt>
@@ -113,7 +113,7 @@ this function, and display the figure on it.</p>
             </div>
 
             <div class="infos">
-                <h1>Search Tricks</h1>
+                <h2>Search Tricks</h2>
 
                 <p>
                     Prefix searches with a type followed by a colon (e.g.
@@ -133,7 +133,7 @@ this function, and display the figure on it.</p>
                 </p>
             </div>
         </div>
-    </div>
+    </aside>
 
     
 
