@@ -71,11 +71,11 @@ function(get_rust_deps local_root_file out_var)
 	set(flags "-Zno-analysis")
 	message(STATUS "Getting Rust dependency info for crate root ${local_root_file}")
 
-	execute_process(COMMAND ${RUSTC_EXECUTABLE} ${RUSTC_FLAGS} ${OPT_OTHER_RUSTC_FLAGS} ${flags} --emit dep-info -o "${dep_dir}/deps" "${root_file}")
+	execute_process(COMMAND ${RUSTC_EXECUTABLE} ${RUSTC_FLAGS} ${OPT_OTHER_RUSTC_FLAGS} ${flags} --emit dep-info -o "${dep_dir}/deps.d" "${root_file}")
 
 	# Read and parse the dependency information
-	file(STRINGS "${dep_dir}/deps" crate_deps LIMIT_COUNT 1)
-	file(REMOVE "${dep_dir}/deps")
+	file(STRINGS "${dep_dir}/deps.d" crate_deps LIMIT_COUNT 1)
+	file(REMOVE "${dep_dir}/deps.d")
 	string(REGEX REPLACE ".*: (.*)" "\\1" crate_deps "${crate_deps}")
 	string(STRIP "${crate_deps}" crate_deps)
 	string(REPLACE " " ";" crate_deps "${crate_deps}")
