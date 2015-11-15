@@ -253,6 +253,7 @@
 <span id="211">211</span>
 <span id="212">212</span>
 <span id="213">213</span>
+<span id="214">214</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class='comment'>// </span>
@@ -377,7 +378,8 @@
 				.<span class='ident'>arg</span>(<span class='string'>&quot;-p&quot;</span>)
 				.<span class='ident'>stdin</span>(<span class='ident'>Stdio</span>::<span class='ident'>piped</span>())
 				.<span class='ident'>spawn</span>()
-				.<span class='ident'>ok</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Couldn&#39;t spawn gnuplot&quot;</span>));
+				.<span class='ident'>ok</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Couldn&#39;t spawn gnuplot. Make sure it is installed
+				              and available in PATH.&quot;</span>));
 		}
 		
 		<span class='self'>self</span>.<span class='ident'>gnuplot</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>as_mut</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span>

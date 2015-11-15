@@ -1,1 +1,0 @@
-initSidebarItems({"trait":[["PlotWriter",""],["Writer",""]]});
