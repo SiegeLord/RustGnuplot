@@ -121,7 +121,8 @@ impl Figure
 				.arg("-p")
 				.stdin(Stdio::piped())
 				.spawn()
-				.ok().expect("Couldn't spawn gnuplot"));
+				.ok().expect("Couldn't spawn gnuplot. Make sure it is installed
+				              and available in PATH."));
 		}
 		
 		self.gnuplot.borrow_mut().as_mut().map(|p|
