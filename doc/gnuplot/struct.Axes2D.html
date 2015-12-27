@@ -9,6 +9,7 @@
 
     <title>gnuplot::Axes2D - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     
@@ -67,7 +68,7 @@
 </div><h4 id='method.set_x_axis' class='method'><code>fn <a href='#method.set_x_axis' class='fnname'>set_x_axis</a>&lt;'l&gt;(&amp;'l mut self, show: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, options: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='enum' href='../gnuplot/enum.PlotOption.html' title='gnuplot::PlotOption'>PlotOption</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Sets the properties of x axis.</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-1' class='section-header'><a href='#arguments-1'>Arguments</a></h1>
 <ul>
 <li><code>show</code> - Whether or not draw the axis</li>
 <li><code>options</code> - Array of PlotOption controlling the appearance of the axis. Relevant options are:
@@ -83,7 +84,7 @@
 </div><h4 id='method.arrow' class='method'><code>fn <a href='#method.arrow' class='fnname'>arrow</a>&lt;'l&gt;(&amp;'l mut self, x1: <a class='enum' href='../gnuplot/enum.Coordinate.html' title='gnuplot::Coordinate'>Coordinate</a>, y1: <a class='enum' href='../gnuplot/enum.Coordinate.html' title='gnuplot::Coordinate'>Coordinate</a>, x2: <a class='enum' href='../gnuplot/enum.Coordinate.html' title='gnuplot::Coordinate'>Coordinate</a>, y2: <a class='enum' href='../gnuplot/enum.Coordinate.html' title='gnuplot::Coordinate'>Coordinate</a>, options: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='enum' href='../gnuplot/enum.PlotOption.html' title='gnuplot::PlotOption'>PlotOption</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Adds an arrow to the plot. The arrow is drawn from <code>(x1, y1)</code> to <code>(x2, y2)</code> with the arrow point towards <code>(x2, y2)</code>.</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-2' class='section-header'><a href='#arguments-2'>Arguments</a></h1>
 <ul>
 <li><code>x1</code> - X coordinate of the arrow start</li>
 <li><code>y1</code> - Y coordinate of the arrow start</li>
@@ -102,7 +103,7 @@
 </div><h4 id='method.set_legend' class='method'><code>fn <a href='#method.set_legend' class='fnname'>set_legend</a>&lt;'l&gt;(&amp;'l mut self, x: <a class='enum' href='../gnuplot/enum.Coordinate.html' title='gnuplot::Coordinate'>Coordinate</a>, y: <a class='enum' href='../gnuplot/enum.Coordinate.html' title='gnuplot::Coordinate'>Coordinate</a>, legend_options: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'l [</a><a class='enum' href='../gnuplot/enum.LegendOption.html' title='gnuplot::LegendOption'>LegendOption</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>, text_options: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'l [</a><a class='enum' href='../gnuplot/enum.LabelOption.html' title='gnuplot::LabelOption'>LabelOption</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Specifies the location and other properties of the legend</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-3' class='section-header'><a href='#arguments-3'>Arguments</a></h1>
 <ul>
 <li><code>x</code> - X coordinate of the legend</li>
 <li><code>y</code> - Y coordinate of the legend</li>
@@ -119,7 +120,7 @@
 </div><h4 id='method.lines' class='method'><code>fn <a href='#method.lines' class='fnname'>lines</a>&lt;'l, Tx: <a class='trait' href='../gnuplot/trait.DataType.html' title='gnuplot::DataType'>DataType</a>, X: <a class='trait' href='https://doc.rust-lang.org/nightly/core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a>&lt;Item=Tx&gt;, Ty: <a class='trait' href='../gnuplot/trait.DataType.html' title='gnuplot::DataType'>DataType</a>, Y: <a class='trait' href='https://doc.rust-lang.org/nightly/core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a>&lt;Item=Ty&gt;&gt;(&amp;'l mut self, x: X, y: Y, options: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='enum' href='../gnuplot/enum.PlotOption.html' title='gnuplot::PlotOption'>PlotOption</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Plot a 2D scatter-plot with lines connecting each data point</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-4' class='section-header'><a href='#arguments-4'>Arguments</a></h1>
 <ul>
 <li><code>x</code> - x values</li>
 <li><code>y</code> - y values</li>
@@ -135,7 +136,7 @@
 </div><h4 id='method.points' class='method'><code>fn <a href='#method.points' class='fnname'>points</a>&lt;'l, Tx: <a class='trait' href='../gnuplot/trait.DataType.html' title='gnuplot::DataType'>DataType</a>, X: <a class='trait' href='https://doc.rust-lang.org/nightly/core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a>&lt;Item=Tx&gt;, Ty: <a class='trait' href='../gnuplot/trait.DataType.html' title='gnuplot::DataType'>DataType</a>, Y: <a class='trait' href='https://doc.rust-lang.org/nightly/core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a>&lt;Item=Ty&gt;&gt;(&amp;'l mut self, x: X, y: Y, options: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='enum' href='../gnuplot/enum.PlotOption.html' title='gnuplot::PlotOption'>PlotOption</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Plot a 2D scatter-plot with a point standing in for each data point</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-5' class='section-header'><a href='#arguments-5'>Arguments</a></h1>
 <ul>
 <li><code>x</code> - x values</li>
 <li><code>y</code> - y values</li>
@@ -151,7 +152,7 @@
 </div><h4 id='method.lines_points' class='method'><code>fn <a href='#method.lines_points' class='fnname'>lines_points</a>&lt;'l, Tx: <a class='trait' href='../gnuplot/trait.DataType.html' title='gnuplot::DataType'>DataType</a>, X: <a class='trait' href='https://doc.rust-lang.org/nightly/core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a>&lt;Item=Tx&gt;, Ty: <a class='trait' href='../gnuplot/trait.DataType.html' title='gnuplot::DataType'>DataType</a>, Y: <a class='trait' href='https://doc.rust-lang.org/nightly/core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a>&lt;Item=Ty&gt;&gt;(&amp;'l mut self, x: X, y: Y, options: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='enum' href='../gnuplot/enum.PlotOption.html' title='gnuplot::PlotOption'>PlotOption</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>A combination of lines and points methods (drawn in that order).</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-6' class='section-header'><a href='#arguments-6'>Arguments</a></h1>
 <ul>
 <li><code>x</code> - x values</li>
 <li><code>y</code> - y values</li>
@@ -161,7 +162,7 @@
 <div class='docblock'><p>Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 Additionally, error bars are attached to each data point in the X direction.</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-7' class='section-header'><a href='#arguments-7'>Arguments</a></h1>
 <ul>
 <li><code>x</code> - x values</li>
 <li><code>y</code> - y valuess</li>
@@ -181,7 +182,7 @@ Additionally, error bars are attached to each data point in the X direction.</p>
 <div class='docblock'><p>Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 Additionally, error bars are attached to each data point in the Y direction.</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-8' class='section-header'><a href='#arguments-8'>Arguments</a></h1>
 <ul>
 <li><code>x</code> - x values</li>
 <li><code>y</code> - y values</li>
@@ -202,7 +203,7 @@ Additionally, error bars are attached to each data point in the Y direction.</p>
 <code>FillRegion</code> plot option can be used to control what happens when the curves intersect. If set to Above, then the <code>y_lo &lt; y_hi</code> region is filled.
 If set to Below, then the <code>y_lo &gt; y_hi</code> region is filled. Otherwise both regions are filled.</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-9' class='section-header'><a href='#arguments-9'>Arguments</a></h1>
 <ul>
 <li><code>x</code> - x values</li>
 <li><code>y_lo</code> - Bottom y values</li>
@@ -220,7 +221,7 @@ If set to Below, then the <code>y_lo &gt; y_hi</code> region is filled. Otherwis
 <div class='docblock'><p>Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
 Boxes start at the x-axis and go towards the y value of the datapoint.</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-10' class='section-header'><a href='#arguments-10'>Arguments</a></h1>
 <ul>
 <li><code>x</code> - x values (center of the box)</li>
 <li><code>y</code> - y values</li>
@@ -239,7 +240,7 @@ Boxes start at the x-axis and go towards the y value of the datapoint.</p>
 <div class='docblock'><p>Plot a 2D scatter-plot using boxes of set (per box) width.
 Boxes start at the x-axis and go towards the y value of the datapoint.</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-11' class='section-header'><a href='#arguments-11'>Arguments</a></h1>
 <ul>
 <li><code>x</code> - x values (center of the box)</li>
 <li><code>y</code> - y values</li>
@@ -258,7 +259,7 @@ Boxes start at the x-axis and go towards the y value of the datapoint.</p>
 </div><h4 id='method.image' class='method'><code>fn <a href='#method.image' class='fnname'>image</a>&lt;'l, T: <a class='trait' href='../gnuplot/trait.DataType.html' title='gnuplot::DataType'>DataType</a>, X: <a class='trait' href='https://doc.rust-lang.org/nightly/core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a>&lt;Item=T&gt;&gt;(&amp;'l mut self, mat: X, num_rows: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, num_cols: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, dimensions: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>)</a>&gt;, options: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='enum' href='../gnuplot/enum.PlotOption.html' title='gnuplot::PlotOption'>PlotOption</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes2D.html' title='gnuplot::Axes2D'>Axes2D</a></code></h4>
 <div class='docblock'><p>Draws an image from a rectangular array of data by connecting the individual datapoints with polygons.</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments:</a></h1>
+<h1 id='arguments-12' class='section-header'><a href='#arguments-12'>Arguments:</a></h1>
 <ul>
 <li><code>mat</code> - Row-major 2D array signifying the value of the datapoints. The X and Y coordinates of the datapoints are determined automatically,
       and optionally scaled using the <code>dimensions</code> argument.</li>
@@ -354,6 +355,6 @@ Boxes start at the x-axis and go towards the y value of the datapoint.</p>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

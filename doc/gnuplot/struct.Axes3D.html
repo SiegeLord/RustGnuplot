@@ -9,6 +9,7 @@
 
     <title>gnuplot::Axes3D - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     
@@ -69,7 +70,7 @@
 </div><h4 id='method.set_view' class='method'><code>fn <a href='#method.set_view' class='fnname'>set_view</a>&lt;'l&gt;(&amp;'l mut self, pitch: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, yaw: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Sets the 3D view.</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments:</a></h1>
+<h1 id='arguments-1' class='section-header'><a href='#arguments-1'>Arguments:</a></h1>
 <ul>
 <li><code>pitch</code> - Pitch, in degrees. Value of 0 is looking straight down on the XY plane, Z pointing out of the screen.</li>
 <li><code>yaw</code> - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.</li>
@@ -79,7 +80,7 @@
 </div><h4 id='method.set_z_label' class='method'><code>fn <a href='#method.set_z_label' class='fnname'>set_z_label</a>&lt;'l&gt;(&amp;'l mut self, text: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, options: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='enum' href='../gnuplot/enum.LabelOption.html' title='gnuplot::LabelOption'>LabelOption</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Set the label for the Z axis</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-2' class='section-header'><a href='#arguments-2'>Arguments</a></h1>
 <ul>
 <li><code>text</code> - Text of the label. Pass an empty string to hide the label</li>
 <li><code>options</code> - Array of LabelOption controlling the appearance of the label. Relevant options are:
@@ -99,7 +100,7 @@
 </div><h4 id='method.set_z_range' class='method'><code>fn <a href='#method.set_z_range' class='fnname'>set_z_range</a>&lt;'l&gt;(&amp;'l mut self, min: <a class='enum' href='../gnuplot/enum.AutoOption.html' title='gnuplot::AutoOption'>AutoOption</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;, max: <a class='enum' href='../gnuplot/enum.AutoOption.html' title='gnuplot::AutoOption'>AutoOption</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Set the range of values for the Z axis</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-3' class='section-header'><a href='#arguments-3'>Arguments</a></h1>
 <ul>
 <li><code>min</code> - Minimum Z value</li>
 <li><code>max</code> - Maximum Z value</li>
@@ -107,14 +108,14 @@
 </div><h4 id='method.set_z_log' class='method'><code>fn <a href='#method.set_z_log' class='fnname'>set_z_log</a>&lt;'l&gt;(&amp;'l mut self, base: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Sets the Z axis be logarithmic. Note that the range must be non-negative for this to be valid.</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-4' class='section-header'><a href='#arguments-4'>Arguments</a></h1>
 <ul>
 <li><code>base</code> - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic</li>
 </ul>
 </div><h4 id='method.show_contours' class='method'><code>fn <a href='#method.show_contours' class='fnname'>show_contours</a>&lt;'l&gt;(&amp;'l mut self, base: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, surface: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, style: <a class='enum' href='../gnuplot/enum.ContourStyle.html' title='gnuplot::ContourStyle'>ContourStyle</a>, label: <a class='enum' href='../gnuplot/enum.AutoOption.html' title='gnuplot::AutoOption'>AutoOption</a>&lt;&amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;, levels: <a class='enum' href='../gnuplot/enum.AutoOption.html' title='gnuplot::AutoOption'>AutoOption</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>&gt;) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Show contours (lines of equal Z value) at automatically determined levels.</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-5' class='section-header'><a href='#arguments-5'>Arguments</a></h1>
 <ul>
 <li><code>base</code> - Show contours on the base of the plot (XY plane)</li>
 <li><code>surface</code> - Show the contours on the surface itself</li>
@@ -127,7 +128,7 @@
 </div><h4 id='method.show_contours_custom' class='method'><code>fn <a href='#method.show_contours_custom' class='fnname'>show_contours_custom</a>&lt;'l, T: <a class='trait' href='../gnuplot/trait.DataType.html' title='gnuplot::DataType'>DataType</a>, TC: <a class='trait' href='https://doc.rust-lang.org/nightly/core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a>&lt;Item=T&gt;&gt;(&amp;'l mut self, base: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, surface: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, style: <a class='enum' href='../gnuplot/enum.ContourStyle.html' title='gnuplot::ContourStyle'>ContourStyle</a>, label: <a class='enum' href='../gnuplot/enum.AutoOption.html' title='gnuplot::AutoOption'>AutoOption</a>&lt;&amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;, levels: TC) -&gt; &amp;'l mut <a class='struct' href='../gnuplot/struct.Axes3D.html' title='gnuplot::Axes3D'>Axes3D</a></code></h4>
 <div class='docblock'><p>Show contours (lines of equal Z value) at specific levels.</p>
 
-<h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
+<h1 id='arguments-6' class='section-header'><a href='#arguments-6'>Arguments</a></h1>
 <ul>
 <li><code>base</code> - Show contours on the base of the plot (XY plane)</li>
 <li><code>surface</code> - Show the contours on the surface itself</li>
@@ -218,6 +219,6 @@
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>
