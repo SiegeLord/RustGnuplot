@@ -12,8 +12,7 @@ use axes2d::*;
 use axes3d::*;
 use writer::Writer;
 
-pub use self::AxesVariant::*;
-
+use self::AxesVariant::*;
 enum AxesVariant
 {
 	Axes2DType(Axes2D),

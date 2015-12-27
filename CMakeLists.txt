@@ -15,10 +15,11 @@ set(EXAMPLE4_ROOT examples/example4.rs)
 set(ANIMATION_EXAMPLE_ROOT examples/animation_example.rs)
 set(CUSTOM_CSS_SRC "${CMAKE_SOURCE_DIR}/doc/main.css")
 set(CUSTOM_CSS_DEST "${CMAKE_BINARY_DIR}/doc/main.css")
+set(STOCK_CSS "${CMAKE_BINARY_DIR}/doc/main.css;${CMAKE_BINARY_DIR}/doc/rustdoc.css;")
 set(CARGO_DEPENDENCY_DIR "${CMAKE_BINARY_DIR}/getopts_dep/target/debug/deps")
 
-set(RUSTC_FLAGS -L${CMAKE_BINARY_DIR}/lib -L ${CARGO_DEPENDENCY_DIR} --extern getopts=${CARGO_DEPENDENCY_DIR}/libgetopts-1be2f24cd9708e15.rlib)
-set(RUSTDOC_FLAGS -L${CMAKE_BINARY_DIR}/lib -L ${CARGO_DEPENDENCY_DIR} --extern getopts=${CARGO_DEPENDENCY_DIR}/libgetopts-1be2f24cd9708e15.rlib)
+set(RUSTC_FLAGS -L${CMAKE_BINARY_DIR}/lib -L ${CARGO_DEPENDENCY_DIR} --extern getopts=${CARGO_DEPENDENCY_DIR}/libgetopts-852fe11dd444cf81.rlib)
+set(RUSTDOC_FLAGS -L${CMAKE_BINARY_DIR}/lib -L ${CARGO_DEPENDENCY_DIR} --extern getopts=${CARGO_DEPENDENCY_DIR}/libgetopts-852fe11dd444cf81.rlib)
 
 cargo_dependency(getopts_dep
                  PACKAGE_NAMES getopts
@@ -76,11 +77,10 @@ rust_doc(${GNUPLOT_ROOT}
          DEPENDS "${GNUPLOT_DEPS}")
 
 # Copy the custom CSS
-file(RELATIVE_PATH rel_dest "${CMAKE_BINARY_DIR}" "${CUSTOM_CSS_DEST}")
 add_custom_target("DELETE_STOCK_CSS"
                   DEPENDS ${GNUPLOT_DOC_FULL_TARGET}
-                  COMMAND "${CMAKE_COMMAND}" -E remove "${CUSTOM_CSS_DEST}"
-                  COMMENT "Deleting stock ${rel_dest}")
+                  COMMAND "${CMAKE_COMMAND}" -E remove -f ${STOCK_CSS}
+                  COMMENT "Deleting stock CSS")
 
 add_custom_command(OUTPUT "${CUSTOM_CSS_DEST}"
                    DEPENDS "DELETE_STOCK_CSS"

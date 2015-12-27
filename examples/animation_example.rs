@@ -1,7 +1,8 @@
 // This file is released into Public Domain.
 extern crate gnuplot;
 
-use std::thread::sleep_ms;
+use std::time::Duration;
+use std::thread::sleep;
 
 use gnuplot::*;
 
@@ -24,6 +25,6 @@ fn main()
 		.lines(x.iter(), x.iter().map(|&x| (x + t).sin()), &[]);
 		t += 0.1;
 		fg.show();
-		sleep_ms(500);
+		sleep(Duration::from_millis(500));
 	}
 }

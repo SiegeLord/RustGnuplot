@@ -12,7 +12,7 @@ use writer::*;
 pub use self::LabelType::*;
 pub use self::TickAxis::*;
 pub use self::PlotType::*;
-pub use self::DataSourceType::*;
+use self::DataSourceType::*;
 
 impl PlotWriter for Vec<u8>
 {
