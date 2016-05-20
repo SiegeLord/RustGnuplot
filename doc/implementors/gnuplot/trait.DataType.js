@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors['gnuplot'] = [];
+implementors["gnuplot"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);
