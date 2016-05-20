@@ -1,8 +1,8 @@
 // This file is released into Public Domain.
 
-extern crate getopts;
+extern crate argparse_rs;
 
-use self::getopts::*;
+use self::argparse_rs::*;
 use std::env;
 use gnuplot::*;
 
@@ -47,29 +47,25 @@ impl Common
 {
 	pub fn new() -> Option<Common>
 	{
-		let args: Vec<_> = env::args().collect();
+		let arg_vec: Vec<_> = env::args().collect();
 
-		let mut opts = Options::new();
+		let mut args = ArgParser::new(arg_vec[0].clone());
+		
+		args.add_opt("no-show", Some("false"), 'n', false, "do not run the gnuplot process.", ArgType::Flag);
+		args.add_opt("terminal", None, 't', false, "specify what terminal to use for gnuplot.", ArgType::Option);
 
-		opts.optflag("n", "no-show", "do not run the gnuplot process.");
-		opts.optflag("h", "help", "show this help and exit.");
-		opts.optopt("t", "terminal", "specify what terminal to use for gnuplot.", "TERM");
-
-		let matches = match opts.parse(&args[1..])
+		let res = args.parse(arg_vec.iter()).unwrap();
+		
+		if res.get("help").unwrap_or(false)
 		{
-			Ok(m) => m,
-			Err(f) => panic!("{}", f)
-		};
-		if matches.opt_present("h")
-		{
-			println!("{}", opts.usage("A RustGnuplot example."));
+			args.help();
 			return None;
 		}
 
 		Some(Common
 		{
-			no_show: matches.opt_present("n"),
-			term: matches.opt_str("t").map(|s| s.to_string())
+			no_show: res.get("no-show").unwrap(),
+			term: res.get::<String>("terminal").map(|s| s.to_string())
 		})
 	}
 

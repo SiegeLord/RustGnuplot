@@ -16,14 +16,14 @@ set(ANIMATION_EXAMPLE_ROOT examples/animation_example.rs)
 set(CUSTOM_CSS_SRC "${CMAKE_SOURCE_DIR}/doc/main.css")
 set(CUSTOM_CSS_DEST "${CMAKE_BINARY_DIR}/doc/main.css")
 set(STOCK_CSS "${CMAKE_BINARY_DIR}/doc/main.css;${CMAKE_BINARY_DIR}/doc/rustdoc.css;")
-set(CARGO_DEPENDENCY_DIR "${CMAKE_BINARY_DIR}/getopts_dep/target/debug/deps")
+set(CARGO_DEPENDENCY_DIR "${CMAKE_BINARY_DIR}/argparse_dep/target/debug/deps")
 
-set(RUSTC_FLAGS -L${CMAKE_BINARY_DIR}/lib -L ${CARGO_DEPENDENCY_DIR} --extern getopts=${CARGO_DEPENDENCY_DIR}/libgetopts-1cab3df9d55a869b.rlib)
-set(RUSTDOC_FLAGS -L${CMAKE_BINARY_DIR}/lib -L ${CARGO_DEPENDENCY_DIR} --extern getopts=${CARGO_DEPENDENCY_DIR}/libgetopts-1cab3df9d55a869b.rlib)
+set(RUSTC_FLAGS -L${CMAKE_BINARY_DIR}/lib -L ${CARGO_DEPENDENCY_DIR})
+set(RUSTDOC_FLAGS -L${CMAKE_BINARY_DIR}/lib -L ${CARGO_DEPENDENCY_DIR})
 
-cargo_dependency(getopts_dep
-                 PACKAGE_NAMES getopts
-                 PACKAGE_VERSIONS =0.2.14)
+cargo_dependency(argparse_dep
+                 PACKAGE_NAMES argparse-rs
+                 PACKAGE_VERSIONS =0.1.0)
 
 # Get the dependencies of all the crates
 get_rust_deps(${GNUPLOT_ROOT} GNUPLOT_DEPS)

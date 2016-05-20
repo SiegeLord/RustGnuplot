@@ -16,7 +16,7 @@ path = "src/lib.rs"
 
 [dev-dependencies]
 
-getopts = "=0.2.14"
+argparse-rs = "=0.1.0"
 
 [[example]]
 
