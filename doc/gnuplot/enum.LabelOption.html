@@ -49,8 +49,8 @@
                    </a>
                </span><a id='src-1310' class='srclink' href='../src/gnuplot/options.rs.html#153-188' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum LabelOption&lt;'l&gt; {
-    TextOffset(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>),
-    Font(&amp;'l <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>),
+    TextOffset(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>,&nbsp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>),
+    Font(&amp;'l <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>,&nbsp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>),
     TextColor(&amp;'l <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>),
     Rotate(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>),
     TextAlign(<a class='enum' href='../gnuplot/enum.AlignType.html' title='gnuplot::AlignType'>AlignType</a>),
@@ -59,13 +59,13 @@
     MarkerSize(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>),
 }</pre><div class='docblock'><p>An enumeration of label options that control label attributes</p>
 </div><h2 class='variants'>Variants</h2>
-<table class='variants_table'><tr><td id='variant.TextOffset'><code>TextOffset</code></td><td><div class='docblock'><p>Sets the offset of the label in characters</p>
-</div></td><td></td></tr><tr><td id='variant.Font'><code>Font</code></td><td><div class='docblock'><p>Sets the font of the label. The string specifies the font type (e.g. &quot;Arial&quot;) and the number specifies the size (the units are terminal dependent, but are often points)</p>
-</div></td><td></td></tr><tr><td id='variant.TextColor'><code>TextColor</code></td><td><div class='docblock'><p>Sets the color of the label text. The passed string can be a color name
+<span id='variant.TextOffset' class='variant'><code>TextOffset(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>,&nbsp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>)</code></span><div class='docblock'><p>Sets the offset of the label in characters</p>
+</div><span id='variant.Font' class='variant'><code>Font(&amp;'l <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>,&nbsp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>)</code></span><div class='docblock'><p>Sets the font of the label. The string specifies the font type (e.g. &quot;Arial&quot;) and the number specifies the size (the units are terminal dependent, but are often points)</p>
+</div><span id='variant.TextColor' class='variant'><code>TextColor(&amp;'l <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>)</code></span><div class='docblock'><p>Sets the color of the label text. The passed string can be a color name
 (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</p>
-</div></td><td></td></tr><tr><td id='variant.Rotate'><code>Rotate</code></td><td><div class='docblock'><p>Rotates the label by a certain number of degrees</p>
-</div></td><td></td></tr><tr><td id='variant.TextAlign'><code>TextAlign</code></td><td><div class='docblock'><p>Sets the horizontal alignment of the label text (default is left alignment). See AlignType.</p>
-</div></td><td></td></tr><tr><td id='variant.MarkerSymbol'><code>MarkerSymbol</code></td><td><div class='docblock'><p>Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:</p>
+</div><span id='variant.Rotate' class='variant'><code>Rotate(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>)</code></span><div class='docblock'><p>Rotates the label by a certain number of degrees</p>
+</div><span id='variant.TextAlign' class='variant'><code>TextAlign(<a class='enum' href='../gnuplot/enum.AlignType.html' title='gnuplot::AlignType'>AlignType</a>)</code></span><div class='docblock'><p>Sets the horizontal alignment of the label text (default is left alignment). See AlignType.</p>
+</div><span id='variant.MarkerSymbol' class='variant'><code>MarkerSymbol(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.char.html'>char</a>)</code></span><div class='docblock'><p>Sets a marker for the label. By default no marker is drawn. The valid characters are as follows:</p>
 
 <ul>
 <li><code>.</code> - dot</li>
@@ -83,10 +83,10 @@
 <li><code>r</code> - empty rhombus</li>
 <li><code>R</code> - filled rhombus</li>
 </ul>
-</div></td><td></td></tr><tr><td id='variant.MarkerColor'><code>MarkerColor</code></td><td><div class='docblock'><p>Sets the color of the marker. The passed string can be a color name
+</div><span id='variant.MarkerColor' class='variant'><code>MarkerColor(&amp;'l <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>)</code></span><div class='docblock'><p>Sets the color of the marker. The passed string can be a color name
 (e.g. &quot;black&quot; works), or an HTML color specifier (e.g. &quot;#FFFFFF&quot; is white)</p>
-</div></td><td></td></tr><tr><td id='variant.MarkerSize'><code>MarkerSize</code></td><td><div class='docblock'><p>Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.</p>
-</div></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl&lt;'l&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../gnuplot/enum.LabelOption.html' title='gnuplot::LabelOption'>LabelOption</a>&lt;'l&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1330' class='srclink' href='../src/gnuplot/options.rs.html#152' title='goto source code'>[src]</a></span></h3>
+</div><span id='variant.MarkerSize' class='variant'><code>MarkerSize(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>)</code></span><div class='docblock'><p>Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.</p>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl&lt;'l&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../gnuplot/enum.LabelOption.html' title='gnuplot::LabelOption'>LabelOption</a>&lt;'l&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1330' class='srclink' href='../src/gnuplot/options.rs.html#152' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../gnuplot/enum.LabelOption.html' title='gnuplot::LabelOption'>LabelOption</a>&lt;'l&gt;</code></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
 </div><h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></h4>

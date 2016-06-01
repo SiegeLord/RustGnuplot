@@ -51,21 +51,21 @@
 <pre class='rust enum'>pub enum ContourStyle {
     Linear,
     Cubic(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>),
-    Spline(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>),
+    Spline(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,&nbsp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>),
 }</pre><div class='docblock'><p>Specifies how the contours are drawn</p>
 </div><h2 class='variants'>Variants</h2>
-<table class='variants_table'><tr><td id='variant.Linear'><code>Linear</code></td><td><div class='docblock'><p>Draw lines between points of equal value</p>
-</div></td><td></td></tr><tr><td id='variant.Cubic'><code>Cubic</code></td><td><div class='docblock'><p>Draw somewhat smoother curves between points with equal value.</p>
+<span id='variant.Linear' class='variant'><code>Linear</code></span><div class='docblock'><p>Draw lines between points of equal value</p>
+</div><span id='variant.Cubic' class='variant'><code>Cubic(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>)</code></span><div class='docblock'><p>Draw somewhat smoother curves between points with equal value.</p>
 
 <p>The argument specifies the number of points to use to approximate the
 curve for the final drawing step (clamped to range from 2 to 100).</p>
-</div></td><td></td></tr><tr><td id='variant.Spline'><code>Spline</code></td><td><div class='docblock'><p>Draw an even smoother curve, this time approximating the locations of
+</div><span id='variant.Spline' class='variant'><code>Spline(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,&nbsp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>)</code></span><div class='docblock'><p>Draw an even smoother curve, this time approximating the locations of
 points with equal value (clamped to range from 2 to 100).</p>
 
 <p>The first argument specifies the number of points to use to approximate
 the curve for the final drawing step. The second argument specifies the
 order of the polynomial (clamped to range from 2 to 10).</p>
-</div></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../gnuplot/enum.ContourStyle.html' title='gnuplot::ContourStyle'>ContourStyle</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1418' class='srclink' href='../src/gnuplot/options.rs.html#247' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../gnuplot/enum.ContourStyle.html' title='gnuplot::ContourStyle'>ContourStyle</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1418' class='srclink' href='../src/gnuplot/options.rs.html#247' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../gnuplot/enum.ContourStyle.html' title='gnuplot::ContourStyle'>ContourStyle</a></code></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
 </div><h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></h4>

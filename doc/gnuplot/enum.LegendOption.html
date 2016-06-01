@@ -52,21 +52,21 @@
     Reverse,
     Invert,
     Horizontal,
-    Placement(<a class='enum' href='../gnuplot/enum.AlignType.html' title='gnuplot::AlignType'>AlignType</a>, <a class='enum' href='../gnuplot/enum.AlignType.html' title='gnuplot::AlignType'>AlignType</a>),
+    Placement(<a class='enum' href='../gnuplot/enum.AlignType.html' title='gnuplot::AlignType'>AlignType</a>,&nbsp;<a class='enum' href='../gnuplot/enum.AlignType.html' title='gnuplot::AlignType'>AlignType</a>),
     Title(&amp;'l <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>),
     MaxRows(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>),
     MaxCols(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>),
 }</pre><div class='docblock'><p>Legend options</p>
 </div><h2 class='variants'>Variants</h2>
-<table class='variants_table'><tr><td id='variant.Reverse'><code>Reverse</code></td><td><div class='docblock'><p>Puts curve samples to the left of the label</p>
-</div></td><td></td></tr><tr><td id='variant.Invert'><code>Invert</code></td><td><div class='docblock'><p>Displays legend entries in opposite order</p>
-</div></td><td></td></tr><tr><td id='variant.Horizontal'><code>Horizontal</code></td><td><div class='docblock'><p>Makes the legend horizontal (default is vertical)</p>
-</div></td><td></td></tr><tr><td id='variant.Placement'><code>Placement</code></td><td><div class='docblock'><p>Specifies the location of the legend. The first argument specifies the horizontal
+<span id='variant.Reverse' class='variant'><code>Reverse</code></span><div class='docblock'><p>Puts curve samples to the left of the label</p>
+</div><span id='variant.Invert' class='variant'><code>Invert</code></span><div class='docblock'><p>Displays legend entries in opposite order</p>
+</div><span id='variant.Horizontal' class='variant'><code>Horizontal</code></span><div class='docblock'><p>Makes the legend horizontal (default is vertical)</p>
+</div><span id='variant.Placement' class='variant'><code>Placement(<a class='enum' href='../gnuplot/enum.AlignType.html' title='gnuplot::AlignType'>AlignType</a>,&nbsp;<a class='enum' href='../gnuplot/enum.AlignType.html' title='gnuplot::AlignType'>AlignType</a>)</code></span><div class='docblock'><p>Specifies the location of the legend. The first argument specifies the horizontal
 placement with respect to its position, and the second argument specifies the vertical placement</p>
-</div></td><td></td></tr><tr><td id='variant.Title'><code>Title</code></td><td><div class='docblock'><p>Title of the legend</p>
-</div></td><td></td></tr><tr><td id='variant.MaxRows'><code>MaxRows</code></td><td><div class='docblock'><p>Specifies the maximum number of rows, when the legend is vertical</p>
-</div></td><td></td></tr><tr><td id='variant.MaxCols'><code>MaxCols</code></td><td><div class='docblock'><p>Specifies the maximum number of columns, when the legend is horizontal</p>
-</div></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl&lt;'l&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../gnuplot/enum.LegendOption.html' title='gnuplot::LegendOption'>LegendOption</a>&lt;'l&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1400' class='srclink' href='../src/gnuplot/options.rs.html#226' title='goto source code'>[src]</a></span></h3>
+</div><span id='variant.Title' class='variant'><code>Title(&amp;'l <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>)</code></span><div class='docblock'><p>Title of the legend</p>
+</div><span id='variant.MaxRows' class='variant'><code>MaxRows(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>)</code></span><div class='docblock'><p>Specifies the maximum number of rows, when the legend is vertical</p>
+</div><span id='variant.MaxCols' class='variant'><code>MaxCols(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>)</code></span><div class='docblock'><p>Specifies the maximum number of columns, when the legend is horizontal</p>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl&lt;'l&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../gnuplot/enum.LegendOption.html' title='gnuplot::LegendOption'>LegendOption</a>&lt;'l&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1400' class='srclink' href='../src/gnuplot/options.rs.html#226' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../gnuplot/enum.LegendOption.html' title='gnuplot::LegendOption'>LegendOption</a>&lt;'l&gt;</code></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
 </div><h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></h4>
