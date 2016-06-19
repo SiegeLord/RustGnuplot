@@ -5,7 +5,7 @@ import fileinput
 import re
 import os
 import glob
-from shutil import copy
+from shutil import copy, rmtree
 from subprocess import check_call
 
 crate_list="""
