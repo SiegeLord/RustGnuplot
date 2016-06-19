@@ -35,13 +35,3 @@ A somewhat involved 2D example:
 ```
 cargo build
 ```
-
-### Via CMake 2.8
-
-~~~
-mkdir build
-cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=<your_prefix_goes_here>
-make -j
-make install
-~~~

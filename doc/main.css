@@ -445,7 +445,7 @@ button {
     float: left;
     width: 1.0em;
     text-overflow: clip;
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: hidden;
 }
 
