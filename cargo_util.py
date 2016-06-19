@@ -61,6 +61,7 @@ if args.clean:
 		check_call(['cargo', 'clean'], cwd=crate)
 
 if args.doc:
+	rmtree('doc/target/doc', ignore_errors=True)
 	print 'Building docs'
 	check_call(['cargo', 'doc'], cwd='doc')
 	print 'Fixing up the search index'
