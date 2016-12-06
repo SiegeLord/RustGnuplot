@@ -250,6 +250,7 @@ pub struct AxisData
 	pub axis: TickAxis,
 	pub min: AutoOption<f64>,
 	pub max: AutoOption<f64>,
+	pub reverse: bool,
 }
 
 impl AxisData
@@ -264,6 +265,7 @@ impl AxisData
 			axis: axis,
 			min: Auto,
 			max: Auto,
+			reverse: false,
 		}
 	}
 
@@ -319,7 +321,13 @@ impl AxisData
 			Fix(v) => write!(w, "{:.12e}", v),
 			Auto => w.write_str("*")
 		};
-		w.write_str("]\n");
+        if self.reverse
+        {
+            w.write_str("] reverse\n");
+        }
+        else {
+            w.write_str("]\n");
+        }
 
 		w.write_all(&self.ticks_buf[..]);
 	}
@@ -490,6 +498,11 @@ impl AxisData
 	{
 		self.log_base = base;
 	}
+
+    pub fn set_reverse(&mut self)
+    {
+        self.reverse = true;
+    }
 }
 
 pub struct AxesCommonData
@@ -1134,6 +1147,20 @@ pub trait AxesCommon : AxesCommonPrivate
 	fn set_y_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
 	{
 		self.get_common_data_mut().y_axis.set_range(min, max);
+		self
+	}
+
+	/// Sets X axis to reverse.
+	fn set_x_reverse<'l>(&'l mut self) -> &'l mut Self
+	{
+		self.get_common_data_mut().x_axis.set_reverse();
+		self
+	}
+
+	/// Sets Y axis to reverse.
+	fn set_y_reverse<'l>(&'l mut self) -> &'l mut Self
+	{
+		self.get_common_data_mut().y_axis.set_reverse();
 		self
 	}
 

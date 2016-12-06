@@ -100,6 +100,14 @@ impl Axes3D
 		self
 	}
 
+	/// Sets z axis to reverse.
+	pub fn set_z_reverse<'l>(&'l mut self) -> &'l mut Self
+	{
+		self.z_axis.set_reverse();
+		self
+	}
+
+
 	/// Sets the Z axis be logarithmic. Note that the range must be non-negative for this to be valid.
 	///
 	/// # Arguments
