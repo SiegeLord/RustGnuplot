@@ -321,13 +321,13 @@ impl AxisData
 			Fix(v) => write!(w, "{:.12e}", v),
 			Auto => w.write_str("*")
 		};
-        if self.reverse
-        {
-            w.write_str("] reverse\n");
-        }
-        else {
-            w.write_str("]\n");
-        }
+		if self.reverse
+		{
+			w.write_str("] reverse\n");
+		}
+		else {
+			w.write_str("]\n");
+		}
 
 		w.write_all(&self.ticks_buf[..]);
 	}
@@ -499,9 +499,9 @@ impl AxisData
 		self.log_base = base;
 	}
 
-    pub fn set_reverse(&mut self)
+    pub fn set_reverse(&mut self, reverse: bool)
     {
-        self.reverse = true;
+        self.reverse = reverse;
     }
 }
 
@@ -1151,16 +1151,20 @@ pub trait AxesCommon : AxesCommonPrivate
 	}
 
 	/// Sets X axis to reverse.
-	fn set_x_reverse<'l>(&'l mut self) -> &'l mut Self
+	/// # Arguments
+	/// * `reverse` - Boolean, true to reverse axis, false will not reverse
+	fn set_x_reverse<'l>(&'l mut self, reverse: bool) -> &'l mut Self
 	{
-		self.get_common_data_mut().x_axis.set_reverse();
+		self.get_common_data_mut().x_axis.set_reverse(reverse);
 		self
 	}
 
 	/// Sets Y axis to reverse.
-	fn set_y_reverse<'l>(&'l mut self) -> &'l mut Self
+	/// # Arguments
+	/// * `reverse` - Boolean, true to reverse axis, false will not reverse
+	fn set_y_reverse<'l>(&'l mut self, reverse: bool) -> &'l mut Self
 	{
-		self.get_common_data_mut().y_axis.set_reverse();
+		self.get_common_data_mut().y_axis.set_reverse(reverse);
 		self
 	}
 

@@ -101,9 +101,9 @@ impl Axes3D
 	}
 
 	/// Sets z axis to reverse.
-	pub fn set_z_reverse<'l>(&'l mut self) -> &'l mut Self
+	pub fn set_z_reverse<'l>(&'l mut self, reverse: bool) -> &'l mut Self
 	{
-		self.z_axis.set_reverse();
+		self.z_axis.set_reverse(reverse);
 		self
 	}
 
