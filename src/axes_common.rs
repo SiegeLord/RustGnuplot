@@ -325,7 +325,8 @@ impl AxisData
 		{
 			w.write_str("] reverse\n");
 		}
-		else {
+		else
+		{
 			w.write_str("]\n");
 		}
 
@@ -499,10 +500,10 @@ impl AxisData
 		self.log_base = base;
 	}
 
-    pub fn set_reverse(&mut self, reverse: bool)
-    {
-        self.reverse = reverse;
-    }
+	pub fn set_reverse(&mut self, reverse: bool)
+	{
+		self.reverse = reverse;
+	}
 }
 
 pub struct AxesCommonData
