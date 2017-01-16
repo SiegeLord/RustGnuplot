@@ -27,7 +27,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes3d()
-	.set_title("Surface", &[])
+	.set_title("Surface fg3.1", &[])
 	.surface(z1.iter(), w, h, Some((-4.0, -4.0, 4.0, 4.0)), &[])
 	.set_x_label("X", &[])
 	.set_y_label("Y", &[])
@@ -42,7 +42,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes3d()
-	.set_title("Map", &[])
+	.set_title("Map fg3.2", &[])
 	.surface(z1.iter(), w, h, None, &[])
 	.set_x_label("X", &[])
 	.set_y_label("Y", &[])
@@ -55,7 +55,7 @@ fn example(c: Common)
 
 	fg.axes3d()
 	.set_pos_grid(2, 2, 0)
-	.set_title("Base", &[])
+	.set_title("Base fg3.3", &[])
 	.show_contours(true, false, Cubic(10), Fix(""), Auto)
 	.surface(z1.iter(), w, h, Some((-4.0, -4.0, 4.0, 4.0)), &[])
 	.set_view(45.0, 45.0);

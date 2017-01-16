@@ -43,7 +43,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes2d()
-	.set_title("Arrows", &[])
+	.set_title("Arrows fg2.1", &[])
 	.lines(x, y1, &[LineWidth(3.0), Color("brown"), LineStyle(DotDash)])
 	.arrow(Graph(0.5), Graph(1.0), Axis(1.0), Axis(1.0), &[ArrowType(Filled), ArrowSize(0.1), LineStyle(DotDotDash), LineWidth(2.0), Color("red")])
 	.arrow(Graph(0.5), Graph(1.0), Axis(3.0), Axis(9.0), &[ArrowType(Open), Color("green")]);
@@ -54,7 +54,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes2d()
-	.set_title("Boxes", &[])
+	.set_title("Boxes fg2.2", &[])
 	.boxes(x2, y2, &[LineWidth(2.0), Color("cyan"), BorderColor("blue"), LineStyle(DotDash)])
 	.boxes_set_width(x, y1, w, &[LineWidth(2.0), Color("gray"), BorderColor("black")]);
 
@@ -64,7 +64,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes2d()
-	.set_title("Axis Ticks", &[])
+	.set_title("Axis Ticks fg2.3", &[])
 	.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
 	.set_x_ticks_custom((0..5).map(|i| 2 * i).map(|x| Major(x as f32, Fix("%.2f ms".to_string())))
 	                    .chain((0..5).map(|i| 2 * i + 1).map(|x| Minor(x as f32))).chain(Some(Major(-2.1f32, Fix("%.2f ms".to_string()))).into_iter()),
@@ -77,7 +77,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes2d()
-	.set_title("Border, Axes", &[])
+	.set_title("Border, Axes fg2.4", &[])
 	.set_border(true, &[Left, Bottom], &[LineWidth(2.0)])
 	.set_x_ticks(Some((Fix(1.0), 1)), &[Mirror(false)], &[])
 	.set_y_ticks(Some((Fix(5.0), 0)), &[Mirror(false)], &[])
@@ -91,7 +91,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes2d()
-	.set_title("Image", &[])
+	.set_title("Image fg2.5", &[])
 	.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[]);
 
 	c.show(&mut fg, "fg2.5.gnuplot");
@@ -100,7 +100,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes2d()
-	.set_title("Image without borders", &[])
+	.set_title("Image without borders fg2.6", &[])
 	.set_border(false, &[], &[])
 	.set_x_ticks(None, &[], &[])
 	.set_y_ticks(None, &[], &[])
@@ -115,7 +115,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes2d()
-	.set_title("Logarithmic", &[])
+	.set_title("Logarithmic fg2.7", &[])
 	.lines(x4.iter(), y4.iter(), &[])
 	.set_x_ticks(Some((Auto, 1)), &[], &[])
 	.set_y_ticks(Some((Auto, 1)), &[], &[])
@@ -128,7 +128,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes2d()
-	.set_title("Axis Grid", &[])
+	.set_title("Axis Grid fg2.8", &[])
 	.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
 	.set_grid_options(true, &[LineStyle(DotDotDash), Color("black")])
 	.set_x_grid(true)

@@ -25,7 +25,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes2d()
-	.set_title("Image", &[])
+	.set_title("Image fg4.1", &[])
 	.set_cb_range(Fix(-1.0), Fix(1.0))
 	.set_cb_ticks(Some((Fix(0.25), 1)), &[], &[])
 	.set_cb_label("Label", &[Rotate(0.0)])
@@ -37,7 +37,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes3d()
-	.set_title("Surface", &[])
+	.set_title("Surface fg4.2", &[])
 	.surface(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[])
 	.set_x_label("X", &[])
 	.set_y_label("Y", &[])
@@ -53,7 +53,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes3d()
-	.set_title("Cube Helix Palette", &[])
+	.set_title("Cube Helix Palette fg4.3", &[])
 	.surface(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[])
 	.set_x_label("X", &[])
 	.set_y_label("Y", &[])
@@ -70,7 +70,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes3d()
-	.set_title("Gray Palette", &[])
+	.set_title("Gray Palette fg4.4", &[])
 	.surface(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[])
 	.set_x_label("X", &[])
 	.set_y_label("Y", &[])
@@ -86,7 +86,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes3d()
-	.set_title("Black Body Palette", &[])
+	.set_title("Black Body Palette fg4.5", &[])
 	.surface(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[])
 	.set_x_label("X", &[])
 	.set_y_label("Y", &[])
@@ -110,7 +110,7 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes3d()
-	.set_title("Custom Palette", &[])
+	.set_title("Custom Palette fg4.5", &[])
 	.surface(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[])
 	.set_x_label("X", &[])
 	.set_y_label("Y", &[])
