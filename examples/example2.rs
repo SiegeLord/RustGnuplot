@@ -123,6 +123,18 @@ fn example(c: Common)
 	.set_y_log(Some(3.0));
 
 	c.show(&mut fg, "fg2.7.gnuplot");
+
+	let mut fg = Figure::new();
+	c.set_term(&mut fg);
+
+	fg.axes2d()
+	.set_title("Axis Grid", &[])
+	.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
+	.set_grid_options(true, &[LineStyle(DotDotDash), Color("black")])
+	.set_x_grid(true)
+	.set_y_grid(true);
+
+	c.show(&mut fg, "fg2.8.gnuplot");
 }
 
 fn main()

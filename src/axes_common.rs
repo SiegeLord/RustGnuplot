@@ -147,6 +147,7 @@ pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, op
 	}
 }
 
+#[derive(Copy, Clone)]
 pub enum TickAxis
 {
 	XTickAxis,
@@ -251,6 +252,7 @@ pub struct AxisData
 	pub min: AutoOption<f64>,
 	pub max: AutoOption<f64>,
 	pub reverse: bool,
+	pub grid: bool,
 }
 
 impl AxisData
@@ -266,6 +268,7 @@ impl AxisData
 			min: Auto,
 			max: Auto,
 			reverse: false,
+			grid: false,
 		}
 	}
 
@@ -504,11 +507,17 @@ impl AxisData
 	{
 		self.reverse = reverse;
 	}
+
+	pub fn set_grid(&mut self, show: bool)
+	{
+		self.grid = show;
+	}
 }
 
 pub struct AxesCommonData
 {
 	pub commands: Vec<u8>,
+	pub grid_options: Vec<u8>,
 	pub elems: Vec<PlotElement>,
 	pub grid_rows: u32,
 	pub grid_cols: u32,
@@ -554,6 +563,7 @@ impl AxesCommonData
 		AxesCommonData
 		{
 			commands: vec![],
+			grid_options: vec![],
 			elems: Vec::new(),
 			grid_rows: 0,
 			grid_cols: 0,
@@ -561,6 +571,21 @@ impl AxesCommonData
 			x_axis: AxisData::new(XTickAxis),
 			y_axis: AxisData::new(YTickAxis),
 			cb_axis: AxisData::new(CBTickAxis),
+		}
+	}
+
+	pub fn write_grid_options(&self, c: &mut Writer, axes: &[TickAxis])
+	{
+		if !axes.is_empty()
+		{
+			c.write_str("set grid ");
+			for axis in axes
+			{
+				c.write_str(axis.to_tick_str());
+				c.write_str(" ");
+			}
+			c.write_all(&self.grid_options);
+			c.write_str("\n");
 		}
 	}
 
@@ -921,6 +946,8 @@ impl AxesCommonData
 
 		c.write_str("\n");
 	}
+
+
 }
 
 #[doc(hidden)]
@@ -1207,6 +1234,62 @@ pub trait AxesCommon : AxesCommonPrivate
 	fn set_cb_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
 	{
 		self.get_common_data_mut().cb_axis.set_log(base);
+		self
+	}
+
+	/// Shows the grid on the X axis.
+	///
+	/// # Arguments
+	/// * `show` - Whether to show the grid.
+	fn set_x_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().x_axis.set_grid(show);
+		self
+	}
+
+	/// Shows the grid on the Y axis.
+	///
+	/// # Arguments
+	/// * `show` - Whether to show the grid.
+	fn set_y_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().y_axis.set_grid(show);
+		self
+	}
+
+	/// Shows the grid on the color bar axis.
+	///
+	/// # Arguments
+	/// * `show` - Whether to show the grid.
+	fn set_cb_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().cb_axis.set_grid(show);
+		self
+	}
+
+	/// Set the grid options.
+	///
+	/// # Arguments
+	/// * `front` - Whether the grid should be in the front of the plot elements or behind them.
+	/// * `options` - Styling options of the grid. Relevant options are:
+	///      * `Color` - Specifies the color of the grid lines
+	///      * `LineStyle` - Specifies the style of the grid lines
+	///      * `LineWidth` - Specifies the width of the grid lines
+	fn set_grid_options<'l>(&'l mut self, front: bool, options: &[PlotOption]) -> &'l mut Self
+	{
+		{
+			let c = &mut self.get_common_data_mut().grid_options as &mut Writer;
+			if front
+			{
+				c.write_str("front ");
+			}
+			else
+			{
+				c.write_str("back ");
+			}
+			AxesCommonData::write_line_options(c, options);
+			AxesCommonData::write_color_options(c, options, None);
+		}
 		self
 	}
 

@@ -488,6 +488,20 @@ impl Axes2DPrivate for Axes2D
 		}
 
 		self.common.write_out_commands(writer);
+		let mut grid_axes = vec![];
+		if self.common.x_axis.grid
+		{
+			grid_axes.push(self.common.x_axis.axis);
+		}
+		if self.common.y_axis.grid
+		{
+			grid_axes.push(self.common.y_axis.axis);
+		}
+		if self.common.cb_axis.grid
+		{
+			grid_axes.push(self.common.cb_axis.axis);
+		}
+		self.common.write_grid_options(writer, &grid_axes);
 		self.common.write_out_elements("plot", writer);
 	}
 }

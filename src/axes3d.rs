@@ -118,6 +118,16 @@ impl Axes3D
 		self
 	}
 
+	/// Shows the grid on the Z axis.
+	///
+	/// # Arguments
+	/// * `show` - Whether to show the grid.
+	pub fn set_z_grid<'l>(&'l mut self, show: bool) -> &'l mut Axes3D
+	{
+		self.z_axis.set_grid(show);
+		self
+	}
+
 	/// Show contours (lines of equal Z value) at automatically determined levels.
 	///
 	/// # Arguments
@@ -327,6 +337,24 @@ impl Axes3DPrivate for Axes3D
 
 		self.common.write_out_commands(w);
 		self.z_axis.write_out_commands(w);
+		let mut grid_axes = vec![];
+		if self.common.x_axis.grid
+		{
+			grid_axes.push(self.common.x_axis.axis);
+		}
+		if self.common.y_axis.grid
+		{
+			grid_axes.push(self.common.y_axis.axis);
+		}
+		if self.common.cb_axis.grid
+		{
+			grid_axes.push(self.common.cb_axis.axis);
+		}
+		if self.z_axis.grid
+		{
+			grid_axes.push(self.z_axis.axis);
+		}
+		self.common.write_grid_options(w, &grid_axes);
 		self.common.write_out_elements("splot", w);
 	}
 }
