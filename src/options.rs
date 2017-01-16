@@ -189,7 +189,7 @@ pub enum LabelOption<'l>
 
 /// An enumeration of axis tick options
 #[derive(Copy, Clone)]
-pub enum TickOption
+pub enum TickOption<'l>
 {
 	/// Specifies whether the ticks are drawn at the borders of the plot, or on the axis
 	OnAxis(bool),
@@ -200,7 +200,9 @@ pub enum TickOption
 	/// Sets the scale of the minor ticks
 	MinorScale(f64),
 	/// Sets the scale of the major ticks
-	MajorScale(f64)
+	MajorScale(f64),
+	/// Format of the tick labels, e.g. "%.1f ms" will produces labels with "1 ms, 2 ms" etc.
+	Format(&'l str),
 }
 
 /// Specifies a type of axis tick

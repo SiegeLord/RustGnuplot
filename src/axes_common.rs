@@ -447,6 +447,13 @@ impl AxisData
 		}
 
 		write!(&mut *c, " scale {:.12e},{:.12e}", minor_scale, major_scale);
+
+		first_opt!{tick_options,
+			Format(f) =>
+			{
+				write!(&mut *c, r#" format "{}""#, f);
+			}
+		}
 	}
 
 	pub fn set_ticks(&mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])

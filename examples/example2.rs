@@ -69,7 +69,7 @@ fn example(c: Common)
 	.set_x_ticks_custom((0..5).map(|i| 2 * i).map(|x| Major(x as f32, Fix("%.2f ms".to_string())))
 	                    .chain((0..5).map(|i| 2 * i + 1).map(|x| Minor(x as f32))).chain(Some(Major(-2.1f32, Fix("%.2f ms".to_string()))).into_iter()),
 						&[MajorScale(2.0), MinorScale(0.5), OnAxis(true)], &[TextColor("blue"), TextAlign(AlignCenter)])
-	.set_y_ticks(Some((Fix(2.0), 1)), &[Mirror(false)], &[]);
+	.set_y_ticks(Some((Fix(2.0), 1)), &[Mirror(false), Format("%.1f s")], &[]);
 
 	c.show(&mut fg, "fg2.3.gnuplot");
 
