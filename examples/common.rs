@@ -2,15 +2,15 @@
 
 extern crate argparse_rs;
 
+use gnuplot::*;
 use self::argparse_rs::*;
 use std::env;
-use gnuplot::*;
 
 #[derive(Copy, Clone)]
 pub struct BetterIterator<'l, T: 'l>
 {
 	idx: usize,
-	slice: &'l [T]
+	slice: &'l [T],
 }
 
 impl<'l, T: 'l> Iterator for BetterIterator<'l, T>
@@ -33,7 +33,7 @@ impl<'l, T: 'l> BetterIteratorExt<'l, T> for &'l [T]
 {
 	fn iter2(self) -> BetterIterator<'l, T>
 	{
-		BetterIterator{ idx: 0, slice: self }
+		BetterIterator { idx: 0, slice: self }
 	}
 }
 
@@ -50,22 +50,21 @@ impl Common
 		let arg_vec: Vec<_> = env::args().collect();
 
 		let mut args = ArgParser::new(arg_vec[0].clone());
-		
+
 		args.add_opt("no-show", Some("false"), 'n', false, "do not run the gnuplot process.", ArgType::Flag);
 		args.add_opt("terminal", None, 't', false, "specify what terminal to use for gnuplot.", ArgType::Option);
 
 		let res = args.parse(arg_vec.iter()).unwrap();
-		
+
 		if res.get("help").unwrap_or(false)
 		{
 			args.help();
 			return None;
 		}
 
-		Some(Common
-		{
+		Some(Common {
 			no_show: res.get("no-show").unwrap(),
-			term: res.get::<String>("terminal").map(|s| s.to_string())
+			term: res.get::<String>("terminal").map(|s| s.to_string()),
 		})
 	}
 
@@ -80,9 +79,6 @@ impl Common
 
 	pub fn set_term(&self, fg: &mut Figure)
 	{
-		self.term.as_ref().map(|t|
-		{
-			fg.set_terminal(&t[..], "");
-		});
+		self.term.as_ref().map(|t| { fg.set_terminal(&t[..], ""); });
 	}
 }

@@ -1,0 +1,15 @@
+hard_tabs = true 
+fn_brace_style = "AlwaysNextLine"
+item_brace_style = "AlwaysNextLine"
+else_if_brace_style = "AlwaysNextLine"
+control_brace_style = "AlwaysNextLine"
+normalize_comments = false
+reorder_imported_names = true
+reorder_imports = true
+fn_args_density = "Compressed"
+use_try_shorthand = true
+ideal_width = 120
+max_width = 140
+struct_lit_width = 35
+fn_call_width = 100
+write_mode = "Overwrite"

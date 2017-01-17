@@ -1,20 +1,20 @@
 // Copyright (c) 2013-2014 by SiegeLord
-// 
+//
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-pub use self::PlotOption::*;
-pub use self::FillRegionType::*;
 pub use self::AlignType::*;
-pub use self::DashType::*;
 pub use self::ArrowheadType::*;
 pub use self::AutoOption::*;
-pub use self::LabelOption::*;
-pub use self::TickOption::*;
-pub use self::Tick::*;
 pub use self::BorderLocation2D::*;
-pub use self::LegendOption::*;
 pub use self::ContourStyle::*;
+pub use self::DashType::*;
+pub use self::FillRegionType::*;
+pub use self::LabelOption::*;
+pub use self::LegendOption::*;
 pub use self::PaletteType::*;
+pub use self::PlotOption::*;
+pub use self::Tick::*;
+pub use self::TickOption::*;
 
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others
@@ -68,7 +68,7 @@ pub enum FillRegionType
 {
 	Above,
 	Below,
-	Between
+	Between,
 }
 
 /// An enumeration of possible text and label alignments
@@ -79,7 +79,7 @@ pub enum AlignType
 	AlignRight,
 	AlignCenter,
 	AlignTop,
-	AlignBottom
+	AlignBottom,
 }
 
 /// An enumeration of possible dash styles
@@ -91,7 +91,7 @@ pub enum DashType
 	Dot,
 	Dash,
 	DotDash,
-	DotDotDash
+	DotDotDash,
 }
 
 impl DashType
@@ -105,7 +105,7 @@ impl DashType
 			Dash => 2,
 			Dot => 3,
 			DotDash => 4,
-			DotDotDash => 5
+			DotDotDash => 5,
 		}
 	}
 }
@@ -132,7 +132,7 @@ pub enum AutoOption<T>
 	/// Fixes the value to a specific value
 	Fix(T),
 	/// Lets the value scale automatically
-	Auto
+	Auto,
 }
 
 impl<T> AutoOption<T>
@@ -143,7 +143,7 @@ impl<T> AutoOption<T>
 		match self
 		{
 			Fix(v) => Fix(f(v)),
-			Auto => Auto
+			Auto => Auto,
 		}
 	}
 }
@@ -211,7 +211,7 @@ pub enum Tick<T>
 	/// Major ticks have position and an optional label. The label may have a single C-style format specifier which will be replaced by the location of the tick
 	Major(T, AutoOption<String>),
 	/// Minor ticks only have position
-	Minor(T)
+	Minor(T),
 }
 
 /// Plot border locations
@@ -221,7 +221,7 @@ pub enum BorderLocation2D
 	Bottom = 1,
 	Left = 2,
 	Top = 4,
-	Right = 8
+	Right = 8,
 }
 
 /// Legend options
@@ -262,7 +262,7 @@ pub enum ContourStyle
 	/// The first argument specifies the number of points to use to approximate
 	/// the curve for the final drawing step. The second argument specifies the
 	/// order of the polynomial (clamped to range from 2 to 10).
-	Spline(u32, u32)
+	Spline(u32, u32),
 }
 
 /// Specifies what sort of palette to use

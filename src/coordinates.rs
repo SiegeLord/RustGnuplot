@@ -1,10 +1,10 @@
 // Copyright (c) 2013-2014 by SiegeLord
-// 
+//
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::fmt;
 
 pub use self::Coordinate::*;
+use std::fmt;
 
 /// Specifies how to interpret the coordinate passed to a plotting command
 #[derive(Copy, Clone)]
@@ -14,7 +14,7 @@ pub enum Coordinate
 	/// You'd use this to place labels and other objects so that they remain in the same place relative to the graph no matter what you have plotted.
 	Graph(f64),
 	/// Coordinates match those on the axes. You'd use this to place labels and other objects relative to regions of interest in the graph (e.g. labeling the peak of a function)
-	Axis(f64)
+	Axis(f64),
 }
 
 impl fmt::Display for Coordinate

@@ -2,17 +2,17 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use std::io::Write;
+use coordinates::*;
 
 use datatype::*;
-use coordinates::*;
 use options::*;
-use writer::*;
+use self::DataSourceType::*;
 
 pub use self::LabelType::*;
-pub use self::TickAxis::*;
 pub use self::PlotType::*;
-use self::DataSourceType::*;
+pub use self::TickAxis::*;
+use std::io::Write;
+use writer::*;
 
 impl PlotWriter for Vec<u8>
 {
@@ -25,18 +25,14 @@ impl PlotWriter for Vec<u8>
 pub struct PlotElement
 {
 	pub args: Vec<u8>,
-	pub data: Vec<u8>
+	pub data: Vec<u8>,
 }
 
 impl PlotElement
 {
 	pub fn new() -> PlotElement
 	{
-		PlotElement
-		{
-			args: vec![],
-			data: vec![],
-		}
+		PlotElement { args: vec![], data: vec![] }
 	}
 }
 
@@ -59,7 +55,7 @@ impl LabelType
 		match *self
 		{
 			Label(..) => true,
-			_ => false
+			_ => false,
 		}
 	}
 }
@@ -74,7 +70,7 @@ pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, op
 		{
 			write!(w, " at {},{} front", x, y);
 		}
-		_ => ()
+		_ => (),
 	}
 
 	first_opt!{options,
@@ -211,12 +207,8 @@ impl PlotType
 	{
 		match *self
 		{
-			Lines |
-			LinesPoints |
-			XErrorLines |
-			Boxes |
-			YErrorLines => true,
-			_ => false
+			Lines | LinesPoints | XErrorLines | Boxes | YErrorLines => true,
+			_ => false,
 		}
 	}
 
@@ -224,11 +216,8 @@ impl PlotType
 	{
 		match *self
 		{
-			Points |
-			LinesPoints |
-			XErrorLines |
-			YErrorLines => true,
-			_ => false
+			Points | LinesPoints | XErrorLines | YErrorLines => true,
+			_ => false,
 		}
 	}
 
@@ -236,9 +225,8 @@ impl PlotType
 	{
 		match *self
 		{
-			Boxes |
-			FillBetween => true,
-			_ => false
+			Boxes | FillBetween => true,
+			_ => false,
 		}
 	}
 }
@@ -259,8 +247,7 @@ impl AxisData
 {
 	pub fn new(axis: TickAxis) -> AxisData
 	{
-		AxisData
-		{
+		AxisData {
 			ticks_buf: vec![],
 			log_base: None,
 			mticks: 0,
@@ -282,7 +269,7 @@ impl AxisData
 				w.write_str(self.axis.to_axis_str());
 				write!(w, " {:.12e}", base);
 				true
-			},
+			}
 			None =>
 			{
 				w.write_str("unset logscale ");
@@ -316,13 +303,13 @@ impl AxisData
 		match self.min
 		{
 			Fix(v) => write!(w, "{:.12e}", v),
-			Auto => w.write_str("*")
+			Auto => w.write_str("*"),
 		};
 		w.write_str(":");
 		match self.max
 		{
 			Fix(v) => write!(w, "{:.12e}", v),
-			Auto => w.write_str("*")
+			Auto => w.write_str("*"),
 		};
 		if self.reverse
 		{
@@ -336,7 +323,8 @@ impl AxisData
 		w.write_all(&self.ticks_buf[..]);
 	}
 
-	pub fn set_ticks_custom<T: DataType, TL: IntoIterator<Item = Tick<T>>>(&mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
+	pub fn set_ticks_custom<T: DataType, TL: IntoIterator<Item = Tick<T>>>(&mut self, ticks: TL, tick_options: &[TickOption],
+	                                                                       label_options: &[LabelOption])
 	{
 		// Set to 0 so that we don't get any non-custom ticks
 		self.mticks = 0;
@@ -363,14 +351,8 @@ impl AxisData
 				let a = Auto;
 				let (ref pos, ref label, level) = match tick
 				{
-					Minor(ref pos) =>
-					{
-						(pos, &a, 1)
-					},
-					Major(ref pos, ref label) =>
-					{
-						(pos, label, 0)
-					}
+					Minor(ref pos) => (pos, &a, 1),
+					Major(ref pos, ref label) => (pos, label, 0),
 				};
 
 				match **label
@@ -380,8 +362,8 @@ impl AxisData
 						c.write_str("\"");
 						c.write_str(&label[..]);
 						c.write_str("\" ");
-					},
-					Auto => ()
+					}
+					Auto => (),
 				}
 				write!(&mut *c, "{:.12e} {}", pos.get(), level);
 			}
@@ -456,7 +438,8 @@ impl AxisData
 		}
 	}
 
-	pub fn set_ticks(&mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])
+	pub fn set_ticks(&mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption],
+	                 label_options: &[LabelOption])
 	{
 		self.ticks_buf.truncate(0);
 
@@ -474,7 +457,7 @@ impl AxisData
 						Auto =>
 						{
 							c.write_str(" autofreq");
-						},
+						}
 						Fix(incr) =>
 						{
 							if incr <= 0.0
@@ -489,7 +472,7 @@ impl AxisData
 
 				self.set_ticks_options(tick_options, label_options);
 				mticks as i32
-			},
+			}
 			None =>
 			{
 				write!(&mut self.ticks_buf, "unset {0}", self.axis.to_tick_str());
@@ -552,7 +535,7 @@ pub fn char_to_symbol(c: char) -> i32
 		'D' => 11,
 		'r' => 12,
 		'R' => 13,
-		a => panic!("Invalid symbol {}", a)
+		a => panic!("Invalid symbol {}", a),
 	}
 }
 
@@ -567,8 +550,7 @@ impl AxesCommonData
 {
 	pub fn new() -> AxesCommonData
 	{
-		AxesCommonData
-		{
+		AxesCommonData {
 			commands: vec![],
 			grid_options: vec![],
 			elems: Vec::new(),
@@ -641,13 +623,14 @@ impl AxesCommonData
 			Some(s) =>
 			{
 				write!(c, r#" lc rgb "{}""#, s);
-			},
-			None => ()
+			}
+			None => (),
 		}
 	}
 
-	pub fn plot2<T1: DataType, X1: IntoIterator<Item = T1>,
-	             T2: DataType, X2: IntoIterator<Item = T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption])
+	pub fn plot2<T1: DataType, X1: IntoIterator<Item = T1>, T2: DataType, X2: IntoIterator<Item = T2>>(&mut self, plot_type: PlotType,
+	                                                                                                   x1: X1, x2: X2,
+	                                                                                                   options: &[PlotOption])
 	{
 		let l = self.elems.len();
 		self.elems.push(PlotElement::new());
@@ -666,9 +649,13 @@ impl AxesCommonData
 		self.write_common_commands(l, num_rows, 2, plot_type, Record, false, options);
 	}
 
-	pub fn plot3<T1: DataType, X1: IntoIterator<Item = T1>,
-			     T2: DataType, X2: IntoIterator<Item = T2>,
-			     T3: DataType, X3: IntoIterator<Item = T3>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption])
+	pub fn plot3<T1: DataType,
+	             X1: IntoIterator<Item = T1>,
+	             T2: DataType,
+	             X2: IntoIterator<Item = T2>,
+	             T3: DataType,
+	             X3: IntoIterator<Item = T3>>
+		(&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption])
 	{
 		let l = self.elems.len();
 		self.elems.push(PlotElement::new());
@@ -688,8 +675,9 @@ impl AxesCommonData
 		self.write_common_commands(l, num_rows, 3, plot_type, Record, false, options);
 	}
 
-	pub fn plot_matrix<T: DataType, X: IntoIterator<Item = T>>(&mut self, plot_type: PlotType, is_3d: bool, mat: X, num_rows: usize, num_cols: usize,
-	                                                dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption])
+	pub fn plot_matrix<T: DataType, X: IntoIterator<Item = T>>(&mut self, plot_type: PlotType, is_3d: bool, mat: X, num_rows: usize,
+	                                                           num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>,
+	                                                           options: &[PlotOption])
 	{
 		let l = self.elems.len();
 		self.elems.push(PlotElement::new());
@@ -716,7 +704,7 @@ impl AxesCommonData
 		let source_type = match dimensions
 		{
 			Some((x1, y1, x2, y2)) => SizedArray(x1, y1, x2, y2),
-			None => Array
+			None => Array,
 		};
 		self.write_common_commands(l, num_rows, num_cols, plot_type, source_type, is_3d, options);
 	}
@@ -741,7 +729,7 @@ impl AxesCommonData
 					}
 					col_idx += 1;
 				}
-			},
+			}
 			_ =>
 			{
 				write!(args, r#" "-" binary endian=little array=({},{}) format="%float64" "#, num_cols, num_rows);
@@ -750,23 +738,9 @@ impl AxesCommonData
 				{
 					SizedArray(x1, y1, x2, y2) =>
 					{
-						let (x1, x2) = if x1 > x2
-						{
-							(x2, x1)
-						}
-						else
-						{
-							(x1, x2)
-						};
+						let (x1, x2) = if x1 > x2 { (x2, x1) } else { (x1, x2) };
 
-						let (y1, y2) = if y1 > y2
-						{
-							(y2, y1)
-						}
-						else
-						{
-							(y1, y2)
-						};
+						let (y1, y2) = if y1 > y2 { (y2, y1) } else { (y1, y2) };
 						write!(args, "origin=({:.12e},{:.12e}", x1, y1);
 						if is_3d
 						{
@@ -789,8 +763,8 @@ impl AxesCommonData
 						{
 							write!(args, "dy=1 ");
 						}
-					},
-					_ => ()
+					}
+					_ => (),
 				}
 			}
 		}
@@ -833,8 +807,8 @@ impl AxesCommonData
 					{
 						args.write_str(" closed");
 					}
-				},
-				_ => ()
+				}
+				_ => (),
 			}
 
 			args.write_str(" fill transparent solid ");
@@ -941,7 +915,7 @@ impl AxesCommonData
 			CBLabel => "cblabe",
 			TitleLabel => "title",
 			Label(..) => "label",
-			_ => panic!("Invalid label type")
+			_ => panic!("Invalid label type"),
 		};
 		c.write_str(label_str);
 
@@ -953,8 +927,6 @@ impl AxesCommonData
 
 		c.write_str("\n");
 	}
-
-
 }
 
 #[doc(hidden)]
@@ -964,7 +936,7 @@ pub trait AxesCommonPrivate
 	fn get_common_data_mut<'l>(&'l mut self) -> &'l mut AxesCommonData;
 }
 
-pub trait AxesCommon : AxesCommonPrivate
+pub trait AxesCommon: AxesCommonPrivate
 {
 	/// Set the position of the axes on the figure using grid coordinates.
 	/// # Arguments
@@ -1021,7 +993,7 @@ pub trait AxesCommon : AxesCommonPrivate
 				Fix(r) =>
 				{
 					writeln!(c, "set size ratio {:.12e}", r);
-				},
+				}
 				Auto =>
 				{
 					writeln!(c, "set size noratio");
@@ -1109,21 +1081,27 @@ pub trait AxesCommon : AxesCommonPrivate
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_x_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption],
+	                   label_options: &[LabelOption])
+	                   -> &'l mut Self
 	{
 		self.get_common_data_mut().x_axis.set_ticks(tick_placement, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks` but for the Y axis.
-	fn set_y_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_y_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption],
+	                   label_options: &[LabelOption])
+	                   -> &'l mut Self
 	{
 		self.get_common_data_mut().y_axis.set_ticks(tick_placement, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks` but for the color bar axis.
-	fn set_cb_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_cb_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption],
+	                    label_options: &[LabelOption])
+	                    -> &'l mut Self
 	{
 		self.get_common_data_mut().cb_axis.set_ticks(tick_placement, tick_options, label_options);
 		self
@@ -1143,21 +1121,27 @@ pub trait AxesCommon : AxesCommonPrivate
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_x_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption],
+	                                                                         label_options: &[LabelOption])
+	                                                                         -> &'l mut Self
 	{
 		self.get_common_data_mut().x_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	fn set_y_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_y_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption],
+	                                                                         label_options: &[LabelOption])
+	                                                                         -> &'l mut Self
 	{
 		self.get_common_data_mut().y_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the color bar axis.
-	fn set_cb_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption]) -> &'l mut Self
+	fn set_cb_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption],
+	                                                                          label_options: &[LabelOption])
+	                                                                          -> &'l mut Self
 	{
 		self.get_common_data_mut().cb_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
@@ -1314,20 +1298,25 @@ pub trait AxesCommon : AxesCommonPrivate
 				{
 					assert!(gamma > 0.0, "Gamma must be positive");
 					writeln!(c, "set palette gray gamma {:.12e}", gamma);
-				},
+				}
 				Formula(r, g, b) =>
 				{
 					assert!(r >= -36 && r <= 36, "Invalid r formula!");
 					assert!(g >= -36 && g <= 36, "Invalid g formula!");
 					assert!(b >= -36 && b <= 36, "Invalid b formula!");
 					writeln!(c, "set palette rgbformulae {},{},{}", r, g, b);
-				},
+				}
 				CubeHelix(start, rev, sat, gamma) =>
 				{
 					assert!(sat >= 0.0, "Saturation must be non-negative");
 					assert!(gamma > 0.0, "Gamma must be positive");
-					writeln!(c, "set palette cubehelix start {:.12e} cycles {:.12e} saturation {:.12e} gamma {:.12e}", start, rev, sat, gamma);
-				},
+					writeln!(c,
+					         "set palette cubehelix start {:.12e} cycles {:.12e} saturation {:.12e} gamma {:.12e}",
+					         start,
+					         rev,
+					         sat,
+					         gamma);
+				}
 			}
 		}
 		self

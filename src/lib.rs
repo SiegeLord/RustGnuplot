@@ -28,13 +28,13 @@ fg.show();
 ~~~
 */
 
+pub use axes2d::Axes2D;
+pub use axes3d::Axes3D;
+pub use axes_common::AxesCommon;
 pub use coordinates::*;
 pub use datatype::*;
 pub use figure::*;
-pub use axes2d::Axes2D;
-pub use axes3d::Axes3D;
 pub use options::*;
-pub use axes_common::AxesCommon;
 
 #[macro_use]
 mod util;

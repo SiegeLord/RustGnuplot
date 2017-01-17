@@ -1,10 +1,10 @@
 // This file is released into Public Domain.
 extern crate gnuplot;
 
-use std::time::Duration;
-use std::thread::sleep;
 
 use gnuplot::*;
+use std::thread::sleep;
+use std::time::Duration;
 
 fn main()
 {
@@ -21,8 +21,8 @@ fn main()
 	{
 		fg.clear_axes();
 		fg.axes2d()
-		.set_y_range(Fix(-1.0), Fix(1.0))
-		.lines(x.iter(), x.iter().map(|&x| (x + t).sin()), &[]);
+			.set_y_range(Fix(-1.0), Fix(1.0))
+			.lines(x.iter(), x.iter().map(|&x| (x + t).sin()), &[]);
 		t += 0.1;
 		fg.show();
 		sleep(Duration::from_millis(500));
