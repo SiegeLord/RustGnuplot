@@ -73,6 +73,9 @@ impl Figure
 	/// * pdfcairo - Saves the figure as a PDF file
 	/// * epscairo - Saves the figure as a EPS file
 	/// * pngcairo - Saves the figure as a PNG file
+	///
+	/// As of now you can hack the canvas size in by using "pngcairo size 600, 400" for `terminal`.
+	/// Be prepared for that kludge to go away, though.
 	pub fn set_terminal<'l>(&'l mut self, terminal: &str, output_file: &str) -> &'l mut Figure
 	{
 		self.terminal = terminal.to_string();
