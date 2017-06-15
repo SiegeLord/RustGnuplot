@@ -45,11 +45,13 @@ fn example(c: Common)
 	fg.axes2d()
 		.set_title("Arrows fg2.1", &[])
 		.lines(x, y1, &[LineWidth(3.0), Color("brown"), LineStyle(DotDash)])
-		.arrow(Graph(0.5),
-		       Graph(1.0),
-		       Axis(1.0),
-		       Axis(1.0),
-		       &[ArrowType(Filled), ArrowSize(0.1), LineStyle(DotDotDash), LineWidth(2.0), Color("red")])
+		.arrow(
+			Graph(0.5),
+			Graph(1.0),
+			Axis(1.0),
+			Axis(1.0),
+			&[ArrowType(Filled), ArrowSize(0.1), LineStyle(DotDotDash), LineWidth(2.0), Color("red")],
+		)
 		.arrow(Graph(0.5), Graph(1.0), Axis(3.0), Axis(9.0), &[ArrowType(Open), Color("green")]);
 
 	c.show(&mut fg, "fg2.1.gnuplot");
@@ -70,13 +72,15 @@ fn example(c: Common)
 	fg.axes2d()
 		.set_title("Axis Ticks fg2.3", &[])
 		.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
-		.set_x_ticks_custom((0..5)
-			                    .map(|i| 2 * i)
-			                    .map(|x| Major(x as f32, Fix("%.2f ms".to_string())))
-			                    .chain((0..5).map(|i| 2 * i + 1).map(|x| Minor(x as f32)))
-			                    .chain(Some(Major(-2.1f32, Fix("%.2f ms".to_string()))).into_iter()),
-		                    &[MajorScale(2.0), MinorScale(0.5), OnAxis(true)],
-		                    &[TextColor("blue"), TextAlign(AlignCenter)])
+		.set_x_ticks_custom(
+			(0..5)
+				.map(|i| 2 * i)
+				.map(|x| Major(x as f32, Fix("%.2f ms".to_string())))
+				.chain((0..5).map(|i| 2 * i + 1).map(|x| Minor(x as f32)))
+				.chain(Some(Major(-2.1f32, Fix("%.2f ms".to_string()))).into_iter()),
+			&[MajorScale(2.0), MinorScale(0.5), OnAxis(true)],
+			&[TextColor("blue"), TextAlign(AlignCenter)],
+		)
 		.set_y_ticks(Some((Fix(2.0), 1)), &[Mirror(false), Format("%.1f s")], &[]);
 
 	c.show(&mut fg, "fg2.3.gnuplot");
@@ -98,9 +102,13 @@ fn example(c: Common)
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
 
-	fg.axes2d()
-		.set_title("Image fg2.5", &[])
-		.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[]);
+	fg.axes2d().set_title("Image fg2.5", &[]).image(
+		z1.iter(),
+		zw,
+		zh,
+		Some((-4.0, -4.0, 4.0, 4.0)),
+		&[],
+	);
 
 	c.show(&mut fg, "fg2.5.gnuplot");
 

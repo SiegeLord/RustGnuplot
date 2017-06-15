@@ -2,8 +2,8 @@
 
 extern crate argparse_rs;
 
-use gnuplot::*;
 use self::argparse_rs::*;
+use gnuplot::*;
 use std::env;
 
 #[derive(Copy, Clone)]

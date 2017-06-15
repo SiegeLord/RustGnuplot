@@ -2,12 +2,12 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
+
+use self::AxesVariant::*;
 use axes2d::*;
 use axes3d::*;
 
 use axes_common::*;
-
-use self::AxesVariant::*;
 use std::cell::RefCell;
 use std::fs::File;
 use std::io::{BufWriter, Write};
@@ -56,12 +56,7 @@ impl Figure
 	/// Creates a new figure
 	pub fn new() -> Figure
 	{
-		Figure {
-			axes: Vec::new(),
-			terminal: "".to_string(),
-			output_file: "".to_string(),
-			gnuplot: RefCell::new(None),
-		}
+		Figure { axes: Vec::new(), terminal: "".to_string(), output_file: "".to_string(), gnuplot: RefCell::new(None) }
 	}
 
 	/// Sets the terminal for gnuplot to use, as well as the file to output the figure to.
@@ -118,13 +113,10 @@ impl Figure
 
 		if self.gnuplot.borrow().is_none()
 		{
-			*self.gnuplot.borrow_mut() = Some(Command::new("gnuplot")
-				.arg("-p")
-				.stdin(Stdio::piped())
-				.spawn()
-				.ok()
-				.expect("Couldn't spawn gnuplot. Make sure it is installed
-				              and available in PATH."));
+			*self.gnuplot.borrow_mut() = Some(Command::new("gnuplot").arg("-p").stdin(Stdio::piped()).spawn().ok().expect(
+				"Couldn't spawn gnuplot. Make sure it is installed
+				              and available in PATH.",
+			));
 		}
 
 		self.gnuplot.borrow_mut().as_mut().map(|p| { self.echo(p.stdin.as_mut().expect("No stdin!?")); });

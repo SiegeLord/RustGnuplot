@@ -13,16 +13,14 @@ fn example(c: Common)
 	let x = &[1.0f32, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
 	let x = x.iter2();
 	let y1: Vec<f32> = x.map(|&v| {
-			let z = v - 4.0;
-			z * z - 5.0
-		})
-		.collect();
+		let z = v - 4.0;
+		z * z - 5.0
+	}).collect();
 	let y1 = y1.iter2();
 	let y2: Vec<f32> = x.map(|&v| {
-			let z = v - 4.0;
-			-z * z + 5.0
-		})
-		.collect();
+		let z = v - 4.0;
+		-z * z + 5.0
+	}).collect();
 	let y2 = y2.iter2();
 	let y3: Vec<f32> = x.map(|&v| v - 4.0).collect();
 	let y3 = y3.iter2();
@@ -41,11 +39,13 @@ fn example(c: Common)
 		.set_border(true, &[Left, Bottom], &[LineWidth(2.0)])
 		.set_x_label("Abscissa", &[])
 		.set_y_label("Ordinate", &[])
-		.arrow(Axis(5.7912),
-		       Axis(2.7912),
-		       Axis(5.7912),
-		       Axis(1.7912),
-		       &[ArrowType(Closed), ArrowSize(0.1), LineWidth(2.0), Color("black")])
+		.arrow(
+			Axis(5.7912),
+			Axis(2.7912),
+			Axis(5.7912),
+			Axis(1.7912),
+			&[ArrowType(Closed), ArrowSize(0.1), LineWidth(2.0), Color("black")],
+		)
 		.label("Here", Axis(5.7912), Axis(3.1), &[TextAlign(AlignCenter)])
 		.fill_between(x, y1.map(|&y| y * 0.85 - 1.0), y1.map(|&y| y * 1.15 + 1.0), &[Color("#aaaaff")])
 		.lines(x, y1, &[Caption("(x - 4)^2 - 5"), LineWidth(1.5), Color("black")])
@@ -80,8 +80,7 @@ fn example(c: Common)
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
 
-	fg.axes2d()
-		.lines(x, y1, &[Caption("Lines"), LineWidth(3.0), Color("violet")]);
+	fg.axes2d().lines(x, y1, &[Caption("Lines"), LineWidth(3.0), Color("violet")]);
 
 	fg.axes2d()
 		.set_pos(0.2, 0.4)
@@ -126,10 +125,12 @@ fn example(c: Common)
 		.lines(x, y2, &[Color("black"), LineWidth(2.0), Caption("C")])
 		.lines(x, y3, &[Color("black"), LineWidth(2.0), LineStyle(DotDotDash), Caption("B")])
 		.set_title("Fill and legend fg1.6", &[])
-		.set_legend(Graph(0.5),
-		            Graph(-0.2),
-		            &[Horizontal, Placement(AlignCenter, AlignTop), Title("Legend Title")],
-		            &[TextAlign(AlignRight)]);
+		.set_legend(
+			Graph(0.5),
+			Graph(-0.2),
+			&[Horizontal, Placement(AlignCenter, AlignTop), Title("Legend Title")],
+			&[TextAlign(AlignRight)],
+		);
 
 	c.show(&mut fg, "fg1.6.gnuplot");
 
@@ -145,10 +146,18 @@ fn example(c: Common)
 		.set_x_label("X Label", &[Font("Arial", 24.0), TextColor("red"), Rotate(45.0)])
 		.set_y_label("Y Label", &[Rotate(0.0)])
 		.set_title("Goings nuts with the formatting fg1.7", &[Font("Times", 24.0), TextOffset(-10.0, 0.5)])
-		.label("Intersection",
-		       Axis(2.208),
-		       Axis(-1.791),
-		       &[MarkerSymbol('*'), TextAlign(AlignCenter), TextOffset(0.0, -1.0), MarkerColor("red"), MarkerSize(2.0)]);
+		.label(
+			"Intersection",
+			Axis(2.208),
+			Axis(-1.791),
+			&[
+				MarkerSymbol('*'),
+				TextAlign(AlignCenter),
+				TextOffset(0.0, -1.0),
+				MarkerColor("red"),
+				MarkerSize(2.0),
+			],
+		);
 
 	c.show(&mut fg, "fg1.7.gnuplot");
 }

@@ -35,9 +35,8 @@ impl Axes3D
 	///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.
 	/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-	pub fn surface<'l, T: DataType, X: IntoIterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize,
-	                                                           dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption])
-	                                                           -> &'l mut Axes3D
+	pub fn surface<'l, T: DataType, X: IntoIterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption])
+		-> &'l mut Axes3D
 	{
 		self.common.plot_matrix(Pm3D, true, mat, num_rows, num_cols, dimensions, options);
 		self
@@ -78,18 +77,16 @@ impl Axes3D
 	}
 
 	/// Like `set_x_ticks` but for the Z axis.
-	pub fn set_z_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption],
-	                       label_options: &[LabelOption])
-	                       -> &'l mut Axes3D
+	pub fn set_z_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])
+		-> &'l mut Axes3D
 	{
 		self.z_axis.set_ticks(tick_placement, tick_options, label_options);
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	pub fn set_z_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption],
-	                                                                             label_options: &[LabelOption])
-	                                                                             -> &'l mut Axes3D
+	pub fn set_z_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
+		-> &'l mut Axes3D
 	{
 		self.z_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
@@ -144,9 +141,8 @@ impl Axes3D
 	///             otherwise an empty string disables the legend and labels.
 	/// * `levels` - Auto picks some default number of levels, otherwise you can pass a set nominal number instead. The number is nominal as
 	///              contours are placed at nice values of Z, and thus there may be fewer of them than this number.
-	pub fn show_contours<'l>(&'l mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>,
-	                         levels: AutoOption<u32>)
-	                         -> &'l mut Axes3D
+	pub fn show_contours<'l>(&'l mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>, levels: AutoOption<u32>)
+		-> &'l mut Axes3D
 	{
 		self.contour_base = base;
 		self.contour_surface = surface;
@@ -166,9 +162,8 @@ impl Axes3D
 	/// * `label` - Auto sets the label automatically and enables the legend, Fix() allows you specify a format string (using C style formatting),
 	///             otherwise an empty string disables the legend and labels.
 	/// * `levels` - A set of levels.
-	pub fn show_contours_custom<'l, T: DataType, TC: IntoIterator<Item = T>>(&'l mut self, base: bool, surface: bool,
-	                                                                         style: ContourStyle, label: AutoOption<&str>, levels: TC)
-	                                                                         -> &'l mut Axes3D
+	pub fn show_contours_custom<'l, T: DataType, TC: IntoIterator<Item = T>>(&'l mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>, levels: TC)
+		-> &'l mut Axes3D
 	{
 		self.contour_base = base;
 		self.contour_surface = surface;
@@ -243,15 +238,17 @@ impl Axes3DPrivate for Axes3D
 		if self.contour_base || self.contour_surface
 		{
 			write!(w, "set contour ");
-			write!(w,
-			       "{}",
-			       match (self.contour_base, self.contour_surface)
-			       {
-				       (true, false) => "base",
-				       (false, true) => "surface",
-				       (true, true) => "both",
-				       _ => unreachable!(),
-			       });
+			write!(
+				w,
+				"{}",
+				match (self.contour_base, self.contour_surface)
+				{
+					(true, false) => "base",
+					(false, true) => "surface",
+					(true, true) => "both",
+					_ => unreachable!(),
+				}
+			);
 			write!(w, "\n");
 
 			match self.contour_label
@@ -278,14 +275,16 @@ impl Axes3DPrivate for Axes3D
 			}
 
 			set_cntrparam(w, |w| {
-				write!(w,
-				       "{}",
-				       match self.contour_style
-				       {
-					       Linear => "linear ",
-					       Cubic(..) => "cubicspline",
-					       Spline(..) => "bspline",
-				       });
+				write!(
+					w,
+					"{}",
+					match self.contour_style
+					{
+						Linear => "linear ",
+						Cubic(..) => "cubicspline",
+						Spline(..) => "bspline",
+					}
+				);
 			});
 
 			set_cntrparam(w, |w| {
