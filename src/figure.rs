@@ -114,8 +114,7 @@ impl Figure
 		if self.gnuplot.borrow().is_none()
 		{
 			*self.gnuplot.borrow_mut() = Some(Command::new("gnuplot").arg("-p").stdin(Stdio::piped()).spawn().ok().expect(
-				"Couldn't spawn gnuplot. Make sure it is installed
-				              and available in PATH.",
+				"Couldn't spawn gnuplot. Make sure it is installed and available in PATH.",
 			));
 		}
 
