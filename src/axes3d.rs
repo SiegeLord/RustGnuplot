@@ -24,6 +24,20 @@ pub struct Axes3D
 
 impl Axes3D
 {
+	pub(crate) fn new() -> Axes3D
+	{
+		Axes3D {
+			common: AxesCommonData::new(),
+			z_axis: AxisData::new(ZTickAxis),
+			contour_base: false,
+			contour_surface: false,
+			contour_auto: Auto,
+			contour_levels: None,
+			contour_style: Linear,
+			contour_label: Auto,
+		}
+	}
+
 	/// Draws a 3D surface from a rectangular array of data by connecting the individual datapoints with polygons.
 	///
 	/// #Arguments:
@@ -172,20 +186,6 @@ impl Axes3D
 		self.contour_levels = Some(levels.into_iter().map(|l| l.get()).collect());
 		self.contour_label = label.map(|l| l.to_string());
 		self
-	}
-}
-
-pub fn new_axes3d() -> Axes3D
-{
-	Axes3D {
-		common: AxesCommonData::new(),
-		z_axis: AxisData::new(ZTickAxis),
-		contour_base: false,
-		contour_surface: false,
-		contour_auto: Auto,
-		contour_levels: None,
-		contour_style: Linear,
-		contour_label: Auto,
 	}
 }
 

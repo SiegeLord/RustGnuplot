@@ -81,7 +81,7 @@ impl Figure
 	/// Creates a set of 2D axes
 	pub fn axes2d(&mut self) -> &mut Axes2D
 	{
-		self.axes.push(Axes2DType(new_axes2d()));
+		self.axes.push(Axes2DType(Axes2D::new()));
 		let l = self.axes.len();
 		match *&mut self.axes[l - 1]
 		{
@@ -93,7 +93,7 @@ impl Figure
 	/// Creates a set of 3D axes
 	pub fn axes3d(&mut self) -> &mut Axes3D
 	{
-		self.axes.push(Axes3DType(new_axes3d()));
+		self.axes.push(Axes3DType(Axes3D::new()));
 		let l = self.axes.len();
 		match *&mut self.axes[l - 1]
 		{

@@ -16,6 +16,11 @@ pub struct Axes2D
 
 impl Axes2D
 {
+	pub(crate) fn new() -> Axes2D
+	{
+		Axes2D { common: AxesCommonData::new() }
+	}
+
 	/// Sets the properties of the plot border
 	///
 	/// # Arguments
@@ -493,11 +498,6 @@ impl AxesCommonPrivate for Axes2D
 }
 
 impl AxesCommon for Axes2D {}
-
-pub fn new_axes2d() -> Axes2D
-{
-	Axes2D { common: AxesCommonData::new() }
-}
 
 pub(crate) trait Axes2DPrivate
 {
