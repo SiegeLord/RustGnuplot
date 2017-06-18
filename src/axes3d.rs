@@ -10,9 +10,9 @@ use std::io::Write;
 use writer::Writer;
 
 /// 3D axes that is used for drawing 3D plots
-pub struct Axes3D
+pub struct Axes3D<'l>
 {
-	common: AxesCommonData,
+	common: AxesCommonData<'l>,
 	z_axis: AxisData,
 	contour_base: bool,
 	contour_surface: bool,
@@ -22,9 +22,9 @@ pub struct Axes3D
 	contour_label: AutoOption<String>,
 }
 
-impl Axes3D
+impl<'m> Axes3D<'m>
 {
-	pub(crate) fn new() -> Axes3D
+	pub(crate) fn new() -> Axes3D<'m>
 	{
 		Axes3D {
 			common: AxesCommonData::new(),
@@ -49,10 +49,18 @@ impl Axes3D
 	///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.
 	/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-	pub fn surface<'l, T: DataType, X: IntoIterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption])
-		-> &'l mut Axes3D
+	pub fn surface<'l, T: DataType, X: IntoIterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption<'m>])
+		-> &'l mut Self
 	{
-		self.common.plot_matrix(Pm3D, true, mat, num_rows, num_cols, dimensions, options);
+		self.common.elems.push(PlotElement::new_plot_matrix(
+			Pm3D,
+			true,
+			mat,
+			num_rows,
+			num_cols,
+			dimensions,
+			options.to_vec(),
+		));
 		self
 	}
 
@@ -61,14 +69,14 @@ impl Axes3D
 	/// #Arguments:
 	/// * `pitch` - Pitch, in degrees. Value of 0 is looking straight down on the XY plane, Z pointing out of the screen.
 	/// * `yaw` - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.
-	pub fn set_view<'l>(&'l mut self, pitch: f64, yaw: f64) -> &'l mut Axes3D
+	pub fn set_view<'l>(&'l mut self, pitch: f64, yaw: f64) -> &'l mut Self
 	{
 		writeln!(&mut self.common.commands, "set view {:.12e},{:.12e}", pitch, yaw);
 		self
 	}
 
 	/// Sets the view to be a map. Useful for images and contour plots.
-	pub fn set_view_map<'l>(&'l mut self) -> &'l mut Axes3D
+	pub fn set_view_map<'l>(&'l mut self) -> &'l mut Self
 	{
 		writeln!(&mut self.common.commands, "set view map");
 		self
@@ -84,7 +92,7 @@ impl Axes3D
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	pub fn set_z_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Axes3D
+	pub fn set_z_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Self
 	{
 		self.get_common_data_mut().set_label_common(ZLabel, text, options);
 		self
@@ -92,7 +100,7 @@ impl Axes3D
 
 	/// Like `set_x_ticks` but for the Z axis.
 	pub fn set_z_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])
-		-> &'l mut Axes3D
+		-> &'l mut Self
 	{
 		self.z_axis.set_ticks(tick_placement, tick_options, label_options);
 		self
@@ -100,7 +108,7 @@ impl Axes3D
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
 	pub fn set_z_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
-		-> &'l mut Axes3D
+		-> &'l mut Self
 	{
 		self.z_axis.set_ticks_custom(ticks, tick_options, label_options);
 		self
@@ -111,7 +119,7 @@ impl Axes3D
 	/// # Arguments
 	/// * `min` - Minimum Z value
 	/// * `max` - Maximum Z value
-	pub fn set_z_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Axes3D
+	pub fn set_z_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
 	{
 		self.z_axis.set_range(min, max);
 		self
@@ -129,7 +137,7 @@ impl Axes3D
 	///
 	/// # Arguments
 	/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic
-	pub fn set_z_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Axes3D
+	pub fn set_z_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
 	{
 		self.z_axis.set_log(base);
 		self
@@ -139,7 +147,7 @@ impl Axes3D
 	///
 	/// # Arguments
 	/// * `show` - Whether to show the grid.
-	pub fn set_z_grid<'l>(&'l mut self, show: bool) -> &'l mut Axes3D
+	pub fn set_z_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
 	{
 		self.z_axis.set_grid(show);
 		self
@@ -156,7 +164,7 @@ impl Axes3D
 	/// * `levels` - Auto picks some default number of levels, otherwise you can pass a set nominal number instead. The number is nominal as
 	///              contours are placed at nice values of Z, and thus there may be fewer of them than this number.
 	pub fn show_contours<'l>(&'l mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>, levels: AutoOption<u32>)
-		-> &'l mut Axes3D
+		-> &'l mut Self
 	{
 		self.contour_base = base;
 		self.contour_surface = surface;
@@ -177,7 +185,7 @@ impl Axes3D
 	///             otherwise an empty string disables the legend and labels.
 	/// * `levels` - A set of levels.
 	pub fn show_contours_custom<'l, T: DataType, TC: IntoIterator<Item = T>>(&'l mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>, levels: TC)
-		-> &'l mut Axes3D
+		-> &'l mut Self
 	{
 		self.contour_base = base;
 		self.contour_surface = surface;
@@ -189,27 +197,27 @@ impl Axes3D
 	}
 }
 
-impl AxesCommonPrivate for Axes3D
+impl<'l> AxesCommonPrivate<'l> for Axes3D<'l>
 {
-	fn get_common_data_mut<'l>(&'l mut self) -> &'l mut AxesCommonData
+	fn get_common_data_mut(&mut self) -> &mut AxesCommonData<'l>
 	{
 		&mut self.common
 	}
 
-	fn get_common_data<'l>(&'l self) -> &'l AxesCommonData
+	fn get_common_data(&self) -> &AxesCommonData<'l>
 	{
 		&self.common
 	}
 }
 
-impl AxesCommon for Axes3D {}
+impl<'l> AxesCommon<'l> for Axes3D<'l> {}
 
 pub(crate) trait Axes3DPrivate
 {
 	fn write_out(&self, writer: &mut Writer);
 }
 
-impl Axes3DPrivate for Axes3D
+impl<'l> Axes3DPrivate for Axes3D<'l>
 {
 	fn write_out(&self, w: &mut Writer)
 	{

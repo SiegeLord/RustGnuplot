@@ -4,7 +4,7 @@
 
 macro_rules! first_opt
 {
-	($O: ident , $P: pat => $B: expr ) =>
+	($O: expr , $P: pat => $B: expr ) =>
 	(
 		for o in $O.iter()
 		{
@@ -23,7 +23,7 @@ macro_rules! first_opt
 
 macro_rules! first_opt_default
 {
-	($O: ident , $P: pat => $B: expr , _ => $E: expr ) =>
+	($O: expr , $P: pat => $B: expr , _ => $E: expr ) =>
 	(
 		{
 			let mut found = false;

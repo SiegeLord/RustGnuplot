@@ -14,13 +14,13 @@ use std::io::{BufWriter, Write};
 use std::process::{Child, Command, Stdio};
 use writer::Writer;
 
-enum AxesVariant
+enum AxesVariant<'l>
 {
-	Axes2DType(Axes2D),
-	Axes3DType(Axes3D),
+	Axes2DType(Axes2D<'l>),
+	Axes3DType(Axes3D<'l>),
 }
 
-impl AxesVariant
+impl<'l> AxesVariant<'l>
 {
 	fn write_out(&self, writer: &mut Writer)
 	{
@@ -31,7 +31,7 @@ impl AxesVariant
 		}
 	}
 
-	fn get_common_data<'l>(&'l self) -> &'l AxesCommonData
+	fn get_common_data(&self) -> &AxesCommonData<'l>
 	{
 		match *self
 		{
@@ -42,19 +42,19 @@ impl AxesVariant
 }
 
 /// A figure that may contain multiple axes
-pub struct Figure
+pub struct Figure<'l>
 {
-	axes: Vec<AxesVariant>,
+	axes: Vec<AxesVariant<'l>>,
 	terminal: String,
 	output_file: String,
 	// RefCell so that we can echo to it
 	gnuplot: RefCell<Option<Child>>,
 }
 
-impl Figure
+impl<'m> Figure<'m>
 {
 	/// Creates a new figure
-	pub fn new() -> Figure
+	pub fn new() -> Figure<'m>
 	{
 		Figure { axes: Vec::new(), terminal: "".to_string(), output_file: "".to_string(), gnuplot: RefCell::new(None) }
 	}
@@ -71,7 +71,7 @@ impl Figure
 	///
 	/// As of now you can hack the canvas size in by using "pngcairo size 600, 400" for `terminal`.
 	/// Be prepared for that kludge to go away, though.
-	pub fn set_terminal<'l>(&'l mut self, terminal: &str, output_file: &str) -> &'l mut Figure
+	pub fn set_terminal<'l>(&'l mut self, terminal: &str, output_file: &str) -> &'l mut Figure<'m>
 	{
 		self.terminal = terminal.to_string();
 		self.output_file = output_file.to_string();
@@ -79,7 +79,7 @@ impl Figure
 	}
 
 	/// Creates a set of 2D axes
-	pub fn axes2d(&mut self) -> &mut Axes2D
+	pub fn axes2d(&mut self) -> &mut Axes2D<'m>
 	{
 		self.axes.push(Axes2DType(Axes2D::new()));
 		let l = self.axes.len();
@@ -91,7 +91,7 @@ impl Figure
 	}
 
 	/// Creates a set of 3D axes
-	pub fn axes3d(&mut self) -> &mut Axes3D
+	pub fn axes3d(&mut self) -> &mut Axes3D<'m>
 	{
 		self.axes.push(Axes3DType(Axes3D::new()));
 		let l = self.axes.len();

@@ -14,20 +14,298 @@ use options::*;
 use std::io::Write;
 use writer::*;
 
-pub struct PlotElement
+pub struct PlotElement<'l>
 {
-	pub args: Vec<u8>,
-	pub data: Vec<f64>,
+	data: Vec<f64>,
+	num_rows: usize,
+	num_cols: usize,
+	plot_type: PlotType,
+	source_type: DataSourceType,
+	is_3d: bool,
+	options: Vec<PlotOption<'l>>,
 }
 
-impl PlotElement
+impl<'l> PlotElement<'l>
 {
-	pub fn new() -> PlotElement
+	pub fn new_plot2<T1, X1, T2, X2>(plot_type: PlotType, x1: X1, x2: X2, options: Vec<PlotOption<'l>>) -> PlotElement
+	where
+		T1: DataType,
+		X1: IntoIterator<Item = T1>,
+		T2: DataType,
+		X2: IntoIterator<Item = T2>,
 	{
-		PlotElement { args: vec![], data: vec![] }
+		let mut num_rows = 0;
+		let mut data = vec![];
+		// TODO: Reserve.
+		for (x1, x2) in x1.into_iter().zip(x2.into_iter())
+		{
+			data.push(x1.get());
+			data.push(x2.get());
+			num_rows += 1;
+		}
+
+		PlotElement {
+			data: data,
+			num_rows: num_rows,
+			num_cols: 2,
+			plot_type: plot_type,
+			source_type: Record,
+			is_3d: false,
+			options: options,
+		}
 	}
 
-	pub fn write_data(&self, writer: &mut Writer)
+	pub fn new_plot3<T1, X1, T2, X2, T3, X3>(plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: Vec<PlotOption<'l>>) -> PlotElement
+	where
+		T1: DataType,
+		X1: IntoIterator<Item = T1>,
+		T2: DataType,
+		X2: IntoIterator<Item = T2>,
+		T3: DataType,
+		X3: IntoIterator<Item = T3>,
+	{
+		let mut num_rows = 0;
+		let mut data = vec![];
+		// TODO: Reserve.
+		for ((x1, x2), x3) in x1.into_iter().zip(x2.into_iter()).zip(x3.into_iter())
+		{
+			data.push(x1.get());
+			data.push(x2.get());
+			data.push(x3.get());
+			num_rows += 1;
+		}
+
+		PlotElement {
+			data: data,
+			num_rows: num_rows,
+			num_cols: 3,
+			plot_type: plot_type,
+			source_type: Record,
+			is_3d: false,
+			options: options,
+		}
+	}
+
+	pub fn new_plot_matrix<T: DataType, X: IntoIterator<Item = T>>(
+		plot_type: PlotType, is_3d: bool, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>,
+		options: Vec<PlotOption<'l>>
+	) -> PlotElement
+	{
+		let mut count = 0;
+		let mut data = vec![];
+		// TODO: Reserve.
+		for x in mat
+		{
+			data.push(x.get());
+			count += 1;
+		}
+
+		if count < num_rows * num_cols
+		{
+			for _ in 0..num_rows * num_cols - count
+			{
+				use std::f64;
+				data.push(f64::NAN);
+			}
+		}
+
+		let source_type = match dimensions
+		{
+			Some((x1, y1, x2, y2)) => SizedArray(x1, y1, x2, y2),
+			None => Array,
+		};
+
+		PlotElement {
+			data: data,
+			num_rows: num_rows,
+			num_cols: num_cols,
+			plot_type: plot_type,
+			source_type: source_type,
+			is_3d: is_3d,
+			options: options,
+		}
+	}
+
+	fn write_args(&self, writer: &mut Writer)
+	{
+		let options = &self.options;
+		match self.source_type
+		{
+			Record =>
+			{
+				write!(writer, r#" "-" binary endian=little record={} format="%float64" using "#, self.num_rows);
+
+				let mut col_idx = 1;
+				while col_idx < self.num_cols + 1
+				{
+					write!(writer, "{}", col_idx);
+					if col_idx < self.num_cols
+					{
+						writer.write_str(":");
+					}
+					col_idx += 1;
+				}
+			}
+			_ =>
+			{
+				write!(
+					writer,
+					r#" "-" binary endian=little array=({},{}) format="%float64" "#,
+					self.num_cols,
+					self.num_rows
+				);
+
+				match self.source_type
+				{
+					SizedArray(x1, y1, x2, y2) =>
+					{
+						let (x1, x2) = if x1 > x2
+						{
+							(x2, x1)
+						}
+						else
+						{
+							(x1, x2)
+						};
+
+						let (y1, y2) = if y1 > y2
+						{
+							(y2, y1)
+						}
+						else
+						{
+							(y1, y2)
+						};
+						write!(writer, "origin=({:.12e},{:.12e}", x1, y1);
+						if self.is_3d
+						{
+							write!(writer, ",0");
+						}
+						write!(writer, ") ");
+						if self.num_cols > 1
+						{
+							write!(writer, "dx={:.12e} ", (x2 - x1) / (self.num_cols as f64 - 1.0));
+						}
+						else
+						{
+							write!(writer, "dx=1 ");
+						}
+						if self.num_rows > 1
+						{
+							write!(writer, "dy={:.12e} ", (y2 - y1) / (self.num_rows as f64 - 1.0));
+						}
+						else
+						{
+							write!(writer, "dy=1 ");
+						}
+					}
+					_ => (),
+				}
+			}
+		}
+
+		writer.write_str(" with ");
+		let type_str = match self.plot_type
+		{
+			Lines => "lines",
+			Points => "points",
+			LinesPoints => "linespoints",
+			XErrorLines => "xerrorlines",
+			YErrorLines => "yerrorlines",
+			FillBetween => "filledcurves",
+			Boxes => "boxes",
+			Pm3D => "pm3d",
+			Image => "image",
+		};
+		writer.write_str(type_str);
+
+		if self.plot_type.is_fill()
+		{
+			match self.plot_type
+			{
+				FillBetween =>
+				{
+					let mut found = false;
+					first_opt!{options,
+						FillRegion(d) =>
+						{
+							found = true;
+							writer.write_str(match d
+							{
+								Above => " above",
+								Below => " below",
+								Between => " closed",
+							});
+						}
+					}
+					if !found
+					{
+						writer.write_str(" closed");
+					}
+				}
+				_ => (),
+			}
+
+			writer.write_str(" fill transparent solid ");
+
+			first_opt!{self.options,
+				FillAlpha(a) =>
+				{
+					write!(writer, "{:.12e}", a);
+				}
+			}
+
+			if self.plot_type.is_line()
+			{
+				writer.write_str(" border");
+				first_opt!{self.options,
+					BorderColor(s) =>
+					{
+						write!(writer, r#" rgb "{}""#, s);
+					}
+				}
+			}
+			else
+			{
+				writer.write_str(" noborder");
+			}
+		}
+
+		if self.plot_type.is_line()
+		{
+			AxesCommonData::write_line_options(writer, options);
+		}
+
+		if self.plot_type.is_points()
+		{
+			first_opt!{self.options,
+				PointSymbol(s) =>
+				{
+					write!(writer, " pt {}", char_to_symbol(s));
+				}
+			}
+
+			first_opt!{self.options,
+				PointSize(z) =>
+				{
+					write!(writer, " ps {}", z);
+				}
+			}
+		}
+
+		AxesCommonData::write_color_options(writer, &self.options, None);
+
+		writer.write_str(" t \"");
+		first_opt!{self.options,
+			Caption(s) =>
+			{
+				writer.write_str(s);
+			}
+		}
+		writer.write_str("\"");
+	}
+
+	fn write_data(&self, writer: &mut Writer)
 	{
 		for d in &self.data
 		{
@@ -502,11 +780,11 @@ impl AxisData
 	}
 }
 
-pub struct AxesCommonData
+pub struct AxesCommonData<'l>
 {
 	pub commands: Vec<u8>,
 	pub grid_options: Vec<u8>,
-	pub elems: Vec<PlotElement>,
+	pub elems: Vec<PlotElement<'l>>,
 	pub grid_rows: u32,
 	pub grid_cols: u32,
 	pub grid_pos: Option<u32>,
@@ -544,9 +822,9 @@ enum DataSourceType
 	SizedArray(f64, f64, f64, f64),
 }
 
-impl AxesCommonData
+impl<'m> AxesCommonData<'m>
 {
-	pub fn new() -> AxesCommonData
+	pub fn new() -> AxesCommonData<'m>
 	{
 		AxesCommonData {
 			commands: vec![],
@@ -626,269 +904,6 @@ impl AxesCommonData
 		}
 	}
 
-	pub fn plot2<T1: DataType, X1: IntoIterator<Item = T1>, T2: DataType, X2: IntoIterator<Item = T2>>(&mut self, plot_type: PlotType, x1: X1, x2: X2, options: &[PlotOption])
-	{
-		let l = self.elems.len();
-		self.elems.push(PlotElement::new());
-		let mut num_rows = 0;
-
-		{
-			let data = &mut self.elems[l].data;
-			// TODO: Reserve.
-			for (x1, x2) in x1.into_iter().zip(x2.into_iter())
-			{
-				data.push(x1.get());
-				data.push(x2.get());
-				num_rows += 1;
-			}
-		}
-
-		self.write_common_commands(l, num_rows, 2, plot_type, Record, false, options);
-	}
-
-	pub fn plot3<
-		T1: DataType,
-		X1: IntoIterator<Item = T1>,
-		T2: DataType,
-		X2: IntoIterator<Item = T2>,
-		T3: DataType,
-		X3: IntoIterator<Item = T3>,
-	>(
-		&mut self, plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: &[PlotOption]
-	)
-	{
-		let l = self.elems.len();
-		self.elems.push(PlotElement::new());
-		let mut num_rows = 0;
-
-		{
-			let data = &mut self.elems[l].data;
-			// TODO: Reserve.
-			for ((x1, x2), x3) in x1.into_iter().zip(x2.into_iter()).zip(x3.into_iter())
-			{
-				data.push(x1.get());
-				data.push(x2.get());
-				data.push(x3.get());
-				num_rows += 1;
-			}
-		}
-
-		self.write_common_commands(l, num_rows, 3, plot_type, Record, false, options);
-	}
-
-	pub fn plot_matrix<T: DataType, X: IntoIterator<Item = T>>(
-		&mut self, plot_type: PlotType, is_3d: bool, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>,
-		options: &[PlotOption]
-	)
-	{
-		let l = self.elems.len();
-		self.elems.push(PlotElement::new());
-
-		{
-			let mut count = 0;
-			let data = &mut self.elems[l].data;
-			// TODO: Reserve.
-			for x in mat
-			{
-				data.push(x.get());
-				count += 1;
-			}
-
-			if count < num_rows * num_cols
-			{
-				for _ in 0..num_rows * num_cols - count
-				{
-					use std::f64;
-					data.push(f64::NAN);
-				}
-			}
-		}
-
-		let source_type = match dimensions
-		{
-			Some((x1, y1, x2, y2)) => SizedArray(x1, y1, x2, y2),
-			None => Array,
-		};
-		self.write_common_commands(l, num_rows, num_cols, plot_type, source_type, is_3d, options);
-	}
-
-	fn write_common_commands(
-		&mut self, elem_idx: usize, num_rows: usize, num_cols: usize, plot_type: PlotType, source_type: DataSourceType, is_3d: bool,
-		options: &[PlotOption]
-	)
-	{
-		let args = &mut self.elems[elem_idx].args as &mut Writer;
-		match source_type
-		{
-			Record =>
-			{
-				write!(args, r#" "-" binary endian=little record={} format="%float64" using "#, num_rows);
-
-				let mut col_idx = 1;
-				while col_idx < num_cols + 1
-				{
-					write!(args, "{}", col_idx);
-					if col_idx < num_cols
-					{
-						args.write_str(":");
-					}
-					col_idx += 1;
-				}
-			}
-			_ =>
-			{
-				write!(args, r#" "-" binary endian=little array=({},{}) format="%float64" "#, num_cols, num_rows);
-
-				match source_type
-				{
-					SizedArray(x1, y1, x2, y2) =>
-					{
-						let (x1, x2) = if x1 > x2
-						{
-							(x2, x1)
-						}
-						else
-						{
-							(x1, x2)
-						};
-
-						let (y1, y2) = if y1 > y2
-						{
-							(y2, y1)
-						}
-						else
-						{
-							(y1, y2)
-						};
-						write!(args, "origin=({:.12e},{:.12e}", x1, y1);
-						if is_3d
-						{
-							write!(args, ",0");
-						}
-						write!(args, ") ");
-						if num_cols > 1
-						{
-							write!(args, "dx={:.12e} ", (x2 - x1) / (num_cols as f64 - 1.0));
-						}
-						else
-						{
-							write!(args, "dx=1 ");
-						}
-						if num_rows > 1
-						{
-							write!(args, "dy={:.12e} ", (y2 - y1) / (num_rows as f64 - 1.0));
-						}
-						else
-						{
-							write!(args, "dy=1 ");
-						}
-					}
-					_ => (),
-				}
-			}
-		}
-
-		args.write_str(" with ");
-		let type_str = match plot_type
-		{
-			Lines => "lines",
-			Points => "points",
-			LinesPoints => "linespoints",
-			XErrorLines => "xerrorlines",
-			YErrorLines => "yerrorlines",
-			FillBetween => "filledcurves",
-			Boxes => "boxes",
-			Pm3D => "pm3d",
-			Image => "image",
-		};
-		args.write_str(type_str);
-
-		if plot_type.is_fill()
-		{
-			match plot_type
-			{
-				FillBetween =>
-				{
-					let mut found = false;
-					first_opt!{options,
-						FillRegion(d) =>
-						{
-							found = true;
-							args.write_str(match d
-							{
-								Above => " above",
-								Below => " below",
-								Between => " closed",
-							});
-						}
-					}
-					if !found
-					{
-						args.write_str(" closed");
-					}
-				}
-				_ => (),
-			}
-
-			args.write_str(" fill transparent solid ");
-
-			first_opt!{options,
-				FillAlpha(a) =>
-				{
-					write!(args, "{:.12e}", a);
-				}
-			}
-
-			if plot_type.is_line()
-			{
-				args.write_str(" border");
-				first_opt!{options,
-					BorderColor(s) =>
-					{
-						write!(args, r#" rgb "{}""#, s);
-					}
-				}
-			}
-			else
-			{
-				args.write_str(" noborder");
-			}
-		}
-
-		if plot_type.is_line()
-		{
-			AxesCommonData::write_line_options(args, options);
-		}
-
-		if plot_type.is_points()
-		{
-			first_opt!{options,
-				PointSymbol(s) =>
-				{
-					write!(args, " pt {}", char_to_symbol(s));
-				}
-			}
-
-			first_opt!{options,
-				PointSize(z) =>
-				{
-					write!(args, " ps {}", z);
-				}
-			}
-		}
-
-		AxesCommonData::write_color_options(args, options, None);
-
-		args.write_str(" t \"");
-		first_opt!{options,
-			Caption(s) =>
-			{
-				args.write_str(s);
-			}
-		}
-		args.write_str("\"");
-	}
-
 	pub fn write_out_commands(&self, writer: &mut Writer)
 	{
 		writer.write_all(&self.commands[..]);
@@ -908,7 +923,7 @@ impl AxesCommonData
 			{
 				write!(writer, ",");
 			}
-			writer.write_all(&e.args[..]);
+			e.write_args(writer);
 			first = false;
 		}
 
@@ -949,13 +964,13 @@ impl AxesCommonData
 }
 
 #[doc(hidden)]
-pub trait AxesCommonPrivate
+pub trait AxesCommonPrivate<'l>
 {
-	fn get_common_data<'l>(&'l self) -> &'l AxesCommonData;
-	fn get_common_data_mut<'l>(&'l mut self) -> &'l mut AxesCommonData;
+	fn get_common_data(&self) -> &AxesCommonData<'l>;
+	fn get_common_data_mut(&mut self) -> &mut AxesCommonData<'l>;
 }
 
-pub trait AxesCommon: AxesCommonPrivate
+pub trait AxesCommon<'m>: AxesCommonPrivate<'m>
 {
 	/// Set the position of the axes on the figure using grid coordinates.
 	/// # Arguments
@@ -1031,21 +1046,21 @@ pub trait AxesCommon: AxesCommonPrivate
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Self
+	fn set_x_label<'l>(&'l mut self, text: &str, options: &[LabelOption<'m>]) -> &'l mut Self
 	{
 		self.get_common_data_mut().set_label_common(XLabel, text, options);
 		self
 	}
 
 	/// Like `set_x_label`, but for the Y axis
-	fn set_y_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Self
+	fn set_y_label<'l>(&'l mut self, text: &str, options: &[LabelOption<'m>]) -> &'l mut Self
 	{
 		self.get_common_data_mut().set_label_common(YLabel, text, options);
 		self
 	}
 
 	/// Like `set_x_label`, but for the color bar
-	fn set_cb_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Self
+	fn set_cb_label<'l>(&'l mut self, text: &str, options: &[LabelOption<'m>]) -> &'l mut Self
 	{
 		self.get_common_data_mut().set_label_common(CBLabel, text, options);
 		self
@@ -1054,13 +1069,13 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// Set the title for the axes
 	/// # Arguments
 	/// * `text` - Text of the title. Pass an empty string to hide the title
-	/// * `options` - Array of LabelOption controlling the appearance of the title. Relevant options are:
+	/// * `options` - Array of LabelOption<'m> controlling the appearance of the title. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_title<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Self
+	fn set_title<'l>(&'l mut self, text: &str, options: &[LabelOption<'m>]) -> &'l mut Self
 	{
 		self.get_common_data_mut().set_label_common(TitleLabel, text, options);
 		self
@@ -1071,7 +1086,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// * `text` - Text of the label
 	/// * `x` - X coordinate of the label
 	/// * `y` - Y coordinate of the label
-	/// * `options` - Array of LabelOption controlling the appearance of the label. Relevant options are:
+	/// * `options` - Array of LabelOption<'m> controlling the appearance of the label. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
@@ -1080,7 +1095,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///      * `MarkerSymbol` - Specifies the symbol for the marker. Omit to hide the marker
 	///      * `MarkerSize` - Specifies the size for the marker
 	///      * `MarkerColor` - Specifies the color for the marker
-	fn label<'l>(&'l mut self, text: &str, x: Coordinate, y: Coordinate, options: &[LabelOption]) -> &'l mut Self
+	fn label<'l>(&'l mut self, text: &str, x: Coordinate, y: Coordinate, options: &[LabelOption<'m>]) -> &'l mut Self
 	{
 		self.get_common_data_mut().set_label_common(Label(x, y), text, options);
 		self
@@ -1094,13 +1109,13 @@ pub trait AxesCommon: AxesCommonPrivate
 	///                      tuple value specifies the number of minor ticks. For logarithmic axes, non-zero values mean that the number of ticks usually
 	///                      equals to `ceil(log_base) - 2`.
 	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
-	/// * `label_options` - Array of LabelOption controlling the appearance of the tick labels. Relevant options are:
+	/// * `label_options` - Array of LabelOption<'m> controlling the appearance of the tick labels. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])
+	fn set_x_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption<'m>])
 		-> &'l mut Self
 	{
 		self.get_common_data_mut().x_axis.set_ticks(tick_placement, tick_options, label_options);
@@ -1108,7 +1123,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	}
 
 	/// Like `set_x_ticks` but for the Y axis.
-	fn set_y_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])
+	fn set_y_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption<'m>])
 		-> &'l mut Self
 	{
 		self.get_common_data_mut().y_axis.set_ticks(tick_placement, tick_options, label_options);
@@ -1116,7 +1131,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	}
 
 	/// Like `set_x_ticks` but for the color bar axis.
-	fn set_cb_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])
+	fn set_cb_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption<'m>])
 		-> &'l mut Self
 	{
 		self.get_common_data_mut().cb_axis.set_ticks(tick_placement, tick_options, label_options);
@@ -1131,13 +1146,13 @@ pub trait AxesCommon: AxesCommonPrivate
 	///     The label can contain a single C printf style floating point formatting specifier which will be replaced by the
 	///     location of the tic.
 	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
-	/// * `label_options` - Array of LabelOption controlling the appearance of the tick labels. Relevant options are:
+	/// * `label_options` - Array of LabelOption<'m> controlling the appearance of the tick labels. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
+	fn set_x_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption<'m>])
 		-> &'l mut Self
 	{
 		self.get_common_data_mut().x_axis.set_ticks_custom(ticks, tick_options, label_options);
@@ -1145,7 +1160,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	fn set_y_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
+	fn set_y_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption<'m>])
 		-> &'l mut Self
 	{
 		self.get_common_data_mut().y_axis.set_ticks_custom(ticks, tick_options, label_options);
@@ -1153,7 +1168,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	}
 
 	/// Like `set_x_ticks_custom` but for the the color bar axis.
-	fn set_cb_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
+	fn set_cb_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption<'m>])
 		-> &'l mut Self
 	{
 		self.get_common_data_mut().cb_axis.set_ticks_custom(ticks, tick_options, label_options);
