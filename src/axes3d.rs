@@ -204,8 +204,7 @@ impl AxesCommonPrivate for Axes3D
 
 impl AxesCommon for Axes3D {}
 
-#[doc(hidden)]
-pub trait Axes3DPrivate
+pub(crate) trait Axes3DPrivate
 {
 	fn write_out(&self, writer: &mut Writer);
 }

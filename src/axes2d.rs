@@ -499,8 +499,7 @@ pub fn new_axes2d() -> Axes2D
 	Axes2D { common: AxesCommonData::new() }
 }
 
-#[doc(hidden)]
-pub trait Axes2DPrivate
+pub(crate) trait Axes2DPrivate
 {
 	fn write_out(&self, writer: &mut Writer);
 }
