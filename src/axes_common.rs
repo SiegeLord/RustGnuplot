@@ -14,18 +14,10 @@ use options::*;
 use std::io::Write;
 use writer::*;
 
-impl PlotWriter for Vec<u8>
-{
-	fn write_data<T: DataType>(&mut self, v: T)
-	{
-		self.write_le_f64(v.get());
-	}
-}
-
 pub struct PlotElement
 {
 	pub args: Vec<u8>,
-	pub data: Vec<u8>,
+	pub data: Vec<f64>,
 }
 
 impl PlotElement
@@ -60,7 +52,7 @@ impl LabelType
 	}
 }
 
-pub fn write_out_label_options<T: PlotWriter + Writer>(label_type: LabelType, options: &[LabelOption], writer: &mut T)
+pub fn write_out_label_options<T: Writer>(label_type: LabelType, options: &[LabelOption], writer: &mut T)
 {
 	let w = writer as &mut Writer;
 
@@ -634,10 +626,11 @@ impl AxesCommonData
 
 		{
 			let data = &mut self.elems[l].data;
+			// TODO: Reserve.
 			for (x1, x2) in x1.into_iter().zip(x2.into_iter())
 			{
-				data.write_data(x1);
-				data.write_data(x2);
+				data.push(x1.get());
+				data.push(x2.get());
 				num_rows += 1;
 			}
 		}
@@ -662,11 +655,12 @@ impl AxesCommonData
 
 		{
 			let data = &mut self.elems[l].data;
+			// TODO: Reserve.
 			for ((x1, x2), x3) in x1.into_iter().zip(x2.into_iter()).zip(x3.into_iter())
 			{
-				data.write_data(x1);
-				data.write_data(x2);
-				data.write_data(x3);
+				data.push(x1.get());
+				data.push(x2.get());
+				data.push(x3.get());
 				num_rows += 1;
 			}
 		}
@@ -685,9 +679,10 @@ impl AxesCommonData
 		{
 			let mut count = 0;
 			let data = &mut self.elems[l].data;
+			// TODO: Reserve.
 			for x in mat
 			{
-				data.write_data(x);
+				data.push(x.get());
 				count += 1;
 			}
 
@@ -696,7 +691,7 @@ impl AxesCommonData
 				for _ in 0..num_rows * num_cols - count
 				{
 					use std::f64;
-					data.write_data(f64::NAN);
+					data.push(f64::NAN);
 				}
 			}
 		}
@@ -913,7 +908,10 @@ impl AxesCommonData
 
 		for e in self.elems.iter()
 		{
-			writer.write_all(&e.data[..]);
+			for d in &e.data
+			{
+				writer.write_le_f64(*d);
+			}
 		}
 	}
 
