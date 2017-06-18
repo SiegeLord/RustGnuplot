@@ -26,6 +26,14 @@ impl PlotElement
 	{
 		PlotElement { args: vec![], data: vec![] }
 	}
+
+	pub fn write_data(&self, writer: &mut Writer)
+	{
+		for d in &self.data
+		{
+			writer.write_le_f64(*d);
+		}
+	}
 }
 
 #[derive(Copy, Clone)]
@@ -908,10 +916,7 @@ impl AxesCommonData
 
 		for e in self.elems.iter()
 		{
-			for d in &e.data
-			{
-				writer.write_le_f64(*d);
-			}
+			e.write_data(writer);
 		}
 	}
 
