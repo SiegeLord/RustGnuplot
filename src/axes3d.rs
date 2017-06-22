@@ -13,7 +13,7 @@ use writer::Writer;
 pub struct Axes3D<'l>
 {
 	common: AxesCommonData<'l>,
-	z_axis: AxisData,
+	z_axis: AxisData<'l>,
 	contour_base: bool,
 	contour_surface: bool,
 	contour_auto: AutoOption<u32>,
@@ -99,7 +99,7 @@ impl<'m> Axes3D<'m>
 	}
 
 	/// Like `set_x_ticks` but for the Z axis.
-	pub fn set_z_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption], label_options: &[LabelOption])
+	pub fn set_z_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<'m>], label_options: &[LabelOption<'m>])
 		-> &'l mut Self
 	{
 		self.z_axis.set_ticks(tick_placement, tick_options, label_options);
@@ -107,7 +107,7 @@ impl<'m> Axes3D<'m>
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	pub fn set_z_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption], label_options: &[LabelOption])
+	pub fn set_z_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<'m>], label_options: &[LabelOption<'m>])
 		-> &'l mut Self
 	{
 		self.z_axis.set_ticks_custom(ticks, tick_options, label_options);
