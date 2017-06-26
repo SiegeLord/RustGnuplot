@@ -801,20 +801,6 @@ impl<'m> AxisData<'m>
 	}
 }
 
-pub struct AxesCommonData<'l>
-{
-	pub commands: Vec<u8>,
-	pub grid_options: Vec<PlotOption<'l>>,
-	pub grid_front: bool,
-	pub elems: Vec<PlotElement<'l>>,
-	pub grid_rows: u32,
-	pub grid_cols: u32,
-	pub grid_pos: Option<u32>,
-	pub x_axis: AxisData<'l>,
-	pub y_axis: AxisData<'l>,
-	pub cb_axis: AxisData<'l>,
-}
-
 pub fn char_to_symbol(c: char) -> i32
 {
 	match c
@@ -842,6 +828,20 @@ enum DataSourceType
 	Record,
 	Array,
 	SizedArray(f64, f64, f64, f64),
+}
+
+pub struct AxesCommonData<'l>
+{
+	pub commands: Vec<u8>,
+	pub grid_options: Vec<PlotOption<'l>>,
+	pub grid_front: bool,
+	pub elems: Vec<PlotElement<'l>>,
+	pub grid_rows: u32,
+	pub grid_cols: u32,
+	pub grid_pos: Option<u32>,
+	pub x_axis: AxisData<'l>,
+	pub y_axis: AxisData<'l>,
+	pub cb_axis: AxisData<'l>,
 }
 
 impl<'m> AxesCommonData<'m>
