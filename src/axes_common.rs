@@ -804,7 +804,8 @@ impl<'m> AxisData<'m>
 pub struct AxesCommonData<'l>
 {
 	pub commands: Vec<u8>,
-	pub grid_options: Vec<u8>,
+	pub grid_options: Vec<PlotOption<'l>>,
+	pub grid_front: bool,
 	pub elems: Vec<PlotElement<'l>>,
 	pub grid_rows: u32,
 	pub grid_cols: u32,
@@ -850,6 +851,7 @@ impl<'m> AxesCommonData<'m>
 		AxesCommonData {
 			commands: vec![],
 			grid_options: vec![],
+			grid_front: false,
 			elems: Vec::new(),
 			grid_rows: 0,
 			grid_cols: 0,
@@ -870,7 +872,18 @@ impl<'m> AxesCommonData<'m>
 				c.write_str(axis.to_tick_str());
 				c.write_str(" ");
 			}
-			c.write_all(&self.grid_options);
+
+			if self.grid_front
+			{
+				c.write_str("front ");
+			}
+			else
+			{
+				c.write_str("back ");
+			}
+
+			AxesCommonData::write_line_options(c, &self.grid_options);
+			AxesCommonData::write_color_options(c, &self.grid_options, None);
 			c.write_str("\n");
 		}
 	}
@@ -1315,21 +1328,10 @@ pub trait AxesCommon<'m>: AxesCommonPrivate<'m>
 	///      * `Color` - Specifies the color of the grid lines
 	///      * `LineStyle` - Specifies the style of the grid lines
 	///      * `LineWidth` - Specifies the width of the grid lines
-	fn set_grid_options<'l>(&'l mut self, front: bool, options: &[PlotOption]) -> &'l mut Self
+	fn set_grid_options<'l>(&'l mut self, front: bool, options: &[PlotOption<'m>]) -> &'l mut Self
 	{
-		{
-			let c = &mut self.get_common_data_mut().grid_options as &mut Writer;
-			if front
-			{
-				c.write_str("front ");
-			}
-			else
-			{
-				c.write_str("back ");
-			}
-			AxesCommonData::write_line_options(c, options);
-			AxesCommonData::write_color_options(c, options, None);
-		}
+		self.get_common_data_mut().grid_front = front;
+		self.get_common_data_mut().grid_options = options.into();
 		self
 	}
 
