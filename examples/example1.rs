@@ -108,8 +108,18 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes2d()
-		.x_error_lines(x, y1, x_err.clone(), &[Caption(r"x\\_error\\_lines"), LineWidth(2.0), PointSymbol('O'), Color("red")])
-		.y_error_lines(x, y2, y_err.clone(), &[Caption(r"y\\_error\\_lines"), LineWidth(2.0), PointSymbol('S'), Color("blue")])
+		.x_error_lines(
+			x,
+			y1,
+			x_err.clone(),
+			&[Caption(r"x\\_error\\_lines"), LineWidth(2.0), PointSymbol('O'), Color("red")],
+		)
+		.y_error_lines(
+			x,
+			y2,
+			y_err.clone(),
+			&[Caption(r"y\\_error\\_lines"), LineWidth(2.0), PointSymbol('S'), Color("blue")],
+		)
 		.x_error_bars(x, y3, x_err, &[Caption(r"x\\_error\\_bars"), PointSymbol('T'), Color("cyan")])
 		.y_error_bars(x, y4, y_err, &[Caption(r"y\\_error\\_bars"), PointSymbol('R'), Color("green")])
 		.set_title("Error fg1.5", &[]);

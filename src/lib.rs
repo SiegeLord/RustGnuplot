@@ -2,12 +2,10 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-#![crate_name="gnuplot"]
+#![crate_name = "gnuplot"]
 #![crate_type = "lib"]
-
 #![allow(unused_must_use)]
 #![forbid(unstable_features)]
-
 /*!
 A simple gnuplot controller.
 

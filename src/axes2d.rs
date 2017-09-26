@@ -533,15 +533,9 @@ impl<'m> Axes2D<'m>
 	pub fn image<'l, T: DataType, X: IntoIterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption<'m>])
 		-> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot_matrix(
-			Image,
-			false,
-			mat,
-			num_rows,
-			num_cols,
-			dimensions,
-			options.to_vec(),
-		));
+		self.common
+			.elems
+			.push(PlotElement::new_plot_matrix(Image, false, mat, num_rows, num_cols, dimensions, options.to_vec()));
 		self
 	}
 }

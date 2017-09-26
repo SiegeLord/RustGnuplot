@@ -88,7 +88,7 @@ impl<'l> PlotElement<'l>
 
 	pub fn new_plot_matrix<T: DataType, X: IntoIterator<Item = T>>(
 		plot_type: PlotType, is_3d: bool, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>,
-		options: Vec<PlotOption<'l>>
+		options: Vec<PlotOption<'l>>,
 	) -> PlotElement
 	{
 		let mut count = 0;

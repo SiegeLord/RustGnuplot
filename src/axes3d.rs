@@ -52,15 +52,9 @@ impl<'m> Axes3D<'m>
 	pub fn surface<'l, T: DataType, X: IntoIterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption<'m>])
 		-> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot_matrix(
-			Pm3D,
-			true,
-			mat,
-			num_rows,
-			num_cols,
-			dimensions,
-			options.to_vec(),
-		));
+		self.common
+			.elems
+			.push(PlotElement::new_plot_matrix(Pm3D, true, mat, num_rows, num_cols, dimensions, options.to_vec()));
 		self
 	}
 
@@ -261,17 +255,14 @@ impl<'l> Axes3DPrivate for Axes3D<'l>
 			match self.contour_label
 			{
 				Auto => writeln!(w, "set clabel"),
-				Fix(ref s) =>
+				Fix(ref s) => if s.len() == 0
 				{
-					if s.len() == 0
-					{
-						writeln!(w, "unset clabel")
-					}
-					else
-					{
-						writeln!(w, r#"set clabel "{}""#, s)
-					}
+					writeln!(w, "unset clabel")
 				}
+				else
+				{
+					writeln!(w, r#"set clabel "{}""#, s)
+				},
 			};
 
 			fn set_cntrparam<F: FnOnce(&mut Writer)>(w: &mut Writer, wr: F)

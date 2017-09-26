@@ -102,13 +102,9 @@ fn example(c: Common)
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
 
-	fg.axes2d().set_title("Image fg2.5", &[]).image(
-		z1.iter(),
-		zw,
-		zh,
-		Some((-4.0, -4.0, 4.0, 4.0)),
-		&[],
-	);
+	fg.axes2d()
+		.set_title("Image fg2.5", &[])
+		.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[]);
 
 	c.show(&mut fg, "fg2.5.gnuplot");
 
