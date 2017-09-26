@@ -212,6 +212,8 @@ impl<'l> PlotElement<'l>
 			LinesPoints => "linespoints",
 			XErrorLines => "xerrorlines",
 			YErrorLines => "yerrorlines",
+			XErrorBars => "xerrorbars",
+			YErrorBars => "yerrorbars",
 			FillBetween => "filledcurves",
 			Boxes => "boxes",
 			Pm3D => "pm3d",
@@ -472,6 +474,8 @@ pub enum PlotType
 	LinesPoints,
 	XErrorLines,
 	YErrorLines,
+	XErrorBars,
+	YErrorBars,
 	FillBetween,
 	Boxes,
 	Pm3D,
@@ -493,7 +497,7 @@ impl PlotType
 	{
 		match *self
 		{
-			Points | LinesPoints | XErrorLines | YErrorLines => true,
+			Points | LinesPoints | XErrorLines | YErrorLines | XErrorBars | YErrorBars => true,
 			_ => false,
 		}
 	}

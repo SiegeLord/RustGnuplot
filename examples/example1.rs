@@ -24,8 +24,10 @@ fn example(c: Common)
 	let y2 = y2.iter2();
 	let y3: Vec<f32> = x.map(|&v| v - 4.0).collect();
 	let y3 = y3.iter2();
-	let x_err = repeat(0.3f32);
-	let y_err = repeat(5.0f32);
+	let y4: Vec<f32> = x.map(|&v| 0.9 * v - 4.0).collect();
+	let y4 = y4.iter2();
+	let x_err = repeat(0.1f32);
+	let y_err = repeat(0.2f32);
 
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
@@ -106,9 +108,11 @@ fn example(c: Common)
 	c.set_term(&mut fg);
 
 	fg.axes2d()
-		.x_error_lines(x, y1, x_err, &[LineWidth(2.0), PointSymbol('O'), Color("red")])
-		.y_error_lines(x, y2, y_err, &[LineWidth(2.0), PointSymbol('S'), Color("blue")])
-		.set_title("Errors fg1.5", &[]);
+		.x_error_lines(x, y1, x_err.clone(), &[Caption(r"x\\_error\\_lines"), LineWidth(2.0), PointSymbol('O'), Color("red")])
+		.y_error_lines(x, y2, y_err.clone(), &[Caption(r"y\\_error\\_lines"), LineWidth(2.0), PointSymbol('S'), Color("blue")])
+		.x_error_bars(x, y3, x_err, &[Caption(r"x\\_error\\_bars"), PointSymbol('T'), Color("cyan")])
+		.y_error_bars(x, y4, y_err, &[Caption(r"y\\_error\\_bars"), PointSymbol('R'), Color("green")])
+		.set_title("Error fg1.5", &[]);
 
 	c.show(&mut fg, "fg1.5.gnuplot");
 
