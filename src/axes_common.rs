@@ -8,11 +8,11 @@ pub use self::LabelType::*;
 pub use self::PlotType::*;
 pub use self::TickAxis::*;
 use coordinates::*;
-use util::OneWayOwned;
 
 use datatype::*;
 use options::*;
 use std::io::Write;
+use util::OneWayOwned;
 use writer::*;
 
 pub struct PlotElement
@@ -770,7 +770,10 @@ impl AxisData
 		self.label_options = label_options.into();
 	}
 
-	pub fn set_ticks(&mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: Vec<TickOption<String>>, label_options: Vec<LabelOption<String>>)
+	pub fn set_ticks(
+		&mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: Vec<TickOption<String>>,
+		label_options: Vec<LabelOption<String>>,
+	)
 	{
 		if let Some((incr, mticks)) = tick_placement
 		{
@@ -1154,26 +1157,38 @@ pub trait AxesCommon: AxesCommonPrivate
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
-		-> &'l mut Self
+	fn set_x_ticks<'l>(
+		&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>],
+		label_options: &[LabelOption<&str>],
+	) -> &'l mut Self
 	{
-		self.get_common_data_mut().x_axis.set_ticks(tick_placement, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+		self.get_common_data_mut()
+			.x_axis
+			.set_ticks(tick_placement, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
 	/// Like `set_x_ticks` but for the Y axis.
-	fn set_y_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
-		-> &'l mut Self
+	fn set_y_ticks<'l>(
+		&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>],
+		label_options: &[LabelOption<&str>],
+	) -> &'l mut Self
 	{
-		self.get_common_data_mut().y_axis.set_ticks(tick_placement, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+		self.get_common_data_mut()
+			.y_axis
+			.set_ticks(tick_placement, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
 	/// Like `set_x_ticks` but for the color bar axis.
-	fn set_cb_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
-		-> &'l mut Self
+	fn set_cb_ticks<'l>(
+		&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>],
+		label_options: &[LabelOption<&str>],
+	) -> &'l mut Self
 	{
-		self.get_common_data_mut().cb_axis.set_ticks(tick_placement, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+		self.get_common_data_mut()
+			.cb_axis
+			.set_ticks(tick_placement, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
@@ -1194,7 +1209,9 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_x_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
 		-> &'l mut Self
 	{
-		self.get_common_data_mut().x_axis.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+		self.get_common_data_mut()
+			.x_axis
+			.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
@@ -1202,7 +1219,9 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_y_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
 		-> &'l mut Self
 	{
-		self.get_common_data_mut().y_axis.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+		self.get_common_data_mut()
+			.y_axis
+			.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
@@ -1210,7 +1229,9 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_cb_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
 		-> &'l mut Self
 	{
-		self.get_common_data_mut().cb_axis.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+		self.get_common_data_mut()
+			.cb_axis
+			.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 

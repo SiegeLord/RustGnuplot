@@ -2,7 +2,6 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use util::OneWayOwned;
 
 pub use self::AlignType::*;
 pub use self::ArrowheadType::*;
@@ -17,6 +16,7 @@ pub use self::PaletteType::*;
 pub use self::PlotOption::*;
 pub use self::Tick::*;
 pub use self::TickOption::*;
+use util::OneWayOwned;
 
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others

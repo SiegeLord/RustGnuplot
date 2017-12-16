@@ -6,8 +6,8 @@ use axes_common::*;
 use coordinates::*;
 use datatype::*;
 use options::*;
-use writer::Writer;
 use util::OneWayOwned;
+use writer::Writer;
 
 /// 2D axes that is used for drawing 2D plots
 pub struct Axes2D
@@ -70,7 +70,7 @@ impl Axes2D
 				c.write_str("set ");
 				c.write_str(axis);
 				c.write_str("zeroaxis ");
-				
+
 				let options: Vec<PlotOption<String>> = options.to_one_way_owned();
 				AxesCommonData::write_color_options(c, &options, Some("black"));
 				AxesCommonData::write_line_options(c, &options);
@@ -359,7 +359,9 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, x_error: XE, options: &[PlotOption<&str>]
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(XErrorBars, x, y, x_error, options.to_one_way_owned()));
+		self.common
+			.elems
+			.push(PlotElement::new_plot3(XErrorBars, x, y, x_error, options.to_one_way_owned()));
 		self
 	}
 
@@ -386,7 +388,9 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, y_error: YE, options: &[PlotOption<&str>]
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(YErrorBars, x, y, y_error, options.to_one_way_owned()));
+		self.common
+			.elems
+			.push(PlotElement::new_plot3(YErrorBars, x, y, y_error, options.to_one_way_owned()));
 		self
 	}
 
@@ -415,7 +419,9 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, x_error: XE, options: &[PlotOption<&str>]
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(XErrorLines, x, y, x_error, options.to_one_way_owned()));
+		self.common
+			.elems
+			.push(PlotElement::new_plot3(XErrorLines, x, y, x_error, options.to_one_way_owned()));
 		self
 	}
 
@@ -444,7 +450,9 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, y_error: YE, options: &[PlotOption<&str>]
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(YErrorLines, x, y, y_error, options.to_one_way_owned()));
+		self.common
+			.elems
+			.push(PlotElement::new_plot3(YErrorLines, x, y, y_error, options.to_one_way_owned()));
 		self
 	}
 
@@ -472,7 +480,9 @@ impl Axes2D
 		&'l mut self, x: X, y_lo: YL, y_hi: YH, options: &[PlotOption<&str>]
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(FillBetween, x, y_lo, y_hi, options.to_one_way_owned()));
+		self.common
+			.elems
+			.push(PlotElement::new_plot3(FillBetween, x, y_lo, y_hi, options.to_one_way_owned()));
 		self
 	}
 
@@ -538,9 +548,15 @@ impl Axes2D
 	pub fn image<'l, T: DataType, X: IntoIterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption<&str>])
 		-> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot_matrix(Image, false, mat, num_rows, num_cols, dimensions, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot_matrix(
+			Image,
+			false,
+			mat,
+			num_rows,
+			num_cols,
+			dimensions,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 }

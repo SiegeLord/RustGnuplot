@@ -7,8 +7,8 @@ use axes_common::*;
 use datatype::*;
 use options::*;
 use std::io::Write;
-use writer::Writer;
 use util::OneWayOwned;
+use writer::Writer;
 
 /// 3D axes that is used for drawing 3D plots
 pub struct Axes3D
@@ -53,9 +53,15 @@ impl Axes3D
 	pub fn surface<'l, T: DataType, X: IntoIterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption<&str>])
 		-> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot_matrix(Pm3D, true, mat, num_rows, num_cols, dimensions, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot_matrix(
+			Pm3D,
+			true,
+			mat,
+			num_rows,
+			num_cols,
+			dimensions,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -94,10 +100,13 @@ impl Axes3D
 	}
 
 	/// Like `set_x_ticks` but for the Z axis.
-	pub fn set_z_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
-		-> &'l mut Self
+	pub fn set_z_ticks<'l>(
+		&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>],
+		label_options: &[LabelOption<&str>],
+	) -> &'l mut Self
 	{
-		self.z_axis.set_ticks(tick_placement, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+		self.z_axis
+			.set_ticks(tick_placement, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
@@ -105,7 +114,8 @@ impl Axes3D
 	pub fn set_z_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
 		-> &'l mut Self
 	{
-		self.z_axis.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+		self.z_axis
+			.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
