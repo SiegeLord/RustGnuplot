@@ -8,13 +8,14 @@ pub use self::LabelType::*;
 pub use self::PlotType::*;
 pub use self::TickAxis::*;
 use coordinates::*;
+use util::OneWayOwned;
 
 use datatype::*;
 use options::*;
 use std::io::Write;
 use writer::*;
 
-pub struct PlotElement<'l>
+pub struct PlotElement
 {
 	data: Vec<f64>,
 	num_rows: usize,
@@ -22,12 +23,12 @@ pub struct PlotElement<'l>
 	plot_type: PlotType,
 	source_type: DataSourceType,
 	is_3d: bool,
-	options: Vec<PlotOption<'l>>,
+	options: Vec<PlotOption<String>>,
 }
 
-impl<'l> PlotElement<'l>
+impl PlotElement
 {
-	pub fn new_plot2<T1, X1, T2, X2>(plot_type: PlotType, x1: X1, x2: X2, options: Vec<PlotOption<'l>>) -> PlotElement
+	pub fn new_plot2<T1, X1, T2, X2>(plot_type: PlotType, x1: X1, x2: X2, options: Vec<PlotOption<String>>) -> PlotElement
 	where
 		T1: DataType,
 		X1: IntoIterator<Item = T1>,
@@ -55,7 +56,7 @@ impl<'l> PlotElement<'l>
 		}
 	}
 
-	pub fn new_plot3<T1, X1, T2, X2, T3, X3>(plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: Vec<PlotOption<'l>>) -> PlotElement
+	pub fn new_plot3<T1, X1, T2, X2, T3, X3>(plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: Vec<PlotOption<String>>) -> PlotElement
 	where
 		T1: DataType,
 		X1: IntoIterator<Item = T1>,
@@ -88,7 +89,7 @@ impl<'l> PlotElement<'l>
 
 	pub fn new_plot_matrix<T: DataType, X: IntoIterator<Item = T>>(
 		plot_type: PlotType, is_3d: bool, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>,
-		options: Vec<PlotOption<'l>>,
+		options: Vec<PlotOption<String>>,
 	) -> PlotElement
 	{
 		let mut count = 0;
@@ -261,7 +262,7 @@ impl<'l> PlotElement<'l>
 			{
 				writer.write_str(" border");
 				first_opt!{self.options,
-					BorderColor(s) =>
+					BorderColor(ref s) =>
 					{
 						write!(writer, r#" rgb "{}""#, s);
 					}
@@ -299,9 +300,9 @@ impl<'l> PlotElement<'l>
 
 		writer.write_str(" t \"");
 		first_opt!{self.options,
-			Caption(s) =>
+			Caption(ref s) =>
 			{
-				writer.write_str(s);
+				writer.write_str(&s);
 			}
 		}
 		writer.write_str("\"");
@@ -340,7 +341,7 @@ impl LabelType
 	}
 }
 
-pub fn write_out_label_options(label_type: LabelType, options: &[LabelOption], writer: &mut Writer)
+pub fn write_out_label_options(label_type: LabelType, options: &[LabelOption<String>], writer: &mut Writer)
 {
 	let w = writer;
 	match label_type
@@ -360,14 +361,14 @@ pub fn write_out_label_options(label_type: LabelType, options: &[LabelOption], w
 	}
 
 	first_opt!{options,
-		TextColor(s) =>
+		TextColor(ref s) =>
 		{
 			write!(w, r#" tc rgb "{}""#, s);
 		}
 	}
 
 	first_opt!{options,
-		Font(f, s) =>
+		Font(ref f, s) =>
 		{
 			write!(w, r#" font "{},{}""#, f, s);
 		}
@@ -394,7 +395,7 @@ pub fn write_out_label_options(label_type: LabelType, options: &[LabelOption], w
 		if have_point
 		{
 			first_opt!{options,
-				MarkerColor(s) =>
+				MarkerColor(ref s) =>
 				{
 					write!(w, r#" lc rgb "{}""#, s);
 				}
@@ -519,10 +520,10 @@ pub enum TickType
 	Auto(AutoOption<f64>, u32),
 }
 
-pub struct AxisData<'l>
+pub struct AxisData
 {
-	pub tick_options: Vec<TickOption<'l>>,
-	pub label_options: Vec<LabelOption<'l>>,
+	pub tick_options: Vec<TickOption<String>>,
+	pub label_options: Vec<LabelOption<String>>,
 	pub tick_type: TickType,
 	pub log_base: Option<f64>,
 	pub axis: TickAxis,
@@ -532,7 +533,7 @@ pub struct AxisData<'l>
 	pub grid: bool,
 }
 
-impl<'m> AxisData<'m>
+impl AxisData
 {
 	pub fn new(axis: TickAxis) -> Self
 	{
@@ -689,7 +690,7 @@ impl<'m> AxisData<'m>
 			let label_options = &self.label_options;
 			let tick_options = &self.tick_options;
 
-			write_out_label_options(AxesTicks, label_options, &mut *w);
+			write_out_label_options(AxesTicks, &label_options[..], &mut *w);
 
 			first_opt!{tick_options,
 				OnAxis(b) =>
@@ -744,7 +745,7 @@ impl<'m> AxisData<'m>
 			write!(w, " scale {:.12e},{:.12e}", minor_scale, major_scale);
 
 			first_opt!{tick_options,
-				Format(f) =>
+				Format(ref f) =>
 				{
 					write!(w, r#" format "{}""#, f);
 				}
@@ -753,7 +754,7 @@ impl<'m> AxisData<'m>
 		w.write_str("\n");
 	}
 
-	pub fn set_ticks_custom<T: DataType, TL: IntoIterator<Item = Tick<T>>>(&mut self, ticks: TL, tick_options: &[TickOption<'m>], label_options: &[LabelOption<'m>])
+	pub fn set_ticks_custom<T: DataType, TL: IntoIterator<Item = Tick<T>>>(&mut self, ticks: TL, tick_options: Vec<TickOption<String>>, label_options: Vec<LabelOption<String>>)
 	{
 		self.tick_type = TickType::Custom(
 			ticks
@@ -769,7 +770,7 @@ impl<'m> AxisData<'m>
 		self.label_options = label_options.into();
 	}
 
-	pub fn set_ticks(&mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<'m>], label_options: &[LabelOption<'m>])
+	pub fn set_ticks(&mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: Vec<TickOption<String>>, label_options: Vec<LabelOption<String>>)
 	{
 		if let Some((incr, mticks)) = tick_placement
 		{
@@ -834,23 +835,23 @@ enum DataSourceType
 	SizedArray(f64, f64, f64, f64),
 }
 
-pub struct AxesCommonData<'l>
+pub struct AxesCommonData
 {
 	pub commands: Vec<u8>,
-	pub grid_options: Vec<PlotOption<'l>>,
+	pub grid_options: Vec<PlotOption<String>>,
 	pub grid_front: bool,
-	pub elems: Vec<PlotElement<'l>>,
+	pub elems: Vec<PlotElement>,
 	pub grid_rows: u32,
 	pub grid_cols: u32,
 	pub grid_pos: Option<u32>,
-	pub x_axis: AxisData<'l>,
-	pub y_axis: AxisData<'l>,
-	pub cb_axis: AxisData<'l>,
+	pub x_axis: AxisData,
+	pub y_axis: AxisData,
+	pub cb_axis: AxisData,
 }
 
-impl<'m> AxesCommonData<'m>
+impl AxesCommonData
 {
-	pub fn new() -> AxesCommonData<'m>
+	pub fn new() -> AxesCommonData
 	{
 		AxesCommonData {
 			commands: vec![],
@@ -892,7 +893,7 @@ impl<'m> AxesCommonData<'m>
 		}
 	}
 
-	pub fn write_line_options(c: &mut Writer, options: &[PlotOption])
+	pub fn write_line_options(c: &mut Writer, options: &[PlotOption<String>])
 	{
 		let mut found = false;
 		c.write_str(" lw ");
@@ -923,13 +924,13 @@ impl<'m> AxesCommonData<'m>
 		}
 	}
 
-	pub fn write_color_options<'l>(c: &mut Writer, options: &[PlotOption<'l>], default: Option<&'l str>)
+	pub fn write_color_options(c: &mut Writer, options: &[PlotOption<String>], default: Option<&str>)
 	{
 		let mut col = default;
 		first_opt!{options,
-			Color(s) =>
+			Color(ref s) =>
 			{
-				col = Some(s)
+				col = Some(&s)
 			}
 		}
 		match col
@@ -973,7 +974,7 @@ impl<'m> AxesCommonData<'m>
 		}
 	}
 
-	pub fn set_label_common(&mut self, label_type: LabelType, text: &str, options: &[LabelOption])
+	pub fn set_label_common(&mut self, label_type: LabelType, text: &str, options: &[LabelOption<&str>])
 	{
 		let c = &mut self.commands;
 
@@ -995,20 +996,20 @@ impl<'m> AxesCommonData<'m>
 		c.write_str(text);
 		c.write_str("\"");
 
-		write_out_label_options(label_type, options, &mut *c);
+		write_out_label_options(label_type, &options.to_one_way_owned()[..], &mut *c);
 
 		c.write_str("\n");
 	}
 }
 
 #[doc(hidden)]
-pub trait AxesCommonPrivate<'l>
+pub trait AxesCommonPrivate
 {
-	fn get_common_data(&self) -> &AxesCommonData<'l>;
-	fn get_common_data_mut(&mut self) -> &mut AxesCommonData<'l>;
+	fn get_common_data(&self) -> &AxesCommonData;
+	fn get_common_data_mut(&mut self) -> &mut AxesCommonData;
 }
 
-pub trait AxesCommon<'m>: AxesCommonPrivate<'m>
+pub trait AxesCommon: AxesCommonPrivate
 {
 	/// Set the position of the axes on the figure using grid coordinates.
 	/// # Arguments
@@ -1084,21 +1085,21 @@ pub trait AxesCommon<'m>: AxesCommonPrivate<'m>
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_label<'l>(&'l mut self, text: &str, options: &[LabelOption<'m>]) -> &'l mut Self
+	fn set_x_label<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>]) -> &'l mut Self
 	{
 		self.get_common_data_mut().set_label_common(XLabel, text, options);
 		self
 	}
 
 	/// Like `set_x_label`, but for the Y axis
-	fn set_y_label<'l>(&'l mut self, text: &str, options: &[LabelOption<'m>]) -> &'l mut Self
+	fn set_y_label<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>]) -> &'l mut Self
 	{
 		self.get_common_data_mut().set_label_common(YLabel, text, options);
 		self
 	}
 
 	/// Like `set_x_label`, but for the color bar
-	fn set_cb_label<'l>(&'l mut self, text: &str, options: &[LabelOption<'m>]) -> &'l mut Self
+	fn set_cb_label<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>]) -> &'l mut Self
 	{
 		self.get_common_data_mut().set_label_common(CBLabel, text, options);
 		self
@@ -1107,13 +1108,13 @@ pub trait AxesCommon<'m>: AxesCommonPrivate<'m>
 	/// Set the title for the axes
 	/// # Arguments
 	/// * `text` - Text of the title. Pass an empty string to hide the title
-	/// * `options` - Array of LabelOption<'m> controlling the appearance of the title. Relevant options are:
+	/// * `options` - Array of LabelOption<&str> controlling the appearance of the title. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_title<'l>(&'l mut self, text: &str, options: &[LabelOption<'m>]) -> &'l mut Self
+	fn set_title<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>]) -> &'l mut Self
 	{
 		self.get_common_data_mut().set_label_common(TitleLabel, text, options);
 		self
@@ -1124,7 +1125,7 @@ pub trait AxesCommon<'m>: AxesCommonPrivate<'m>
 	/// * `text` - Text of the label
 	/// * `x` - X coordinate of the label
 	/// * `y` - Y coordinate of the label
-	/// * `options` - Array of LabelOption<'m> controlling the appearance of the label. Relevant options are:
+	/// * `options` - Array of LabelOption<&str> controlling the appearance of the label. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
@@ -1133,7 +1134,7 @@ pub trait AxesCommon<'m>: AxesCommonPrivate<'m>
 	///      * `MarkerSymbol` - Specifies the symbol for the marker. Omit to hide the marker
 	///      * `MarkerSize` - Specifies the size for the marker
 	///      * `MarkerColor` - Specifies the color for the marker
-	fn label<'l>(&'l mut self, text: &str, x: Coordinate, y: Coordinate, options: &[LabelOption<'m>]) -> &'l mut Self
+	fn label<'l>(&'l mut self, text: &str, x: Coordinate, y: Coordinate, options: &[LabelOption<&str>]) -> &'l mut Self
 	{
 		self.get_common_data_mut().set_label_common(Label(x, y), text, options);
 		self
@@ -1147,32 +1148,32 @@ pub trait AxesCommon<'m>: AxesCommonPrivate<'m>
 	///                      tuple value specifies the number of minor ticks. For logarithmic axes, non-zero values mean that the number of ticks usually
 	///                      equals to `ceil(log_base) - 2`.
 	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
-	/// * `label_options` - Array of LabelOption<'m> controlling the appearance of the tick labels. Relevant options are:
+	/// * `label_options` - Array of LabelOption<&str> controlling the appearance of the tick labels. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<'m>], label_options: &[LabelOption<'m>])
+	fn set_x_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
 		-> &'l mut Self
 	{
-		self.get_common_data_mut().x_axis.set_ticks(tick_placement, tick_options, label_options);
+		self.get_common_data_mut().x_axis.set_ticks(tick_placement, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
 	/// Like `set_x_ticks` but for the Y axis.
-	fn set_y_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<'m>], label_options: &[LabelOption<'m>])
+	fn set_y_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
 		-> &'l mut Self
 	{
-		self.get_common_data_mut().y_axis.set_ticks(tick_placement, tick_options, label_options);
+		self.get_common_data_mut().y_axis.set_ticks(tick_placement, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
 	/// Like `set_x_ticks` but for the color bar axis.
-	fn set_cb_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<'m>], label_options: &[LabelOption<'m>])
+	fn set_cb_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
 		-> &'l mut Self
 	{
-		self.get_common_data_mut().cb_axis.set_ticks(tick_placement, tick_options, label_options);
+		self.get_common_data_mut().cb_axis.set_ticks(tick_placement, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
@@ -1184,32 +1185,32 @@ pub trait AxesCommon<'m>: AxesCommonPrivate<'m>
 	///     The label can contain a single C printf style floating point formatting specifier which will be replaced by the
 	///     location of the tic.
 	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
-	/// * `label_options` - Array of LabelOption<'m> controlling the appearance of the tick labels. Relevant options are:
+	/// * `label_options` - Array of LabelOption<&str> controlling the appearance of the tick labels. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
 	///      * `Font` - Specifies the font of the label
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<'m>], label_options: &[LabelOption<'m>])
+	fn set_x_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
 		-> &'l mut Self
 	{
-		self.get_common_data_mut().x_axis.set_ticks_custom(ticks, tick_options, label_options);
+		self.get_common_data_mut().x_axis.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	fn set_y_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<'m>], label_options: &[LabelOption<'m>])
+	fn set_y_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
 		-> &'l mut Self
 	{
-		self.get_common_data_mut().y_axis.set_ticks_custom(ticks, tick_options, label_options);
+		self.get_common_data_mut().y_axis.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the color bar axis.
-	fn set_cb_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<'m>], label_options: &[LabelOption<'m>])
+	fn set_cb_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
 		-> &'l mut Self
 	{
-		self.get_common_data_mut().cb_axis.set_ticks_custom(ticks, tick_options, label_options);
+		self.get_common_data_mut().cb_axis.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
@@ -1332,10 +1333,10 @@ pub trait AxesCommon<'m>: AxesCommonPrivate<'m>
 	///      * `Color` - Specifies the color of the grid lines
 	///      * `LineStyle` - Specifies the style of the grid lines
 	///      * `LineWidth` - Specifies the width of the grid lines
-	fn set_grid_options<'l>(&'l mut self, front: bool, options: &[PlotOption<'m>]) -> &'l mut Self
+	fn set_grid_options<'l>(&'l mut self, front: bool, options: &[PlotOption<&str>]) -> &'l mut Self
 	{
 		self.get_common_data_mut().grid_front = front;
-		self.get_common_data_mut().grid_options = options.into();
+		self.get_common_data_mut().grid_options = options.to_one_way_owned();
 		self
 	}
 

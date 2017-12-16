@@ -14,13 +14,13 @@ use std::io::{BufWriter, Write};
 use std::process::{Child, Command, Stdio};
 use writer::Writer;
 
-enum AxesVariant<'l>
+enum AxesVariant
 {
-	Axes2DType(Axes2D<'l>),
-	Axes3DType(Axes3D<'l>),
+	Axes2DType(Axes2D),
+	Axes3DType(Axes3D),
 }
 
-impl<'l> AxesVariant<'l>
+impl AxesVariant
 {
 	fn write_out(&self, writer: &mut Writer)
 	{
@@ -31,7 +31,7 @@ impl<'l> AxesVariant<'l>
 		}
 	}
 
-	fn get_common_data(&self) -> &AxesCommonData<'l>
+	fn get_common_data(&self) -> &AxesCommonData
 	{
 		match *self
 		{
@@ -42,19 +42,19 @@ impl<'l> AxesVariant<'l>
 }
 
 /// A figure that may contain multiple axes
-pub struct Figure<'l>
+pub struct Figure
 {
-	axes: Vec<AxesVariant<'l>>,
+	axes: Vec<AxesVariant>,
 	terminal: String,
 	output_file: String,
 	// RefCell so that we can echo to it
 	gnuplot: RefCell<Option<Child>>,
 }
 
-impl<'m> Figure<'m>
+impl Figure
 {
 	/// Creates a new figure
-	pub fn new() -> Figure<'m>
+	pub fn new() -> Figure
 	{
 		Figure { axes: Vec::new(), terminal: "".to_string(), output_file: "".to_string(), gnuplot: RefCell::new(None) }
 	}
@@ -71,7 +71,7 @@ impl<'m> Figure<'m>
 	///
 	/// As of now you can hack the canvas size in by using "pngcairo size 600, 400" for `terminal`.
 	/// Be prepared for that kludge to go away, though.
-	pub fn set_terminal<'l>(&'l mut self, terminal: &str, output_file: &str) -> &'l mut Figure<'m>
+	pub fn set_terminal<'l>(&'l mut self, terminal: &str, output_file: &str) -> &'l mut Figure
 	{
 		self.terminal = terminal.to_string();
 		self.output_file = output_file.to_string();
@@ -79,7 +79,7 @@ impl<'m> Figure<'m>
 	}
 
 	/// Creates a set of 2D axes
-	pub fn axes2d(&mut self) -> &mut Axes2D<'m>
+	pub fn axes2d(&mut self) -> &mut Axes2D
 	{
 		self.axes.push(Axes2DType(Axes2D::new()));
 		let l = self.axes.len();
@@ -91,7 +91,7 @@ impl<'m> Figure<'m>
 	}
 
 	/// Creates a set of 3D axes
-	pub fn axes3d(&mut self) -> &mut Axes3D<'m>
+	pub fn axes3d(&mut self) -> &mut Axes3D
 	{
 		self.axes.push(Axes3DType(Axes3D::new()));
 		let l = self.axes.len();

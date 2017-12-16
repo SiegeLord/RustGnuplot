@@ -2,6 +2,8 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
+use util::OneWayOwned;
+
 pub use self::AlignType::*;
 pub use self::ArrowheadType::*;
 pub use self::AutoOption::*;
@@ -19,7 +21,7 @@ pub use self::TickOption::*;
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others
 #[derive(Copy, Clone)]
-pub enum PlotOption<'l>
+pub enum PlotOption<T>
 {
 	/// Sets the symbol used for points. The valid characters are as follows:
 	///
@@ -41,15 +43,15 @@ pub enum PlotOption<'l>
 	/// Sets the size of the points. The size acts as a multiplier, with 1.0 being the default.
 	PointSize(f64),
 	/// Sets the caption of the plot element. Set to empty to hide it from the legend.
-	Caption(&'l str),
+	Caption(T),
 	/// Sets the width of lines.
 	LineWidth(f64),
 	/// Sets the color of the plot element. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white). This specifies the fill color of a filled plot.
-	Color(&'l str),
+	Color(T),
 	/// Sets the color of the border of a filled plot (if it has one). The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white).
-	BorderColor(&'l str),
+	BorderColor(T),
 	/// Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.
 	LineStyle(DashType),
 	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque
@@ -60,6 +62,28 @@ pub enum PlotOption<'l>
 	ArrowType(ArrowheadType),
 	/// Sets the size of the arrowhead. This is specified in the units of graph (i.e. `1.0` would make the arrow as big as the graph).
 	ArrowSize(f64),
+}
+
+impl<'l> OneWayOwned for PlotOption<&'l str>
+{
+	type Output = PlotOption<String>;
+	fn to_one_way_owned(&self) -> Self::Output
+	{
+		match *self
+		{
+			PointSymbol(v) => PointSymbol(v),
+			PointSize(v) => PointSize(v),
+			Caption(v) => Caption(v.into()),
+			LineWidth(v) => LineWidth(v),
+			Color(v) => Color(v.into()),
+			BorderColor(v) => BorderColor(v.into()),
+			LineStyle(v) => LineStyle(v),
+			FillAlpha(v) => FillAlpha(v),
+			FillRegion(v) => FillRegion(v),
+			ArrowType(v) => ArrowType(v),
+			ArrowSize(v) => ArrowSize(v),
+		}
+	}
 }
 
 /// An enumeration of possible fill regions
@@ -148,17 +172,30 @@ impl<T> AutoOption<T>
 	}
 }
 
+impl<'l> OneWayOwned for AutoOption<&'l str>
+{
+	type Output = AutoOption<String>;
+	fn to_one_way_owned(&self) -> Self::Output
+	{
+		match *self
+		{
+			Fix(v) => Fix(v.into()),
+			Auto => Auto,
+		}
+	}
+}
+
 /// An enumeration of label options that control label attributes
 #[derive(Copy, Clone)]
-pub enum LabelOption<'l>
+pub enum LabelOption<T>
 {
 	/// Sets the offset of the label in characters
 	TextOffset(f64, f64),
 	/// Sets the font of the label. The string specifies the font type (e.g. "Arial") and the number specifies the size (the units are terminal dependent, but are often points)
-	Font(&'l str, f64),
+	Font(T, f64),
 	/// Sets the color of the label text. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
-	TextColor(&'l str),
+	TextColor(T),
 	/// Rotates the label by a certain number of degrees
 	Rotate(f64),
 	/// Sets the horizontal alignment of the label text (default is left alignment). See AlignType.
@@ -182,14 +219,33 @@ pub enum LabelOption<'l>
 	MarkerSymbol(char),
 	/// Sets the color of the marker. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
-	MarkerColor(&'l str),
+	MarkerColor(T),
 	/// Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.
 	MarkerSize(f64),
 }
 
+impl<'l> OneWayOwned for LabelOption<&'l str>
+{
+	type Output = LabelOption<String>;
+	fn to_one_way_owned(&self) -> Self::Output
+	{
+		match *self
+		{
+			TextOffset(v1, v2) => TextOffset(v1, v2),
+			Font(v1, v2) => Font(v1.into(), v2),
+			TextColor(v) => TextColor(v.into()),
+			Rotate(v) => Rotate(v),
+			TextAlign(v) => TextAlign(v),
+			MarkerSymbol(v) => MarkerSymbol(v),
+			MarkerColor(v) => MarkerColor(v.into()),
+			MarkerSize(v) => MarkerSize(v),
+		}
+	}
+}
+
 /// An enumeration of axis tick options
 #[derive(Copy, Clone)]
-pub enum TickOption<'l>
+pub enum TickOption<T>
 {
 	/// Specifies whether the ticks are drawn at the borders of the plot, or on the axis
 	OnAxis(bool),
@@ -202,7 +258,24 @@ pub enum TickOption<'l>
 	/// Sets the scale of the major ticks
 	MajorScale(f64),
 	/// Format of the tick labels, e.g. "%.1f ms" will produces labels with "1 ms, 2 ms" etc.
-	Format(&'l str),
+	Format(T),
+}
+
+impl<'l> OneWayOwned for TickOption<&'l str>
+{
+	type Output = TickOption<String>;
+	fn to_one_way_owned(&self) -> Self::Output
+	{
+		match *self
+		{
+			OnAxis(v) => OnAxis(v),
+			Mirror(v) => Mirror(v),
+			Inward(v) => Inward(v),
+			MinorScale(v) => MinorScale(v),
+			MajorScale(v) => MajorScale(v),
+			Format(v) => Format(v.into()),
+		}
+	}
 }
 
 /// Specifies a type of axis tick
@@ -226,7 +299,7 @@ pub enum BorderLocation2D
 
 /// Legend options
 #[derive(Copy, Clone)]
-pub enum LegendOption<'l>
+pub enum LegendOption<T>
 {
 	/// Puts curve samples to the left of the label
 	Reverse,
@@ -238,11 +311,29 @@ pub enum LegendOption<'l>
 	/// placement with respect to its position, and the second argument specifies the vertical placement
 	Placement(AlignType, AlignType),
 	/// Title of the legend
-	Title(&'l str),
+	Title(T),
 	/// Specifies the maximum number of rows, when the legend is vertical
 	MaxRows(u32),
 	/// Specifies the maximum number of columns, when the legend is horizontal
 	MaxCols(u32),
+}
+
+impl<'l> OneWayOwned for LegendOption<&'l str>
+{
+	type Output = LegendOption<String>;
+	fn to_one_way_owned(&self) -> Self::Output
+	{
+		match *self
+		{
+			Reverse => Reverse,
+			Invert => Invert,
+			Horizontal => Horizontal,
+			Placement(v1, v2) => Placement(v1, v2),
+			Title(v) => Title(v.into()),
+			MaxRows(v) => MaxRows(v),
+			MaxCols(v) => MaxCols(v),
+		}
+	}
 }
 
 /// Specifies how the contours are drawn

@@ -47,3 +47,18 @@ macro_rules! first_opt_default
 		}
 	)
 }
+
+pub(crate) trait OneWayOwned
+{
+	type Output;
+	fn to_one_way_owned(&self) -> Self::Output;
+}
+
+impl<'l, T: OneWayOwned> OneWayOwned for &'l [T]
+{
+	type Output = Vec<<T as OneWayOwned>::Output>;
+	fn to_one_way_owned(&self) -> Self::Output
+	{
+		self.iter().map(|v| v.to_one_way_owned()).collect()
+	}
+}

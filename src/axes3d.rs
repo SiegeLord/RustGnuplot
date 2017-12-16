@@ -8,12 +8,13 @@ use datatype::*;
 use options::*;
 use std::io::Write;
 use writer::Writer;
+use util::OneWayOwned;
 
 /// 3D axes that is used for drawing 3D plots
-pub struct Axes3D<'l>
+pub struct Axes3D
 {
-	common: AxesCommonData<'l>,
-	z_axis: AxisData<'l>,
+	common: AxesCommonData,
+	z_axis: AxisData,
 	contour_base: bool,
 	contour_surface: bool,
 	contour_auto: AutoOption<u32>,
@@ -22,9 +23,9 @@ pub struct Axes3D<'l>
 	contour_label: AutoOption<String>,
 }
 
-impl<'m> Axes3D<'m>
+impl Axes3D
 {
-	pub(crate) fn new() -> Axes3D<'m>
+	pub(crate) fn new() -> Axes3D
 	{
 		Axes3D {
 			common: AxesCommonData::new(),
@@ -49,12 +50,12 @@ impl<'m> Axes3D<'m>
 	///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.
 	/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-	pub fn surface<'l, T: DataType, X: IntoIterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption<'m>])
+	pub fn surface<'l, T: DataType, X: IntoIterator<Item = T>>(&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption<&str>])
 		-> &'l mut Self
 	{
 		self.common
 			.elems
-			.push(PlotElement::new_plot_matrix(Pm3D, true, mat, num_rows, num_cols, dimensions, options.to_vec()));
+			.push(PlotElement::new_plot_matrix(Pm3D, true, mat, num_rows, num_cols, dimensions, options.to_one_way_owned()));
 		self
 	}
 
@@ -86,25 +87,25 @@ impl<'m> Axes3D<'m>
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	pub fn set_z_label<'l>(&'l mut self, text: &str, options: &[LabelOption]) -> &'l mut Self
+	pub fn set_z_label<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>]) -> &'l mut Self
 	{
 		self.get_common_data_mut().set_label_common(ZLabel, text, options);
 		self
 	}
 
 	/// Like `set_x_ticks` but for the Z axis.
-	pub fn set_z_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<'m>], label_options: &[LabelOption<'m>])
+	pub fn set_z_ticks<'l>(&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
 		-> &'l mut Self
 	{
-		self.z_axis.set_ticks(tick_placement, tick_options, label_options);
+		self.z_axis.set_ticks(tick_placement, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	pub fn set_z_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<'m>], label_options: &[LabelOption<'m>])
+	pub fn set_z_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
 		-> &'l mut Self
 	{
-		self.z_axis.set_ticks_custom(ticks, tick_options, label_options);
+		self.z_axis.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
@@ -191,27 +192,27 @@ impl<'m> Axes3D<'m>
 	}
 }
 
-impl<'l> AxesCommonPrivate<'l> for Axes3D<'l>
+impl AxesCommonPrivate for Axes3D
 {
-	fn get_common_data_mut(&mut self) -> &mut AxesCommonData<'l>
+	fn get_common_data_mut(&mut self) -> &mut AxesCommonData
 	{
 		&mut self.common
 	}
 
-	fn get_common_data(&self) -> &AxesCommonData<'l>
+	fn get_common_data(&self) -> &AxesCommonData
 	{
 		&self.common
 	}
 }
 
-impl<'l> AxesCommon<'l> for Axes3D<'l> {}
+impl AxesCommon for Axes3D {}
 
 pub(crate) trait Axes3DPrivate
 {
 	fn write_out(&self, writer: &mut Writer);
 }
 
-impl<'l> Axes3DPrivate for Axes3D<'l>
+impl Axes3DPrivate for Axes3D
 {
 	fn write_out(&self, w: &mut Writer)
 	{
