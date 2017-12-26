@@ -87,6 +87,90 @@ impl PlotElement
 		}
 	}
 
+	pub fn new_plot5<T1, X1, T2, X2, T3, X3, T4, X4, T5, X5>(plot_type: PlotType, x1: X1, x2: X2, x3: X3, x4: X4, x5: X5, options: Vec<PlotOption<String>>)
+		-> PlotElement
+	where
+		T1: DataType,
+		X1: IntoIterator<Item = T1>,
+		T2: DataType,
+		X2: IntoIterator<Item = T2>,
+		T3: DataType,
+		X3: IntoIterator<Item = T3>,
+		T4: DataType,
+		X4: IntoIterator<Item = T4>,
+		T5: DataType,
+		X5: IntoIterator<Item = T5>,
+	{
+		let mut num_rows = 0;
+		let mut data = vec![];
+		// TODO: Reserve.
+		for ((((x1, x2), x3), x4), x5) in x1.into_iter().zip(x2.into_iter()).zip(x3.into_iter()).zip(x4.into_iter()).zip(x5.into_iter())
+		{
+			data.push(x1.get());
+			data.push(x2.get());
+			data.push(x3.get());
+			data.push(x4.get());
+			data.push(x5.get());
+			num_rows += 1;
+		}
+
+		PlotElement {
+			data: data,
+			num_rows: num_rows,
+			num_cols: 5,
+			plot_type: plot_type,
+			source_type: Record,
+			is_3d: false,
+			options: options,
+		}
+	}
+
+	pub fn new_plot6<T1, X1, T2, X2, T3, X3, T4, X4, T5, X5, T6, X6>(plot_type: PlotType, x1: X1, x2: X2, x3: X3, x4: X4, x5: X5, x6: X6, options: Vec<PlotOption<String>>)
+		-> PlotElement
+	where
+		T1: DataType,
+		X1: IntoIterator<Item = T1>,
+		T2: DataType,
+		X2: IntoIterator<Item = T2>,
+		T3: DataType,
+		X3: IntoIterator<Item = T3>,
+		T4: DataType,
+		X4: IntoIterator<Item = T4>,
+		T5: DataType,
+		X5: IntoIterator<Item = T5>,
+		T6: DataType,
+		X6: IntoIterator<Item = T6>,
+	{
+		let mut num_rows = 0;
+		let mut data = vec![];
+		// TODO: Reserve.
+		for (((((x1, x2), x3), x4), x5), x6) in x1.into_iter()
+			.zip(x2.into_iter())
+			.zip(x3.into_iter())
+			.zip(x4.into_iter())
+			.zip(x5.into_iter())
+			.zip(x6.into_iter())
+		{
+			data.push(x1.get());
+			data.push(x2.get());
+			data.push(x3.get());
+			data.push(x4.get());
+			data.push(x5.get());
+			data.push(x6.get());
+			num_rows += 1;
+		}
+
+		PlotElement {
+			data: data,
+			num_rows: num_rows,
+			num_cols: 6,
+			plot_type: plot_type,
+			source_type: Record,
+			is_3d: false,
+			options: options,
+		}
+	}
+
 	pub fn new_plot_matrix<T: DataType, X: IntoIterator<Item = T>>(
 		plot_type: PlotType, is_3d: bool, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>,
 		options: Vec<PlotOption<String>>,
@@ -217,6 +301,7 @@ impl PlotElement
 			YErrorBars => "yerrorbars",
 			FillBetween => "filledcurves",
 			Boxes => "boxes",
+			BoxAndWhisker => "candlestick",
 			Pm3D => "pm3d",
 			Image => "image",
 		};
@@ -306,6 +391,13 @@ impl PlotElement
 			}
 		}
 		writer.write_str("\"");
+
+		first_opt!{self.options,
+			WhiskerBars(f) =>
+			{
+				write!(writer, " whiskerbars {}", f);
+			}
+		}
 	}
 
 	fn write_data(&self, writer: &mut Writer)
@@ -479,6 +571,7 @@ pub enum PlotType
 	YErrorBars,
 	FillBetween,
 	Boxes,
+	BoxAndWhisker,
 	Pm3D,
 	Image,
 }
@@ -489,7 +582,7 @@ impl PlotType
 	{
 		match *self
 		{
-			Lines | LinesPoints | XErrorLines | Boxes | YErrorLines => true,
+			Lines | LinesPoints | XErrorLines | Boxes | YErrorLines | BoxAndWhisker => true,
 			_ => false,
 		}
 	}
@@ -507,7 +600,7 @@ impl PlotType
 	{
 		match *self
 		{
-			Boxes | FillBetween => true,
+			Boxes | FillBetween | BoxAndWhisker => true,
 			_ => false,
 		}
 	}

@@ -62,6 +62,8 @@ pub enum PlotOption<T>
 	ArrowType(ArrowheadType),
 	/// Sets the size of the arrowhead. This is specified in the units of graph (i.e. `1.0` would make the arrow as big as the graph).
 	ArrowSize(f64),
+	/// Width of the whisker bars (as a fraction of the box width) for box and whisker plots.
+	WhiskerBars(f64),
 }
 
 impl<'l> OneWayOwned for PlotOption<&'l str>
@@ -82,6 +84,7 @@ impl<'l> OneWayOwned for PlotOption<&'l str>
 			FillRegion(v) => FillRegion(v),
 			ArrowType(v) => ArrowType(v),
 			ArrowSize(v) => ArrowSize(v),
+			WhiskerBars(v) => WhiskerBars(v),
 		}
 	}
 }

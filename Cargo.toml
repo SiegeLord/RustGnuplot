@@ -42,3 +42,8 @@ path = "examples/example4.rs"
 
 name = "animation_example"
 path = "examples/animation_example.rs"
+
+[[example]]
+
+name = "box_and_whisker"
+path = "examples/box_and_whisker.rs"
