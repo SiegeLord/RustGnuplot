@@ -51,8 +51,22 @@ impl Common
 
 		let mut args = ArgParser::new(arg_vec[0].clone());
 
-		args.add_opt("no-show", Some("false"), 'n', false, "do not run the gnuplot process.", ArgType::Flag);
-		args.add_opt("terminal", None, 't', false, "specify what terminal to use for gnuplot.", ArgType::Option);
+		args.add_opt(
+			"no-show",
+			Some("false"),
+			'n',
+			false,
+			"do not run the gnuplot process.",
+			ArgType::Flag,
+		);
+		args.add_opt(
+			"terminal",
+			None,
+			't',
+			false,
+			"specify what terminal to use for gnuplot.",
+			ArgType::Option,
+		);
 
 		let res = args.parse(arg_vec.iter()).unwrap();
 
@@ -79,6 +93,8 @@ impl Common
 
 	pub fn set_term(&self, fg: &mut Figure)
 	{
-		self.term.as_ref().map(|t| { fg.set_terminal(&t[..], ""); });
+		self.term.as_ref().map(|t| {
+			fg.set_terminal(&t[..], "");
+		});
 	}
 }

@@ -50,7 +50,13 @@ fn example(c: Common)
 			Graph(1.0),
 			Axis(1.0),
 			Axis(1.0),
-			&[ArrowType(Filled), ArrowSize(0.1), LineStyle(DotDotDash), LineWidth(2.0), Color("red")],
+			&[
+				ArrowType(Filled),
+				ArrowSize(0.1),
+				LineStyle(DotDotDash),
+				LineWidth(2.0),
+				Color("red"),
+			],
 		)
 		.arrow(Graph(0.5), Graph(1.0), Axis(3.0), Axis(9.0), &[ArrowType(Open), Color("green")]);
 

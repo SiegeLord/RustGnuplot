@@ -2,7 +2,6 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-
 pub use self::Coordinate::*;
 use std::fmt;
 

@@ -7,10 +7,8 @@ pub trait DataType
 	fn get(&self) -> f64;
 }
 
-macro_rules! impl_data_type
-{
-	($T:ty) =>
-	(
+macro_rules! impl_data_type {
+	($T:ty) => {
 		impl<'l> DataType for &'l $T
 		{
 			fn get(&self) -> f64
@@ -18,13 +16,11 @@ macro_rules! impl_data_type
 				**self as f64
 			}
 		}
-	)
+	};
 }
 
-macro_rules! impl_data_type_ref
-{
-	($T:ty) =>
-	(
+macro_rules! impl_data_type_ref {
+	($T:ty) => {
 		impl DataType for $T
 		{
 			fn get(&self) -> f64
@@ -32,7 +28,7 @@ macro_rules! impl_data_type_ref
 				*self as f64
 			}
 		}
-	)
+	};
 }
 
 impl_data_type!(u8);

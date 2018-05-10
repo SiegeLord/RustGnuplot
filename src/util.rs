@@ -10,7 +10,7 @@ macro_rules! first_opt
 		{
 			match *o
 			{
-				$P => 
+				$P =>
 				{
 					$B
 					break;
@@ -31,7 +31,7 @@ macro_rules! first_opt_default
 			{
 				match *o
 				{
-					$P => 
+					$P =>
 					{
 						found = true;
 						$B

@@ -87,8 +87,9 @@ impl PlotElement
 		}
 	}
 
-	pub fn new_plot5<T1, X1, T2, X2, T3, X3, T4, X4, T5, X5>(plot_type: PlotType, x1: X1, x2: X2, x3: X3, x4: X4, x5: X5, options: Vec<PlotOption<String>>)
-		-> PlotElement
+	pub fn new_plot5<T1, X1, T2, X2, T3, X3, T4, X4, T5, X5>(
+		plot_type: PlotType, x1: X1, x2: X2, x3: X3, x4: X4, x5: X5, options: Vec<PlotOption<String>>,
+	) -> PlotElement
 	where
 		T1: DataType,
 		X1: IntoIterator<Item = T1>,
@@ -104,7 +105,11 @@ impl PlotElement
 		let mut num_rows = 0;
 		let mut data = vec![];
 		// TODO: Reserve.
-		for ((((x1, x2), x3), x4), x5) in x1.into_iter().zip(x2.into_iter()).zip(x3.into_iter()).zip(x4.into_iter()).zip(x5.into_iter())
+		for ((((x1, x2), x3), x4), x5) in x1.into_iter()
+			.zip(x2.into_iter())
+			.zip(x3.into_iter())
+			.zip(x4.into_iter())
+			.zip(x5.into_iter())
 		{
 			data.push(x1.get());
 			data.push(x2.get());
@@ -125,8 +130,9 @@ impl PlotElement
 		}
 	}
 
-	pub fn new_plot6<T1, X1, T2, X2, T3, X3, T4, X4, T5, X5, T6, X6>(plot_type: PlotType, x1: X1, x2: X2, x3: X3, x4: X4, x5: X5, x6: X6, options: Vec<PlotOption<String>>)
-		-> PlotElement
+	pub fn new_plot6<T1, X1, T2, X2, T3, X3, T4, X4, T5, X5, T6, X6>(
+		plot_type: PlotType, x1: X1, x2: X2, x3: X3, x4: X4, x5: X5, x6: X6, options: Vec<PlotOption<String>>,
+	) -> PlotElement
 	where
 		T1: DataType,
 		X1: IntoIterator<Item = T1>,
@@ -218,7 +224,11 @@ impl PlotElement
 		{
 			Record =>
 			{
-				write!(writer, r#" "-" binary endian=little record={} format="%float64" using "#, self.num_rows);
+				write!(
+					writer,
+					r#" "-" binary endian=little record={} format="%float64" using "#,
+					self.num_rows
+				);
 
 				let mut col_idx = 1;
 				while col_idx < self.num_cols + 1
@@ -236,31 +246,16 @@ impl PlotElement
 				write!(
 					writer,
 					r#" "-" binary endian=little array=({},{}) format="%float64" "#,
-					self.num_cols,
-					self.num_rows
+					self.num_cols, self.num_rows
 				);
 
 				match self.source_type
 				{
 					SizedArray(x1, y1, x2, y2) =>
 					{
-						let (x1, x2) = if x1 > x2
-						{
-							(x2, x1)
-						}
-						else
-						{
-							(x1, x2)
-						};
+						let (x1, x2) = if x1 > x2 { (x2, x1) } else { (x1, x2) };
 
-						let (y1, y2) = if y1 > y2
-						{
-							(y2, y1)
-						}
-						else
-						{
-							(y1, y2)
-						};
+						let (y1, y2) = if y1 > y2 { (y2, y1) } else { (y1, y2) };
 						write!(writer, "origin=({:.12e},{:.12e}", x1, y1);
 						if self.is_3d
 						{
@@ -847,7 +842,9 @@ impl AxisData
 		w.write_str("\n");
 	}
 
-	pub fn set_ticks_custom<T: DataType, TL: IntoIterator<Item = Tick<T>>>(&mut self, ticks: TL, tick_options: Vec<TickOption<String>>, label_options: Vec<LabelOption<String>>)
+	pub fn set_ticks_custom<T: DataType, TL: IntoIterator<Item = Tick<T>>>(
+		&mut self, ticks: TL, tick_options: Vec<TickOption<String>>, label_options: Vec<LabelOption<String>>,
+	)
 	{
 		self.tick_type = TickType::Custom(
 			ticks
@@ -1299,8 +1296,9 @@ pub trait AxesCommon: AxesCommonPrivate
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
-		-> &'l mut Self
+	fn set_x_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(
+		&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>],
+	) -> &'l mut Self
 	{
 		self.get_common_data_mut()
 			.x_axis
@@ -1309,8 +1307,9 @@ pub trait AxesCommon: AxesCommonPrivate
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	fn set_y_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
-		-> &'l mut Self
+	fn set_y_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(
+		&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>],
+	) -> &'l mut Self
 	{
 		self.get_common_data_mut()
 			.y_axis
@@ -1319,8 +1318,9 @@ pub trait AxesCommon: AxesCommonPrivate
 	}
 
 	/// Like `set_x_ticks_custom` but for the the color bar axis.
-	fn set_cb_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>])
-		-> &'l mut Self
+	fn set_cb_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(
+		&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>],
+	) -> &'l mut Self
 	{
 		self.get_common_data_mut()
 			.cb_axis
@@ -1483,10 +1483,7 @@ pub trait AxesCommon: AxesCommonPrivate
 					writeln!(
 						c,
 						"set palette cubehelix start {:.12e} cycles {:.12e} saturation {:.12e} gamma {:.12e}",
-						start,
-						rev,
-						sat,
-						gamma
+						start, rev, sat, gamma
 					);
 				}
 			}
