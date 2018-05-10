@@ -59,5 +59,10 @@ path = "examples/lines_3d.rs"
 
 [[example]]
 
+name = "points_3d"
+path = "examples/points_3d.rs"
+
+[[example]]
+
 name = "lines_points_3d"
 path = "examples/lines_points_3d.rs"
