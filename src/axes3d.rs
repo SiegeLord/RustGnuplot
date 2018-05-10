@@ -65,6 +65,86 @@ impl Axes3D
 		self
 	}
 
+	/// Plot a 3D scatter-plot with a point standing in for each data point
+	/// # Arguments
+	/// * `x` - x values
+	/// * `y` - y values
+	/// * `z` - z values
+	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `PointSymbol` - Sets symbol for each point
+	///     * `PointSize` - Sets the size of each point
+	///     * `Color` - Sets the color
+	pub fn points<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+		Tz: DataType,
+		Z: IntoIterator<Item = Tz>,
+	>(
+		&'l mut self, x: X, y: Y, z: Z, options: &[PlotOption<&str>],
+	) -> &'l mut Self
+	{
+		self.common
+			.elems
+			.push(PlotElement::new_plot3(Points, x, y, z, options.to_one_way_owned()));
+		self
+	}
+
+	/// Plot a 3D scatter-plot with lines connecting each data point
+	/// # Arguments
+	/// * `x` - x values
+	/// * `y` - y values
+	/// * `z` - z values
+	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `PointSymbol` - Sets symbol for each point
+	///     * `PointSize` - Sets the size of each point
+	///     * `Color` - Sets the color
+	pub fn lines<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+		Tz: DataType,
+		Z: IntoIterator<Item = Tz>,
+	>(
+		&'l mut self, x: X, y: Y, z: Z, options: &[PlotOption<&str>],
+	) -> &'l mut Self
+	{
+		self.common
+			.elems
+			.push(PlotElement::new_plot3(Lines, x, y, z, options.to_one_way_owned()));
+		self
+	}
+
+	/// A combination of lines and points methods (drawn in that order).
+	/// # Arguments
+	/// * `x` - x values
+	/// * `y` - y values
+	/// * `z` - z values
+	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element
+	pub fn lines_points<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+		Tz: DataType,
+		Z: IntoIterator<Item = Tz>,
+	>(
+		&'l mut self, x: X, y: Y, z: Z, options: &[PlotOption<&str>],
+	) -> &'l mut Self
+	{
+		self.common
+			.elems
+			.push(PlotElement::new_plot3(LinesPoints, x, y, z, options.to_one_way_owned()));
+		self
+	}
+
 	/// Sets the 3D view.
 	///
 	/// #Arguments:

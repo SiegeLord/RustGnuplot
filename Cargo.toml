@@ -8,6 +8,10 @@ documentation = "http://siegelord.github.io/RustGnuplot/doc/gnuplot/index.html"
 keywords = ["plots", "graphics"]
 authors = [ "SiegeLord <slabode@aim.com>" ]
 description = "Rust gnuplot controller"
+autobins = false
+autoexamples = false
+autotests = false
+autobenches = false
 
 [lib]
 
@@ -47,3 +51,13 @@ path = "examples/animation_example.rs"
 
 name = "box_and_whisker"
 path = "examples/box_and_whisker.rs"
+
+[[example]]
+
+name = "lines_3d"
+path = "examples/lines_3d.rs"
+
+[[example]]
+
+name = "lines_points_3d"
+path = "examples/lines_points_3d.rs"
