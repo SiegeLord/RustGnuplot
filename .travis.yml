@@ -14,7 +14,6 @@ script:
   - ./target/debug/examples/example2 --no-show
   - ./target/debug/examples/example3 --no-show
   - ./target/debug/examples/example4 --no-show
-  - cd ..
 after_success:
   - cd doc/target
   - ../gh_pages_upload.sh

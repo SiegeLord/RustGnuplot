@@ -74,6 +74,6 @@ if args.doc:
 	if not found:
 		raise Exception("Couldn't find the line in search-index.js!")
 	print 'Copying new CSS'
-	for path in glob.glob('doc/target/doc/*.css'):
-		os.remove(path)
-	copy('doc/main.css', 'doc/target/doc/main.css')
+	copy('doc/rustdoc.css', 'doc/target/doc/rustdoc.css')
+	copy('doc/light.css', 'doc/target/doc/light.css')
+	copy('doc/dark.css', 'doc/target/doc/dark.css')
