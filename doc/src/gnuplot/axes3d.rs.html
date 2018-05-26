@@ -1,48 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/build/SiegeLord/RustGnuplot/src/axes3d.rs`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang">
-
-    <title>axes3d.rs.html -- source</title>
-
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
-    
-
-    
-    
-</head>
-<body class="rustdoc">
-    <!--[if lte IE 8]>
-    <div class="warning">
-        This old browser is unsupported and will most likely display funky
-        things.
-    </div>
-    <![endif]-->
-
-    
-
-    <nav class="sidebar">
-        
-        
-    </nav>
-
-    <nav class="sub">
-        <form class="search-form js-only">
-            <div class="search-container">
-                <input class="search-input" name="search"
-                       autocomplete="off"
-                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
-                       type="search">
-            </div>
-        </form>
-    </nav>
-
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/build/SiegeLord/RustGnuplot/src/axes3d.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>axes3d.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -366,393 +322,598 @@
 <span id="322">322</span>
 <span id="323">323</span>
 <span id="324">324</span>
-</pre><pre class='rust '>
-<span class='comment'>// Copyright (c) 2013-2014 by SiegeLord</span>
-<span class='comment'>//</span>
-<span class='comment'>// All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+</pre><pre class="rust ">
+<span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
+<span class="comment">//</span>
+<span class="comment">// All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Write</span>;
+<span class="kw">use</span> <span class="ident">axes_common</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">datatype</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">options</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
+<span class="kw">use</span> <span class="ident">util</span>::<span class="ident">OneWayOwned</span>;
+<span class="kw">use</span> <span class="ident">writer</span>::<span class="ident">Writer</span>;
 
-<span class='kw'>use</span> <span class='ident'>axes_common</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>datatype</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>options</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>writer</span>::<span class='ident'>Writer</span>;
-
-<span class='doccomment'>/// 3D axes that is used for drawing 3D plots</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Axes3D</span>
+<span class="doccomment">/// 3D axes that is used for drawing 3D plots</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Axes3D</span>
 {
-	<span class='ident'>common</span>: <span class='ident'>AxesCommonData</span>,
-	<span class='ident'>z_axis</span>: <span class='ident'>AxisData</span>,
-	<span class='ident'>contour_base</span>: <span class='ident'>bool</span>,
-	<span class='ident'>contour_surface</span>: <span class='ident'>bool</span>,
-	<span class='ident'>contour_auto</span>: <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>,
-	<span class='ident'>contour_levels</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;&gt;</span>,
-	<span class='ident'>contour_style</span>: <span class='ident'>ContourStyle</span>,
-	<span class='ident'>contour_label</span>: <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
+	<span class="ident">common</span>: <span class="ident">AxesCommonData</span>,
+	<span class="ident">z_axis</span>: <span class="ident">AxisData</span>,
+	<span class="ident">contour_base</span>: <span class="ident">bool</span>,
+	<span class="ident">contour_surface</span>: <span class="ident">bool</span>,
+	<span class="ident">contour_auto</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+	<span class="ident">contour_levels</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;&gt;</span>,
+	<span class="ident">contour_style</span>: <span class="ident">ContourStyle</span>,
+	<span class="ident">contour_label</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>Axes3D</span>
+<span class="kw">impl</span> <span class="ident">Axes3D</span>
 {
-	<span class='doccomment'>/// Draws a 3D surface from a rectangular array of data by connecting the individual datapoints with polygons.</span>
-	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// #Arguments:</span>
-	<span class='doccomment'>/// * `mat` - Row-major 2D array signifying the Z coordinate of the datapoints. The X and Y coordinates of the datapoints are determined automatically,</span>
-	<span class='doccomment'>///           and optionally scaled using the `dimensions` argument.</span>
-	<span class='doccomment'>/// * `num_rows` - Number of rows in the data array</span>
-	<span class='doccomment'>/// * `num_cols` - Number of columns in the data array</span>
-	<span class='doccomment'>/// * `dimensions` - Optional X and Y coordinates of the first and last data points (with the rest of the coordinates spaced evenly between).</span>
-	<span class='doccomment'>///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.</span>
-	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:</span>
-	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>surface</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>T</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>T</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>mat</span>: <span class='ident'>X</span>, <span class='ident'>num_rows</span>: <span class='ident'>usize</span>, <span class='ident'>num_cols</span>: <span class='ident'>usize</span>, <span class='ident'>dimensions</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>f64</span>, <span class='ident'>f64</span>, <span class='ident'>f64</span>, <span class='ident'>f64</span>)<span class='op'>&gt;</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
+	<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">Axes3D</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot_matrix</span>(<span class='ident'>Pm3D</span>, <span class='boolvalue'>true</span>, <span class='ident'>mat</span>, <span class='ident'>num_rows</span>, <span class='ident'>num_cols</span>, <span class='ident'>dimensions</span>, <span class='ident'>options</span>);
-		<span class='self'>self</span>
+		<span class="ident">Axes3D</span> {
+			<span class="ident">common</span>: <span class="ident">AxesCommonData</span>::<span class="ident">new</span>(),
+			<span class="ident">z_axis</span>: <span class="ident">AxisData</span>::<span class="ident">new</span>(<span class="ident">ZTickAxis</span>),
+			<span class="ident">contour_base</span>: <span class="bool-val">false</span>,
+			<span class="ident">contour_surface</span>: <span class="bool-val">false</span>,
+			<span class="ident">contour_auto</span>: <span class="ident">Auto</span>,
+			<span class="ident">contour_levels</span>: <span class="prelude-val">None</span>,
+			<span class="ident">contour_style</span>: <span class="ident">Linear</span>,
+			<span class="ident">contour_label</span>: <span class="ident">Auto</span>,
+		}
 	}
 
-	<span class='doccomment'>/// Sets the 3D view.</span>
-	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// #Arguments:</span>
-	<span class='doccomment'>/// * `pitch` - Pitch, in degrees. Value of 0 is looking straight down on the XY plane, Z pointing out of the screen.</span>
-	<span class='doccomment'>/// * `yaw` - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_view</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pitch</span>: <span class='ident'>f64</span>, <span class='ident'>yaw</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
+	<span class="doccomment">/// Draws a 3D surface from a rectangular array of data by connecting the individual datapoints with polygons.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// #Arguments:</span>
+	<span class="doccomment">/// * `mat` - Row-major 2D array signifying the Z coordinate of the datapoints. The X and Y coordinates of the datapoints are determined automatically,</span>
+	<span class="doccomment">///           and optionally scaled using the `dimensions` argument.</span>
+	<span class="doccomment">/// * `num_rows` - Number of rows in the data array</span>
+	<span class="doccomment">/// * `num_cols` - Number of columns in the data array</span>
+	<span class="doccomment">/// * `dimensions` - Optional X and Y coordinates of the first and last data points (with the rest of the coordinates spaced evenly between).</span>
+	<span class="doccomment">///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">surface</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">T</span>: <span class="ident">DataType</span>, <span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">mat</span>: <span class="ident">X</span>, <span class="ident">num_rows</span>: <span class="ident">usize</span>, <span class="ident">num_cols</span>: <span class="ident">usize</span>, <span class="ident">dimensions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>)<span class="op">&gt;</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='macro'>writeln</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>commands</span>, <span class='string'>&quot;set view {:.12e},{:.12e}&quot;</span>, <span class='ident'>pitch</span>, <span class='ident'>yaw</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot_matrix</span>(
+			<span class="ident">Pm3D</span>,
+			<span class="bool-val">true</span>,
+			<span class="ident">mat</span>,
+			<span class="ident">num_rows</span>,
+			<span class="ident">num_cols</span>,
+			<span class="ident">dimensions</span>,
+			<span class="ident">options</span>.<span class="ident">to_one_way_owned</span>(),
+		));
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Sets the view to be a map. Useful for images and contour plots.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_view_map</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
+	<span class="doccomment">/// Plot a 3D scatter-plot with a point standing in for each data point</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values</span>
+	<span class="doccomment">/// * `y` - y values</span>
+	<span class="doccomment">/// * `z` - z values</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the plot element. The relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="doccomment">///     * `PointSymbol` - Sets symbol for each point</span>
+	<span class="doccomment">///     * `PointSize` - Sets the size of each point</span>
+	<span class="doccomment">///     * `Color` - Sets the color</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">points</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">Tx</span>: <span class="ident">DataType</span>,
+		<span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>,
+		<span class="ident">Ty</span>: <span class="ident">DataType</span>,
+		<span class="ident">Y</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Ty</span><span class="op">&gt;</span>,
+		<span class="ident">Tz</span>: <span class="ident">DataType</span>,
+		<span class="ident">Z</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tz</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">z</span>: <span class="ident">Z</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='macro'>writeln</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>commands</span>, <span class='string'>&quot;set view map&quot;</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">common</span>
+			.<span class="ident">elems</span>
+			.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(<span class="ident">Points</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">z</span>, <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>()));
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Set the label for the Z axis</span>
-	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `text` - Text of the label. Pass an empty string to hide the label</span>
-	<span class='doccomment'>/// * `options` - Array of LabelOption controlling the appearance of the label. Relevant options are:</span>
-	<span class='doccomment'>///      * `Offset` - Specifies the offset of the label</span>
-	<span class='doccomment'>///      * `Font` - Specifies the font of the label</span>
-	<span class='doccomment'>///      * `TextColor` - Specifies the color of the label</span>
-	<span class='doccomment'>///      * `Rotate` - Specifies the rotation of the label</span>
-	<span class='doccomment'>///      * `Align` - Specifies how to align the label</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_z_label</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>LabelOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
+	<span class="doccomment">/// Plot a 3D scatter-plot with lines connecting each data point</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values</span>
+	<span class="doccomment">/// * `y` - y values</span>
+	<span class="doccomment">/// * `z` - z values</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the plot element. The relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="doccomment">///     * `PointSymbol` - Sets symbol for each point</span>
+	<span class="doccomment">///     * `PointSize` - Sets the size of each point</span>
+	<span class="doccomment">///     * `Color` - Sets the color</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lines</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">Tx</span>: <span class="ident">DataType</span>,
+		<span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>,
+		<span class="ident">Ty</span>: <span class="ident">DataType</span>,
+		<span class="ident">Y</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Ty</span><span class="op">&gt;</span>,
+		<span class="ident">Tz</span>: <span class="ident">DataType</span>,
+		<span class="ident">Z</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tz</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">z</span>: <span class="ident">Z</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>get_common_data_mut</span>().<span class='ident'>set_label_common</span>(<span class='ident'>ZLabel</span>, <span class='ident'>text</span>, <span class='ident'>options</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">common</span>
+			.<span class="ident">elems</span>
+			.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(<span class="ident">Lines</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">z</span>, <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>()));
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Like `set_x_ticks` but for the Z axis.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_z_ticks</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>tick_placement</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span>, <span class='ident'>u32</span>)<span class='op'>&gt;</span>, <span class='ident'>tick_options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>TickOption</span>], <span class='ident'>label_options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>LabelOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
+	<span class="doccomment">/// A combination of lines and points methods (drawn in that order).</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values</span>
+	<span class="doccomment">/// * `y` - y values</span>
+	<span class="doccomment">/// * `z` - z values</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the plot element</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lines_points</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">Tx</span>: <span class="ident">DataType</span>,
+		<span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>,
+		<span class="ident">Ty</span>: <span class="ident">DataType</span>,
+		<span class="ident">Y</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Ty</span><span class="op">&gt;</span>,
+		<span class="ident">Tz</span>: <span class="ident">DataType</span>,
+		<span class="ident">Z</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tz</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">z</span>: <span class="ident">Z</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>z_axis</span>.<span class='ident'>set_ticks</span>(<span class='ident'>tick_placement</span>, <span class='ident'>tick_options</span>, <span class='ident'>label_options</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">common</span>
+			.<span class="ident">elems</span>
+			.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(<span class="ident">LinesPoints</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">z</span>, <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>()));
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Like `set_x_ticks_custom` but for the the Y axis.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_z_ticks_custom</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>T</span>: <span class='ident'>DataType</span>, <span class='ident'>TL</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tick</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>ticks</span>: <span class='ident'>TL</span>, <span class='ident'>tick_options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>TickOption</span>], <span class='ident'>label_options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>LabelOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
+	<span class="doccomment">/// Sets the 3D view.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// #Arguments:</span>
+	<span class="doccomment">/// * `pitch` - Pitch, in degrees. Value of 0 is looking straight down on the XY plane, Z pointing out of the screen.</span>
+	<span class="doccomment">/// * `yaw` - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_view</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pitch</span>: <span class="ident">f64</span>, <span class="ident">yaw</span>: <span class="ident">f64</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>z_axis</span>.<span class='ident'>set_ticks_custom</span>(<span class='ident'>ticks</span>, <span class='ident'>tick_options</span>, <span class='ident'>label_options</span>);
-		<span class='self'>self</span>
+		<span class="macro">writeln</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">commands</span>, <span class="string">&quot;set view {:.12e},{:.12e}&quot;</span>, <span class="ident">pitch</span>, <span class="ident">yaw</span>);
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Set the range of values for the Z axis</span>
-	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `min` - Minimum Z value</span>
-	<span class='doccomment'>/// * `max` - Maximum Z value</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_z_range</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>min</span>: <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span>, <span class='ident'>max</span>: <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
+	<span class="doccomment">/// Sets the view to be a map. Useful for images and contour plots.</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_view_map</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>z_axis</span>.<span class='ident'>set_range</span>(<span class='ident'>min</span>, <span class='ident'>max</span>);
-		<span class='self'>self</span>
+		<span class="macro">writeln</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">commands</span>, <span class="string">&quot;set view map&quot;</span>);
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Sets the Z axis be logarithmic. Note that the range must be non-negative for this to be valid.</span>
-	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_z_log</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>base</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
+	<span class="doccomment">/// Set the label for the Z axis</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `text` - Text of the label. Pass an empty string to hide the label</span>
+	<span class="doccomment">/// * `options` - Array of LabelOption controlling the appearance of the label. Relevant options are:</span>
+	<span class="doccomment">///      * `Offset` - Specifies the offset of the label</span>
+	<span class="doccomment">///      * `Font` - Specifies the font of the label</span>
+	<span class="doccomment">///      * `TextColor` - Specifies the color of the label</span>
+	<span class="doccomment">///      * `Rotate` - Specifies the rotation of the label</span>
+	<span class="doccomment">///      * `Align` - Specifies how to align the label</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_z_label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>z_axis</span>.<span class='ident'>set_log</span>(<span class='ident'>base</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">set_label_common</span>(<span class="ident">ZLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Show contours (lines of equal Z value) at automatically determined levels.</span>
-	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `base` - Show contours on the base of the plot (XY plane)</span>
-	<span class='doccomment'>/// * `surface` - Show the contours on the surface itself</span>
-	<span class='doccomment'>/// * `style` - Style of the contours</span>
-	<span class='doccomment'>/// * `label` - Auto sets the label automatically and enables the legend, Fix() allows you specify a format string (using C style formatting),</span>
-	<span class='doccomment'>///             otherwise an empty string disables the legend and labels.</span>
-	<span class='doccomment'>/// * `levels` - Auto picks some default number of levels, otherwise you can pass a set nominal number instead. The number is nominal as</span>
-	<span class='doccomment'>///              contours are placed at nice values of Z, and thus there may be fewer of them than this number.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>show_contours</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>base</span>: <span class='ident'>bool</span>, <span class='ident'>surface</span>: <span class='ident'>bool</span>, <span class='ident'>style</span>: <span class='ident'>ContourStyle</span>, <span class='ident'>label</span>: <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span>, <span class='ident'>levels</span>: <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
+	<span class="doccomment">/// Like `set_x_ticks` but for the Z axis.</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_z_ticks</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+		<span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>contour_base</span> <span class='op'>=</span> <span class='ident'>base</span>;
-		<span class='self'>self</span>.<span class='ident'>contour_surface</span> <span class='op'>=</span> <span class='ident'>surface</span>;
-		<span class='self'>self</span>.<span class='ident'>contour_style</span> <span class='op'>=</span> <span class='ident'>style</span>;
-		<span class='self'>self</span>.<span class='ident'>contour_auto</span> <span class='op'>=</span> <span class='ident'>levels</span>;
-		<span class='self'>self</span>.<span class='ident'>contour_levels</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
-		<span class='self'>self</span>.<span class='ident'>contour_label</span> <span class='op'>=</span> <span class='ident'>label</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>l</span><span class='op'>|</span> <span class='ident'>l</span>.<span class='ident'>to_string</span>());
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">z_axis</span>
+			.<span class="ident">set_ticks</span>(<span class="ident">tick_placement</span>, <span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(), <span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>());
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Show contours (lines of equal Z value) at specific levels.</span>
-	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `base` - Show contours on the base of the plot (XY plane)</span>
-	<span class='doccomment'>/// * `surface` - Show the contours on the surface itself</span>
-	<span class='doccomment'>/// * `style` - Style of the contours</span>
-	<span class='doccomment'>/// * `label` - Auto sets the label automatically and enables the legend, Fix() allows you specify a format string (using C style formatting),</span>
-	<span class='doccomment'>///             otherwise an empty string disables the legend and labels.</span>
-	<span class='doccomment'>/// * `levels` - A set of levels.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>show_contours_custom</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>T</span>: <span class='ident'>DataType</span>,
-	                            <span class='ident'>TC</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>T</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>base</span>: <span class='ident'>bool</span>, <span class='ident'>surface</span>: <span class='ident'>bool</span>,
-	                                             <span class='ident'>style</span>: <span class='ident'>ContourStyle</span>, <span class='ident'>label</span>: <span class='ident'>AutoOption</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span>, <span class='ident'>levels</span>: <span class='ident'>TC</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes3D</span>
+	<span class="doccomment">/// Like `set_x_ticks_custom` but for the the Y axis.</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_z_ticks_custom</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">T</span>: <span class="ident">DataType</span>, <span class="ident">TL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>], <span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>contour_base</span> <span class='op'>=</span> <span class='ident'>base</span>;
-		<span class='self'>self</span>.<span class='ident'>contour_surface</span> <span class='op'>=</span> <span class='ident'>surface</span>;
-		<span class='self'>self</span>.<span class='ident'>contour_style</span> <span class='op'>=</span> <span class='ident'>style</span>;
-		<span class='self'>self</span>.<span class='ident'>contour_auto</span> <span class='op'>=</span> <span class='ident'>Auto</span>;
-		<span class='self'>self</span>.<span class='ident'>contour_levels</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>levels</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>l</span><span class='op'>|</span> <span class='ident'>l</span>.<span class='ident'>get</span>()).<span class='ident'>collect</span>());
-		<span class='self'>self</span>.<span class='ident'>contour_label</span> <span class='op'>=</span> <span class='ident'>label</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>l</span><span class='op'>|</span> <span class='ident'>l</span>.<span class='ident'>to_string</span>());
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">z_axis</span>
+			.<span class="ident">set_ticks_custom</span>(<span class="ident">ticks</span>, <span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(), <span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>());
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Set the range of values for the Z axis</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `min` - Minimum Z value</span>
+	<span class="doccomment">/// * `max` - Maximum Z value</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_z_range</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">min</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">max</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">set_range</span>(<span class="ident">min</span>, <span class="ident">max</span>);
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Sets z axis to reverse.</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_z_reverse</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">reverse</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">set_reverse</span>(<span class="ident">reverse</span>);
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Sets the Z axis be logarithmic. Note that the range must be non-negative for this to be valid.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_z_log</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">base</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">set_log</span>(<span class="ident">base</span>);
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Shows the grid on the Z axis.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `show` - Whether to show the grid.</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_z_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">set_grid</span>(<span class="ident">show</span>);
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Show contours (lines of equal Z value) at automatically determined levels.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `base` - Show contours on the base of the plot (XY plane)</span>
+	<span class="doccomment">/// * `surface` - Show the contours on the surface itself</span>
+	<span class="doccomment">/// * `style` - Style of the contours</span>
+	<span class="doccomment">/// * `label` - Auto sets the label automatically and enables the legend, Fix() allows you specify a format string (using C style formatting),</span>
+	<span class="doccomment">///             otherwise an empty string disables the legend and labels.</span>
+	<span class="doccomment">/// * `levels` - Auto picks some default number of levels, otherwise you can pass a set nominal number instead. The number is nominal as</span>
+	<span class="doccomment">///              contours are placed at nice values of Z, and thus there may be fewer of them than this number.</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">show_contours</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">base</span>: <span class="ident">bool</span>, <span class="ident">surface</span>: <span class="ident">bool</span>, <span class="ident">style</span>: <span class="ident">ContourStyle</span>, <span class="ident">label</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">levels</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">contour_base</span> <span class="op">=</span> <span class="ident">base</span>;
+		<span class="self">self</span>.<span class="ident">contour_surface</span> <span class="op">=</span> <span class="ident">surface</span>;
+		<span class="self">self</span>.<span class="ident">contour_style</span> <span class="op">=</span> <span class="ident">style</span>;
+		<span class="self">self</span>.<span class="ident">contour_auto</span> <span class="op">=</span> <span class="ident">levels</span>;
+		<span class="self">self</span>.<span class="ident">contour_levels</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+		<span class="self">self</span>.<span class="ident">contour_label</span> <span class="op">=</span> <span class="ident">label</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">l</span><span class="op">|</span> <span class="ident">l</span>.<span class="ident">to_string</span>());
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Show contours (lines of equal Z value) at specific levels.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `base` - Show contours on the base of the plot (XY plane)</span>
+	<span class="doccomment">/// * `surface` - Show the contours on the surface itself</span>
+	<span class="doccomment">/// * `style` - Style of the contours</span>
+	<span class="doccomment">/// * `label` - Auto sets the label automatically and enables the legend, Fix() allows you specify a format string (using C style formatting),</span>
+	<span class="doccomment">///             otherwise an empty string disables the legend and labels.</span>
+	<span class="doccomment">/// * `levels` - A set of levels.</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">show_contours_custom</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">T</span>: <span class="ident">DataType</span>, <span class="ident">TC</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">base</span>: <span class="ident">bool</span>, <span class="ident">surface</span>: <span class="ident">bool</span>, <span class="ident">style</span>: <span class="ident">ContourStyle</span>, <span class="ident">label</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">levels</span>: <span class="ident">TC</span>,
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">contour_base</span> <span class="op">=</span> <span class="ident">base</span>;
+		<span class="self">self</span>.<span class="ident">contour_surface</span> <span class="op">=</span> <span class="ident">surface</span>;
+		<span class="self">self</span>.<span class="ident">contour_style</span> <span class="op">=</span> <span class="ident">style</span>;
+		<span class="self">self</span>.<span class="ident">contour_auto</span> <span class="op">=</span> <span class="ident">Auto</span>;
+		<span class="self">self</span>.<span class="ident">contour_levels</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">levels</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">l</span><span class="op">|</span> <span class="ident">l</span>.<span class="ident">get</span>()).<span class="ident">collect</span>());
+		<span class="self">self</span>.<span class="ident">contour_label</span> <span class="op">=</span> <span class="ident">label</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">l</span><span class="op">|</span> <span class="ident">l</span>.<span class="ident">to_string</span>());
+		<span class="self">self</span>
 	}
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_axes3d</span>() <span class='op'>-&gt;</span> <span class='ident'>Axes3D</span>
+<span class="kw">impl</span> <span class="ident">AxesCommonPrivate</span> <span class="kw">for</span> <span class="ident">Axes3D</span>
 {
-	<span class='ident'>Axes3D</span>
+	<span class="kw">fn</span> <span class="ident">get_common_data_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">AxesCommonData</span>
 	{
-		<span class='ident'>common</span>: <span class='ident'>AxesCommonData</span>::<span class='ident'>new</span>(),
-		<span class='ident'>z_axis</span>: <span class='ident'>AxisData</span>::<span class='ident'>new</span>(<span class='ident'>ZTickAxis</span>),
-		<span class='ident'>contour_base</span>: <span class='boolvalue'>false</span>,
-		<span class='ident'>contour_surface</span>: <span class='boolvalue'>false</span>,
-		<span class='ident'>contour_auto</span>: <span class='ident'>Auto</span>,
-		<span class='ident'>contour_levels</span>: <span class='prelude-val'>None</span>,
-		<span class='ident'>contour_style</span>: <span class='ident'>Linear</span>,
-		<span class='ident'>contour_label</span>: <span class='ident'>Auto</span>
+		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>
+	}
+
+	<span class="kw">fn</span> <span class="ident">get_common_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">AxesCommonData</span>
+	{
+		<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">common</span>
 	}
 }
 
-<span class='kw'>impl</span> <span class='ident'>AxesCommonPrivate</span> <span class='kw'>for</span> <span class='ident'>Axes3D</span>
-{
-	<span class='kw'>fn</span> <span class='ident'>get_common_data_mut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>AxesCommonData</span>
-	{
-		<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>common</span>
-	}
+<span class="kw">impl</span> <span class="ident">AxesCommon</span> <span class="kw">for</span> <span class="ident">Axes3D</span> {}
 
-	<span class='kw'>fn</span> <span class='ident'>get_common_data</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>AxesCommonData</span>
-	{
-		<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>common</span>
-	}
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait</span> <span class="ident">Axes3DPrivate</span>
+{
+	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>);
 }
 
-<span class='kw'>impl</span> <span class='ident'>AxesCommon</span> <span class='kw'>for</span> <span class='ident'>Axes3D</span> {}
-
-<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Axes3DPrivate</span>
+<span class="kw">impl</span> <span class="ident">Axes3DPrivate</span> <span class="kw">for</span> <span class="ident">Axes3D</span>
 {
-	<span class='kw'>fn</span> <span class='ident'>write_out</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>writer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>);
-}
-
-<span class='kw'>impl</span> <span class='ident'>Axes3DPrivate</span> <span class='kw'>for</span> <span class='ident'>Axes3D</span>
-{
-	<span class='kw'>fn</span> <span class='ident'>write_out</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>w</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>)
+	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">w</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>)
 	{
-		<span class='kw'>fn</span> <span class='ident'>clamp</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>PartialOrd</span><span class='op'>&gt;</span>(<span class='ident'>val</span>: <span class='ident'>T</span>, <span class='ident'>min</span>: <span class='ident'>T</span>, <span class='ident'>max</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span>
+		<span class="kw">fn</span> <span class="ident">clamp</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">PartialOrd</span><span class="op">&gt;</span>(<span class="ident">val</span>: <span class="ident">T</span>, <span class="ident">min</span>: <span class="ident">T</span>, <span class="ident">max</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span>
 		{
-			<span class='kw'>if</span> <span class='ident'>val</span> <span class='op'>&lt;</span> <span class='ident'>min</span>
+			<span class="kw">if</span> <span class="ident">val</span> <span class="op">&lt;</span> <span class="ident">min</span>
 			{
-				<span class='ident'>min</span>
+				<span class="ident">min</span>
 			}
-			<span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>val</span> <span class='op'>&gt;</span> <span class='ident'>max</span>
+			<span class="kw">else</span> <span class="kw">if</span> <span class="ident">val</span> <span class="op">&gt;</span> <span class="ident">max</span>
 			{
-				<span class='ident'>max</span>
+				<span class="ident">max</span>
 			}
-			<span class='kw'>else</span>
+			<span class="kw">else</span>
 			{
-				<span class='ident'>val</span>
+				<span class="ident">val</span>
 			}
 		}
 
-		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>elems</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span>
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>
 		{
-			<span class='kw'>return</span>;
+			<span class="kw">return</span>;
 		}
 
-		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>contour_base</span> <span class='op'>||</span> <span class='self'>self</span>.<span class='ident'>contour_surface</span>
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">contour_base</span> <span class="op">||</span> <span class="self">self</span>.<span class="ident">contour_surface</span>
 		{
-			<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;set contour &quot;</span>);
-			<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;{}&quot;</span>, <span class='kw'>match</span> (<span class='self'>self</span>.<span class='ident'>contour_base</span>, <span class='self'>self</span>.<span class='ident'>contour_surface</span>)
-			{
-				(<span class='boolvalue'>true</span>, <span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> <span class='string'>&quot;base&quot;</span>,
-				(<span class='boolvalue'>false</span>, <span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> <span class='string'>&quot;surface&quot;</span>,
-				(<span class='boolvalue'>true</span>, <span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> <span class='string'>&quot;both&quot;</span>,
-				_ <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>()
-			});
-			<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;\n&quot;</span>);
+			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set contour &quot;</span>);
+			<span class="macro">write</span><span class="macro">!</span>(
+				<span class="ident">w</span>,
+				<span class="string">&quot;{}&quot;</span>,
+				<span class="kw">match</span> (<span class="self">self</span>.<span class="ident">contour_base</span>, <span class="self">self</span>.<span class="ident">contour_surface</span>)
+				{
+					(<span class="bool-val">true</span>, <span class="bool-val">false</span>) <span class="op">=&gt;</span> <span class="string">&quot;base&quot;</span>,
+					(<span class="bool-val">false</span>, <span class="bool-val">true</span>) <span class="op">=&gt;</span> <span class="string">&quot;surface&quot;</span>,
+					(<span class="bool-val">true</span>, <span class="bool-val">true</span>) <span class="op">=&gt;</span> <span class="string">&quot;both&quot;</span>,
+					<span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+				}
+			);
+			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;\n&quot;</span>);
 
-			<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>contour_label</span>
+			<span class="kw">match</span> <span class="self">self</span>.<span class="ident">contour_label</span>
 			{
-				<span class='ident'>Auto</span> <span class='op'>=&gt;</span> <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;set clabel&quot;</span>),
-				<span class='ident'>Fix</span>(<span class='kw-2'>ref</span> <span class='ident'>s</span>) <span class='op'>=&gt;</span> <span class='kw'>if</span> <span class='ident'>s</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span>
+				<span class="ident">Auto</span> <span class="op">=&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set clabel&quot;</span>),
+				<span class="ident">Fix</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=&gt;</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>
 				{
-					<span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;unset clabel&quot;</span>)
+					<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;unset clabel&quot;</span>)
 				}
-				<span class='kw'>else</span>
+				<span class="kw">else</span>
 				{
-					<span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>r#&quot;set clabel &quot;{}&quot;&quot;#</span>, <span class='ident'>s</span>)
-				}
+					<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">r#&quot;set clabel &quot;{}&quot;&quot;#</span>, <span class="ident">s</span>)
+				},
 			};
 
-			<span class='kw'>fn</span> <span class='ident'>set_cntrparam</span><span class='op'>&lt;</span><span class='ident'>F</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>)<span class='op'>&gt;</span>(<span class='ident'>w</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>, <span class='ident'>wr</span>: <span class='ident'>F</span>)
+			<span class="kw">fn</span> <span class="ident">set_cntrparam</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>)<span class="op">&gt;</span>(<span class="ident">w</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>, <span class="ident">wr</span>: <span class="ident">F</span>)
 			{
-				<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;set cntrparam &quot;</span>);
-				<span class='ident'>wr</span>(<span class='ident'>w</span>);
-				<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;\n&quot;</span>);
+				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set cntrparam &quot;</span>);
+				<span class="ident">wr</span>(<span class="ident">w</span>);
+				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;\n&quot;</span>);
 			}
 
-			<span class='ident'>set_cntrparam</span>(<span class='ident'>w</span>, <span class='op'>|</span><span class='ident'>w</span><span class='op'>|</span>
-			{
-				<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;{}&quot;</span>, <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>contour_style</span>
-				{
-					<span class='ident'>Linear</span> <span class='op'>=&gt;</span> <span class='string'>&quot;linear &quot;</span>,
-					<span class='ident'>Cubic</span>(..) <span class='op'>=&gt;</span> <span class='string'>&quot;cubicspline&quot;</span>,
-					<span class='ident'>Spline</span>(..) <span class='op'>=&gt;</span> <span class='string'>&quot;bspline&quot;</span>,
-				});
-			});
-
-			<span class='ident'>set_cntrparam</span>(<span class='ident'>w</span>, <span class='op'>|</span><span class='ident'>w</span><span class='op'>|</span>
-			{
-				<span class='kw'>let</span> <span class='ident'>pt</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>contour_style</span>
-				{
-					<span class='ident'>Cubic</span>(<span class='ident'>pt</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>pt</span>),
-					<span class='ident'>Spline</span>(<span class='ident'>pt</span>, _) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>pt</span>),
-					_ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
-				};
-
-				<span class='ident'>pt</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>pt</span><span class='op'>|</span>
-				{
-					<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;points {}&quot;</span>, <span class='ident'>clamp</span>(<span class='ident'>pt</span>, <span class='number'>2</span>, <span class='number'>100</span>));
-				});
-			});
-
-			<span class='ident'>set_cntrparam</span>(<span class='ident'>w</span>, <span class='op'>|</span><span class='ident'>w</span><span class='op'>|</span>
-			{
-				<span class='kw'>let</span> <span class='ident'>ord</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>contour_style</span>
-				{
-					<span class='ident'>Spline</span>(_, <span class='ident'>ord</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>ord</span>),
-					_ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
-				};
-
-				<span class='ident'>ord</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>ord</span><span class='op'>|</span>
-				{
-					<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;order {}&quot;</span>, <span class='ident'>clamp</span>(<span class='ident'>ord</span>, <span class='number'>2</span>, <span class='number'>10</span>));
-				});
-			});
-
-			<span class='ident'>set_cntrparam</span>(<span class='ident'>w</span>, <span class='op'>|</span><span class='ident'>w</span><span class='op'>|</span>
-			{
-				<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;levels &quot;</span>);
-				<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>contour_levels</span>
-				{
-					<span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>ls</span>) <span class='op'>=&gt;</span>
+			<span class="ident">set_cntrparam</span>(<span class="ident">w</span>, <span class="op">|</span><span class="ident">w</span><span class="op">|</span> {
+				<span class="macro">write</span><span class="macro">!</span>(
+					<span class="ident">w</span>,
+					<span class="string">&quot;{}&quot;</span>,
+					<span class="kw">match</span> <span class="self">self</span>.<span class="ident">contour_style</span>
 					{
-						<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;discrete &quot;</span>);
-						<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>left</span> <span class='op'>=</span> <span class='ident'>ls</span>.<span class='ident'>len</span>();
-						<span class='kw'>for</span> <span class='kw-2'>&amp;</span><span class='ident'>l</span> <span class='kw'>in</span> <span class='ident'>ls</span>.<span class='ident'>iter</span>()
+						<span class="ident">Linear</span> <span class="op">=&gt;</span> <span class="string">&quot;linear &quot;</span>,
+						<span class="ident">Cubic</span>(..) <span class="op">=&gt;</span> <span class="string">&quot;cubicspline&quot;</span>,
+						<span class="ident">Spline</span>(..) <span class="op">=&gt;</span> <span class="string">&quot;bspline&quot;</span>,
+					}
+				);
+			});
+
+			<span class="ident">set_cntrparam</span>(<span class="ident">w</span>, <span class="op">|</span><span class="ident">w</span><span class="op">|</span> {
+				<span class="kw">let</span> <span class="ident">pt</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">contour_style</span>
+				{
+					<span class="ident">Cubic</span>(<span class="ident">pt</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">pt</span>),
+					<span class="ident">Spline</span>(<span class="ident">pt</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">pt</span>),
+					<span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+				};
+
+				<span class="ident">pt</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">pt</span><span class="op">|</span> {
+					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;points {}&quot;</span>, <span class="ident">clamp</span>(<span class="ident">pt</span>, <span class="number">2</span>, <span class="number">100</span>));
+				});
+			});
+
+			<span class="ident">set_cntrparam</span>(<span class="ident">w</span>, <span class="op">|</span><span class="ident">w</span><span class="op">|</span> {
+				<span class="kw">let</span> <span class="ident">ord</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">contour_style</span>
+				{
+					<span class="ident">Spline</span>(<span class="kw">_</span>, <span class="ident">ord</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">ord</span>),
+					<span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+				};
+
+				<span class="ident">ord</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">ord</span><span class="op">|</span> {
+					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;order {}&quot;</span>, <span class="ident">clamp</span>(<span class="ident">ord</span>, <span class="number">2</span>, <span class="number">10</span>));
+				});
+			});
+
+			<span class="ident">set_cntrparam</span>(<span class="ident">w</span>, <span class="op">|</span><span class="ident">w</span><span class="op">|</span> {
+				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;levels &quot;</span>);
+				<span class="kw">match</span> <span class="self">self</span>.<span class="ident">contour_levels</span>
+				{
+					<span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">ls</span>) <span class="op">=&gt;</span>
+					{
+						<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;discrete &quot;</span>);
+						<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">left</span> <span class="op">=</span> <span class="ident">ls</span>.<span class="ident">len</span>();
+						<span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">l</span> <span class="kw">in</span> <span class="ident">ls</span>.<span class="ident">iter</span>()
 						{
-							<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;{:.12e}&quot;</span>, <span class='ident'>l</span>);
-							<span class='kw'>if</span> <span class='ident'>left</span> <span class='op'>&gt;</span> <span class='number'>1</span>
+							<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">l</span>);
+							<span class="kw">if</span> <span class="ident">left</span> <span class="op">&gt;</span> <span class="number">1</span>
 							{
-								<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;,&quot;</span>);
+								<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;,&quot;</span>);
 							}
-							<span class='ident'>left</span> <span class='op'>-=</span> <span class='number'>1</span>;
+							<span class="ident">left</span> <span class="op">-=</span> <span class="number">1</span>;
 						}
-					},
-					<span class='prelude-val'>None</span> <span class='op'>=&gt;</span>
+					}
+					<span class="prelude-val">None</span> <span class="op">=&gt;</span>
 					{
-						<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>contour_auto</span>
+						<span class="kw">match</span> <span class="self">self</span>.<span class="ident">contour_auto</span>
 						{
-							<span class='ident'>Auto</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;auto &quot;</span>),
-							<span class='ident'>Fix</span>(<span class='ident'>f</span>) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;{}&quot;</span>, <span class='ident'>f</span>),
+							<span class="ident">Auto</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;auto &quot;</span>),
+							<span class="ident">Fix</span>(<span class="ident">f</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">f</span>),
 						};
 					}
 				};
 			});
 		}
 
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>write_out_commands</span>(<span class='ident'>w</span>);
-		<span class='self'>self</span>.<span class='ident'>z_axis</span>.<span class='ident'>write_out_commands</span>(<span class='ident'>w</span>);
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>write_out_elements</span>(<span class='string'>&quot;splot&quot;</span>, <span class='ident'>w</span>);
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>);
+		<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>);
+		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">grid_axes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">x_axis</span>.<span class="ident">grid</span>
+		{
+			<span class="ident">grid_axes</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">x_axis</span>.<span class="ident">axis</span>);
+		}
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">y_axis</span>.<span class="ident">grid</span>
+		{
+			<span class="ident">grid_axes</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">y_axis</span>.<span class="ident">axis</span>);
+		}
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">cb_axis</span>.<span class="ident">grid</span>
+		{
+			<span class="ident">grid_axes</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">cb_axis</span>.<span class="ident">axis</span>);
+		}
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">grid</span>
+		{
+			<span class="ident">grid_axes</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">axis</span>);
+		}
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_grid_options</span>(<span class="ident">w</span>, <span class="kw-2">&amp;</span><span class="ident">grid_axes</span>);
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_out_elements</span>(<span class="string">&quot;splot&quot;</span>, <span class="ident">w</span>);
 	}
 }
 </pre>
-</section>
-    <section id='search' class="content hidden"></section>
-
-    <section class="footer"></section>
-
-    <aside id="help" class="hidden">
-        <div>
-            <h1 class="hidden">Help</h1>
-
-            <div class="shortcuts">
-                <h2>Keyboard Shortcuts</h2>
-
-                <dl>
-                    <dt>?</dt>
-                    <dd>Show this help dialog</dd>
-                    <dt>S</dt>
-                    <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
-                    <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
-                    <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
-                    <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
-                </dl>
-            </div>
-
-            <div class="infos">
-                <h2>Search Tricks</h2>
-
-                <p>
-                    Prefix searches with a type followed by a colon (e.g.
-                    <code>fn:</code>) to restrict the search to a given type.
-                </p>
-
-                <p>
-                    Accepted types are: <code>fn</code>, <code>mod</code>,
-                    <code>struct</code>, <code>enum</code>,
-                    <code>trait</code>, <code>type</code>, <code>macro</code>,
-                    and <code>const</code>.
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
-                </p>
-            </div>
-        </div>
-    </aside>
-
-    
-
-    <script>
-        window.rootPath = "../../";
-        window.currentCrate = "gnuplot";
-        window.playgroundUrl = "";
-    </script>
-    <script src="../../jquery.js"></script>
-    <script src="../../main.js"></script>
-    
-    <script defer src="../../search-index.js"></script>
-</body>
-</html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "gnuplot";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>

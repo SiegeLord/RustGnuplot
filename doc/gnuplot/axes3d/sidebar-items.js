@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Axes3D","3D axes that is used for drawing 3D plots"]]});

@@ -1,48 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/build/SiegeLord/RustGnuplot/src/axes2d.rs`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang">
-
-    <title>axes2d.rs.html -- source</title>
-
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
-    
-
-    
-    
-</head>
-<body class="rustdoc">
-    <!--[if lte IE 8]>
-    <div class="warning">
-        This old browser is unsupported and will most likely display funky
-        things.
-    </div>
-    <![endif]-->
-
-    
-
-    <nav class="sidebar">
-        
-        
-    </nav>
-
-    <nav class="sub">
-        <form class="search-form js-only">
-            <div class="search-container">
-                <input class="search-input" name="search"
-                       autocomplete="off"
-                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
-                       type="search">
-            </div>
-        </form>
-    </nav>
-
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/build/SiegeLord/RustGnuplot/src/axes2d.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>axes2d.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -535,562 +491,945 @@
 <span id="491">491</span>
 <span id="492">492</span>
 <span id="493">493</span>
-</pre><pre class='rust '>
-<span class='comment'>// Copyright (c) 2013-2014 by SiegeLord</span>
-<span class='comment'>//</span>
-<span class='comment'>// All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+</pre><pre class="rust ">
+<span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
+<span class="comment">//</span>
+<span class="comment">// All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.</span>
 
-<span class='kw'>use</span> <span class='ident'>axes_common</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>datatype</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>coordinates</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>options</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>writer</span>::<span class='ident'>Writer</span>;
+<span class="kw">use</span> <span class="ident">axes_common</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">coordinates</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">datatype</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">options</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">util</span>::<span class="ident">OneWayOwned</span>;
+<span class="kw">use</span> <span class="ident">writer</span>::<span class="ident">Writer</span>;
 
-<span class='doccomment'>/// 2D axes that is used for drawing 2D plots</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Axes2D</span>
+<span class="doccomment">/// 2D axes that is used for drawing 2D plots</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Axes2D</span>
 {
-	<span class='ident'>common</span>: <span class='ident'>AxesCommonData</span>,
+	<span class="ident">common</span>: <span class="ident">AxesCommonData</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>Axes2D</span>
+<span class="kw">impl</span> <span class="ident">Axes2D</span>
 {
-	<span class='doccomment'>/// Sets the properties of the plot border</span>
-	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// * `front` - Whether or not to draw the border above or below the plot contents</span>
-	<span class='doccomment'>/// * `locations` - Which locations of the border to draw</span>
-	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the border. Relevant options are:</span>
-	<span class='doccomment'>///      * `Color` - Specifies the color of the border</span>
-	<span class='doccomment'>///      * `LineStyle` - Specifies the style of the border</span>
-	<span class='doccomment'>///      * `LineWidth` - Specifies the width of the border</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_border</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>front</span>: <span class='ident'>bool</span>, <span class='ident'>locations</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>BorderLocation2D</span>], <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">Axes2D</span>
 	{
-		{
-			<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>commands</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>;
-			<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;set border &quot;</span>);
-			<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>f</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
-			<span class='kw'>for</span> <span class='kw-2'>&amp;</span><span class='ident'>l</span> <span class='kw'>in</span> <span class='ident'>locations</span>.<span class='ident'>iter</span>()
-			{
-				<span class='ident'>f</span> <span class='op'>|=</span> <span class='ident'>l</span> <span class='kw'>as</span> <span class='ident'>i32</span>;
-			}
-			<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>c</span>, <span class='string'>&quot;{}&quot;</span>, <span class='ident'>f</span>);
-			<span class='ident'>c</span>.<span class='ident'>write_str</span>( <span class='kw'>if</span> <span class='ident'>front</span>
-			{
-				<span class='string'>&quot; front &quot;</span>
-			}
-			<span class='kw'>else</span>
-			{
-				<span class='string'>&quot; back &quot;</span>
-			});
-
-			<span class='ident'>AxesCommonData</span>::<span class='ident'>write_color_options</span>(<span class='ident'>c</span>, <span class='ident'>options</span>, <span class='prelude-val'>Some</span>(<span class='string'>&quot;black&quot;</span>));
-			<span class='ident'>AxesCommonData</span>::<span class='ident'>write_line_options</span>(<span class='ident'>c</span>, <span class='ident'>options</span>);
-
-			<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\n&quot;</span>);
+		<span class="ident">Axes2D</span> {
+			<span class="ident">common</span>: <span class="ident">AxesCommonData</span>::<span class="ident">new</span>(),
 		}
-		<span class='self'>self</span>
 	}
 
-	<span class='kw'>fn</span> <span class='ident'>set_axis_common</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>axis</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>show</span>: <span class='ident'>bool</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class="doccomment">/// Sets the properties of the plot border</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// * `front` - Whether or not to draw the border above or below the plot contents</span>
+	<span class="doccomment">/// * `locations` - Which locations of the border to draw</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption controlling the appearance of the border. Relevant options are:</span>
+	<span class="doccomment">///      * `Color` - Specifies the color of the border</span>
+	<span class="doccomment">///      * `LineStyle` - Specifies the style of the border</span>
+	<span class="doccomment">///      * `LineWidth` - Specifies the width of the border</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_border</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">front</span>: <span class="ident">bool</span>, <span class="ident">locations</span>: <span class="kw-2">&amp;</span>[<span class="ident">BorderLocation2D</span>], <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		{
-			<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>commands</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>;
-			<span class='kw'>if</span> <span class='ident'>show</span>
+			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>;
+			<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;set border &quot;</span>);
+			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">f</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
+			<span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">l</span> <span class="kw">in</span> <span class="ident">locations</span>.<span class="ident">iter</span>()
 			{
-				<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;set &quot;</span>);
-				<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='ident'>axis</span>);
-				<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;zeroaxis &quot;</span>);
-				<span class='ident'>AxesCommonData</span>::<span class='ident'>write_color_options</span>(<span class='ident'>c</span>, <span class='ident'>options</span>, <span class='prelude-val'>Some</span>(<span class='string'>&quot;black&quot;</span>));
-				<span class='ident'>AxesCommonData</span>::<span class='ident'>write_line_options</span>(<span class='ident'>c</span>, <span class='ident'>options</span>);
+				<span class="ident">f</span> <span class="op">|=</span> <span class="ident">l</span> <span class="kw">as</span> <span class="ident">i32</span>;
 			}
-			<span class='kw'>else</span>
-			{
-				<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;unset &quot;</span>);
-				<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='ident'>axis</span>);
-				<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;zeroaxis &quot;</span>);
-			}
+			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">f</span>);
+			<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="kw">if</span> <span class="ident">front</span> { <span class="string">&quot; front &quot;</span> } <span class="kw">else</span> { <span class="string">&quot; back &quot;</span> });
 
-			<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\n&quot;</span>);
+			<span class="kw">let</span> <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>();
+			<span class="ident">AxesCommonData</span>::<span class="ident">write_color_options</span>(<span class="ident">c</span>, <span class="kw-2">&amp;</span><span class="ident">options</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;black&quot;</span>));
+			<span class="ident">AxesCommonData</span>::<span class="ident">write_line_options</span>(<span class="ident">c</span>, <span class="kw-2">&amp;</span><span class="ident">options</span>);
+
+			<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;\n&quot;</span>);
 		}
-		<span class='self'>self</span>
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Sets the properties of x axis.</span>
-	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// * `show` - Whether or not draw the axis</span>
-	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the axis. Relevant options are:</span>
-	<span class='doccomment'>///      * `Color` - Specifies the color of the border</span>
-	<span class='doccomment'>///      * `LineStyle` - Specifies the style of the border</span>
-	<span class='doccomment'>///      * `LineWidth` - Specifies the width of the border</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_x_axis</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>show</span>: <span class='ident'>bool</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
-	{
-		<span class='self'>self</span>.<span class='ident'>set_axis_common</span>(<span class='string'>&quot;x&quot;</span>, <span class='ident'>show</span>, <span class='ident'>options</span>)
-	}
-
-	<span class='doccomment'>/// Like `set_x_axis` but for the y axis.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_y_axis</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>show</span>: <span class='ident'>bool</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
-	{
-		<span class='self'>self</span>.<span class='ident'>set_axis_common</span>(<span class='string'>&quot;y&quot;</span>, <span class='ident'>show</span>, <span class='ident'>options</span>)
-	}
-
-	<span class='doccomment'>/// Adds an arrow to the plot. The arrow is drawn from `(x1, y1)` to `(x2, y2)` with the arrow point towards `(x2, y2)`.</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `x1` - X coordinate of the arrow start</span>
-	<span class='doccomment'>/// * `y1` - Y coordinate of the arrow start</span>
-	<span class='doccomment'>/// * `x2` - X coordinate of the arrow end</span>
-	<span class='doccomment'>/// * `y2` - Y coordinate of the arrow end</span>
-	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the arrowhead and arrow shaft. Relevant options are:</span>
-	<span class='doccomment'>///      * `ArrowType` - Specifies the style of the arrow head (or an option to omit it)</span>
-	<span class='doccomment'>///      * `ArrowSize` - Sets the size of the arrow head (in graph units)</span>
-	<span class='doccomment'>///      * `Color` - Specifies the color of the arrow</span>
-	<span class='doccomment'>///      * `LineStyle` - Specifies the style of the arrow shaft</span>
-	<span class='doccomment'>///      * `LineWidth` - Specifies the width of the arrow shaft</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>arrow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x1</span>: <span class='ident'>Coordinate</span>, <span class='ident'>y1</span>: <span class='ident'>Coordinate</span>, <span class='ident'>x2</span>: <span class='ident'>Coordinate</span>, <span class='ident'>y2</span>: <span class='ident'>Coordinate</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class="kw">fn</span> <span class="ident">set_axis_common</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">axis</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">show</span>: <span class="ident">bool</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		{
-			<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>commands</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>;
-			<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>c</span>, <span class='string'>&quot;set arrow from {},{} to {},{}&quot;</span>, <span class='ident'>x1</span>, <span class='ident'>y1</span>, <span class='ident'>x2</span>, <span class='ident'>y2</span>);
+			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>;
+			<span class="kw">if</span> <span class="ident">show</span>
+			{
+				<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;set &quot;</span>);
+				<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="ident">axis</span>);
+				<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;zeroaxis &quot;</span>);
 
-			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>options</span>,
-				<span class='ident'>ArrowType</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span>
+				<span class="kw">let</span> <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>();
+				<span class="ident">AxesCommonData</span>::<span class="ident">write_color_options</span>(<span class="ident">c</span>, <span class="kw-2">&amp;</span><span class="ident">options</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;black&quot;</span>));
+				<span class="ident">AxesCommonData</span>::<span class="ident">write_line_options</span>(<span class="ident">c</span>, <span class="kw-2">&amp;</span><span class="ident">options</span>);
+			}
+			<span class="kw">else</span>
+			{
+				<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;unset &quot;</span>);
+				<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="ident">axis</span>);
+				<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;zeroaxis &quot;</span>);
+			}
+
+			<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;\n&quot;</span>);
+		}
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Sets the properties of x axis.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// * `show` - Whether or not draw the axis</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the axis. Relevant options are:</span>
+	<span class="doccomment">///      * `Color` - Specifies the color of the border</span>
+	<span class="doccomment">///      * `LineStyle` - Specifies the style of the border</span>
+	<span class="doccomment">///      * `LineWidth` - Specifies the width of the border</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_x_axis</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">set_axis_common</span>(<span class="string">&quot;x&quot;</span>, <span class="ident">show</span>, <span class="ident">options</span>)
+	}
+
+	<span class="doccomment">/// Like `set_x_axis` but for the y axis.</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_y_axis</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">set_axis_common</span>(<span class="string">&quot;y&quot;</span>, <span class="ident">show</span>, <span class="ident">options</span>)
+	}
+
+	<span class="doccomment">/// Adds an arrow to the plot. The arrow is drawn from `(x1, y1)` to `(x2, y2)` with the arrow point towards `(x2, y2)`.</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x1` - X coordinate of the arrow start</span>
+	<span class="doccomment">/// * `y1` - Y coordinate of the arrow start</span>
+	<span class="doccomment">/// * `x2` - X coordinate of the arrow end</span>
+	<span class="doccomment">/// * `y2` - Y coordinate of the arrow end</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the arrowhead and arrow shaft. Relevant options are:</span>
+	<span class="doccomment">///      * `ArrowType` - Specifies the style of the arrow head (or an option to omit it)</span>
+	<span class="doccomment">///      * `ArrowSize` - Sets the size of the arrow head (in graph units)</span>
+	<span class="doccomment">///      * `Color` - Specifies the color of the arrow</span>
+	<span class="doccomment">///      * `LineStyle` - Specifies the style of the arrow shaft</span>
+	<span class="doccomment">///      * `LineWidth` - Specifies the width of the arrow shaft</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">arrow</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x1</span>: <span class="ident">Coordinate</span>, <span class="ident">y1</span>: <span class="ident">Coordinate</span>, <span class="ident">x2</span>: <span class="ident">Coordinate</span>, <span class="ident">y2</span>: <span class="ident">Coordinate</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		{
+			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>;
+			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set arrow from {},{} to {},{}&quot;</span>, <span class="ident">x1</span>, <span class="ident">y1</span>, <span class="ident">x2</span>, <span class="ident">y2</span>);
+
+			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+				<span class="ident">ArrowType</span>(<span class="ident">s</span>) <span class="op">=&gt;</span>
 				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='kw'>match</span> <span class='ident'>s</span>
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">s</span>
 					{
-						<span class='ident'>Open</span> <span class='op'>=&gt;</span> <span class='string'>&quot;&quot;</span>,
-						<span class='ident'>Closed</span> <span class='op'>=&gt;</span> <span class='string'>&quot; empty&quot;</span>,
-						<span class='ident'>Filled</span> <span class='op'>=&gt;</span> <span class='string'>&quot; filled&quot;</span>,
-						<span class='ident'>NoArrow</span> <span class='op'>=&gt;</span> <span class='string'>&quot; nohead&quot;</span>,
+						<span class="ident">Open</span> <span class="op">=&gt;</span> <span class="string">&quot;&quot;</span>,
+						<span class="ident">Closed</span> <span class="op">=&gt;</span> <span class="string">&quot; empty&quot;</span>,
+						<span class="ident">Filled</span> <span class="op">=&gt;</span> <span class="string">&quot; filled&quot;</span>,
+						<span class="ident">NoArrow</span> <span class="op">=&gt;</span> <span class="string">&quot; nohead&quot;</span>,
 					});
 				}
 			}
 
-			<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; size graph &quot;</span>);
-			<span class='macro'>first_opt_default</span><span class='macro'>!</span>{<span class='ident'>options</span>,
-				<span class='ident'>ArrowSize</span>(<span class='ident'>z</span>) <span class='op'>=&gt;</span>
+			<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; size graph &quot;</span>);
+			<span class="macro">first_opt_default</span><span class="macro">!</span>{<span class="ident">options</span>,
+				<span class="ident">ArrowSize</span>(<span class="ident">z</span>) <span class="op">=&gt;</span>
 				{
-					<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>c</span>, <span class='string'>&quot;{:.12e}&quot;</span>, <span class='ident'>z</span>);
+					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">z</span>);
 				},
-				_ <span class='op'>=&gt;</span>
+				<span class="kw">_</span> <span class="op">=&gt;</span>
 				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;0.05&quot;</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;0.05&quot;</span>);
 				}
 			}
-			<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;,12&quot;</span>);
+			<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;,12&quot;</span>);
 
-			<span class='ident'>AxesCommonData</span>::<span class='ident'>write_color_options</span>(<span class='ident'>c</span>, <span class='ident'>options</span>, <span class='prelude-val'>Some</span>(<span class='string'>&quot;black&quot;</span>));
-			<span class='ident'>AxesCommonData</span>::<span class='ident'>write_line_options</span>(<span class='ident'>c</span>, <span class='ident'>options</span>);
+			<span class="kw">let</span> <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>();
+			<span class="ident">AxesCommonData</span>::<span class="ident">write_color_options</span>(<span class="ident">c</span>, <span class="kw-2">&amp;</span><span class="ident">options</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;black&quot;</span>));
+			<span class="ident">AxesCommonData</span>::<span class="ident">write_line_options</span>(<span class="ident">c</span>, <span class="kw-2">&amp;</span><span class="ident">options</span>);
 
-			<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\n&quot;</span>);
+			<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;\n&quot;</span>);
 		}
-		<span class='self'>self</span>
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Specifies the location and other properties of the legend</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `x` - X coordinate of the legend</span>
-	<span class='doccomment'>/// * `y` - Y coordinate of the legend</span>
-	<span class='doccomment'>/// * `label_options` - Array of LegendOption options</span>
-	<span class='doccomment'>/// * `text_options` - Array of LabelOption options specifying the appearance of the plot titles. Valid options are:</span>
-	<span class='doccomment'>///     * `Font`</span>
-	<span class='doccomment'>///     * `TextColor`</span>
-	<span class='doccomment'>///     * `TextAlign(AlignLeft)`</span>
-	<span class='doccomment'>///     * `TextAlign(AlignRight)`</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_legend</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>Coordinate</span>, <span class='ident'>y</span>: <span class='ident'>Coordinate</span>, <span class='ident'>legend_options</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> [<span class='ident'>LegendOption</span>], <span class='ident'>text_options</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> [<span class='ident'>LabelOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class="doccomment">/// Specifies the location and other properties of the legend</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - X coordinate of the legend</span>
+	<span class="doccomment">/// * `y` - Y coordinate of the legend</span>
+	<span class="doccomment">/// * `label_options` - Array of LegendOption options</span>
+	<span class="doccomment">/// * `text_options` - Array of LabelOption options specifying the appearance of the plot titles. Valid options are:</span>
+	<span class="doccomment">///     * `Font`</span>
+	<span class="doccomment">///     * `TextColor`</span>
+	<span class="doccomment">///     * `TextAlign(AlignLeft)`</span>
+	<span class="doccomment">///     * `TextAlign(AlignRight)`</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_legend</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">Coordinate</span>, <span class="ident">y</span>: <span class="ident">Coordinate</span>, <span class="ident">legend_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LegendOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>], <span class="ident">text_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		{
-			<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>commands</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>;
+			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>;
 
-			<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>c</span>, <span class='string'>&quot;set key at {},{}&quot;</span>, <span class='ident'>x</span>, <span class='ident'>y</span>);
+			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set key at {},{}&quot;</span>, <span class="ident">x</span>, <span class="ident">y</span>);
 
-			<span class='macro'>first_opt_default</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
-				<span class='ident'>Placement</span>(<span class='ident'>h</span>, <span class='ident'>v</span>) <span class='op'>=&gt;</span>
+			<span class="macro">first_opt_default</span><span class="macro">!</span>{<span class="ident">legend_options</span>,
+				<span class="ident">Placement</span>(<span class="ident">h</span>, <span class="ident">v</span>) <span class="op">=&gt;</span>
 				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='kw'>match</span> <span class='ident'>h</span>
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">h</span>
 					{
-						<span class='ident'>AlignLeft</span> <span class='op'>=&gt;</span> <span class='string'>&quot; left&quot;</span>,
-						<span class='ident'>AlignRight</span> <span class='op'>=&gt;</span> <span class='string'>&quot; right&quot;</span>,
-						_ <span class='op'>=&gt;</span> <span class='string'>&quot; center&quot;</span>
+						<span class="ident">AlignLeft</span> <span class="op">=&gt;</span> <span class="string">&quot; left&quot;</span>,
+						<span class="ident">AlignRight</span> <span class="op">=&gt;</span> <span class="string">&quot; right&quot;</span>,
+						<span class="kw">_</span> <span class="op">=&gt;</span> <span class="string">&quot; center&quot;</span>
 					});
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='kw'>match</span> <span class='ident'>v</span>
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">v</span>
 					{
-						<span class='ident'>AlignTop</span> <span class='op'>=&gt;</span> <span class='string'>&quot; top&quot;</span>,
-						<span class='ident'>AlignBottom</span> <span class='op'>=&gt;</span> <span class='string'>&quot; bottom&quot;</span>,
-						_ <span class='op'>=&gt;</span> <span class='string'>&quot; center&quot;</span>
-					});				},
-				_ <span class='op'>=&gt;</span>
-				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; right top&quot;</span>);
-				}
-			}
-
-			<span class='macro'>first_opt_default</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
-				<span class='ident'>Horizontal</span> <span class='op'>=&gt;</span>
-				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; horizontal&quot;</span>);
+						<span class="ident">AlignTop</span> <span class="op">=&gt;</span> <span class="string">&quot; top&quot;</span>,
+						<span class="ident">AlignBottom</span> <span class="op">=&gt;</span> <span class="string">&quot; bottom&quot;</span>,
+						<span class="kw">_</span> <span class="op">=&gt;</span> <span class="string">&quot; center&quot;</span>
+					});
 				},
-				_ <span class='op'>=&gt;</span>
+				<span class="kw">_</span> <span class="op">=&gt;</span>
 				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; vertical&quot;</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; right top&quot;</span>);
 				}
 			}
 
-			<span class='macro'>first_opt_default</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
-				<span class='ident'>Reverse</span> <span class='op'>=&gt;</span>
+			<span class="macro">first_opt_default</span><span class="macro">!</span>{<span class="ident">legend_options</span>,
+				<span class="ident">Horizontal</span> <span class="op">=&gt;</span>
 				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; reverse&quot;</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; horizontal&quot;</span>);
 				},
-				_ <span class='op'>=&gt;</span>
+				<span class="kw">_</span> <span class="op">=&gt;</span>
 				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; noreverse&quot;</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; vertical&quot;</span>);
 				}
 			}
 
-			<span class='macro'>first_opt_default</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
-				<span class='ident'>Invert</span> <span class='op'>=&gt;</span>
+			<span class="macro">first_opt_default</span><span class="macro">!</span>{<span class="ident">legend_options</span>,
+				<span class="ident">Reverse</span> <span class="op">=&gt;</span>
 				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; invert&quot;</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; reverse&quot;</span>);
 				},
-				_ <span class='op'>=&gt;</span>
+				<span class="kw">_</span> <span class="op">=&gt;</span>
 				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; noinvert&quot;</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; noreverse&quot;</span>);
 				}
 			}
 
-			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
-				<span class='ident'>Title</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span>
+			<span class="macro">first_opt_default</span><span class="macro">!</span>{<span class="ident">legend_options</span>,
+				<span class="ident">Invert</span> <span class="op">=&gt;</span>
 				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; title \&quot;&quot;</span>);
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='ident'>s</span>);
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\&quot;&quot;</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; invert&quot;</span>);
+				},
+				<span class="kw">_</span> <span class="op">=&gt;</span>
+				{
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; noinvert&quot;</span>);
 				}
 			}
 
-			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>text_options</span>,
-				<span class='ident'>Font</span>(<span class='ident'>f</span>, <span class='ident'>s</span>) <span class='op'>=&gt;</span>
+			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">legend_options</span>,
+				<span class="ident">Title</span>(<span class="ident">s</span>) <span class="op">=&gt;</span>
 				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; font \&quot;&quot;</span>);
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='ident'>f</span>);
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;,&quot;</span>);
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>.<span class='ident'>to_string</span>()[..]);
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\&quot;&quot;</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; title \&quot;&quot;</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="ident">s</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;\&quot;&quot;</span>);
 				}
 			}
-			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>text_options</span>,
-				<span class='ident'>TextColor</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span>
+
+			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">text_options</span>,
+				<span class="ident">Font</span>(<span class="ident">f</span>, <span class="ident">s</span>) <span class="op">=&gt;</span>
 				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot; textcolor rgb \&quot;&quot;</span>);
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='ident'>s</span>);
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\&quot;&quot;</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; font \&quot;&quot;</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="ident">f</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;,&quot;</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>.<span class="ident">to_string</span>()[..]);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;\&quot;&quot;</span>);
 				}
 			}
-			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>text_options</span>,
-				<span class='ident'>TextAlign</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span>
+			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">text_options</span>,
+				<span class="ident">TextColor</span>(<span class="ident">s</span>) <span class="op">=&gt;</span>
 				{
-					<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='kw'>match</span> <span class='ident'>a</span>
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; textcolor rgb \&quot;&quot;</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="ident">s</span>);
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;\&quot;&quot;</span>);
+				}
+			}
+			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">text_options</span>,
+				<span class="ident">TextAlign</span>(<span class="ident">a</span>) <span class="op">=&gt;</span>
+				{
+					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">a</span>
 					{
-						<span class='ident'>AlignLeft</span> <span class='op'>=&gt;</span> <span class='string'>&quot; Left&quot;</span>,
-						<span class='ident'>AlignRight</span> <span class='op'>=&gt;</span> <span class='string'>&quot; Right&quot;</span>,
-						_ <span class='op'>=&gt;</span> <span class='string'>&quot;&quot;</span>
+						<span class="ident">AlignLeft</span> <span class="op">=&gt;</span> <span class="string">&quot; Left&quot;</span>,
+						<span class="ident">AlignRight</span> <span class="op">=&gt;</span> <span class="string">&quot; Right&quot;</span>,
+						<span class="kw">_</span> <span class="op">=&gt;</span> <span class="string">&quot;&quot;</span>
 					});
 				}
 			}
 
-			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
-				<span class='ident'>MaxRows</span>(<span class='ident'>r</span>) <span class='op'>=&gt;</span>
+			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">legend_options</span>,
+				<span class="ident">MaxRows</span>(<span class="ident">r</span>) <span class="op">=&gt;</span>
 				{
-					<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>c</span>, <span class='string'>&quot; maxrows {}&quot;</span>, <span class='ident'>r</span> <span class='kw'>as</span> <span class='ident'>i32</span>);
+					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot; maxrows {}&quot;</span>, <span class="ident">r</span> <span class="kw">as</span> <span class="ident">i32</span>);
 				}
 			}
 
-			<span class='macro'>first_opt</span><span class='macro'>!</span>{<span class='ident'>legend_options</span>,
-				<span class='ident'>MaxCols</span>(<span class='ident'>l</span>) <span class='op'>=&gt;</span>
+			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">legend_options</span>,
+				<span class="ident">MaxCols</span>(<span class="ident">l</span>) <span class="op">=&gt;</span>
 				{
-					<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>c</span>, <span class='string'>&quot; maxcols {}&quot;</span>, <span class='ident'>l</span> <span class='kw'>as</span> <span class='ident'>i32</span>);
+					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot; maxcols {}&quot;</span>, <span class="ident">l</span> <span class="kw">as</span> <span class="ident">i32</span>);
 				}
 			}
 
-			<span class='ident'>c</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;\n&quot;</span>);
+			<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;\n&quot;</span>);
 		}
-		<span class='self'>self</span>
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot with lines connecting each data point</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `x` - x values</span>
-	<span class='doccomment'>/// * `y` - y values</span>
-	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
-	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
-	<span class='doccomment'>///     * `LineWidth` - Sets the width of the line</span>
-	<span class='doccomment'>///     * `LineStyle` - Sets the style of the line</span>
-	<span class='doccomment'>///     * `Color` - Sets the color</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>lines</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tx</span><span class='op'>&gt;</span>, <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Ty</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class="doccomment">/// Plot a 2D scatter-plot with lines connecting each data point</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values</span>
+	<span class="doccomment">/// * `y` - y values</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the plot element. The relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="doccomment">///     * `LineWidth` - Sets the width of the line</span>
+	<span class="doccomment">///     * `LineStyle` - Sets the style of the line</span>
+	<span class="doccomment">///     * `Color` - Sets the color</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lines</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">Tx</span>: <span class="ident">DataType</span>, <span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>, <span class="ident">Ty</span>: <span class="ident">DataType</span>, <span class="ident">Y</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Ty</span><span class="op">&gt;&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot2</span>(<span class='ident'>Lines</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>options</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">common</span>
+			.<span class="ident">elems</span>
+			.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot2</span>(<span class="ident">Lines</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>()));
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot with a point standing in for each data point</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `x` - x values</span>
-	<span class='doccomment'>/// * `y` - y values</span>
-	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
-	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
-	<span class='doccomment'>///     * `PointSymbol` - Sets symbol for each point</span>
-	<span class='doccomment'>///     * `PointSize` - Sets the size of each point</span>
-	<span class='doccomment'>///     * `Color` - Sets the color</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>points</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tx</span><span class='op'>&gt;</span>, <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Ty</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class="doccomment">/// Plot a 2D scatter-plot with a point standing in for each data point</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values</span>
+	<span class="doccomment">/// * `y` - y values</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the plot element. The relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="doccomment">///     * `PointSymbol` - Sets symbol for each point</span>
+	<span class="doccomment">///     * `PointSize` - Sets the size of each point</span>
+	<span class="doccomment">///     * `Color` - Sets the color</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">points</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">Tx</span>: <span class="ident">DataType</span>, <span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>, <span class="ident">Ty</span>: <span class="ident">DataType</span>, <span class="ident">Y</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Ty</span><span class="op">&gt;&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot2</span>(<span class='ident'>Points</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>options</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">common</span>
+			.<span class="ident">elems</span>
+			.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot2</span>(<span class="ident">Points</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>()));
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// A combination of lines and points methods (drawn in that order).</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `x` - x values</span>
-	<span class='doccomment'>/// * `y` - y values</span>
-	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>lines_points</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tx</span><span class='op'>&gt;</span>, <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Ty</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class="doccomment">/// A combination of lines and points methods (drawn in that order).</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values</span>
+	<span class="doccomment">/// * `y` - y values</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the plot element</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lines_points</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">Tx</span>: <span class="ident">DataType</span>, <span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>, <span class="ident">Ty</span>: <span class="ident">DataType</span>, <span class="ident">Y</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Ty</span><span class="op">&gt;&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot2</span>(<span class='ident'>LinesPoints</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>options</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">common</span>
+			.<span class="ident">elems</span>
+			.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot2</span>(<span class="ident">LinesPoints</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>()));
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.</span>
-	<span class='doccomment'>/// Additionally, error bars are attached to each data point in the X direction.</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `x` - x values</span>
-	<span class='doccomment'>/// * `y` - y valuess</span>
-	<span class='doccomment'>/// * `x_error` - Errors associated with the x value</span>
-	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
-	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
-	<span class='doccomment'>///     * `PointSymbol` - Sets symbol for each point</span>
-	<span class='doccomment'>///     * `PointSize` - Sets the size of each point</span>
-	<span class='doccomment'>///     * `LineWidth` - Sets the width of the line</span>
-	<span class='doccomment'>///     * `LineStyle` - Sets the style of the line</span>
-	<span class='doccomment'>///     * `Color` - Sets the color</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>x_error_lines</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
-	                   <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tx</span><span class='op'>&gt;</span>,
-	                   <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Ty</span><span class='op'>&gt;</span>,
-	                   <span class='ident'>Txe</span>: <span class='ident'>DataType</span>, <span class='ident'>XE</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Txe</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>x_error</span>: <span class='ident'>XE</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class="doccomment">/// Plot a 2D scatter-plot with a point standing in for each data point.</span>
+	<span class="doccomment">/// Additionally, error bars are attached to each data point in the X direction.</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values</span>
+	<span class="doccomment">/// * `y` - y valuess</span>
+	<span class="doccomment">/// * `x_error` - Errors associated with the x value</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="doccomment">///     * `PointSymbol` - Sets symbol for each point</span>
+	<span class="doccomment">///     * `PointSize` - Sets the size of each point</span>
+	<span class="doccomment">///     * `Color` - Sets the color</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">x_error_bars</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">Tx</span>: <span class="ident">DataType</span>,
+		<span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>,
+		<span class="ident">Ty</span>: <span class="ident">DataType</span>,
+		<span class="ident">Y</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Ty</span><span class="op">&gt;</span>,
+		<span class="ident">Txe</span>: <span class="ident">DataType</span>,
+		<span class="ident">XE</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Txe</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">x_error</span>: <span class="ident">XE</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot3</span>(<span class='ident'>XErrorLines</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>x_error</span>, <span class='ident'>options</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">common</span>
+			.<span class="ident">elems</span>
+			.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(<span class="ident">XErrorBars</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">x_error</span>, <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>()));
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.</span>
-	<span class='doccomment'>/// Additionally, error bars are attached to each data point in the Y direction.</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `x` - x values</span>
-	<span class='doccomment'>/// * `y` - y values</span>
-	<span class='doccomment'>/// * `y_error` - Errors associated with the y values</span>
-	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
-	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
-	<span class='doccomment'>///     * `PointSymbol` - Sets symbol for each point</span>
-	<span class='doccomment'>///     * `PointSize` - Sets the size of each point</span>
-	<span class='doccomment'>///     * `LineWidth` - Sets the width of the line</span>
-	<span class='doccomment'>///     * `LineStyle` - Sets the style of the line</span>
-	<span class='doccomment'>///     * `Color` - Sets the color</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>y_error_lines</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
-	                   <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tx</span><span class='op'>&gt;</span>,
-	                   <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Ty</span><span class='op'>&gt;</span>,
-	                   <span class='ident'>Tye</span>: <span class='ident'>DataType</span>, <span class='ident'>YE</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tye</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>y_error</span>: <span class='ident'>YE</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class="doccomment">/// Plot a 2D scatter-plot with a point standing in for each data point.</span>
+	<span class="doccomment">/// Additionally, error bars are attached to each data point in the Y direction.</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values</span>
+	<span class="doccomment">/// * `y` - y values</span>
+	<span class="doccomment">/// * `y_error` - Errors associated with the y values</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the plot element. The relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="doccomment">///     * `PointSymbol` - Sets symbol for each point</span>
+	<span class="doccomment">///     * `PointSize` - Sets the size of each point</span>
+	<span class="doccomment">///     * `Color` - Sets the color</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">y_error_bars</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">Tx</span>: <span class="ident">DataType</span>,
+		<span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>,
+		<span class="ident">Ty</span>: <span class="ident">DataType</span>,
+		<span class="ident">Y</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Ty</span><span class="op">&gt;</span>,
+		<span class="ident">Tye</span>: <span class="ident">DataType</span>,
+		<span class="ident">YE</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tye</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">y_error</span>: <span class="ident">YE</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot3</span>(<span class='ident'>YErrorLines</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>y_error</span>, <span class='ident'>options</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">common</span>
+			.<span class="ident">elems</span>
+			.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(<span class="ident">YErrorBars</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">y_error</span>, <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>()));
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot of two curves (bound by `y_lo` and `y_hi`) with a filled region between them.</span>
-	<span class='doccomment'>/// `FillRegion` plot option can be used to control what happens when the curves intersect. If set to Above, then the `y_lo &lt; y_hi` region is filled.</span>
-	<span class='doccomment'>/// If set to Below, then the `y_lo &gt; y_hi` region is filled. Otherwise both regions are filled.</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `x` - x values</span>
-	<span class='doccomment'>/// * `y_lo` - Bottom y values</span>
-	<span class='doccomment'>/// * `y_hi` - Top y values</span>
-	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
-	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
-	<span class='doccomment'>///     * `FillRegion` - Specifies the region between the two curves to fill</span>
-	<span class='doccomment'>///     * `Color` - Sets the color of the filled region</span>
-	<span class='doccomment'>///     * `FillAlpha` - Sets the transparency of the filled region</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fill_between</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
-	                   <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tx</span><span class='op'>&gt;</span>,
-	                   <span class='ident'>Tyl</span>: <span class='ident'>DataType</span>, <span class='ident'>YL</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tyl</span><span class='op'>&gt;</span>,
-	                   <span class='ident'>Tyh</span>: <span class='ident'>DataType</span>, <span class='ident'>YH</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tyh</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y_lo</span>: <span class='ident'>YL</span>, <span class='ident'>y_hi</span>: <span class='ident'>YH</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class="doccomment">/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.</span>
+	<span class="doccomment">/// Additionally, error bars are attached to each data point in the X direction.</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values</span>
+	<span class="doccomment">/// * `y` - y valuess</span>
+	<span class="doccomment">/// * `x_error` - Errors associated with the x value</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="doccomment">///     * `PointSymbol` - Sets symbol for each point</span>
+	<span class="doccomment">///     * `PointSize` - Sets the size of each point</span>
+	<span class="doccomment">///     * `LineWidth` - Sets the width of the line</span>
+	<span class="doccomment">///     * `LineStyle` - Sets the style of the line</span>
+	<span class="doccomment">///     * `Color` - Sets the color</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">x_error_lines</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">Tx</span>: <span class="ident">DataType</span>,
+		<span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>,
+		<span class="ident">Ty</span>: <span class="ident">DataType</span>,
+		<span class="ident">Y</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Ty</span><span class="op">&gt;</span>,
+		<span class="ident">Txe</span>: <span class="ident">DataType</span>,
+		<span class="ident">XE</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Txe</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">x_error</span>: <span class="ident">XE</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot3</span>(<span class='ident'>FillBetween</span>, <span class='ident'>x</span>, <span class='ident'>y_lo</span>, <span class='ident'>y_hi</span>, <span class='ident'>options</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">common</span>
+			.<span class="ident">elems</span>
+			.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(<span class="ident">XErrorLines</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">x_error</span>, <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>()));
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).</span>
-	<span class='doccomment'>/// Boxes start at the x-axis and go towards the y value of the datapoint.</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `x` - x values (center of the box)</span>
-	<span class='doccomment'>/// * `y` - y values</span>
-	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
-	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
-	<span class='doccomment'>///     * `LineWidth` - Sets the width of the border</span>
-	<span class='doccomment'>///     * `LineStyle` - Sets the style of the border</span>
-	<span class='doccomment'>///     * `BorderColor` - Sets the color of the border</span>
-	<span class='doccomment'>///     * `Color` - Sets the color of the box fill</span>
-	<span class='doccomment'>///     * `FillAlpha` - Sets the transparency of the box fill</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>boxes</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>, <span class='ident'>Tx</span>: <span class='ident'>DataType</span>, <span class='ident'>X</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tx</span><span class='op'>&gt;</span>, <span class='ident'>Ty</span>: <span class='ident'>DataType</span>, <span class='ident'>Y</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Ty</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class="doccomment">/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.</span>
+	<span class="doccomment">/// Additionally, error bars are attached to each data point in the Y direction.</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values</span>
+	<span class="doccomment">/// * `y` - y values</span>
+	<span class="doccomment">/// * `y_error` - Errors associated with the y values</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the plot element. The relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="doccomment">///     * `PointSymbol` - Sets symbol for each point</span>
+	<span class="doccomment">///     * `PointSize` - Sets the size of each point</span>
+	<span class="doccomment">///     * `LineWidth` - Sets the width of the line</span>
+	<span class="doccomment">///     * `LineStyle` - Sets the style of the line</span>
+	<span class="doccomment">///     * `Color` - Sets the color</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">y_error_lines</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">Tx</span>: <span class="ident">DataType</span>,
+		<span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>,
+		<span class="ident">Ty</span>: <span class="ident">DataType</span>,
+		<span class="ident">Y</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Ty</span><span class="op">&gt;</span>,
+		<span class="ident">Tye</span>: <span class="ident">DataType</span>,
+		<span class="ident">YE</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tye</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">y_error</span>: <span class="ident">YE</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot2</span>(<span class='ident'>Boxes</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>options</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">common</span>
+			.<span class="ident">elems</span>
+			.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(<span class="ident">YErrorLines</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">y_error</span>, <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>()));
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Plot a 2D scatter-plot using boxes of set (per box) width.</span>
-	<span class='doccomment'>/// Boxes start at the x-axis and go towards the y value of the datapoint.</span>
-	<span class='doccomment'>/// # Arguments</span>
-	<span class='doccomment'>/// * `x` - x values (center of the box)</span>
-	<span class='doccomment'>/// * `y` - y values</span>
-	<span class='doccomment'>/// * `w` - Box width values</span>
-	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:</span>
-	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
-	<span class='doccomment'>///     * `LineWidth` - Sets the width of the border</span>
-	<span class='doccomment'>///     * `LineStyle` - Sets the style of the border</span>
-	<span class='doccomment'>///     * `BorderColor` - Sets the color of the border</span>
-	<span class='doccomment'>///     * `Color` - Sets the color of the box fill</span>
-	<span class='doccomment'>///     * `FillAlpha` - Sets the transparency of the box fill</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>boxes_set_width</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
-	                      <span class='ident'>Tx</span>: <span class='ident'>DataType</span>,
-	                      <span class='ident'>X</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tx</span><span class='op'>&gt;</span>,
-	                      <span class='ident'>Ty</span>: <span class='ident'>DataType</span>,
-	                      <span class='ident'>Y</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Ty</span><span class='op'>&gt;</span>,
-	                      <span class='ident'>Tw</span>: <span class='ident'>DataType</span>,
-	                      <span class='ident'>W</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Tw</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>X</span>, <span class='ident'>y</span>: <span class='ident'>Y</span>, <span class='ident'>w</span>: <span class='ident'>W</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class="doccomment">/// Plot a 2D scatter-plot of two curves (bound by `y_lo` and `y_hi`) with a filled region between them.</span>
+	<span class="doccomment">/// `FillRegion` plot option can be used to control what happens when the curves intersect. If set to Above, then the `y_lo &lt; y_hi` region is filled.</span>
+	<span class="doccomment">/// If set to Below, then the `y_lo &gt; y_hi` region is filled. Otherwise both regions are filled.</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values</span>
+	<span class="doccomment">/// * `y_lo` - Bottom y values</span>
+	<span class="doccomment">/// * `y_hi` - Top y values</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the plot element. The relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="doccomment">///     * `FillRegion` - Specifies the region between the two curves to fill</span>
+	<span class="doccomment">///     * `Color` - Sets the color of the filled region</span>
+	<span class="doccomment">///     * `FillAlpha` - Sets the transparency of the filled region</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fill_between</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">Tx</span>: <span class="ident">DataType</span>,
+		<span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>,
+		<span class="ident">Tyl</span>: <span class="ident">DataType</span>,
+		<span class="ident">YL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tyl</span><span class="op">&gt;</span>,
+		<span class="ident">Tyh</span>: <span class="ident">DataType</span>,
+		<span class="ident">YH</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tyh</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y_lo</span>: <span class="ident">YL</span>, <span class="ident">y_hi</span>: <span class="ident">YH</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot3</span>(<span class='ident'>Boxes</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>w</span>, <span class='ident'>options</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">common</span>
+			.<span class="ident">elems</span>
+			.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(<span class="ident">FillBetween</span>, <span class="ident">x</span>, <span class="ident">y_lo</span>, <span class="ident">y_hi</span>, <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>()));
+		<span class="self">self</span>
 	}
 
-	<span class='doccomment'>/// Draws an image from a rectangular array of data by connecting the individual datapoints with polygons.</span>
-	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// #Arguments:</span>
-	<span class='doccomment'>/// * `mat` - Row-major 2D array signifying the value of the datapoints. The X and Y coordinates of the datapoints are determined automatically,</span>
-	<span class='doccomment'>///           and optionally scaled using the `dimensions` argument.</span>
-	<span class='doccomment'>/// * `num_rows` - Number of rows in the data array</span>
-	<span class='doccomment'>/// * `num_cols` - Number of columns in the data array</span>
-	<span class='doccomment'>/// * `dimensions` - Optional X and Y coordinates of the first and last data points (with the rest of the coordinates spaced evenly between).</span>
-	<span class='doccomment'>///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.</span>
-	<span class='doccomment'>/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:</span>
-	<span class='doccomment'>///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>image</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span>,
-	              <span class='ident'>T</span>: <span class='ident'>DataType</span>,
-	              <span class='ident'>X</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>T</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>mat</span>: <span class='ident'>X</span>, <span class='ident'>num_rows</span>: <span class='ident'>usize</span>, <span class='ident'>num_cols</span>: <span class='ident'>usize</span>, <span class='ident'>dimensions</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>f64</span>, <span class='ident'>f64</span>, <span class='ident'>f64</span>, <span class='ident'>f64</span>)<span class='op'>&gt;</span>,
-	                              <span class='ident'>options</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>PlotOption</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>Axes2D</span>
+	<span class="doccomment">/// Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).</span>
+	<span class="doccomment">/// Boxes start at the x-axis and go towards the y value of the datapoint.</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values (center of the box)</span>
+	<span class="doccomment">/// * `y` - y values</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the plot element. The relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="doccomment">///     * `LineWidth` - Sets the width of the border</span>
+	<span class="doccomment">///     * `LineStyle` - Sets the style of the border</span>
+	<span class="doccomment">///     * `BorderColor` - Sets the color of the border</span>
+	<span class="doccomment">///     * `Color` - Sets the color of the box fill</span>
+	<span class="doccomment">///     * `FillAlpha` - Sets the transparency of the box fill</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">boxes</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">Tx</span>: <span class="ident">DataType</span>, <span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>, <span class="ident">Ty</span>: <span class="ident">DataType</span>, <span class="ident">Y</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Ty</span><span class="op">&gt;&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>plot_matrix</span>(<span class='ident'>Image</span>, <span class='boolvalue'>false</span>, <span class='ident'>mat</span>, <span class='ident'>num_rows</span>, <span class='ident'>num_cols</span>, <span class='ident'>dimensions</span>, <span class='ident'>options</span>);
-		<span class='self'>self</span>
+		<span class="self">self</span>.<span class="ident">common</span>
+			.<span class="ident">elems</span>
+			.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot2</span>(<span class="ident">Boxes</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>()));
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Plot a 2D scatter-plot using boxes of set (per box) width.</span>
+	<span class="doccomment">/// Boxes start at the x-axis and go towards the y value of the datapoint.</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values (center of the box)</span>
+	<span class="doccomment">/// * `y` - y values</span>
+	<span class="doccomment">/// * `w` - Box width values</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the plot element. The relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="doccomment">///     * `LineWidth` - Sets the width of the border</span>
+	<span class="doccomment">///     * `LineStyle` - Sets the style of the border</span>
+	<span class="doccomment">///     * `BorderColor` - Sets the color of the border</span>
+	<span class="doccomment">///     * `Color` - Sets the color of the box fill</span>
+	<span class="doccomment">///     * `FillAlpha` - Sets the transparency of the box fill</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">boxes_set_width</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">Tx</span>: <span class="ident">DataType</span>,
+		<span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>,
+		<span class="ident">Ty</span>: <span class="ident">DataType</span>,
+		<span class="ident">Y</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Ty</span><span class="op">&gt;</span>,
+		<span class="ident">Tw</span>: <span class="ident">DataType</span>,
+		<span class="ident">W</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tw</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">w</span>: <span class="ident">W</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">common</span>
+			.<span class="ident">elems</span>
+			.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(<span class="ident">Boxes</span>, <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">w</span>, <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>()));
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Plot a 2D box-and-whisker plot using boxes of automatic width.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values (center of the box)</span>
+	<span class="doccomment">/// * `box_min` - minimum box y value</span>
+	<span class="doccomment">/// * `whisker_min` - minimum whisker y value</span>
+	<span class="doccomment">/// * `whisker_max` - maximum whisker y value</span>
+	<span class="doccomment">/// * `box_max` - maximum box y value</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the plot element. The relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="doccomment">///     * `LineWidth` - Sets the width of the border</span>
+	<span class="doccomment">///     * `LineStyle` - Sets the style of the border</span>
+	<span class="doccomment">///     * `BorderColor` - Sets the color of the border</span>
+	<span class="doccomment">///     * `Color` - Sets the color of the box fill</span>
+	<span class="doccomment">///     * `FillAlpha` - Sets the transparency of the box fill</span>
+	<span class="doccomment">///     * `WhiskerBars` - Sets the width of the whisker bars</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">box_and_whisker</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">Tx</span>: <span class="ident">DataType</span>,
+		<span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>,
+		<span class="ident">TBoxMin</span>: <span class="ident">DataType</span>,
+		<span class="ident">BoxMin</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TBoxMin</span><span class="op">&gt;</span>,
+		<span class="ident">TWhiskerMin</span>: <span class="ident">DataType</span>,
+		<span class="ident">WhiskerMin</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TWhiskerMin</span><span class="op">&gt;</span>,
+		<span class="ident">TWhiskerMax</span>: <span class="ident">DataType</span>,
+		<span class="ident">WhiskerMax</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TWhiskerMax</span><span class="op">&gt;</span>,
+		<span class="ident">TBoxMax</span>: <span class="ident">DataType</span>,
+		<span class="ident">BoxMax</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TBoxMax</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">box_min</span>: <span class="ident">BoxMin</span>, <span class="ident">whisker_min</span>: <span class="ident">WhiskerMin</span>, <span class="ident">whisker_max</span>: <span class="ident">WhiskerMax</span>, <span class="ident">box_max</span>: <span class="ident">BoxMax</span>,
+		<span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot5</span>(
+			<span class="ident">BoxAndWhisker</span>,
+			<span class="ident">x</span>,
+			<span class="ident">box_min</span>,
+			<span class="ident">whisker_min</span>,
+			<span class="ident">whisker_max</span>,
+			<span class="ident">box_max</span>,
+			<span class="ident">options</span>.<span class="ident">to_one_way_owned</span>(),
+		));
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Plot a 2D box-and-whisker plot using boxes of set width.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `x` - x values (center of the box)</span>
+	<span class="doccomment">/// * `box_min` - minimum box y value</span>
+	<span class="doccomment">/// * `whisker_min` - minimum whisker y value</span>
+	<span class="doccomment">/// * `whisker_max` - maximum whisker y value</span>
+	<span class="doccomment">/// * `box_max` - maximum box y value</span>
+	<span class="doccomment">/// * `box_width` - width of the box (in x axis units)</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the plot element. The relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="doccomment">///     * `LineWidth` - Sets the width of the border</span>
+	<span class="doccomment">///     * `LineStyle` - Sets the style of the border</span>
+	<span class="doccomment">///     * `BorderColor` - Sets the color of the border</span>
+	<span class="doccomment">///     * `Color` - Sets the color of the box fill</span>
+	<span class="doccomment">///     * `FillAlpha` - Sets the transparency of the box fill</span>
+	<span class="doccomment">///     * `WhiskerBars` - Sets the width of the whisker bars</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">box_and_whisker_set_width</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">Tx</span>: <span class="ident">DataType</span>,
+		<span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tx</span><span class="op">&gt;</span>,
+		<span class="ident">TBoxMin</span>: <span class="ident">DataType</span>,
+		<span class="ident">BoxMin</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TBoxMin</span><span class="op">&gt;</span>,
+		<span class="ident">TWhiskerMin</span>: <span class="ident">DataType</span>,
+		<span class="ident">WhiskerMin</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TWhiskerMin</span><span class="op">&gt;</span>,
+		<span class="ident">TWhiskerMax</span>: <span class="ident">DataType</span>,
+		<span class="ident">WhiskerMax</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TWhiskerMax</span><span class="op">&gt;</span>,
+		<span class="ident">TBoxMax</span>: <span class="ident">DataType</span>,
+		<span class="ident">BoxMax</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TBoxMax</span><span class="op">&gt;</span>,
+		<span class="ident">TBoxWidth</span>: <span class="ident">DataType</span>,
+		<span class="ident">BoxWidth</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TBoxWidth</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">box_min</span>: <span class="ident">BoxMin</span>, <span class="ident">whisker_min</span>: <span class="ident">WhiskerMin</span>, <span class="ident">whisker_max</span>: <span class="ident">WhiskerMax</span>, <span class="ident">box_max</span>: <span class="ident">BoxMax</span>, <span class="ident">box_width</span>: <span class="ident">BoxWidth</span>,
+		<span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot6</span>(
+			<span class="ident">BoxAndWhisker</span>,
+			<span class="ident">x</span>,
+			<span class="ident">box_min</span>,
+			<span class="ident">whisker_min</span>,
+			<span class="ident">whisker_max</span>,
+			<span class="ident">box_max</span>,
+			<span class="ident">box_width</span>,
+			<span class="ident">options</span>.<span class="ident">to_one_way_owned</span>(),
+		));
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Draws an image from a rectangular array of data by connecting the individual datapoints with polygons.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// #Arguments:</span>
+	<span class="doccomment">/// * `mat` - Row-major 2D array signifying the value of the datapoints. The X and Y coordinates of the datapoints are determined automatically,</span>
+	<span class="doccomment">///           and optionally scaled using the `dimensions` argument.</span>
+	<span class="doccomment">/// * `num_rows` - Number of rows in the data array</span>
+	<span class="doccomment">/// * `num_cols` - Number of columns in the data array</span>
+	<span class="doccomment">/// * `dimensions` - Optional X and Y coordinates of the first and last data points (with the rest of the coordinates spaced evenly between).</span>
+	<span class="doccomment">///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the surface. Relevant options are:</span>
+	<span class="doccomment">///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">image</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">T</span>: <span class="ident">DataType</span>, <span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">mat</span>: <span class="ident">X</span>, <span class="ident">num_rows</span>: <span class="ident">usize</span>, <span class="ident">num_cols</span>: <span class="ident">usize</span>, <span class="ident">dimensions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>)<span class="op">&gt;</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot_matrix</span>(
+			<span class="ident">Image</span>,
+			<span class="bool-val">false</span>,
+			<span class="ident">mat</span>,
+			<span class="ident">num_rows</span>,
+			<span class="ident">num_cols</span>,
+			<span class="ident">dimensions</span>,
+			<span class="ident">options</span>.<span class="ident">to_one_way_owned</span>(),
+		));
+		<span class="self">self</span>
 	}
 }
 
-<span class='kw'>impl</span> <span class='ident'>AxesCommonPrivate</span> <span class='kw'>for</span> <span class='ident'>Axes2D</span>
+<span class="kw">impl</span> <span class="ident">AxesCommonPrivate</span> <span class="kw">for</span> <span class="ident">Axes2D</span>
 {
-	<span class='kw'>fn</span> <span class='ident'>get_common_data_mut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='kw-2'>mut</span> <span class='ident'>AxesCommonData</span>
+	<span class="kw">fn</span> <span class="ident">get_common_data_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">AxesCommonData</span>
 	{
-		<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>common</span>
+		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>
 	}
 
-	<span class='kw'>fn</span> <span class='ident'>get_common_data</span><span class='op'>&lt;</span><span class='lifetime'>&#39;l</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;l</span> <span class='ident'>AxesCommonData</span>
+	<span class="kw">fn</span> <span class="ident">get_common_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">AxesCommonData</span>
 	{
-		<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>common</span>
-	}
-}
-
-<span class='kw'>impl</span> <span class='ident'>AxesCommon</span> <span class='kw'>for</span> <span class='ident'>Axes2D</span> {}
-
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_axes2d</span>() <span class='op'>-&gt;</span> <span class='ident'>Axes2D</span>
-{
-	<span class='ident'>Axes2D</span>
-	{
-		<span class='ident'>common</span>: <span class='ident'>AxesCommonData</span>::<span class='ident'>new</span>(),
+		<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">common</span>
 	}
 }
 
-<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Axes2DPrivate</span>
+<span class="kw">impl</span> <span class="ident">AxesCommon</span> <span class="kw">for</span> <span class="ident">Axes2D</span> {}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait</span> <span class="ident">Axes2DPrivate</span>
 {
-	<span class='kw'>fn</span> <span class='ident'>write_out</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>writer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>);
+	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>);
 }
 
-<span class='kw'>impl</span> <span class='ident'>Axes2DPrivate</span> <span class='kw'>for</span> <span class='ident'>Axes2D</span>
+<span class="kw">impl</span> <span class="ident">Axes2DPrivate</span> <span class="kw">for</span> <span class="ident">Axes2D</span>
 {
-	<span class='kw'>fn</span> <span class='ident'>write_out</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>writer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Writer</span>)
+	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>)
 	{
-		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>elems</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span>
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>
 		{
-			<span class='kw'>return</span>;
+			<span class="kw">return</span>;
 		}
 
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>write_out_commands</span>(<span class='ident'>writer</span>);
-		<span class='self'>self</span>.<span class='ident'>common</span>.<span class='ident'>write_out_elements</span>(<span class='string'>&quot;plot&quot;</span>, <span class='ident'>writer</span>);
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_out_commands</span>(<span class="ident">writer</span>);
+		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">grid_axes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">x_axis</span>.<span class="ident">grid</span>
+		{
+			<span class="ident">grid_axes</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">x_axis</span>.<span class="ident">axis</span>);
+		}
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">y_axis</span>.<span class="ident">grid</span>
+		{
+			<span class="ident">grid_axes</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">y_axis</span>.<span class="ident">axis</span>);
+		}
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">cb_axis</span>.<span class="ident">grid</span>
+		{
+			<span class="ident">grid_axes</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">cb_axis</span>.<span class="ident">axis</span>);
+		}
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_grid_options</span>(<span class="ident">writer</span>, <span class="kw-2">&amp;</span><span class="ident">grid_axes</span>);
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_out_elements</span>(<span class="string">&quot;plot&quot;</span>, <span class="ident">writer</span>);
 	}
 }
 </pre>
-</section>
-    <section id='search' class="content hidden"></section>
-
-    <section class="footer"></section>
-
-    <aside id="help" class="hidden">
-        <div>
-            <h1 class="hidden">Help</h1>
-
-            <div class="shortcuts">
-                <h2>Keyboard Shortcuts</h2>
-
-                <dl>
-                    <dt>?</dt>
-                    <dd>Show this help dialog</dd>
-                    <dt>S</dt>
-                    <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
-                    <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
-                    <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
-                    <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
-                </dl>
-            </div>
-
-            <div class="infos">
-                <h2>Search Tricks</h2>
-
-                <p>
-                    Prefix searches with a type followed by a colon (e.g.
-                    <code>fn:</code>) to restrict the search to a given type.
-                </p>
-
-                <p>
-                    Accepted types are: <code>fn</code>, <code>mod</code>,
-                    <code>struct</code>, <code>enum</code>,
-                    <code>trait</code>, <code>type</code>, <code>macro</code>,
-                    and <code>const</code>.
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
-                </p>
-            </div>
-        </div>
-    </aside>
-
-    
-
-    <script>
-        window.rootPath = "../../";
-        window.currentCrate = "gnuplot";
-        window.playgroundUrl = "";
-    </script>
-    <script src="../../jquery.js"></script>
-    <script src="../../main.js"></script>
-    
-    <script defer src="../../search-index.js"></script>
-</body>
-</html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "gnuplot";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>

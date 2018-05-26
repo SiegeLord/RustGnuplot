@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Figure","A figure that may contain multiple axes"]]});
