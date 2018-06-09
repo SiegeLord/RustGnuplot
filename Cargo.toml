@@ -12,6 +12,7 @@ autobins = false
 autoexamples = false
 autotests = false
 autobenches = false
+categories = ["visualization"]
 
 [lib]
 
