@@ -830,7 +830,7 @@ impl AxisData
 				}
 			}
 
-			write!(w, " scale {:.12e},{:.12e}", minor_scale, major_scale);
+			write!(w, " scale {:.12e},{:.12e}", major_scale, minor_scale);
 
 			first_opt!{tick_options,
 				Format(ref f) =>
