@@ -1534,6 +1534,61 @@
 <span id="1534">1534</span>
 <span id="1535">1535</span>
 <span id="1536">1536</span>
+<span id="1537">1537</span>
+<span id="1538">1538</span>
+<span id="1539">1539</span>
+<span id="1540">1540</span>
+<span id="1541">1541</span>
+<span id="1542">1542</span>
+<span id="1543">1543</span>
+<span id="1544">1544</span>
+<span id="1545">1545</span>
+<span id="1546">1546</span>
+<span id="1547">1547</span>
+<span id="1548">1548</span>
+<span id="1549">1549</span>
+<span id="1550">1550</span>
+<span id="1551">1551</span>
+<span id="1552">1552</span>
+<span id="1553">1553</span>
+<span id="1554">1554</span>
+<span id="1555">1555</span>
+<span id="1556">1556</span>
+<span id="1557">1557</span>
+<span id="1558">1558</span>
+<span id="1559">1559</span>
+<span id="1560">1560</span>
+<span id="1561">1561</span>
+<span id="1562">1562</span>
+<span id="1563">1563</span>
+<span id="1564">1564</span>
+<span id="1565">1565</span>
+<span id="1566">1566</span>
+<span id="1567">1567</span>
+<span id="1568">1568</span>
+<span id="1569">1569</span>
+<span id="1570">1570</span>
+<span id="1571">1571</span>
+<span id="1572">1572</span>
+<span id="1573">1573</span>
+<span id="1574">1574</span>
+<span id="1575">1575</span>
+<span id="1576">1576</span>
+<span id="1577">1577</span>
+<span id="1578">1578</span>
+<span id="1579">1579</span>
+<span id="1580">1580</span>
+<span id="1581">1581</span>
+<span id="1582">1582</span>
+<span id="1583">1583</span>
+<span id="1584">1584</span>
+<span id="1585">1585</span>
+<span id="1586">1586</span>
+<span id="1587">1587</span>
+<span id="1588">1588</span>
+<span id="1589">1589</span>
+<span id="1590">1590</span>
+<span id="1591">1591</span>
 </pre><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -2156,6 +2211,7 @@
 	<span class="kw">pub</span> <span class="ident">max</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>,
 	<span class="kw">pub</span> <span class="ident">reverse</span>: <span class="ident">bool</span>,
 	<span class="kw">pub</span> <span class="ident">grid</span>: <span class="ident">bool</span>,
+	<span class="kw">pub</span> <span class="ident">is_time</span>: <span class="ident">bool</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">AxisData</span>
@@ -2172,6 +2228,7 @@
 			<span class="ident">max</span>: <span class="ident">Auto</span>,
 			<span class="ident">reverse</span>: <span class="bool-val">false</span>,
 			<span class="ident">grid</span>: <span class="bool-val">false</span>,
+			<span class="ident">is_time</span>: <span class="bool-val">false</span>,
 		}
 	}
 
@@ -2193,6 +2250,15 @@
 				<span class="bool-val">false</span>
 			}
 		};
+		<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;\n&quot;</span>);
+
+		<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;set &quot;</span>);
+		<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="self">self</span>.<span class="ident">axis</span>.<span class="ident">to_axis_str</span>());
+		<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;data&quot;</span>);
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_time</span>
+		{
+			<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot; time&quot;</span>);
+		}
 		<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;\n&quot;</span>);
 
 		<span class="kw">match</span> <span class="self">self</span>.<span class="ident">tick_type</span>
@@ -2367,7 +2433,7 @@
 				}
 			}
 
-			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; scale {:.12e},{:.12e}&quot;</span>, <span class="ident">minor_scale</span>, <span class="ident">major_scale</span>);
+			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; scale {:.12e},{:.12e}&quot;</span>, <span class="ident">major_scale</span>, <span class="ident">minor_scale</span>);
 
 			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">tick_options</span>,
 				<span class="ident">Format</span>(<span class="kw-2">ref</span> <span class="ident">f</span>) <span class="op">=&gt;</span>
@@ -2433,6 +2499,11 @@
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_grid</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>)
 	{
 		<span class="self">self</span>.<span class="ident">grid</span> <span class="op">=</span> <span class="ident">show</span>;
+	}
+
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_time</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">is_time</span>: <span class="ident">bool</span>)
+	{
+		<span class="self">self</span>.<span class="ident">is_time</span> <span class="op">=</span> <span class="ident">is_time</span>;
 	}
 }
 
@@ -2988,6 +3059,45 @@
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">grid_front</span> <span class="op">=</span> <span class="ident">front</span>;
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">grid_options</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>();
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Sets the X axis be time.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// If true, the axis is interpreted as seconds from the Unix epoch. Use the `Format` TickOption to</span>
+	<span class="doccomment">/// specify the formatting of the ticks (see strftime format spec for valid values).</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `is_time` - Whether this axis is time or not.</span>
+	<span class="kw">fn</span> <span class="ident">set_x_time</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">is_time</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">x_axis</span>.<span class="ident">set_time</span>(<span class="ident">is_time</span>);
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Sets the Y axis be time. Note that the range must be non-negative for this to be valid.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// If true, the axis is interpreted as seconds from the Unix epoch. Use the `Format` TickOption to</span>
+	<span class="doccomment">/// specify the formatting of the ticks (see strftime format spec for valid values).</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `is_time` - Whether this axis is time or not.</span>
+	<span class="kw">fn</span> <span class="ident">set_y_time</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">is_time</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">y_axis</span>.<span class="ident">set_time</span>(<span class="ident">is_time</span>);
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Sets the color bar axis be time. Note that the range must be non-negative for this to be valid.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// If true, the axis is interpreted as seconds from the Unix epoch. Use the `Format` TickOption to</span>
+	<span class="doccomment">/// specify the formatting of the ticks (see strftime format spec for valid values).</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `is_time` - Whether this axis is time or not.</span>
+	<span class="kw">fn</span> <span class="ident">set_cb_time</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">is_time</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">cb_axis</span>.<span class="ident">set_time</span>(<span class="ident">is_time</span>);
 		<span class="self">self</span>
 	}
 

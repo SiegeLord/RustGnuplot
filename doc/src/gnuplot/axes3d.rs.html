@@ -456,6 +456,19 @@
 <span id="456">456</span>
 <span id="457">457</span>
 <span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
 </pre><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -694,6 +707,19 @@
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_z_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">set_grid</span>(<span class="ident">show</span>);
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Sets the Z axis be time. Note that the range must be non-negative for this to be valid.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// If true, the axis is interpreted as seconds from the Unix epoch. Use the `Format` TickOption to</span>
+	<span class="doccomment">/// specify the formatting of the ticks (see strftime format spec for valid values).</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">/// * `is_time` - Whether this axis is time or not.</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_z_time</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">is_time</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">set_time</span>(<span class="ident">is_time</span>);
 		<span class="self">self</span>
 	}
 
