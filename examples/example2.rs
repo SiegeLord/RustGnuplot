@@ -21,7 +21,7 @@ fn example(c: Common)
 	let y2 = y2.iter2();
 	let w = repeat(0.5f32);
 
-	let x3 = &[-3i32, -2, -1, 0, 2, 3];
+	let x3 = &[1i32, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 	let x3 = x3.iter2();
 	let y3: Vec<i32> = x3.map(|&v| v * v * v).collect();
 	let y3 = y3.iter2();
@@ -79,15 +79,15 @@ fn example(c: Common)
 		.set_title("Axis Ticks fg2.3", &[])
 		.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
 		.set_x_ticks_custom(
-			(0..5)
-				.map(|i| 2 * i)
-				.map(|x| Major(x as f32, Fix("%.2f ms".to_string())))
-				.chain((0..5).map(|i| 2 * i + 1).map(|x| Minor(x as f32)))
-				.chain(Some(Major(-2.1f32, Fix("%.2f ms".to_string()))).into_iter()),
+			x3
+				.map(|&x| Major(x as f32, Fix("%.2f ms".to_string())))
+				.chain(x3.map(|&i| i as f32 + 0.5).map(|x| Minor(x)))
+				,
 			&[MajorScale(2.0), MinorScale(0.5), OnAxis(true)],
 			&[TextColor("blue"), TextAlign(AlignCenter)],
 		)
-		.set_y_ticks(Some((Fix(2.0), 1)), &[Mirror(false), Format("%.1f s")], &[]);
+		.set_x_log(Some(10.0))
+		.set_y_ticks(Some((Fix(100.0), 1)), &[Mirror(false), Format("%.1f s")], &[]);
 
 	c.show(&mut fg, "fg2.3.gnuplot");
 
@@ -98,7 +98,7 @@ fn example(c: Common)
 		.set_title("Border, Axes fg2.4", &[])
 		.set_border(true, &[Left, Bottom], &[LineWidth(2.0)])
 		.set_x_ticks(Some((Fix(1.0), 1)), &[Mirror(false)], &[])
-		.set_y_ticks(Some((Fix(5.0), 0)), &[Mirror(false)], &[])
+		.set_y_ticks(Some((Fix(50.0), 0)), &[Mirror(false)], &[])
 		.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
 		.set_x_axis(true, &[LineWidth(2.0), LineStyle(DotDotDash)])
 		.set_y_axis(true, &[LineWidth(2.0), Color("red")]);
