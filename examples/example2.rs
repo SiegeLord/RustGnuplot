@@ -79,10 +79,8 @@ fn example(c: Common)
 		.set_title("Axis Ticks fg2.3", &[])
 		.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
 		.set_x_ticks_custom(
-			x3
-				.map(|&x| Major(x as f32, Fix("%.2f ms".to_string())))
-				.chain(x3.map(|&i| i as f32 + 0.5).map(|x| Minor(x)))
-				,
+			x3.map(|&x| Major(x as f32, Fix("%.2f ms".to_string())))
+				.chain(x3.map(|&i| i as f32 + 0.5).map(|x| Minor(x))),
 			&[MajorScale(2.0), MinorScale(0.5), OnAxis(true)],
 			&[TextColor("blue"), TextAlign(AlignCenter)],
 		)

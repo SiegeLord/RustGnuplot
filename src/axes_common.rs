@@ -619,6 +619,7 @@ pub struct AxisData
 	pub max: AutoOption<f64>,
 	pub reverse: bool,
 	pub grid: bool,
+	pub is_time: bool,
 }
 
 impl AxisData
@@ -635,6 +636,7 @@ impl AxisData
 			max: Auto,
 			reverse: false,
 			grid: false,
+			is_time: false,
 		}
 	}
 
@@ -656,6 +658,15 @@ impl AxisData
 				false
 			}
 		};
+		w.write_str("\n");
+
+		w.write_str("set ");
+		w.write_str(self.axis.to_axis_str());
+		w.write_str("data");
+		if self.is_time
+		{
+			w.write_str(" time");
+		}
 		w.write_str("\n");
 
 		match self.tick_type
@@ -896,6 +907,11 @@ impl AxisData
 	pub fn set_grid(&mut self, show: bool)
 	{
 		self.grid = show;
+	}
+
+	pub fn set_time(&mut self, is_time: bool)
+	{
+		self.is_time = is_time;
 	}
 }
 
@@ -1451,6 +1467,45 @@ pub trait AxesCommon: AxesCommonPrivate
 	{
 		self.get_common_data_mut().grid_front = front;
 		self.get_common_data_mut().grid_options = options.to_one_way_owned();
+		self
+	}
+
+	/// Sets the X axis be time.
+	///
+	/// If true, the axis is interpreted as seconds from the Unix epoch. Use the `Format` TickOption to
+	/// specify the formatting of the ticks (see strftime format spec for valid values).
+	///
+	/// # Arguments
+	/// * `is_time` - Whether this axis is time or not.
+	fn set_x_time<'l>(&'l mut self, is_time: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().x_axis.set_time(is_time);
+		self
+	}
+
+	/// Sets the Y axis be time. Note that the range must be non-negative for this to be valid.
+	///
+	/// If true, the axis is interpreted as seconds from the Unix epoch. Use the `Format` TickOption to
+	/// specify the formatting of the ticks (see strftime format spec for valid values).
+	///
+	/// # Arguments
+	/// * `is_time` - Whether this axis is time or not.
+	fn set_y_time<'l>(&'l mut self, is_time: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().y_axis.set_time(is_time);
+		self
+	}
+
+	/// Sets the color bar axis be time. Note that the range must be non-negative for this to be valid.
+	///
+	/// If true, the axis is interpreted as seconds from the Unix epoch. Use the `Format` TickOption to
+	/// specify the formatting of the ticks (see strftime format spec for valid values).
+	///
+	/// # Arguments
+	/// * `is_time` - Whether this axis is time or not.
+	fn set_cb_time<'l>(&'l mut self, is_time: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().cb_axis.set_time(is_time);
 		self
 	}
 

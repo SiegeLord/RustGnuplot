@@ -67,3 +67,8 @@ path = "examples/points_3d.rs"
 
 name = "lines_points_3d"
 path = "examples/lines_points_3d.rs"
+
+[[example]]
+
+name = "time"
+path = "examples/time.rs"

@@ -238,6 +238,19 @@ impl Axes3D
 		self
 	}
 
+	/// Sets the Z axis be time. Note that the range must be non-negative for this to be valid.
+	///
+	/// If true, the axis is interpreted as seconds from the Unix epoch. Use the `Format` TickOption to
+	/// specify the formatting of the ticks (see strftime format spec for valid values).
+	///
+	/// # Arguments
+	/// * `is_time` - Whether this axis is time or not.
+	pub fn set_z_time<'l>(&'l mut self, is_time: bool) -> &'l mut Self
+	{
+		self.z_axis.set_time(is_time);
+		self
+	}
+
 	/// Show contours (lines of equal Z value) at automatically determined levels.
 	///
 	/// # Arguments

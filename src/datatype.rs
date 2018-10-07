@@ -2,6 +2,8 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
+use std::time::Duration;
+
 pub trait DataType
 {
 	fn get(&self) -> f64;
@@ -60,3 +62,21 @@ impl_data_type_ref!(isize);
 
 impl_data_type_ref!(f32);
 impl_data_type_ref!(f64);
+
+impl DataType for Duration
+{
+	fn get(&self) -> f64
+	{
+		// GnuPlot can't handle precision lower than milliseconds.
+		self.as_secs() as f64 + self.subsec_millis() as f64 / 1000.0
+	}
+}
+
+impl<'l> DataType for &'l Duration
+{
+	fn get(&self) -> f64
+	{
+		// GnuPlot can't handle precision lower than milliseconds.
+		self.as_secs() as f64 + self.subsec_millis() as f64 / 1000.0
+	}
+}
