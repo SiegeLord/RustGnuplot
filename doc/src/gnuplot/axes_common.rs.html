@@ -1589,6 +1589,30 @@
 <span id="1589">1589</span>
 <span id="1590">1590</span>
 <span id="1591">1591</span>
+<span id="1592">1592</span>
+<span id="1593">1593</span>
+<span id="1594">1594</span>
+<span id="1595">1595</span>
+<span id="1596">1596</span>
+<span id="1597">1597</span>
+<span id="1598">1598</span>
+<span id="1599">1599</span>
+<span id="1600">1600</span>
+<span id="1601">1601</span>
+<span id="1602">1602</span>
+<span id="1603">1603</span>
+<span id="1604">1604</span>
+<span id="1605">1605</span>
+<span id="1606">1606</span>
+<span id="1607">1607</span>
+<span id="1608">1608</span>
+<span id="1609">1609</span>
+<span id="1610">1610</span>
+<span id="1611">1611</span>
+<span id="1612">1612</span>
+<span id="1613">1613</span>
+<span id="1614">1614</span>
+<span id="1615">1615</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -3098,6 +3122,30 @@
 	<span class="kw">fn</span> <span class="ident">set_cb_time</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">is_time</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">cb_axis</span>.<span class="ident">set_time</span>(<span class="ident">is_time</span>);
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Sets the margins of the plot.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// * `margins` - The values of margins to be overrided. Specified as a fraction of the</span>
+	<span class="doccomment">///               full drawing area, ranging from 0 to 1</span>
+	<span class="kw">fn</span> <span class="ident">set_margins</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">margins</span>: <span class="kw-2">&amp;</span>[<span class="ident">MarginSide</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		{
+			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>;
+			<span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">s</span> <span class="kw">in</span> <span class="ident">margins</span>.<span class="ident">iter</span>()
+			{
+				<span class="kw">match</span> <span class="ident">s</span>
+				{
+					<span class="ident">MarginTop</span>(<span class="ident">frac</span>) <span class="op">=&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set tmargin at screen {}&quot;</span>, <span class="ident">frac</span>),
+					<span class="ident">MarginBottom</span>(<span class="ident">frac</span>) <span class="op">=&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set bmargin at screen {}&quot;</span>, <span class="ident">frac</span>),
+					<span class="ident">MarginLeft</span>(<span class="ident">frac</span>) <span class="op">=&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set lmargin at screen {}&quot;</span>, <span class="ident">frac</span>),
+					<span class="ident">MarginRight</span>(<span class="ident">frac</span>) <span class="op">=&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set rmargin at screen {}&quot;</span>, <span class="ident">frac</span>),
+				};
+			}
+		}
 		<span class="self">self</span>
 	}
 
