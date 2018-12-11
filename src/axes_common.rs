@@ -1509,6 +1509,30 @@ pub trait AxesCommon: AxesCommonPrivate
 		self
 	}
 
+	/// Sets the margins of the plot.
+	///
+	/// # Arguments
+	///
+	/// * `margins` - The values of margins to be overrided. Specified as a fraction of the
+	///               full drawing area, ranging from 0 to 1
+	fn set_margins<'l>(&'l mut self, margins: &[MarginSide]) -> &'l mut Self
+	{
+		{
+			let c = &mut self.get_common_data_mut().commands as &mut Writer;
+			for &s in margins.iter()
+			{
+				match s
+				{
+					MarginTop(frac) => writeln!(c, "set tmargin at screen {}", frac),
+					MarginBottom(frac) => writeln!(c, "set bmargin at screen {}", frac),
+					MarginLeft(frac) => writeln!(c, "set lmargin at screen {}", frac),
+					MarginRight(frac) => writeln!(c, "set rmargin at screen {}", frac),
+				};
+			}
+		}
+		self
+	}
+
 	/// Sets the palette used for 3D surface and image plots
 	///
 	/// # Arguments
