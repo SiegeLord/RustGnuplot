@@ -1,3 +1,3 @@
 var ALIASES = {};
-ALIASES['delete_me'] = {};
-ALIASES['gnuplot'] = {};
+ALIASES["delete_me"] = {};
+ALIASES["gnuplot"] = {};
