@@ -119,7 +119,6 @@ impl Figure
 		{
 			*self.gnuplot.borrow_mut() = Some(
 				Command::new("gnuplot")
-					.arg("-p")
 					.stdin(Stdio::piped())
 					.spawn()
 					.ok()
@@ -193,6 +192,7 @@ impl Figure
 		{
 			writeln!(w, "unset multiplot");
 		}
+		writeln!(w, "pause mouse close");
 		self
 	}
 
