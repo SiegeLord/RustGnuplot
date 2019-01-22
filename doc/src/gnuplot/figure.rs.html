@@ -334,6 +334,7 @@
 		{
 			<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">gnuplot</span>.<span class="ident">borrow_mut</span>() <span class="op">=</span> <span class="prelude-val">Some</span>(
 				<span class="ident">Command</span>::<span class="ident">new</span>(<span class="string">&quot;gnuplot&quot;</span>)
+					.<span class="ident">arg</span>(<span class="string">&quot;-p&quot;</span>)
 					.<span class="ident">stdin</span>(<span class="ident">Stdio</span>::<span class="ident">piped</span>())
 					.<span class="ident">spawn</span>()
 					.<span class="ident">ok</span>()
@@ -407,7 +408,6 @@
 		{
 			<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;unset multiplot&quot;</span>);
 		}
-		<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;pause mouse close&quot;</span>);
 		<span class="self">self</span>
 	}
 
