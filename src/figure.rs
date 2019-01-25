@@ -46,6 +46,8 @@ pub struct Figure
 	axes: Vec<AxesVariant>,
 	terminal: String,
 	output_file: String,
+	post_commands: String,
+	pre_commands: String,
 	// RefCell so that we can echo to it
 	gnuplot: RefCell<Option<Child>>,
 }
@@ -57,9 +59,11 @@ impl Figure
 	{
 		Figure {
 			axes: Vec::new(),
-			terminal: "".to_string(),
-			output_file: "".to_string(),
+			terminal: "".into(),
+			output_file: "".into(),
 			gnuplot: RefCell::new(None),
+			post_commands: "".into(),
+			pre_commands: "".into(),
 		}
 	}
 
@@ -77,8 +81,22 @@ impl Figure
 	/// Be prepared for that kludge to go away, though.
 	pub fn set_terminal<'l>(&'l mut self, terminal: &str, output_file: &str) -> &'l mut Figure
 	{
-		self.terminal = terminal.to_string();
-		self.output_file = output_file.to_string();
+		self.terminal = terminal.into();
+		self.output_file = output_file.into();
+		self
+	}
+
+	/// Sets commands to send to gnuplot after all the plotting commands.
+	pub fn set_post_commands<'l>(&'l mut self, post_commands: &str) -> &'l mut Figure
+	{
+		self.post_commands = post_commands.into();
+		self
+	}
+
+	/// Sets commands to send to gnuplot before any plotting commands.
+	pub fn set_pre_commands<'l>(&'l mut self, pre_commands: &str) -> &'l mut Figure
+	{
+		self.pre_commands = pre_commands.into();
 		self
 	}
 
@@ -147,6 +165,7 @@ impl Figure
 	pub fn echo<'l, T: Writer>(&'l self, writer: &mut T) -> &'l Figure
 	{
 		let w = writer as &mut Writer;
+		writeln!(w, "{}", &self.pre_commands);
 
 		if self.axes.len() == 0
 		{
@@ -193,6 +212,7 @@ impl Figure
 		{
 			writeln!(w, "unset multiplot");
 		}
+		writeln!(w, "{}", &self.post_commands);
 		self
 	}
 
