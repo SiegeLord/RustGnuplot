@@ -26,6 +26,9 @@ fg.show();
 ~~~
 */
 
+#[cfg(test)]
+extern crate tempfile;
+
 pub use axes2d::Axes2D;
 pub use axes3d::Axes3D;
 pub use axes_common::AxesCommon;

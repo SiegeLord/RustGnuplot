@@ -126,7 +126,7 @@ impl Figure
 
 	/// Launch a gnuplot process, if it hasn't been spawned already by a call to
 	/// this function, and display the figure on it.
-	pub fn show(&mut self) -> &Figure
+	pub fn show(&mut self) -> &mut Figure
 	{
 		if self.axes.len() == 0
 		{
@@ -146,14 +146,43 @@ impl Figure
 		}
 
 		self.gnuplot.borrow_mut().as_mut().map(|p| {
-			self.echo(p.stdin.as_mut().expect("No stdin!?"));
+			let stdin = p.stdin.as_mut().expect("No stdin!?");
+			self.echo(stdin);
+			stdin.flush();
 		});
 
 		self
 	}
 
+	/// Closes the gnuplot process.
+	///
+	/// This can be useful if you're your plot output is a file and you need to
+	/// that it was written.
+	pub fn close(&mut self) -> &mut Figure
+	{
+		if self.gnuplot.borrow().is_none()
+		{
+			return self;
+		}
+
+		{
+			let mut gnuplot = self.gnuplot.borrow_mut();
+
+			gnuplot.as_mut().map(|p| {
+				{
+					let stdin = p.stdin.as_mut().expect("No stdin!?");
+					writeln!(stdin, "quit");
+				}
+				p.wait();
+			});
+			*gnuplot = None;
+		}
+
+		self
+	}
+
 	/// Clears all axes on this figure.
-	pub fn clear_axes(&mut self) -> &Figure
+	pub fn clear_axes(&mut self) -> &mut Figure
 	{
 		self.axes.clear();
 		self
@@ -231,4 +260,21 @@ impl Figure
 		file.flush();
 		self
 	}
+}
+
+#[test]
+fn flush_test()
+{
+	use std::fs;
+	use std::path::Path;
+	use tempfile::TempDir;
+
+	let tmp_path = TempDir::new().unwrap().into_path();
+	let file_path = tmp_path.join("plot.png");
+	let mut fg = Figure::new();
+	fg.axes2d().boxes(0..5, 0..5, &[]);
+	fg.set_terminal("pngcairo", &*file_path.to_string_lossy());
+	fg.show().close();
+	fs::read(file_path).unwrap();
+	fs::remove_dir_all(&tmp_path);
 }

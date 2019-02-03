@@ -22,6 +22,7 @@ path = "src/lib.rs"
 [dev-dependencies]
 
 argparse-rs = "=0.1.0"
+tempfile = "3.0"
 
 [[example]]
 

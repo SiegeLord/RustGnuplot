@@ -4,7 +4,6 @@ extern crate gnuplot;
 use common::*;
 
 use gnuplot::*;
-use std::iter::repeat;
 
 mod common;
 
