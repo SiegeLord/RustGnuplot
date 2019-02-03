@@ -1,0 +1,38 @@
+// This file is released into Public Domain.
+extern crate gnuplot;
+
+use common::*;
+
+use gnuplot::*;
+use std::iter::repeat;
+
+mod common;
+
+fn example(c: Common)
+{
+	let mut fg = Figure::new();
+	c.set_term(&mut fg);
+
+	fg.axes2d()
+		.set_title("A plot", &[])
+		.set_legend(Graph(0.5), Graph(0.9), &[], &[])
+		.set_x_label("x", &[])
+		.set_y_label("y^2", &[])
+		.lines(
+			&[-3., -2., -1., 0., 1., 2., 3.],
+			&[9., 4., 1., 0., 1., 4., 9.],
+			&[Caption("Parabola")],
+		);
+
+	c.show(&mut fg, "fg.readme_example.gnuplot");
+	if !c.no_show
+	{
+		fg.set_terminal("pngcairo", "fg.readme_example.png");
+		fg.show();
+	}
+}
+
+fn main()
+{
+	Common::new().map(|c| example(c));
+}

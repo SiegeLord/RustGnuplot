@@ -6,12 +6,12 @@ pub use self::AlignType::*;
 pub use self::ArrowheadType::*;
 pub use self::AutoOption::*;
 pub use self::BorderLocation2D::*;
-pub use self::MarginSide::*;
 pub use self::ContourStyle::*;
 pub use self::DashType::*;
 pub use self::FillRegionType::*;
 pub use self::LabelOption::*;
 pub use self::LegendOption::*;
+pub use self::MarginSide::*;
 pub use self::PaletteType::*;
 pub use self::PlotOption::*;
 pub use self::Tick::*;
@@ -302,7 +302,8 @@ pub enum BorderLocation2D
 
 /// Plot margins
 #[derive(Copy, Clone)]
-pub enum MarginSide {
+pub enum MarginSide
+{
 	MarginTop(f32),
 	MarginBottom(f32),
 	MarginLeft(f32),

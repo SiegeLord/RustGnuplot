@@ -70,5 +70,10 @@ path = "examples/lines_points_3d.rs"
 
 [[example]]
 
+name = "readme_example"
+path = "examples/readme_example.rs"
+
+[[example]]
+
 name = "time"
 path = "examples/time.rs"
