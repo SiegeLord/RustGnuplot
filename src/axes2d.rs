@@ -2,12 +2,12 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use axes_common::*;
-use coordinates::*;
-use datatype::*;
-use options::*;
-use util::OneWayOwned;
-use writer::Writer;
+use crate::axes_common::*;
+use crate::coordinates::*;
+use crate::datatype::*;
+use crate::options::*;
+use crate::util::OneWayOwned;
+use crate::writer::Writer;
 
 /// 2D axes that is used for drawing 2D plots
 pub struct Axes2D

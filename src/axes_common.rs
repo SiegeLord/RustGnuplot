@@ -7,13 +7,13 @@ use self::DataSourceType::*;
 pub use self::LabelType::*;
 pub use self::PlotType::*;
 pub use self::TickAxis::*;
-use coordinates::*;
+use crate::coordinates::*;
 
-use datatype::*;
-use options::*;
+use crate::datatype::*;
+use crate::options::*;
+use crate::util::OneWayOwned;
+use crate::writer::*;
 use std::io::Write;
-use util::OneWayOwned;
-use writer::*;
 
 pub struct PlotElement
 {

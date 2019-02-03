@@ -3,15 +3,15 @@
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
 use self::AxesVariant::*;
-use axes2d::*;
-use axes3d::*;
+use crate::axes2d::*;
+use crate::axes3d::*;
 
-use axes_common::*;
+use crate::axes_common::*;
+use crate::writer::Writer;
 use std::cell::RefCell;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::process::{Child, Command, Stdio};
-use writer::Writer;
 
 enum AxesVariant
 {
@@ -266,7 +266,6 @@ impl Figure
 fn flush_test()
 {
 	use std::fs;
-	use std::path::Path;
 	use tempfile::TempDir;
 
 	let tmp_path = TempDir::new().unwrap().into_path();

@@ -13,6 +13,7 @@ autoexamples = false
 autotests = false
 autobenches = false
 categories = ["visualization"]
+edition = "2018"
 
 [lib]
 

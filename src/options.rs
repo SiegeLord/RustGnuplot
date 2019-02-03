@@ -16,7 +16,7 @@ pub use self::PaletteType::*;
 pub use self::PlotOption::*;
 pub use self::Tick::*;
 pub use self::TickOption::*;
-use util::OneWayOwned;
+use crate::util::OneWayOwned;
 
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others

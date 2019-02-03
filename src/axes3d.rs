@@ -2,12 +2,12 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use axes_common::*;
-use datatype::*;
-use options::*;
+use crate::axes_common::*;
+use crate::datatype::*;
+use crate::options::*;
+use crate::util::OneWayOwned;
+use crate::writer::Writer;
 use std::io::Write;
-use util::OneWayOwned;
-use writer::Writer;
 
 /// 3D axes that is used for drawing 3D plots
 pub struct Axes3D

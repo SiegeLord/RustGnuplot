@@ -1,6 +1,4 @@
 // This file is released into Public Domain.
-extern crate gnuplot;
-
 use gnuplot::*;
 use std::thread::sleep;
 use std::time::Duration;

@@ -2,8 +2,6 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-#![crate_name = "gnuplot"]
-#![crate_type = "lib"]
 #![allow(unused_must_use)]
 #![forbid(unstable_features)]
 /*!
@@ -25,17 +23,13 @@ fg.show();
 # }
 ~~~
 */
-
-#[cfg(test)]
-extern crate tempfile;
-
-pub use axes2d::Axes2D;
-pub use axes3d::Axes3D;
-pub use axes_common::AxesCommon;
-pub use coordinates::*;
-pub use datatype::*;
-pub use figure::*;
-pub use options::*;
+pub use crate::axes2d::Axes2D;
+pub use crate::axes3d::Axes3D;
+pub use crate::axes_common::AxesCommon;
+pub use crate::coordinates::*;
+pub use crate::datatype::*;
+pub use crate::figure::*;
+pub use crate::options::*;
 
 #[macro_use]
 mod util;

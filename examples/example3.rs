@@ -1,7 +1,5 @@
 // This file is released into Public Domain.
-extern crate gnuplot;
-
-use common::*;
+use crate::common::*;
 
 use gnuplot::*;
 use std::vec::Vec;

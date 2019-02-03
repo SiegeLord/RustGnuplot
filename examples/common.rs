@@ -1,8 +1,5 @@
 // This file is released into Public Domain.
-
-extern crate argparse_rs;
-
-use self::argparse_rs::*;
+use argparse_rs::*;
 use gnuplot::*;
 use std::env;
 
