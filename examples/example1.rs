@@ -1,4 +1,6 @@
 // This file is released into Public Domain.
+use crate::common::*;
+
 use gnuplot::*;
 use std::iter::repeat;
 
