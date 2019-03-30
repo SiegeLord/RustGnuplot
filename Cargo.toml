@@ -79,3 +79,8 @@ path = "examples/readme_example.rs"
 
 name = "time"
 path = "examples/time.rs"
+
+[[example]]
+
+name = "gif"
+path = "examples/gif.rs"

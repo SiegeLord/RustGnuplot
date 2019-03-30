@@ -17,6 +17,7 @@ enum AxesVariant
 {
 	Axes2DType(Axes2D),
 	Axes3DType(Axes3D),
+	NewPage,
 }
 
 impl AxesVariant
@@ -27,15 +28,21 @@ impl AxesVariant
 		{
 			Axes2DType(ref a) => a.write_out(writer),
 			Axes3DType(ref a) => a.write_out(writer),
+			NewPage =>
+			{
+				writeln!(writer, "unset multiplot");
+				writeln!(writer, "set multiplot");
+			}
 		}
 	}
 
-	fn get_common_data(&self) -> &AxesCommonData
+	fn get_common_data(&self) -> Option<&AxesCommonData>
 	{
 		match *self
 		{
-			Axes2DType(ref a) => a.get_common_data(),
-			Axes3DType(ref a) => a.get_common_data(),
+			Axes2DType(ref a) => Some(a.get_common_data()),
+			Axes3DType(ref a) => Some(a.get_common_data()),
+			NewPage => None,
 		}
 	}
 }
@@ -122,6 +129,19 @@ impl Figure
 			Axes3DType(ref mut a) => a,
 			_ => unreachable!(),
 		}
+	}
+
+	/// Creates a new page.
+	///
+	/// Some terminals support multiple pages or frames, e.g. to create an
+	/// animation. Call this function between sets of plots to indicate that a
+	/// new page should be started. Note that this is implicit before any
+	/// `axes2d`/`axes3d` calls, so make sure to call this only between pages
+	/// (not once before every page).
+	pub fn new_page(&mut self) -> &mut Figure
+	{
+		self.axes.push(NewPage);
+		self
 	}
 
 	/// Launch a gnuplot process, if it hasn't been spawned already by a call to
@@ -224,16 +244,18 @@ impl Figure
 		{
 			writeln!(w, "reset");
 
-			let c = e.get_common_data();
-			c.grid_pos.map(|pos| {
-				let width = 1.0 / (c.grid_cols as f64);
-				let height = 1.0 / (c.grid_rows as f64);
-				let x = (pos % c.grid_cols) as f64 * width;
-				let y = 1.0 - (1.0 + (pos / c.grid_cols) as f64) * height;
+			if let Some(c) = e.get_common_data()
+			{
+				c.grid_pos.map(|pos| {
+					let width = 1.0 / (c.grid_cols as f64);
+					let height = 1.0 / (c.grid_rows as f64);
+					let x = (pos % c.grid_cols) as f64 * width;
+					let y = 1.0 - (1.0 + (pos / c.grid_cols) as f64) * height;
 
-				writeln!(w, "set origin {:.12e},{:.12e}", x, y);
-				writeln!(w, "set size {:.12e},{:.12e}", width, height);
-			});
+					writeln!(w, "set origin {:.12e},{:.12e}", x, y);
+					writeln!(w, "set size {:.12e},{:.12e}", width, height);
+				});
+			}
 			e.write_out(w);
 		}
 
