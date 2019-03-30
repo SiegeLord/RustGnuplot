@@ -19,12 +19,13 @@ fn main()
 		{
 			fg.new_page();
 		}
-		fg.axes2d().set_y_range(Fix(-1.0), Fix(1.0)).lines(
+		let ax = fg.axes2d().set_y_range(Fix(-1.0), Fix(1.0));
+		ax.lines(
 			x.iter(),
 			x.iter().map(|&x| (x + t as f32 * 0.1 * 2. * f32::consts::PI).sin()),
-			&[],
+			&[Color("blue")],
 		);
-		fg.axes2d().set_y_range(Fix(-1.0), Fix(1.0)).lines(
+		ax.lines(
 			x.iter(),
 			x.iter().map(|&x| (x + t as f32 * 0.1 * 2. * f32::consts::PI).cos()),
 			&[Color("red")],
