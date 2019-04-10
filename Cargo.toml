@@ -84,3 +84,8 @@ path = "examples/time.rs"
 
 name = "gif"
 path = "examples/gif.rs"
+
+[[example]]
+
+name = "color_cycling"
+path = "examples/color_cycling.rs"

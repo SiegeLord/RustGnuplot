@@ -1018,18 +1018,11 @@ impl AxesCommonData
 			c.write_str("1");
 		}
 
-		c.write_str(" lt ");
-		let mut found = false;
 		first_opt!{options,
 			LineStyle(d) =>
 			{
-				write!(c, "{}", d.to_int());
-				found = true;
+				write!(c, " lt {}", d.to_int());
 			}
-		}
-		if !found
-		{
-			c.write_str("1");
 		}
 	}
 
