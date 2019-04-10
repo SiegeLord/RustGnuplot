@@ -510,7 +510,7 @@ pub fn write_out_label_options(label_type: LabelType, options: &[LabelOption<Str
 	}
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq)]
 pub enum TickAxis
 {
 	XTickAxis,
@@ -540,6 +540,17 @@ impl TickAxis
 			YTickAxis => "ytics",
 			ZTickAxis => "ztics",
 			CBTickAxis => "cbtics",
+		}
+	}
+
+	pub fn to_mtick_str(&self) -> &str
+	{
+		match *self
+		{
+			XTickAxis => "mxtics",
+			YTickAxis => "mytics",
+			ZTickAxis => "mztics",
+			CBTickAxis => "mcbtics",
 		}
 	}
 
@@ -619,6 +630,7 @@ pub struct AxisData
 	pub max: AutoOption<f64>,
 	pub reverse: bool,
 	pub grid: bool,
+	pub mgrid: bool,
 	pub is_time: bool,
 }
 
@@ -636,6 +648,7 @@ impl AxisData
 			max: Auto,
 			reverse: false,
 			grid: false,
+			mgrid: false,
 			is_time: false,
 		}
 	}
@@ -909,6 +922,11 @@ impl AxisData
 		self.grid = show;
 	}
 
+	pub fn set_minor_grid(&mut self, show: bool)
+	{
+		self.mgrid = show;
+	}
+
 	pub fn set_time(&mut self, is_time: bool)
 	{
 		self.is_time = is_time;
@@ -948,6 +966,7 @@ pub struct AxesCommonData
 {
 	pub commands: Vec<u8>,
 	pub grid_options: Vec<PlotOption<String>>,
+	pub minor_grid_options: Vec<PlotOption<String>>,
 	pub grid_front: bool,
 	pub elems: Vec<PlotElement>,
 	pub grid_rows: u32,
@@ -965,6 +984,7 @@ impl AxesCommonData
 		AxesCommonData {
 			commands: vec![],
 			grid_options: vec![],
+			minor_grid_options: vec![],
 			grid_front: false,
 			elems: Vec::new(),
 			grid_rows: 0,
@@ -985,6 +1005,11 @@ impl AxesCommonData
 			{
 				c.write_str(axis.to_tick_str());
 				c.write_str(" ");
+				if self.x_axis.axis == *axis && self.x_axis.mgrid
+					|| self.y_axis.axis == *axis && self.y_axis.mgrid {
+					c.write_str(axis.to_mtick_str());
+					c.write_str(" ");
+				}
 			}
 
 			if self.grid_front
@@ -998,6 +1023,9 @@ impl AxesCommonData
 
 			AxesCommonData::write_line_options(c, &self.grid_options);
 			AxesCommonData::write_color_options(c, &self.grid_options, None);
+			c.write_str(", ");
+			AxesCommonData::write_line_options(c, &self.minor_grid_options);
+			AxesCommonData::write_color_options(c, &self.minor_grid_options, None);
 			c.write_str("\n");
 		}
 	}
@@ -1435,6 +1463,16 @@ pub trait AxesCommon: AxesCommonPrivate
 		self
 	}
 
+	/// Shows the minor grid on the X axis.
+	///
+	/// # Arguments
+	/// * `show` - Whether to show the grid.
+	fn set_x_minor_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().x_axis.set_minor_grid(show);
+		self
+	}
+
 	/// Shows the grid on the Y axis.
 	///
 	/// # Arguments
@@ -1442,6 +1480,16 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_y_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
 	{
 		self.get_common_data_mut().y_axis.set_grid(show);
+		self
+	}
+
+	/// Shows the minor grid on the Y axis.
+	///
+	/// # Arguments
+	/// * `show` - Whether to show the grid.
+	fn set_y_minor_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().y_axis.set_minor_grid(show);
 		self
 	}
 
@@ -1467,6 +1515,19 @@ pub trait AxesCommon: AxesCommonPrivate
 	{
 		self.get_common_data_mut().grid_front = front;
 		self.get_common_data_mut().grid_options = options.to_one_way_owned();
+		self
+	}
+
+	/// Set the minor grid options.
+	///
+	/// # Arguments
+	/// * `options` - Styling options of the grid. Relevant options are:
+	///      * `Color` - Specifies the color of the grid lines
+	///      * `LineStyle` - Specifies the style of the grid lines
+	///      * `LineWidth` - Specifies the width of the grid lines
+	fn set_minor_grid_options<'l>(&'l mut self, options: &[PlotOption<&str>]) -> &'l mut Self
+	{
+		self.get_common_data_mut().minor_grid_options = options.to_one_way_owned();
 		self
 	}
 
