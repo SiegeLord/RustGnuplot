@@ -469,6 +469,38 @@
 <span id="469">469</span>
 <span id="470">470</span>
 <span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -651,6 +683,38 @@
 		<span class="self">self</span>
 	}
 
+	<span class="doccomment">/// Sets the properties of x axis.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// # Arguments</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// * `show` - Whether or not draw the axis</span>
+	<span class="doccomment">/// * `options` - Array of PlotOption&lt;&amp;str&gt; controlling the appearance of the axis. Relevant options are:</span>
+	<span class="doccomment">///      * `Color` - Specifies the color of the border</span>
+	<span class="doccomment">///      * `LineStyle` - Specifies the style of the border</span>
+	<span class="doccomment">///      * `LineWidth` - Specifies the width of the border</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_x_axis</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">x_axis</span>.<span class="ident">show</span> <span class="op">=</span> <span class="ident">show</span>;
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">x_axis</span>.<span class="ident">options</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>();
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Like `set_x_axis` but for the y axis.</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_y_axis</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">y_axis</span>.<span class="ident">show</span> <span class="op">=</span> <span class="ident">show</span>;
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">y_axis</span>.<span class="ident">options</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>();
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Like `set_x_axis` but for the z axis.</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_z_axis</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	{
+		<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">show</span> <span class="op">=</span> <span class="ident">show</span>;
+		<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">options</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>();
+		<span class="self">self</span>
+	}
+
 	<span class="doccomment">/// Like `set_x_ticks` but for the Z axis.</span>
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_z_ticks</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
@@ -786,12 +850,12 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait</span> <span class="ident">Axes3DPrivate</span>
 {
-	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>);
+	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>);
 }
 
 <span class="kw">impl</span> <span class="ident">Axes3DPrivate</span> <span class="kw">for</span> <span class="ident">Axes3D</span>
 {
-	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">w</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>)
+	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">w</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>)
 	{
 		<span class="kw">fn</span> <span class="ident">clamp</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">PartialOrd</span><span class="op">&gt;</span>(<span class="ident">val</span>: <span class="ident">T</span>, <span class="ident">min</span>: <span class="ident">T</span>, <span class="ident">max</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span>
 		{
@@ -918,8 +982,8 @@
 			});
 		}
 
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>);
-		<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>);
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>, <span class="ident">version</span>);
+		<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>, <span class="ident">version</span>);
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">grid_axes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">x_axis</span>.<span class="ident">grid</span>
 		{
@@ -937,8 +1001,8 @@
 		{
 			<span class="ident">grid_axes</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">axis</span>);
 		}
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_grid_options</span>(<span class="ident">w</span>, <span class="kw-2">&amp;</span><span class="ident">grid_axes</span>);
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_out_elements</span>(<span class="string">&quot;splot&quot;</span>, <span class="ident">w</span>);
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_grid_options</span>(<span class="ident">w</span>, <span class="kw-2">&amp;</span><span class="ident">grid_axes</span>, <span class="ident">version</span>);
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_out_elements</span>(<span class="string">&quot;splot&quot;</span>, <span class="ident">w</span>, <span class="ident">version</span>);
 	}
 }
 </pre></div>
