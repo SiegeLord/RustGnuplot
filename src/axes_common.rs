@@ -217,7 +217,7 @@ impl PlotElement
 		}
 	}
 
-	fn write_args(&self, writer: &mut Writer)
+	fn write_args(&self, writer: &mut Writer, version: GnuplotVersion)
 	{
 		let options = &self.options;
 		match self.source_type
@@ -356,7 +356,7 @@ impl PlotElement
 
 		if self.plot_type.is_line()
 		{
-			AxesCommonData::write_line_options(writer, options);
+			AxesCommonData::write_line_options(writer, options, version);
 		}
 
 		if self.plot_type.is_points()
@@ -510,7 +510,7 @@ pub fn write_out_label_options(label_type: LabelType, options: &[LabelOption<Str
 	}
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq)]
 pub enum TickAxis
 {
 	XTickAxis,
@@ -620,6 +620,8 @@ pub struct AxisData
 	pub reverse: bool,
 	pub grid: bool,
 	pub is_time: bool,
+	pub show: bool,
+	pub options: Vec<PlotOption<String>>,
 }
 
 impl AxisData
@@ -637,11 +639,34 @@ impl AxisData
 			reverse: false,
 			grid: false,
 			is_time: false,
+			show: false,
+			options: vec![],
 		}
 	}
 
-	pub fn write_out_commands(&self, w: &mut Writer)
+	pub fn write_out_commands(&self, w: &mut Writer, version: GnuplotVersion)
 	{
+		if self.axis != TickAxis::CBTickAxis
+		{
+			if self.show
+			{
+				w.write_str("set ");
+				w.write_str(self.axis.to_axis_str());
+				w.write_str("zeroaxis ");
+
+				AxesCommonData::write_color_options(w, &self.options, Some("black"));
+				AxesCommonData::write_line_options(w, &self.options, version);
+			}
+			else
+			{
+				w.write_str("unset ");
+				w.write_str(self.axis.to_axis_str());
+				w.write_str("zeroaxis ");
+			}
+		}
+
+		w.write_str("\n");
+
 		let log = match self.log_base
 		{
 			Some(base) =>
@@ -976,7 +1001,7 @@ impl AxesCommonData
 		}
 	}
 
-	pub fn write_grid_options(&self, c: &mut Writer, axes: &[TickAxis])
+	pub fn write_grid_options(&self, c: &mut Writer, axes: &[TickAxis], version: GnuplotVersion)
 	{
 		if !axes.is_empty()
 		{
@@ -996,13 +1021,13 @@ impl AxesCommonData
 				c.write_str("back ");
 			}
 
-			AxesCommonData::write_line_options(c, &self.grid_options);
+			AxesCommonData::write_line_options(c, &self.grid_options, version);
 			AxesCommonData::write_color_options(c, &self.grid_options, None);
 			c.write_str("\n");
 		}
 	}
 
-	pub fn write_line_options(c: &mut Writer, options: &[PlotOption<String>])
+	pub fn write_line_options(c: &mut Writer, options: &[PlotOption<String>], version: GnuplotVersion)
 	{
 		let mut found = false;
 		c.write_str(" lw ");
@@ -1018,10 +1043,22 @@ impl AxesCommonData
 			c.write_str("1");
 		}
 
-		first_opt!{options,
-			LineStyle(d) =>
-			{
-				write!(c, " lt {}", d.to_int());
+		if version.major >= 5
+		{
+			first_opt!{options,
+				LineStyle(d) =>
+				{
+					write!(c, " dt {}", d.to_int());
+				}
+			}
+		}
+		else
+		{
+			first_opt!{options,
+				LineStyle(d) =>
+				{
+					write!(c, " lt {}", d.to_int());
+				}
 			}
 		}
 	}
@@ -1045,15 +1082,15 @@ impl AxesCommonData
 		}
 	}
 
-	pub fn write_out_commands(&self, writer: &mut Writer)
+	pub fn write_out_commands(&self, writer: &mut Writer, version: GnuplotVersion)
 	{
 		writer.write_all(&self.commands[..]);
-		self.x_axis.write_out_commands(writer);
-		self.y_axis.write_out_commands(writer);
-		self.cb_axis.write_out_commands(writer);
+		self.x_axis.write_out_commands(writer, version);
+		self.y_axis.write_out_commands(writer, version);
+		self.cb_axis.write_out_commands(writer, version);
 	}
 
-	pub fn write_out_elements(&self, cmd: &str, writer: &mut Writer)
+	pub fn write_out_elements(&self, cmd: &str, writer: &mut Writer, version: GnuplotVersion)
 	{
 		write!(writer, "{}", cmd);
 
@@ -1064,7 +1101,7 @@ impl AxesCommonData
 			{
 				write!(writer, ",");
 			}
-			e.write_args(writer);
+			e.write_args(writer, version);
 			first = false;
 		}
 

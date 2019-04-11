@@ -89,3 +89,8 @@ path = "examples/gif.rs"
 
 name = "color_cycling"
 path = "examples/color_cycling.rs"
+
+[[example]]
+
+name = "dash_type"
+path = "examples/dash_type.rs"

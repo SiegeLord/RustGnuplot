@@ -99,7 +99,7 @@ pub enum FillRegionType
 }
 
 /// An enumeration of possible text and label alignments
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum AlignType
 {
 	AlignLeft,
@@ -110,7 +110,7 @@ pub enum AlignType
 }
 
 /// An enumeration of possible dash styles
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum DashType
 {
 	Solid,
@@ -392,3 +392,12 @@ pub const RAINBOW: PaletteType = Formula(33, 13, 10);
 pub const HOT: PaletteType = Formula(34, 35, 36);
 /// A nice default for a cube helix
 pub const HELIX: PaletteType = CubeHelix(0.5, -0.8, 2.0, 1.0);
+
+/// Gnuplot version identifier. This is used to handle version-specific
+/// features.
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
+pub struct GnuplotVersion
+{
+	pub major: i32,
+	pub minor: i32,
+}

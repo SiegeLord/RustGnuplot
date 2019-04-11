@@ -179,6 +179,38 @@ impl Axes3D
 		self
 	}
 
+	/// Sets the properties of x axis.
+	///
+	/// # Arguments
+	///
+	/// * `show` - Whether or not draw the axis
+	/// * `options` - Array of PlotOption<&str> controlling the appearance of the axis. Relevant options are:
+	///      * `Color` - Specifies the color of the border
+	///      * `LineStyle` - Specifies the style of the border
+	///      * `LineWidth` - Specifies the width of the border
+	pub fn set_x_axis<'l>(&'l mut self, show: bool, options: &[PlotOption<&str>]) -> &'l mut Self
+	{
+		self.common.x_axis.show = show;
+		self.common.x_axis.options = options.to_one_way_owned();
+		self
+	}
+
+	/// Like `set_x_axis` but for the y axis.
+	pub fn set_y_axis<'l>(&'l mut self, show: bool, options: &[PlotOption<&str>]) -> &'l mut Self
+	{
+		self.common.y_axis.show = show;
+		self.common.y_axis.options = options.to_one_way_owned();
+		self
+	}
+
+	/// Like `set_x_axis` but for the z axis.
+	pub fn set_z_axis<'l>(&'l mut self, show: bool, options: &[PlotOption<&str>]) -> &'l mut Self
+	{
+		self.z_axis.show = show;
+		self.z_axis.options = options.to_one_way_owned();
+		self
+	}
+
 	/// Like `set_x_ticks` but for the Z axis.
 	pub fn set_z_ticks<'l>(
 		&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>],
@@ -314,12 +346,12 @@ impl AxesCommon for Axes3D {}
 
 pub(crate) trait Axes3DPrivate
 {
-	fn write_out(&self, writer: &mut Writer);
+	fn write_out(&self, writer: &mut Writer, version: GnuplotVersion);
 }
 
 impl Axes3DPrivate for Axes3D
 {
-	fn write_out(&self, w: &mut Writer)
+	fn write_out(&self, w: &mut Writer, version: GnuplotVersion)
 	{
 		fn clamp<T: PartialOrd>(val: T, min: T, max: T) -> T
 		{
@@ -446,8 +478,8 @@ impl Axes3DPrivate for Axes3D
 			});
 		}
 
-		self.common.write_out_commands(w);
-		self.z_axis.write_out_commands(w);
+		self.common.write_out_commands(w, version);
+		self.z_axis.write_out_commands(w, version);
 		let mut grid_axes = vec![];
 		if self.common.x_axis.grid
 		{
@@ -465,7 +497,7 @@ impl Axes3DPrivate for Axes3D
 		{
 			grid_axes.push(self.z_axis.axis);
 		}
-		self.common.write_grid_options(w, &grid_axes);
-		self.common.write_out_elements("splot", w);
+		self.common.write_grid_options(w, &grid_axes, version);
+		self.common.write_out_elements("splot", w, version);
 	}
 }

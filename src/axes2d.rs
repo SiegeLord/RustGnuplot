@@ -9,10 +9,47 @@ use crate::options::*;
 use crate::util::OneWayOwned;
 use crate::writer::Writer;
 
+struct BorderOptions
+{
+	front: bool,
+	locations: Vec<BorderLocation2D>,
+	options: Vec<PlotOption<String>>,
+}
+
+impl BorderOptions
+{
+	fn new() -> BorderOptions
+	{
+		BorderOptions {
+			front: true,
+			locations: vec![Bottom, Left, Top, Right],
+			options: vec![],
+		}
+	}
+
+	fn write_out(&self, writer: &mut Writer, version: GnuplotVersion)
+	{
+		writer.write_str("set border ");
+		let mut f: i32 = 0;
+		for &l in self.locations.iter()
+		{
+			f |= l as i32;
+		}
+		write!(writer, "{}", f);
+		writer.write_str(if self.front { " front " } else { " back " });
+
+		AxesCommonData::write_color_options(writer, &self.options, Some("black"));
+		AxesCommonData::write_line_options(writer, &self.options, version);
+
+		writer.write_str("\n");
+	}
+}
+
 /// 2D axes that is used for drawing 2D plots
 pub struct Axes2D
 {
 	common: AxesCommonData,
+	border_options: BorderOptions,
 }
 
 impl Axes2D
@@ -21,6 +58,7 @@ impl Axes2D
 	{
 		Axes2D {
 			common: AxesCommonData::new(),
+			border_options: BorderOptions::new(),
 		}
 	}
 
@@ -36,49 +74,9 @@ impl Axes2D
 	///      * `LineWidth` - Specifies the width of the border
 	pub fn set_border<'l>(&'l mut self, front: bool, locations: &[BorderLocation2D], options: &[PlotOption<&str>]) -> &'l mut Self
 	{
-		{
-			let c = &mut self.common.commands as &mut Writer;
-			c.write_str("set border ");
-			let mut f: i32 = 0;
-			for &l in locations.iter()
-			{
-				f |= l as i32;
-			}
-			write!(c, "{}", f);
-			c.write_str(if front { " front " } else { " back " });
-
-			let options: Vec<PlotOption<String>> = options.to_one_way_owned();
-			AxesCommonData::write_color_options(c, &options, Some("black"));
-			AxesCommonData::write_line_options(c, &options);
-
-			c.write_str("\n");
-		}
-		self
-	}
-
-	fn set_axis_common<'l>(&'l mut self, axis: &str, show: bool, options: &[PlotOption<&str>]) -> &'l mut Self
-	{
-		{
-			let c = &mut self.common.commands as &mut Writer;
-			if show
-			{
-				c.write_str("set ");
-				c.write_str(axis);
-				c.write_str("zeroaxis ");
-
-				let options: Vec<PlotOption<String>> = options.to_one_way_owned();
-				AxesCommonData::write_color_options(c, &options, Some("black"));
-				AxesCommonData::write_line_options(c, &options);
-			}
-			else
-			{
-				c.write_str("unset ");
-				c.write_str(axis);
-				c.write_str("zeroaxis ");
-			}
-
-			c.write_str("\n");
-		}
+		self.border_options.front = front;
+		self.border_options.locations = locations.into();
+		self.border_options.options = options.to_one_way_owned();
 		self
 	}
 
@@ -93,13 +91,17 @@ impl Axes2D
 	///      * `LineWidth` - Specifies the width of the border
 	pub fn set_x_axis<'l>(&'l mut self, show: bool, options: &[PlotOption<&str>]) -> &'l mut Self
 	{
-		self.set_axis_common("x", show, options)
+		self.common.x_axis.show = show;
+		self.common.x_axis.options = options.to_one_way_owned();
+		self
 	}
 
 	/// Like `set_x_axis` but for the y axis.
 	pub fn set_y_axis<'l>(&'l mut self, show: bool, options: &[PlotOption<&str>]) -> &'l mut Self
 	{
-		self.set_axis_common("y", show, options)
+		self.common.y_axis.show = show;
+		self.common.y_axis.options = options.to_one_way_owned();
+		self
 	}
 
 	/// Adds an arrow to the plot. The arrow is drawn from `(x1, y1)` to `(x2, y2)` with the arrow point towards `(x2, y2)`.
@@ -150,7 +152,7 @@ impl Axes2D
 
 			let options: Vec<PlotOption<String>> = options.to_one_way_owned();
 			AxesCommonData::write_color_options(c, &options, Some("black"));
-			AxesCommonData::write_line_options(c, &options);
+			AxesCommonData::write_line_options(c, &options, GnuplotVersion { major: 0, minor: 0 });
 
 			c.write_str("\n");
 		}
@@ -684,19 +686,20 @@ impl AxesCommon for Axes2D {}
 
 pub(crate) trait Axes2DPrivate
 {
-	fn write_out(&self, writer: &mut Writer);
+	fn write_out(&self, writer: &mut Writer, version: GnuplotVersion);
 }
 
 impl Axes2DPrivate for Axes2D
 {
-	fn write_out(&self, writer: &mut Writer)
+	fn write_out(&self, writer: &mut Writer, version: GnuplotVersion)
 	{
 		if self.common.elems.len() == 0
 		{
 			return;
 		}
 
-		self.common.write_out_commands(writer);
+		self.common.write_out_commands(writer, version);
+		self.border_options.write_out(writer, version);
 		let mut grid_axes = vec![];
 		if self.common.x_axis.grid
 		{
@@ -710,7 +713,7 @@ impl Axes2DPrivate for Axes2D
 		{
 			grid_axes.push(self.common.cb_axis.axis);
 		}
-		self.common.write_grid_options(writer, &grid_axes);
-		self.common.write_out_elements("plot", writer);
+		self.common.write_grid_options(writer, &grid_axes, version);
+		self.common.write_out_elements("plot", writer, version);
 	}
 }

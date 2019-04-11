@@ -7,11 +7,13 @@ use crate::axes2d::*;
 use crate::axes3d::*;
 
 use crate::axes_common::*;
+use crate::options::GnuplotVersion;
 use crate::writer::Writer;
 use std::cell::RefCell;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::process::{Child, Command, Stdio};
+use std::str;
 
 enum AxesVariant
 {
@@ -22,12 +24,12 @@ enum AxesVariant
 
 impl AxesVariant
 {
-	fn write_out(&self, writer: &mut Writer)
+	fn write_out(&self, writer: &mut Writer, version: GnuplotVersion)
 	{
 		match *self
 		{
-			Axes2DType(ref a) => a.write_out(writer),
-			Axes3DType(ref a) => a.write_out(writer),
+			Axes2DType(ref a) => a.write_out(writer, version),
+			Axes3DType(ref a) => a.write_out(writer, version),
 			NewPage =>
 			{
 				writeln!(writer, "unset multiplot");
@@ -57,6 +59,15 @@ pub struct Figure
 	pre_commands: String,
 	// RefCell so that we can echo to it
 	gnuplot: RefCell<Option<Child>>,
+	version: Option<GnuplotVersion>,
+}
+
+impl Default for GnuplotVersion
+{
+	fn default() -> GnuplotVersion
+	{
+		GnuplotVersion { major: 5, minor: 0 }
+	}
 }
 
 impl Figure
@@ -71,6 +82,7 @@ impl Figure
 			gnuplot: RefCell::new(None),
 			post_commands: "".into(),
 			pre_commands: "".into(),
+			version: None,
 		}
 	}
 
@@ -105,6 +117,22 @@ impl Figure
 	{
 		self.pre_commands = pre_commands.into();
 		self
+	}
+
+	/// Sets the Gnuplot version.
+	///
+	/// By default, we assume version 5.0. If `show` is called, it will attempt
+	/// to parse Gnuplot's version string as well.
+	pub fn set_gnuplot_version(&mut self, version: Option<GnuplotVersion>) -> &mut Figure
+	{
+		self.version = version;
+		self
+	}
+
+	/// Returns the Gnuplot version.
+	pub fn get_gnuplot_version(&self) -> GnuplotVersion
+	{
+		self.version.unwrap_or_default()
 	}
 
 	/// Creates a set of 2D axes
@@ -153,6 +181,28 @@ impl Figure
 			return self;
 		}
 
+		if self.version.is_none()
+		{
+			let output = Command::new("gnuplot")
+				.arg("--version")
+				.output()
+				.expect("Couldn't spawn gnuplot. Make sure it is installed and available in PATH.");
+			if let Ok(version_string) = str::from_utf8(&output.stdout)
+			{
+				let parts: Vec<_> = version_string.split(|c| c == ' ' || c == '.').collect();
+				if parts.len() > 2 && parts[0] == "gnuplot"
+				{
+					if let (Ok(major), Ok(minor)) = (i32::from_str_radix(parts[1], 10), i32::from_str_radix(parts[2], 10))
+					{
+						self.version = Some(GnuplotVersion {
+							major: major,
+							minor: minor,
+						});
+					}
+				}
+			}
+		}
+
 		if self.gnuplot.borrow().is_none()
 		{
 			*self.gnuplot.borrow_mut() = Some(
@@ -160,7 +210,6 @@ impl Figure
 					.arg("-p")
 					.stdin(Stdio::piped())
 					.spawn()
-					.ok()
 					.expect("Couldn't spawn gnuplot. Make sure it is installed and available in PATH."),
 			);
 		}
@@ -256,7 +305,7 @@ impl Figure
 					writeln!(w, "set size {:.12e},{:.12e}", width, height);
 				});
 			}
-			e.write_out(w);
+			e.write_out(w, self.get_gnuplot_version());
 		}
 
 		if self.axes.len() > 1
