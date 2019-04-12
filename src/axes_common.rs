@@ -1049,7 +1049,7 @@ impl AxesCommonData
 			AxesCommonData::write_line_options(c, &self.grid_options, version);
 			AxesCommonData::write_color_options(c, &self.grid_options, None);
 			c.write_str(", ");
-			AxesCommonData::write_line_options(c, &self.minor_grid_options);
+			AxesCommonData::write_line_options(c, &self.minor_grid_options, version);
 			AxesCommonData::write_color_options(c, &self.minor_grid_options, None);
 			c.write_str("\n");
 		}

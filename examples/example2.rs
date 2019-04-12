@@ -144,9 +144,12 @@ fn example(c: Common)
 	fg.axes2d()
 		.set_title("Axis Grid fg2.8", &[])
 		.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
+		.set_y_ticks(Some((Auto, 2)), &[], &[])
 		.set_grid_options(true, &[LineStyle(DotDotDash), Color("black")])
+		.set_minor_grid_options(&[LineStyle(SmallDot), Color("red")])
 		.set_x_grid(true)
-		.set_y_grid(true);
+		.set_y_grid(true)
+		.set_y_minor_grid(true);
 
 	c.show(&mut fg, "fg2.8.gnuplot");
 }
