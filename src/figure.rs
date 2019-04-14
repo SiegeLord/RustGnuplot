@@ -95,6 +95,8 @@ impl Figure
 	/// * pdfcairo - Saves the figure as a PDF file
 	/// * epscairo - Saves the figure as a EPS file
 	/// * pngcairo - Saves the figure as a PNG file
+	/// * svg - Saves the figure as a SVG file
+	/// * canvas - Saves the figure as an HTML5 canvas element
 	///
 	/// As of now you can hack the canvas size in by using "pngcairo size 600, 400" for `terminal`.
 	/// Be prepared for that kludge to go away, though.
