@@ -11,7 +11,7 @@ fn example(c: Common)
 
 	let ax = fg.axes2d();
 	ax.set_title("Patterns", &[]);
-	ax.set_legend(Graph(1.), Graph(0.95), &[Horizontal], &[]);
+	ax.set_legend(Graph(1.), Graph(0.95), &[MaxRows(3)], &[]);
 	ax.set_y_range(Auto, Fix(8.));
 	for i in 0..=8
 	{
