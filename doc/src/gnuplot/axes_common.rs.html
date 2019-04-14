@@ -1705,6 +1705,85 @@
 <span id="1705">1705</span>
 <span id="1706">1706</span>
 <span id="1707">1707</span>
+<span id="1708">1708</span>
+<span id="1709">1709</span>
+<span id="1710">1710</span>
+<span id="1711">1711</span>
+<span id="1712">1712</span>
+<span id="1713">1713</span>
+<span id="1714">1714</span>
+<span id="1715">1715</span>
+<span id="1716">1716</span>
+<span id="1717">1717</span>
+<span id="1718">1718</span>
+<span id="1719">1719</span>
+<span id="1720">1720</span>
+<span id="1721">1721</span>
+<span id="1722">1722</span>
+<span id="1723">1723</span>
+<span id="1724">1724</span>
+<span id="1725">1725</span>
+<span id="1726">1726</span>
+<span id="1727">1727</span>
+<span id="1728">1728</span>
+<span id="1729">1729</span>
+<span id="1730">1730</span>
+<span id="1731">1731</span>
+<span id="1732">1732</span>
+<span id="1733">1733</span>
+<span id="1734">1734</span>
+<span id="1735">1735</span>
+<span id="1736">1736</span>
+<span id="1737">1737</span>
+<span id="1738">1738</span>
+<span id="1739">1739</span>
+<span id="1740">1740</span>
+<span id="1741">1741</span>
+<span id="1742">1742</span>
+<span id="1743">1743</span>
+<span id="1744">1744</span>
+<span id="1745">1745</span>
+<span id="1746">1746</span>
+<span id="1747">1747</span>
+<span id="1748">1748</span>
+<span id="1749">1749</span>
+<span id="1750">1750</span>
+<span id="1751">1751</span>
+<span id="1752">1752</span>
+<span id="1753">1753</span>
+<span id="1754">1754</span>
+<span id="1755">1755</span>
+<span id="1756">1756</span>
+<span id="1757">1757</span>
+<span id="1758">1758</span>
+<span id="1759">1759</span>
+<span id="1760">1760</span>
+<span id="1761">1761</span>
+<span id="1762">1762</span>
+<span id="1763">1763</span>
+<span id="1764">1764</span>
+<span id="1765">1765</span>
+<span id="1766">1766</span>
+<span id="1767">1767</span>
+<span id="1768">1768</span>
+<span id="1769">1769</span>
+<span id="1770">1770</span>
+<span id="1771">1771</span>
+<span id="1772">1772</span>
+<span id="1773">1773</span>
+<span id="1774">1774</span>
+<span id="1775">1775</span>
+<span id="1776">1776</span>
+<span id="1777">1777</span>
+<span id="1778">1778</span>
+<span id="1779">1779</span>
+<span id="1780">1780</span>
+<span id="1781">1781</span>
+<span id="1782">1782</span>
+<span id="1783">1783</span>
+<span id="1784">1784</span>
+<span id="1785">1785</span>
+<span id="1786">1786</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -1721,8 +1800,8 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">options</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::<span class="ident">OneWayOwned</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">writer</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Borrow</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PlotElement</span>
 {
@@ -1737,7 +1816,9 @@
 
 <span class="kw">impl</span> <span class="ident">PlotElement</span>
 {
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_plot2</span><span class="op">&lt;</span><span class="ident">T1</span>, <span class="ident">X1</span>, <span class="ident">T2</span>, <span class="ident">X2</span><span class="op">&gt;</span>(<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>) <span class="op">-&gt;</span> <span class="ident">PlotElement</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_plot2</span><span class="op">&lt;</span><span class="ident">T1</span>, <span class="ident">X1</span>, <span class="ident">T2</span>, <span class="ident">X2</span><span class="op">&gt;</span>(
+		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+	) <span class="op">-&gt;</span> <span class="ident">PlotElement</span>
 	<span class="kw">where</span>
 		<span class="ident">T1</span>: <span class="ident">DataType</span>,
 		<span class="ident">X1</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T1</span><span class="op">&gt;</span>,
@@ -1765,7 +1846,9 @@
 		}
 	}
 
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_plot3</span><span class="op">&lt;</span><span class="ident">T1</span>, <span class="ident">X1</span>, <span class="ident">T2</span>, <span class="ident">X2</span>, <span class="ident">T3</span>, <span class="ident">X3</span><span class="op">&gt;</span>(<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">x3</span>: <span class="ident">X3</span>, <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>) <span class="op">-&gt;</span> <span class="ident">PlotElement</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_plot3</span><span class="op">&lt;</span><span class="ident">T1</span>, <span class="ident">X1</span>, <span class="ident">T2</span>, <span class="ident">X2</span>, <span class="ident">T3</span>, <span class="ident">X3</span><span class="op">&gt;</span>(
+		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">x3</span>: <span class="ident">X3</span>, <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+	) <span class="op">-&gt;</span> <span class="ident">PlotElement</span>
 	<span class="kw">where</span>
 		<span class="ident">T1</span>: <span class="ident">DataType</span>,
 		<span class="ident">X1</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T1</span><span class="op">&gt;</span>,
@@ -1797,7 +1880,8 @@
 	}
 
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_plot5</span><span class="op">&lt;</span><span class="ident">T1</span>, <span class="ident">X1</span>, <span class="ident">T2</span>, <span class="ident">X2</span>, <span class="ident">T3</span>, <span class="ident">X3</span>, <span class="ident">T4</span>, <span class="ident">X4</span>, <span class="ident">T5</span>, <span class="ident">X5</span><span class="op">&gt;</span>(
-		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">x3</span>: <span class="ident">X3</span>, <span class="ident">x4</span>: <span class="ident">X4</span>, <span class="ident">x5</span>: <span class="ident">X5</span>, <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">x3</span>: <span class="ident">X3</span>, <span class="ident">x4</span>: <span class="ident">X4</span>, <span class="ident">x5</span>: <span class="ident">X5</span>,
+		<span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
 	) <span class="op">-&gt;</span> <span class="ident">PlotElement</span>
 	<span class="kw">where</span>
 		<span class="ident">T1</span>: <span class="ident">DataType</span>,
@@ -1814,7 +1898,8 @@
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">num_rows</span> <span class="op">=</span> <span class="number">0</span>;
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
 		<span class="comment">// TODO: Reserve.</span>
-		<span class="kw">for</span> ((((<span class="ident">x1</span>, <span class="ident">x2</span>), <span class="ident">x3</span>), <span class="ident">x4</span>), <span class="ident">x5</span>) <span class="kw">in</span> <span class="ident">x1</span>.<span class="ident">into_iter</span>()
+		<span class="kw">for</span> ((((<span class="ident">x1</span>, <span class="ident">x2</span>), <span class="ident">x3</span>), <span class="ident">x4</span>), <span class="ident">x5</span>) <span class="kw">in</span> <span class="ident">x1</span>
+			.<span class="ident">into_iter</span>()
 			.<span class="ident">zip</span>(<span class="ident">x2</span>.<span class="ident">into_iter</span>())
 			.<span class="ident">zip</span>(<span class="ident">x3</span>.<span class="ident">into_iter</span>())
 			.<span class="ident">zip</span>(<span class="ident">x4</span>.<span class="ident">into_iter</span>())
@@ -1840,7 +1925,8 @@
 	}
 
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_plot6</span><span class="op">&lt;</span><span class="ident">T1</span>, <span class="ident">X1</span>, <span class="ident">T2</span>, <span class="ident">X2</span>, <span class="ident">T3</span>, <span class="ident">X3</span>, <span class="ident">T4</span>, <span class="ident">X4</span>, <span class="ident">T5</span>, <span class="ident">X5</span>, <span class="ident">T6</span>, <span class="ident">X6</span><span class="op">&gt;</span>(
-		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">x3</span>: <span class="ident">X3</span>, <span class="ident">x4</span>: <span class="ident">X4</span>, <span class="ident">x5</span>: <span class="ident">X5</span>, <span class="ident">x6</span>: <span class="ident">X6</span>, <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">x3</span>: <span class="ident">X3</span>, <span class="ident">x4</span>: <span class="ident">X4</span>, <span class="ident">x5</span>: <span class="ident">X5</span>, <span class="ident">x6</span>: <span class="ident">X6</span>,
+		<span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
 	) <span class="op">-&gt;</span> <span class="ident">PlotElement</span>
 	<span class="kw">where</span>
 		<span class="ident">T1</span>: <span class="ident">DataType</span>,
@@ -1859,7 +1945,8 @@
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">num_rows</span> <span class="op">=</span> <span class="number">0</span>;
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
 		<span class="comment">// TODO: Reserve.</span>
-		<span class="kw">for</span> (((((<span class="ident">x1</span>, <span class="ident">x2</span>), <span class="ident">x3</span>), <span class="ident">x4</span>), <span class="ident">x5</span>), <span class="ident">x6</span>) <span class="kw">in</span> <span class="ident">x1</span>.<span class="ident">into_iter</span>()
+		<span class="kw">for</span> (((((<span class="ident">x1</span>, <span class="ident">x2</span>), <span class="ident">x3</span>), <span class="ident">x4</span>), <span class="ident">x5</span>), <span class="ident">x6</span>) <span class="kw">in</span> <span class="ident">x1</span>
+			.<span class="ident">into_iter</span>()
 			.<span class="ident">zip</span>(<span class="ident">x2</span>.<span class="ident">into_iter</span>())
 			.<span class="ident">zip</span>(<span class="ident">x3</span>.<span class="ident">into_iter</span>())
 			.<span class="ident">zip</span>(<span class="ident">x4</span>.<span class="ident">into_iter</span>())
@@ -1887,8 +1974,8 @@
 	}
 
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_plot_matrix</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">DataType</span>, <span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;&gt;</span>(
-		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">is_3d</span>: <span class="ident">bool</span>, <span class="ident">mat</span>: <span class="ident">X</span>, <span class="ident">num_rows</span>: <span class="ident">usize</span>, <span class="ident">num_cols</span>: <span class="ident">usize</span>, <span class="ident">dimensions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>)<span class="op">&gt;</span>,
-		<span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">is_3d</span>: <span class="ident">bool</span>, <span class="ident">mat</span>: <span class="ident">X</span>, <span class="ident">num_rows</span>: <span class="ident">usize</span>, <span class="ident">num_cols</span>: <span class="ident">usize</span>,
+		<span class="ident">dimensions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>)<span class="op">&gt;</span>, <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
 	) <span class="op">-&gt;</span> <span class="ident">PlotElement</span>
 	{
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="number">0</span>;
@@ -1973,7 +2060,11 @@
 						<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;) &quot;</span>);
 						<span class="kw">if</span> <span class="self">self</span>.<span class="ident">num_cols</span> <span class="op">&gt;</span> <span class="number">1</span>
 						{
-							<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;dx={:.12e} &quot;</span>, (<span class="ident">x2</span> <span class="op">-</span> <span class="ident">x1</span>) <span class="op">/</span> (<span class="self">self</span>.<span class="ident">num_cols</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">-</span> <span class="number">1.0</span>));
+							<span class="macro">write</span><span class="macro">!</span>(
+								<span class="ident">writer</span>,
+								<span class="string">&quot;dx={:.12e} &quot;</span>,
+								(<span class="ident">x2</span> <span class="op">-</span> <span class="ident">x1</span>) <span class="op">/</span> (<span class="self">self</span>.<span class="ident">num_cols</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">-</span> <span class="number">1.0</span>)
+							);
 						}
 						<span class="kw">else</span>
 						{
@@ -1981,7 +2072,11 @@
 						}
 						<span class="kw">if</span> <span class="self">self</span>.<span class="ident">num_rows</span> <span class="op">&gt;</span> <span class="number">1</span>
 						{
-							<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;dy={:.12e} &quot;</span>, (<span class="ident">y2</span> <span class="op">-</span> <span class="ident">y1</span>) <span class="op">/</span> (<span class="self">self</span>.<span class="ident">num_rows</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">-</span> <span class="number">1.0</span>));
+							<span class="macro">write</span><span class="macro">!</span>(
+								<span class="ident">writer</span>,
+								<span class="string">&quot;dy={:.12e} &quot;</span>,
+								(<span class="ident">y2</span> <span class="op">-</span> <span class="ident">y1</span>) <span class="op">/</span> (<span class="self">self</span>.<span class="ident">num_rows</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">-</span> <span class="number">1.0</span>)
+							);
 						}
 						<span class="kw">else</span>
 						{
@@ -2018,7 +2113,7 @@
 				<span class="ident">FillBetween</span> <span class="op">=&gt;</span>
 				{
 					<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">found</span> <span class="op">=</span> <span class="bool-val">false</span>;
-					<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+					<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
 						<span class="ident">FillRegion</span>(<span class="ident">d</span>) <span class="op">=&gt;</span>
 						{
 							<span class="ident">found</span> <span class="op">=</span> <span class="bool-val">true</span>;
@@ -2040,7 +2135,7 @@
 
 			<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot; fill transparent solid &quot;</span>);
 
-			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="self">self</span>.<span class="ident">options</span>,
+			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
 				<span class="ident">FillAlpha</span>(<span class="ident">a</span>) <span class="op">=&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">a</span>);
@@ -2050,7 +2145,7 @@
 			<span class="kw">if</span> <span class="self">self</span>.<span class="ident">plot_type</span>.<span class="ident">is_line</span>()
 			{
 				<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot; border&quot;</span>);
-				<span class="macro">first_opt</span><span class="macro">!</span>{<span class="self">self</span>.<span class="ident">options</span>,
+				<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
 					<span class="ident">BorderColor</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=&gt;</span>
 					{
 						<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">r#&quot; rgb &quot;{}&quot;&quot;#</span>, <span class="ident">s</span>);
@@ -2070,14 +2165,14 @@
 
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">plot_type</span>.<span class="ident">is_points</span>()
 		{
-			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="self">self</span>.<span class="ident">options</span>,
+			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
 				<span class="ident">PointSymbol</span>(<span class="ident">s</span>) <span class="op">=&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot; pt {}&quot;</span>, <span class="ident">char_to_symbol</span>(<span class="ident">s</span>));
 				}
 			}
 
-			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="self">self</span>.<span class="ident">options</span>,
+			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
 				<span class="ident">PointSize</span>(<span class="ident">z</span>) <span class="op">=&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot; ps {}&quot;</span>, <span class="ident">z</span>);
@@ -2088,7 +2183,7 @@
 		<span class="ident">AxesCommonData</span>::<span class="ident">write_color_options</span>(<span class="ident">writer</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">options</span>, <span class="prelude-val">None</span>);
 
 		<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot; t \&quot;&quot;</span>);
-		<span class="macro">first_opt</span><span class="macro">!</span>{<span class="self">self</span>.<span class="ident">options</span>,
+		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
 			<span class="ident">Caption</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=&gt;</span>
 			{
 				<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>);
@@ -2096,7 +2191,7 @@
 		}
 		<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;\&quot;&quot;</span>);
 
-		<span class="macro">first_opt</span><span class="macro">!</span>{<span class="self">self</span>.<span class="ident">options</span>,
+		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
 			<span class="ident">WhiskerBars</span>(<span class="ident">f</span>) <span class="op">=&gt;</span>
 			{
 				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot; whiskerbars {}&quot;</span>, <span class="ident">f</span>);
@@ -2137,7 +2232,9 @@
 	}
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_out_label_options</span>(<span class="ident">label_type</span>: <span class="ident">LabelType</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>], <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_out_label_options</span>(
+	<span class="ident">label_type</span>: <span class="ident">LabelType</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>], <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>,
+)
 {
 	<span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">writer</span>;
 	<span class="kw">match</span> <span class="ident">label_type</span>
@@ -2149,28 +2246,28 @@
 		<span class="kw">_</span> <span class="op">=&gt;</span> (),
 	}
 
-	<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+	<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
 		<span class="ident">TextOffset</span>(<span class="ident">x</span>, <span class="ident">y</span>) <span class="op">=&gt;</span>
 		{
 			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; offset character {:.12e},{:.12e}&quot;</span>, <span class="ident">x</span>, <span class="ident">y</span>);
 		}
 	}
 
-	<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+	<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
 		<span class="ident">TextColor</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=&gt;</span>
 		{
 			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">r#&quot; tc rgb &quot;{}&quot;&quot;#</span>, <span class="ident">s</span>);
 		}
 	}
 
-	<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+	<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
 		<span class="ident">Font</span>(<span class="kw-2">ref</span> <span class="ident">f</span>, <span class="ident">s</span>) <span class="op">=&gt;</span>
 		{
 			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">r#&quot; font &quot;{},{}&quot;&quot;#</span>, <span class="ident">f</span>, <span class="ident">s</span>);
 		}
 	}
 
-	<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+	<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
 		<span class="ident">Rotate</span>(<span class="ident">a</span>) <span class="op">=&gt;</span>
 		{
 			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; rotate by {:.12e}&quot;</span>, <span class="ident">a</span>);
@@ -2180,7 +2277,7 @@
 	<span class="kw">if</span> <span class="ident">label_type</span>.<span class="ident">is_label</span>()
 	{
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">have_point</span> <span class="op">=</span> <span class="bool-val">false</span>;
-		<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
 			<span class="ident">MarkerSymbol</span>(<span class="ident">s</span>) <span class="op">=&gt;</span>
 			{
 				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; point pt {}&quot;</span>, <span class="ident">char_to_symbol</span>(<span class="ident">s</span>));
@@ -2190,14 +2287,14 @@
 
 		<span class="kw">if</span> <span class="ident">have_point</span>
 		{
-			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
 				<span class="ident">MarkerColor</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">r#&quot; lc rgb &quot;{}&quot;&quot;#</span>, <span class="ident">s</span>);
 				}
 			}
 
-			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
 				<span class="ident">MarkerSize</span>(<span class="ident">z</span>) <span class="op">=&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; ps {:.12e}&quot;</span>, <span class="ident">z</span>);
@@ -2205,7 +2302,7 @@
 			}
 		}
 
-		<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
 			<span class="ident">TextAlign</span>(<span class="ident">a</span>) <span class="op">=&gt;</span>
 			{
 				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{}&quot;</span>, <span class="kw">match</span> <span class="ident">a</span>
@@ -2538,7 +2635,7 @@
 
 			<span class="ident">write_out_label_options</span>(<span class="ident">AxesTicks</span>, <span class="kw-2">&amp;</span><span class="ident">label_options</span>[..], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">w</span>);
 
-			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">tick_options</span>,
+			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">tick_options</span>,
 				<span class="ident">OnAxis</span>(<span class="ident">b</span>) <span class="op">=&gt;</span>
 				{
 					<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">b</span>
@@ -2549,7 +2646,7 @@
 				}
 			}
 
-			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">tick_options</span>,
+			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">tick_options</span>,
 				<span class="ident">Mirror</span>(<span class="ident">b</span>) <span class="op">=&gt;</span>
 				{
 					<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">b</span>
@@ -2560,7 +2657,7 @@
 				}
 			}
 
-			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">tick_options</span>,
+			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">tick_options</span>,
 				<span class="ident">Inward</span>(<span class="ident">b</span>) <span class="op">=&gt;</span>
 				{
 					<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">b</span>
@@ -2574,14 +2671,14 @@
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">minor_scale</span> <span class="op">=</span> <span class="number">0.5</span>;
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">major_scale</span> <span class="op">=</span> <span class="number">0.5</span>;
 
-			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">tick_options</span>,
+			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">tick_options</span>,
 				<span class="ident">MinorScale</span>(<span class="ident">s</span>) <span class="op">=&gt;</span>
 				{
 					<span class="ident">minor_scale</span> <span class="op">=</span> <span class="ident">s</span>;
 				}
 			}
 
-			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">tick_options</span>,
+			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">tick_options</span>,
 				<span class="ident">MajorScale</span>(<span class="ident">s</span>) <span class="op">=&gt;</span>
 				{
 					<span class="ident">major_scale</span> <span class="op">=</span> <span class="ident">s</span>;
@@ -2590,7 +2687,7 @@
 
 			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; scale {:.12e},{:.12e}&quot;</span>, <span class="ident">major_scale</span>, <span class="ident">minor_scale</span>);
 
-			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">tick_options</span>,
+			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">tick_options</span>,
 				<span class="ident">Format</span>(<span class="kw-2">ref</span> <span class="ident">f</span>) <span class="op">=&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">r#&quot; format &quot;{}&quot;&quot;#</span>, <span class="ident">f</span>);
@@ -2601,7 +2698,8 @@
 	}
 
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_ticks_custom</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">DataType</span>, <span class="ident">TL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">String</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>(
-		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TickOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>, <span class="ident">label_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">LabelOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TickOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+		<span class="ident">label_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">LabelOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
 	)
 	{
 		<span class="self">self</span>.<span class="ident">tick_type</span> <span class="op">=</span> <span class="ident">TickType</span>::<span class="ident">Custom</span>(
@@ -2619,8 +2717,8 @@
 	}
 
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_ticks</span>(
-		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>, <span class="ident">tick_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TickOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
-		<span class="ident">label_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">LabelOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>,
+		<span class="ident">tick_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TickOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>, <span class="ident">label_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">LabelOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
 	)
 	{
 		<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">incr</span>, <span class="ident">mticks</span>)) <span class="op">=</span> <span class="ident">tick_placement</span>
@@ -2740,7 +2838,8 @@
 				<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="ident">axis</span>.<span class="ident">to_tick_str</span>());
 				<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; &quot;</span>);
 				<span class="kw">if</span> <span class="self">self</span>.<span class="ident">x_axis</span>.<span class="ident">axis</span> <span class="op">==</span> <span class="kw-2">*</span><span class="ident">axis</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">x_axis</span>.<span class="ident">mgrid</span>
-					<span class="op">||</span> <span class="self">self</span>.<span class="ident">y_axis</span>.<span class="ident">axis</span> <span class="op">==</span> <span class="kw-2">*</span><span class="ident">axis</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">y_axis</span>.<span class="ident">mgrid</span> {
+					<span class="op">||</span> <span class="self">self</span>.<span class="ident">y_axis</span>.<span class="ident">axis</span> <span class="op">==</span> <span class="kw-2">*</span><span class="ident">axis</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">y_axis</span>.<span class="ident">mgrid</span>
+				{
 					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="ident">axis</span>.<span class="ident">to_mtick_str</span>());
 					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; &quot;</span>);
 				}
@@ -2764,11 +2863,13 @@
 		}
 	}
 
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_line_options</span>(<span class="ident">c</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>], <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>)
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_line_options</span>(
+		<span class="ident">c</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>], <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>,
+	)
 	{
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">found</span> <span class="op">=</span> <span class="bool-val">false</span>;
 		<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; lw &quot;</span>);
-		<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
 			<span class="ident">LineWidth</span>(<span class="ident">w</span>) <span class="op">=&gt;</span>
 			{
 				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">w</span>);
@@ -2782,7 +2883,7 @@
 
 		<span class="kw">if</span> <span class="ident">version</span>.<span class="ident">major</span> <span class="op">&gt;=</span> <span class="number">5</span>
 		{
-			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
 				<span class="ident">LineStyle</span>(<span class="ident">d</span>) <span class="op">=&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot; dt {}&quot;</span>, <span class="ident">d</span>.<span class="ident">to_int</span>());
@@ -2791,7 +2892,7 @@
 		}
 		<span class="kw">else</span>
 		{
-			<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
 				<span class="ident">LineStyle</span>(<span class="ident">d</span>) <span class="op">=&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot; lt {}&quot;</span>, <span class="ident">d</span>.<span class="ident">to_int</span>());
@@ -2800,10 +2901,12 @@
 		}
 	}
 
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_color_options</span>(<span class="ident">c</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>], <span class="ident">default</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>)
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_color_options</span>(
+		<span class="ident">c</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>], <span class="ident">default</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>,
+	)
 	{
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">col</span> <span class="op">=</span> <span class="ident">default</span>;
-		<span class="macro">first_opt</span><span class="macro">!</span>{<span class="ident">options</span>,
+		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
 			<span class="ident">Color</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=&gt;</span>
 			{
 				<span class="ident">col</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>)
@@ -2850,7 +2953,9 @@
 		}
 	}
 
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_label_common</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">label_type</span>: <span class="ident">LabelType</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>])
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_label_common</span>(
+		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">label_type</span>: <span class="ident">LabelType</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	)
 	{
 		<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">commands</span>;
 
@@ -2915,7 +3020,12 @@
 	<span class="kw">fn</span> <span class="ident">set_pos</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">f64</span>, <span class="ident">y</span>: <span class="ident">f64</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">grid_pos</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-		<span class="macro">writeln</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">commands</span>, <span class="string">&quot;set origin {:.12e},{:.12e}&quot;</span>, <span class="ident">x</span>, <span class="ident">y</span>);
+		<span class="macro">writeln</span><span class="macro">!</span>(
+			<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">commands</span>,
+			<span class="string">&quot;set origin {:.12e},{:.12e}&quot;</span>,
+			<span class="ident">x</span>,
+			<span class="ident">y</span>
+		);
 		<span class="self">self</span>
 	}
 
@@ -2925,7 +3035,12 @@
 	<span class="doccomment">/// * `h` - Height. Ranges from 0 to 1</span>
 	<span class="kw">fn</span> <span class="ident">set_size</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">w</span>: <span class="ident">f64</span>, <span class="ident">h</span>: <span class="ident">f64</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="macro">writeln</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">commands</span>, <span class="string">&quot;set size {:.12e},{:.12e}&quot;</span>, <span class="ident">w</span>, <span class="ident">h</span>);
+		<span class="macro">writeln</span><span class="macro">!</span>(
+			<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">commands</span>,
+			<span class="string">&quot;set size {:.12e},{:.12e}&quot;</span>,
+			<span class="ident">w</span>,
+			<span class="ident">h</span>
+		);
 		<span class="self">self</span>
 	}
 
@@ -2963,21 +3078,24 @@
 	<span class="doccomment">///      * `Align` - Specifies how to align the label</span>
 	<span class="kw">fn</span> <span class="ident">set_x_label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">set_label_common</span>(<span class="ident">XLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
+			.<span class="ident">set_label_common</span>(<span class="ident">XLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
 		<span class="self">self</span>
 	}
 
 	<span class="doccomment">/// Like `set_x_label`, but for the Y axis</span>
 	<span class="kw">fn</span> <span class="ident">set_y_label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">set_label_common</span>(<span class="ident">YLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
+			.<span class="ident">set_label_common</span>(<span class="ident">YLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
 		<span class="self">self</span>
 	}
 
 	<span class="doccomment">/// Like `set_x_label`, but for the color bar</span>
 	<span class="kw">fn</span> <span class="ident">set_cb_label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">set_label_common</span>(<span class="ident">CBLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
+			.<span class="ident">set_label_common</span>(<span class="ident">CBLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
 		<span class="self">self</span>
 	}
 
@@ -2992,7 +3110,8 @@
 	<span class="doccomment">///      * `Align` - Specifies how to align the label</span>
 	<span class="kw">fn</span> <span class="ident">set_title</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">set_label_common</span>(<span class="ident">TitleLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
+			.<span class="ident">set_label_common</span>(<span class="ident">TitleLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
 		<span class="self">self</span>
 	}
 
@@ -3010,9 +3129,12 @@
 	<span class="doccomment">///      * `MarkerSymbol` - Specifies the symbol for the marker. Omit to hide the marker</span>
 	<span class="doccomment">///      * `MarkerSize` - Specifies the size for the marker</span>
 	<span class="doccomment">///      * `MarkerColor` - Specifies the color for the marker</span>
-	<span class="kw">fn</span> <span class="ident">label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">x</span>: <span class="ident">Coordinate</span>, <span class="ident">y</span>: <span class="ident">Coordinate</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">x</span>: <span class="ident">Coordinate</span>, <span class="ident">y</span>: <span class="ident">Coordinate</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">set_label_common</span>(<span class="ident">Label</span>(<span class="ident">x</span>, <span class="ident">y</span>), <span class="ident">text</span>, <span class="ident">options</span>);
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
+			.<span class="ident">set_label_common</span>(<span class="ident">Label</span>(<span class="ident">x</span>, <span class="ident">y</span>), <span class="ident">text</span>, <span class="ident">options</span>);
 		<span class="self">self</span>
 	}
 
@@ -3031,37 +3153,43 @@
 	<span class="doccomment">///      * `Rotate` - Specifies the rotation of the label</span>
 	<span class="doccomment">///      * `Align` - Specifies how to align the label</span>
 	<span class="kw">fn</span> <span class="ident">set_x_ticks</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
-		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
-		<span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>,
+		<span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>], <span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
-			.<span class="ident">x_axis</span>
-			.<span class="ident">set_ticks</span>(<span class="ident">tick_placement</span>, <span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(), <span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>());
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">x_axis</span>.<span class="ident">set_ticks</span>(
+			<span class="ident">tick_placement</span>,
+			<span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(),
+			<span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>(),
+		);
 		<span class="self">self</span>
 	}
 
 	<span class="doccomment">/// Like `set_x_ticks` but for the Y axis.</span>
 	<span class="kw">fn</span> <span class="ident">set_y_ticks</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
-		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
-		<span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>,
+		<span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>], <span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
-			.<span class="ident">y_axis</span>
-			.<span class="ident">set_ticks</span>(<span class="ident">tick_placement</span>, <span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(), <span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>());
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">y_axis</span>.<span class="ident">set_ticks</span>(
+			<span class="ident">tick_placement</span>,
+			<span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(),
+			<span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>(),
+		);
 		<span class="self">self</span>
 	}
 
 	<span class="doccomment">/// Like `set_x_ticks` but for the color bar axis.</span>
 	<span class="kw">fn</span> <span class="ident">set_cb_ticks</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
-		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
-		<span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>,
+		<span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>], <span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
-			.<span class="ident">cb_axis</span>
-			.<span class="ident">set_ticks</span>(<span class="ident">tick_placement</span>, <span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(), <span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>());
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">cb_axis</span>.<span class="ident">set_ticks</span>(
+			<span class="ident">tick_placement</span>,
+			<span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(),
+			<span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>(),
+		);
 		<span class="self">self</span>
 	}
 
@@ -3079,35 +3207,62 @@
 	<span class="doccomment">///      * `TextColor` - Specifies the color of the label</span>
 	<span class="doccomment">///      * `Rotate` - Specifies the rotation of the label</span>
 	<span class="doccomment">///      * `Align` - Specifies how to align the label</span>
-	<span class="kw">fn</span> <span class="ident">set_x_ticks_custom</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">T</span>: <span class="ident">DataType</span>, <span class="ident">S</span>: <span class="ident">ToString</span>, <span class="ident">TickT</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;&gt;</span>, <span class="ident">TL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TickT</span><span class="op">&gt;&gt;</span>(
-		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>], <span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	<span class="kw">fn</span> <span class="ident">set_x_ticks_custom</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">T</span>: <span class="ident">DataType</span>,
+		<span class="ident">S</span>: <span class="ident">ToString</span>,
+		<span class="ident">TickT</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;&gt;</span>,
+		<span class="ident">TL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TickT</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+		<span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
-			.<span class="ident">x_axis</span>
-			.<span class="ident">set_ticks_custom</span>(<span class="ident">ticks</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">borrow</span>().<span class="ident">to_one_way_owned</span>()), <span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(), <span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>());
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">x_axis</span>.<span class="ident">set_ticks_custom</span>(
+			<span class="ident">ticks</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">borrow</span>().<span class="ident">to_one_way_owned</span>()),
+			<span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(),
+			<span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>(),
+		);
 		<span class="self">self</span>
 	}
 
 	<span class="doccomment">/// Like `set_x_ticks_custom` but for the the Y axis.</span>
-	<span class="kw">fn</span> <span class="ident">set_y_ticks_custom</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">T</span>: <span class="ident">DataType</span>, <span class="ident">S</span>: <span class="ident">ToString</span>, <span class="ident">TickT</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;&gt;</span>, <span class="ident">TL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TickT</span><span class="op">&gt;&gt;</span>(
-		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>], <span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	<span class="kw">fn</span> <span class="ident">set_y_ticks_custom</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">T</span>: <span class="ident">DataType</span>,
+		<span class="ident">S</span>: <span class="ident">ToString</span>,
+		<span class="ident">TickT</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;&gt;</span>,
+		<span class="ident">TL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TickT</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+		<span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
-			.<span class="ident">y_axis</span>
-			.<span class="ident">set_ticks_custom</span>(<span class="ident">ticks</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">borrow</span>().<span class="ident">to_one_way_owned</span>()), <span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(), <span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>());
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">y_axis</span>.<span class="ident">set_ticks_custom</span>(
+			<span class="ident">ticks</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">borrow</span>().<span class="ident">to_one_way_owned</span>()),
+			<span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(),
+			<span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>(),
+		);
 		<span class="self">self</span>
 	}
 
 	<span class="doccomment">/// Like `set_x_ticks_custom` but for the the color bar axis.</span>
-	<span class="kw">fn</span> <span class="ident">set_cb_ticks_custom</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">T</span>: <span class="ident">DataType</span>, <span class="ident">S</span>: <span class="ident">ToString</span>, <span class="ident">TickT</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;&gt;</span>, <span class="ident">TL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TickT</span><span class="op">&gt;&gt;</span>(
-		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>], <span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+	<span class="kw">fn</span> <span class="ident">set_cb_ticks_custom</span><span class="op">&lt;</span>
+		<span class="lifetime">&#39;l</span>,
+		<span class="ident">T</span>: <span class="ident">DataType</span>,
+		<span class="ident">S</span>: <span class="ident">ToString</span>,
+		<span class="ident">TickT</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;&gt;</span>,
+		<span class="ident">TL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TickT</span><span class="op">&gt;</span>,
+	<span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
+		<span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
-			.<span class="ident">cb_axis</span>
-			.<span class="ident">set_ticks_custom</span>(<span class="ident">ticks</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">borrow</span>().<span class="ident">to_one_way_owned</span>()), <span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(), <span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>());
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">cb_axis</span>.<span class="ident">set_ticks_custom</span>(
+			<span class="ident">ticks</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">borrow</span>().<span class="ident">to_one_way_owned</span>()),
+			<span class="ident">tick_options</span>.<span class="ident">to_one_way_owned</span>(),
+			<span class="ident">label_options</span>.<span class="ident">to_one_way_owned</span>(),
+		);
 		<span class="self">self</span>
 	}
 
@@ -3250,7 +3405,8 @@
 	<span class="doccomment">///      * `Color` - Specifies the color of the grid lines</span>
 	<span class="doccomment">///      * `LineStyle` - Specifies the style of the grid lines</span>
 	<span class="doccomment">///      * `LineWidth` - Specifies the width of the grid lines</span>
-	<span class="kw">fn</span> <span class="ident">set_grid_options</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">front</span>: <span class="ident">bool</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_grid_options</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">front</span>: <span class="ident">bool</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>])
+		<span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">grid_front</span> <span class="op">=</span> <span class="ident">front</span>;
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">grid_options</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>();
@@ -3378,7 +3534,9 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `palette_generator` - The palette generator</span>
-	<span class="kw">fn</span> <span class="ident">set_custom_palette</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>)<span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">palette_generator</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_custom_palette</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>)<span class="op">&gt;&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">palette_generator</span>: <span class="ident">T</span>,
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		{
 			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>;
