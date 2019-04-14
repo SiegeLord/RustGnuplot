@@ -415,6 +415,30 @@
 <span id="415">415</span>
 <span id="416">416</span>
 <span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -426,6 +450,7 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">BorderLocation2D</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">ContourStyle</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">DashType</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">FillPatternType</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">FillRegionType</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">LabelOption</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">LegendOption</span>::<span class="kw-2">*</span>;
@@ -438,7 +463,7 @@
 
 <span class="doccomment">/// An enumeration of plot options you can supply to plotting commands, governing</span>
 <span class="doccomment">/// things like line width, color and others</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 {
 	<span class="doccomment">/// Sets the symbol used for points. The valid characters are as follows:</span>
@@ -472,10 +497,13 @@
 	<span class="ident">BorderColor</span>(<span class="ident">T</span>),
 	<span class="doccomment">/// Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.</span>
 	<span class="ident">LineStyle</span>(<span class="ident">DashType</span>),
-	<span class="doccomment">/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque</span>
+	<span class="doccomment">/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque. Cannot be used with `FillPattern`.</span>
 	<span class="ident">FillAlpha</span>(<span class="ident">f64</span>),
-	<span class="doccomment">/// Sets the fill region. See FillRegion for the available regions.</span>
+	<span class="doccomment">/// Sets the fill region. See `FillRegionType` for the available regions.</span>
 	<span class="ident">FillRegion</span>(<span class="ident">FillRegionType</span>),
+	<span class="doccomment">/// Sets the fill pattern. If left at `Auto`, the pattern alternates automatically. Otherwise, see `FillPatternType` for</span>
+	<span class="doccomment">/// the available patterns. Cannot be used with `FillAlpha`.</span>
+	<span class="ident">FillPattern</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">FillPatternType</span><span class="op">&gt;</span>),
 	<span class="doccomment">/// Sets what an arrowhead looks like</span>
 	<span class="ident">ArrowType</span>(<span class="ident">ArrowheadType</span>),
 	<span class="doccomment">/// Sets the size of the arrowhead. This is specified in the units of graph (i.e. `1.0` would make the arrow as big as the graph).</span>
@@ -503,12 +531,13 @@
 			<span class="ident">ArrowType</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">ArrowType</span>(<span class="ident">v</span>),
 			<span class="ident">ArrowSize</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">ArrowSize</span>(<span class="ident">v</span>),
 			<span class="ident">WhiskerBars</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">WhiskerBars</span>(<span class="ident">v</span>),
+			<span class="ident">FillPattern</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">FillPattern</span>(<span class="ident">v</span>),
 		}
 	}
 }
 
 <span class="doccomment">/// An enumeration of possible fill regions</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FillRegionType</span>
 {
 	<span class="ident">Above</span>,
@@ -517,7 +546,7 @@
 }
 
 <span class="doccomment">/// An enumeration of possible text and label alignments</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AlignType</span>
 {
 	<span class="ident">AlignLeft</span>,
@@ -528,7 +557,7 @@
 }
 
 <span class="doccomment">/// An enumeration of possible dash styles</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DashType</span>
 {
 	<span class="ident">Solid</span>,
@@ -556,7 +585,7 @@
 }
 
 <span class="doccomment">/// An enumeration of possible arrow head styles</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ArrowheadType</span>
 {
 	<span class="doccomment">/// An arrow head shaped like a &#39;V&#39;</span>
@@ -571,7 +600,7 @@
 
 <span class="doccomment">/// An enumeration of something that can either be fixed (e.g. the maximum of X values),</span>
 <span class="doccomment">/// or automatically determined</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 {
 	<span class="doccomment">/// Fixes the value to a specific value</span>
@@ -607,7 +636,7 @@
 }
 
 <span class="doccomment">/// An enumeration of label options that control label attributes</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LabelOption</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 {
 	<span class="doccomment">/// Sets the offset of the label in characters</span>
@@ -665,7 +694,7 @@
 }
 
 <span class="doccomment">/// An enumeration of axis tick options</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TickOption</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 {
 	<span class="doccomment">/// Specifies whether the ticks are drawn at the borders of the plot, or on the axis</span>
@@ -700,7 +729,7 @@
 }
 
 <span class="doccomment">/// Specifies a type of axis tick</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;</span>
 {
 	<span class="doccomment">/// Major ticks have position and an optional label. The label may have a single C-style format specifier which will be replaced by the location of the tick</span>
@@ -723,7 +752,7 @@
 }
 
 <span class="doccomment">/// Plot border locations</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BorderLocation2D</span>
 {
 	<span class="ident">Bottom</span> <span class="op">=</span> <span class="number">1</span>,
@@ -733,7 +762,7 @@
 }
 
 <span class="doccomment">/// Plot margins</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MarginSide</span>
 {
 	<span class="ident">MarginTop</span>(<span class="ident">f32</span>),
@@ -743,7 +772,7 @@
 }
 
 <span class="doccomment">/// Legend options</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LegendOption</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 {
 	<span class="doccomment">/// Puts curve samples to the left of the label</span>
@@ -782,7 +811,7 @@
 }
 
 <span class="doccomment">/// Specifies how the contours are drawn</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ContourStyle</span>
 {
 	<span class="doccomment">/// Draw lines between points of equal value</span>
@@ -802,7 +831,7 @@
 }
 
 <span class="doccomment">/// Specifies what sort of palette to use</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PaletteType</span>
 {
 	<span class="doccomment">/// Use a gray palette with a specified gamma</span>
@@ -832,6 +861,25 @@
 {
 	<span class="kw">pub</span> <span class="ident">major</span>: <span class="ident">i32</span>,
 	<span class="kw">pub</span> <span class="ident">minor</span>: <span class="ident">i32</span>,
+}
+
+<span class="doccomment">/// Fill patterns.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note that these are not guaranteed to be consistent between terminals,</span>
+<span class="doccomment">/// but the following names appear to be the most common interpretations of</span>
+<span class="doccomment">/// the numerical values of these patterns.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FillPatternType</span>
+{
+	<span class="ident">Pattern0</span> <span class="op">=</span> <span class="number">0</span>,
+	<span class="ident">BigCrosses</span> <span class="op">=</span> <span class="number">1</span>,
+	<span class="ident">SmallCrosses</span> <span class="op">=</span> <span class="number">2</span>,
+	<span class="ident">Pattern3</span> <span class="op">=</span> <span class="number">3</span>,
+	<span class="ident">BigBackSlashes</span> <span class="op">=</span> <span class="number">4</span>,
+	<span class="ident">BigForwardSlashes</span> <span class="op">=</span> <span class="number">5</span>,
+	<span class="ident">SmallBackSlashes</span> <span class="op">=</span> <span class="number">6</span>,
+	<span class="ident">SmallForwardSlashes</span> <span class="op">=</span> <span class="number">7</span>,
+	<span class="ident">Pattern8</span> <span class="op">=</span> <span class="number">8</span>,
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "gnuplot";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

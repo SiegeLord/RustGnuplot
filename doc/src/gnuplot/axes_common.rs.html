@@ -1784,6 +1784,27 @@
 <span id="1784">1784</span>
 <span id="1785">1785</span>
 <span id="1786">1786</span>
+<span id="1787">1787</span>
+<span id="1788">1788</span>
+<span id="1789">1789</span>
+<span id="1790">1790</span>
+<span id="1791">1791</span>
+<span id="1792">1792</span>
+<span id="1793">1793</span>
+<span id="1794">1794</span>
+<span id="1795">1795</span>
+<span id="1796">1796</span>
+<span id="1797">1797</span>
+<span id="1798">1798</span>
+<span id="1799">1799</span>
+<span id="1800">1800</span>
+<span id="1801">1801</span>
+<span id="1802">1802</span>
+<span id="1803">1803</span>
+<span id="1804">1804</span>
+<span id="1805">1805</span>
+<span id="1806">1806</span>
+<span id="1807">1807</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -2133,12 +2154,33 @@
 				<span class="kw">_</span> <span class="op">=&gt;</span> (),
 			}
 
-			<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot; fill transparent solid &quot;</span>);
+			<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot; fill &quot;</span>);
 
+			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">is_pattern</span> <span class="op">=</span> <span class="bool-val">false</span>;
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
-				<span class="ident">FillAlpha</span>(<span class="ident">a</span>) <span class="op">=&gt;</span>
+				<span class="ident">FillPattern</span>(<span class="ident">pattern_opt</span>) <span class="op">=&gt;</span>
 				{
-					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">a</span>);
+					<span class="ident">is_pattern</span> <span class="op">=</span> <span class="bool-val">true</span>;
+					<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;pattern &quot;</span>);
+					<span class="kw">match</span> <span class="ident">pattern_opt</span>
+					{
+						<span class="ident">Fix</span>(<span class="ident">val</span>) <span class="op">=&gt;</span>
+						{
+							<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">val</span> <span class="kw">as</span> <span class="ident">i32</span>);
+						}
+						<span class="kw">_</span> <span class="op">=&gt;</span> (),
+					}
+				}
+			}
+
+			<span class="kw">if</span> <span class="op">!</span><span class="ident">is_pattern</span>
+			{
+				<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;transparent solid &quot;</span>);
+				<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
+					<span class="ident">FillAlpha</span>(<span class="ident">a</span>) <span class="op">=&gt;</span>
+					{
+						<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">a</span>);
+					}
 				}
 			}
 
