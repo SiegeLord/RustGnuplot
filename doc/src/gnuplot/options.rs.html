@@ -401,6 +401,20 @@
 <span id="401">401</span>
 <span id="402">402</span>
 <span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -579,14 +593,14 @@
 	}
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span> <span class="ident">OneWayOwned</span> <span class="kw">for</span> <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="ident">str</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ToString</span><span class="op">&gt;</span> <span class="ident">OneWayOwned</span> <span class="kw">for</span> <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 {
 	<span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>;
 	<span class="kw">fn</span> <span class="ident">to_one_way_owned</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span>
 	{
-		<span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
+		<span class="kw">match</span> <span class="self">self</span>
 		{
-			<span class="ident">Fix</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">Fix</span>(<span class="ident">v</span>.<span class="ident">into</span>()),
+			<span class="ident">Fix</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">Fix</span>(<span class="ident">v</span>.<span class="ident">to_string</span>()),
 			<span class="ident">Auto</span> <span class="op">=&gt;</span> <span class="ident">Auto</span>,
 		}
 	}
@@ -686,12 +700,26 @@
 }
 
 <span class="doccomment">/// Specifies a type of axis tick</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;</span>
 {
 	<span class="doccomment">/// Major ticks have position and an optional label. The label may have a single C-style format specifier which will be replaced by the location of the tick</span>
-	<span class="ident">Major</span>(<span class="ident">T</span>, <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>),
+	<span class="ident">Major</span>(<span class="ident">T</span>, <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>),
 	<span class="doccomment">/// Minor ticks only have position</span>
 	<span class="ident">Minor</span>(<span class="ident">T</span>),
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">T</span>: <span class="ident">Clone</span>, <span class="ident">S</span>: <span class="ident">ToString</span><span class="op">&gt;</span> <span class="ident">OneWayOwned</span> <span class="kw">for</span> <span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;</span>
+{
+	<span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">String</span><span class="op">&gt;</span>;
+	<span class="kw">fn</span> <span class="ident">to_one_way_owned</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span>
+	{
+		<span class="kw">match</span> <span class="self">self</span>
+		{
+			<span class="ident">Minor</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">Minor</span>(<span class="ident">v</span>.<span class="ident">clone</span>()),
+			<span class="ident">Major</span>(<span class="ident">v</span>, <span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">Major</span>(<span class="ident">v</span>.<span class="ident">clone</span>(), <span class="ident">s</span>.<span class="ident">to_one_way_owned</span>()),
+		}
+	}
 }
 
 <span class="doccomment">/// Plot border locations</span>
