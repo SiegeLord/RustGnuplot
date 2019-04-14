@@ -30,7 +30,10 @@ impl<'l, T: 'l> BetterIteratorExt<'l, T> for &'l [T]
 {
 	fn iter2(self) -> BetterIterator<'l, T>
 	{
-		BetterIterator { idx: 0, slice: self }
+		BetterIterator {
+			idx: 0,
+			slice: self,
+		}
 	}
 }
 

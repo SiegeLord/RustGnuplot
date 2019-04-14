@@ -26,7 +26,13 @@ fn example(c: Common)
 			[2.0f32, 3.0, 4.0].iter(),
 			[1.0f32, 2.0, 3.0].iter(),
 			[0.5f32, 0.25, 0.125].iter(),
-			&[WhiskerBars(0.5), Color("blue"), LineWidth(2.0), LineStyle(SmallDot), FillAlpha(0.5)],
+			&[
+				WhiskerBars(0.5),
+				Color("blue"),
+				LineWidth(2.0),
+				LineStyle(SmallDot),
+				FillAlpha(0.5),
+			],
 		)
 		.set_x_range(Fix(-1.0), Fix(3.0))
 		.set_y_range(Fix(-3.0), Fix(5.0));

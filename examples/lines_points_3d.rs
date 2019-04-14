@@ -15,7 +15,12 @@ fn example(c: Common)
 
 	fg.axes3d()
 		.set_title("3D lines + points", &[])
-		.lines_points(x, y, z, &[PointSymbol('o'), Color("#ffaa77"), PointSize(2.0)]);
+		.lines_points(
+			x,
+			y,
+			z,
+			&[PointSymbol('o'), Color("#ffaa77"), PointSize(2.0)],
+		);
 
 	c.show(&mut fg, "fg.lines_points_3d.gnuplot");
 }

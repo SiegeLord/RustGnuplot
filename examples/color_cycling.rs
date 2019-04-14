@@ -16,7 +16,11 @@ fn example(c: Common)
 	ax.set_legend(Graph(0.2), Graph(0.9), &[], &[]);
 	for i in 0..10
 	{
-		ax.lines_points(x.clone(), x.clone().map(|v| v * 2 + i), &[Caption(&format!("{}", i))]);
+		ax.lines_points(
+			x.clone(),
+			x.clone().map(|v| v * 2 + i),
+			&[Caption(&format!("{}", i))],
+		);
 	}
 
 	c.show(&mut fg, "fg.color_cycling.gnuplot");

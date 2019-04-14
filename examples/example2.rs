@@ -56,7 +56,13 @@ fn example(c: Common)
 				Color("red"),
 			],
 		)
-		.arrow(Graph(0.5), Graph(1.0), Axis(3.0), Axis(9.0), &[ArrowType(Open), Color("green")]);
+		.arrow(
+			Graph(0.5),
+			Graph(1.0),
+			Axis(3.0),
+			Axis(9.0),
+			&[ArrowType(Open), Color("green")],
+		);
 
 	c.show(&mut fg, "fg2.1.gnuplot");
 
@@ -65,8 +71,22 @@ fn example(c: Common)
 
 	fg.axes2d()
 		.set_title("Boxes fg2.2", &[])
-		.boxes(x2, y2, &[LineWidth(2.0), Color("cyan"), BorderColor("blue"), LineStyle(DotDash)])
-		.boxes_set_width(x, y1, w, &[LineWidth(2.0), Color("gray"), BorderColor("black")]);
+		.boxes(
+			x2,
+			y2,
+			&[
+				LineWidth(2.0),
+				Color("cyan"),
+				BorderColor("blue"),
+				LineStyle(DotDash),
+			],
+		)
+		.boxes_set_width(
+			x,
+			y1,
+			w,
+			&[LineWidth(2.0), Color("gray"), BorderColor("black")],
+		);
 
 	c.show(&mut fg, "fg2.2.gnuplot");
 
@@ -83,7 +103,11 @@ fn example(c: Common)
 			&[TextColor("blue"), TextAlign(AlignCenter)],
 		)
 		.set_x_log(Some(10.0))
-		.set_y_ticks(Some((Fix(100.0), 1)), &[Mirror(false), Format("%.1f s")], &[]);
+		.set_y_ticks(
+			Some((Fix(100.0), 1)),
+			&[Mirror(false), Format("%.1f s")],
+			&[],
+		);
 
 	c.show(&mut fg, "fg2.3.gnuplot");
 
@@ -104,9 +128,13 @@ fn example(c: Common)
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
 
-	fg.axes2d()
-		.set_title("Image fg2.5", &[])
-		.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[]);
+	fg.axes2d().set_title("Image fg2.5", &[]).image(
+		z1.iter(),
+		zw,
+		zh,
+		Some((-4.0, -4.0, 4.0, 4.0)),
+		&[],
+	);
 
 	c.show(&mut fg, "fg2.5.gnuplot");
 

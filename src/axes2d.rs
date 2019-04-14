@@ -72,7 +72,9 @@ impl Axes2D
 	///      * `Color` - Specifies the color of the border
 	///      * `LineStyle` - Specifies the style of the border
 	///      * `LineWidth` - Specifies the width of the border
-	pub fn set_border<'l>(&'l mut self, front: bool, locations: &[BorderLocation2D], options: &[PlotOption<&str>]) -> &'l mut Self
+	pub fn set_border<'l>(
+		&'l mut self, front: bool, locations: &[BorderLocation2D], options: &[PlotOption<&str>],
+	) -> &'l mut Self
 	{
 		self.border_options.front = front;
 		self.border_options.locations = locations.into();
@@ -117,14 +119,15 @@ impl Axes2D
 	///      * `LineStyle` - Specifies the style of the arrow shaft
 	///      * `LineWidth` - Specifies the width of the arrow shaft
 	pub fn arrow<'l>(
-		&'l mut self, x1: Coordinate, y1: Coordinate, x2: Coordinate, y2: Coordinate, options: &[PlotOption<&str>],
+		&'l mut self, x1: Coordinate, y1: Coordinate, x2: Coordinate, y2: Coordinate,
+		options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
 		{
 			let c = &mut self.common.commands as &mut Writer;
 			write!(c, "set arrow from {},{} to {},{}", x1, y1, x2, y2);
 
-			first_opt!{options,
+			first_opt! {options,
 				ArrowType(s) =>
 				{
 					c.write_str(match s
@@ -138,7 +141,7 @@ impl Axes2D
 			}
 
 			c.write_str(" size graph ");
-			first_opt_default!{options,
+			first_opt_default! {options,
 				ArrowSize(z) =>
 				{
 					write!(c, "{:.12e}", z);
@@ -170,7 +173,8 @@ impl Axes2D
 	///     * `TextAlign(AlignLeft)`
 	///     * `TextAlign(AlignRight)`
 	pub fn set_legend<'l>(
-		&'l mut self, x: Coordinate, y: Coordinate, legend_options: &[LegendOption<&str>], text_options: &[LabelOption<&str>],
+		&'l mut self, x: Coordinate, y: Coordinate, legend_options: &[LegendOption<&str>],
+		text_options: &[LabelOption<&str>],
 	) -> &'l mut Self
 	{
 		{
@@ -178,7 +182,7 @@ impl Axes2D
 
 			write!(c, "set key at {},{}", x, y);
 
-			first_opt_default!{legend_options,
+			first_opt_default! {legend_options,
 				Placement(h, v) =>
 				{
 					c.write_str(match h
@@ -200,7 +204,7 @@ impl Axes2D
 				}
 			}
 
-			first_opt_default!{legend_options,
+			first_opt_default! {legend_options,
 				Horizontal =>
 				{
 					c.write_str(" horizontal");
@@ -211,7 +215,7 @@ impl Axes2D
 				}
 			}
 
-			first_opt_default!{legend_options,
+			first_opt_default! {legend_options,
 				Reverse =>
 				{
 					c.write_str(" reverse");
@@ -222,7 +226,7 @@ impl Axes2D
 				}
 			}
 
-			first_opt_default!{legend_options,
+			first_opt_default! {legend_options,
 				Invert =>
 				{
 					c.write_str(" invert");
@@ -233,7 +237,7 @@ impl Axes2D
 				}
 			}
 
-			first_opt!{legend_options,
+			first_opt! {legend_options,
 				Title(s) =>
 				{
 					c.write_str(" title \"");
@@ -242,7 +246,7 @@ impl Axes2D
 				}
 			}
 
-			first_opt!{text_options,
+			first_opt! {text_options,
 				Font(f, s) =>
 				{
 					c.write_str(" font \"");
@@ -252,7 +256,7 @@ impl Axes2D
 					c.write_str("\"");
 				}
 			}
-			first_opt!{text_options,
+			first_opt! {text_options,
 				TextColor(s) =>
 				{
 					c.write_str(" textcolor rgb \"");
@@ -260,7 +264,7 @@ impl Axes2D
 					c.write_str("\"");
 				}
 			}
-			first_opt!{text_options,
+			first_opt! {text_options,
 				TextAlign(a) =>
 				{
 					c.write_str(match a
@@ -272,14 +276,14 @@ impl Axes2D
 				}
 			}
 
-			first_opt!{legend_options,
+			first_opt! {legend_options,
 				MaxRows(r) =>
 				{
 					write!(c, " maxrows {}", r as i32);
 				}
 			}
 
-			first_opt!{legend_options,
+			first_opt! {legend_options,
 				MaxCols(l) =>
 				{
 					write!(c, " maxcols {}", l as i32);
@@ -300,13 +304,22 @@ impl Axes2D
 	///     * `LineWidth` - Sets the width of the line
 	///     * `LineStyle` - Sets the style of the line
 	///     * `Color` - Sets the color
-	pub fn lines<'l, Tx: DataType, X: IntoIterator<Item = Tx>, Ty: DataType, Y: IntoIterator<Item = Ty>>(
+	pub fn lines<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+	>(
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot2(Lines, x, y, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot2(
+			Lines,
+			x,
+			y,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -319,13 +332,22 @@ impl Axes2D
 	///     * `PointSymbol` - Sets symbol for each point
 	///     * `PointSize` - Sets the size of each point
 	///     * `Color` - Sets the color
-	pub fn points<'l, Tx: DataType, X: IntoIterator<Item = Tx>, Ty: DataType, Y: IntoIterator<Item = Ty>>(
+	pub fn points<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+	>(
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot2(Points, x, y, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot2(
+			Points,
+			x,
+			y,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -334,13 +356,22 @@ impl Axes2D
 	/// * `x` - x values
 	/// * `y` - y values
 	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element
-	pub fn lines_points<'l, Tx: DataType, X: IntoIterator<Item = Tx>, Ty: DataType, Y: IntoIterator<Item = Ty>>(
+	pub fn lines_points<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+	>(
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot2(LinesPoints, x, y, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot2(
+			LinesPoints,
+			x,
+			y,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -367,9 +398,13 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, x_error: XE, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot3(XErrorBars, x, y, x_error, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot3(
+			XErrorBars,
+			x,
+			y,
+			x_error,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -396,9 +431,13 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, y_error: YE, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot3(YErrorBars, x, y, y_error, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot3(
+			YErrorBars,
+			x,
+			y,
+			y_error,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -427,9 +466,13 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, x_error: XE, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot3(XErrorLines, x, y, x_error, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot3(
+			XErrorLines,
+			x,
+			y,
+			x_error,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -458,9 +501,13 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, y_error: YE, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot3(YErrorLines, x, y, y_error, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot3(
+			YErrorLines,
+			x,
+			y,
+			y_error,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -488,9 +535,13 @@ impl Axes2D
 		&'l mut self, x: X, y_lo: YL, y_hi: YH, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot3(FillBetween, x, y_lo, y_hi, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot3(
+			FillBetween,
+			x,
+			y_lo,
+			y_hi,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -506,13 +557,22 @@ impl Axes2D
 	///     * `BorderColor` - Sets the color of the border
 	///     * `Color` - Sets the color of the box fill
 	///     * `FillAlpha` - Sets the transparency of the box fill
-	pub fn boxes<'l, Tx: DataType, X: IntoIterator<Item = Tx>, Ty: DataType, Y: IntoIterator<Item = Ty>>(
+	pub fn boxes<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+	>(
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot2(Boxes, x, y, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot2(
+			Boxes,
+			x,
+			y,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -541,9 +601,13 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, w: W, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot3(Boxes, x, y, w, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot3(
+			Boxes,
+			x,
+			y,
+			w,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -576,8 +640,8 @@ impl Axes2D
 		TBoxMax: DataType,
 		BoxMax: IntoIterator<Item = TBoxMax>,
 	>(
-		&'l mut self, x: X, box_min: BoxMin, whisker_min: WhiskerMin, whisker_max: WhiskerMax, box_max: BoxMax,
-		options: &[PlotOption<&str>],
+		&'l mut self, x: X, box_min: BoxMin, whisker_min: WhiskerMin, whisker_max: WhiskerMax,
+		box_max: BoxMax, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
 		self.common.elems.push(PlotElement::new_plot5(
@@ -624,8 +688,8 @@ impl Axes2D
 		TBoxWidth: DataType,
 		BoxWidth: IntoIterator<Item = TBoxWidth>,
 	>(
-		&'l mut self, x: X, box_min: BoxMin, whisker_min: WhiskerMin, whisker_max: WhiskerMax, box_max: BoxMax, box_width: BoxWidth,
-		options: &[PlotOption<&str>],
+		&'l mut self, x: X, box_min: BoxMin, whisker_min: WhiskerMin, whisker_max: WhiskerMax,
+		box_max: BoxMax, box_width: BoxWidth, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
 		self.common.elems.push(PlotElement::new_plot6(
@@ -653,7 +717,8 @@ impl Axes2D
 	/// * `options` - Array of PlotOption<&str> controlling the appearance of the surface. Relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	pub fn image<'l, T: DataType, X: IntoIterator<Item = T>>(
-		&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption<&str>],
+		&'l mut self, mat: X, num_rows: usize, num_cols: usize,
+		dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
 		self.common.elems.push(PlotElement::new_plot_matrix(

@@ -17,9 +17,11 @@ fn main()
 	loop
 	{
 		fg.clear_axes();
-		fg.axes2d()
-			.set_y_range(Fix(-1.0), Fix(1.0))
-			.lines(x.iter(), x.iter().map(|&x| (x + t).sin()), &[]);
+		fg.axes2d().set_y_range(Fix(-1.0), Fix(1.0)).lines(
+			x.iter(),
+			x.iter().map(|&x| (x + t).sin()),
+			&[],
+		);
 		t += 0.1;
 		fg.show();
 		sleep(Duration::from_millis(500));

@@ -14,12 +14,19 @@ fn example(c: Common)
 	let ax = fg.axes2d();
 	ax.set_title("Dash type", &[]);
 	ax.set_legend(Graph(0.3), Graph(0.9), &[], &[]);
-	for (i, &dt) in [Solid, SmallDot, Dot, Dash, DotDash, DotDotDash].iter().enumerate()
+	for (i, &dt) in [Solid, SmallDot, Dot, Dash, DotDash, DotDotDash]
+		.iter()
+		.enumerate()
 	{
 		ax.lines(
 			x.clone(),
 			x.clone().map(|v| v * 2 + 2 * i),
-			&[LineWidth(2.), Color("black"), LineStyle(dt), Caption(&format!("{:?}", dt))],
+			&[
+				LineWidth(2.),
+				Color("black"),
+				LineStyle(dt),
+				Caption(&format!("{:?}", dt)),
+			],
 		);
 	}
 

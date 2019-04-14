@@ -13,9 +13,12 @@ fn example(c: Common)
 	let mut fg = Figure::new();
 	c.set_term(&mut fg);
 
-	fg.axes3d()
-		.set_title("3D points", &[])
-		.points(x, y, z, &[PointSymbol('o'), Color("#ffaa77"), PointSize(2.0)]);
+	fg.axes3d().set_title("3D points", &[]).points(
+		x,
+		y,
+		z,
+		&[PointSymbol('o'), Color("#ffaa77"), PointSize(2.0)],
+	);
 
 	c.show(&mut fg, "fg.points_3d.gnuplot");
 }

@@ -7,8 +7,8 @@ use crate::datatype::*;
 use crate::options::*;
 use crate::util::OneWayOwned;
 use crate::writer::Writer;
-use std::io::Write;
 use std::borrow::Borrow;
+use std::io::Write;
 
 /// 3D axes that is used for drawing 3D plots
 pub struct Axes3D
@@ -51,7 +51,8 @@ impl Axes3D
 	/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	pub fn surface<'l, T: DataType, X: IntoIterator<Item = T>>(
-		&'l mut self, mat: X, num_rows: usize, num_cols: usize, dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption<&str>],
+		&'l mut self, mat: X, num_rows: usize, num_cols: usize,
+		dimensions: Option<(f64, f64, f64, f64)>, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
 		self.common.elems.push(PlotElement::new_plot_matrix(
@@ -88,9 +89,13 @@ impl Axes3D
 		&'l mut self, x: X, y: Y, z: Z, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot3(Points, x, y, z, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot3(
+			Points,
+			x,
+			y,
+			z,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -116,9 +121,13 @@ impl Axes3D
 		&'l mut self, x: X, y: Y, z: Z, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot3(Lines, x, y, z, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot3(
+			Lines,
+			x,
+			y,
+			z,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -140,9 +149,13 @@ impl Axes3D
 		&'l mut self, x: X, y: Y, z: Z, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common
-			.elems
-			.push(PlotElement::new_plot3(LinesPoints, x, y, z, options.to_one_way_owned()));
+		self.common.elems.push(PlotElement::new_plot3(
+			LinesPoints,
+			x,
+			y,
+			z,
+			options.to_one_way_owned(),
+		));
 		self
 	}
 
@@ -153,7 +166,11 @@ impl Axes3D
 	/// * `yaw` - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.
 	pub fn set_view<'l>(&'l mut self, pitch: f64, yaw: f64) -> &'l mut Self
 	{
-		writeln!(&mut self.common.commands, "set view {:.12e},{:.12e}", pitch, yaw);
+		writeln!(
+			&mut self.common.commands,
+			"set view {:.12e},{:.12e}",
+			pitch, yaw
+		);
 		self
 	}
 
@@ -174,9 +191,11 @@ impl Axes3D
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	pub fn set_z_label<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>]) -> &'l mut Self
+	pub fn set_z_label<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>])
+		-> &'l mut Self
 	{
-		self.get_common_data_mut().set_label_common(ZLabel, text, options);
+		self.get_common_data_mut()
+			.set_label_common(ZLabel, text, options);
 		self
 	}
 
@@ -214,22 +233,35 @@ impl Axes3D
 
 	/// Like `set_x_ticks` but for the Z axis.
 	pub fn set_z_ticks<'l>(
-		&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>, tick_options: &[TickOption<&str>],
-		label_options: &[LabelOption<&str>],
+		&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>,
+		tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>],
 	) -> &'l mut Self
 	{
-		self.z_axis
-			.set_ticks(tick_placement, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+		self.z_axis.set_ticks(
+			tick_placement,
+			tick_options.to_one_way_owned(),
+			label_options.to_one_way_owned(),
+		);
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	pub fn set_z_ticks_custom<'l, T: DataType, S: ToString, TickT: Borrow<Tick<T, S>>, TL: IntoIterator<Item = TickT>>(
-		&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>],
+	pub fn set_z_ticks_custom<
+		'l,
+		T: DataType,
+		S: ToString,
+		TickT: Borrow<Tick<T, S>>,
+		TL: IntoIterator<Item = TickT>,
+	>(
+		&'l mut self, ticks: TL, tick_options: &[TickOption<&str>],
+		label_options: &[LabelOption<&str>],
 	) -> &'l mut Self
 	{
-		self.z_axis
-			.set_ticks_custom(ticks.into_iter().map(|e| e.borrow().to_one_way_owned()), tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+		self.z_axis.set_ticks_custom(
+			ticks.into_iter().map(|e| e.borrow().to_one_way_owned()),
+			tick_options.to_one_way_owned(),
+			label_options.to_one_way_owned(),
+		);
 		self
 	}
 
@@ -238,7 +270,8 @@ impl Axes3D
 	/// # Arguments
 	/// * `min` - Minimum Z value
 	/// * `max` - Maximum Z value
-	pub fn set_z_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
+	pub fn set_z_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>)
+		-> &'l mut Self
 	{
 		self.z_axis.set_range(min, max);
 		self
@@ -295,7 +328,8 @@ impl Axes3D
 	/// * `levels` - Auto picks some default number of levels, otherwise you can pass a set nominal number instead. The number is nominal as
 	///              contours are placed at nice values of Z, and thus there may be fewer of them than this number.
 	pub fn show_contours<'l>(
-		&'l mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>, levels: AutoOption<u32>,
+		&'l mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>,
+		levels: AutoOption<u32>,
 	) -> &'l mut Self
 	{
 		self.contour_base = base;
@@ -317,7 +351,8 @@ impl Axes3D
 	///             otherwise an empty string disables the legend and labels.
 	/// * `levels` - A set of levels.
 	pub fn show_contours_custom<'l, T: DataType, TC: IntoIterator<Item = T>>(
-		&'l mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>, levels: TC,
+		&'l mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>,
+		levels: TC,
 	) -> &'l mut Self
 	{
 		self.contour_base = base;
@@ -394,14 +429,17 @@ impl Axes3DPrivate for Axes3D
 			match self.contour_label
 			{
 				Auto => writeln!(w, "set clabel"),
-				Fix(ref s) => if s.len() == 0
+				Fix(ref s) =>
 				{
-					writeln!(w, "unset clabel")
+					if s.len() == 0
+					{
+						writeln!(w, "unset clabel")
+					}
+					else
+					{
+						writeln!(w, r#"set clabel "{}""#, s)
+					}
 				}
-				else
-				{
-					writeln!(w, r#"set clabel "{}""#, s)
-				},
 			};
 
 			fn set_cntrparam<F: FnOnce(&mut Writer)>(w: &mut Writer, wr: F)

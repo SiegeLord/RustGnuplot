@@ -192,7 +192,10 @@ impl Figure
 				let parts: Vec<_> = version_string.split(|c| c == ' ' || c == '.').collect();
 				if parts.len() > 2 && parts[0] == "gnuplot"
 				{
-					if let (Ok(major), Ok(minor)) = (i32::from_str_radix(parts[1], 10), i32::from_str_radix(parts[2], 10))
+					if let (Ok(major), Ok(minor)) = (
+						i32::from_str_radix(parts[1], 10),
+						i32::from_str_radix(parts[2], 10),
+					)
 					{
 						self.version = Some(GnuplotVersion {
 							major: major,
@@ -210,7 +213,9 @@ impl Figure
 					.arg("-p")
 					.stdin(Stdio::piped())
 					.spawn()
-					.expect("Couldn't spawn gnuplot. Make sure it is installed and available in PATH."),
+					.expect(
+						"Couldn't spawn gnuplot. Make sure it is installed and available in PATH.",
+					),
 			);
 		}
 
