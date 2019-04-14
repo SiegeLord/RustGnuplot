@@ -8,6 +8,7 @@ pub use self::AutoOption::*;
 pub use self::BorderLocation2D::*;
 pub use self::ContourStyle::*;
 pub use self::DashType::*;
+pub use self::FillPatternType::*;
 pub use self::FillRegionType::*;
 pub use self::LabelOption::*;
 pub use self::LegendOption::*;
@@ -20,7 +21,7 @@ use crate::util::OneWayOwned;
 
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
 pub enum PlotOption<T>
 {
 	/// Sets the symbol used for points. The valid characters are as follows:
@@ -54,10 +55,13 @@ pub enum PlotOption<T>
 	BorderColor(T),
 	/// Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.
 	LineStyle(DashType),
-	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque
+	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque. Cannot be used with `FillPattern`.
 	FillAlpha(f64),
-	/// Sets the fill region. See FillRegion for the available regions.
+	/// Sets the fill region. See `FillRegionType` for the available regions.
 	FillRegion(FillRegionType),
+	/// Sets the fill pattern. If left at `Auto`, the pattern alternates automatically. Otherwise, see `FillPatternType` for
+	/// the available patterns. Cannot be used with `FillAlpha`.
+	FillPattern(AutoOption<FillPatternType>),
 	/// Sets what an arrowhead looks like
 	ArrowType(ArrowheadType),
 	/// Sets the size of the arrowhead. This is specified in the units of graph (i.e. `1.0` would make the arrow as big as the graph).
@@ -85,12 +89,13 @@ impl<'l> OneWayOwned for PlotOption<&'l str>
 			ArrowType(v) => ArrowType(v),
 			ArrowSize(v) => ArrowSize(v),
 			WhiskerBars(v) => WhiskerBars(v),
+			FillPattern(v) => FillPattern(v),
 		}
 	}
 }
 
 /// An enumeration of possible fill regions
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub enum FillRegionType
 {
 	Above,
@@ -99,7 +104,7 @@ pub enum FillRegionType
 }
 
 /// An enumeration of possible text and label alignments
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub enum AlignType
 {
 	AlignLeft,
@@ -110,7 +115,7 @@ pub enum AlignType
 }
 
 /// An enumeration of possible dash styles
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub enum DashType
 {
 	Solid,
@@ -138,7 +143,7 @@ impl DashType
 }
 
 /// An enumeration of possible arrow head styles
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub enum ArrowheadType
 {
 	/// An arrow head shaped like a 'V'
@@ -153,7 +158,7 @@ pub enum ArrowheadType
 
 /// An enumeration of something that can either be fixed (e.g. the maximum of X values),
 /// or automatically determined
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub enum AutoOption<T>
 {
 	/// Fixes the value to a specific value
@@ -189,7 +194,7 @@ impl<T: ToString> OneWayOwned for AutoOption<T>
 }
 
 /// An enumeration of label options that control label attributes
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
 pub enum LabelOption<T>
 {
 	/// Sets the offset of the label in characters
@@ -247,7 +252,7 @@ impl<'l> OneWayOwned for LabelOption<&'l str>
 }
 
 /// An enumeration of axis tick options
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
 pub enum TickOption<T>
 {
 	/// Specifies whether the ticks are drawn at the borders of the plot, or on the axis
@@ -282,7 +287,7 @@ impl<'l> OneWayOwned for TickOption<&'l str>
 }
 
 /// Specifies a type of axis tick
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub enum Tick<T, S>
 {
 	/// Major ticks have position and an optional label. The label may have a single C-style format specifier which will be replaced by the location of the tick
@@ -305,7 +310,7 @@ impl<'l, T: Clone, S: ToString> OneWayOwned for Tick<T, S>
 }
 
 /// Plot border locations
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub enum BorderLocation2D
 {
 	Bottom = 1,
@@ -315,7 +320,7 @@ pub enum BorderLocation2D
 }
 
 /// Plot margins
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
 pub enum MarginSide
 {
 	MarginTop(f32),
@@ -325,7 +330,7 @@ pub enum MarginSide
 }
 
 /// Legend options
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub enum LegendOption<T>
 {
 	/// Puts curve samples to the left of the label
@@ -364,7 +369,7 @@ impl<'l> OneWayOwned for LegendOption<&'l str>
 }
 
 /// Specifies how the contours are drawn
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub enum ContourStyle
 {
 	/// Draw lines between points of equal value
@@ -384,7 +389,7 @@ pub enum ContourStyle
 }
 
 /// Specifies what sort of palette to use
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
 pub enum PaletteType
 {
 	/// Use a gray palette with a specified gamma
@@ -414,4 +419,23 @@ pub struct GnuplotVersion
 {
 	pub major: i32,
 	pub minor: i32,
+}
+
+/// Fill patterns.
+///
+/// Note that these are not guaranteed to be consistent between terminals,
+/// but the following names appear to be the most common interpretations of
+/// the numerical values of these patterns.
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
+pub enum FillPatternType
+{
+	Pattern0 = 0,
+	BigCrosses = 1,
+	SmallCrosses = 2,
+	Pattern3 = 3,
+	BigBackSlashes = 4,
+	BigForwardSlashes = 5,
+	SmallBackSlashes = 6,
+	SmallForwardSlashes = 7,
+	Pattern8 = 8,
 }

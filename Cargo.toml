@@ -94,3 +94,8 @@ path = "examples/color_cycling.rs"
 
 name = "dash_type"
 path = "examples/dash_type.rs"
+
+[[example]]
+
+name = "patterns"
+path = "examples/patterns.rs"

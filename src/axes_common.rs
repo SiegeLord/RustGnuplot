@@ -346,12 +346,33 @@ impl PlotElement
 				_ => (),
 			}
 
-			writer.write_str(" fill transparent solid ");
+			writer.write_str(" fill ");
 
+			let mut is_pattern = false;
 			first_opt! {self.options,
-				FillAlpha(a) =>
+				FillPattern(pattern_opt) =>
 				{
-					write!(writer, "{:.12e}", a);
+					is_pattern = true;
+					writer.write_str("pattern ");
+					match pattern_opt
+					{
+						Fix(val) =>
+						{
+							write!(writer, "{}", val as i32);
+						}
+						_ => (),
+					}
+				}
+			}
+
+			if !is_pattern
+			{
+				writer.write_str("transparent solid ");
+				first_opt! {self.options,
+					FillAlpha(a) =>
+					{
+						write!(writer, "{:.12e}", a);
+					}
 				}
 			}
 
