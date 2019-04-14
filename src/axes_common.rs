@@ -14,6 +14,7 @@ use crate::options::*;
 use crate::util::OneWayOwned;
 use crate::writer::*;
 use std::io::Write;
+use std::borrow::Borrow;
 
 pub struct PlotElement
 {
@@ -615,7 +616,7 @@ impl PlotType
 pub enum TickType
 {
 	None,
-	Custom(Vec<Tick<f64>>),
+	Custom(Vec<Tick<f64, String>>),
 	Auto(AutoOption<f64>, u32),
 }
 
@@ -891,7 +892,7 @@ impl AxisData
 		w.write_str("\n");
 	}
 
-	pub fn set_ticks_custom<T: DataType, TL: IntoIterator<Item = Tick<T>>>(
+	pub fn set_ticks_custom<T: DataType, TL: IntoIterator<Item = Tick<T, String>>>(
 		&mut self, ticks: TL, tick_options: Vec<TickOption<String>>, label_options: Vec<LabelOption<String>>,
 	)
 	{
@@ -1370,35 +1371,35 @@ pub trait AxesCommon: AxesCommonPrivate
 	///      * `TextColor` - Specifies the color of the label
 	///      * `Rotate` - Specifies the rotation of the label
 	///      * `Align` - Specifies how to align the label
-	fn set_x_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(
+	fn set_x_ticks_custom<'l, T: DataType, S: ToString, TickT: Borrow<Tick<T, S>>, TL: IntoIterator<Item = TickT>>(
 		&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>],
 	) -> &'l mut Self
 	{
 		self.get_common_data_mut()
 			.x_axis
-			.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+			.set_ticks_custom(ticks.into_iter().map(|e| e.borrow().to_one_way_owned()), tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	fn set_y_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(
+	fn set_y_ticks_custom<'l, T: DataType, S: ToString, TickT: Borrow<Tick<T, S>>, TL: IntoIterator<Item = TickT>>(
 		&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>],
 	) -> &'l mut Self
 	{
 		self.get_common_data_mut()
 			.y_axis
-			.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+			.set_ticks_custom(ticks.into_iter().map(|e| e.borrow().to_one_way_owned()), tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 
 	/// Like `set_x_ticks_custom` but for the the color bar axis.
-	fn set_cb_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(
+	fn set_cb_ticks_custom<'l, T: DataType, S: ToString, TickT: Borrow<Tick<T, S>>, TL: IntoIterator<Item = TickT>>(
 		&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>],
 	) -> &'l mut Self
 	{
 		self.get_common_data_mut()
 			.cb_axis
-			.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+			.set_ticks_custom(ticks.into_iter().map(|e| e.borrow().to_one_way_owned()), tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 

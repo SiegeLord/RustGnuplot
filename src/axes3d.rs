@@ -8,6 +8,7 @@ use crate::options::*;
 use crate::util::OneWayOwned;
 use crate::writer::Writer;
 use std::io::Write;
+use std::borrow::Borrow;
 
 /// 3D axes that is used for drawing 3D plots
 pub struct Axes3D
@@ -223,12 +224,12 @@ impl Axes3D
 	}
 
 	/// Like `set_x_ticks_custom` but for the the Y axis.
-	pub fn set_z_ticks_custom<'l, T: DataType, TL: IntoIterator<Item = Tick<T>>>(
+	pub fn set_z_ticks_custom<'l, T: DataType, S: ToString, TickT: Borrow<Tick<T, S>>, TL: IntoIterator<Item = TickT>>(
 		&'l mut self, ticks: TL, tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>],
 	) -> &'l mut Self
 	{
 		self.z_axis
-			.set_ticks_custom(ticks, tick_options.to_one_way_owned(), label_options.to_one_way_owned());
+			.set_ticks_custom(ticks.into_iter().map(|e| e.borrow().to_one_way_owned()), tick_options.to_one_way_owned(), label_options.to_one_way_owned());
 		self
 	}
 

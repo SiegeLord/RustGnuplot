@@ -175,14 +175,14 @@ impl<T> AutoOption<T>
 	}
 }
 
-impl<'l> OneWayOwned for AutoOption<&'l str>
+impl<T: ToString> OneWayOwned for AutoOption<T>
 {
 	type Output = AutoOption<String>;
 	fn to_one_way_owned(&self) -> Self::Output
 	{
-		match *self
+		match self
 		{
-			Fix(v) => Fix(v.into()),
+			Fix(v) => Fix(v.to_string()),
 			Auto => Auto,
 		}
 	}
@@ -282,12 +282,26 @@ impl<'l> OneWayOwned for TickOption<&'l str>
 }
 
 /// Specifies a type of axis tick
-pub enum Tick<T>
+#[derive(Clone)]
+pub enum Tick<T, S>
 {
 	/// Major ticks have position and an optional label. The label may have a single C-style format specifier which will be replaced by the location of the tick
-	Major(T, AutoOption<String>),
+	Major(T, AutoOption<S>),
 	/// Minor ticks only have position
 	Minor(T),
+}
+
+impl<'l, T: Clone, S: ToString> OneWayOwned for Tick<T, S>
+{
+	type Output = Tick<T, String>;
+	fn to_one_way_owned(&self) -> Self::Output
+	{
+		match self
+		{
+			Minor(v) => Minor(v.clone()),
+			Major(v, s) => Major(v.clone(), s.to_one_way_owned()),
+		}
+	}
 }
 
 /// Plot border locations

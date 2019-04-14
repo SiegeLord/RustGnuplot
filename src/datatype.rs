@@ -4,7 +4,7 @@
 
 use std::time::Duration;
 
-pub trait DataType
+pub trait DataType: Clone
 {
 	fn get(&self) -> f64;
 }
