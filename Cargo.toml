@@ -99,3 +99,6 @@ path = "examples/dash_type.rs"
 
 name = "patterns"
 path = "examples/patterns.rs"
+
+[dependencies]
+byteorder = "1.3.1"
