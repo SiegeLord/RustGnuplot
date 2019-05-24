@@ -230,12 +230,22 @@ impl Figure
 		self
 	}
 
-	  /// Save to a file the the commands that if piped to a gnuplot process would display the figure
+	  /// Save the figure to a png file
 	  /// # Arguments
 	  /// * `file_path` - Path to the output file (png)
     pub fn save_to_png(&mut self, file_path: &str)
     {
 	      self.set_terminal("pngcairo", file_path);
+	      self.show().close();
+        self.set_terminal("wxt", &"");
+    }
+
+	  /// Save the figure to a svg file
+	  /// # Arguments
+	  /// * `file_path` - Path to the output file (svg)
+    pub fn save_to_svg(&mut self, file_path: &str)
+    {
+	      self.set_terminal("svg", file_path);
 	      self.show().close();
         self.set_terminal("wxt", &"");
     }
