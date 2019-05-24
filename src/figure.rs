@@ -230,30 +230,56 @@ impl Figure
 		self
 	}
 
-	  /// Save the figure to a png file
-	  /// # Arguments
-	  /// * `file_path` - Path to the output file (png)
-    pub fn save_to_png(&mut self, file_path: &str)
-    {
-	      self.set_terminal("pngcairo", file_path);
-	      self.show().close();
-        self.set_terminal("wxt", &"");
-    }
+	/// Save the figure to a png file
+	/// # Arguments
+	/// * `file_path` - Path to the output file (png)
+	pub fn save_to_png(&mut self, file_path: &str)
+	{
+		self.set_terminal("pngcairo", file_path);
+		self.show().close();
+		self.set_terminal("wxt", &"");
+	}
 
-	  /// Save the figure to a svg file
-	  /// # Arguments
-	  /// * `file_path` - Path to the output file (svg)
-    pub fn save_to_svg(&mut self, file_path: &str)
-    {
-	      self.set_terminal("svg", file_path);
-	      self.show().close();
-        self.set_terminal("wxt", &"");
-    }
+	/// Save the figure to a svg file
+	/// # Arguments
+	/// * `file_path` - Path to the output file (svg)
+	pub fn save_to_svg(&mut self, file_path: &str)
+	{
+		self.set_terminal("svg", file_path);
+		self.show().close();
+		self.set_terminal("wxt", &"");
+	}
 
-	/// Closes the gnuplot process.
-	///
-	/// This can be useful if you're your plot output is a file and you need to
-	/// that it was written.
+	/// Save the figure to a pdf file
+	/// # Arguments
+	/// * `file_path` - Path to the output file (pdf)
+	pub fn save_to_pdf(&mut self, file_path: &str)
+	{
+		self.set_terminal("pdfcairo", file_path);
+		self.show().close();
+		self.set_terminal("wxt", &"");
+	}
+
+	/// Save the figure to a eps file
+	/// # Arguments
+	/// * `file_path` - Path to the output file (eps)
+	pub fn save_to_eps(&mut self, file_path: &str)
+	{
+		self.set_terminal("epscairo", file_path);
+		self.show().close();
+		self.set_terminal("wxt", &"");
+	}
+
+	/// Save the figure to a HTML5 canvas file
+	/// # Arguments
+	/// * `file_path` - Path to the output file (canvas)
+	pub fn save_to_canvas(&mut self, file_path: &str)
+	{
+		self.set_terminal("canvas", file_path);
+		self.show().close();
+		self.set_terminal("wxt", &"");
+	}
+
 	pub fn close(&mut self) -> &mut Figure
 	{
 		if self.gnuplot.borrow().is_none()
