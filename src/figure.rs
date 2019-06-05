@@ -235,9 +235,13 @@ impl Figure
 	/// * `file_path` - Path to the output file (png)
 	pub fn save_to_png(&mut self, file_path: &str)
 	{
-		self.set_terminal("pngcairo", file_path);
+		let former_term = self.terminal.clone();
+		let former_output_file = self.output_file.clone();
+		self.terminal = "pngcairo".into();
+		self.output_file = file_path.into();
 		self.show().close();
-		self.set_terminal("wxt", &"");
+		self.terminal = former_term;
+		self.output_file = former_output_file;
 	}
 
 	/// Save the figure to a svg file
@@ -245,9 +249,13 @@ impl Figure
 	/// * `file_path` - Path to the output file (svg)
 	pub fn save_to_svg(&mut self, file_path: &str)
 	{
-		self.set_terminal("svg", file_path);
+		let former_term = self.terminal.clone();
+		let former_output_file = self.output_file.clone();
+		self.terminal = "svg".into();
+		self.output_file = file_path.into();
 		self.show().close();
-		self.set_terminal("wxt", &"");
+		self.terminal = former_term;
+		self.output_file = former_output_file;
 	}
 
 	/// Save the figure to a pdf file
@@ -255,9 +263,13 @@ impl Figure
 	/// * `file_path` - Path to the output file (pdf)
 	pub fn save_to_pdf(&mut self, file_path: &str)
 	{
-		self.set_terminal("pdfcairo", file_path);
+		let former_term = self.terminal.clone();
+		let former_output_file = self.output_file.clone();
+		self.terminal = "pdfcairo".into();
+		self.output_file = file_path.into();
 		self.show().close();
-		self.set_terminal("wxt", &"");
+		self.terminal = former_term;
+		self.output_file = former_output_file;
 	}
 
 	/// Save the figure to a eps file
@@ -265,9 +277,13 @@ impl Figure
 	/// * `file_path` - Path to the output file (eps)
 	pub fn save_to_eps(&mut self, file_path: &str)
 	{
-		self.set_terminal("epscairo", file_path);
+		let former_term = self.terminal.clone();
+		let former_output_file = self.output_file.clone();
+		self.terminal = "epscairo".into();
+		self.output_file = file_path.into();
 		self.show().close();
-		self.set_terminal("wxt", &"");
+		self.terminal = former_term;
+		self.output_file = former_output_file;
 	}
 
 	/// Save the figure to a HTML5 canvas file
@@ -275,11 +291,16 @@ impl Figure
 	/// * `file_path` - Path to the output file (canvas)
 	pub fn save_to_canvas(&mut self, file_path: &str)
 	{
-		self.set_terminal("canvas", file_path);
+		let former_term = self.terminal.clone();
+		let former_output_file = self.output_file.clone();
+		self.terminal = "canvas".into();
+		self.output_file = file_path.into();
 		self.show().close();
-		self.set_terminal("wxt", &"");
+		self.terminal = former_term;
+		self.output_file = former_output_file;
 	}
 
+	/// Closes the gnuplot process.
 	pub fn close(&mut self) -> &mut Figure
 	{
 		if self.gnuplot.borrow().is_none()
