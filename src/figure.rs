@@ -233,11 +233,13 @@ impl Figure
 	/// Save the figure to a png file
 	/// # Arguments
 	/// * `file_path` - Path to the output file (png)
-	pub fn save_to_png(&mut self, file_path: &str)
+	/// * `width_px` - output image width (number of pixel)
+	/// * `height_px` - output image height (number of pixel)
+	pub fn save_to_png(&mut self, file_path: &str, width_px: u32, height_px: u32)
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
-		self.terminal = "pngcairo".into();
+		self.terminal = format!("pngcairo size {},{}", width_px, height_px);
 		self.output_file = file_path.into();
 		self.show().close();
 		self.terminal = former_term;
