@@ -247,13 +247,17 @@ impl Figure
 	}
 
 	/// Save the figure to a svg file
+	/// Sizes are in pixels, output image have the same apparent
+	/// dimension than a PNG figure.
 	/// # Arguments
 	/// * `file_path` - Path to the output file (svg)
-	pub fn save_to_svg(&mut self, file_path: &str)
+	/// * `width` - output image width
+	/// * `height` - output image height
+	pub fn save_to_svg(&mut self, file_path: &str, width: u32, height: u32)
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
-		self.terminal = "svg".into();
+		self.terminal = format!("svg size {},{}", width, height);
 		self.output_file = file_path.into();
 		self.show().close();
 		self.terminal = former_term;
