@@ -70,6 +70,29 @@ pub enum PlotOption<T>
 	WhiskerBars(f64),
 }
 
+/// An enumeration of multiplot options, see gnuplot documentation.
+pub enum MultiplotOption<'l> {
+	/// "rowsfirst" gnuplot option.
+	RowsFirst,
+	/// "columnfirst" gnuplot option.
+	ColumnsFirst,
+	/// "downward" gnuplot option.
+	Downwards,
+	/// "upward" gnuplot option.
+	Upwards,
+	/// Multiplot title
+	Title(&'l str),
+	/// Multiplot scale, X and Y value will be at value.
+	Scale(f64),
+	/// Multiplot scale, respectively X and Y.
+	ScaleXY(f64, f64),
+	/// Multiplot offset, X and Y value will be at value.
+	Offset(f64),
+	/// Multiplot offset, respectively X and Y.
+	OffsetXY(f64, f64),
+}
+
+
 impl<'l> OneWayOwned for PlotOption<&'l str>
 {
 	type Output = PlotOption<String>;

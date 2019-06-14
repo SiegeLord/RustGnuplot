@@ -7,7 +7,7 @@ use crate::axes2d::*;
 use crate::axes3d::*;
 
 use crate::axes_common::*;
-use crate::options::GnuplotVersion;
+use crate::options::{GnuplotVersion, MultiplotOption};
 use crate::writer::Writer;
 use std::cell::RefCell;
 use std::fs::File;
@@ -57,6 +57,7 @@ pub struct Figure
 	output_file: String,
 	post_commands: String,
 	pre_commands: String,
+	multiplot_layout: String,
 	// RefCell so that we can echo to it
 	gnuplot: RefCell<Option<Child>>,
 	version: Option<GnuplotVersion>,
@@ -82,6 +83,7 @@ impl Figure
 			gnuplot: RefCell::new(None),
 			post_commands: "".into(),
 			pre_commands: "".into(),
+			multiplot_layout: "".into(),
 			version: None,
 		}
 	}
@@ -118,6 +120,46 @@ impl Figure
 	pub fn set_pre_commands<'l>(&'l mut self, pre_commands: &str) -> &'l mut Figure
 	{
 		self.pre_commands = pre_commands.into();
+		self
+	}
+
+	/// Sets default multiplot layout and options to send to gnuplot if multiploting.
+	/// 
+	/// First two parameters are respectively the number of rows and columns of the multiplot layout.
+	/// Last parameter is a vector of optionals features. See gnuplot documentation.
+	/// 
+	/// Last options will overide previous ones.
+	pub fn set_multiplot_layout<'l>(&'l mut self, rows: usize, cols: usize, opts: Vec<MultiplotOption>) -> &'l mut Self {
+		let layout = format!("layout {}, {}", rows, cols);
+		let mut final_shape = "";
+		let mut final_direction = "";
+		let mut final_title = "".into();
+		let mut final_scale = "".into();
+		let mut final_offset = "".into();
+
+		for opt in opts {
+			match opt {
+				MultiplotOption::RowsFirst				=> final_shape		= " rowsfirst",
+				MultiplotOption::ColumnsFirst			=> final_shape		= " columnsfirst",
+				MultiplotOption::Downwards				=> final_direction	= " downwards",
+				MultiplotOption::Upwards				=> final_direction	= " upwards",
+				MultiplotOption::Title(title)			=> final_title		= format!(" title \"{}\"", title),
+				MultiplotOption::Scale(x)				=> final_scale		= format!(" scale {}", x),
+				MultiplotOption::ScaleXY(x, y)			=> final_scale		= format!(" scale {}, {}", x, y),
+				MultiplotOption::Offset(xy)				=> final_offset		= format!(" offset {}", xy),
+				MultiplotOption::OffsetXY(x, y)			=> final_offset		= format!(" offset {}, {}", x, y),
+			}
+		}
+
+		self.multiplot_layout = format!("{}{}{}{}{}{}", layout, final_shape, final_direction, final_title, final_scale, final_offset);
+
+		self
+	}
+
+	/// Unsets default multiplot layout and options.
+	pub fn unset_multiplot_layout<'l>(&'l mut self) -> &'l mut Self {
+		self.multiplot_layout = "".into();
+
 		self
 	}
 
@@ -291,7 +333,7 @@ impl Figure
 		writeln!(w, "set termoption enhanced");
 		if self.axes.len() > 1
 		{
-			writeln!(w, "set multiplot");
+			writeln!(w, "set multiplot {}", self.multiplot_layout);
 		}
 		// TODO: Maybe add an option for this (who seriously prefers them in the back though?)
 		writeln!(w, "set tics front");
