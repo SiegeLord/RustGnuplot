@@ -230,11 +230,12 @@ impl Figure
 		self
 	}
 
-	/// Save the figure to a png file
+	/// Save the figure to a png file.
+	///
 	/// # Arguments
 	/// * `file_path` - Path to the output file (png)
-	/// * `width_px` - output image width (number of pixel)
-	/// * `height_px` - output image height (number of pixel)
+	/// * `width_px` - output image width (in pixels)
+	/// * `height_px` - output image height (in pixels)
 	pub fn save_to_png(&mut self, file_path: &str, width_px: u32, height_px: u32)
 	{
 		let former_term = self.terminal.clone();
@@ -246,46 +247,51 @@ impl Figure
 		self.output_file = former_output_file;
 	}
 
-	/// Save the figure to a svg file
-	/// Sizes are in pixels, output image have the same apparent
-	/// dimension than a PNG figure.
+	/// Save the figure to a svg file.
+	///
 	/// # Arguments
 	/// * `file_path` - Path to the output file (svg)
-	/// * `width` - output image width
-	/// * `height` - output image height
-	pub fn save_to_svg(&mut self, file_path: &str, width: u32, height: u32)
+	/// * `width_px` - output image width (in pixels)
+	/// * `height_px` - output image height (in pixels)
+	pub fn save_to_svg(&mut self, file_path: &str, width_px: u32, height_px: u32)
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
-		self.terminal = format!("svg size {},{}", width, height);
+		self.terminal = format!("svg size {},{}", width_px, height_px);
 		self.output_file = file_path.into();
 		self.show().close();
 		self.terminal = former_term;
 		self.output_file = former_output_file;
 	}
 
-	/// Save the figure to a pdf file
+	/// Save the figure to a pdf file.
+	///
 	/// # Arguments
 	/// * `file_path` - Path to the output file (pdf)
-	pub fn save_to_pdf(&mut self, file_path: &str)
+	/// * `width_in` - output image width (in inches)
+	/// * `height_in` - output image height (in inches)
+	pub fn save_to_pdf(&mut self, file_path: &str, width_in: u32, height_in: u32)
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
-		self.terminal = "pdfcairo".into();
+		self.terminal = format!("pdfcairo size {},{}", width_in, height_in);
 		self.output_file = file_path.into();
 		self.show().close();
 		self.terminal = former_term;
 		self.output_file = former_output_file;
 	}
 
-	/// Save the figure to a eps file
+	/// Save the figure to an eps file
+	///
 	/// # Arguments
 	/// * `file_path` - Path to the output file (eps)
-	pub fn save_to_eps(&mut self, file_path: &str)
+	/// * `width_in` - output image width (in inches)
+	/// * `height_in` - output image height (in inches)
+	pub fn save_to_eps(&mut self, file_path: &str, width_in: u32, height_in: u32)
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
-		self.terminal = "epscairo".into();
+		self.terminal = format!("epscairo size {},{}", width_in, height_in);
 		self.output_file = file_path.into();
 		self.show().close();
 		self.terminal = former_term;
@@ -293,13 +299,16 @@ impl Figure
 	}
 
 	/// Save the figure to a HTML5 canvas file
+	///
 	/// # Arguments
 	/// * `file_path` - Path to the output file (canvas)
-	pub fn save_to_canvas(&mut self, file_path: &str)
+	/// * `width_px` - output image width (in pixels)
+	/// * `height_px` - output image height (in pixels)
+	pub fn save_to_canvas(&mut self, file_path: &str, width_px: u32, height_px: u32)
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
-		self.terminal = "canvas".into();
+		self.terminal = format!("canvas size {},{}", width_px, height_px);
 		self.output_file = file_path.into();
 		self.show().close();
 		self.terminal = former_term;
