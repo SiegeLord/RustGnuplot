@@ -307,6 +307,9 @@ impl Figure
 	}
 
 	/// Closes the gnuplot process.
+	///
+	/// This can be useful if you're your plot output is a file and you need to
+	/// that it was written.
 	pub fn close(&mut self) -> &mut Figure
 	{
 		if self.gnuplot.borrow().is_none()
