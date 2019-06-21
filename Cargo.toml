@@ -100,5 +100,10 @@ path = "examples/dash_type.rs"
 name = "patterns"
 path = "examples/patterns.rs"
 
+[[example]]
+
+name = "inverse_api"
+path = "examples/inverse_api.rs"
+
 [dependencies]
 byteorder = "1.3.1"
