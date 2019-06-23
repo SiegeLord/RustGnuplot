@@ -428,6 +428,18 @@
 <span id="428">428</span>
 <span id="429">429</span>
 <span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -661,11 +673,12 @@
 		<span class="self">self</span>
 	}
 
-	<span class="doccomment">/// Save the figure to a png file</span>
+	<span class="doccomment">/// Save the figure to a png file.</span>
+	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `file_path` - Path to the output file (png)</span>
-	<span class="doccomment">/// * `width_px` - output image width (number of pixel)</span>
-	<span class="doccomment">/// * `height_px` - output image height (number of pixel)</span>
+	<span class="doccomment">/// * `width_px` - output image width (in pixels)</span>
+	<span class="doccomment">/// * `height_px` - output image height (in pixels)</span>
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_png</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">file_path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">width_px</span>: <span class="ident">u32</span>, <span class="ident">height_px</span>: <span class="ident">u32</span>)
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
@@ -677,46 +690,51 @@
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="ident">former_output_file</span>;
 	}
 
-	<span class="doccomment">/// Save the figure to a svg file</span>
-	<span class="doccomment">/// Sizes are in pixels, output image have the same apparent</span>
-	<span class="doccomment">/// dimension than a PNG figure.</span>
+	<span class="doccomment">/// Save the figure to a svg file.</span>
+	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `file_path` - Path to the output file (svg)</span>
-	<span class="doccomment">/// * `width` - output image width</span>
-	<span class="doccomment">/// * `height` - output image height</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_svg</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">file_path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>)
+	<span class="doccomment">/// * `width_px` - output image width (in pixels)</span>
+	<span class="doccomment">/// * `height_px` - output image height (in pixels)</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_svg</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">file_path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">width_px</span>: <span class="ident">u32</span>, <span class="ident">height_px</span>: <span class="ident">u32</span>)
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
-		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;svg size {},{}&quot;</span>, <span class="ident">width</span>, <span class="ident">height</span>);
+		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;svg size {},{}&quot;</span>, <span class="ident">width_px</span>, <span class="ident">height_px</span>);
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="ident">file_path</span>.<span class="ident">into</span>();
 		<span class="self">self</span>.<span class="ident">show</span>().<span class="ident">close</span>();
 		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="ident">former_term</span>;
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="ident">former_output_file</span>;
 	}
 
-	<span class="doccomment">/// Save the figure to a pdf file</span>
+	<span class="doccomment">/// Save the figure to a pdf file.</span>
+	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `file_path` - Path to the output file (pdf)</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_pdf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">file_path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>)
+	<span class="doccomment">/// * `width_in` - output image width (in inches)</span>
+	<span class="doccomment">/// * `height_in` - output image height (in inches)</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_pdf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">file_path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">width_in</span>: <span class="ident">u32</span>, <span class="ident">height_in</span>: <span class="ident">u32</span>)
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
-		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="string">&quot;pdfcairo&quot;</span>.<span class="ident">into</span>();
+		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;pdfcairo size {},{}&quot;</span>, <span class="ident">width_in</span>, <span class="ident">height_in</span>);
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="ident">file_path</span>.<span class="ident">into</span>();
 		<span class="self">self</span>.<span class="ident">show</span>().<span class="ident">close</span>();
 		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="ident">former_term</span>;
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="ident">former_output_file</span>;
 	}
 
-	<span class="doccomment">/// Save the figure to a eps file</span>
+	<span class="doccomment">/// Save the figure to an eps file</span>
+	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `file_path` - Path to the output file (eps)</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_eps</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">file_path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>)
+	<span class="doccomment">/// * `width_in` - output image width (in inches)</span>
+	<span class="doccomment">/// * `height_in` - output image height (in inches)</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_eps</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">file_path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">width_in</span>: <span class="ident">u32</span>, <span class="ident">height_in</span>: <span class="ident">u32</span>)
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
-		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="string">&quot;epscairo&quot;</span>.<span class="ident">into</span>();
+		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;epscairo size {},{}&quot;</span>, <span class="ident">width_in</span>, <span class="ident">height_in</span>);
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="ident">file_path</span>.<span class="ident">into</span>();
 		<span class="self">self</span>.<span class="ident">show</span>().<span class="ident">close</span>();
 		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="ident">former_term</span>;
@@ -724,13 +742,16 @@
 	}
 
 	<span class="doccomment">/// Save the figure to a HTML5 canvas file</span>
+	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `file_path` - Path to the output file (canvas)</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_canvas</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">file_path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>)
+	<span class="doccomment">/// * `width_px` - output image width (in pixels)</span>
+	<span class="doccomment">/// * `height_px` - output image height (in pixels)</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_canvas</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">file_path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">width_px</span>: <span class="ident">u32</span>, <span class="ident">height_px</span>: <span class="ident">u32</span>)
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
-		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="string">&quot;canvas&quot;</span>.<span class="ident">into</span>();
+		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;canvas size {},{}&quot;</span>, <span class="ident">width_px</span>, <span class="ident">height_px</span>);
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="ident">file_path</span>.<span class="ident">into</span>();
 		<span class="self">self</span>.<span class="ident">show</span>().<span class="ident">close</span>();
 		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="ident">former_term</span>;
@@ -738,6 +759,9 @@
 	}
 
 	<span class="doccomment">/// Closes the gnuplot process.</span>
+	<span class="doccomment">///</span>
+	<span class="doccomment">/// This can be useful if you&#39;re your plot output is a file and you need to</span>
+	<span class="doccomment">/// that it was written.</span>
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">close</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Figure</span>
 	{
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">gnuplot</span>.<span class="ident">borrow</span>().<span class="ident">is_none</span>()
