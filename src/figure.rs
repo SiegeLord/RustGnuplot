@@ -54,6 +54,7 @@ pub struct Figure
 {
 	axes: Vec<AxesVariant>,
 	terminal: String,
+	enhanced_text: bool,
 	output_file: String,
 	post_commands: String,
 	pre_commands: String,
@@ -78,6 +79,7 @@ impl Figure
 		Figure {
 			axes: Vec::new(),
 			terminal: "".into(),
+			enhanced_text: true,
 			output_file: "".into(),
 			gnuplot: RefCell::new(None),
 			post_commands: "".into(),
@@ -104,6 +106,12 @@ impl Figure
 	{
 		self.terminal = terminal.into();
 		self.output_file = output_file.into();
+		self
+	}
+
+	/// Set or unset text enhancements
+	pub fn set_enhanced_text<'l>(&'l mut self, enhanced: bool) -> &'l mut Figure {
+		self.enhanced_text = enhanced;
 		self
 	}
 
@@ -373,7 +381,7 @@ impl Figure
 		}
 
 		writeln!(w, "set termoption dashed");
-		writeln!(w, "set termoption enhanced");
+		writeln!(w, "set termoption {}", if self.enhanced_text { "enhanced" } else { "noenhanced" });
 		if self.axes.len() > 1
 		{
 			writeln!(w, "set multiplot");
