@@ -440,6 +440,14 @@
 <span id="440">440</span>
 <span id="441">441</span>
 <span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -497,6 +505,7 @@
 {
 	<span class="ident">axes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">AxesVariant</span><span class="op">&gt;</span>,
 	<span class="ident">terminal</span>: <span class="ident">String</span>,
+	<span class="ident">enhanced_text</span>: <span class="ident">bool</span>,
 	<span class="ident">output_file</span>: <span class="ident">String</span>,
 	<span class="ident">post_commands</span>: <span class="ident">String</span>,
 	<span class="ident">pre_commands</span>: <span class="ident">String</span>,
@@ -521,6 +530,7 @@
 		<span class="ident">Figure</span> {
 			<span class="ident">axes</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
 			<span class="ident">terminal</span>: <span class="string">&quot;&quot;</span>.<span class="ident">into</span>(),
+			<span class="ident">enhanced_text</span>: <span class="bool-val">true</span>,
 			<span class="ident">output_file</span>: <span class="string">&quot;&quot;</span>.<span class="ident">into</span>(),
 			<span class="ident">gnuplot</span>: <span class="ident">RefCell</span>::<span class="ident">new</span>(<span class="prelude-val">None</span>),
 			<span class="ident">post_commands</span>: <span class="string">&quot;&quot;</span>.<span class="ident">into</span>(),
@@ -547,6 +557,12 @@
 	{
 		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="ident">terminal</span>.<span class="ident">into</span>();
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="ident">output_file</span>.<span class="ident">into</span>();
+		<span class="self">self</span>
+	}
+
+	<span class="doccomment">/// Set or unset text enhancements</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_enhanced_text</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">enhanced</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="ident">Figure</span> {
+		<span class="self">self</span>.<span class="ident">enhanced_text</span> <span class="op">=</span> <span class="ident">enhanced</span>;
 		<span class="self">self</span>
 	}
 
@@ -816,7 +832,7 @@
 		}
 
 		<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set termoption dashed&quot;</span>);
-		<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set termoption enhanced&quot;</span>);
+		<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set termoption {}&quot;</span>, <span class="kw">if</span> <span class="self">self</span>.<span class="ident">enhanced_text</span> { <span class="string">&quot;enhanced&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;noenhanced&quot;</span> });
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">1</span>
 		{
 			<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set multiplot&quot;</span>);
