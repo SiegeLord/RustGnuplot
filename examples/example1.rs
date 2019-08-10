@@ -76,7 +76,7 @@ fn example(c: Common)
 			x,
 			y2,
 			repeat(1.0f32),
-			&[Caption("(x - 4)^2 + 5"), LineWidth(1.5), Color("red")],
+			&[Caption("-(x - 4)^2 + 5"), LineWidth(1.5), Color("red")],
 		)
 		.lines_points(
 			x,
@@ -297,7 +297,7 @@ fn example(c: Common)
 		.points(
 			x,
 			y2,
-			&[Caption("(x - 4)^2 + 5"), PointSymbol('S'), Color("#ffaa77")],
+			&[Caption("-(x - 4)^2 + 5"), PointSymbol('S'), Color("#ffaa77")],
 		)
 		.lines_points(
 			x,
