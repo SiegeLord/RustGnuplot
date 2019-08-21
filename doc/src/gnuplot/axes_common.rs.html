@@ -1832,14 +1832,14 @@
 	<span class="ident">plot_type</span>: <span class="ident">PlotType</span>,
 	<span class="ident">source_type</span>: <span class="ident">DataSourceType</span>,
 	<span class="ident">is_3d</span>: <span class="ident">bool</span>,
-	<span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+	<span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">PlotElement</span>
 {
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_plot2</span><span class="op">&lt;</span><span class="ident">T1</span>, <span class="ident">X1</span>, <span class="ident">T2</span>, <span class="ident">X2</span><span class="op">&gt;</span>(
-		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
-	) <span class="op">-&gt;</span> <span class="ident">PlotElement</span>
+		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+	) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PlotElement</span>
 	<span class="kw">where</span>
 		<span class="ident">T1</span>: <span class="ident">DataType</span>,
 		<span class="ident">X1</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T1</span><span class="op">&gt;</span>,
@@ -1853,7 +1853,7 @@
 		{
 			<span class="ident">data</span>.<span class="ident">push</span>(<span class="ident">x1</span>.<span class="ident">get</span>());
 			<span class="ident">data</span>.<span class="ident">push</span>(<span class="ident">x2</span>.<span class="ident">get</span>());
-			<span class="ident">num_rows</span> <span class="op">+=</span> <span class="number">1</span>;
+			<span class="ident">num_rows</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
 		}
 
 		<span class="ident">PlotElement</span> {
@@ -1868,8 +1868,8 @@
 	}
 
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_plot3</span><span class="op">&lt;</span><span class="ident">T1</span>, <span class="ident">X1</span>, <span class="ident">T2</span>, <span class="ident">X2</span>, <span class="ident">T3</span>, <span class="ident">X3</span><span class="op">&gt;</span>(
-		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">x3</span>: <span class="ident">X3</span>, <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
-	) <span class="op">-&gt;</span> <span class="ident">PlotElement</span>
+		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">x3</span>: <span class="ident">X3</span>, <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+	) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PlotElement</span>
 	<span class="kw">where</span>
 		<span class="ident">T1</span>: <span class="ident">DataType</span>,
 		<span class="ident">X1</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T1</span><span class="op">&gt;</span>,
@@ -1886,7 +1886,7 @@
 			<span class="ident">data</span>.<span class="ident">push</span>(<span class="ident">x1</span>.<span class="ident">get</span>());
 			<span class="ident">data</span>.<span class="ident">push</span>(<span class="ident">x2</span>.<span class="ident">get</span>());
 			<span class="ident">data</span>.<span class="ident">push</span>(<span class="ident">x3</span>.<span class="ident">get</span>());
-			<span class="ident">num_rows</span> <span class="op">+=</span> <span class="number">1</span>;
+			<span class="ident">num_rows</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
 		}
 
 		<span class="ident">PlotElement</span> {
@@ -1902,8 +1902,8 @@
 
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_plot5</span><span class="op">&lt;</span><span class="ident">T1</span>, <span class="ident">X1</span>, <span class="ident">T2</span>, <span class="ident">X2</span>, <span class="ident">T3</span>, <span class="ident">X3</span>, <span class="ident">T4</span>, <span class="ident">X4</span>, <span class="ident">T5</span>, <span class="ident">X5</span><span class="op">&gt;</span>(
 		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">x3</span>: <span class="ident">X3</span>, <span class="ident">x4</span>: <span class="ident">X4</span>, <span class="ident">x5</span>: <span class="ident">X5</span>,
-		<span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
-	) <span class="op">-&gt;</span> <span class="ident">PlotElement</span>
+		<span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+	) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PlotElement</span>
 	<span class="kw">where</span>
 		<span class="ident">T1</span>: <span class="ident">DataType</span>,
 		<span class="ident">X1</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T1</span><span class="op">&gt;</span>,
@@ -1931,7 +1931,7 @@
 			<span class="ident">data</span>.<span class="ident">push</span>(<span class="ident">x3</span>.<span class="ident">get</span>());
 			<span class="ident">data</span>.<span class="ident">push</span>(<span class="ident">x4</span>.<span class="ident">get</span>());
 			<span class="ident">data</span>.<span class="ident">push</span>(<span class="ident">x5</span>.<span class="ident">get</span>());
-			<span class="ident">num_rows</span> <span class="op">+=</span> <span class="number">1</span>;
+			<span class="ident">num_rows</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
 		}
 
 		<span class="ident">PlotElement</span> {
@@ -1947,8 +1947,8 @@
 
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_plot6</span><span class="op">&lt;</span><span class="ident">T1</span>, <span class="ident">X1</span>, <span class="ident">T2</span>, <span class="ident">X2</span>, <span class="ident">T3</span>, <span class="ident">X3</span>, <span class="ident">T4</span>, <span class="ident">X4</span>, <span class="ident">T5</span>, <span class="ident">X5</span>, <span class="ident">T6</span>, <span class="ident">X6</span><span class="op">&gt;</span>(
 		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">x1</span>: <span class="ident">X1</span>, <span class="ident">x2</span>: <span class="ident">X2</span>, <span class="ident">x3</span>: <span class="ident">X3</span>, <span class="ident">x4</span>: <span class="ident">X4</span>, <span class="ident">x5</span>: <span class="ident">X5</span>, <span class="ident">x6</span>: <span class="ident">X6</span>,
-		<span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
-	) <span class="op">-&gt;</span> <span class="ident">PlotElement</span>
+		<span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+	) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PlotElement</span>
 	<span class="kw">where</span>
 		<span class="ident">T1</span>: <span class="ident">DataType</span>,
 		<span class="ident">X1</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T1</span><span class="op">&gt;</span>,
@@ -1980,7 +1980,7 @@
 			<span class="ident">data</span>.<span class="ident">push</span>(<span class="ident">x4</span>.<span class="ident">get</span>());
 			<span class="ident">data</span>.<span class="ident">push</span>(<span class="ident">x5</span>.<span class="ident">get</span>());
 			<span class="ident">data</span>.<span class="ident">push</span>(<span class="ident">x6</span>.<span class="ident">get</span>());
-			<span class="ident">num_rows</span> <span class="op">+=</span> <span class="number">1</span>;
+			<span class="ident">num_rows</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
 		}
 
 		<span class="ident">PlotElement</span> {
@@ -1994,10 +1994,10 @@
 		}
 	}
 
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_plot_matrix</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">DataType</span>, <span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;&gt;</span>(
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_plot_matrix</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">DataType</span>, <span class="ident">X</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>(
 		<span class="ident">plot_type</span>: <span class="ident">PlotType</span>, <span class="ident">is_3d</span>: <span class="ident">bool</span>, <span class="ident">mat</span>: <span class="ident">X</span>, <span class="ident">num_rows</span>: <span class="ident">usize</span>, <span class="ident">num_cols</span>: <span class="ident">usize</span>,
-		<span class="ident">dimensions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>)<span class="op">&gt;</span>, <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
-	) <span class="op">-&gt;</span> <span class="ident">PlotElement</span>
+		<span class="ident">dimensions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>)<span class="op">&gt;</span>, <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+	) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PlotElement</span>
 	{
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="number">0</span>;
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
@@ -2005,7 +2005,7 @@
 		<span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="ident">mat</span>
 		{
 			<span class="ident">data</span>.<span class="ident">push</span>(<span class="ident">x</span>.<span class="ident">get</span>());
-			<span class="ident">count</span> <span class="op">+=</span> <span class="number">1</span>;
+			<span class="ident">count</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
 		}
 
 		<span class="kw">if</span> <span class="ident">count</span> <span class="op">&lt;</span> <span class="ident">num_rows</span> <span class="op">*</span> <span class="ident">num_cols</span>
@@ -2019,8 +2019,8 @@
 
 		<span class="kw">let</span> <span class="ident">source_type</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">dimensions</span>
 		{
-			<span class="prelude-val">Some</span>((<span class="ident">x1</span>, <span class="ident">y1</span>, <span class="ident">x2</span>, <span class="ident">y2</span>)) <span class="op">=&gt;</span> <span class="ident">SizedArray</span>(<span class="ident">x1</span>, <span class="ident">y1</span>, <span class="ident">x2</span>, <span class="ident">y2</span>),
-			<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">Array</span>,
+			<span class="prelude-val">Some</span>((<span class="ident">x1</span>, <span class="ident">y1</span>, <span class="ident">x2</span>, <span class="ident">y2</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SizedArray</span>(<span class="ident">x1</span>, <span class="ident">y1</span>, <span class="ident">x2</span>, <span class="ident">y2</span>),
+			<span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Array</span>,
 		};
 
 		<span class="ident">PlotElement</span> {
@@ -2039,7 +2039,7 @@
 		<span class="kw">let</span> <span class="ident">options</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">options</span>;
 		<span class="kw">match</span> <span class="self">self</span>.<span class="ident">source_type</span>
 		{
-			<span class="ident">Record</span> <span class="op">=&gt;</span>
+			<span class="ident">Record</span> <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="macro">write</span><span class="macro">!</span>(
 					<span class="ident">writer</span>,
@@ -2055,10 +2055,10 @@
 					{
 						<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;:&quot;</span>);
 					}
-					<span class="ident">col_idx</span> <span class="op">+=</span> <span class="number">1</span>;
+					<span class="ident">col_idx</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
 				}
 			}
-			<span class="kw">_</span> <span class="op">=&gt;</span>
+			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="macro">write</span><span class="macro">!</span>(
 					<span class="ident">writer</span>,
@@ -2068,7 +2068,7 @@
 
 				<span class="kw">match</span> <span class="self">self</span>.<span class="ident">source_type</span>
 				{
-					<span class="ident">SizedArray</span>(<span class="ident">x1</span>, <span class="ident">y1</span>, <span class="ident">x2</span>, <span class="ident">y2</span>) <span class="op">=&gt;</span>
+					<span class="ident">SizedArray</span>(<span class="ident">x1</span>, <span class="ident">y1</span>, <span class="ident">x2</span>, <span class="ident">y2</span>) <span class="op">=</span><span class="op">&gt;</span>
 					{
 						<span class="kw">let</span> (<span class="ident">x1</span>, <span class="ident">x2</span>) <span class="op">=</span> <span class="kw">if</span> <span class="ident">x1</span> <span class="op">&gt;</span> <span class="ident">x2</span> { (<span class="ident">x2</span>, <span class="ident">x1</span>) } <span class="kw">else</span> { (<span class="ident">x1</span>, <span class="ident">x2</span>) };
 
@@ -2104,7 +2104,7 @@
 							<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;dy=1 &quot;</span>);
 						}
 					}
-					<span class="kw">_</span> <span class="op">=&gt;</span> (),
+					<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> (),
 				}
 			}
 		}
@@ -2112,18 +2112,18 @@
 		<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot; with &quot;</span>);
 		<span class="kw">let</span> <span class="ident">type_str</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">plot_type</span>
 		{
-			<span class="ident">Lines</span> <span class="op">=&gt;</span> <span class="string">&quot;lines&quot;</span>,
-			<span class="ident">Points</span> <span class="op">=&gt;</span> <span class="string">&quot;points&quot;</span>,
-			<span class="ident">LinesPoints</span> <span class="op">=&gt;</span> <span class="string">&quot;linespoints&quot;</span>,
-			<span class="ident">XErrorLines</span> <span class="op">=&gt;</span> <span class="string">&quot;xerrorlines&quot;</span>,
-			<span class="ident">YErrorLines</span> <span class="op">=&gt;</span> <span class="string">&quot;yerrorlines&quot;</span>,
-			<span class="ident">XErrorBars</span> <span class="op">=&gt;</span> <span class="string">&quot;xerrorbars&quot;</span>,
-			<span class="ident">YErrorBars</span> <span class="op">=&gt;</span> <span class="string">&quot;yerrorbars&quot;</span>,
-			<span class="ident">FillBetween</span> <span class="op">=&gt;</span> <span class="string">&quot;filledcurves&quot;</span>,
-			<span class="ident">Boxes</span> <span class="op">=&gt;</span> <span class="string">&quot;boxes&quot;</span>,
-			<span class="ident">BoxAndWhisker</span> <span class="op">=&gt;</span> <span class="string">&quot;candlestick&quot;</span>,
-			<span class="ident">Pm3D</span> <span class="op">=&gt;</span> <span class="string">&quot;pm3d&quot;</span>,
-			<span class="ident">Image</span> <span class="op">=&gt;</span> <span class="string">&quot;image&quot;</span>,
+			<span class="ident">Lines</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;lines&quot;</span>,
+			<span class="ident">Points</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;points&quot;</span>,
+			<span class="ident">LinesPoints</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;linespoints&quot;</span>,
+			<span class="ident">XErrorLines</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;xerrorlines&quot;</span>,
+			<span class="ident">YErrorLines</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;yerrorlines&quot;</span>,
+			<span class="ident">XErrorBars</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;xerrorbars&quot;</span>,
+			<span class="ident">YErrorBars</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;yerrorbars&quot;</span>,
+			<span class="ident">FillBetween</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;filledcurves&quot;</span>,
+			<span class="ident">Boxes</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;boxes&quot;</span>,
+			<span class="ident">BoxAndWhisker</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;candlestick&quot;</span>,
+			<span class="ident">Pm3D</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;pm3d&quot;</span>,
+			<span class="ident">Image</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;image&quot;</span>,
 		};
 		<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="ident">type_str</span>);
 
@@ -2131,18 +2131,18 @@
 		{
 			<span class="kw">match</span> <span class="self">self</span>.<span class="ident">plot_type</span>
 			{
-				<span class="ident">FillBetween</span> <span class="op">=&gt;</span>
+				<span class="ident">FillBetween</span> <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">found</span> <span class="op">=</span> <span class="bool-val">false</span>;
 					<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
-						<span class="ident">FillRegion</span>(<span class="ident">d</span>) <span class="op">=&gt;</span>
+						<span class="ident">FillRegion</span>(<span class="ident">d</span>) <span class="op">=</span><span class="op">&gt;</span>
 						{
 							<span class="ident">found</span> <span class="op">=</span> <span class="bool-val">true</span>;
 							<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">d</span>
 							{
-								<span class="ident">Above</span> <span class="op">=&gt;</span> <span class="string">&quot; above&quot;</span>,
-								<span class="ident">Below</span> <span class="op">=&gt;</span> <span class="string">&quot; below&quot;</span>,
-								<span class="ident">Between</span> <span class="op">=&gt;</span> <span class="string">&quot; closed&quot;</span>,
+								<span class="ident">Above</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; above&quot;</span>,
+								<span class="ident">Below</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; below&quot;</span>,
+								<span class="ident">Between</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; closed&quot;</span>,
 							});
 						}
 					}
@@ -2151,24 +2151,24 @@
 						<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot; closed&quot;</span>);
 					}
 				}
-				<span class="kw">_</span> <span class="op">=&gt;</span> (),
+				<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> (),
 			}
 
 			<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot; fill &quot;</span>);
 
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">is_pattern</span> <span class="op">=</span> <span class="bool-val">false</span>;
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
-				<span class="ident">FillPattern</span>(<span class="ident">pattern_opt</span>) <span class="op">=&gt;</span>
+				<span class="ident">FillPattern</span>(<span class="ident">pattern_opt</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="ident">is_pattern</span> <span class="op">=</span> <span class="bool-val">true</span>;
 					<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;pattern &quot;</span>);
 					<span class="kw">match</span> <span class="ident">pattern_opt</span>
 					{
-						<span class="ident">Fix</span>(<span class="ident">val</span>) <span class="op">=&gt;</span>
+						<span class="ident">Fix</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span>
 						{
 							<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">val</span> <span class="kw">as</span> <span class="ident">i32</span>);
 						}
-						<span class="kw">_</span> <span class="op">=&gt;</span> (),
+						<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> (),
 					}
 				}
 			}
@@ -2177,7 +2177,7 @@
 			{
 				<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;transparent solid &quot;</span>);
 				<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
-					<span class="ident">FillAlpha</span>(<span class="ident">a</span>) <span class="op">=&gt;</span>
+					<span class="ident">FillAlpha</span>(<span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span>
 					{
 						<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">a</span>);
 					}
@@ -2188,7 +2188,7 @@
 			{
 				<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot; border&quot;</span>);
 				<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
-					<span class="ident">BorderColor</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=&gt;</span>
+					<span class="ident">BorderColor</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 					{
 						<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">r#&quot; rgb &quot;{}&quot;&quot;#</span>, <span class="ident">s</span>);
 					}
@@ -2208,14 +2208,14 @@
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">plot_type</span>.<span class="ident">is_points</span>()
 		{
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
-				<span class="ident">PointSymbol</span>(<span class="ident">s</span>) <span class="op">=&gt;</span>
+				<span class="ident">PointSymbol</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot; pt {}&quot;</span>, <span class="ident">char_to_symbol</span>(<span class="ident">s</span>));
 				}
 			}
 
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
-				<span class="ident">PointSize</span>(<span class="ident">z</span>) <span class="op">=&gt;</span>
+				<span class="ident">PointSize</span>(<span class="ident">z</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot; ps {}&quot;</span>, <span class="ident">z</span>);
 				}
@@ -2226,7 +2226,7 @@
 
 		<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot; t \&quot;&quot;</span>);
 		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
-			<span class="ident">Caption</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=&gt;</span>
+			<span class="ident">Caption</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>);
 			}
@@ -2234,7 +2234,7 @@
 		<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;\&quot;&quot;</span>);
 
 		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">options</span>,
-			<span class="ident">WhiskerBars</span>(<span class="ident">f</span>) <span class="op">=&gt;</span>
+			<span class="ident">WhiskerBars</span>(<span class="ident">f</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot; whiskerbars {}&quot;</span>, <span class="ident">f</span>);
 			}
@@ -2264,12 +2264,12 @@
 
 <span class="kw">impl</span> <span class="ident">LabelType</span>
 {
-	<span class="kw">fn</span> <span class="ident">is_label</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>
+	<span class="kw">fn</span> <span class="ident">is_label</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>
 	{
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
 		{
-			<span class="ident">Label</span>(..) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-			<span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+			<span class="ident">Label</span>(..) <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
+			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
 		}
 	}
 }
@@ -2281,36 +2281,36 @@
 	<span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">writer</span>;
 	<span class="kw">match</span> <span class="ident">label_type</span>
 	{
-		<span class="ident">Label</span>(<span class="ident">x</span>, <span class="ident">y</span>) <span class="op">=&gt;</span>
+		<span class="ident">Label</span>(<span class="ident">x</span>, <span class="ident">y</span>) <span class="op">=</span><span class="op">&gt;</span>
 		{
 			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; at {},{} front&quot;</span>, <span class="ident">x</span>, <span class="ident">y</span>);
 		}
-		<span class="kw">_</span> <span class="op">=&gt;</span> (),
+		<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> (),
 	}
 
 	<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
-		<span class="ident">TextOffset</span>(<span class="ident">x</span>, <span class="ident">y</span>) <span class="op">=&gt;</span>
+		<span class="ident">TextOffset</span>(<span class="ident">x</span>, <span class="ident">y</span>) <span class="op">=</span><span class="op">&gt;</span>
 		{
 			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; offset character {:.12e},{:.12e}&quot;</span>, <span class="ident">x</span>, <span class="ident">y</span>);
 		}
 	}
 
 	<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
-		<span class="ident">TextColor</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=&gt;</span>
+		<span class="ident">TextColor</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 		{
 			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">r#&quot; tc rgb &quot;{}&quot;&quot;#</span>, <span class="ident">s</span>);
 		}
 	}
 
 	<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
-		<span class="ident">Font</span>(<span class="kw-2">ref</span> <span class="ident">f</span>, <span class="ident">s</span>) <span class="op">=&gt;</span>
+		<span class="ident">Font</span>(<span class="kw-2">ref</span> <span class="ident">f</span>, <span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 		{
 			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">r#&quot; font &quot;{},{}&quot;&quot;#</span>, <span class="ident">f</span>, <span class="ident">s</span>);
 		}
 	}
 
 	<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
-		<span class="ident">Rotate</span>(<span class="ident">a</span>) <span class="op">=&gt;</span>
+		<span class="ident">Rotate</span>(<span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span>
 		{
 			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; rotate by {:.12e}&quot;</span>, <span class="ident">a</span>);
 		}
@@ -2320,7 +2320,7 @@
 	{
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">have_point</span> <span class="op">=</span> <span class="bool-val">false</span>;
 		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
-			<span class="ident">MarkerSymbol</span>(<span class="ident">s</span>) <span class="op">=&gt;</span>
+			<span class="ident">MarkerSymbol</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; point pt {}&quot;</span>, <span class="ident">char_to_symbol</span>(<span class="ident">s</span>));
 				<span class="ident">have_point</span> <span class="op">=</span> <span class="bool-val">true</span>;
@@ -2330,14 +2330,14 @@
 		<span class="kw">if</span> <span class="ident">have_point</span>
 		{
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
-				<span class="ident">MarkerColor</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=&gt;</span>
+				<span class="ident">MarkerColor</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">r#&quot; lc rgb &quot;{}&quot;&quot;#</span>, <span class="ident">s</span>);
 				}
 			}
 
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
-				<span class="ident">MarkerSize</span>(<span class="ident">z</span>) <span class="op">=&gt;</span>
+				<span class="ident">MarkerSize</span>(<span class="ident">z</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; ps {:.12e}&quot;</span>, <span class="ident">z</span>);
 				}
@@ -2345,13 +2345,13 @@
 		}
 
 		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
-			<span class="ident">TextAlign</span>(<span class="ident">a</span>) <span class="op">=&gt;</span>
+			<span class="ident">TextAlign</span>(<span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{}&quot;</span>, <span class="kw">match</span> <span class="ident">a</span>
 				{
-					<span class="ident">AlignLeft</span> <span class="op">=&gt;</span> <span class="string">&quot; left&quot;</span>,
-					<span class="ident">AlignRight</span> <span class="op">=&gt;</span> <span class="string">&quot; right&quot;</span>,
-					<span class="kw">_</span> <span class="op">=&gt;</span> <span class="string">&quot; center&quot;</span>,
+					<span class="ident">AlignLeft</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; left&quot;</span>,
+					<span class="ident">AlignRight</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; right&quot;</span>,
+					<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; center&quot;</span>,
 				});
 			}
 		}
@@ -2369,47 +2369,47 @@
 
 <span class="kw">impl</span> <span class="ident">TickAxis</span>
 {
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_axis_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_axis_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span>
 	{
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
 		{
-			<span class="ident">XTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;x&quot;</span>,
-			<span class="ident">YTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;y&quot;</span>,
-			<span class="ident">ZTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;z&quot;</span>,
-			<span class="ident">CBTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;cb&quot;</span>,
+			<span class="ident">XTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;x&quot;</span>,
+			<span class="ident">YTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;y&quot;</span>,
+			<span class="ident">ZTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;z&quot;</span>,
+			<span class="ident">CBTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;cb&quot;</span>,
 		}
 	}
 
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_tick_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_tick_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span>
 	{
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
 		{
-			<span class="ident">XTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;xtics&quot;</span>,
-			<span class="ident">YTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;ytics&quot;</span>,
-			<span class="ident">ZTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;ztics&quot;</span>,
-			<span class="ident">CBTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;cbtics&quot;</span>,
+			<span class="ident">XTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;xtics&quot;</span>,
+			<span class="ident">YTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;ytics&quot;</span>,
+			<span class="ident">ZTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;ztics&quot;</span>,
+			<span class="ident">CBTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;cbtics&quot;</span>,
 		}
 	}
 
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_mtick_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_mtick_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span>
 	{
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
 		{
-			<span class="ident">XTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;mxtics&quot;</span>,
-			<span class="ident">YTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;mytics&quot;</span>,
-			<span class="ident">ZTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;mztics&quot;</span>,
-			<span class="ident">CBTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;mcbtics&quot;</span>,
+			<span class="ident">XTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;mxtics&quot;</span>,
+			<span class="ident">YTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;mytics&quot;</span>,
+			<span class="ident">ZTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;mztics&quot;</span>,
+			<span class="ident">CBTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;mcbtics&quot;</span>,
 		}
 	}
 
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_range_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_range_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span>
 	{
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
 		{
-			<span class="ident">XTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;xrange&quot;</span>,
-			<span class="ident">YTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;yrange&quot;</span>,
-			<span class="ident">ZTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;zrange&quot;</span>,
-			<span class="ident">CBTickAxis</span> <span class="op">=&gt;</span> <span class="string">&quot;cbrange&quot;</span>,
+			<span class="ident">XTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;xrange&quot;</span>,
+			<span class="ident">YTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;yrange&quot;</span>,
+			<span class="ident">ZTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;zrange&quot;</span>,
+			<span class="ident">CBTickAxis</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;cbrange&quot;</span>,
 		}
 	}
 }
@@ -2432,30 +2432,30 @@
 
 <span class="kw">impl</span> <span class="ident">PlotType</span>
 {
-	<span class="kw">fn</span> <span class="ident">is_line</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>
+	<span class="kw">fn</span> <span class="ident">is_line</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>
 	{
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
 		{
-			<span class="ident">Lines</span> <span class="op">|</span> <span class="ident">LinesPoints</span> <span class="op">|</span> <span class="ident">XErrorLines</span> <span class="op">|</span> <span class="ident">Boxes</span> <span class="op">|</span> <span class="ident">YErrorLines</span> <span class="op">|</span> <span class="ident">BoxAndWhisker</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-			<span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+			<span class="ident">Lines</span> <span class="op">|</span> <span class="ident">LinesPoints</span> <span class="op">|</span> <span class="ident">XErrorLines</span> <span class="op">|</span> <span class="ident">Boxes</span> <span class="op">|</span> <span class="ident">YErrorLines</span> <span class="op">|</span> <span class="ident">BoxAndWhisker</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
+			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
 		}
 	}
 
-	<span class="kw">fn</span> <span class="ident">is_points</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>
+	<span class="kw">fn</span> <span class="ident">is_points</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>
 	{
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
 		{
-			<span class="ident">Points</span> <span class="op">|</span> <span class="ident">LinesPoints</span> <span class="op">|</span> <span class="ident">XErrorLines</span> <span class="op">|</span> <span class="ident">YErrorLines</span> <span class="op">|</span> <span class="ident">XErrorBars</span> <span class="op">|</span> <span class="ident">YErrorBars</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-			<span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+			<span class="ident">Points</span> <span class="op">|</span> <span class="ident">LinesPoints</span> <span class="op">|</span> <span class="ident">XErrorLines</span> <span class="op">|</span> <span class="ident">YErrorLines</span> <span class="op">|</span> <span class="ident">XErrorBars</span> <span class="op">|</span> <span class="ident">YErrorBars</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
+			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
 		}
 	}
 
-	<span class="kw">fn</span> <span class="ident">is_fill</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>
+	<span class="kw">fn</span> <span class="ident">is_fill</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>
 	{
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
 		{
-			<span class="ident">Boxes</span> <span class="op">|</span> <span class="ident">FillBetween</span> <span class="op">|</span> <span class="ident">BoxAndWhisker</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-			<span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+			<span class="ident">Boxes</span> <span class="op">|</span> <span class="ident">FillBetween</span> <span class="op">|</span> <span class="ident">BoxAndWhisker</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
+			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
 		}
 	}
 }
@@ -2463,14 +2463,14 @@
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TickType</span>
 {
 	<span class="prelude-val">None</span>,
-	<span class="ident">Custom</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">f64</span>, <span class="ident">String</span><span class="op">&gt;&gt;</span>),
+	<span class="ident">Custom</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">f64</span>, <span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>),
 	<span class="ident">Auto</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>),
 }
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AxisData</span>
 {
-	<span class="kw">pub</span> <span class="ident">tick_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TickOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
-	<span class="kw">pub</span> <span class="ident">label_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">LabelOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+	<span class="kw">pub</span> <span class="ident">tick_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TickOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+	<span class="kw">pub</span> <span class="ident">label_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">LabelOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 	<span class="kw">pub</span> <span class="ident">tick_type</span>: <span class="ident">TickType</span>,
 	<span class="kw">pub</span> <span class="ident">log_base</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>,
 	<span class="kw">pub</span> <span class="ident">axis</span>: <span class="ident">TickAxis</span>,
@@ -2481,12 +2481,12 @@
 	<span class="kw">pub</span> <span class="ident">mgrid</span>: <span class="ident">bool</span>,
 	<span class="kw">pub</span> <span class="ident">is_time</span>: <span class="ident">bool</span>,
 	<span class="kw">pub</span> <span class="ident">show</span>: <span class="ident">bool</span>,
-	<span class="kw">pub</span> <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+	<span class="kw">pub</span> <span class="ident">options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">AxisData</span>
 {
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">axis</span>: <span class="ident">TickAxis</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">axis</span>: <span class="ident">TickAxis</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
 	{
 		<span class="ident">AxisData</span> {
 			<span class="ident">tick_options</span>: <span class="macro">vec</span><span class="macro">!</span>[],
@@ -2507,7 +2507,7 @@
 
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_out_commands</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">w</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>)
 	{
-		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">axis</span> <span class="op">!=</span> <span class="ident">TickAxis</span>::<span class="ident">CBTickAxis</span>
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">axis</span> <span class="op">!</span><span class="op">=</span> <span class="ident">TickAxis</span>::<span class="ident">CBTickAxis</span>
 		{
 			<span class="kw">if</span> <span class="self">self</span>.<span class="ident">show</span>
 			{
@@ -2530,14 +2530,14 @@
 
 		<span class="kw">let</span> <span class="ident">log</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">log_base</span>
 		{
-			<span class="prelude-val">Some</span>(<span class="ident">base</span>) <span class="op">=&gt;</span>
+			<span class="prelude-val">Some</span>(<span class="ident">base</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;set logscale &quot;</span>);
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="self">self</span>.<span class="ident">axis</span>.<span class="ident">to_axis_str</span>());
 				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; {:.12e}&quot;</span>, <span class="ident">base</span>);
 				<span class="bool-val">true</span>
 			}
-			<span class="prelude-val">None</span> <span class="op">=&gt;</span>
+			<span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;unset logscale &quot;</span>);
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="self">self</span>.<span class="ident">axis</span>.<span class="ident">to_axis_str</span>());
@@ -2557,7 +2557,7 @@
 
 		<span class="kw">match</span> <span class="self">self</span>.<span class="ident">tick_type</span>
 		{
-			<span class="ident">TickType</span>::<span class="ident">Auto</span>(<span class="kw">_</span>, <span class="ident">mticks</span>) <span class="op">=&gt;</span>
+			<span class="ident">TickType</span>::<span class="ident">Auto</span>(<span class="kw">_</span>, <span class="ident">mticks</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set m{} &quot;</span>, <span class="self">self</span>.<span class="ident">axis</span>.<span class="ident">to_tick_str</span>());
 				<span class="kw">if</span> <span class="ident">log</span>
@@ -2569,7 +2569,7 @@
 					<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">mticks</span> <span class="kw">as</span> <span class="ident">i32</span> <span class="op">+</span> <span class="number">1</span>);
 				}
 			}
-			<span class="kw">_</span> <span class="op">=&gt;</span>
+			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;unset m{}&quot;</span>, <span class="self">self</span>.<span class="ident">axis</span>.<span class="ident">to_tick_str</span>());
 			}
@@ -2581,14 +2581,14 @@
 		<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot; [&quot;</span>);
 		<span class="kw">match</span> <span class="self">self</span>.<span class="ident">min</span>
 		{
-			<span class="ident">Fix</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">v</span>),
-			<span class="ident">Auto</span> <span class="op">=&gt;</span> <span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;*&quot;</span>),
+			<span class="ident">Fix</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">v</span>),
+			<span class="ident">Auto</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;*&quot;</span>),
 		};
 		<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;:&quot;</span>);
 		<span class="kw">match</span> <span class="self">self</span>.<span class="ident">max</span>
 		{
-			<span class="ident">Fix</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">v</span>),
-			<span class="ident">Auto</span> <span class="op">=&gt;</span> <span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;*&quot;</span>),
+			<span class="ident">Fix</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">v</span>),
+			<span class="ident">Auto</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;*&quot;</span>),
 		};
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">reverse</span>
 		{
@@ -2602,25 +2602,25 @@
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">write_tick_options</span> <span class="op">=</span> <span class="bool-val">true</span>;
 		<span class="kw">match</span> <span class="self">self</span>.<span class="ident">tick_type</span>
 		{
-			<span class="ident">TickType</span>::<span class="prelude-val">None</span> <span class="op">=&gt;</span>
+			<span class="ident">TickType</span>::<span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;unset {0}&quot;</span>, <span class="self">self</span>.<span class="ident">axis</span>.<span class="ident">to_tick_str</span>());
 				<span class="ident">write_tick_options</span> <span class="op">=</span> <span class="bool-val">false</span>;
 			}
-			<span class="ident">TickType</span>::<span class="ident">Auto</span>(<span class="ident">incr</span>, <span class="kw">_</span>) <span class="op">=&gt;</span>
+			<span class="ident">TickType</span>::<span class="ident">Auto</span>(<span class="ident">incr</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;set &quot;</span>);
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="self">self</span>.<span class="ident">axis</span>.<span class="ident">to_tick_str</span>());
 
 				<span class="kw">match</span> <span class="ident">incr</span>
 				{
-					<span class="ident">Auto</span> <span class="op">=&gt;</span>
+					<span class="ident">Auto</span> <span class="op">=</span><span class="op">&gt;</span>
 					{
 						<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot; autofreq&quot;</span>);
 					}
-					<span class="ident">Fix</span>(<span class="ident">incr</span>) <span class="op">=&gt;</span>
+					<span class="ident">Fix</span>(<span class="ident">incr</span>) <span class="op">=</span><span class="op">&gt;</span>
 					{
-						<span class="kw">if</span> <span class="ident">incr</span> <span class="op">&lt;=</span> <span class="number">0.0</span>
+						<span class="kw">if</span> <span class="ident">incr</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0.0</span>
 						{
 							<span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;&#39;incr&#39; must be positive, but is actually {}&quot;</span>, <span class="ident">incr</span>);
 						}
@@ -2629,7 +2629,7 @@
 					}
 				}
 			}
-			<span class="ident">TickType</span>::<span class="ident">Custom</span>(<span class="kw-2">ref</span> <span class="ident">ticks</span>) <span class="op">=&gt;</span>
+			<span class="ident">TickType</span>::<span class="ident">Custom</span>(<span class="kw-2">ref</span> <span class="ident">ticks</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;set &quot;</span>);
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="self">self</span>.<span class="ident">axis</span>.<span class="ident">to_tick_str</span>());
@@ -2650,19 +2650,19 @@
 					<span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">Auto</span>;
 					<span class="kw">let</span> (<span class="kw-2">ref</span> <span class="ident">pos</span>, <span class="kw-2">ref</span> <span class="ident">label</span>, <span class="ident">level</span>) <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">tick</span>
 					{
-						<span class="ident">Minor</span>(<span class="kw-2">ref</span> <span class="ident">pos</span>) <span class="op">=&gt;</span> (<span class="ident">pos</span>, <span class="kw-2">&amp;</span><span class="ident">a</span>, <span class="number">1</span>),
-						<span class="ident">Major</span>(<span class="kw-2">ref</span> <span class="ident">pos</span>, <span class="kw-2">ref</span> <span class="ident">label</span>) <span class="op">=&gt;</span> (<span class="ident">pos</span>, <span class="ident">label</span>, <span class="number">0</span>),
+						<span class="ident">Minor</span>(<span class="kw-2">ref</span> <span class="ident">pos</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">pos</span>, <span class="kw-2">&amp;</span><span class="ident">a</span>, <span class="number">1</span>),
+						<span class="ident">Major</span>(<span class="kw-2">ref</span> <span class="ident">pos</span>, <span class="kw-2">ref</span> <span class="ident">label</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">pos</span>, <span class="ident">label</span>, <span class="number">0</span>),
 					};
 
 					<span class="kw">match</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">label</span>
 					{
-						<span class="ident">Fix</span>(<span class="kw-2">ref</span> <span class="ident">label</span>) <span class="op">=&gt;</span>
+						<span class="ident">Fix</span>(<span class="kw-2">ref</span> <span class="ident">label</span>) <span class="op">=</span><span class="op">&gt;</span>
 						{
 							<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;\&quot;&quot;</span>);
 							<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="ident">label</span>[..]);
 							<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;\&quot; &quot;</span>);
 						}
-						<span class="ident">Auto</span> <span class="op">=&gt;</span> (),
+						<span class="ident">Auto</span> <span class="op">=</span><span class="op">&gt;</span> (),
 					}
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{:.12e} {}&quot;</span>, <span class="ident">pos</span>.<span class="ident">get</span>(), <span class="ident">level</span>);
 				}
@@ -2678,34 +2678,34 @@
 			<span class="ident">write_out_label_options</span>(<span class="ident">AxesTicks</span>, <span class="kw-2">&amp;</span><span class="ident">label_options</span>[..], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">w</span>);
 
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">tick_options</span>,
-				<span class="ident">OnAxis</span>(<span class="ident">b</span>) <span class="op">=&gt;</span>
+				<span class="ident">OnAxis</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">b</span>
 					{
-						<span class="bool-val">true</span> <span class="op">=&gt;</span> <span class="string">&quot; axis&quot;</span>,
-						<span class="bool-val">false</span> <span class="op">=&gt;</span> <span class="string">&quot; border&quot;</span>,
+						<span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; axis&quot;</span>,
+						<span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; border&quot;</span>,
 					});
 				}
 			}
 
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">tick_options</span>,
-				<span class="ident">Mirror</span>(<span class="ident">b</span>) <span class="op">=&gt;</span>
+				<span class="ident">Mirror</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">b</span>
 					{
-						<span class="bool-val">true</span> <span class="op">=&gt;</span> <span class="string">&quot; mirror&quot;</span>,
-						<span class="bool-val">false</span> <span class="op">=&gt;</span> <span class="string">&quot; nomirror&quot;</span>,
+						<span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; mirror&quot;</span>,
+						<span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; nomirror&quot;</span>,
 					});
 				}
 			}
 
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">tick_options</span>,
-				<span class="ident">Inward</span>(<span class="ident">b</span>) <span class="op">=&gt;</span>
+				<span class="ident">Inward</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">b</span>
 					{
-						<span class="bool-val">true</span> <span class="op">=&gt;</span> <span class="string">&quot; in&quot;</span>,
-						<span class="bool-val">false</span> <span class="op">=&gt;</span> <span class="string">&quot; out&quot;</span>,
+						<span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; in&quot;</span>,
+						<span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; out&quot;</span>,
 					});
 				}
 			}
@@ -2714,14 +2714,14 @@
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">major_scale</span> <span class="op">=</span> <span class="number">0.5</span>;
 
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">tick_options</span>,
-				<span class="ident">MinorScale</span>(<span class="ident">s</span>) <span class="op">=&gt;</span>
+				<span class="ident">MinorScale</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="ident">minor_scale</span> <span class="op">=</span> <span class="ident">s</span>;
 				}
 			}
 
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">tick_options</span>,
-				<span class="ident">MajorScale</span>(<span class="ident">s</span>) <span class="op">=&gt;</span>
+				<span class="ident">MajorScale</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="ident">major_scale</span> <span class="op">=</span> <span class="ident">s</span>;
 				}
@@ -2730,7 +2730,7 @@
 			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; scale {:.12e},{:.12e}&quot;</span>, <span class="ident">major_scale</span>, <span class="ident">minor_scale</span>);
 
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">tick_options</span>,
-				<span class="ident">Format</span>(<span class="kw-2">ref</span> <span class="ident">f</span>) <span class="op">=&gt;</span>
+				<span class="ident">Format</span>(<span class="kw-2">ref</span> <span class="ident">f</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">r#&quot; format &quot;{}&quot;&quot;#</span>, <span class="ident">f</span>);
 				}
@@ -2739,9 +2739,9 @@
 		<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;\n&quot;</span>);
 	}
 
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_ticks_custom</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">DataType</span>, <span class="ident">TL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">String</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>(
-		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TickOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
-		<span class="ident">label_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">LabelOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_ticks_custom</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">DataType</span>, <span class="ident">TL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TickOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+		<span class="ident">label_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">LabelOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 	)
 	{
 		<span class="self">self</span>.<span class="ident">tick_type</span> <span class="op">=</span> <span class="ident">TickType</span>::<span class="ident">Custom</span>(
@@ -2749,8 +2749,8 @@
 				.<span class="ident">into_iter</span>()
 				.<span class="ident">map</span>(<span class="op">|</span><span class="ident">t</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">t</span>
 				{
-					<span class="ident">Major</span>(<span class="ident">t</span>, <span class="ident">l</span>) <span class="op">=&gt;</span> <span class="ident">Major</span>(<span class="ident">t</span>.<span class="ident">get</span>(), <span class="ident">l</span>),
-					<span class="ident">Minor</span>(<span class="ident">t</span>) <span class="op">=&gt;</span> <span class="ident">Minor</span>(<span class="ident">t</span>.<span class="ident">get</span>()),
+					<span class="ident">Major</span>(<span class="ident">t</span>, <span class="ident">l</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Major</span>(<span class="ident">t</span>.<span class="ident">get</span>(), <span class="ident">l</span>),
+					<span class="ident">Minor</span>(<span class="ident">t</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Minor</span>(<span class="ident">t</span>.<span class="ident">get</span>()),
 				})
 				.<span class="ident">collect</span>(),
 		);
@@ -2760,7 +2760,7 @@
 
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_ticks</span>(
 		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>,
-		<span class="ident">tick_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TickOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>, <span class="ident">label_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">LabelOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+		<span class="ident">tick_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TickOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">label_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">LabelOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 	)
 	{
 		<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">incr</span>, <span class="ident">mticks</span>)) <span class="op">=</span> <span class="ident">tick_placement</span>
@@ -2807,25 +2807,25 @@
 	}
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">char_to_symbol</span>(<span class="ident">c</span>: <span class="ident">char</span>) <span class="op">-&gt;</span> <span class="ident">i32</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">char_to_symbol</span>(<span class="ident">c</span>: <span class="ident">char</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span>
 {
 	<span class="kw">match</span> <span class="ident">c</span>
 	{
-		<span class="string">&#39;.&#39;</span> <span class="op">=&gt;</span> <span class="number">0</span>,
-		<span class="string">&#39;+&#39;</span> <span class="op">=&gt;</span> <span class="number">1</span>,
-		<span class="string">&#39;x&#39;</span> <span class="op">=&gt;</span> <span class="number">2</span>,
-		<span class="string">&#39;*&#39;</span> <span class="op">=&gt;</span> <span class="number">3</span>,
-		<span class="string">&#39;s&#39;</span> <span class="op">=&gt;</span> <span class="number">4</span>,
-		<span class="string">&#39;S&#39;</span> <span class="op">=&gt;</span> <span class="number">5</span>,
-		<span class="string">&#39;o&#39;</span> <span class="op">=&gt;</span> <span class="number">6</span>,
-		<span class="string">&#39;O&#39;</span> <span class="op">=&gt;</span> <span class="number">7</span>,
-		<span class="string">&#39;t&#39;</span> <span class="op">=&gt;</span> <span class="number">8</span>,
-		<span class="string">&#39;T&#39;</span> <span class="op">=&gt;</span> <span class="number">9</span>,
-		<span class="string">&#39;d&#39;</span> <span class="op">=&gt;</span> <span class="number">10</span>,
-		<span class="string">&#39;D&#39;</span> <span class="op">=&gt;</span> <span class="number">11</span>,
-		<span class="string">&#39;r&#39;</span> <span class="op">=&gt;</span> <span class="number">12</span>,
-		<span class="string">&#39;R&#39;</span> <span class="op">=&gt;</span> <span class="number">13</span>,
-		<span class="ident">a</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Invalid symbol {}&quot;</span>, <span class="ident">a</span>),
+		<span class="string">&#39;.&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
+		<span class="string">&#39;+&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span>,
+		<span class="string">&#39;x&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">2</span>,
+		<span class="string">&#39;*&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">3</span>,
+		<span class="string">&#39;s&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">4</span>,
+		<span class="string">&#39;S&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">5</span>,
+		<span class="string">&#39;o&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">6</span>,
+		<span class="string">&#39;O&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">7</span>,
+		<span class="string">&#39;t&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">8</span>,
+		<span class="string">&#39;T&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">9</span>,
+		<span class="string">&#39;d&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10</span>,
+		<span class="string">&#39;D&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">11</span>,
+		<span class="string">&#39;r&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">12</span>,
+		<span class="string">&#39;R&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">13</span>,
+		<span class="ident">a</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Invalid symbol {}&quot;</span>, <span class="ident">a</span>),
 	}
 }
 
@@ -2839,8 +2839,8 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AxesCommonData</span>
 {
 	<span class="kw">pub</span> <span class="ident">commands</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
-	<span class="kw">pub</span> <span class="ident">grid_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
-	<span class="kw">pub</span> <span class="ident">minor_grid_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>,
+	<span class="kw">pub</span> <span class="ident">grid_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+	<span class="kw">pub</span> <span class="ident">minor_grid_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 	<span class="kw">pub</span> <span class="ident">grid_front</span>: <span class="ident">bool</span>,
 	<span class="kw">pub</span> <span class="ident">elems</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotElement</span><span class="op">&gt;</span>,
 	<span class="kw">pub</span> <span class="ident">grid_rows</span>: <span class="ident">u32</span>,
@@ -2853,7 +2853,7 @@
 
 <span class="kw">impl</span> <span class="ident">AxesCommonData</span>
 {
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">AxesCommonData</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AxesCommonData</span>
 	{
 		<span class="ident">AxesCommonData</span> {
 			<span class="ident">commands</span>: <span class="macro">vec</span><span class="macro">!</span>[],
@@ -2879,8 +2879,8 @@
 			{
 				<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="ident">axis</span>.<span class="ident">to_tick_str</span>());
 				<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; &quot;</span>);
-				<span class="kw">if</span> <span class="self">self</span>.<span class="ident">x_axis</span>.<span class="ident">axis</span> <span class="op">==</span> <span class="kw-2">*</span><span class="ident">axis</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">x_axis</span>.<span class="ident">mgrid</span>
-					<span class="op">||</span> <span class="self">self</span>.<span class="ident">y_axis</span>.<span class="ident">axis</span> <span class="op">==</span> <span class="kw-2">*</span><span class="ident">axis</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">y_axis</span>.<span class="ident">mgrid</span>
+				<span class="kw">if</span> <span class="self">self</span>.<span class="ident">x_axis</span>.<span class="ident">axis</span> <span class="op">=</span><span class="op">=</span> <span class="kw-2">*</span><span class="ident">axis</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">x_axis</span>.<span class="ident">mgrid</span>
+					<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">y_axis</span>.<span class="ident">axis</span> <span class="op">=</span><span class="op">=</span> <span class="kw-2">*</span><span class="ident">axis</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">y_axis</span>.<span class="ident">mgrid</span>
 				{
 					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="ident">axis</span>.<span class="ident">to_mtick_str</span>());
 					<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; &quot;</span>);
@@ -2912,7 +2912,7 @@
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">found</span> <span class="op">=</span> <span class="bool-val">false</span>;
 		<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot; lw &quot;</span>);
 		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
-			<span class="ident">LineWidth</span>(<span class="ident">w</span>) <span class="op">=&gt;</span>
+			<span class="ident">LineWidth</span>(<span class="ident">w</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">w</span>);
 				<span class="ident">found</span> <span class="op">=</span> <span class="bool-val">true</span>;
@@ -2923,10 +2923,10 @@
 			<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="string">&quot;1&quot;</span>);
 		}
 
-		<span class="kw">if</span> <span class="ident">version</span>.<span class="ident">major</span> <span class="op">&gt;=</span> <span class="number">5</span>
+		<span class="kw">if</span> <span class="ident">version</span>.<span class="ident">major</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">5</span>
 		{
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
-				<span class="ident">LineStyle</span>(<span class="ident">d</span>) <span class="op">=&gt;</span>
+				<span class="ident">LineStyle</span>(<span class="ident">d</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot; dt {}&quot;</span>, <span class="ident">d</span>.<span class="ident">to_int</span>());
 				}
@@ -2935,7 +2935,7 @@
 		<span class="kw">else</span>
 		{
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
-				<span class="ident">LineStyle</span>(<span class="ident">d</span>) <span class="op">=&gt;</span>
+				<span class="ident">LineStyle</span>(<span class="ident">d</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot; lt {}&quot;</span>, <span class="ident">d</span>.<span class="ident">to_int</span>());
 				}
@@ -2949,18 +2949,18 @@
 	{
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">col</span> <span class="op">=</span> <span class="ident">default</span>;
 		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
-			<span class="ident">Color</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=&gt;</span>
+			<span class="ident">Color</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">col</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>)
 			}
 		}
 		<span class="kw">match</span> <span class="ident">col</span>
 		{
-			<span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=&gt;</span>
+			<span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">r#&quot; lc rgb &quot;{}&quot;&quot;#</span>, <span class="ident">s</span>);
 			}
-			<span class="prelude-val">None</span> <span class="op">=&gt;</span> (),
+			<span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> (),
 		}
 	}
 
@@ -3005,13 +3005,13 @@
 
 		<span class="kw">let</span> <span class="ident">label_str</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">label_type</span>
 		{
-			<span class="ident">XLabel</span> <span class="op">=&gt;</span> <span class="string">&quot;xlabel&quot;</span>,
-			<span class="ident">YLabel</span> <span class="op">=&gt;</span> <span class="string">&quot;ylabel&quot;</span>,
-			<span class="ident">ZLabel</span> <span class="op">=&gt;</span> <span class="string">&quot;zlabel&quot;</span>,
-			<span class="ident">CBLabel</span> <span class="op">=&gt;</span> <span class="string">&quot;cblabe&quot;</span>,
-			<span class="ident">TitleLabel</span> <span class="op">=&gt;</span> <span class="string">&quot;title&quot;</span>,
-			<span class="ident">Label</span>(..) <span class="op">=&gt;</span> <span class="string">&quot;label&quot;</span>,
-			<span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Invalid label type&quot;</span>),
+			<span class="ident">XLabel</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;xlabel&quot;</span>,
+			<span class="ident">YLabel</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;ylabel&quot;</span>,
+			<span class="ident">ZLabel</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;zlabel&quot;</span>,
+			<span class="ident">CBLabel</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;cblabe&quot;</span>,
+			<span class="ident">TitleLabel</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;title&quot;</span>,
+			<span class="ident">Label</span>(..) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;label&quot;</span>,
+			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Invalid label type&quot;</span>),
 		};
 		<span class="ident">c</span>.<span class="ident">write_str</span>(<span class="ident">label_str</span>);
 
@@ -3028,8 +3028,8 @@
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">AxesCommonPrivate</span>
 {
-	<span class="kw">fn</span> <span class="ident">get_common_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">AxesCommonData</span>;
-	<span class="kw">fn</span> <span class="ident">get_common_data_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">AxesCommonData</span>;
+	<span class="kw">fn</span> <span class="ident">get_common_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">AxesCommonData</span>;
+	<span class="kw">fn</span> <span class="ident">get_common_data_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">AxesCommonData</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">AxesCommon</span>: <span class="ident">AxesCommonPrivate</span>
@@ -3040,7 +3040,7 @@
 	<span class="doccomment">/// * `ncol` - Number of columns in the grid. Must be greater than 0.</span>
 	<span class="doccomment">/// * `pos` - Which grid cell to place this axes in, counting from top-left corner,</span>
 	<span class="doccomment">///           going left and then down, starting at 0.</span>
-	<span class="kw">fn</span> <span class="ident">set_pos_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">nrow</span>: <span class="ident">u32</span>, <span class="ident">ncol</span>: <span class="ident">u32</span>, <span class="ident">pos</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_pos_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">nrow</span>: <span class="ident">u32</span>, <span class="ident">ncol</span>: <span class="ident">u32</span>, <span class="ident">pos</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">nrow</span> <span class="op">&gt;</span> <span class="number">0</span>);
 		<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">ncol</span> <span class="op">&gt;</span> <span class="number">0</span>);
@@ -3059,7 +3059,7 @@
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `x` - X position. Ranges from 0 to 1</span>
 	<span class="doccomment">/// * `y` - Y position. Ranges from 0 to 1</span>
-	<span class="kw">fn</span> <span class="ident">set_pos</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">f64</span>, <span class="ident">y</span>: <span class="ident">f64</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_pos</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">f64</span>, <span class="ident">y</span>: <span class="ident">f64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">grid_pos</span> <span class="op">=</span> <span class="prelude-val">None</span>;
 		<span class="macro">writeln</span><span class="macro">!</span>(
@@ -3075,7 +3075,7 @@
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `w` - Width. Ranges from 0 to 1</span>
 	<span class="doccomment">/// * `h` - Height. Ranges from 0 to 1</span>
-	<span class="kw">fn</span> <span class="ident">set_size</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">w</span>: <span class="ident">f64</span>, <span class="ident">h</span>: <span class="ident">f64</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_size</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">w</span>: <span class="ident">f64</span>, <span class="ident">h</span>: <span class="ident">f64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="macro">writeln</span><span class="macro">!</span>(
 			<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">commands</span>,
@@ -3089,18 +3089,18 @@
 	<span class="doccomment">/// Set the aspect ratio of the axes</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `ratio` - The aspect ratio. Set to Auto to return the ratio to default</span>
-	<span class="kw">fn</span> <span class="ident">set_aspect_ratio</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ratio</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_aspect_ratio</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ratio</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		{
 			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>;
 
 			<span class="kw">match</span> <span class="ident">ratio</span>
 			{
-				<span class="ident">Fix</span>(<span class="ident">r</span>) <span class="op">=&gt;</span>
+				<span class="ident">Fix</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set size ratio {:.12e}&quot;</span>, <span class="ident">r</span>);
 				}
-				<span class="ident">Auto</span> <span class="op">=&gt;</span>
+				<span class="ident">Auto</span> <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set size noratio&quot;</span>);
 				}
@@ -3118,7 +3118,7 @@
 	<span class="doccomment">///      * `TextColor` - Specifies the color of the label</span>
 	<span class="doccomment">///      * `Rotate` - Specifies the rotation of the label</span>
 	<span class="doccomment">///      * `Align` - Specifies how to align the label</span>
-	<span class="kw">fn</span> <span class="ident">set_x_label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_x_label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
 			.<span class="ident">set_label_common</span>(<span class="ident">XLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
@@ -3126,7 +3126,7 @@
 	}
 
 	<span class="doccomment">/// Like `set_x_label`, but for the Y axis</span>
-	<span class="kw">fn</span> <span class="ident">set_y_label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_y_label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
 			.<span class="ident">set_label_common</span>(<span class="ident">YLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
@@ -3134,7 +3134,7 @@
 	}
 
 	<span class="doccomment">/// Like `set_x_label`, but for the color bar</span>
-	<span class="kw">fn</span> <span class="ident">set_cb_label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_cb_label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
 			.<span class="ident">set_label_common</span>(<span class="ident">CBLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
@@ -3150,7 +3150,7 @@
 	<span class="doccomment">///      * `TextColor` - Specifies the color of the label</span>
 	<span class="doccomment">///      * `Rotate` - Specifies the rotation of the label</span>
 	<span class="doccomment">///      * `Align` - Specifies how to align the label</span>
-	<span class="kw">fn</span> <span class="ident">set_title</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_title</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
 			.<span class="ident">set_label_common</span>(<span class="ident">TitleLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
@@ -3173,7 +3173,7 @@
 	<span class="doccomment">///      * `MarkerColor` - Specifies the color for the marker</span>
 	<span class="kw">fn</span> <span class="ident">label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">x</span>: <span class="ident">Coordinate</span>, <span class="ident">y</span>: <span class="ident">Coordinate</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
-	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
 			.<span class="ident">set_label_common</span>(<span class="ident">Label</span>(<span class="ident">x</span>, <span class="ident">y</span>), <span class="ident">text</span>, <span class="ident">options</span>);
@@ -3197,7 +3197,7 @@
 	<span class="kw">fn</span> <span class="ident">set_x_ticks</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>,
 		<span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>], <span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
-	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">x_axis</span>.<span class="ident">set_ticks</span>(
 			<span class="ident">tick_placement</span>,
@@ -3211,7 +3211,7 @@
 	<span class="kw">fn</span> <span class="ident">set_y_ticks</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>,
 		<span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>], <span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
-	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">y_axis</span>.<span class="ident">set_ticks</span>(
 			<span class="ident">tick_placement</span>,
@@ -3225,7 +3225,7 @@
 	<span class="kw">fn</span> <span class="ident">set_cb_ticks</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tick_placement</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>,
 		<span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>], <span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
-	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">cb_axis</span>.<span class="ident">set_ticks</span>(
 			<span class="ident">tick_placement</span>,
@@ -3253,12 +3253,12 @@
 		<span class="lifetime">&#39;l</span>,
 		<span class="ident">T</span>: <span class="ident">DataType</span>,
 		<span class="ident">S</span>: <span class="ident">ToString</span>,
-		<span class="ident">TickT</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;&gt;</span>,
+		<span class="ident">TickT</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 		<span class="ident">TL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TickT</span><span class="op">&gt;</span>,
 	<span class="op">&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 		<span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
-	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">x_axis</span>.<span class="ident">set_ticks_custom</span>(
 			<span class="ident">ticks</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">borrow</span>().<span class="ident">to_one_way_owned</span>()),
@@ -3273,12 +3273,12 @@
 		<span class="lifetime">&#39;l</span>,
 		<span class="ident">T</span>: <span class="ident">DataType</span>,
 		<span class="ident">S</span>: <span class="ident">ToString</span>,
-		<span class="ident">TickT</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;&gt;</span>,
+		<span class="ident">TickT</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 		<span class="ident">TL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TickT</span><span class="op">&gt;</span>,
 	<span class="op">&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 		<span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
-	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">y_axis</span>.<span class="ident">set_ticks_custom</span>(
 			<span class="ident">ticks</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">borrow</span>().<span class="ident">to_one_way_owned</span>()),
@@ -3293,12 +3293,12 @@
 		<span class="lifetime">&#39;l</span>,
 		<span class="ident">T</span>: <span class="ident">DataType</span>,
 		<span class="ident">S</span>: <span class="ident">ToString</span>,
-		<span class="ident">TickT</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;&gt;</span>,
+		<span class="ident">TickT</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Tick</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 		<span class="ident">TL</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">TickT</span><span class="op">&gt;</span>,
 	<span class="op">&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ticks</span>: <span class="ident">TL</span>, <span class="ident">tick_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">TickOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 		<span class="ident">label_options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
-	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">cb_axis</span>.<span class="ident">set_ticks_custom</span>(
 			<span class="ident">ticks</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">borrow</span>().<span class="ident">to_one_way_owned</span>()),
@@ -3313,7 +3313,7 @@
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `min` - Minimum X value</span>
 	<span class="doccomment">/// * `max` - Maximum X value</span>
-	<span class="kw">fn</span> <span class="ident">set_x_range</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">min</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">max</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_x_range</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">min</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">max</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">x_axis</span>.<span class="ident">set_range</span>(<span class="ident">min</span>, <span class="ident">max</span>);
 		<span class="self">self</span>
@@ -3324,7 +3324,7 @@
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `min` - Minimum Y value</span>
 	<span class="doccomment">/// * `max` - Maximum Y value</span>
-	<span class="kw">fn</span> <span class="ident">set_y_range</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">min</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">max</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_y_range</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">min</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">max</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">y_axis</span>.<span class="ident">set_range</span>(<span class="ident">min</span>, <span class="ident">max</span>);
 		<span class="self">self</span>
@@ -3333,7 +3333,7 @@
 	<span class="doccomment">/// Sets X axis to reverse.</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `reverse` - Boolean, true to reverse axis, false will not reverse</span>
-	<span class="kw">fn</span> <span class="ident">set_x_reverse</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">reverse</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_x_reverse</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">reverse</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">x_axis</span>.<span class="ident">set_reverse</span>(<span class="ident">reverse</span>);
 		<span class="self">self</span>
@@ -3342,7 +3342,7 @@
 	<span class="doccomment">/// Sets Y axis to reverse.</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `reverse` - Boolean, true to reverse axis, false will not reverse</span>
-	<span class="kw">fn</span> <span class="ident">set_y_reverse</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">reverse</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_y_reverse</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">reverse</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">y_axis</span>.<span class="ident">set_reverse</span>(<span class="ident">reverse</span>);
 		<span class="self">self</span>
@@ -3353,7 +3353,7 @@
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `min` - Minimum Y value</span>
 	<span class="doccomment">/// * `max` - Maximum Y value</span>
-	<span class="kw">fn</span> <span class="ident">set_cb_range</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">min</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">max</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_cb_range</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">min</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>, <span class="ident">max</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">cb_axis</span>.<span class="ident">set_range</span>(<span class="ident">min</span>, <span class="ident">max</span>);
 		<span class="self">self</span>
@@ -3363,7 +3363,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic</span>
-	<span class="kw">fn</span> <span class="ident">set_x_log</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">base</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_x_log</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">base</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">x_axis</span>.<span class="ident">set_log</span>(<span class="ident">base</span>);
 		<span class="self">self</span>
@@ -3373,7 +3373,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic</span>
-	<span class="kw">fn</span> <span class="ident">set_y_log</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">base</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_y_log</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">base</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">y_axis</span>.<span class="ident">set_log</span>(<span class="ident">base</span>);
 		<span class="self">self</span>
@@ -3383,7 +3383,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic</span>
-	<span class="kw">fn</span> <span class="ident">set_cb_log</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">base</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_cb_log</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">base</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">cb_axis</span>.<span class="ident">set_log</span>(<span class="ident">base</span>);
 		<span class="self">self</span>
@@ -3393,7 +3393,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `show` - Whether to show the grid.</span>
-	<span class="kw">fn</span> <span class="ident">set_x_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_x_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">x_axis</span>.<span class="ident">set_grid</span>(<span class="ident">show</span>);
 		<span class="self">self</span>
@@ -3403,7 +3403,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `show` - Whether to show the grid.</span>
-	<span class="kw">fn</span> <span class="ident">set_x_minor_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_x_minor_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">x_axis</span>.<span class="ident">set_minor_grid</span>(<span class="ident">show</span>);
 		<span class="self">self</span>
@@ -3413,7 +3413,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `show` - Whether to show the grid.</span>
-	<span class="kw">fn</span> <span class="ident">set_y_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_y_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">y_axis</span>.<span class="ident">set_grid</span>(<span class="ident">show</span>);
 		<span class="self">self</span>
@@ -3423,7 +3423,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `show` - Whether to show the grid.</span>
-	<span class="kw">fn</span> <span class="ident">set_y_minor_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_y_minor_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">y_axis</span>.<span class="ident">set_minor_grid</span>(<span class="ident">show</span>);
 		<span class="self">self</span>
@@ -3433,7 +3433,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `show` - Whether to show the grid.</span>
-	<span class="kw">fn</span> <span class="ident">set_cb_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_cb_grid</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">show</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">cb_axis</span>.<span class="ident">set_grid</span>(<span class="ident">show</span>);
 		<span class="self">self</span>
@@ -3448,7 +3448,7 @@
 	<span class="doccomment">///      * `LineStyle` - Specifies the style of the grid lines</span>
 	<span class="doccomment">///      * `LineWidth` - Specifies the width of the grid lines</span>
 	<span class="kw">fn</span> <span class="ident">set_grid_options</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">front</span>: <span class="ident">bool</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>])
-		<span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+		<span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">grid_front</span> <span class="op">=</span> <span class="ident">front</span>;
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">grid_options</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>();
@@ -3462,7 +3462,7 @@
 	<span class="doccomment">///      * `Color` - Specifies the color of the grid lines</span>
 	<span class="doccomment">///      * `LineStyle` - Specifies the style of the grid lines</span>
 	<span class="doccomment">///      * `LineWidth` - Specifies the width of the grid lines</span>
-	<span class="kw">fn</span> <span class="ident">set_minor_grid_options</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_minor_grid_options</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">minor_grid_options</span> <span class="op">=</span> <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>();
 		<span class="self">self</span>
@@ -3475,7 +3475,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `is_time` - Whether this axis is time or not.</span>
-	<span class="kw">fn</span> <span class="ident">set_x_time</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">is_time</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_x_time</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">is_time</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">x_axis</span>.<span class="ident">set_time</span>(<span class="ident">is_time</span>);
 		<span class="self">self</span>
@@ -3488,7 +3488,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `is_time` - Whether this axis is time or not.</span>
-	<span class="kw">fn</span> <span class="ident">set_y_time</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">is_time</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_y_time</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">is_time</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">y_axis</span>.<span class="ident">set_time</span>(<span class="ident">is_time</span>);
 		<span class="self">self</span>
@@ -3501,7 +3501,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `is_time` - Whether this axis is time or not.</span>
-	<span class="kw">fn</span> <span class="ident">set_cb_time</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">is_time</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_cb_time</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">is_time</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">cb_axis</span>.<span class="ident">set_time</span>(<span class="ident">is_time</span>);
 		<span class="self">self</span>
@@ -3513,7 +3513,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// * `margins` - The values of margins to be overrided. Specified as a fraction of the</span>
 	<span class="doccomment">///               full drawing area, ranging from 0 to 1</span>
-	<span class="kw">fn</span> <span class="ident">set_margins</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">margins</span>: <span class="kw-2">&amp;</span>[<span class="ident">MarginSide</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_margins</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">margins</span>: <span class="kw-2">&amp;</span>[<span class="ident">MarginSide</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		{
 			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>;
@@ -3521,10 +3521,10 @@
 			{
 				<span class="kw">match</span> <span class="ident">s</span>
 				{
-					<span class="ident">MarginTop</span>(<span class="ident">frac</span>) <span class="op">=&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set tmargin at screen {}&quot;</span>, <span class="ident">frac</span>),
-					<span class="ident">MarginBottom</span>(<span class="ident">frac</span>) <span class="op">=&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set bmargin at screen {}&quot;</span>, <span class="ident">frac</span>),
-					<span class="ident">MarginLeft</span>(<span class="ident">frac</span>) <span class="op">=&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set lmargin at screen {}&quot;</span>, <span class="ident">frac</span>),
-					<span class="ident">MarginRight</span>(<span class="ident">frac</span>) <span class="op">=&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set rmargin at screen {}&quot;</span>, <span class="ident">frac</span>),
+					<span class="ident">MarginTop</span>(<span class="ident">frac</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set tmargin at screen {}&quot;</span>, <span class="ident">frac</span>),
+					<span class="ident">MarginBottom</span>(<span class="ident">frac</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set bmargin at screen {}&quot;</span>, <span class="ident">frac</span>),
+					<span class="ident">MarginLeft</span>(<span class="ident">frac</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set lmargin at screen {}&quot;</span>, <span class="ident">frac</span>),
+					<span class="ident">MarginRight</span>(<span class="ident">frac</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set rmargin at screen {}&quot;</span>, <span class="ident">frac</span>),
 				};
 			}
 		}
@@ -3535,27 +3535,27 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `palette` - What palette type to use</span>
-	<span class="kw">fn</span> <span class="ident">set_palette</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">palette</span>: <span class="ident">PaletteType</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">set_palette</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">palette</span>: <span class="ident">PaletteType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		{
 			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>;
 			<span class="kw">match</span> <span class="ident">palette</span>
 			{
-				<span class="ident">Gray</span>(<span class="ident">gamma</span>) <span class="op">=&gt;</span>
+				<span class="ident">Gray</span>(<span class="ident">gamma</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">gamma</span> <span class="op">&gt;</span> <span class="number">0.0</span>, <span class="string">&quot;Gamma must be positive&quot;</span>);
 					<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set palette gray gamma {:.12e}&quot;</span>, <span class="ident">gamma</span>);
 				}
-				<span class="ident">Formula</span>(<span class="ident">r</span>, <span class="ident">g</span>, <span class="ident">b</span>) <span class="op">=&gt;</span>
+				<span class="ident">Formula</span>(<span class="ident">r</span>, <span class="ident">g</span>, <span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
-					<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">r</span> <span class="op">&gt;=</span> <span class="op">-</span><span class="number">36</span> <span class="op">&amp;&amp;</span> <span class="ident">r</span> <span class="op">&lt;=</span> <span class="number">36</span>, <span class="string">&quot;Invalid r formula!&quot;</span>);
-					<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">g</span> <span class="op">&gt;=</span> <span class="op">-</span><span class="number">36</span> <span class="op">&amp;&amp;</span> <span class="ident">g</span> <span class="op">&lt;=</span> <span class="number">36</span>, <span class="string">&quot;Invalid g formula!&quot;</span>);
-					<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">b</span> <span class="op">&gt;=</span> <span class="op">-</span><span class="number">36</span> <span class="op">&amp;&amp;</span> <span class="ident">b</span> <span class="op">&lt;=</span> <span class="number">36</span>, <span class="string">&quot;Invalid b formula!&quot;</span>);
+					<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">r</span> <span class="op">&gt;</span><span class="op">=</span> <span class="op">-</span><span class="number">36</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">r</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">36</span>, <span class="string">&quot;Invalid r formula!&quot;</span>);
+					<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">g</span> <span class="op">&gt;</span><span class="op">=</span> <span class="op">-</span><span class="number">36</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">g</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">36</span>, <span class="string">&quot;Invalid g formula!&quot;</span>);
+					<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">b</span> <span class="op">&gt;</span><span class="op">=</span> <span class="op">-</span><span class="number">36</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">b</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">36</span>, <span class="string">&quot;Invalid b formula!&quot;</span>);
 					<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set palette rgbformulae {},{},{}&quot;</span>, <span class="ident">r</span>, <span class="ident">g</span>, <span class="ident">b</span>);
 				}
-				<span class="ident">CubeHelix</span>(<span class="ident">start</span>, <span class="ident">rev</span>, <span class="ident">sat</span>, <span class="ident">gamma</span>) <span class="op">=&gt;</span>
+				<span class="ident">CubeHelix</span>(<span class="ident">start</span>, <span class="ident">rev</span>, <span class="ident">sat</span>, <span class="ident">gamma</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
-					<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">sat</span> <span class="op">&gt;=</span> <span class="number">0.0</span>, <span class="string">&quot;Saturation must be non-negative&quot;</span>);
+					<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">sat</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">0.0</span>, <span class="string">&quot;Saturation must be non-negative&quot;</span>);
 					<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">gamma</span> <span class="op">&gt;</span> <span class="number">0.0</span>, <span class="string">&quot;Gamma must be positive&quot;</span>);
 					<span class="macro">writeln</span><span class="macro">!</span>(
 						<span class="ident">c</span>,
@@ -3576,9 +3576,9 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `palette_generator` - The palette generator</span>
-	<span class="kw">fn</span> <span class="ident">set_custom_palette</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>)<span class="op">&gt;&gt;</span>(
+	<span class="kw">fn</span> <span class="ident">set_custom_palette</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>)<span class="op">&gt;</span><span class="op">&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">palette_generator</span>: <span class="ident">T</span>,
-	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>
+	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		{
 			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>;
@@ -3597,7 +3597,7 @@
 				{
 					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;,&quot;</span>);
 				}
-				<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">x</span> <span class="op">&gt;=</span> <span class="ident">old_x</span>, <span class="string">&quot;The gray levels must be non-decreasing!&quot;</span>);
+				<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">x</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">old_x</span>, <span class="string">&quot;The gray levels must be non-decreasing!&quot;</span>);
 				<span class="ident">old_x</span> <span class="op">=</span> <span class="ident">x</span>;
 
 				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;{:.12e} {:.12e} {:.12e} {:.12e}&quot;</span>, <span class="ident">x</span>, <span class="ident">r</span>, <span class="ident">g</span>, <span class="ident">b</span>);

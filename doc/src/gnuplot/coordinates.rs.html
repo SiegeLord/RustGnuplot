@@ -49,12 +49,12 @@
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Coordinate</span>
 {
-	<span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span>
+	<span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span>
 	{
 		<span class="kw">let</span> (<span class="ident">name</span>, <span class="ident">x</span>) <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
 		{
-			<span class="ident">Graph</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> (<span class="string">&quot; graph &quot;</span>, <span class="ident">x</span>),
-			<span class="ident">Axis</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> (<span class="string">&quot; first &quot;</span>, <span class="ident">x</span>),
+			<span class="ident">Graph</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="string">&quot; graph &quot;</span>, <span class="ident">x</span>),
+			<span class="ident">Axis</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="string">&quot; first &quot;</span>, <span class="ident">x</span>),
 		};
 		<span class="macro">write</span><span class="macro">!</span>(<span class="ident">buf</span>, <span class="string">&quot;{}{:.16e}&quot;</span>, <span class="ident">name</span>, <span class="ident">x</span>)
 	}
