@@ -5,11 +5,11 @@
 }</pre></div><div class='docblock'><p>Specifies how the contours are drawn</p>
 </div><h2 id='variants' class='variants small-section-header'>
                    Variants<a href='#variants' class='anchor'></a></h2>
-<span id="variant.Linear" class="variant small-section-header"><a href="#variant.Linear" class="anchor field"></a><code id='Linear.v'>Linear</code></span><div class='docblock'><p>Draw lines between points of equal value</p>
-</div><span id="variant.Cubic" class="variant small-section-header"><a href="#variant.Cubic" class="anchor field"></a><code id='Cubic.v'>Cubic(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>)</code></span><div class='docblock'><p>Draw somewhat smoother curves between points with equal value.</p>
+<div id="variant.Linear" class="variant small-section-header"><a href="#variant.Linear" class="anchor field"></a><code id='Linear.v'>Linear</code></div><div class='docblock'><p>Draw lines between points of equal value</p>
+</div><div id="variant.Cubic" class="variant small-section-header"><a href="#variant.Cubic" class="anchor field"></a><code id='Cubic.v'>Cubic(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>)</code></div><div class='docblock'><p>Draw somewhat smoother curves between points with equal value.</p>
 <p>The argument specifies the number of points to use to approximate the
 curve for the final drawing step (clamped to range from 2 to 100).</p>
-</div><span id="variant.Spline" class="variant small-section-header"><a href="#variant.Spline" class="anchor field"></a><code id='Spline.v'>Spline(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>,&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>)</code></span><div class='docblock'><p>Draw an even smoother curve, this time approximating the locations of
+</div><div id="variant.Spline" class="variant small-section-header"><a href="#variant.Spline" class="anchor field"></a><code id='Spline.v'>Spline(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>,&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>)</code></div><div class='docblock'><p>Draw an even smoother curve, this time approximating the locations of
 points with equal value (clamped to range from 2 to 100).</p>
 <p>The first argument specifies the number of points to use to approximate
 the curve for the final drawing step. The second argument specifies the
