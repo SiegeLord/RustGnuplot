@@ -7,5 +7,4 @@ implementors["gnuplot"] = [{text:"impl Freeze for <a class=\"struct\" href=\"gnu
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

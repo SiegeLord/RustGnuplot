@@ -6,5 +6,4 @@ implementors["gnuplot"] = [];
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

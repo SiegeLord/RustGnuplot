@@ -7,5 +7,4 @@ implementors["gnuplot"] = [{text:"impl&lt;T:&nbsp;<a class=\"trait\" href=\"http
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()
