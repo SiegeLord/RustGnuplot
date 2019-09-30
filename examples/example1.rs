@@ -95,9 +95,9 @@ fn example(c: Common)
 	if !c.no_show
 	{
 		fg.set_terminal("pdfcairo", "fg1.1.pdf");
-		fg.show();
+		fg.show().unwrap();
 		fg.set_terminal("pngcairo", "fg1.1.png");
-		fg.show();
+		fg.show().unwrap();
 	}
 
 	let mut fg = Figure::new();

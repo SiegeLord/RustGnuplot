@@ -86,7 +86,7 @@ impl Common
 	{
 		if !self.no_show
 		{
-			fg.show();
+			fg.show().unwrap();
 		}
 		fg.echo_to_file(filename);
 	}

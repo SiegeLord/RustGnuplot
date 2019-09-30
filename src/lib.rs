@@ -30,6 +30,7 @@ pub use crate::coordinates::*;
 pub use crate::datatype::*;
 pub use crate::figure::*;
 pub use crate::options::*;
+pub use crate::error_types::*;
 
 #[macro_use]
 mod util;
@@ -39,6 +40,7 @@ mod axes3d;
 mod axes_common;
 mod coordinates;
 mod datatype;
+mod error_types;
 mod figure;
 mod options;
 mod writer;

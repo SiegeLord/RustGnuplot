@@ -35,5 +35,5 @@ fn main()
 		t += 0.1;
 	}
 	fg.echo_to_file("fg.gif.gnuplot");
-	fg.show();
+	fg.show().unwrap();
 }

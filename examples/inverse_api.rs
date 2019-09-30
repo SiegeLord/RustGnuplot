@@ -78,7 +78,7 @@ fn lines<'l, Tx: IntoIterator<Item = f32>, Ty: IntoIterator<Item = f32>>(x: Tx, 
 
 impl Lines
 {
-	fn show(&self)
+	fn _show(&self)
 	{
 		self.to_axes2d().show();
 	}
@@ -124,7 +124,7 @@ impl Axes2D
 		{
 			pe.convert(&mut ax);
 		}
-		fg.show();
+		fg.show().unwrap();
 	}
 }
 
