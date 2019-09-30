@@ -25,7 +25,7 @@ fg.axes2d()
 		&[9., 4., 1., 0., 1., 4., 9.],
 		&[Caption("Parabola")],
 	);
-fg.show();
+fg.show().unwrap();
 ```
 
 ![Simple example plot](doc/fg.readme_example.png)
