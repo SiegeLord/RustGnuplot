@@ -25,7 +25,7 @@ fn example(c: Common)
 	if !c.no_show
 	{
 		fg.set_terminal("pngcairo", "fg.readme_example.png");
-		fg.show();
+		fg.show().unwrap();
 	}
 }
 

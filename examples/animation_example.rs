@@ -23,7 +23,7 @@ fn main()
 			&[],
 		);
 		t += 0.1;
-		fg.show();
+		fg.show().unwrap();
 		sleep(Duration::from_millis(500));
 	}
 }
