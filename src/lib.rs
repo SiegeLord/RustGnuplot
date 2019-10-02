@@ -28,9 +28,9 @@ pub use crate::axes3d::Axes3D;
 pub use crate::axes_common::AxesCommon;
 pub use crate::coordinates::*;
 pub use crate::datatype::*;
+pub use crate::error_types::*;
 pub use crate::figure::*;
 pub use crate::options::*;
-pub use crate::error_types::*;
 
 #[macro_use]
 mod util;

@@ -112,7 +112,8 @@ impl Figure
 	}
 
 	/// Set or unset text enhancements
-	pub fn set_enhanced_text<'l>(&'l mut self, enhanced: bool) -> &'l mut Figure {
+	pub fn set_enhanced_text<'l>(&'l mut self, enhanced: bool) -> &'l mut Figure
+	{
 		self.enhanced_text = enhanced;
 		self
 	}
@@ -195,9 +196,7 @@ impl Figure
 
 		if self.version.is_none()
 		{
-			let output = Command::new("gnuplot")
-				.arg("--version")
-				.output()?;
+			let output = Command::new("gnuplot").arg("--version").output()?;
 
 			if let Ok(version_string) = str::from_utf8(&output.stdout)
 			{
@@ -246,7 +245,9 @@ impl Figure
 	/// * `file_path` - Path to the output file (png)
 	/// * `width_px` - output image width (in pixels)
 	/// * `height_px` - output image height (in pixels)
-	pub fn save_to_png(&mut self, file_path: &str, width_px: u32, height_px: u32) -> Result<(), GnuplotInitError>
+	pub fn save_to_png(
+		&mut self, file_path: &str, width_px: u32, height_px: u32,
+	) -> Result<(), GnuplotInitError>
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
@@ -265,7 +266,9 @@ impl Figure
 	/// * `file_path` - Path to the output file (svg)
 	/// * `width_px` - output image width (in pixels)
 	/// * `height_px` - output image height (in pixels)
-	pub fn save_to_svg(&mut self, file_path: &str, width_px: u32, height_px: u32) -> Result<(), GnuplotInitError>
+	pub fn save_to_svg(
+		&mut self, file_path: &str, width_px: u32, height_px: u32,
+	) -> Result<(), GnuplotInitError>
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
@@ -284,7 +287,9 @@ impl Figure
 	/// * `file_path` - Path to the output file (pdf)
 	/// * `width_in` - output image width (in inches)
 	/// * `height_in` - output image height (in inches)
-	pub fn save_to_pdf(&mut self, file_path: &str, width_in: u32, height_in: u32) -> Result<(), GnuplotInitError>
+	pub fn save_to_pdf(
+		&mut self, file_path: &str, width_in: u32, height_in: u32,
+	) -> Result<(), GnuplotInitError>
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
@@ -303,7 +308,9 @@ impl Figure
 	/// * `file_path` - Path to the output file (eps)
 	/// * `width_in` - output image width (in inches)
 	/// * `height_in` - output image height (in inches)
-	pub fn save_to_eps(&mut self, file_path: &str, width_in: u32, height_in: u32) -> Result<(), GnuplotInitError>
+	pub fn save_to_eps(
+		&mut self, file_path: &str, width_in: u32, height_in: u32,
+	) -> Result<(), GnuplotInitError>
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
@@ -322,7 +329,9 @@ impl Figure
 	/// * `file_path` - Path to the output file (canvas)
 	/// * `width_px` - output image width (in pixels)
 	/// * `height_px` - output image height (in pixels)
-	pub fn save_to_canvas(&mut self, file_path: &str, width_px: u32, height_px: u32) -> Result<(), GnuplotInitError>
+	pub fn save_to_canvas(
+		&mut self, file_path: &str, width_px: u32, height_px: u32,
+	) -> Result<(), GnuplotInitError>
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
@@ -393,7 +402,18 @@ impl Figure
 		}
 
 		writeln!(w, "set termoption dashed");
-		writeln!(w, "set termoption {}", if self.enhanced_text { "enhanced" } else { "noenhanced" });
+		writeln!(
+			w,
+			"set termoption {}",
+			if self.enhanced_text
+			{
+				"enhanced"
+			}
+			else
+			{
+				"noenhanced"
+			}
+		);
 		if self.axes.len() > 1
 		{
 			writeln!(w, "set multiplot");
