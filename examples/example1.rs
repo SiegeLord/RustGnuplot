@@ -297,7 +297,11 @@ fn example(c: Common)
 		.points(
 			x,
 			y2,
-			&[Caption("-(x - 4)^2 + 5"), PointSymbol('S'), Color("#ffaa77")],
+			&[
+				Caption("-(x - 4)^2 + 5"),
+				PointSymbol('S'),
+				Color("#ffaa77"),
+			],
 		)
 		.lines_points(
 			x,

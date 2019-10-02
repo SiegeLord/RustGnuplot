@@ -26,8 +26,8 @@ impl error::Error for GnuplotInitError
 
 impl From<io::Error> for GnuplotInitError
 {
-    fn from(_error: io::Error) -> Self
+	fn from(_error: io::Error) -> Self
 	{
-        GnuplotInitError
-    }
+		GnuplotInitError
+	}
 }
