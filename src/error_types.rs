@@ -2,8 +2,21 @@ use std::error;
 use std::fmt;
 use std::io;
 
-#[derive(Debug, Clone)]
-pub struct GnuplotInitError;
+#[derive(Debug)]
+pub struct GnuplotInitError
+{
+	inner: Box<dyn error::Error + 'static>,
+}
+
+impl From<io::Error> for GnuplotInitError
+{
+	fn from(error: io::Error) -> Self
+	{
+		GnuplotInitError {
+			inner: Box::new(error),
+		}
+	}
+}
 
 impl fmt::Display for GnuplotInitError
 {
@@ -11,23 +24,8 @@ impl fmt::Display for GnuplotInitError
 	{
 		write!(
 			f,
-			"Couldn't spawn gnuplot. Make sure it is installed and available in PATH."
+			"Couldn't spawn gnuplot. Make sure it is installed and available in PATH.\n{}",
+			self.inner
 		)
-	}
-}
-
-impl error::Error for GnuplotInitError
-{
-	fn source(&self) -> Option<&(dyn error::Error + 'static)>
-	{
-		None
-	}
-}
-
-impl From<io::Error> for GnuplotInitError
-{
-	fn from(_error: io::Error) -> Self
-	{
-		GnuplotInitError
 	}
 }
