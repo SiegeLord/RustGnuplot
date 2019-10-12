@@ -379,7 +379,7 @@ impl Axes2D
 	/// Additionally, error bars are attached to each data point in the X direction.
 	/// # Arguments
 	/// * `x` - x values
-	/// * `y` - y valuess
+	/// * `y` - y values
 	/// * `x_error` - Errors associated with the x value
 	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
@@ -445,7 +445,7 @@ impl Axes2D
 	/// Additionally, error bars are attached to each data point in the X direction.
 	/// # Arguments
 	/// * `x` - x values
-	/// * `y` - y valuess
+	/// * `y` - y values
 	/// * `x_error` - Errors associated with the x value
 	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
