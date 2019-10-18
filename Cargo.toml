@@ -105,5 +105,10 @@ path = "examples/patterns.rs"
 name = "inverse_api"
 path = "examples/inverse_api.rs"
 
+[[example]]
+
+name = "multiplot_options"
+path = "examples/multiplot_options.rs"
+
 [dependencies]
 byteorder = "1.3.1"
