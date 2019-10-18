@@ -439,3 +439,21 @@ pub enum FillPatternType
 	SmallForwardSlashes = 7,
 	Pattern8 = 8,
 }
+
+/// Multiplot Fill Order Options
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
+pub enum MultiplotFillOrder {
+	/// "rowsfirst" gnuplot option.
+	RowsFirst,
+	/// "columnfirst" gnuplot option.
+	ColumnsFirst
+}
+
+/// Multiplot Fill Order Options
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
+pub enum MultiplotFillDirection {
+	/// "downward" gnuplot option.
+	Downwards,
+	/// "upward" gnuplot option.
+	Upwards
+}

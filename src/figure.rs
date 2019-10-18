@@ -9,7 +9,7 @@ use crate::axes2d::*;
 use crate::axes3d::*;
 
 use crate::axes_common::*;
-use crate::options::GnuplotVersion;
+use crate::options::{GnuplotVersion, MultiplotFillOrder, MultiplotFillDirection};
 use crate::writer::Writer;
 use std::cell::RefCell;
 use std::fs::File;
@@ -51,6 +51,37 @@ impl AxesVariant
 	}
 }
 
+/// A struct that contains all the multiplot layout options
+struct MultiplotOptions {
+	rows: usize,
+	columns: usize,
+	title: Option<String>,
+	scale_x: Option<f32>,
+	scale_y: Option<f32>,
+	offset_x: Option<f32>,
+	offset_y: Option<f32>,
+	fill_order: Option<MultiplotFillOrder>,
+	fill_direction: Option<MultiplotFillDirection>
+}
+
+impl MultiplotOptions
+{
+	pub fn new() -> MultiplotOptions
+	{
+		MultiplotOptions {
+			rows: 1,
+			columns: 1,
+			title: None,
+			scale_x: None,
+			scale_y: None,
+			offset_x: None,
+			offset_y: None,
+			fill_order: None,
+			fill_direction: None
+		}
+	}
+}
+
 /// A figure that may contain multiple axes
 pub struct Figure
 {
@@ -63,6 +94,7 @@ pub struct Figure
 	// RefCell so that we can echo to it
 	gnuplot: RefCell<Option<Child>>,
 	version: Option<GnuplotVersion>,
+	multiplot_options: Option<MultiplotOptions>
 }
 
 impl Default for GnuplotVersion
@@ -87,6 +119,7 @@ impl Figure
 			post_commands: "".into(),
 			pre_commands: "".into(),
 			version: None,
+			multiplot_options: None
 		}
 	}
 
@@ -146,6 +179,69 @@ impl Figure
 	pub fn get_gnuplot_version(&self) -> GnuplotVersion
 	{
 		self.version.unwrap_or_default()
+	}
+
+	/// Define the layout for the multiple plots
+	/// # Arguments
+	/// * `rows` - Number of rows
+	/// * `columns` - Number of columns
+	pub fn set_multiplot_layout<'l>(&'l mut self, rows: usize, columns: usize) -> &'l mut Self
+	{
+		let multiplot_options = self.multiplot_options.get_or_insert(MultiplotOptions::new());
+		multiplot_options.rows = rows;
+		multiplot_options.columns = columns;
+
+		self
+	}
+
+	/// Set the multiplot title
+	/// # Arguments
+	/// * `title` - Name of the file
+	pub fn set_title<'l>(&'l mut self, title: &str) -> &'l mut Self
+	{
+		let multiplot_options = self.multiplot_options.get_or_insert(MultiplotOptions::new());
+		multiplot_options.title = Some(title.into());
+
+		self
+	}
+
+	/// Applies a horizontal and vertical scale to each plot
+	/// # Arguments
+	/// * `scale_x` - Horizonal scale applied to each plot
+	/// * `scale_y` - Vertical scale applied to each plot
+	pub fn set_scale<'l>(&'l mut self, scale_x: f32, scale_y: f32) -> &'l mut Self
+	{
+		let multiplot_options = self.multiplot_options.get_or_insert(MultiplotOptions::new());
+		multiplot_options.scale_x = Some(scale_x);
+		multiplot_options.scale_y = Some(scale_y);
+
+		self
+	}
+
+	/// Applies a horizontal and vertical offset to each plot
+	/// # Arguments
+	/// * `offset_x` - Horizontal offset applied to each plot
+	/// * `offset_y` - Horizontal offset applied to each plot
+	pub fn set_offset<'l>(&'l mut self, offset_x: f32, offset_y: f32) -> &'l mut Self
+	{
+		let multiplot_options = self.multiplot_options.get_or_insert(MultiplotOptions::new());
+		multiplot_options.offset_x = Some(offset_x);
+		multiplot_options.offset_y = Some(offset_y);
+
+		self
+	}
+
+	/// Defines the order in which plots fill the layout. Default is RowsFirst and Downwards.
+	/// # Arguments
+	/// * `order` - Options: RowsFirst, ColumnsFirst
+	/// * `direction` - Options: Downwards, Upwards
+	pub fn set_multiplot_fill_order<'l>(&'l mut self, order: MultiplotFillOrder, direction: MultiplotFillDirection) -> &'l mut Self
+	{
+		let multiplot_options = self.multiplot_options.get_or_insert(MultiplotOptions::new());
+		multiplot_options.fill_order = Some(order);
+		multiplot_options.fill_direction = Some(direction);
+
+		self
 	}
 
 	/// Creates a set of 2D axes
@@ -417,8 +513,36 @@ impl Figure
 		);
 		if self.axes.len() > 1
 		{
-			writeln!(w, "set multiplot");
+			let mut multiplot_options_string = "".to_string();
+			if let Some(m) = &self.multiplot_options {
+				let fill_order = match m.fill_order {
+					None => "",
+					Some(fo) =>
+						match fo {
+							MultiplotFillOrder::RowsFirst => " rowsfirst",
+							MultiplotFillOrder::ColumnsFirst => " columnsfirst"
+						}
+				};
+
+				let fill_direction = match m.fill_direction {
+					None => "",
+					Some(fd) =>
+						match fd {
+							MultiplotFillDirection::Downwards => " downwards",
+							MultiplotFillDirection::Upwards => " upwards"
+						}
+				};
+
+				let title = m.title.as_ref().map_or("".to_string(), |t| format!(" title \"{}\"", t));
+				let scale = m.scale_x.map_or("".to_string(), |s| format!(" scale {},{}", s, m.offset_x.unwrap()));
+				let offset  = m.offset_x.map_or("".to_string(), |o| format!(" offset {},{}", o, m.offset_y.unwrap()));
+
+				multiplot_options_string = format!(" layout {},{}{}{}{}{}{}", m.rows, m.columns, fill_order, fill_direction, title, scale, offset);
+			}
+
+			writeln!(w, "set multiplot{}", multiplot_options_string);
 		}
+
 		// TODO: Maybe add an option for this (who seriously prefers them in the back though?)
 		writeln!(w, "set tics front");
 
