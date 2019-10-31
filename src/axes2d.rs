@@ -166,7 +166,7 @@ impl Axes2D
 	/// # Arguments
 	/// * `x` - X coordinate of the legend
 	/// * `y` - Y coordinate of the legend
-	/// * `label_options` - Array of LegendOption options
+	/// * `legend_options` - Array of LegendOption options
 	/// * `text_options` - Array of LabelOption options specifying the appearance of the plot titles. Valid options are:
 	///     * `Font`
 	///     * `TextColor`
