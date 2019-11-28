@@ -511,37 +511,35 @@ impl Figure
 				"noenhanced"
 			}
 		);
-		if self.axes.len() > 1
-		{
-			let mut multiplot_options_string = "".to_string();
-			if let Some(m) = &self.multiplot_options {
-				let fill_order = match m.fill_order {
-					None => "",
-					Some(fo) =>
-						match fo {
-							MultiplotFillOrder::RowsFirst => " rowsfirst",
-							MultiplotFillOrder::ColumnsFirst => " columnsfirst"
-						}
-				};
 
-				let fill_direction = match m.fill_direction {
-					None => "",
-					Some(fd) =>
-						match fd {
-							MultiplotFillDirection::Downwards => " downwards",
-							MultiplotFillDirection::Upwards => " upwards"
-						}
-				};
+		let mut multiplot_options_string = "".to_string();
+		if let Some(m) = &self.multiplot_options {
+			let fill_order = match m.fill_order {
+				None => "",
+				Some(fo) =>
+					match fo {
+						MultiplotFillOrder::RowsFirst => " rowsfirst",
+						MultiplotFillOrder::ColumnsFirst => " columnsfirst"
+					}
+			};
 
-				let title = m.title.as_ref().map_or("".to_string(), |t| format!(" title \"{}\"", t));
-				let scale = m.scale_x.map_or("".to_string(), |s| format!(" scale {},{}", s, m.offset_x.unwrap()));
-				let offset  = m.offset_x.map_or("".to_string(), |o| format!(" offset {},{}", o, m.offset_y.unwrap()));
+			let fill_direction = match m.fill_direction {
+				None => "",
+				Some(fd) =>
+					match fd {
+						MultiplotFillDirection::Downwards => " downwards",
+						MultiplotFillDirection::Upwards => " upwards"
+					}
+			};
 
-				multiplot_options_string = format!(" layout {},{}{}{}{}{}{}", m.rows, m.columns, fill_order, fill_direction, title, scale, offset);
-			}
+			let title = m.title.as_ref().map_or("".to_string(), |t| format!(" title \"{}\"", t));
+			let scale = m.scale_x.map_or("".to_string(), |s| format!(" scale {},{}", s, m.scale_y.unwrap()));
+			let offset  = m.offset_x.map_or("".to_string(), |o| format!(" offset {},{}", o, m.offset_y.unwrap()));
 
-			writeln!(w, "set multiplot{}", multiplot_options_string);
+			multiplot_options_string = format!(" layout {},{}{}{}{}{}{}", m.rows, m.columns, fill_order, fill_direction, title, scale, offset);
 		}
+
+		writeln!(w, "set multiplot{}", multiplot_options_string);
 
 		// TODO: Maybe add an option for this (who seriously prefers them in the back though?)
 		writeln!(w, "set tics front");
@@ -565,10 +563,7 @@ impl Figure
 			e.write_out(w, self.get_gnuplot_version());
 		}
 
-		if self.axes.len() > 1
-		{
-			writeln!(w, "unset multiplot");
-		}
+		writeln!(w, "unset multiplot");
 		writeln!(w, "{}", &self.post_commands);
 		self
 	}

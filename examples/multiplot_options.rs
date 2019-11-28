@@ -11,7 +11,7 @@ fn example(c: Common)
   let mut fg = Figure::new();
   fg.set_multiplot_layout(2,2)
     .set_title("Multiple parabolas")
-    .set_scale(0.5, 0.5)
+    .set_scale(0.8, 0.8)
     .set_offset(0.0, 0.0)
     .set_multiplot_fill_order(RowsFirst, Upwards);
 
@@ -20,7 +20,8 @@ fn example(c: Common)
       &[-3., -2., -1., 0., 1., 2., 3.],
       &[9., 4., 1., 0., 1., 4., 9.],
       &[Caption("Parabola 1")],
-    );
+    )
+    .set_title("Parabola 1", &[]);
 
   fg.axes2d()
     .lines(
