@@ -29,3 +29,5 @@ impl fmt::Display for GnuplotInitError
 		)
 	}
 }
+
+impl error::Error for GnuplotInitError {}
