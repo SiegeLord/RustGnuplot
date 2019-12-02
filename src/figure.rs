@@ -26,7 +26,7 @@ enum AxesVariant
 
 impl AxesVariant
 {
-	fn write_out(&self, writer: &mut Writer, version: GnuplotVersion)
+	fn write_out(&self, writer: &mut dyn Writer, version: GnuplotVersion)
 	{
 		match *self
 		{
@@ -383,7 +383,7 @@ impl Figure
 	/// * `writer` - A function pointer that will be called multiple times with the command text and data
 	pub fn echo<'l, T: Writer>(&'l self, writer: &mut T) -> &'l Figure
 	{
-		let w = writer as &mut Writer;
+		let w = writer as &mut dyn Writer;
 		writeln!(w, "{}", &self.pre_commands);
 
 		if self.axes.len() == 0

@@ -226,7 +226,7 @@ impl PlotElement
 		}
 	}
 
-	fn write_args(&self, writer: &mut Writer, version: GnuplotVersion)
+	fn write_args(&self, writer: &mut dyn Writer, version: GnuplotVersion)
 	{
 		let options = &self.options;
 		match self.source_type
@@ -433,7 +433,7 @@ impl PlotElement
 		}
 	}
 
-	fn write_data(&self, writer: &mut Writer)
+	fn write_data(&self, writer: &mut dyn Writer)
 	{
 		for d in &self.data
 		{
@@ -467,7 +467,7 @@ impl LabelType
 }
 
 pub fn write_out_label_options(
-	label_type: LabelType, options: &[LabelOption<String>], writer: &mut Writer,
+	label_type: LabelType, options: &[LabelOption<String>], writer: &mut dyn Writer,
 )
 {
 	let w = writer;
@@ -697,7 +697,7 @@ impl AxisData
 		}
 	}
 
-	pub fn write_out_commands(&self, w: &mut Writer, version: GnuplotVersion)
+	pub fn write_out_commands(&self, w: &mut dyn Writer, version: GnuplotVersion)
 	{
 		if self.axis != TickAxis::CBTickAxis
 		{
@@ -1062,7 +1062,7 @@ impl AxesCommonData
 		}
 	}
 
-	pub fn write_grid_options(&self, c: &mut Writer, axes: &[TickAxis], version: GnuplotVersion)
+	pub fn write_grid_options(&self, c: &mut dyn Writer, axes: &[TickAxis], version: GnuplotVersion)
 	{
 		if !axes.is_empty()
 		{
@@ -1098,7 +1098,7 @@ impl AxesCommonData
 	}
 
 	pub fn write_line_options(
-		c: &mut Writer, options: &[PlotOption<String>], version: GnuplotVersion,
+		c: &mut dyn Writer, options: &[PlotOption<String>], version: GnuplotVersion,
 	)
 	{
 		let mut found = false;
@@ -1136,7 +1136,7 @@ impl AxesCommonData
 	}
 
 	pub fn write_color_options(
-		c: &mut Writer, options: &[PlotOption<String>], default: Option<&str>,
+		c: &mut dyn Writer, options: &[PlotOption<String>], default: Option<&str>,
 	)
 	{
 		let mut col = default;
@@ -1156,7 +1156,7 @@ impl AxesCommonData
 		}
 	}
 
-	pub fn write_out_commands(&self, writer: &mut Writer, version: GnuplotVersion)
+	pub fn write_out_commands(&self, writer: &mut dyn Writer, version: GnuplotVersion)
 	{
 		writer.write_all(&self.commands[..]);
 		self.x_axis.write_out_commands(writer, version);
@@ -1164,7 +1164,7 @@ impl AxesCommonData
 		self.cb_axis.write_out_commands(writer, version);
 	}
 
-	pub fn write_out_elements(&self, cmd: &str, writer: &mut Writer, version: GnuplotVersion)
+	pub fn write_out_elements(&self, cmd: &str, writer: &mut dyn Writer, version: GnuplotVersion)
 	{
 		write!(writer, "{}", cmd);
 
@@ -1284,7 +1284,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_aspect_ratio<'l>(&'l mut self, ratio: AutoOption<f64>) -> &'l mut Self
 	{
 		{
-			let c = &mut self.get_common_data_mut().commands as &mut Writer;
+			let c = &mut self.get_common_data_mut().commands as &mut dyn Writer;
 
 			match ratio
 			{
@@ -1708,7 +1708,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_margins<'l>(&'l mut self, margins: &[MarginSide]) -> &'l mut Self
 	{
 		{
-			let c = &mut self.get_common_data_mut().commands as &mut Writer;
+			let c = &mut self.get_common_data_mut().commands as &mut dyn Writer;
 			for &s in margins.iter()
 			{
 				match s
@@ -1730,7 +1730,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_palette(&mut self, palette: PaletteType) -> &mut Self
 	{
 		{
-			let c = &mut self.get_common_data_mut().commands as &mut Writer;
+			let c = &mut self.get_common_data_mut().commands as &mut dyn Writer;
 			match palette
 			{
 				Gray(gamma) =>
@@ -1773,7 +1773,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	) -> &mut Self
 	{
 		{
-			let c = &mut self.get_common_data_mut().commands as &mut Writer;
+			let c = &mut self.get_common_data_mut().commands as &mut dyn Writer;
 			write!(c, "set palette defined (");
 
 			let mut first = true;

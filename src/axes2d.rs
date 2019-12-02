@@ -27,7 +27,7 @@ impl BorderOptions
 		}
 	}
 
-	fn write_out(&self, writer: &mut Writer, version: GnuplotVersion)
+	fn write_out(&self, writer: &mut dyn Writer, version: GnuplotVersion)
 	{
 		writer.write_str("set border ");
 		let mut f: i32 = 0;
@@ -124,7 +124,7 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		{
-			let c = &mut self.common.commands as &mut Writer;
+			let c = &mut self.common.commands as &mut dyn Writer;
 			write!(c, "set arrow from {},{} to {},{}", x1, y1, x2, y2);
 
 			first_opt! {options,
@@ -178,7 +178,7 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		{
-			let c = &mut self.common.commands as &mut Writer;
+			let c = &mut self.common.commands as &mut dyn Writer;
 
 			write!(c, "set key at {},{}", x, y);
 
@@ -751,12 +751,12 @@ impl AxesCommon for Axes2D {}
 
 pub(crate) trait Axes2DPrivate
 {
-	fn write_out(&self, writer: &mut Writer, version: GnuplotVersion);
+	fn write_out(&self, writer: &mut dyn Writer, version: GnuplotVersion);
 }
 
 impl Axes2DPrivate for Axes2D
 {
-	fn write_out(&self, writer: &mut Writer, version: GnuplotVersion)
+	fn write_out(&self, writer: &mut dyn Writer, version: GnuplotVersion)
 	{
 		if self.common.elems.len() == 0
 		{

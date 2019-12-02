@@ -382,12 +382,12 @@ impl AxesCommon for Axes3D {}
 
 pub(crate) trait Axes3DPrivate
 {
-	fn write_out(&self, writer: &mut Writer, version: GnuplotVersion);
+	fn write_out(&self, writer: &mut dyn Writer, version: GnuplotVersion);
 }
 
 impl Axes3DPrivate for Axes3D
 {
-	fn write_out(&self, w: &mut Writer, version: GnuplotVersion)
+	fn write_out(&self, w: &mut dyn Writer, version: GnuplotVersion)
 	{
 		fn clamp<T: PartialOrd>(val: T, min: T, max: T) -> T
 		{
@@ -442,7 +442,7 @@ impl Axes3DPrivate for Axes3D
 				}
 			};
 
-			fn set_cntrparam<F: FnOnce(&mut Writer)>(w: &mut Writer, wr: F)
+			fn set_cntrparam<F: FnOnce(&mut dyn Writer)>(w: &mut dyn Writer, wr: F)
 			{
 				write!(w, "set cntrparam ");
 				wr(w);
