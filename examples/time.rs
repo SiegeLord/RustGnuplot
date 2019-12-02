@@ -22,7 +22,6 @@ fn example(c: Common)
 	let y = &[0i32, -1, 1, 0];
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_title("Time 1: Hours", &[])
@@ -30,17 +29,16 @@ fn example(c: Common)
 		.set_x_ticks(Some((Auto, 1)), &[Format("%H hours")], &[])
 		.set_x_time(true);
 
-	c.show(&mut fg, "fg.time.1.gnuplot");
+	c.show(&mut fg, "time_1");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 	fg.axes2d()
 		.set_title("Time 2: Seconds", &[])
 		.lines(x2, y, &[])
 		.set_x_ticks(Some((Auto, 1)), &[Format("%.1S secs")], &[])
 		.set_x_time(true);
 
-	c.show(&mut fg, "fg.time.2.gnuplot");
+	c.show(&mut fg, "time_2");
 }
 
 fn main()

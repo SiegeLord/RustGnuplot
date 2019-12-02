@@ -32,7 +32,6 @@ fn example(c: Common)
 	let y_err = repeat(0.2f32);
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_size(0.75, 1.0)
@@ -90,18 +89,17 @@ fn example(c: Common)
 			],
 		);
 
-	c.show(&mut fg, "fg1.1.gnuplot");
+	c.show(&mut fg, "example1_1");
 
 	if !c.no_show
 	{
-		fg.set_terminal("pdfcairo", "fg1.1.pdf");
+		fg.set_terminal("pdfcairo", ".1.pdf");
 		fg.show().unwrap();
-		fg.set_terminal("pngcairo", "fg1.1.png");
+		fg.set_terminal("pngcairo", ".1.png");
 		fg.show().unwrap();
 	}
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_pos_grid(2, 2, 0)
@@ -122,10 +120,9 @@ fn example(c: Common)
 		)
 		.set_title("Plot2", &[]);
 
-	c.show(&mut fg, "fg1.2.gnuplot");
+	c.show(&mut fg, "example1_2");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.lines(x, y1, &[Caption("Lines"), LineWidth(3.0), Color("violet")]);
@@ -141,10 +138,9 @@ fn example(c: Common)
 		)
 		.set_title("Inset fg1.3", &[]);
 
-	c.show(&mut fg, "fg1.3.gnuplot");
+	c.show(&mut fg, "example1_3");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.lines(x, y1, &[Caption("Lines"), LineWidth(3.0), Color("violet")])
@@ -152,10 +148,9 @@ fn example(c: Common)
 		.set_y_label("This axis is manually scaled on the low end", &[])
 		.set_title("Range fg1.4", &[]);
 
-	c.show(&mut fg, "fg1.4.gnuplot");
+	c.show(&mut fg, "example1_4");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.x_error_lines(
@@ -202,10 +197,9 @@ fn example(c: Common)
 		)
 		.set_title("Error fg1.5", &[]);
 
-	c.show(&mut fg, "fg1.5.gnuplot");
+	c.show(&mut fg, "example1_5");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_size(1.0, 0.8)
@@ -276,10 +270,9 @@ fn example(c: Common)
 			&[TextAlign(AlignRight)],
 		);
 
-	c.show(&mut fg, "fg1.6.gnuplot");
+	c.show(&mut fg, "example1_6");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_pos(0.1, 0.1)
@@ -335,7 +328,7 @@ fn example(c: Common)
 			],
 		);
 
-	c.show(&mut fg, "fg1.7.gnuplot");
+	c.show(&mut fg, "example1_7");
 }
 
 fn main()

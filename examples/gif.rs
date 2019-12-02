@@ -12,7 +12,7 @@ fn main()
 	}
 
 	let mut t = 0.0;
-	fg.set_terminal("gif animate optimize delay 2 size 480,360", "fg.gif.gif");
+	fg.set_terminal("gif animate optimize delay 2 size 480,360", "gif.gif");
 	for i in 0..100
 	{
 		if i > 0
@@ -34,6 +34,6 @@ fn main()
 		);
 		t += 0.1;
 	}
-	fg.echo_to_file("fg.gif.gnuplot");
+	fg.echo_to_file("gif");
 	fg.show().unwrap();
 }

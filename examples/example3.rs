@@ -22,7 +22,6 @@ fn example(c: Common)
 	}
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes3d()
 		.set_title("Surface fg3.1", &[])
@@ -34,10 +33,9 @@ fn example(c: Common)
 		.set_z_ticks(Some((Fix(1.0), 1)), &[Mirror(false)], &[])
 		.set_view(45.0, 45.0);
 
-	c.show(&mut fg, "fg3.1.gnuplot");
+	c.show(&mut fg, "example3_1");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes3d()
 		.set_title("Map fg3.2", &[])
@@ -46,10 +44,9 @@ fn example(c: Common)
 		.set_y_label("Y", &[])
 		.set_view_map();
 
-	c.show(&mut fg, "fg3.2.gnuplot");
+	c.show(&mut fg, "example3_2");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes3d()
 		.set_pos_grid(2, 2, 0)
@@ -79,7 +76,7 @@ fn example(c: Common)
 		.surface(z1.iter(), w, h, Some((-4.0, -4.0, 4.0, 4.0)), &[])
 		.set_view(45.0, 45.0);
 
-	c.show(&mut fg, "fg3.3.gnuplot");
+	c.show(&mut fg, "example3_3");
 }
 
 fn main()

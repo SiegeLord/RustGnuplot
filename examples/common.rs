@@ -41,6 +41,7 @@ pub struct Common
 {
 	pub no_show: bool,
 	pub term: Option<String>,
+	pub extension: String,
 }
 
 impl Common
@@ -67,6 +68,14 @@ impl Common
 			"specify what terminal to use for gnuplot.",
 			ArgType::Option,
 		);
+		args.add_opt(
+			"extension",
+			None,
+			'e',
+			false,
+			"specify what extension the output file should have. Default: 'out'",
+			ArgType::Option,
+		);
 
 		let res = args.parse(arg_vec.iter()).unwrap();
 
@@ -79,22 +88,19 @@ impl Common
 		Some(Common {
 			no_show: res.get("no-show").unwrap(),
 			term: res.get::<String>("terminal").map(|s| s.to_string()),
+			extension: res.get::<String>("extension").unwrap_or("out".to_string()),
 		})
 	}
 
 	pub fn show(&self, fg: &mut Figure, filename: &str)
 	{
+		self.term.as_ref().map(|t| {
+			fg.set_terminal(&t, &format!("{}.{}", filename, self.extension));
+		});
 		if !self.no_show
 		{
 			fg.show().unwrap();
 		}
-		fg.echo_to_file(filename);
-	}
-
-	pub fn set_term(&self, fg: &mut Figure)
-	{
-		self.term.as_ref().map(|t| {
-			fg.set_terminal(&t[..], "");
-		});
+		fg.echo_to_file(&format!("{}.gnuplot", filename));
 	}
 }

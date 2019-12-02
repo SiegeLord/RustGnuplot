@@ -38,7 +38,6 @@ fn example(c: Common)
 	}
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_title("Arrows fg2.1", &[])
@@ -64,10 +63,9 @@ fn example(c: Common)
 			&[ArrowType(Open), Color("green")],
 		);
 
-	c.show(&mut fg, "fg2.1.gnuplot");
+	c.show(&mut fg, "example2_1");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_title("Boxes fg2.2", &[])
@@ -88,10 +86,9 @@ fn example(c: Common)
 			&[LineWidth(2.0), Color("gray"), BorderColor("black")],
 		);
 
-	c.show(&mut fg, "fg2.2.gnuplot");
+	c.show(&mut fg, "example2_2");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_title("Axis Ticks fg2.3", &[])
@@ -109,10 +106,9 @@ fn example(c: Common)
 			&[],
 		);
 
-	c.show(&mut fg, "fg2.3.gnuplot");
+	c.show(&mut fg, "example2_3");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_title("Border, Axes fg2.4", &[])
@@ -123,10 +119,9 @@ fn example(c: Common)
 		.set_x_axis(true, &[LineWidth(2.0), LineStyle(DotDotDash)])
 		.set_y_axis(true, &[LineWidth(2.0), Color("red")]);
 
-	c.show(&mut fg, "fg2.4.gnuplot");
+	c.show(&mut fg, "example2_4");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d().set_title("Image fg2.5", &[]).image(
 		z1.iter(),
@@ -136,10 +131,9 @@ fn example(c: Common)
 		&[],
 	);
 
-	c.show(&mut fg, "fg2.5.gnuplot");
+	c.show(&mut fg, "example2_5");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_title("Image without borders fg2.6", &[])
@@ -148,13 +142,12 @@ fn example(c: Common)
 		.set_y_ticks(None, &[], &[])
 		.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[]);
 
-	c.show(&mut fg, "fg2.6.gnuplot");
+	c.show(&mut fg, "example2_6");
 
 	let x4 = &[1f32, 10.0, 100.0];
 	let y4 = &[1f32, 3f32, 9f32];
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_title("Logarithmic fg2.7", &[])
@@ -164,10 +157,9 @@ fn example(c: Common)
 		.set_x_log(Some(10.0))
 		.set_y_log(Some(3.0));
 
-	c.show(&mut fg, "fg2.7.gnuplot");
+	c.show(&mut fg, "example2_7");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_title("Axis Grid fg2.8", &[])
@@ -179,7 +171,7 @@ fn example(c: Common)
 		.set_y_grid(true)
 		.set_y_minor_grid(true);
 
-	c.show(&mut fg, "fg2.8.gnuplot");
+	c.show(&mut fg, "example2_8");
 }
 
 fn main()

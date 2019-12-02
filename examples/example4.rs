@@ -20,7 +20,6 @@ fn example(c: Common)
 	}
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_title("Image fg4.1", &[])
@@ -29,10 +28,9 @@ fn example(c: Common)
 		.set_cb_label("Label", &[Rotate(0.0)])
 		.image(z1.iter(), zw, zh, Some((-4.0, -4.0, 4.0, 4.0)), &[]);
 
-	c.show(&mut fg, "fg4.1.gnuplot");
+	c.show(&mut fg, "example4_1");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes3d()
 		.set_title("Surface fg4.2", &[])
@@ -45,10 +43,9 @@ fn example(c: Common)
 		.set_cb_range(Fix(-1.0), Fix(1.0))
 		.set_view(45.0, 45.0);
 
-	c.show(&mut fg, "fg4.2.gnuplot");
+	c.show(&mut fg, "example4_2");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes3d()
 		.set_title("Cube Helix Palette fg4.3", &[])
@@ -62,10 +59,9 @@ fn example(c: Common)
 		.set_palette(HELIX)
 		.set_view(45.0, 45.0);
 
-	c.show(&mut fg, "fg4.3.gnuplot");
+	c.show(&mut fg, "example4_3");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes3d()
 		.set_title("Gray Palette fg4.4", &[])
@@ -78,10 +74,9 @@ fn example(c: Common)
 		.set_palette(GRAY)
 		.set_view(45.0, 45.0);
 
-	c.show(&mut fg, "fg4.4.gnuplot");
+	c.show(&mut fg, "example4_4");
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes3d()
 		.set_title("Black Body Palette fg4.5", &[])
@@ -94,7 +89,7 @@ fn example(c: Common)
 		.set_palette(HOT)
 		.set_view(45.0, 45.0);
 
-	c.show(&mut fg, "fg4.5.gnuplot");
+	c.show(&mut fg, "example4_5");
 
 	let palette: [(f32, f32, f32, f32); 6] = [
 		(0.00, 1.0, 0.0, 0.0),
@@ -106,7 +101,6 @@ fn example(c: Common)
 	];
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes3d()
 		.set_title("Custom Palette fg4.5", &[])
@@ -119,7 +113,7 @@ fn example(c: Common)
 		.set_custom_palette(palette.iter().map(|&x| x))
 		.set_view(45.0, 45.0);
 
-	c.show(&mut fg, "fg4.5.gnuplot");
+	c.show(&mut fg, "example4_5");
 }
 
 fn main()

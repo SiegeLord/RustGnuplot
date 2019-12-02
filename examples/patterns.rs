@@ -7,7 +7,6 @@ mod common;
 fn example(c: Common)
 {
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	let ax = fg.axes2d();
 	ax.set_title("Patterns", &[]);
@@ -43,7 +42,7 @@ fn example(c: Common)
 		);
 	}
 
-	c.show(&mut fg, "fg.patterns.gnuplot");
+	c.show(&mut fg, "patterns");
 }
 
 fn main()

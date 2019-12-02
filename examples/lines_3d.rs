@@ -11,7 +11,6 @@ fn example(c: Common)
 	let y = z.clone().map(|z| z.sin());
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes3d().set_title("3D lines", &[]).lines(
 		x,
@@ -20,7 +19,7 @@ fn example(c: Common)
 		&[PointSymbol('o'), Color("#ffaa77"), PointSize(2.0)],
 	);
 
-	c.show(&mut fg, "fg.lines_3d.gnuplot");
+	c.show(&mut fg, "lines_3d");
 }
 
 fn main()

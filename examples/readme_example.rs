@@ -8,7 +8,6 @@ mod common;
 fn example(c: Common)
 {
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_title("A plot", &[])
@@ -21,10 +20,10 @@ fn example(c: Common)
 			&[Caption("Parabola")],
 		);
 
-	c.show(&mut fg, "fg.readme_example.gnuplot");
+	c.show(&mut fg, "readme_example");
 	if !c.no_show
 	{
-		fg.set_terminal("pngcairo", "fg.readme_example.png");
+		fg.set_terminal("pngcairo", "readme_example.png");
 		fg.show().unwrap();
 	}
 }

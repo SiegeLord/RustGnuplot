@@ -155,11 +155,10 @@ fn example(c: Common)
 	let y = z.clone().map(|z| z.sin());
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d().lines(z.clone(), y.clone(), &[]);
 
-	c.show(&mut fg, "fg.inverse_api.old.1.gnuplot");
+	c.show(&mut fg, "inverse_api_old_1");
 
 	//~ fg.axes2d().set_title("Old API", &[]).lines(
 	//~ z.clone(),
@@ -171,7 +170,7 @@ fn example(c: Common)
 	//~ &[],
 	//~ );
 
-	//~ c.show(&mut fg, "fg.inverse_api.old.2.gnuplot");
+	//~ c.show(&mut fg, "inverse_api_old_2");
 
 	//~ lines(z.clone(), y.clone()).show();
 

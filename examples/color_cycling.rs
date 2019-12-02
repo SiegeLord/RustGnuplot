@@ -9,7 +9,6 @@ fn example(c: Common)
 	let x = 0..10;
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	let ax = fg.axes2d();
 	ax.set_title("Color cycling", &[]);
@@ -23,7 +22,7 @@ fn example(c: Common)
 		);
 	}
 
-	c.show(&mut fg, "fg.color_cycling.gnuplot");
+	c.show(&mut fg, "color_cycling");
 }
 
 fn main()

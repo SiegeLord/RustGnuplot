@@ -9,7 +9,6 @@ fn example(c: Common)
 	let x = 0..10;
 
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	let ax = fg.axes2d();
 	ax.set_title("Dash type", &[]);
@@ -30,7 +29,7 @@ fn example(c: Common)
 		);
 	}
 
-	c.show(&mut fg, "fg.dash_type.gnuplot");
+	c.show(&mut fg, "dash_type");
 }
 
 fn main()

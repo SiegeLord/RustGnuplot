@@ -7,7 +7,6 @@ mod common;
 fn example(c: Common)
 {
 	let mut fg = Figure::new();
-	c.set_term(&mut fg);
 
 	fg.axes2d()
 		.set_title("Box and whisker", &[])
@@ -37,7 +36,7 @@ fn example(c: Common)
 		.set_x_range(Fix(-1.0), Fix(3.0))
 		.set_y_range(Fix(-3.0), Fix(5.0));
 
-	c.show(&mut fg, "fg.box_and_whisker.gnuplot");
+	c.show(&mut fg, "box_and_whisker");
 }
 
 fn main()
