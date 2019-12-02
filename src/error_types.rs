@@ -30,4 +30,10 @@ impl fmt::Display for GnuplotInitError
 	}
 }
 
-impl error::Error for GnuplotInitError {}
+impl error::Error for GnuplotInitError
+{
+	fn source(&self) -> Option<&(dyn error::Error + 'static)>
+	{
+		Some(&*self.inner)
+	}
+}
