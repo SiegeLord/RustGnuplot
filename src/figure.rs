@@ -414,6 +414,7 @@ impl Figure
 				"noenhanced"
 			}
 		);
+		writeln!(w, "set encoding utf8");
 		if self.axes.len() > 1
 		{
 			writeln!(w, "set multiplot");
