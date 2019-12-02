@@ -812,7 +812,7 @@
 		}
 	}
 
-	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>)
+	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>)
 	{
 		<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;set border &quot;</span>);
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">f</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0</span>;
@@ -909,7 +909,7 @@
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		{
-			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>;
+			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>;
 			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set arrow from {},{} to {},{}&quot;</span>, <span class="ident">x1</span>, <span class="ident">y1</span>, <span class="ident">x2</span>, <span class="ident">y2</span>);
 
 			<span class="macro">first_opt</span><span class="macro">!</span> {<span class="ident">options</span>,
@@ -963,7 +963,7 @@
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		{
-			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>;
+			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">commands</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>;
 
 			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">c</span>, <span class="string">&quot;set key at {},{}&quot;</span>, <span class="ident">x</span>, <span class="ident">y</span>);
 
@@ -1536,12 +1536,12 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait</span> <span class="ident">Axes2DPrivate</span>
 {
-	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>);
+	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>);
 }
 
 <span class="kw">impl</span> <span class="ident">Axes2DPrivate</span> <span class="kw">for</span> <span class="ident">Axes2D</span>
 {
-	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Writer</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>)
+	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>)
 	{
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
 		{
