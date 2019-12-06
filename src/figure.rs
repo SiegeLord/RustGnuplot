@@ -391,6 +391,7 @@ impl Figure
 			return self;
 		}
 
+		writeln!(w, "set encoding utf8");
 		if self.terminal.len() > 0
 		{
 			writeln!(w, "set terminal {}", self.terminal);
@@ -414,7 +415,6 @@ impl Figure
 				"noenhanced"
 			}
 		);
-		writeln!(w, "set encoding utf8");
 		if self.axes.len() > 1
 		{
 			writeln!(w, "set multiplot");
