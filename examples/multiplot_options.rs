@@ -22,7 +22,10 @@ fn example(c: Common)
 			&[Caption("Parabola 1")],
 		)
 		.set_x_label("X label", &[])
-		.set_title("Parabola 1", &[]);
+		.set_title("Parabola 1", &[])
+		.label("Test 1", Axis(-3.), Axis(-3.), &[])
+		.label("Test 2", Axis(3.), Axis(3.), &[])
+		.arrow(Axis(-3.), Axis(-3.), Axis(3.), Axis(3.), &[]);
 
 	fg.axes2d().lines(
 		&[-3., -2., -1., 0., 1., 2., 3.],
