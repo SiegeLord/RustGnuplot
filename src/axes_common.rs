@@ -14,7 +14,6 @@ use crate::options::*;
 use crate::util::OneWayOwned;
 use crate::writer::*;
 use std::borrow::Borrow;
-use std::io::Write;
 
 pub struct PlotElement
 {
@@ -1113,6 +1112,10 @@ pub struct AxesCommonData
 	pub cb_axis: AxisData,
 	pub labels: Vec<LabelData>,
 	pub title: LabelData,
+	pub pos_x: f64,
+	pub pos_y: f64,
+	pub width: f64,
+	pub height: f64,
 }
 
 impl AxesCommonData
@@ -1133,6 +1136,10 @@ impl AxesCommonData
 			cb_axis: AxisData::new(CBTickAxis),
 			labels: vec![],
 			title: LabelData::new(TitleLabel),
+			pos_x: 0.,
+			pos_y: 0.,
+			width: 1.,
+			height: 1.,
 		}
 	}
 
@@ -1230,16 +1237,38 @@ impl AxesCommonData
 		}
 	}
 
+	fn get_pos_and_size(&self) -> (f64, f64, f64, f64)
+	{
+		if let Some(grid_pos) = self.grid_pos
+		{
+			let width = 1.0 / (self.grid_cols as f64);
+			let height = 1.0 / (self.grid_rows as f64);
+			let x = (grid_pos % self.grid_cols) as f64 * width;
+			let y = 1.0 - (1.0 + (grid_pos / self.grid_cols) as f64) * height;
+
+			(x, y, width, height)
+		}
+		else
+		{
+			(self.pos_x, self.pos_y, self.width, self.height)
+		}
+	}
+
 	pub fn write_out_commands(&self, writer: &mut dyn Writer, version: GnuplotVersion)
 	{
-		writer.write_all(&self.commands[..]);
-		self.x_axis.write_out_commands(writer, version);
-		self.y_axis.write_out_commands(writer, version);
-		self.cb_axis.write_out_commands(writer, version);
-		self.title.write_out_commands(writer);
+		let w = writer;
+		let (x, y, width, height) = self.get_pos_and_size();
+		writeln!(w, "set origin {:.12e},{:.12e}", x, y);
+		writeln!(w, "set size {:.12e},{:.12e}", width, height);
+
+		w.write_all(&self.commands[..]);
+		self.x_axis.write_out_commands(w, version);
+		self.y_axis.write_out_commands(w, version);
+		self.cb_axis.write_out_commands(w, version);
+		self.title.write_out_commands(w);
 		for label in &self.labels
 		{
-			label.write_out_commands(writer);
+			label.write_out_commands(w);
 		}
 	}
 
@@ -1303,13 +1332,12 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// * `y` - Y position. Ranges from 0 to 1
 	fn set_pos<'l>(&'l mut self, x: f64, y: f64) -> &'l mut Self
 	{
-		self.get_common_data_mut().grid_pos = None;
-		writeln!(
-			&mut self.get_common_data_mut().commands,
-			"set origin {:.12e},{:.12e}",
-			x,
-			y
-		);
+		{
+			let d = self.get_common_data_mut();
+			d.grid_pos = None;
+			d.pos_x = x;
+			d.pos_y = y;
+		}
 		self
 	}
 
@@ -1319,12 +1347,12 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// * `h` - Height. Ranges from 0 to 1
 	fn set_size<'l>(&'l mut self, w: f64, h: f64) -> &'l mut Self
 	{
-		writeln!(
-			&mut self.get_common_data_mut().commands,
-			"set size {:.12e},{:.12e}",
-			w,
-			h
-		);
+		{
+			let d = self.get_common_data_mut();
+			d.grid_pos = None;
+			d.width = w;
+			d.height = h;
+		}
 		self
 	}
 

@@ -8,7 +8,6 @@ use self::AxesVariant::*;
 use crate::axes2d::*;
 use crate::axes3d::*;
 
-use crate::axes_common::*;
 use crate::options::{GnuplotVersion, MultiplotFillDirection, MultiplotFillOrder};
 use crate::writer::Writer;
 use std::cell::RefCell;
@@ -37,16 +36,6 @@ impl AxesVariant
 				writeln!(writer, "unset multiplot");
 				writeln!(writer, "set multiplot");
 			}
-		}
-	}
-
-	fn get_common_data(&self) -> Option<&AxesCommonData>
-	{
-		match *self
-		{
-			Axes2DType(ref a) => Some(a.get_common_data()),
-			Axes3DType(ref a) => Some(a.get_common_data()),
-			NewPage => None,
 		}
 	}
 }
@@ -573,19 +562,6 @@ impl Figure
 		for e in self.axes.iter()
 		{
 			writeln!(w, "reset");
-
-			if let Some(c) = e.get_common_data()
-			{
-				c.grid_pos.map(|pos| {
-					let width = 1.0 / (c.grid_cols as f64);
-					let height = 1.0 / (c.grid_rows as f64);
-					let x = (pos % c.grid_cols) as f64 * width;
-					let y = 1.0 - (1.0 + (pos / c.grid_cols) as f64) * height;
-
-					writeln!(w, "set origin {:.12e},{:.12e}", x, y);
-					writeln!(w, "set size {:.12e},{:.12e}", width, height);
-				});
-			}
 			e.write_out(w, self.get_gnuplot_version());
 		}
 
