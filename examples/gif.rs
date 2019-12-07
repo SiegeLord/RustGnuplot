@@ -34,6 +34,6 @@ fn main()
 		);
 		t += 0.1;
 	}
-	fg.echo_to_file("gif");
+	fg.echo_to_file("gif.gnuplot");
 	fg.show().unwrap();
 }
