@@ -470,7 +470,7 @@ impl LabelData
 		let w = writer;
 		w.write_str("set ");
 
-		w.write_str(self.label_type.to_label_str());
+		self.label_type.write_label_str(w);
 
 		w.write_str(" \"");
 		w.write_str(&self.text);
@@ -479,6 +479,18 @@ impl LabelData
 		write_out_label_options(self.label_type, &self.options[..], w);
 
 		w.write_str("\n");
+	}
+
+	pub fn reset_state(&self, writer: &mut dyn Writer)
+	{
+		match self.label_type
+		{
+			Label(tag, ..) =>
+			{
+				writeln!(writer, "unset label {}", tag);
+			}
+			_ => (),
+		}
 	}
 }
 
@@ -490,7 +502,7 @@ pub enum LabelType
 	ZLabel,
 	CBLabel,
 	TitleLabel,
-	Label(Coordinate, Coordinate),
+	Label(i32, Coordinate, Coordinate),
 	AxesTicks,
 }
 
@@ -505,16 +517,34 @@ impl LabelType
 		}
 	}
 
-	fn to_label_str(&self) -> &str
+	fn write_label_str(&self, w: &mut dyn Writer)
 	{
 		match *self
 		{
-			XLabel => "xlabel",
-			YLabel => "ylabel",
-			ZLabel => "zlabel",
-			CBLabel => "cblabel",
-			TitleLabel => "title",
-			Label(..) => "label",
+			XLabel =>
+			{
+				w.write_str("xlabel");
+			}
+			YLabel =>
+			{
+				w.write_str("ylabel");
+			}
+			ZLabel =>
+			{
+				w.write_str("zlabel");
+			}
+			CBLabel =>
+			{
+				w.write_str("cblabel");
+			}
+			TitleLabel =>
+			{
+				w.write_str("title");
+			}
+			Label(tag, ..) =>
+			{
+				write!(w, "label {}", tag);
+			}
 			_ => panic!("Invalid label type"),
 		}
 	}
@@ -538,7 +568,7 @@ pub fn write_out_label_options(
 	let w = writer;
 	match label_type
 	{
-		Label(x, y) =>
+		Label(_, x, y) =>
 		{
 			write!(w, " at {},{} front", x, y);
 		}
@@ -1301,9 +1331,9 @@ impl AxesCommonData
 	pub fn write_out_commands(&self, writer: &mut dyn Writer, version: GnuplotVersion)
 	{
 		let w = writer;
-		let (x, y, width, height) = self.get_pos_and_size();
-		writeln!(w, "set origin {:.12e},{:.12e}", x, y);
-		writeln!(w, "set size {:.12e},{:.12e}", width, height);
+		//let (x, y, width, height) = self.get_pos_and_size();
+		//writeln!(w, "set origin {:.12e},{:.12e}", x, y);
+		//writeln!(w, "set size {:.12e},{:.12e}", width, height);
 		match self.aspect_ratio
 		{
 			Fix(r) =>
@@ -1403,6 +1433,14 @@ impl AxesCommonData
 		for e in self.elems.iter()
 		{
 			e.write_data(writer);
+		}
+	}
+
+	pub fn reset_state(&self, writer: &mut dyn Writer)
+	{
+		for label in &self.labels
+		{
+			label.reset_state(writer);
 		}
 	}
 }
@@ -1549,9 +1587,12 @@ pub trait AxesCommon: AxesCommonPrivate
 		&'l mut self, text: &str, x: Coordinate, y: Coordinate, options: &[LabelOption<&str>],
 	) -> &'l mut Self
 	{
-		let mut label = LabelData::new(Label(x, y));
-		label.set(text.into(), options.to_one_way_owned());
-		self.get_common_data_mut().labels.push(label);
+		{
+			let labels = &mut self.get_common_data_mut().labels;
+			let mut label = LabelData::new(Label(labels.len() as i32 + 1, x, y));
+			label.set(text.into(), options.to_one_way_owned());
+			labels.push(label);
+		}
 		self
 	}
 

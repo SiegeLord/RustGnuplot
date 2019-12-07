@@ -364,6 +364,11 @@ impl Axes3D
 		self.contour_label = label.map(|l| l.to_string());
 		self
 	}
+
+	pub(crate) fn reset_state(&self, writer: &mut dyn Writer)
+	{
+		self.common.reset_state(writer);
+	}
 }
 
 impl AxesCommonPrivate for Axes3D

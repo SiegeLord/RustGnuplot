@@ -38,6 +38,16 @@ impl AxesVariant
 			}
 		}
 	}
+
+	fn reset_state(&self, writer: &mut dyn Writer)
+	{
+		match *self
+		{
+			Axes2DType(ref a) => a.reset_state(writer),
+			Axes3DType(ref a) => a.reset_state(writer),
+			_ => (),
+		}
+	}
 }
 
 /// A struct that contains all the multiplot layout options
@@ -559,10 +569,16 @@ impl Figure
 		// TODO: Maybe add an option for this (who seriously prefers them in the back though?)
 		writeln!(w, "set tics front");
 
+		let mut prev_e: Option<&AxesVariant> = None;
 		for e in self.axes.iter()
 		{
 			writeln!(w, "reset");
+			if let Some(prev_e) = prev_e
+			{
+				prev_e.reset_state(w);
+			}
 			e.write_out(w, self.get_gnuplot_version());
+			prev_e = Some(e);
 		}
 
 		writeln!(w, "unset multiplot");

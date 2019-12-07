@@ -732,6 +732,11 @@ impl Axes2D
 		));
 		self
 	}
+
+	pub(crate) fn reset_state(&self, writer: &mut dyn Writer)
+	{
+		self.common.reset_state(writer);
+	}
 }
 
 impl AxesCommonPrivate for Axes2D
