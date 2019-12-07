@@ -194,8 +194,9 @@ impl Axes3D
 	pub fn set_z_label<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>])
 		-> &'l mut Self
 	{
-		self.get_common_data_mut()
-			.set_label_common(ZLabel, text, options);
+		self.z_axis
+			.label
+			.set(text.into(), options.to_one_way_owned());
 		self
 	}
 

@@ -442,6 +442,47 @@ impl PlotElement
 	}
 }
 
+pub struct LabelData
+{
+	pub label_type: LabelType,
+	pub text: String,
+	pub options: Vec<LabelOption<String>>,
+}
+
+impl LabelData
+{
+	fn new(label_type: LabelType) -> Self
+	{
+		Self {
+			label_type: label_type,
+			text: "".into(),
+			options: vec![],
+		}
+	}
+
+	pub fn set(&mut self, text: String, options: Vec<LabelOption<String>>)
+	{
+		self.text = text;
+		self.options = options;
+	}
+
+	pub fn write_out_commands(&self, writer: &mut dyn Writer)
+	{
+		let w = writer;
+		w.write_str("set ");
+
+		w.write_str(self.label_type.to_label_str());
+
+		w.write_str(" \"");
+		w.write_str(&self.text);
+		w.write_str("\"");
+
+		write_out_label_options(self.label_type, &self.options[..], w);
+
+		w.write_str("\n");
+	}
+}
+
 #[derive(Copy, Clone)]
 pub enum LabelType
 {
@@ -462,6 +503,31 @@ impl LabelType
 		{
 			Label(..) => true,
 			_ => false,
+		}
+	}
+
+	fn to_label_str(&self) -> &str
+	{
+		match *self
+		{
+			XLabel => "xlabel",
+			YLabel => "ylabel",
+			ZLabel => "zlabel",
+			CBLabel => "cblabel",
+			TitleLabel => "title",
+			Label(..) => "label",
+			_ => panic!("Invalid label type"),
+		}
+	}
+
+	fn from_axis(axis_type: TickAxis) -> Self
+	{
+		match axis_type
+		{
+			XTickAxis => XLabel,
+			YTickAxis => YLabel,
+			ZTickAxis => ZLabel,
+			CBTickAxis => CBLabel,
 		}
 	}
 }
@@ -673,6 +739,7 @@ pub struct AxisData
 	pub mgrid: bool,
 	pub is_time: bool,
 	pub show: bool,
+	pub label: LabelData,
 	pub options: Vec<PlotOption<String>>,
 }
 
@@ -693,6 +760,7 @@ impl AxisData
 			mgrid: false,
 			is_time: false,
 			show: false,
+			label: LabelData::new(LabelType::from_axis(axis)),
 			options: vec![],
 		}
 	}
@@ -929,6 +997,8 @@ impl AxisData
 			}
 		}
 		w.write_str("\n");
+		self.label.write_out_commands(w);
+		w.write_str("\n");
 	}
 
 	pub fn set_ticks_custom<T: DataType, TL: IntoIterator<Item = Tick<T, String>>>(
@@ -1041,6 +1111,8 @@ pub struct AxesCommonData
 	pub x_axis: AxisData,
 	pub y_axis: AxisData,
 	pub cb_axis: AxisData,
+	pub labels: Vec<LabelData>,
+	pub title: LabelData,
 }
 
 impl AxesCommonData
@@ -1059,6 +1131,8 @@ impl AxesCommonData
 			x_axis: AxisData::new(XTickAxis),
 			y_axis: AxisData::new(YTickAxis),
 			cb_axis: AxisData::new(CBTickAxis),
+			labels: vec![],
+			title: LabelData::new(TitleLabel),
 		}
 	}
 
@@ -1162,6 +1236,11 @@ impl AxesCommonData
 		self.x_axis.write_out_commands(writer, version);
 		self.y_axis.write_out_commands(writer, version);
 		self.cb_axis.write_out_commands(writer, version);
+		self.title.write_out_commands(writer);
+		for label in &self.labels
+		{
+			label.write_out_commands(writer);
+		}
 	}
 
 	pub fn write_out_elements(&self, cmd: &str, writer: &mut dyn Writer, version: GnuplotVersion)
@@ -1185,35 +1264,6 @@ impl AxesCommonData
 		{
 			e.write_data(writer);
 		}
-	}
-
-	pub fn set_label_common(
-		&mut self, label_type: LabelType, text: &str, options: &[LabelOption<&str>],
-	)
-	{
-		let c = &mut self.commands;
-
-		c.write_str("set ");
-
-		let label_str = match label_type
-		{
-			XLabel => "xlabel",
-			YLabel => "ylabel",
-			ZLabel => "zlabel",
-			CBLabel => "cblabe",
-			TitleLabel => "title",
-			Label(..) => "label",
-			_ => panic!("Invalid label type"),
-		};
-		c.write_str(label_str);
-
-		c.write_str(" \"");
-		c.write_str(text);
-		c.write_str("\"");
-
-		write_out_label_options(label_type, &options.to_one_way_owned()[..], &mut *c);
-
-		c.write_str("\n");
 	}
 }
 
@@ -1313,7 +1363,9 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_x_label<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>]) -> &'l mut Self
 	{
 		self.get_common_data_mut()
-			.set_label_common(XLabel, text, options);
+			.x_axis
+			.label
+			.set(text.into(), options.to_one_way_owned());
 		self
 	}
 
@@ -1321,7 +1373,9 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_y_label<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>]) -> &'l mut Self
 	{
 		self.get_common_data_mut()
-			.set_label_common(YLabel, text, options);
+			.y_axis
+			.label
+			.set(text.into(), options.to_one_way_owned());
 		self
 	}
 
@@ -1329,7 +1383,9 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_cb_label<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>]) -> &'l mut Self
 	{
 		self.get_common_data_mut()
-			.set_label_common(CBLabel, text, options);
+			.cb_axis
+			.label
+			.set(text.into(), options.to_one_way_owned());
 		self
 	}
 
@@ -1345,7 +1401,8 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_title<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>]) -> &'l mut Self
 	{
 		self.get_common_data_mut()
-			.set_label_common(TitleLabel, text, options);
+			.title
+			.set(text.into(), options.to_one_way_owned());
 		self
 	}
 
@@ -1367,8 +1424,9 @@ pub trait AxesCommon: AxesCommonPrivate
 		&'l mut self, text: &str, x: Coordinate, y: Coordinate, options: &[LabelOption<&str>],
 	) -> &'l mut Self
 	{
-		self.get_common_data_mut()
-			.set_label_common(Label(x, y), text, options);
+		let mut label = LabelData::new(Label(x, y));
+		label.set(text.into(), options.to_one_way_owned());
+		self.get_common_data_mut().labels.push(label);
 		self
 	}
 
