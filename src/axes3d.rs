@@ -369,31 +369,8 @@ impl Axes3D
 	{
 		self.common.reset_state(writer);
 	}
-}
 
-impl AxesCommonPrivate for Axes3D
-{
-	fn get_common_data_mut(&mut self) -> &mut AxesCommonData
-	{
-		&mut self.common
-	}
-
-	fn get_common_data(&self) -> &AxesCommonData
-	{
-		&self.common
-	}
-}
-
-impl AxesCommon for Axes3D {}
-
-pub(crate) trait Axes3DPrivate
-{
-	fn write_out(&self, writer: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion);
-}
-
-impl Axes3DPrivate for Axes3D
-{
-	fn write_out(&self, w: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion)
+	pub(crate) fn write_out(&self, w: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion)
 	{
 		fn clamp<T: PartialOrd>(val: T, min: T, max: T) -> T
 		{
@@ -546,3 +523,18 @@ impl Axes3DPrivate for Axes3D
 		self.common.write_out_elements("splot", w, version);
 	}
 }
+
+impl AxesCommonPrivate for Axes3D
+{
+	fn get_common_data_mut(&mut self) -> &mut AxesCommonData
+	{
+		&mut self.common
+	}
+
+	fn get_common_data(&self) -> &AxesCommonData
+	{
+		&self.common
+	}
+}
+
+impl AxesCommon for Axes3D {}

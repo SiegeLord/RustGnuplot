@@ -733,35 +733,9 @@ impl Axes2D
 		self
 	}
 
-	pub(crate) fn reset_state(&self, writer: &mut dyn Writer)
-	{
-		self.common.reset_state(writer);
-	}
-}
-
-impl AxesCommonPrivate for Axes2D
-{
-	fn get_common_data_mut(&mut self) -> &mut AxesCommonData
-	{
-		&mut self.common
-	}
-
-	fn get_common_data(&self) -> &AxesCommonData
-	{
-		&self.common
-	}
-}
-
-impl AxesCommon for Axes2D {}
-
-pub(crate) trait Axes2DPrivate
-{
-	fn write_out(&self, writer: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion);
-}
-
-impl Axes2DPrivate for Axes2D
-{
-	fn write_out(&self, writer: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion)
+	pub(crate) fn write_out(
+		&self, writer: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion,
+	)
 	{
 		if self.common.elems.len() == 0
 		{
@@ -786,4 +760,24 @@ impl Axes2DPrivate for Axes2D
 		self.common.write_grid_options(writer, &grid_axes, version);
 		self.common.write_out_elements("plot", writer, version);
 	}
+
+	pub(crate) fn reset_state(&self, writer: &mut dyn Writer)
+	{
+		self.common.reset_state(writer);
+	}
 }
+
+impl AxesCommonPrivate for Axes2D
+{
+	fn get_common_data_mut(&mut self) -> &mut AxesCommonData
+	{
+		&mut self.common
+	}
+
+	fn get_common_data(&self) -> &AxesCommonData
+	{
+		&self.common
+	}
+}
+
+impl AxesCommon for Axes2D {}
