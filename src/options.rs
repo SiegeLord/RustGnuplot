@@ -442,18 +442,20 @@ pub enum FillPatternType
 
 /// Multiplot Fill Order Options
 #[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
-pub enum MultiplotFillOrder {
+pub enum MultiplotFillOrder
+{
 	/// "rowsfirst" gnuplot option.
 	RowsFirst,
 	/// "columnfirst" gnuplot option.
-	ColumnsFirst
+	ColumnsFirst,
 }
 
 /// Multiplot Fill Order Options
 #[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
-pub enum MultiplotFillDirection {
+pub enum MultiplotFillDirection
+{
 	/// "downward" gnuplot option.
 	Downwards,
 	/// "upward" gnuplot option.
-	Upwards
+	Upwards,
 }
