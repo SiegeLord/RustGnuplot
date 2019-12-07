@@ -323,10 +323,10 @@ pub enum BorderLocation2D
 #[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
 pub enum MarginSide
 {
-	MarginTop(f32),
-	MarginBottom(f32),
 	MarginLeft(f32),
 	MarginRight(f32),
+	MarginTop(f32),
+	MarginBottom(f32),
 }
 
 /// Legend options

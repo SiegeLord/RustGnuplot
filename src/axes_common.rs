@@ -1097,6 +1097,44 @@ enum DataSourceType
 	SizedArray(f64, f64, f64, f64),
 }
 
+pub struct Margins
+{
+	pub left: Option<f32>,
+	pub right: Option<f32>,
+	pub top: Option<f32>,
+	pub bottom: Option<f32>,
+}
+
+impl Margins
+{
+	pub fn new() -> Self
+	{
+		Margins {
+			left: None,
+			right: None,
+			top: None,
+			bottom: None,
+		}
+	}
+
+	pub fn write_out_commands(&self, w: &mut dyn Writer)
+	{
+		let mut write_margin = |margin, v| {
+			write!(w, "set {}", margin);
+			if let Some(v) = v
+			{
+				write!(w, " at screen {}", v);
+			}
+			w.write_str("\n");
+		};
+
+		write_margin("lmargin", self.left);
+		write_margin("rmargin", self.right);
+		write_margin("tmargin", self.top);
+		write_margin("bmargin", self.bottom);
+	}
+}
+
 pub struct AxesCommonData
 {
 	pub commands: Vec<u8>,
@@ -1117,6 +1155,7 @@ pub struct AxesCommonData
 	pub width: f64,
 	pub height: f64,
 	pub aspect_ratio: AutoOption<f64>,
+	pub margins: Margins,
 }
 
 impl AxesCommonData
@@ -1142,6 +1181,7 @@ impl AxesCommonData
 			width: 1.,
 			height: 1.,
 			aspect_ratio: Auto,
+			margins: Margins::new(),
 		}
 	}
 
@@ -1273,6 +1313,7 @@ impl AxesCommonData
 				writeln!(w, "set size noratio");
 			}
 		}
+		self.margins.write_out_commands(w);
 
 		w.write_all(&self.commands[..]);
 		self.x_axis.write_out_commands(w, version);
@@ -1793,15 +1834,16 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_margins<'l>(&'l mut self, margins: &[MarginSide]) -> &'l mut Self
 	{
 		{
-			let c = &mut self.get_common_data_mut().commands as &mut dyn Writer;
+			let m = &mut self.get_common_data_mut().margins;
+			*m = Margins::new();
 			for &s in margins.iter()
 			{
 				match s
 				{
-					MarginTop(frac) => writeln!(c, "set tmargin at screen {}", frac),
-					MarginBottom(frac) => writeln!(c, "set bmargin at screen {}", frac),
-					MarginLeft(frac) => writeln!(c, "set lmargin at screen {}", frac),
-					MarginRight(frac) => writeln!(c, "set rmargin at screen {}", frac),
+					MarginLeft(frac) => m.left = Some(frac),
+					MarginRight(frac) => m.right = Some(frac),
+					MarginTop(frac) => m.top = Some(frac),
+					MarginBottom(frac) => m.bottom = Some(frac),
 				};
 			}
 		}
