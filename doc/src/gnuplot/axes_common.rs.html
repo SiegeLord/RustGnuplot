@@ -1955,9 +1955,6 @@
 <span id="1955">1955</span>
 <span id="1956">1956</span>
 <span id="1957">1957</span>
-<span id="1958">1958</span>
-<span id="1959">1959</span>
-<span id="1960">1960</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -3126,6 +3123,20 @@
 	}
 }
 
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Position</span>
+{
+	<span class="ident">x</span>: <span class="ident">f64</span>,
+	<span class="ident">y</span>: <span class="ident">f64</span>,
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Size</span>
+{
+	<span class="ident">w</span>: <span class="ident">f64</span>,
+	<span class="ident">h</span>: <span class="ident">f64</span>,
+}
+
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AxesCommonData</span>
 {
 	<span class="kw">pub</span> <span class="ident">commands</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
@@ -3133,18 +3144,13 @@
 	<span class="kw">pub</span> <span class="ident">minor_grid_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 	<span class="kw">pub</span> <span class="ident">grid_front</span>: <span class="ident">bool</span>,
 	<span class="kw">pub</span> <span class="ident">elems</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotElement</span><span class="op">&gt;</span>,
-	<span class="kw">pub</span> <span class="ident">grid_rows</span>: <span class="ident">u32</span>,
-	<span class="kw">pub</span> <span class="ident">grid_cols</span>: <span class="ident">u32</span>,
-	<span class="kw">pub</span> <span class="ident">grid_pos</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
 	<span class="kw">pub</span> <span class="ident">x_axis</span>: <span class="ident">AxisData</span>,
 	<span class="kw">pub</span> <span class="ident">y_axis</span>: <span class="ident">AxisData</span>,
 	<span class="kw">pub</span> <span class="ident">cb_axis</span>: <span class="ident">AxisData</span>,
 	<span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">LabelData</span><span class="op">&gt;</span>,
 	<span class="kw">pub</span> <span class="ident">title</span>: <span class="ident">LabelData</span>,
-	<span class="kw">pub</span> <span class="ident">pos_x</span>: <span class="ident">f64</span>,
-	<span class="kw">pub</span> <span class="ident">pos_y</span>: <span class="ident">f64</span>,
-	<span class="kw">pub</span> <span class="ident">width</span>: <span class="ident">f64</span>,
-	<span class="kw">pub</span> <span class="ident">height</span>: <span class="ident">f64</span>,
+	<span class="kw">pub</span> <span class="ident">position</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Position</span><span class="op">&gt;</span>,
+	<span class="kw">pub</span> <span class="ident">size</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Size</span><span class="op">&gt;</span>,
 	<span class="kw">pub</span> <span class="ident">aspect_ratio</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>,
 	<span class="kw">pub</span> <span class="ident">margins</span>: <span class="ident">Margins</span>,
 	<span class="kw">pub</span> <span class="ident">palette</span>: <span class="ident">PaletteType</span>,
@@ -3160,18 +3166,13 @@
 			<span class="ident">minor_grid_options</span>: <span class="macro">vec</span><span class="macro">!</span>[],
 			<span class="ident">grid_front</span>: <span class="bool-val">false</span>,
 			<span class="ident">elems</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
-			<span class="ident">grid_rows</span>: <span class="number">0</span>,
-			<span class="ident">grid_cols</span>: <span class="number">0</span>,
-			<span class="ident">grid_pos</span>: <span class="prelude-val">None</span>,
 			<span class="ident">x_axis</span>: <span class="ident">AxisData</span>::<span class="ident">new</span>(<span class="ident">XTickAxis</span>),
 			<span class="ident">y_axis</span>: <span class="ident">AxisData</span>::<span class="ident">new</span>(<span class="ident">YTickAxis</span>),
 			<span class="ident">cb_axis</span>: <span class="ident">AxisData</span>::<span class="ident">new</span>(<span class="ident">CBTickAxis</span>),
 			<span class="ident">labels</span>: <span class="macro">vec</span><span class="macro">!</span>[],
 			<span class="ident">title</span>: <span class="ident">LabelData</span>::<span class="ident">new</span>(<span class="ident">TitleLabel</span>),
-			<span class="ident">pos_x</span>: <span class="number">0.</span>,
-			<span class="ident">pos_y</span>: <span class="number">0.</span>,
-			<span class="ident">width</span>: <span class="number">1.</span>,
-			<span class="ident">height</span>: <span class="number">1.</span>,
+			<span class="ident">position</span>: <span class="prelude-val">None</span>,
+			<span class="ident">size</span>: <span class="prelude-val">None</span>,
 			<span class="ident">aspect_ratio</span>: <span class="ident">Auto</span>,
 			<span class="ident">margins</span>: <span class="ident">Margins</span>::<span class="ident">new</span>(),
 			<span class="ident">palette</span>: <span class="ident">HELIX</span>,
@@ -3272,29 +3273,28 @@
 		}
 	}
 
-	<span class="kw">fn</span> <span class="ident">get_pos_and_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>)
-	{
-		<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">grid_pos</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">grid_pos</span>
-		{
-			<span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">1.0</span> <span class="op">/</span> (<span class="self">self</span>.<span class="ident">grid_cols</span> <span class="kw">as</span> <span class="ident">f64</span>);
-			<span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="number">1.0</span> <span class="op">/</span> (<span class="self">self</span>.<span class="ident">grid_rows</span> <span class="kw">as</span> <span class="ident">f64</span>);
-			<span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="ident">grid_pos</span> <span class="op">%</span> <span class="self">self</span>.<span class="ident">grid_cols</span>) <span class="kw">as</span> <span class="ident">f64</span> <span class="op">*</span> <span class="ident">width</span>;
-			<span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> <span class="number">1.0</span> <span class="op">-</span> (<span class="number">1.0</span> <span class="op">+</span> (<span class="ident">grid_pos</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">grid_cols</span>) <span class="kw">as</span> <span class="ident">f64</span>) <span class="op">*</span> <span class="ident">height</span>;
-
-			(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">width</span>, <span class="ident">height</span>)
-		}
-		<span class="kw">else</span>
-		{
-			(<span class="self">self</span>.<span class="ident">pos_x</span>, <span class="self">self</span>.<span class="ident">pos_y</span>, <span class="self">self</span>.<span class="ident">width</span>, <span class="self">self</span>.<span class="ident">height</span>)
-		}
-	}
-
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_out_commands</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>)
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_out_commands</span>(
+		<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>, <span class="ident">auto_layout</span>: <span class="ident">bool</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>,
+	)
 	{
 		<span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">writer</span>;
-		<span class="comment">//let (x, y, width, height) = self.get_pos_and_size();</span>
-		<span class="comment">//writeln!(w, &quot;set origin {:.12e},{:.12e}&quot;, x, y);</span>
-		<span class="comment">//writeln!(w, &quot;set size {:.12e},{:.12e}&quot;, width, height);</span>
+		<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">position</span>
+		{
+			<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set origin {:.12e},{:.12e}&quot;</span>, <span class="ident">pos</span>.<span class="ident">x</span>, <span class="ident">pos</span>.<span class="ident">y</span>);
+		}
+		<span class="kw">else</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">auto_layout</span>
+		{
+			<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set origin&quot;</span>);
+		}
+		<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">size</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">size</span>
+		{
+			<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set size {:.12e},{:.12e}&quot;</span>, <span class="ident">size</span>.<span class="ident">w</span>, <span class="ident">size</span>.<span class="ident">h</span>);
+		}
+		<span class="kw">else</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">auto_layout</span>
+		{
+			<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set size&quot;</span>);
+		}
+
 		<span class="kw">match</span> <span class="self">self</span>.<span class="ident">aspect_ratio</span>
 		{
 			<span class="ident">Fix</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span>
@@ -3426,12 +3426,16 @@
 		<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">nrow</span> <span class="op">&gt;</span> <span class="number">0</span>);
 		<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">ncol</span> <span class="op">&gt;</span> <span class="number">0</span>);
 		<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pos</span> <span class="op">&lt;</span> <span class="ident">nrow</span> <span class="op">*</span> <span class="ident">ncol</span>);
-		{
-			<span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>();
-			<span class="ident">c</span>.<span class="ident">grid_rows</span> <span class="op">=</span> <span class="ident">nrow</span>;
-			<span class="ident">c</span>.<span class="ident">grid_cols</span> <span class="op">=</span> <span class="ident">ncol</span>;
-			<span class="ident">c</span>.<span class="ident">grid_pos</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">pos</span>);
-		}
+		<span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">1.0</span> <span class="op">/</span> (<span class="ident">ncol</span> <span class="kw">as</span> <span class="ident">f64</span>);
+		<span class="kw">let</span> <span class="ident">height</span> <span class="op">=</span> <span class="number">1.0</span> <span class="op">/</span> (<span class="ident">nrow</span> <span class="kw">as</span> <span class="ident">f64</span>);
+		<span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="ident">pos</span> <span class="op">%</span> <span class="ident">ncol</span>) <span class="kw">as</span> <span class="ident">f64</span> <span class="op">*</span> <span class="ident">width</span>;
+		<span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> <span class="number">1.0</span> <span class="op">-</span> (<span class="number">1.0</span> <span class="op">+</span> (<span class="ident">pos</span> <span class="op">/</span> <span class="ident">ncol</span>) <span class="kw">as</span> <span class="ident">f64</span>) <span class="op">*</span> <span class="ident">height</span>;
+
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">position</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Position</span> { <span class="ident">x</span>: <span class="ident">x</span>, <span class="ident">y</span>: <span class="ident">y</span> });
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">size</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Size</span> {
+			<span class="ident">w</span>: <span class="ident">width</span>,
+			<span class="ident">h</span>: <span class="ident">height</span>,
+		});
 		<span class="self">self</span>
 	}
 
@@ -3442,12 +3446,7 @@
 	<span class="doccomment">/// * `y` - Y position. Ranges from 0 to 1</span>
 	<span class="kw">fn</span> <span class="ident">set_pos</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">f64</span>, <span class="ident">y</span>: <span class="ident">f64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		{
-			<span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>();
-			<span class="ident">d</span>.<span class="ident">grid_pos</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-			<span class="ident">d</span>.<span class="ident">pos_x</span> <span class="op">=</span> <span class="ident">x</span>;
-			<span class="ident">d</span>.<span class="ident">pos_y</span> <span class="op">=</span> <span class="ident">y</span>;
-		}
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">position</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Position</span> { <span class="ident">x</span>: <span class="ident">x</span>, <span class="ident">y</span>: <span class="ident">y</span> });
 		<span class="self">self</span>
 	}
 
@@ -3457,12 +3456,7 @@
 	<span class="doccomment">/// * `h` - Height. Ranges from 0 to 1</span>
 	<span class="kw">fn</span> <span class="ident">set_size</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">w</span>: <span class="ident">f64</span>, <span class="ident">h</span>: <span class="ident">f64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		{
-			<span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_common_data_mut</span>();
-			<span class="ident">d</span>.<span class="ident">grid_pos</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-			<span class="ident">d</span>.<span class="ident">width</span> <span class="op">=</span> <span class="ident">w</span>;
-			<span class="ident">d</span>.<span class="ident">height</span> <span class="op">=</span> <span class="ident">h</span>;
-		}
+		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>().<span class="ident">size</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Size</span> { <span class="ident">w</span>: <span class="ident">w</span>, <span class="ident">h</span>: <span class="ident">h</span> });
 		<span class="self">self</span>
 	}
 

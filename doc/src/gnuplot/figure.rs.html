@@ -618,6 +618,10 @@
 <span id="618">618</span>
 <span id="619">619</span>
 <span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -646,12 +650,12 @@
 
 <span class="kw">impl</span> <span class="ident">AxesVariant</span>
 {
-	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>)
+	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>, <span class="ident">auto_layout</span>: <span class="ident">bool</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>)
 	{
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
 		{
-			<span class="ident">Axes2DType</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">write_out</span>(<span class="ident">writer</span>, <span class="ident">version</span>),
-			<span class="ident">Axes3DType</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">write_out</span>(<span class="ident">writer</span>, <span class="ident">version</span>),
+			<span class="ident">Axes2DType</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">write_out</span>(<span class="ident">writer</span>, <span class="ident">auto_layout</span>, <span class="ident">version</span>),
+			<span class="ident">Axes3DType</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">write_out</span>(<span class="ident">writer</span>, <span class="ident">auto_layout</span>, <span class="ident">version</span>),
 			<span class="ident">NewPage</span> <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;unset multiplot&quot;</span>);
@@ -1198,7 +1202,11 @@
 			{
 				<span class="ident">prev_e</span>.<span class="ident">reset_state</span>(<span class="ident">w</span>);
 			}
-			<span class="ident">e</span>.<span class="ident">write_out</span>(<span class="ident">w</span>, <span class="self">self</span>.<span class="ident">get_gnuplot_version</span>());
+			<span class="ident">e</span>.<span class="ident">write_out</span>(
+				<span class="ident">w</span>,
+				<span class="self">self</span>.<span class="ident">multiplot_options</span>.<span class="ident">is_some</span>(),
+				<span class="self">self</span>.<span class="ident">get_gnuplot_version</span>(),
+			);
 			<span class="ident">prev_e</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>);
 		}
 
