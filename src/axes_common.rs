@@ -1165,6 +1165,20 @@ impl Margins
 	}
 }
 
+#[derive(Copy, Clone)]
+pub struct Position
+{
+	x: f64,
+	y: f64,
+}
+
+#[derive(Copy, Clone)]
+pub struct Size
+{
+	w: f64,
+	h: f64,
+}
+
 pub struct AxesCommonData
 {
 	pub commands: Vec<u8>,
@@ -1172,18 +1186,13 @@ pub struct AxesCommonData
 	pub minor_grid_options: Vec<PlotOption<String>>,
 	pub grid_front: bool,
 	pub elems: Vec<PlotElement>,
-	pub grid_rows: u32,
-	pub grid_cols: u32,
-	pub grid_pos: Option<u32>,
 	pub x_axis: AxisData,
 	pub y_axis: AxisData,
 	pub cb_axis: AxisData,
 	pub labels: Vec<LabelData>,
 	pub title: LabelData,
-	pub pos_x: f64,
-	pub pos_y: f64,
-	pub width: f64,
-	pub height: f64,
+	pub position: Option<Position>,
+	pub size: Option<Size>,
 	pub aspect_ratio: AutoOption<f64>,
 	pub margins: Margins,
 	pub palette: PaletteType,
@@ -1199,18 +1208,13 @@ impl AxesCommonData
 			minor_grid_options: vec![],
 			grid_front: false,
 			elems: Vec::new(),
-			grid_rows: 0,
-			grid_cols: 0,
-			grid_pos: None,
 			x_axis: AxisData::new(XTickAxis),
 			y_axis: AxisData::new(YTickAxis),
 			cb_axis: AxisData::new(CBTickAxis),
 			labels: vec![],
 			title: LabelData::new(TitleLabel),
-			pos_x: 0.,
-			pos_y: 0.,
-			width: 1.,
-			height: 1.,
+			position: None,
+			size: None,
 			aspect_ratio: Auto,
 			margins: Margins::new(),
 			palette: HELIX,
@@ -1311,29 +1315,28 @@ impl AxesCommonData
 		}
 	}
 
-	fn get_pos_and_size(&self) -> (f64, f64, f64, f64)
-	{
-		if let Some(grid_pos) = self.grid_pos
-		{
-			let width = 1.0 / (self.grid_cols as f64);
-			let height = 1.0 / (self.grid_rows as f64);
-			let x = (grid_pos % self.grid_cols) as f64 * width;
-			let y = 1.0 - (1.0 + (grid_pos / self.grid_cols) as f64) * height;
-
-			(x, y, width, height)
-		}
-		else
-		{
-			(self.pos_x, self.pos_y, self.width, self.height)
-		}
-	}
-
-	pub fn write_out_commands(&self, writer: &mut dyn Writer, version: GnuplotVersion)
+	pub fn write_out_commands(
+		&self, writer: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion,
+	)
 	{
 		let w = writer;
-		//let (x, y, width, height) = self.get_pos_and_size();
-		//writeln!(w, "set origin {:.12e},{:.12e}", x, y);
-		//writeln!(w, "set size {:.12e},{:.12e}", width, height);
+		if let Some(pos) = self.position
+		{
+			writeln!(w, "set origin {:.12e},{:.12e}", pos.x, pos.y);
+		}
+		else if !auto_layout
+		{
+			writeln!(w, "set origin");
+		}
+		if let Some(size) = self.size
+		{
+			writeln!(w, "set size {:.12e},{:.12e}", size.w, size.h);
+		}
+		else if !auto_layout
+		{
+			writeln!(w, "set size");
+		}
+
 		match self.aspect_ratio
 		{
 			Fix(r) =>
@@ -1465,12 +1468,16 @@ pub trait AxesCommon: AxesCommonPrivate
 		assert!(nrow > 0);
 		assert!(ncol > 0);
 		assert!(pos < nrow * ncol);
-		{
-			let c = self.get_common_data_mut();
-			c.grid_rows = nrow;
-			c.grid_cols = ncol;
-			c.grid_pos = Some(pos);
-		}
+		let width = 1.0 / (ncol as f64);
+		let height = 1.0 / (nrow as f64);
+		let x = (pos % ncol) as f64 * width;
+		let y = 1.0 - (1.0 + (pos / ncol) as f64) * height;
+
+		self.get_common_data_mut().position = Some(Position { x: x, y: y });
+		self.get_common_data_mut().size = Some(Size {
+			w: width,
+			h: height,
+		});
 		self
 	}
 
@@ -1481,12 +1488,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// * `y` - Y position. Ranges from 0 to 1
 	fn set_pos<'l>(&'l mut self, x: f64, y: f64) -> &'l mut Self
 	{
-		{
-			let d = self.get_common_data_mut();
-			d.grid_pos = None;
-			d.pos_x = x;
-			d.pos_y = y;
-		}
+		self.get_common_data_mut().position = Some(Position { x: x, y: y });
 		self
 	}
 
@@ -1496,12 +1498,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// * `h` - Height. Ranges from 0 to 1
 	fn set_size<'l>(&'l mut self, w: f64, h: f64) -> &'l mut Self
 	{
-		{
-			let d = self.get_common_data_mut();
-			d.grid_pos = None;
-			d.width = w;
-			d.height = h;
-		}
+		self.get_common_data_mut().size = Some(Size { w: w, h: h });
 		self
 	}
 

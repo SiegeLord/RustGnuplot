@@ -25,12 +25,12 @@ enum AxesVariant
 
 impl AxesVariant
 {
-	fn write_out(&self, writer: &mut dyn Writer, version: GnuplotVersion)
+	fn write_out(&self, writer: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion)
 	{
 		match *self
 		{
-			Axes2DType(ref a) => a.write_out(writer, version),
-			Axes3DType(ref a) => a.write_out(writer, version),
+			Axes2DType(ref a) => a.write_out(writer, auto_layout, version),
+			Axes3DType(ref a) => a.write_out(writer, auto_layout, version),
 			NewPage =>
 			{
 				writeln!(writer, "unset multiplot");
@@ -577,7 +577,11 @@ impl Figure
 			{
 				prev_e.reset_state(w);
 			}
-			e.write_out(w, self.get_gnuplot_version());
+			e.write_out(
+				w,
+				self.multiplot_options.is_some(),
+				self.get_gnuplot_version(),
+			);
 			prev_e = Some(e);
 		}
 

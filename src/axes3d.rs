@@ -388,12 +388,12 @@ impl AxesCommon for Axes3D {}
 
 pub(crate) trait Axes3DPrivate
 {
-	fn write_out(&self, writer: &mut dyn Writer, version: GnuplotVersion);
+	fn write_out(&self, writer: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion);
 }
 
 impl Axes3DPrivate for Axes3D
 {
-	fn write_out(&self, w: &mut dyn Writer, version: GnuplotVersion)
+	fn write_out(&self, w: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion)
 	{
 		fn clamp<T: PartialOrd>(val: T, min: T, max: T) -> T
 		{
@@ -523,7 +523,7 @@ impl Axes3DPrivate for Axes3D
 			});
 		}
 
-		self.common.write_out_commands(w, version);
+		self.common.write_out_commands(w, auto_layout, version);
 		self.z_axis.write_out_commands(w, version);
 		let mut grid_axes = vec![];
 		if self.common.x_axis.grid

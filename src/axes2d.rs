@@ -756,19 +756,19 @@ impl AxesCommon for Axes2D {}
 
 pub(crate) trait Axes2DPrivate
 {
-	fn write_out(&self, writer: &mut dyn Writer, version: GnuplotVersion);
+	fn write_out(&self, writer: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion);
 }
 
 impl Axes2DPrivate for Axes2D
 {
-	fn write_out(&self, writer: &mut dyn Writer, version: GnuplotVersion)
+	fn write_out(&self, writer: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion)
 	{
 		if self.common.elems.len() == 0
 		{
 			return;
 		}
 
-		self.common.write_out_commands(writer, version);
+		self.common.write_out_commands(writer, auto_layout, version);
 		self.border_options.write_out(writer, version);
 		let mut grid_axes = vec![];
 		if self.common.x_axis.grid
