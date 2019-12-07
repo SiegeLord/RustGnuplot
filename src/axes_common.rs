@@ -1116,6 +1116,7 @@ pub struct AxesCommonData
 	pub pos_y: f64,
 	pub width: f64,
 	pub height: f64,
+	pub aspect_ratio: AutoOption<f64>,
 }
 
 impl AxesCommonData
@@ -1140,6 +1141,7 @@ impl AxesCommonData
 			pos_y: 0.,
 			width: 1.,
 			height: 1.,
+			aspect_ratio: Auto,
 		}
 	}
 
@@ -1260,6 +1262,17 @@ impl AxesCommonData
 		let (x, y, width, height) = self.get_pos_and_size();
 		writeln!(w, "set origin {:.12e},{:.12e}", x, y);
 		writeln!(w, "set size {:.12e},{:.12e}", width, height);
+		match self.aspect_ratio
+		{
+			Fix(r) =>
+			{
+				writeln!(w, "set size ratio {:.12e}", r);
+			}
+			Auto =>
+			{
+				writeln!(w, "set size noratio");
+			}
+		}
 
 		w.write_all(&self.commands[..]);
 		self.x_axis.write_out_commands(w, version);
@@ -1361,21 +1374,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// * `ratio` - The aspect ratio. Set to Auto to return the ratio to default
 	fn set_aspect_ratio<'l>(&'l mut self, ratio: AutoOption<f64>) -> &'l mut Self
 	{
-		{
-			let c = &mut self.get_common_data_mut().commands as &mut dyn Writer;
-
-			match ratio
-			{
-				Fix(r) =>
-				{
-					writeln!(c, "set size ratio {:.12e}", r);
-				}
-				Auto =>
-				{
-					writeln!(c, "set size noratio");
-				}
-			}
-		}
+		self.get_common_data_mut().aspect_ratio = ratio;
 		self
 	}
 
