@@ -389,7 +389,7 @@ pub enum ContourStyle
 }
 
 /// Specifies what sort of palette to use
-#[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
+#[derive(Clone, Debug, PartialOrd, PartialEq)]
 pub enum PaletteType
 {
 	/// Use a gray palette with a specified gamma
@@ -399,6 +399,12 @@ pub enum PaletteType
 	Formula(i32, i32, i32),
 	/// Use a cube helix palette, with a certain start (in radians), cycles, saturation and gamma.
 	CubeHelix(f32, f32, f32, f32),
+	/// A custom palette
+	/// is specified by a sequence of 4-tuples (with at least one element). The first
+	/// element is the grayscale value that is mapped to the remaining three elements
+	/// which specify the red, green and blue components of the color.
+	/// The grayscale values must be non-decreasing. All values must range from 0 to 1.
+	Custom(Vec<(f32, f32, f32, f32)>),
 }
 
 /// A gray palette

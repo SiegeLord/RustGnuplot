@@ -1156,6 +1156,7 @@ pub struct AxesCommonData
 	pub height: f64,
 	pub aspect_ratio: AutoOption<f64>,
 	pub margins: Margins,
+	pub palette: PaletteType,
 }
 
 impl AxesCommonData
@@ -1182,6 +1183,7 @@ impl AxesCommonData
 			height: 1.,
 			aspect_ratio: Auto,
 			margins: Margins::new(),
+			palette: HELIX,
 		}
 	}
 
@@ -1314,6 +1316,61 @@ impl AxesCommonData
 			}
 		}
 		self.margins.write_out_commands(w);
+
+		match self.palette
+		{
+			Gray(gamma) =>
+			{
+				assert!(gamma > 0.0, "Gamma must be positive");
+				writeln!(w, "set palette gray gamma {:.12e}", gamma);
+			}
+			Formula(r, g, b) =>
+			{
+				assert!(r >= -36 && r <= 36, "Invalid r formula!");
+				assert!(g >= -36 && g <= 36, "Invalid g formula!");
+				assert!(b >= -36 && b <= 36, "Invalid b formula!");
+				writeln!(w, "set palette rgbformulae {},{},{}", r, g, b);
+			}
+			CubeHelix(start, rev, sat, gamma) =>
+			{
+				assert!(sat >= 0.0, "Saturation must be non-negative");
+				assert!(gamma > 0.0, "Gamma must be positive");
+				writeln!(
+					w,
+					"set palette cubehelix start {:.12e} cycles {:.12e} saturation {:.12e} gamma {:.12e}",
+					start, rev, sat, gamma
+				);
+			}
+			Custom(ref entries) =>
+			{
+				if entries.is_empty()
+				{
+					panic!("Need at least 1 element in a custom palette");
+				}
+				write!(w, "set palette defined (");
+
+				let mut first = true;
+				let mut old_x = 0.0;
+				for &(x, r, g, b) in entries
+				{
+					if first
+					{
+						old_x = x;
+						first = false;
+					}
+					else
+					{
+						write!(w, ",");
+					}
+					assert!(x >= old_x, "The gray levels must be non-decreasing!");
+					old_x = x;
+
+					write!(w, "{:.12e} {:.12e} {:.12e} {:.12e}", x, r, g, b);
+				}
+
+				writeln!(w, ")");
+			}
+		}
 
 		w.write_all(&self.commands[..]);
 		self.x_axis.write_out_commands(w, version);
@@ -1856,79 +1913,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// * `palette` - What palette type to use
 	fn set_palette(&mut self, palette: PaletteType) -> &mut Self
 	{
-		{
-			let c = &mut self.get_common_data_mut().commands as &mut dyn Writer;
-			match palette
-			{
-				Gray(gamma) =>
-				{
-					assert!(gamma > 0.0, "Gamma must be positive");
-					writeln!(c, "set palette gray gamma {:.12e}", gamma);
-				}
-				Formula(r, g, b) =>
-				{
-					assert!(r >= -36 && r <= 36, "Invalid r formula!");
-					assert!(g >= -36 && g <= 36, "Invalid g formula!");
-					assert!(b >= -36 && b <= 36, "Invalid b formula!");
-					writeln!(c, "set palette rgbformulae {},{},{}", r, g, b);
-				}
-				CubeHelix(start, rev, sat, gamma) =>
-				{
-					assert!(sat >= 0.0, "Saturation must be non-negative");
-					assert!(gamma > 0.0, "Gamma must be positive");
-					writeln!(
-						c,
-						"set palette cubehelix start {:.12e} cycles {:.12e} saturation {:.12e} gamma {:.12e}",
-						start, rev, sat, gamma
-					);
-				}
-			}
-		}
-		self
-	}
-
-	/// Sets a custom palette used for 3D surface and image plots. A custom palette
-	/// is specified by a sequence of 4-tuples (with at least one element). The first
-	/// element is the grayscale value that is mapped to the remaining three elements
-	/// which specify the red, green and blue components of the color.
-	/// The grayscale values must be non-decreasing. All values must range from 0 to 1.
-	///
-	/// # Arguments
-	/// * `palette_generator` - The palette generator
-	fn set_custom_palette<T: IntoIterator<Item = (f32, f32, f32, f32)>>(
-		&mut self, palette_generator: T,
-	) -> &mut Self
-	{
-		{
-			let c = &mut self.get_common_data_mut().commands as &mut dyn Writer;
-			write!(c, "set palette defined (");
-
-			let mut first = true;
-			let mut old_x = 0.0;
-			for (x, r, g, b) in palette_generator
-			{
-				if first
-				{
-					old_x = x;
-					first = false;
-				}
-				else
-				{
-					write!(c, ",");
-				}
-				assert!(x >= old_x, "The gray levels must be non-decreasing!");
-				old_x = x;
-
-				write!(c, "{:.12e} {:.12e} {:.12e} {:.12e}", x, r, g, b);
-			}
-
-			if first
-			{
-				panic!("Need at least 1 element in the generator");
-			}
-
-			writeln!(c, ")");
-		}
+		self.get_common_data_mut().palette = palette;
 		self
 	}
 }

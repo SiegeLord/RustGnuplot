@@ -91,7 +91,7 @@ fn example(c: Common)
 
 	c.show(&mut fg, "example4_5");
 
-	let palette: [(f32, f32, f32, f32); 6] = [
+	let palette = vec![
 		(0.00, 1.0, 0.0, 0.0),
 		(0.33, 1.0, 0.0, 0.0),
 		(0.33, 0.0, 1.0, 0.0),
@@ -110,7 +110,7 @@ fn example(c: Common)
 		.set_z_label("Z", &[])
 		.set_z_range(Fix(-1.0), Fix(1.0))
 		.set_z_ticks(Some((Fix(1.0), 1)), &[Mirror(false)], &[])
-		.set_custom_palette(palette.iter().map(|&x| x))
+		.set_palette(Custom(palette))
 		.set_view(45.0, 45.0);
 
 	c.show(&mut fg, "example4_5");
