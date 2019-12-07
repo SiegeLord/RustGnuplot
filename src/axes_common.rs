@@ -1788,7 +1788,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	///
-	/// * `margins` - The values of margins to be overrided. Specified as a fraction of the
+	/// * `margins` - The values of margins to be overriden. Specified as a fraction of the
 	///               full drawing area, ranging from 0 to 1
 	fn set_margins<'l>(&'l mut self, margins: &[MarginSide]) -> &'l mut Self
 	{
