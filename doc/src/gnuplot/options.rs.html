@@ -439,32 +439,6 @@
 <span id="439">439</span>
 <span id="440">440</span>
 <span id="441">441</span>
-<span id="442">442</span>
-<span id="443">443</span>
-<span id="444">444</span>
-<span id="445">445</span>
-<span id="446">446</span>
-<span id="447">447</span>
-<span id="448">448</span>
-<span id="449">449</span>
-<span id="450">450</span>
-<span id="451">451</span>
-<span id="452">452</span>
-<span id="453">453</span>
-<span id="454">454</span>
-<span id="455">455</span>
-<span id="456">456</span>
-<span id="457">457</span>
-<span id="458">458</span>
-<span id="459">459</span>
-<span id="460">460</span>
-<span id="461">461</span>
-<span id="462">462</span>
-<span id="463">463</span>
-<span id="464">464</span>
-<span id="465">465</span>
-<span id="466">466</span>
-<span id="467">467</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -791,10 +765,10 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MarginSide</span>
 {
-	<span class="ident">MarginLeft</span>(<span class="ident">f32</span>),
-	<span class="ident">MarginRight</span>(<span class="ident">f32</span>),
 	<span class="ident">MarginTop</span>(<span class="ident">f32</span>),
 	<span class="ident">MarginBottom</span>(<span class="ident">f32</span>),
+	<span class="ident">MarginLeft</span>(<span class="ident">f32</span>),
+	<span class="ident">MarginRight</span>(<span class="ident">f32</span>),
 }
 
 <span class="doccomment">/// Legend options</span>
@@ -857,7 +831,7 @@
 }
 
 <span class="doccomment">/// Specifies what sort of palette to use</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PaletteType</span>
 {
 	<span class="doccomment">/// Use a gray palette with a specified gamma</span>
@@ -867,12 +841,6 @@
 	<span class="ident">Formula</span>(<span class="ident">i32</span>, <span class="ident">i32</span>, <span class="ident">i32</span>),
 	<span class="doccomment">/// Use a cube helix palette, with a certain start (in radians), cycles, saturation and gamma.</span>
 	<span class="ident">CubeHelix</span>(<span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>),
-	<span class="doccomment">/// A custom palette</span>
-	<span class="doccomment">/// is specified by a sequence of 4-tuples (with at least one element). The first</span>
-	<span class="doccomment">/// element is the grayscale value that is mapped to the remaining three elements</span>
-	<span class="doccomment">/// which specify the red, green and blue components of the color.</span>
-	<span class="doccomment">/// The grayscale values must be non-decreasing. All values must range from 0 to 1.</span>
-	<span class="ident">Custom</span>(<span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>, <span class="ident">f32</span>)<span class="op">&gt;</span>),
 }
 
 <span class="doccomment">/// A gray palette</span>
@@ -912,26 +880,6 @@
 	<span class="ident">SmallBackSlashes</span> <span class="op">=</span> <span class="number">6</span>,
 	<span class="ident">SmallForwardSlashes</span> <span class="op">=</span> <span class="number">7</span>,
 	<span class="ident">Pattern8</span> <span class="op">=</span> <span class="number">8</span>,
-}
-
-<span class="doccomment">/// Multiplot Fill Order Options</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MultiplotFillOrder</span>
-{
-	<span class="doccomment">/// &quot;rowsfirst&quot; gnuplot option.</span>
-	<span class="ident">RowsFirst</span>,
-	<span class="doccomment">/// &quot;columnfirst&quot; gnuplot option.</span>
-	<span class="ident">ColumnsFirst</span>,
-}
-
-<span class="doccomment">/// Multiplot Fill Order Options</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MultiplotFillDirection</span>
-{
-	<span class="doccomment">/// &quot;downward&quot; gnuplot option.</span>
-	<span class="ident">Downwards</span>,
-	<span class="doccomment">/// &quot;upward&quot; gnuplot option.</span>
-	<span class="ident">Upwards</span>,
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "gnuplot";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
