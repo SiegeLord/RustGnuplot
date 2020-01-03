@@ -8,7 +8,35 @@ use crate::options::*;
 use crate::util::OneWayOwned;
 use crate::writer::Writer;
 use std::borrow::Borrow;
-use std::io::Write;
+
+enum View
+{
+	PitchYaw(f64, f64),
+	Map,
+}
+
+impl View
+{
+	fn write_out(&self, writer: &mut dyn Writer)
+	{
+		match self
+		{
+			Self::PitchYaw(pitch, yaw) =>
+			{
+				writeln!(writer, "set view {:.12e},{:.12e}", pitch, yaw);
+			}
+			Self::Map =>
+			{
+				writer.write_str("set view map\n");
+			}
+		}
+	}
+
+	fn reset_state(&self, writer: &mut dyn Writer)
+	{
+		writer.write_str("unset view\n");
+	}
+}
 
 /// 3D axes that is used for drawing 3D plots
 pub struct Axes3D
@@ -21,6 +49,7 @@ pub struct Axes3D
 	contour_levels: Option<Vec<f64>>,
 	contour_style: ContourStyle,
 	contour_label: AutoOption<String>,
+	view: Option<View>,
 }
 
 impl Axes3D
@@ -36,6 +65,7 @@ impl Axes3D
 			contour_levels: None,
 			contour_style: Linear,
 			contour_label: Auto,
+			view: None,
 		}
 	}
 
@@ -166,18 +196,14 @@ impl Axes3D
 	/// * `yaw` - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.
 	pub fn set_view<'l>(&'l mut self, pitch: f64, yaw: f64) -> &'l mut Self
 	{
-		writeln!(
-			&mut self.common.commands,
-			"set view {:.12e},{:.12e}",
-			pitch, yaw
-		);
+		self.view = Some(View::PitchYaw(pitch, yaw));
 		self
 	}
 
 	/// Sets the view to be a map. Useful for images and contour plots.
 	pub fn set_view_map<'l>(&'l mut self) -> &'l mut Self
 	{
-		writeln!(&mut self.common.commands, "set view map");
+		self.view = Some(View::Map);
 		self
 	}
 
@@ -368,6 +394,7 @@ impl Axes3D
 	pub(crate) fn reset_state(&self, writer: &mut dyn Writer)
 	{
 		self.common.reset_state(writer);
+		self.view.as_ref().map(|v| v.reset_state(writer));
 	}
 
 	pub(crate) fn write_out(&self, w: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion)
@@ -514,6 +541,7 @@ impl Axes3D
 		{
 			grid_axes.push(self.z_axis.axis);
 		}
+		self.view.as_ref().map(|v| v.write_out(w));
 		self.common.write_grid_options(w, &grid_axes, version);
 		self.common.write_out_elements("splot", w, version);
 	}
