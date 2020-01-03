@@ -540,6 +540,27 @@
 <span id="540">540</span>
 <span id="541">541</span>
 <span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -551,7 +572,35 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::<span class="ident">OneWayOwned</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">writer</span>::<span class="ident">Writer</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Borrow</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
+
+<span class="kw">enum</span> <span class="ident">View</span>
+{
+	<span class="ident">PitchYaw</span>(<span class="ident">f64</span>, <span class="ident">f64</span>),
+	<span class="ident">Map</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">View</span>
+{
+	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>)
+	{
+		<span class="kw">match</span> <span class="self">self</span>
+		{
+			<span class="self">Self</span>::<span class="ident">PitchYaw</span>(<span class="ident">pitch</span>, <span class="ident">yaw</span>) <span class="op">=</span><span class="op">&gt;</span>
+			{
+				<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;set view {:.12e},{:.12e}&quot;</span>, <span class="ident">pitch</span>, <span class="ident">yaw</span>);
+			}
+			<span class="self">Self</span>::<span class="ident">Map</span> <span class="op">=</span><span class="op">&gt;</span>
+			{
+				<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;set view map\n&quot;</span>);
+			}
+		}
+	}
+
+	<span class="kw">fn</span> <span class="ident">reset_state</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>)
+	{
+		<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;unset view\n&quot;</span>);
+	}
+}
 
 <span class="doccomment">/// 3D axes that is used for drawing 3D plots</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Axes3D</span>
@@ -564,6 +613,7 @@
 	<span class="ident">contour_levels</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 	<span class="ident">contour_style</span>: <span class="ident">ContourStyle</span>,
 	<span class="ident">contour_label</span>: <span class="ident">AutoOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+	<span class="ident">view</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Axes3D</span>
@@ -579,6 +629,7 @@
 			<span class="ident">contour_levels</span>: <span class="prelude-val">None</span>,
 			<span class="ident">contour_style</span>: <span class="ident">Linear</span>,
 			<span class="ident">contour_label</span>: <span class="ident">Auto</span>,
+			<span class="ident">view</span>: <span class="prelude-val">None</span>,
 		}
 	}
 
@@ -709,18 +760,14 @@
 	<span class="doccomment">/// * `yaw` - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.</span>
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_view</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pitch</span>: <span class="ident">f64</span>, <span class="ident">yaw</span>: <span class="ident">f64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="macro">writeln</span><span class="macro">!</span>(
-			<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">commands</span>,
-			<span class="string">&quot;set view {:.12e},{:.12e}&quot;</span>,
-			<span class="ident">pitch</span>, <span class="ident">yaw</span>
-		);
+		<span class="self">self</span>.<span class="ident">view</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">View</span>::<span class="ident">PitchYaw</span>(<span class="ident">pitch</span>, <span class="ident">yaw</span>));
 		<span class="self">self</span>
 	}
 
 	<span class="doccomment">/// Sets the view to be a map. Useful for images and contour plots.</span>
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_view_map</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="macro">writeln</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">commands</span>, <span class="string">&quot;set view map&quot;</span>);
+		<span class="self">self</span>.<span class="ident">view</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">View</span>::<span class="ident">Map</span>);
 		<span class="self">self</span>
 	}
 
@@ -737,8 +784,9 @@
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_z_label</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">LabelOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>])
 		<span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">get_common_data_mut</span>()
-			.<span class="ident">set_label_common</span>(<span class="ident">ZLabel</span>, <span class="ident">text</span>, <span class="ident">options</span>);
+		<span class="self">self</span>.<span class="ident">z_axis</span>
+			.<span class="ident">label</span>
+			.<span class="ident">set</span>(<span class="ident">text</span>.<span class="ident">into</span>(), <span class="ident">options</span>.<span class="ident">to_one_way_owned</span>());
 		<span class="self">self</span>
 	}
 
@@ -906,31 +954,14 @@
 		<span class="self">self</span>.<span class="ident">contour_label</span> <span class="op">=</span> <span class="ident">label</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">l</span><span class="op">|</span> <span class="ident">l</span>.<span class="ident">to_string</span>());
 		<span class="self">self</span>
 	}
-}
 
-<span class="kw">impl</span> <span class="ident">AxesCommonPrivate</span> <span class="kw">for</span> <span class="ident">Axes3D</span>
-{
-	<span class="kw">fn</span> <span class="ident">get_common_data_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">AxesCommonData</span>
+	<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">reset_state</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>)
 	{
-		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">reset_state</span>(<span class="ident">writer</span>);
+		<span class="self">self</span>.<span class="ident">view</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">reset_state</span>(<span class="ident">writer</span>));
 	}
 
-	<span class="kw">fn</span> <span class="ident">get_common_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">AxesCommonData</span>
-	{
-		<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">common</span>
-	}
-}
-
-<span class="kw">impl</span> <span class="ident">AxesCommon</span> <span class="kw">for</span> <span class="ident">Axes3D</span> {}
-
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait</span> <span class="ident">Axes3DPrivate</span>
-{
-	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>);
-}
-
-<span class="kw">impl</span> <span class="ident">Axes3DPrivate</span> <span class="kw">for</span> <span class="ident">Axes3D</span>
-{
-	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">w</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>)
+	<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">w</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>, <span class="ident">auto_layout</span>: <span class="ident">bool</span>, <span class="ident">version</span>: <span class="ident">GnuplotVersion</span>)
 	{
 		<span class="kw">fn</span> <span class="ident">clamp</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">PartialOrd</span><span class="op">&gt;</span>(<span class="ident">val</span>: <span class="ident">T</span>, <span class="ident">min</span>: <span class="ident">T</span>, <span class="ident">max</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span>
 		{
@@ -946,11 +977,6 @@
 			{
 				<span class="ident">val</span>
 			}
-		}
-
-		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
-		{
-			<span class="kw">return</span>;
 		}
 
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">contour_base</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">contour_surface</span>
@@ -1060,7 +1086,7 @@
 			});
 		}
 
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>, <span class="ident">version</span>);
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>, <span class="ident">auto_layout</span>, <span class="ident">version</span>);
 		<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>, <span class="ident">version</span>);
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">grid_axes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">x_axis</span>.<span class="ident">grid</span>
@@ -1079,9 +1105,25 @@
 		{
 			<span class="ident">grid_axes</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">axis</span>);
 		}
+		<span class="self">self</span>.<span class="ident">view</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">write_out</span>(<span class="ident">w</span>));
 		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_grid_options</span>(<span class="ident">w</span>, <span class="kw-2">&amp;</span><span class="ident">grid_axes</span>, <span class="ident">version</span>);
 		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_out_elements</span>(<span class="string">&quot;splot&quot;</span>, <span class="ident">w</span>, <span class="ident">version</span>);
 	}
 }
+
+<span class="kw">impl</span> <span class="ident">AxesCommonPrivate</span> <span class="kw">for</span> <span class="ident">Axes3D</span>
+{
+	<span class="kw">fn</span> <span class="ident">get_common_data_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">AxesCommonData</span>
+	{
+		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">common</span>
+	}
+
+	<span class="kw">fn</span> <span class="ident">get_common_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">AxesCommonData</span>
+	{
+		<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">common</span>
+	}
+}
+
+<span class="kw">impl</span> <span class="ident">AxesCommon</span> <span class="kw">for</span> <span class="ident">Axes3D</span> {}
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "gnuplot";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
