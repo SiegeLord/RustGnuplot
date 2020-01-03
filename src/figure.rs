@@ -566,9 +566,6 @@ impl Figure
 
 		writeln!(w, "set multiplot{}", multiplot_options_string);
 
-		// TODO: Maybe add an option for this (who seriously prefers them in the back though?)
-		writeln!(w, "set tics front");
-
 		let mut prev_e: Option<&AxesVariant> = None;
 		for e in self.axes.iter()
 		{
