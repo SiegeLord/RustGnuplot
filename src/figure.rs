@@ -572,7 +572,6 @@ impl Figure
 		let mut prev_e: Option<&AxesVariant> = None;
 		for e in self.axes.iter()
 		{
-			writeln!(w, "reset");
 			if let Some(prev_e) = prev_e
 			{
 				prev_e.reset_state(w);

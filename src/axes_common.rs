@@ -1181,7 +1181,6 @@ pub struct Size
 
 pub struct AxesCommonData
 {
-	pub commands: Vec<u8>,
 	pub grid_options: Vec<PlotOption<String>>,
 	pub minor_grid_options: Vec<PlotOption<String>>,
 	pub grid_front: bool,
@@ -1203,7 +1202,6 @@ impl AxesCommonData
 	pub fn new() -> AxesCommonData
 	{
 		AxesCommonData {
-			commands: vec![],
 			grid_options: vec![],
 			minor_grid_options: vec![],
 			grid_front: false,
@@ -1405,7 +1403,6 @@ impl AxesCommonData
 			}
 		}
 
-		w.write_all(&self.commands[..]);
 		self.x_axis.write_out_commands(w, version);
 		self.y_axis.write_out_commands(w, version);
 		self.cb_axis.write_out_commands(w, version);
