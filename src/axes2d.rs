@@ -9,6 +9,138 @@ use crate::options::*;
 use crate::util::OneWayOwned;
 use crate::writer::Writer;
 
+struct LegendData
+{
+	x: Coordinate,
+	y: Coordinate,
+	legend_options: Vec<LegendOption<String>>,
+	text_options: Vec<LabelOption<String>>,
+}
+
+impl LegendData
+{
+	fn write_out(&self, writer: &mut dyn Writer)
+	{
+		let w = writer;
+		write!(w, "set key at {},{}", self.x, self.y);
+
+		first_opt_default! {self.legend_options,
+			Placement(h, v) =>
+			{
+				w.write_str(match h
+				{
+					AlignLeft => " left",
+					AlignRight => " right",
+					_ => " center"
+				});
+				w.write_str(match v
+				{
+					AlignTop => " top",
+					AlignBottom => " bottom",
+					_ => " center"
+				});
+			},
+			_ =>
+			{
+				w.write_str(" right top");
+			}
+		}
+
+		first_opt_default! {self.legend_options,
+			Horizontal =>
+			{
+				w.write_str(" horizontal");
+			},
+			_ =>
+			{
+				w.write_str(" vertical");
+			}
+		}
+
+		first_opt_default! {self.legend_options,
+			Reverse =>
+			{
+				w.write_str(" reverse");
+			},
+			_ =>
+			{
+				w.write_str(" noreverse");
+			}
+		}
+
+		first_opt_default! {self.legend_options,
+			Invert =>
+			{
+				w.write_str(" invert");
+			},
+			_ =>
+			{
+				w.write_str(" noinvert");
+			}
+		}
+
+		first_opt! {self.legend_options,
+			Title(ref s) =>
+			{
+				w.write_str(" title \"");
+				w.write_str(s);
+				w.write_str("\"");
+			}
+		}
+
+		first_opt! {self.text_options,
+			Font(ref f, s) =>
+			{
+				w.write_str(" font \"");
+				w.write_str(f);
+				w.write_str(",");
+				w.write_str(&s.to_string()[..]);
+				w.write_str("\"");
+			}
+		}
+		first_opt! {self.text_options,
+			TextColor(ref s) =>
+			{
+				w.write_str(" textcolor rgb \"");
+				w.write_str(&s);
+				w.write_str("\"");
+			}
+		}
+		first_opt! {self.text_options,
+			TextAlign(a) =>
+			{
+				w.write_str(match a
+				{
+					AlignLeft => " Left",
+					AlignRight => " Right",
+					_ => ""
+				});
+			}
+		}
+
+		first_opt! {self.legend_options,
+			MaxRows(r) =>
+			{
+				write!(w, " maxrows {}", r as i32);
+			}
+		}
+
+		first_opt! {self.legend_options,
+			MaxCols(l) =>
+			{
+				write!(w, " maxcols {}", l as i32);
+			}
+		}
+
+		w.write_str("\n");
+	}
+
+	fn reset_state(&self, writer: &mut dyn Writer)
+	{
+		writer.write_str("unset key\n");
+	}
+}
+
 struct ArrowData
 {
 	x1: Coordinate,
@@ -114,6 +246,7 @@ pub struct Axes2D
 	common: AxesCommonData,
 	border_options: BorderOptions,
 	arrows: Vec<ArrowData>,
+	legend: Option<LegendData>,
 }
 
 impl Axes2D
@@ -124,6 +257,7 @@ impl Axes2D
 			common: AxesCommonData::new(),
 			border_options: BorderOptions::new(),
 			arrows: vec![],
+			legend: None,
 		}
 	}
 
@@ -214,121 +348,12 @@ impl Axes2D
 		text_options: &[LabelOption<&str>],
 	) -> &'l mut Self
 	{
-		{
-			let c = &mut self.common.commands as &mut dyn Writer;
-
-			write!(c, "set key at {},{}", x, y);
-
-			first_opt_default! {legend_options,
-				Placement(h, v) =>
-				{
-					c.write_str(match h
-					{
-						AlignLeft => " left",
-						AlignRight => " right",
-						_ => " center"
-					});
-					c.write_str(match v
-					{
-						AlignTop => " top",
-						AlignBottom => " bottom",
-						_ => " center"
-					});
-				},
-				_ =>
-				{
-					c.write_str(" right top");
-				}
-			}
-
-			first_opt_default! {legend_options,
-				Horizontal =>
-				{
-					c.write_str(" horizontal");
-				},
-				_ =>
-				{
-					c.write_str(" vertical");
-				}
-			}
-
-			first_opt_default! {legend_options,
-				Reverse =>
-				{
-					c.write_str(" reverse");
-				},
-				_ =>
-				{
-					c.write_str(" noreverse");
-				}
-			}
-
-			first_opt_default! {legend_options,
-				Invert =>
-				{
-					c.write_str(" invert");
-				},
-				_ =>
-				{
-					c.write_str(" noinvert");
-				}
-			}
-
-			first_opt! {legend_options,
-				Title(s) =>
-				{
-					c.write_str(" title \"");
-					c.write_str(s);
-					c.write_str("\"");
-				}
-			}
-
-			first_opt! {text_options,
-				Font(f, s) =>
-				{
-					c.write_str(" font \"");
-					c.write_str(f);
-					c.write_str(",");
-					c.write_str(&s.to_string()[..]);
-					c.write_str("\"");
-				}
-			}
-			first_opt! {text_options,
-				TextColor(s) =>
-				{
-					c.write_str(" textcolor rgb \"");
-					c.write_str(s);
-					c.write_str("\"");
-				}
-			}
-			first_opt! {text_options,
-				TextAlign(a) =>
-				{
-					c.write_str(match a
-					{
-						AlignLeft => " Left",
-						AlignRight => " Right",
-						_ => ""
-					});
-				}
-			}
-
-			first_opt! {legend_options,
-				MaxRows(r) =>
-				{
-					write!(c, " maxrows {}", r as i32);
-				}
-			}
-
-			first_opt! {legend_options,
-				MaxCols(l) =>
-				{
-					write!(c, " maxcols {}", l as i32);
-				}
-			}
-
-			c.write_str("\n");
-		}
+		self.legend = Some(LegendData {
+			x: x,
+			y: y,
+			legend_options: legend_options.to_one_way_owned(),
+			text_options: text_options.to_one_way_owned(),
+		});
 		self
 	}
 
@@ -794,6 +819,7 @@ impl Axes2D
 		{
 			arrow.write_out(writer);
 		}
+		self.legend.as_ref().map(|l| l.write_out(writer));
 		self.common.write_out_elements("plot", writer, version);
 	}
 
@@ -804,6 +830,7 @@ impl Axes2D
 		{
 			arrow.reset_state(writer);
 		}
+		self.legend.as_ref().map(|l| l.reset_state(writer));
 	}
 }
 
