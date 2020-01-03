@@ -388,11 +388,6 @@ impl Axes3D
 			}
 		}
 
-		if self.common.elems.len() == 0
-		{
-			return;
-		}
-
 		if self.contour_base || self.contour_surface
 		{
 			write!(w, "set contour ");

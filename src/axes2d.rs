@@ -9,6 +9,69 @@ use crate::options::*;
 use crate::util::OneWayOwned;
 use crate::writer::Writer;
 
+struct ArrowData
+{
+	x1: Coordinate,
+	y1: Coordinate,
+	x2: Coordinate,
+	y2: Coordinate,
+	plot_options: Vec<PlotOption<String>>,
+	tag: i32,
+}
+
+impl ArrowData
+{
+	fn write_out(&self, writer: &mut dyn Writer)
+	{
+		let w = writer;
+		write!(
+			w,
+			"set arrow {} from {},{} to {},{}",
+			self.tag, self.x1, self.y1, self.x2, self.y2
+		);
+
+		first_opt! {self.plot_options,
+			ArrowType(s) =>
+			{
+				w.write_str(match s
+				{
+					Open => "",
+					Closed => " empty",
+					Filled => " filled",
+					NoArrow => " nohead",
+				});
+			}
+		}
+
+		w.write_str(" size graph ");
+		first_opt_default! {self.plot_options,
+			ArrowSize(z) =>
+			{
+				write!(w, "{:.12e}", z);
+			},
+			_ =>
+			{
+				w.write_str("0.05");
+			}
+		}
+		w.write_str(",12");
+
+		AxesCommonData::write_color_options(w, &self.plot_options, Some("black"));
+		AxesCommonData::write_line_options(
+			w,
+			&self.plot_options,
+			GnuplotVersion { major: 0, minor: 0 },
+		);
+
+		w.write_str("\n");
+	}
+
+	fn reset_state(&self, writer: &mut dyn Writer)
+	{
+		writeln!(writer, "unset arrow {}", self.tag);
+	}
+}
+
 struct BorderOptions
 {
 	front: bool,
@@ -50,6 +113,7 @@ pub struct Axes2D
 {
 	common: AxesCommonData,
 	border_options: BorderOptions,
+	arrows: Vec<ArrowData>,
 }
 
 impl Axes2D
@@ -59,6 +123,7 @@ impl Axes2D
 		Axes2D {
 			common: AxesCommonData::new(),
 			border_options: BorderOptions::new(),
+			arrows: vec![],
 		}
 	}
 
@@ -123,42 +188,14 @@ impl Axes2D
 		options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		{
-			let c = &mut self.common.commands as &mut dyn Writer;
-			write!(c, "set arrow from {},{} to {},{}", x1, y1, x2, y2);
-
-			first_opt! {options,
-				ArrowType(s) =>
-				{
-					c.write_str(match s
-					{
-						Open => "",
-						Closed => " empty",
-						Filled => " filled",
-						NoArrow => " nohead",
-					});
-				}
-			}
-
-			c.write_str(" size graph ");
-			first_opt_default! {options,
-				ArrowSize(z) =>
-				{
-					write!(c, "{:.12e}", z);
-				},
-				_ =>
-				{
-					c.write_str("0.05");
-				}
-			}
-			c.write_str(",12");
-
-			let options: Vec<PlotOption<String>> = options.to_one_way_owned();
-			AxesCommonData::write_color_options(c, &options, Some("black"));
-			AxesCommonData::write_line_options(c, &options, GnuplotVersion { major: 0, minor: 0 });
-
-			c.write_str("\n");
-		}
+		self.arrows.push(ArrowData {
+			x1: x1,
+			y1: y1,
+			x2: x2,
+			y2: y2,
+			tag: self.arrows.len() as i32 + 1,
+			plot_options: options.to_one_way_owned(),
+		});
 		self
 	}
 
@@ -737,11 +774,6 @@ impl Axes2D
 		&self, writer: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion,
 	)
 	{
-		if self.common.elems.len() == 0
-		{
-			return;
-		}
-
 		self.common.write_out_commands(writer, auto_layout, version);
 		self.border_options.write_out(writer, version);
 		let mut grid_axes = vec![];
@@ -758,12 +790,20 @@ impl Axes2D
 			grid_axes.push(self.common.cb_axis.axis);
 		}
 		self.common.write_grid_options(writer, &grid_axes, version);
+		for arrow in &self.arrows
+		{
+			arrow.write_out(writer);
+		}
 		self.common.write_out_elements("plot", writer, version);
 	}
 
 	pub(crate) fn reset_state(&self, writer: &mut dyn Writer)
 	{
 		self.common.reset_state(writer);
+		for arrow in &self.arrows
+		{
+			arrow.reset_state(writer);
+		}
 	}
 }
 
