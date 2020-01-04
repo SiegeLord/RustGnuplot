@@ -410,7 +410,7 @@ pub enum PaletteType
 /// A gray palette
 pub const GRAY: PaletteType = Gray(1.0);
 /// Default Gnuplot palette
-pub const COLOR: PaletteType = Formula(3, 11, 16);
+pub const COLOR: PaletteType = Formula(7, 5, 15);
 /// Classic rainbow palette with terrible perceptual properties
 pub const RAINBOW: PaletteType = Formula(33, 13, 10);
 /// A black body palette

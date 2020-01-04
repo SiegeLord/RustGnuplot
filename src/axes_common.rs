@@ -1215,7 +1215,7 @@ impl AxesCommonData
 			size: None,
 			aspect_ratio: Auto,
 			margins: Margins::new(),
-			palette: HELIX,
+			palette: COLOR,
 		}
 	}
 
