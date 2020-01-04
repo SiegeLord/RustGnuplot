@@ -1952,9 +1952,6 @@
 <span id="1952">1952</span>
 <span id="1953">1953</span>
 <span id="1954">1954</span>
-<span id="1955">1955</span>
-<span id="1956">1956</span>
-<span id="1957">1957</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -3139,7 +3136,6 @@
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AxesCommonData</span>
 {
-	<span class="kw">pub</span> <span class="ident">commands</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
 	<span class="kw">pub</span> <span class="ident">grid_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 	<span class="kw">pub</span> <span class="ident">minor_grid_options</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PlotOption</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 	<span class="kw">pub</span> <span class="ident">grid_front</span>: <span class="ident">bool</span>,
@@ -3161,7 +3157,6 @@
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AxesCommonData</span>
 	{
 		<span class="ident">AxesCommonData</span> {
-			<span class="ident">commands</span>: <span class="macro">vec</span><span class="macro">!</span>[],
 			<span class="ident">grid_options</span>: <span class="macro">vec</span><span class="macro">!</span>[],
 			<span class="ident">minor_grid_options</span>: <span class="macro">vec</span><span class="macro">!</span>[],
 			<span class="ident">grid_front</span>: <span class="bool-val">false</span>,
@@ -3175,7 +3170,7 @@
 			<span class="ident">size</span>: <span class="prelude-val">None</span>,
 			<span class="ident">aspect_ratio</span>: <span class="ident">Auto</span>,
 			<span class="ident">margins</span>: <span class="ident">Margins</span>::<span class="ident">new</span>(),
-			<span class="ident">palette</span>: <span class="ident">HELIX</span>,
+			<span class="ident">palette</span>: <span class="ident">COLOR</span>,
 		}
 	}
 
@@ -3363,7 +3358,6 @@
 			}
 		}
 
-		<span class="ident">w</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">commands</span>[..]);
 		<span class="self">self</span>.<span class="ident">x_axis</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>, <span class="ident">version</span>);
 		<span class="self">self</span>.<span class="ident">y_axis</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>, <span class="ident">version</span>);
 		<span class="self">self</span>.<span class="ident">cb_axis</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>, <span class="ident">version</span>);
