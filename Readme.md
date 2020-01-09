@@ -26,6 +26,7 @@ fg.axes2d()
 		&[Caption("Parabola")],
 	);
 fg.show().unwrap();
+fg.close();
 ```
 
 ![Simple example plot](doc/fg.readme_example.png)

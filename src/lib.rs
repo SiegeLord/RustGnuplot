@@ -20,6 +20,7 @@ let mut fg = Figure::new();
 fg.axes2d()
 .lines(&x, &y, &[Caption("A line"), Color("black")]);
 fg.show();
+fg.close();
 # }
 ~~~
 */

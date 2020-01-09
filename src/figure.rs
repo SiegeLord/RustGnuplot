@@ -339,7 +339,7 @@ impl Figure
 		}
 
 		self.gnuplot.borrow_mut().as_mut().map(|p| {
-			let stdin = p.stdin.as_mut().expect("No stdin!?");
+			let stdin = p.stdin.as_mut().expect("stdin for gnuplot process not available. Was it already closed?");
 			self.echo(stdin);
 			stdin.flush();
 		});
