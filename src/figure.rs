@@ -603,6 +603,12 @@ impl Figure
 	}
 }
 
+impl Drop for Figure {
+	fn drop(&mut self) {
+		self.close();
+	}
+}
+
 #[test]
 fn flush_test()
 {
