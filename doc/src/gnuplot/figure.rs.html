@@ -618,6 +618,12 @@
 <span id="618">618</span>
 <span id="619">619</span>
 <span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -1221,6 +1227,12 @@
 		<span class="self">self</span>.<span class="ident">echo</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">file</span>);
 		<span class="ident">file</span>.<span class="ident">flush</span>();
 		<span class="self">self</span>
+	}
+}
+
+<span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Figure</span> {
+	<span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+		<span class="self">self</span>.<span class="ident">close</span>();
 	}
 }
 
