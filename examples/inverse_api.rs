@@ -86,14 +86,14 @@ impl Lines
 
 struct Axes2D
 {
-	plot_elements: Vec<Box<PlotElement>>,
+	plot_elements: Vec<Box<dyn PlotElement>>,
 	title: String,
 	x_axis: Axis,
 }
 
 impl Axes2D
 {
-	fn new(plot_elements: Vec<Box<PlotElement>>) -> Axes2D
+	fn new(plot_elements: Vec<Box<dyn PlotElement>>) -> Axes2D
 	{
 		Axes2D {
 			plot_elements: plot_elements,
