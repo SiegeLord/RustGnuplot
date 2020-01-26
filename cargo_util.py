@@ -43,7 +43,7 @@ if args.publish:
 		check_call(['cargo', 'publish'], cwd=crate)
 
 if args.build:
-	check_call(['cargo', 'build'], cwd='slr_config')
+	check_call(['cargo', 'build'], cwd='.')
 
 if args.test:
 	crates_no_examples = filter(lambda crate: crate != 'examples', crate_list)
