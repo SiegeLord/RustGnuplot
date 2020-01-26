@@ -13,6 +13,7 @@ use crate::writer::Writer;
 use std::cell::RefCell;
 use std::fs::File;
 use std::io::{BufWriter, Write};
+use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
 use std::str;
 
@@ -88,7 +89,7 @@ pub struct Figure
 	axes: Vec<AxesVariant>,
 	terminal: String,
 	enhanced_text: bool,
-	output_file: String,
+	output_file: Option<PathBuf>,
 	post_commands: String,
 	pre_commands: String,
 	// RefCell so that we can echo to it
@@ -114,7 +115,7 @@ impl Figure
 			axes: Vec::new(),
 			terminal: "".into(),
 			enhanced_text: true,
-			output_file: "".into(),
+			output_file: None,
 			gnuplot: RefCell::new(None),
 			post_commands: "".into(),
 			pre_commands: "".into(),
@@ -140,7 +141,7 @@ impl Figure
 	pub fn set_terminal<'l>(&'l mut self, terminal: &str, output_file: &str) -> &'l mut Figure
 	{
 		self.terminal = terminal.into();
-		self.output_file = output_file.into();
+		self.output_file = Some(output_file.into());
 		self
 	}
 
@@ -350,17 +351,17 @@ impl Figure
 	/// Save the figure to a png file.
 	///
 	/// # Arguments
-	/// * `file_path` - Path to the output file (png)
+	/// * `filename` - Path to the output file (png)
 	/// * `width_px` - output image width (in pixels)
 	/// * `height_px` - output image height (in pixels)
-	pub fn save_to_png(
-		&mut self, file_path: &str, width_px: u32, height_px: u32,
+	pub fn save_to_png<P: AsRef<Path>>(
+		&mut self, filename: P, width_px: u32, height_px: u32,
 	) -> Result<(), GnuplotInitError>
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
 		self.terminal = format!("pngcairo size {},{}", width_px, height_px);
-		self.output_file = file_path.into();
+		self.output_file = Some(filename.as_ref().into());
 		self.show()?.close();
 		self.terminal = former_term;
 		self.output_file = former_output_file;
@@ -371,17 +372,17 @@ impl Figure
 	/// Save the figure to a svg file.
 	///
 	/// # Arguments
-	/// * `file_path` - Path to the output file (svg)
+	/// * `filename` - Path to the output file (svg)
 	/// * `width_px` - output image width (in pixels)
 	/// * `height_px` - output image height (in pixels)
-	pub fn save_to_svg(
-		&mut self, file_path: &str, width_px: u32, height_px: u32,
+	pub fn save_to_svg<P: AsRef<Path>>(
+		&mut self, filename: P, width_px: u32, height_px: u32,
 	) -> Result<(), GnuplotInitError>
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
 		self.terminal = format!("svg size {},{}", width_px, height_px);
-		self.output_file = file_path.into();
+		self.output_file = Some(filename.as_ref().into());
 		self.show()?.close();
 		self.terminal = former_term;
 		self.output_file = former_output_file;
@@ -392,17 +393,17 @@ impl Figure
 	/// Save the figure to a pdf file.
 	///
 	/// # Arguments
-	/// * `file_path` - Path to the output file (pdf)
+	/// * `filename` - Path to the output file (pdf)
 	/// * `width_in` - output image width (in inches)
 	/// * `height_in` - output image height (in inches)
-	pub fn save_to_pdf(
-		&mut self, file_path: &str, width_in: u32, height_in: u32,
+	pub fn save_to_pdf<P: AsRef<Path>>(
+		&mut self, filename: P, width_in: u32, height_in: u32,
 	) -> Result<(), GnuplotInitError>
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
 		self.terminal = format!("pdfcairo size {},{}", width_in, height_in);
-		self.output_file = file_path.into();
+		self.output_file = Some(filename.as_ref().into());
 		self.show()?.close();
 		self.terminal = former_term;
 		self.output_file = former_output_file;
@@ -413,17 +414,17 @@ impl Figure
 	/// Save the figure to an eps file
 	///
 	/// # Arguments
-	/// * `file_path` - Path to the output file (eps)
+	/// * `filename` - Path to the output file (eps)
 	/// * `width_in` - output image width (in inches)
 	/// * `height_in` - output image height (in inches)
-	pub fn save_to_eps(
-		&mut self, file_path: &str, width_in: u32, height_in: u32,
+	pub fn save_to_eps<P: AsRef<Path>>(
+		&mut self, filename: P, width_in: u32, height_in: u32,
 	) -> Result<(), GnuplotInitError>
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
 		self.terminal = format!("epscairo size {},{}", width_in, height_in);
-		self.output_file = file_path.into();
+		self.output_file = Some(filename.as_ref().into());
 		self.show()?.close();
 		self.terminal = former_term;
 		self.output_file = former_output_file;
@@ -434,17 +435,17 @@ impl Figure
 	/// Save the figure to a HTML5 canvas file
 	///
 	/// # Arguments
-	/// * `file_path` - Path to the output file (canvas)
+	/// * `filename` - Path to the output file (canvas)
 	/// * `width_px` - output image width (in pixels)
 	/// * `height_px` - output image height (in pixels)
-	pub fn save_to_canvas(
-		&mut self, file_path: &str, width_px: u32, height_px: u32,
+	pub fn save_to_canvas<P: AsRef<Path>>(
+		&mut self, filename: P, width_px: u32, height_px: u32,
 	) -> Result<(), GnuplotInitError>
 	{
 		let former_term = self.terminal.clone();
 		let former_output_file = self.output_file.clone();
 		self.terminal = format!("canvas size {},{}", width_px, height_px);
-		self.output_file = file_path.into();
+		self.output_file = Some(filename.as_ref().into());
 		self.show()?.close();
 		self.terminal = former_term;
 		self.output_file = former_output_file;
@@ -505,9 +506,9 @@ impl Figure
 			writeln!(w, "set terminal {}", self.terminal);
 		}
 
-		if self.output_file.len() > 0
+		if let Some(ref output_file) = self.output_file
 		{
-			writeln!(w, "set output \"{}\"", self.output_file);
+			writeln!(w, "set output \"{}\"", output_file.to_str().unwrap());
 		}
 
 		writeln!(w, "set termoption dashed");
@@ -589,7 +590,7 @@ impl Figure
 	/// Save to a file the the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
 	/// * `filename` - Name of the file
-	pub fn echo_to_file<'l>(&'l self, filename: &str) -> &'l Figure
+	pub fn echo_to_file<'l, P: AsRef<Path>>(&'l self, filename: P) -> &'l Figure
 	{
 		if self.axes.len() == 0
 		{
@@ -616,11 +617,11 @@ fn flush_test()
 	use tempfile::TempDir;
 
 	let tmp_path = TempDir::new().unwrap().into_path();
-	let file_path = tmp_path.join("plot.png");
+	let filename = tmp_path.join("plot.png");
 	let mut fg = Figure::new();
 	fg.axes2d().boxes(0..5, 0..5, &[]);
-	fg.set_terminal("pngcairo", &*file_path.to_string_lossy());
+	fg.set_terminal("pngcairo", &*filename.to_string_lossy());
 	fg.show().unwrap().close();
-	fs::read(file_path).unwrap();
+	fs::read(filename).unwrap();
 	fs::remove_dir_all(&tmp_path);
 }
