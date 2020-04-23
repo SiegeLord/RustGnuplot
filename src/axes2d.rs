@@ -6,7 +6,7 @@ use crate::axes_common::*;
 use crate::coordinates::*;
 use crate::datatype::*;
 use crate::options::*;
-use crate::util::OneWayOwned;
+use crate::util::{escape, OneWayOwned};
 use crate::writer::Writer;
 
 struct LegendData
@@ -83,7 +83,7 @@ impl LegendData
 			Title(ref s) =>
 			{
 				w.write_str(" title \"");
-				w.write_str(s);
+				w.write_str(&escape(s));
 				w.write_str("\"");
 			}
 		}
@@ -92,7 +92,7 @@ impl LegendData
 			Font(ref f, s) =>
 			{
 				w.write_str(" font \"");
-				w.write_str(f);
+				w.write_str(&escape(f));
 				w.write_str(",");
 				w.write_str(&s.to_string()[..]);
 				w.write_str("\"");
@@ -102,7 +102,7 @@ impl LegendData
 			TextColor(ref s) =>
 			{
 				w.write_str(" textcolor rgb \"");
-				w.write_str(&s);
+				w.write_str(&escape(s));
 				w.write_str("\"");
 			}
 		}

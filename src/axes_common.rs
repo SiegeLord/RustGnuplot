@@ -11,7 +11,7 @@ use crate::coordinates::*;
 
 use crate::datatype::*;
 use crate::options::*;
-use crate::util::OneWayOwned;
+use crate::util::{escape, OneWayOwned};
 use crate::writer::*;
 use std::borrow::Borrow;
 
@@ -419,7 +419,7 @@ impl PlotElement
 		first_opt! {self.options,
 			Caption(ref s) =>
 			{
-				writer.write_str(&s);
+				writer.write_str(&escape(s));
 			}
 		}
 		writer.write_str("\"");
@@ -473,7 +473,7 @@ impl LabelData
 		self.label_type.write_label_str(w);
 
 		w.write_str(" \"");
-		w.write_str(&self.text);
+		w.write_str(&escape(&self.text));
 		w.write_str("\"");
 
 		write_out_label_options(self.label_type, &self.options[..], w);

@@ -9,6 +9,7 @@ use crate::axes2d::*;
 use crate::axes3d::*;
 
 use crate::options::{GnuplotVersion, MultiplotFillDirection, MultiplotFillOrder};
+use crate::util::escape;
 use crate::writer::Writer;
 use std::cell::RefCell;
 use std::fs::File;
@@ -508,7 +509,11 @@ impl Figure
 
 		if let Some(ref output_file) = self.output_file
 		{
-			writeln!(w, "set output \"{}\"", output_file.to_str().unwrap());
+			writeln!(
+				w,
+				"set output \"{}\"",
+				escape(&output_file.to_str().unwrap())
+			);
 		}
 
 		writeln!(w, "set termoption dashed");
@@ -551,7 +556,7 @@ impl Figure
 			let title = m
 				.title
 				.as_ref()
-				.map_or("".to_string(), |t| format!(" title \"{}\"", t));
+				.map_or("".to_string(), |t| format!(" title \"{}\"", escape(t)));
 			let scale = m.scale_x.map_or("".to_string(), |s| {
 				format!(" scale {},{}", s, m.scale_y.unwrap())
 			});
@@ -604,8 +609,10 @@ impl Figure
 	}
 }
 
-impl Drop for Figure {
-	fn drop(&mut self) {
+impl Drop for Figure
+{
+	fn drop(&mut self)
+	{
 		self.close();
 	}
 }

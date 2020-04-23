@@ -62,3 +62,19 @@ impl<'l, T: OneWayOwned> OneWayOwned for &'l [T]
 		self.iter().map(|v| v.to_one_way_owned()).collect()
 	}
 }
+
+pub(crate) fn escape(s: &str) -> String
+{
+	let s = s.replace(r"\", r"\\");
+	let s = s.replace(r#"""#, r#"\""#);
+	s
+}
+
+#[test]
+fn escape_test()
+{
+	assert_eq!(r"\\", escape(r"\"));
+	assert_eq!(r"\\\\", escape(r"\\"));
+	assert_eq!(r#"\\\""#, escape(r#"\""#));
+	assert_eq!(r#"\"\""#, escape(r#""""#));
+}
