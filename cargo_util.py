@@ -80,7 +80,8 @@ if args.publish:
 			time.sleep(1. + i)
 
 if args.build:
-	check_call(cargo_cmd('build'), cwd='.')
+	for crate in crate_list:
+		check_call(cargo_cmd('build'), cwd=crate)
 
 if args.format:
 	for crate in crate_list:
@@ -89,7 +90,7 @@ if args.format:
 if args.test:
 	crates_no_examples = filter(lambda crate: crate != 'examples', crate_list)
 	for crate in crates_no_examples:
-		check_call(cargo_cmd('test') + ['-p', crate], cwd='.')
+		check_call(cargo_cmd('test'), cwd=crate)
 
 if args.clean:
 	crates_and_doc = ['doc']

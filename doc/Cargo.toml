@@ -10,5 +10,5 @@ path = "dummy.rs"
 
 [dependencies.gnuplot]
 
-path = ".."
+path = "../gnuplot"
 version = "=0.0.34" #auto

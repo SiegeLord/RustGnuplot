@@ -1,7 +1,7 @@
 build
 target
 Cargo.lock
-/*.png
-/*.gif
-/*.pdf
-/*.gnuplot
+gnuplot/*.png
+gnuplot/*.gif
+gnuplot/*.pdf
+gnuplot/*.gnuplot
