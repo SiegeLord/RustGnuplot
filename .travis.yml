@@ -12,10 +12,10 @@ install:
 script:
   - ./cargo_util.py --test
   - ./cargo_util.py --doc
-  - ./target/debug/examples/example1 --no-show
-  - ./target/debug/examples/example2 --no-show
-  - ./target/debug/examples/example3 --no-show
-  - ./target/debug/examples/example4 --no-show
+  - ./gnuplot/target/debug/examples/example1 --no-show
+  - ./gnuplot/target/debug/examples/example2 --no-show
+  - ./gnuplot/target/debug/examples/example3 --no-show
+  - ./gnuplot/target/debug/examples/example4 --no-show
 after_success:
   - cd doc/target
   - ../gh_pages_upload.sh

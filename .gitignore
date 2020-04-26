@@ -5,3 +5,7 @@ gnuplot/*.png
 gnuplot/*.gif
 gnuplot/*.pdf
 gnuplot/*.gnuplot
+/*.png
+/*.gif
+/*.pdf
+/*.gnuplot
