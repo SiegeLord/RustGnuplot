@@ -1,5 +1,6 @@
 language: rust
 rust: nightly
+dist: bionic
 notifications:
   email:
     on_success: never
