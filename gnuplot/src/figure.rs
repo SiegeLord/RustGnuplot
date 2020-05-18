@@ -395,8 +395,8 @@ impl Figure
 		Ok(self)
 	}
 
-	/// Launch a gnuplot process, if it hasn't been spawned already by a call to
-	/// this function, and display the figure on it.
+	/// Launch a gnuplot process, if it hasn't been spawned already and
+	/// display the figure on it.
 	///
 	/// Unlike `show_and_keep_running`, this also instructs gnuplot to close if
 	/// you close all of the plot windows. You can use the returned
