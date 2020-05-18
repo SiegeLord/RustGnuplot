@@ -692,7 +692,7 @@ fn flush_test()
 	let mut fg = Figure::new();
 	fg.axes2d().boxes(0..5, 0..5, &[]);
 	fg.set_terminal("pngcairo", &*filename.to_string_lossy());
-	fg.show().unwrap().close();
+	fg.show();
 	fs::read(filename).unwrap();
 	fs::remove_dir_all(&tmp_path);
 }
