@@ -142,10 +142,13 @@ impl Figure
 	pub fn set_terminal<'l>(&'l mut self, terminal: &str, output_file: &str) -> &'l mut Figure
 	{
 		self.terminal = terminal.into();
-		self.output_file = if output_file.len() > 0 {
-			Some(output_file.into())
-		} else {
+		self.output_file = if output_file.is_empty()
+		{
 			None
+		}
+		else
+		{
+			Some(output_file.into())
 		};
 		self
 	}
