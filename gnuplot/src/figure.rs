@@ -11,7 +11,6 @@ use crate::axes3d::*;
 use crate::options::{GnuplotVersion, MultiplotFillDirection, MultiplotFillOrder};
 use crate::util::escape;
 use crate::writer::Writer;
-use std::cell::RefCell;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::path::{Path, PathBuf};
@@ -129,7 +128,7 @@ pub struct Figure
 	post_commands: String,
 	pre_commands: String,
 	// RefCell so that we can echo to it
-	gnuplot: RefCell<Option<Child>>,
+	gnuplot: Option<Child>,
 	version: Option<GnuplotVersion>,
 	multiplot_options: Option<MultiplotOptions>,
 }
@@ -152,7 +151,7 @@ impl Figure
 			terminal: "".into(),
 			enhanced_text: true,
 			output_file: None,
-			gnuplot: RefCell::new(None),
+			gnuplot: None,
 			post_commands: "".into(),
 			pre_commands: "".into(),
 			version: None,
@@ -373,9 +372,9 @@ impl Figure
 			}
 		}
 
-		if self.gnuplot.borrow().is_none()
+		if self.gnuplot.is_none()
 		{
-			*self.gnuplot.borrow_mut() = Some(
+			self.gnuplot = Some(
 				Command::new("gnuplot")
 					.arg("-p")
 					.stdin(Stdio::piped())
@@ -386,11 +385,15 @@ impl Figure
 			);
 		}
 
-		self.gnuplot.borrow_mut().as_mut().map(|p| {
-			let stdin = p.stdin.as_mut().expect("No stdin!?");
-			self.echo(stdin);
-			stdin.flush();
-		});
+		{
+			let mut gnuplot = self.gnuplot.take();
+			gnuplot.as_mut().map(|p| {
+				let stdin = p.stdin.as_mut().expect("No stdin!?");
+				self.echo(stdin);
+				stdin.flush();
+			});
+			self.gnuplot = gnuplot;
+		}
 
 		Ok(self)
 	}
@@ -404,7 +407,7 @@ impl Figure
 	pub fn show(&mut self) -> Result<CloseSentinel, GnuplotInitError>
 	{
 		self.show_and_keep_running()?;
-		let mut gnuplot = self.gnuplot.replace(None).expect("No gnuplot?");
+		let mut gnuplot = self.gnuplot.take().expect("No gnuplot?");
 		{
 			let stdin = gnuplot.stdin.as_mut().expect("No stdin!?");
 			writeln!(stdin, "pause mouse close");
@@ -524,22 +527,20 @@ impl Figure
 	/// that it was written.
 	pub fn close(&mut self) -> &mut Figure
 	{
-		if self.gnuplot.borrow().is_none()
+		if self.gnuplot.is_none()
 		{
 			return self;
 		}
 
 		{
-			let mut gnuplot = self.gnuplot.borrow_mut();
-
-			gnuplot.as_mut().map(|p| {
+			self.gnuplot.as_mut().map(|p| {
 				{
 					let stdin = p.stdin.as_mut().expect("No stdin!?");
 					writeln!(stdin, "quit");
 				}
 				p.wait();
 			});
-			*gnuplot = None;
+			self.gnuplot = None;
 		}
 
 		self
