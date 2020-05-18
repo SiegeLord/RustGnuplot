@@ -84,7 +84,42 @@ impl MultiplotOptions
 	}
 }
 
-/// A figure that may contain multiple axes
+/// A sentinel that represents a gnuplot waiting to close.
+pub struct CloseSentinel
+{
+	gnuplot: Child,
+}
+
+impl CloseSentinel
+{
+	fn new(gnuplot: Child) -> Self
+	{
+		CloseSentinel { gnuplot: gnuplot }
+	}
+
+	/// Waits until the gnuplot process exits. See `std::process::Child::wait`.
+	pub fn wait(&mut self) -> std::io::Result<std::process::ExitStatus>
+	{
+		self.gnuplot.wait()
+	}
+
+	/// Waits until the gnuplot process exits. See
+	/// `std::process::Child::try_wait`.
+	pub fn try_wait(&mut self) -> std::io::Result<Option<std::process::ExitStatus>>
+	{
+		self.gnuplot.try_wait()
+	}
+}
+
+impl Drop for CloseSentinel
+{
+	fn drop(&mut self)
+	{
+		self.wait().unwrap();
+	}
+}
+
+/// A figure that may contain multiple axes.
 pub struct Figure
 {
 	axes: Vec<AxesVariant>,
@@ -109,7 +144,7 @@ impl Default for GnuplotVersion
 
 impl Figure
 {
-	/// Creates a new figure
+	/// Creates a new figure.
 	pub fn new() -> Figure
 	{
 		Figure {
@@ -304,7 +339,11 @@ impl Figure
 
 	/// Launch a gnuplot process, if it hasn't been spawned already by a call to
 	/// this function, and display the figure on it.
-	pub fn show(&mut self) -> Result<&mut Figure, GnuplotInitError>
+	///
+	/// Usually you should prefer using `show` instead. This method is primarily
+	/// useful when you wish to call this multiple times, e.g. to redraw an
+	/// existing plot window.
+	pub fn show_and_keep_running(&mut self) -> Result<&mut Figure, GnuplotInitError>
 	{
 		if self.axes.len() == 0
 		{
@@ -356,6 +395,24 @@ impl Figure
 		Ok(self)
 	}
 
+	/// Launch a gnuplot process, if it hasn't been spawned already by a call to
+	/// this function, and display the figure on it.
+	///
+	/// Unlike `show_and_keep_running`, this also instructs gnuplot to close if
+	/// you close all of the plot windows. You can use the returned
+	/// `CloseSentinel` to wait until this happens.
+	pub fn show(&mut self) -> Result<CloseSentinel, GnuplotInitError>
+	{
+		self.show_and_keep_running()?;
+		let mut gnuplot = self.gnuplot.replace(None).expect("No gnuplot?");
+		{
+			let stdin = gnuplot.stdin.as_mut().expect("No stdin!?");
+			writeln!(stdin, "pause mouse close");
+			writeln!(stdin, "quit");
+		};
+		Ok(CloseSentinel::new(gnuplot))
+	}
+
 	/// Save the figure to a png file.
 	///
 	/// # Arguments
@@ -370,7 +427,7 @@ impl Figure
 		let former_output_file = self.output_file.clone();
 		self.terminal = format!("pngcairo size {},{}", width_px, height_px);
 		self.output_file = Some(filename.as_ref().into());
-		self.show()?.close();
+		self.show()?;
 		self.terminal = former_term;
 		self.output_file = former_output_file;
 
@@ -391,7 +448,7 @@ impl Figure
 		let former_output_file = self.output_file.clone();
 		self.terminal = format!("svg size {},{}", width_px, height_px);
 		self.output_file = Some(filename.as_ref().into());
-		self.show()?.close();
+		self.show()?;
 		self.terminal = former_term;
 		self.output_file = former_output_file;
 
@@ -412,7 +469,7 @@ impl Figure
 		let former_output_file = self.output_file.clone();
 		self.terminal = format!("pdfcairo size {},{}", width_in, height_in);
 		self.output_file = Some(filename.as_ref().into());
-		self.show()?.close();
+		self.show()?;
 		self.terminal = former_term;
 		self.output_file = former_output_file;
 
@@ -433,7 +490,7 @@ impl Figure
 		let former_output_file = self.output_file.clone();
 		self.terminal = format!("epscairo size {},{}", width_in, height_in);
 		self.output_file = Some(filename.as_ref().into());
-		self.show()?.close();
+		self.show()?;
 		self.terminal = former_term;
 		self.output_file = former_output_file;
 
@@ -454,7 +511,7 @@ impl Figure
 		let former_output_file = self.output_file.clone();
 		self.terminal = format!("canvas size {},{}", width_px, height_px);
 		self.output_file = Some(filename.as_ref().into());
-		self.show()?.close();
+		self.show()?;
 		self.terminal = former_term;
 		self.output_file = former_output_file;
 
