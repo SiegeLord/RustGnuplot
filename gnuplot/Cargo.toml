@@ -115,5 +115,10 @@ path = "examples/multiplot_options.rs"
 name = "multiple_axes"
 path = "examples/multiple_axes.rs"
 
+[[example]]
+
+name = "text"
+path = "examples/text.rs"
+
 [dependencies]
 byteorder = "1.3.1"

@@ -65,9 +65,20 @@ impl<'l, T: OneWayOwned> OneWayOwned for &'l [T]
 
 pub(crate) fn escape(s: &str) -> String
 {
-	let s = s.replace(r"\", r"\\");
-	let s = s.replace(r#"""#, r#"\""#);
-	s
+	let mut res = String::with_capacity(s.len());
+
+	for c in s.chars()
+	{
+		match c
+		{
+			'\\' => res.push_str(r"\\"),
+			'\n' => res.push_str(r"\n"),
+			'\t' => res.push_str(r"\t"),
+			'"' => res.push_str(r#"\""#),
+			c @ _ => res.push(c),
+		}
+	}
+	res
 }
 
 #[test]
@@ -77,4 +88,5 @@ fn escape_test()
 	assert_eq!(r"\\\\", escape(r"\\"));
 	assert_eq!(r#"\\\""#, escape(r#"\""#));
 	assert_eq!(r#"\"\""#, escape(r#""""#));
+	assert_eq!(r"\n", escape("\n"));
 }
