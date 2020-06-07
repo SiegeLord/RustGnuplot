@@ -465,6 +465,27 @@
 <span id="465">465</span>
 <span id="466">466</span>
 <span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -485,6 +506,8 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">PlotOption</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">Tick</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">TickOption</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">XAxis</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">YAxis</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::<span class="ident">OneWayOwned</span>;
 
 <span class="doccomment">/// An enumeration of plot options you can supply to plotting commands, governing</span>
@@ -536,6 +559,8 @@
 	<span class="ident">ArrowSize</span>(<span class="ident">f64</span>),
 	<span class="doccomment">/// Width of the whisker bars (as a fraction of the box width) for box and whisker plots.</span>
 	<span class="ident">WhiskerBars</span>(<span class="ident">f64</span>),
+	<span class="doccomment">/// Which axis pair to use for the plot element.</span>
+	<span class="ident">Axes</span>(<span class="ident">XAxis</span>, <span class="ident">YAxis</span>),
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span> <span class="ident">OneWayOwned</span> <span class="kw">for</span> <span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="ident">str</span><span class="op">&gt;</span>
@@ -558,8 +583,25 @@
 			<span class="ident">ArrowSize</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ArrowSize</span>(<span class="ident">v</span>),
 			<span class="ident">WhiskerBars</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">WhiskerBars</span>(<span class="ident">v</span>),
 			<span class="ident">FillPattern</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">FillPattern</span>(<span class="ident">v</span>),
+			<span class="ident">Axes</span>(<span class="ident">x</span>, <span class="ident">y</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Axes</span>(<span class="ident">x</span>, <span class="ident">y</span>),
 		}
 	}
+}
+
+<span class="doccomment">/// An enumeration of possible X-axes</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">XAxis</span>
+{
+	<span class="ident">X1</span>,
+	<span class="ident">X2</span>,
+}
+
+<span class="doccomment">/// An enumeration of possible Y-axes</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">YAxis</span>
+{
+	<span class="ident">Y1</span>,
+	<span class="ident">Y2</span>,
 }
 
 <span class="doccomment">/// An enumeration of possible fill regions</span>

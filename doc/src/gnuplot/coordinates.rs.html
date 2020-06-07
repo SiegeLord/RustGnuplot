@@ -28,6 +28,9 @@
 <span id="28">28</span>
 <span id="29">29</span>
 <span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright (c) 2013-2014 by SiegeLord</span>
 <span class="comment">//</span>
@@ -45,6 +48,8 @@
 	<span class="ident">Graph</span>(<span class="ident">f64</span>),
 	<span class="doccomment">/// Coordinates match those on the axes. You&#39;d use this to place labels and other objects relative to regions of interest in the graph (e.g. labeling the peak of a function)</span>
 	<span class="ident">Axis</span>(<span class="ident">f64</span>),
+	<span class="doccomment">/// Coordinates match those on the secondary axes. You&#39;d use this to place labels and other objects relative to regions of interest in the graph (e.g. labeling the peak of a function)</span>
+	<span class="ident">Axis2</span>(<span class="ident">f64</span>),
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Coordinate</span>
@@ -55,6 +60,7 @@
 		{
 			<span class="ident">Graph</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="string">&quot; graph &quot;</span>, <span class="ident">x</span>),
 			<span class="ident">Axis</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="string">&quot; first &quot;</span>, <span class="ident">x</span>),
+			<span class="ident">Axis2</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="string">&quot; second &quot;</span>, <span class="ident">x</span>),
 		};
 		<span class="macro">write</span><span class="macro">!</span>(<span class="ident">buf</span>, <span class="string">&quot;{}{:.16e}&quot;</span>, <span class="ident">name</span>, <span class="ident">x</span>)
 	}
