@@ -430,6 +430,24 @@ impl PlotElement
 				write!(writer, " whiskerbars {}", f);
 			}
 		}
+
+		first_opt! {self.options,
+			Axes(x, y) =>
+			{
+				write!(writer, " axes {}{}",
+					match x
+					{
+						X1 => "x1",
+						X2 => "x2",
+					},
+					match y
+					{
+						Y1 => "y1",
+						Y2 => "y2",
+					}
+				);
+			}
+		}
 	}
 
 	fn write_data(&self, writer: &mut dyn Writer)
@@ -499,6 +517,8 @@ pub enum LabelType
 {
 	XLabel,
 	YLabel,
+	X2Label,
+	Y2Label,
 	ZLabel,
 	CBLabel,
 	TitleLabel,
@@ -529,6 +549,14 @@ impl LabelType
 			{
 				w.write_str("ylabel");
 			}
+			X2Label =>
+			{
+				w.write_str("x2label");
+			}
+			Y2Label =>
+			{
+				w.write_str("y2label");
+			}
 			ZLabel =>
 			{
 				w.write_str("zlabel");
@@ -555,6 +583,8 @@ impl LabelType
 		{
 			XTickAxis => XLabel,
 			YTickAxis => YLabel,
+			X2TickAxis => X2Label,
+			Y2TickAxis => Y2Label,
 			ZTickAxis => ZLabel,
 			CBTickAxis => CBLabel,
 		}
@@ -650,6 +680,8 @@ pub enum TickAxis
 {
 	XTickAxis,
 	YTickAxis,
+	X2TickAxis,
+	Y2TickAxis,
 	ZTickAxis,
 	CBTickAxis,
 }
@@ -662,6 +694,8 @@ impl TickAxis
 		{
 			XTickAxis => "x",
 			YTickAxis => "y",
+			X2TickAxis => "x2",
+			Y2TickAxis => "y2",
 			ZTickAxis => "z",
 			CBTickAxis => "cb",
 		}
@@ -673,6 +707,8 @@ impl TickAxis
 		{
 			XTickAxis => "xtics",
 			YTickAxis => "ytics",
+			X2TickAxis => "x2tics",
+			Y2TickAxis => "y2tics",
 			ZTickAxis => "ztics",
 			CBTickAxis => "cbtics",
 		}
@@ -684,6 +720,8 @@ impl TickAxis
 		{
 			XTickAxis => "mxtics",
 			YTickAxis => "mytics",
+			X2TickAxis => "mx2tics",
+			Y2TickAxis => "my2tics",
 			ZTickAxis => "mztics",
 			CBTickAxis => "mcbtics",
 		}
@@ -695,6 +733,8 @@ impl TickAxis
 		{
 			XTickAxis => "xrange",
 			YTickAxis => "yrange",
+			X2TickAxis => "x2range",
+			Y2TickAxis => "y2range",
 			ZTickAxis => "zrange",
 			CBTickAxis => "cbrange",
 		}
@@ -1186,7 +1226,9 @@ pub struct AxesCommonData
 	pub grid_front: bool,
 	pub elems: Vec<PlotElement>,
 	pub x_axis: AxisData,
+	pub x2_axis: AxisData,
 	pub y_axis: AxisData,
+	pub y2_axis: AxisData,
 	pub cb_axis: AxisData,
 	pub labels: Vec<LabelData>,
 	pub title: LabelData,
@@ -1201,13 +1243,15 @@ impl AxesCommonData
 {
 	pub fn new() -> AxesCommonData
 	{
-		AxesCommonData {
+		let mut ret = AxesCommonData {
 			grid_options: vec![],
 			minor_grid_options: vec![],
 			grid_front: false,
 			elems: Vec::new(),
 			x_axis: AxisData::new(XTickAxis),
 			y_axis: AxisData::new(YTickAxis),
+			x2_axis: AxisData::new(X2TickAxis),
+			y2_axis: AxisData::new(Y2TickAxis),
 			cb_axis: AxisData::new(CBTickAxis),
 			labels: vec![],
 			title: LabelData::new(TitleLabel),
@@ -1216,7 +1260,10 @@ impl AxesCommonData
 			aspect_ratio: Auto,
 			margins: Margins::new(),
 			palette: COLOR,
-		}
+		};
+		ret.x2_axis.tick_type = TickType::None;
+		ret.y2_axis.tick_type = TickType::None;
+		ret
 	}
 
 	pub fn write_grid_options(&self, c: &mut dyn Writer, axes: &[TickAxis], version: GnuplotVersion)
@@ -1230,6 +1277,8 @@ impl AxesCommonData
 				c.write_str(" ");
 				if self.x_axis.axis == *axis && self.x_axis.mgrid
 					|| self.y_axis.axis == *axis && self.y_axis.mgrid
+					|| self.x2_axis.axis == *axis && self.x2_axis.mgrid
+					|| self.y2_axis.axis == *axis && self.y2_axis.mgrid
 				{
 					c.write_str(axis.to_mtick_str());
 					c.write_str(" ");
@@ -1405,6 +1454,8 @@ impl AxesCommonData
 
 		self.x_axis.write_out_commands(w, version);
 		self.y_axis.write_out_commands(w, version);
+		self.x2_axis.write_out_commands(w, version);
+		self.y2_axis.write_out_commands(w, version);
 		self.cb_axis.write_out_commands(w, version);
 		self.title.write_out_commands(w);
 		for label in &self.labels
@@ -1536,6 +1587,26 @@ pub trait AxesCommon: AxesCommonPrivate
 		self
 	}
 
+	/// Like `set_x_label`, but for the secondary X axis
+	fn set_x2_label<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>]) -> &'l mut Self
+	{
+		self.get_common_data_mut()
+			.x2_axis
+			.label
+			.set(text.into(), options.to_one_way_owned());
+		self
+	}
+
+	/// Like `set_x_label`, but for the secondary Y axis
+	fn set_y2_label<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>]) -> &'l mut Self
+	{
+		self.get_common_data_mut()
+			.y2_axis
+			.label
+			.set(text.into(), options.to_one_way_owned());
+		self
+	}
+
 	/// Like `set_x_label`, but for the color bar
 	fn set_cb_label<'l>(&'l mut self, text: &str, options: &[LabelOption<&str>]) -> &'l mut Self
 	{
@@ -1631,6 +1702,38 @@ pub trait AxesCommon: AxesCommonPrivate
 		self
 	}
 
+	/// Like `set_x_ticks` but for the secondary X axis.
+	///
+	/// Note that by default, these are hidden.
+	fn set_x2_ticks<'l>(
+		&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>,
+		tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>],
+	) -> &'l mut Self
+	{
+		self.get_common_data_mut().y2_axis.set_ticks(
+			tick_placement,
+			tick_options.to_one_way_owned(),
+			label_options.to_one_way_owned(),
+		);
+		self
+	}
+
+	/// Like `set_x_ticks` but for the secondary Y axis.
+	///
+	/// Note that by default, these are hidden.
+	fn set_y2_ticks<'l>(
+		&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>,
+		tick_options: &[TickOption<&str>], label_options: &[LabelOption<&str>],
+	) -> &'l mut Self
+	{
+		self.get_common_data_mut().y2_axis.set_ticks(
+			tick_placement,
+			tick_options.to_one_way_owned(),
+			label_options.to_one_way_owned(),
+		);
+		self
+	}
+
 	/// Like `set_x_ticks` but for the color bar axis.
 	fn set_cb_ticks<'l>(
 		&'l mut self, tick_placement: Option<(AutoOption<f64>, u32)>,
@@ -1698,6 +1801,46 @@ pub trait AxesCommon: AxesCommonPrivate
 		self
 	}
 
+	/// Like `set_x_ticks_custom` but for the the secondary X axis.
+	fn set_x2_ticks_custom<
+		'l,
+		T: DataType,
+		S: ToString,
+		TickT: Borrow<Tick<T, S>>,
+		TL: IntoIterator<Item = TickT>,
+	>(
+		&'l mut self, ticks: TL, tick_options: &[TickOption<&str>],
+		label_options: &[LabelOption<&str>],
+	) -> &'l mut Self
+	{
+		self.get_common_data_mut().x2_axis.set_ticks_custom(
+			ticks.into_iter().map(|e| e.borrow().to_one_way_owned()),
+			tick_options.to_one_way_owned(),
+			label_options.to_one_way_owned(),
+		);
+		self
+	}
+
+	/// Like `set_x_ticks_custom` but for the the secondary Y axis.
+	fn set_y2_ticks_custom<
+		'l,
+		T: DataType,
+		S: ToString,
+		TickT: Borrow<Tick<T, S>>,
+		TL: IntoIterator<Item = TickT>,
+	>(
+		&'l mut self, ticks: TL, tick_options: &[TickOption<&str>],
+		label_options: &[LabelOption<&str>],
+	) -> &'l mut Self
+	{
+		self.get_common_data_mut().y2_axis.set_ticks_custom(
+			ticks.into_iter().map(|e| e.borrow().to_one_way_owned()),
+			tick_options.to_one_way_owned(),
+			label_options.to_one_way_owned(),
+		);
+		self
+	}
+
 	/// Like `set_x_ticks_custom` but for the the color bar axis.
 	fn set_cb_ticks_custom<
 		'l,
@@ -1740,6 +1883,28 @@ pub trait AxesCommon: AxesCommonPrivate
 		self
 	}
 
+	/// Set the range of values for the secondary X axis.
+	///
+	/// # Arguments
+	/// * `min` - Minimum X value
+	/// * `max` - Maximum X value
+	fn set_x2_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
+	{
+		self.get_common_data_mut().x2_axis.set_range(min, max);
+		self
+	}
+
+	/// Set the range of values for the secondary Y axis.
+	///
+	/// # Arguments
+	/// * `min` - Minimum Y value
+	/// * `max` - Maximum Y value
+	fn set_y2_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
+	{
+		self.get_common_data_mut().y2_axis.set_range(min, max);
+		self
+	}
+
 	/// Sets X axis to reverse.
 	/// # Arguments
 	/// * `reverse` - Boolean, true to reverse axis, false will not reverse
@@ -1755,6 +1920,24 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_y_reverse<'l>(&'l mut self, reverse: bool) -> &'l mut Self
 	{
 		self.get_common_data_mut().y_axis.set_reverse(reverse);
+		self
+	}
+
+	/// Sets secondary X axis to reverse.
+	/// # Arguments
+	/// * `reverse` - Boolean, true to reverse axis, false will not reverse
+	fn set_x2_reverse<'l>(&'l mut self, reverse: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().x2_axis.set_reverse(reverse);
+		self
+	}
+
+	/// Sets secondary Y axis to reverse.
+	/// # Arguments
+	/// * `reverse` - Boolean, true to reverse axis, false will not reverse
+	fn set_y2_reverse<'l>(&'l mut self, reverse: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().y2_axis.set_reverse(reverse);
 		self
 	}
 
@@ -1786,6 +1969,26 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_y_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
 	{
 		self.get_common_data_mut().y_axis.set_log(base);
+		self
+	}
+
+	/// Sets the secondary X axis be logarithmic. Note that the range must be non-negative for this to be valid.
+	///
+	/// # Arguments
+	/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic
+	fn set_x2_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
+	{
+		self.get_common_data_mut().x2_axis.set_log(base);
+		self
+	}
+
+	/// Sets the secondary Y axis be logarithmic. Note that the range must be non-negative for this to be valid.
+	///
+	/// # Arguments
+	/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic
+	fn set_y2_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
+	{
+		self.get_common_data_mut().y2_axis.set_log(base);
 		self
 	}
 
@@ -1836,6 +2039,46 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_y_minor_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
 	{
 		self.get_common_data_mut().y_axis.set_minor_grid(show);
+		self
+	}
+
+	/// Shows the grid on the secondary X axis.
+	///
+	/// # Arguments
+	/// * `show` - Whether to show the grid.
+	fn set_x2_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().x2_axis.set_grid(show);
+		self
+	}
+
+	/// Shows the minor grid on the secondary X axis.
+	///
+	/// # Arguments
+	/// * `show` - Whether to show the grid.
+	fn set_x2_minor_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().x2_axis.set_minor_grid(show);
+		self
+	}
+
+	/// Shows the grid on the secondary Y axis.
+	///
+	/// # Arguments
+	/// * `show` - Whether to show the grid.
+	fn set_y2_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().y2_axis.set_grid(show);
+		self
+	}
+
+	/// Shows the minor grid on the secondary Y axis.
+	///
+	/// # Arguments
+	/// * `show` - Whether to show the grid.
+	fn set_y2_minor_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().y2_axis.set_minor_grid(show);
 		self
 	}
 
@@ -1901,6 +2144,32 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_y_time<'l>(&'l mut self, is_time: bool) -> &'l mut Self
 	{
 		self.get_common_data_mut().y_axis.set_time(is_time);
+		self
+	}
+
+	/// Sets the secondary X axis be time.
+	///
+	/// If true, the axis is interpreted as seconds from the Unix epoch. Use the `Format` TickOption to
+	/// specify the formatting of the ticks (see strftime format spec for valid values).
+	///
+	/// # Arguments
+	/// * `is_time` - Whether this axis is time or not.
+	fn set_x2_time<'l>(&'l mut self, is_time: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().x2_axis.set_time(is_time);
+		self
+	}
+
+	/// Sets the secondary Y axis be time. Note that the range must be non-negative for this to be valid.
+	///
+	/// If true, the axis is interpreted as seconds from the Unix epoch. Use the `Format` TickOption to
+	/// specify the formatting of the ticks (see strftime format spec for valid values).
+	///
+	/// # Arguments
+	/// * `is_time` - Whether this axis is time or not.
+	fn set_y2_time<'l>(&'l mut self, is_time: bool) -> &'l mut Self
+	{
+		self.get_common_data_mut().y2_axis.set_time(is_time);
 		self
 	}
 

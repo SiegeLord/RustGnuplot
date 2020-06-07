@@ -17,6 +17,8 @@ pub use self::PaletteType::*;
 pub use self::PlotOption::*;
 pub use self::Tick::*;
 pub use self::TickOption::*;
+pub use self::XAxis::*;
+pub use self::YAxis::*;
 use crate::util::OneWayOwned;
 
 /// An enumeration of plot options you can supply to plotting commands, governing
@@ -68,6 +70,8 @@ pub enum PlotOption<T>
 	ArrowSize(f64),
 	/// Width of the whisker bars (as a fraction of the box width) for box and whisker plots.
 	WhiskerBars(f64),
+	/// Which axis pair to use for the plot element.
+	Axes(XAxis, YAxis),
 }
 
 impl<'l> OneWayOwned for PlotOption<&'l str>
@@ -90,8 +94,25 @@ impl<'l> OneWayOwned for PlotOption<&'l str>
 			ArrowSize(v) => ArrowSize(v),
 			WhiskerBars(v) => WhiskerBars(v),
 			FillPattern(v) => FillPattern(v),
+			Axes(x, y) => Axes(x, y),
 		}
 	}
+}
+
+/// An enumeration of possible X-axes
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
+pub enum XAxis
+{
+	X1,
+	X2,
+}
+
+/// An enumeration of possible Y-axes
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
+pub enum YAxis
+{
+	Y1,
+	Y2,
 }
 
 /// An enumeration of possible fill regions

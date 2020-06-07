@@ -14,6 +14,8 @@ pub enum Coordinate
 	Graph(f64),
 	/// Coordinates match those on the axes. You'd use this to place labels and other objects relative to regions of interest in the graph (e.g. labeling the peak of a function)
 	Axis(f64),
+	/// Coordinates match those on the secondary axes. You'd use this to place labels and other objects relative to regions of interest in the graph (e.g. labeling the peak of a function)
+	Axis2(f64),
 }
 
 impl fmt::Display for Coordinate
@@ -24,6 +26,7 @@ impl fmt::Display for Coordinate
 		{
 			Graph(x) => (" graph ", x),
 			Axis(x) => (" first ", x),
+			Axis2(x) => (" second ", x),
 		};
 		write!(buf, "{}{:.16e}", name, x)
 	}
