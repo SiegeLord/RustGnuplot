@@ -730,9 +730,9 @@
 	{
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
 		{
-			<span class="ident">Axes2DType</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">write_out</span>(<span class="ident">writer</span>, <span class="ident">auto_layout</span>, <span class="ident">version</span>),
-			<span class="ident">Axes3DType</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">write_out</span>(<span class="ident">writer</span>, <span class="ident">auto_layout</span>, <span class="ident">version</span>),
-			<span class="ident">NewPage</span> <span class="op">=</span><span class="op">&gt;</span>
+			<span class="ident">Axes2DType</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=&gt;</span> <span class="ident">a</span>.<span class="ident">write_out</span>(<span class="ident">writer</span>, <span class="ident">auto_layout</span>, <span class="ident">version</span>),
+			<span class="ident">Axes3DType</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=&gt;</span> <span class="ident">a</span>.<span class="ident">write_out</span>(<span class="ident">writer</span>, <span class="ident">auto_layout</span>, <span class="ident">version</span>),
+			<span class="ident">NewPage</span> <span class="op">=&gt;</span>
 			{
 				<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;unset multiplot&quot;</span>);
 				<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;set multiplot&quot;</span>);
@@ -744,9 +744,9 @@
 	{
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>
 		{
-			<span class="ident">Axes2DType</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">reset_state</span>(<span class="ident">writer</span>),
-			<span class="ident">Axes3DType</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">reset_state</span>(<span class="ident">writer</span>),
-			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> (),
+			<span class="ident">Axes2DType</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=&gt;</span> <span class="ident">a</span>.<span class="ident">reset_state</span>(<span class="ident">writer</span>),
+			<span class="ident">Axes3DType</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=&gt;</span> <span class="ident">a</span>.<span class="ident">reset_state</span>(<span class="ident">writer</span>),
+			<span class="kw">_</span> <span class="op">=&gt;</span> (),
 		}
 	}
 }
@@ -767,7 +767,7 @@
 
 <span class="kw">impl</span> <span class="ident">MultiplotOptions</span>
 {
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MultiplotOptions</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">MultiplotOptions</span>
 	{
 		<span class="ident">MultiplotOptions</span> {
 			<span class="ident">rows</span>: <span class="number">1</span>,
@@ -791,20 +791,20 @@
 
 <span class="kw">impl</span> <span class="ident">CloseSentinel</span>
 {
-	<span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">gnuplot</span>: <span class="ident">Child</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
+	<span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">gnuplot</span>: <span class="ident">Child</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
 	{
 		<span class="ident">CloseSentinel</span> { <span class="ident">gnuplot</span>: <span class="ident">gnuplot</span> }
 	}
 
 	<span class="doccomment">/// Waits until the gnuplot process exits. See `std::process::Child::wait`.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wait</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">std</span>::<span class="ident">process</span>::<span class="ident">ExitStatus</span><span class="op">&gt;</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wait</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">std</span>::<span class="ident">process</span>::<span class="ident">ExitStatus</span><span class="op">&gt;</span>
 	{
 		<span class="self">self</span>.<span class="ident">gnuplot</span>.<span class="ident">wait</span>()
 	}
 
 	<span class="doccomment">/// Waits until the gnuplot process exits. See</span>
 	<span class="doccomment">/// `std::process::Child::try_wait`.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_wait</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">std</span>::<span class="ident">process</span>::<span class="ident">ExitStatus</span><span class="op">&gt;</span><span class="op">&gt;</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_wait</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">std</span>::<span class="ident">process</span>::<span class="ident">ExitStatus</span><span class="op">&gt;&gt;</span>
 	{
 		<span class="self">self</span>.<span class="ident">gnuplot</span>.<span class="ident">try_wait</span>()
 	}
@@ -835,7 +835,7 @@
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">GnuplotVersion</span>
 {
-	<span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">GnuplotVersion</span>
+	<span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">GnuplotVersion</span>
 	{
 		<span class="ident">GnuplotVersion</span> { <span class="ident">major</span>: <span class="number">5</span>, <span class="ident">minor</span>: <span class="number">0</span> }
 	}
@@ -844,7 +844,7 @@
 <span class="kw">impl</span> <span class="ident">Figure</span>
 {
 	<span class="doccomment">/// Creates a new figure.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Figure</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">Figure</span>
 	{
 		<span class="ident">Figure</span> {
 			<span class="ident">axes</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
@@ -873,7 +873,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// As of now you can hack the canvas size in by using &quot;pngcairo size 600, 400&quot; for `terminal`.</span>
 	<span class="doccomment">/// Be prepared for that kludge to go away, though.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_terminal</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">terminal</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">output_file</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="ident">Figure</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_terminal</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">terminal</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">output_file</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="ident">Figure</span>
 	{
 		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="ident">terminal</span>.<span class="ident">into</span>();
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">output_file</span>.<span class="ident">is_empty</span>()
@@ -888,21 +888,21 @@
 	}
 
 	<span class="doccomment">/// Set or unset text enhancements</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_enhanced_text</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">enhanced</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="ident">Figure</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_enhanced_text</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">enhanced</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="ident">Figure</span>
 	{
 		<span class="self">self</span>.<span class="ident">enhanced_text</span> <span class="op">=</span> <span class="ident">enhanced</span>;
 		<span class="self">self</span>
 	}
 
 	<span class="doccomment">/// Sets commands to send to gnuplot after all the plotting commands.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_post_commands</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">post_commands</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="ident">Figure</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_post_commands</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">post_commands</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="ident">Figure</span>
 	{
 		<span class="self">self</span>.<span class="ident">post_commands</span> <span class="op">=</span> <span class="ident">post_commands</span>.<span class="ident">into</span>();
 		<span class="self">self</span>
 	}
 
 	<span class="doccomment">/// Sets commands to send to gnuplot before any plotting commands.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_pre_commands</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pre_commands</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="ident">Figure</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_pre_commands</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pre_commands</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="ident">Figure</span>
 	{
 		<span class="self">self</span>.<span class="ident">pre_commands</span> <span class="op">=</span> <span class="ident">pre_commands</span>.<span class="ident">into</span>();
 		<span class="self">self</span>
@@ -912,14 +912,14 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// By default, we assume version 5.0. If `show` is called, it will attempt</span>
 	<span class="doccomment">/// to parse Gnuplot&#39;s version string as well.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_gnuplot_version</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">version</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">GnuplotVersion</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Figure</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_gnuplot_version</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">version</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">GnuplotVersion</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Figure</span>
 	{
 		<span class="self">self</span>.<span class="ident">version</span> <span class="op">=</span> <span class="ident">version</span>;
 		<span class="self">self</span>
 	}
 
 	<span class="doccomment">/// Returns the Gnuplot version.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_gnuplot_version</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">GnuplotVersion</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_gnuplot_version</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">GnuplotVersion</span>
 	{
 		<span class="self">self</span>.<span class="ident">version</span>.<span class="ident">unwrap_or_default</span>()
 	}
@@ -928,7 +928,7 @@
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `rows` - Number of rows</span>
 	<span class="doccomment">/// * `columns` - Number of columns</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_multiplot_layout</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">rows</span>: <span class="ident">usize</span>, <span class="ident">columns</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_multiplot_layout</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">rows</span>: <span class="ident">usize</span>, <span class="ident">columns</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="kw">let</span> <span class="ident">multiplot_options</span> <span class="op">=</span> <span class="self">self</span>
 			.<span class="ident">multiplot_options</span>
@@ -942,7 +942,7 @@
 	<span class="doccomment">/// Set the multiplot title</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `title` - Name of the file</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_title</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">title</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_title</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">title</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="kw">let</span> <span class="ident">multiplot_options</span> <span class="op">=</span> <span class="self">self</span>
 			.<span class="ident">multiplot_options</span>
@@ -956,7 +956,7 @@
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `scale_x` - Horizonal scale applied to each plot</span>
 	<span class="doccomment">/// * `scale_y` - Vertical scale applied to each plot</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_scale</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">scale_x</span>: <span class="ident">f32</span>, <span class="ident">scale_y</span>: <span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_scale</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">scale_x</span>: <span class="ident">f32</span>, <span class="ident">scale_y</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="kw">let</span> <span class="ident">multiplot_options</span> <span class="op">=</span> <span class="self">self</span>
 			.<span class="ident">multiplot_options</span>
@@ -971,7 +971,7 @@
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `offset_x` - Horizontal offset applied to each plot</span>
 	<span class="doccomment">/// * `offset_y` - Horizontal offset applied to each plot</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_offset</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">offset_x</span>: <span class="ident">f32</span>, <span class="ident">offset_y</span>: <span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_offset</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">offset_x</span>: <span class="ident">f32</span>, <span class="ident">offset_y</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="kw">let</span> <span class="ident">multiplot_options</span> <span class="op">=</span> <span class="self">self</span>
 			.<span class="ident">multiplot_options</span>
@@ -988,7 +988,7 @@
 	<span class="doccomment">/// * `direction` - Options: Downwards, Upwards</span>
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_multiplot_fill_order</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">order</span>: <span class="ident">MultiplotFillOrder</span>, <span class="ident">direction</span>: <span class="ident">MultiplotFillDirection</span>,
-	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
+	) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
 		<span class="kw">let</span> <span class="ident">multiplot_options</span> <span class="op">=</span> <span class="self">self</span>
 			.<span class="ident">multiplot_options</span>
@@ -1000,26 +1000,26 @@
 	}
 
 	<span class="doccomment">/// Creates a set of 2D axes</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">axes2d</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Axes2D</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">axes2d</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Axes2D</span>
 	{
 		<span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">push</span>(<span class="ident">Axes2DType</span>(<span class="ident">Axes2D</span>::<span class="ident">new</span>()));
 		<span class="kw">let</span> <span class="ident">l</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">len</span>();
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">axes</span>[<span class="ident">l</span> <span class="op">-</span> <span class="number">1</span>]
 		{
-			<span class="ident">Axes2DType</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>,
-			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+			<span class="ident">Axes2DType</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">a</span>) <span class="op">=&gt;</span> <span class="ident">a</span>,
+			<span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
 		}
 	}
 
 	<span class="doccomment">/// Creates a set of 3D axes</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">axes3d</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Axes3D</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">axes3d</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Axes3D</span>
 	{
 		<span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">push</span>(<span class="ident">Axes3DType</span>(<span class="ident">Axes3D</span>::<span class="ident">new</span>()));
 		<span class="kw">let</span> <span class="ident">l</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">len</span>();
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">axes</span>[<span class="ident">l</span> <span class="op">-</span> <span class="number">1</span>]
 		{
-			<span class="ident">Axes3DType</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>,
-			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+			<span class="ident">Axes3DType</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">a</span>) <span class="op">=&gt;</span> <span class="ident">a</span>,
+			<span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
 		}
 	}
 
@@ -1030,7 +1030,7 @@
 	<span class="doccomment">/// new page should be started. Note that this is implicit before any</span>
 	<span class="doccomment">/// `axes2d`/`axes3d` calls, so make sure to call this only between pages</span>
 	<span class="doccomment">/// (not once before every page).</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_page</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Figure</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_page</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Figure</span>
 	{
 		<span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">push</span>(<span class="ident">NewPage</span>);
 		<span class="self">self</span>
@@ -1042,9 +1042,9 @@
 	<span class="doccomment">/// Usually you should prefer using `show` instead. This method is primarily</span>
 	<span class="doccomment">/// useful when you wish to call this multiple times, e.g. to redraw an</span>
 	<span class="doccomment">/// existing plot window.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">show_and_keep_running</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Figure</span>, <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">show_and_keep_running</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Figure</span>, <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
 	{
-		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>
 		{
 			<span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="self">self</span>);
 		}
@@ -1055,8 +1055,8 @@
 
 			<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">version_string</span>) <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">output</span>.<span class="ident">stdout</span>)
 			{
-				<span class="kw">let</span> <span class="ident">parts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">version_string</span>.<span class="ident">split</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span> <span class="op">=</span><span class="op">=</span> <span class="string">&#39; &#39;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">c</span> <span class="op">=</span><span class="op">=</span> <span class="string">&#39;.&#39;</span>).<span class="ident">collect</span>();
-				<span class="kw">if</span> <span class="ident">parts</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">2</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">parts</span>[<span class="number">0</span>] <span class="op">=</span><span class="op">=</span> <span class="string">&quot;gnuplot&quot;</span>
+				<span class="kw">let</span> <span class="ident">parts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">version_string</span>.<span class="ident">split</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">&#39; &#39;</span> <span class="op">||</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">&#39;.&#39;</span>).<span class="ident">collect</span>();
+				<span class="kw">if</span> <span class="ident">parts</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">2</span> <span class="op">&amp;&amp;</span> <span class="ident">parts</span>[<span class="number">0</span>] <span class="op">==</span> <span class="string">&quot;gnuplot&quot;</span>
 				{
 					<span class="kw">if</span> <span class="kw">let</span> (<span class="prelude-val">Ok</span>(<span class="ident">major</span>), <span class="prelude-val">Ok</span>(<span class="ident">minor</span>)) <span class="op">=</span> (
 						<span class="ident">i32</span>::<span class="ident">from_str_radix</span>(<span class="ident">parts</span>[<span class="number">1</span>], <span class="number">10</span>),
@@ -1104,7 +1104,7 @@
 	<span class="doccomment">/// Unlike `show_and_keep_running`, this also instructs gnuplot to close if</span>
 	<span class="doccomment">/// you close all of the plot windows. You can use the returned</span>
 	<span class="doccomment">/// `CloseSentinel` to wait until this happens.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">show</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CloseSentinel</span>, <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">show</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CloseSentinel</span>, <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
 	{
 		<span class="self">self</span>.<span class="ident">show_and_keep_running</span>()<span class="question-mark">?</span>;
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">gnuplot</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">gnuplot</span>.<span class="ident">take</span>().<span class="ident">expect</span>(<span class="string">&quot;No gnuplot?&quot;</span>);
@@ -1122,9 +1122,9 @@
 	<span class="doccomment">/// * `filename` - Path to the output file (png)</span>
 	<span class="doccomment">/// * `width_px` - output image width (in pixels)</span>
 	<span class="doccomment">/// * `height_px` - output image height (in pixels)</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_png</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_png</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">filename</span>: <span class="ident">P</span>, <span class="ident">width_px</span>: <span class="ident">u32</span>, <span class="ident">height_px</span>: <span class="ident">u32</span>,
-	) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
+	) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
@@ -1143,9 +1143,9 @@
 	<span class="doccomment">/// * `filename` - Path to the output file (svg)</span>
 	<span class="doccomment">/// * `width_px` - output image width (in pixels)</span>
 	<span class="doccomment">/// * `height_px` - output image height (in pixels)</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_svg</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_svg</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">filename</span>: <span class="ident">P</span>, <span class="ident">width_px</span>: <span class="ident">u32</span>, <span class="ident">height_px</span>: <span class="ident">u32</span>,
-	) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
+	) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
@@ -1164,9 +1164,9 @@
 	<span class="doccomment">/// * `filename` - Path to the output file (pdf)</span>
 	<span class="doccomment">/// * `width_in` - output image width (in inches)</span>
 	<span class="doccomment">/// * `height_in` - output image height (in inches)</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_pdf</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_pdf</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">filename</span>: <span class="ident">P</span>, <span class="ident">width_in</span>: <span class="ident">u32</span>, <span class="ident">height_in</span>: <span class="ident">u32</span>,
-	) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
+	) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
@@ -1185,9 +1185,9 @@
 	<span class="doccomment">/// * `filename` - Path to the output file (eps)</span>
 	<span class="doccomment">/// * `width_in` - output image width (in inches)</span>
 	<span class="doccomment">/// * `height_in` - output image height (in inches)</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_eps</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_eps</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">filename</span>: <span class="ident">P</span>, <span class="ident">width_in</span>: <span class="ident">u32</span>, <span class="ident">height_in</span>: <span class="ident">u32</span>,
-	) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
+	) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
@@ -1206,9 +1206,9 @@
 	<span class="doccomment">/// * `filename` - Path to the output file (canvas)</span>
 	<span class="doccomment">/// * `width_px` - output image width (in pixels)</span>
 	<span class="doccomment">/// * `height_px` - output image height (in pixels)</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_canvas</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_to_canvas</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;&gt;</span>(
 		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">filename</span>: <span class="ident">P</span>, <span class="ident">width_px</span>: <span class="ident">u32</span>, <span class="ident">height_px</span>: <span class="ident">u32</span>,
-	) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
+	) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">GnuplotInitError</span><span class="op">&gt;</span>
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
@@ -1225,7 +1225,7 @@
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// This can be useful if you&#39;re your plot output is a file and you need to</span>
 	<span class="doccomment">/// that it was written.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">close</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Figure</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">close</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Figure</span>
 	{
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">gnuplot</span>.<span class="ident">is_none</span>()
 		{
@@ -1247,7 +1247,7 @@
 	}
 
 	<span class="doccomment">/// Clears all axes on this figure.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">clear_axes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Figure</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">clear_axes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Figure</span>
 	{
 		<span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">clear</span>();
 		<span class="self">self</span>
@@ -1256,12 +1256,12 @@
 	<span class="doccomment">/// Echo the commands that if piped to a gnuplot process would display the figure</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `writer` - A function pointer that will be called multiple times with the command text and data</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">echo</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">T</span>: <span class="ident">Writer</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="ident">Figure</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">echo</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">T</span>: <span class="ident">Writer</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="ident">Figure</span>
 	{
 		<span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">writer</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>;
 		<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">pre_commands</span>);
 
-		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>
 		{
 			<span class="kw">return</span> <span class="self">self</span>;
 		}
@@ -1300,21 +1300,21 @@
 		{
 			<span class="kw">let</span> <span class="ident">fill_order</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">m</span>.<span class="ident">fill_order</span>
 			{
-				<span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&quot;</span>,
-				<span class="prelude-val">Some</span>(<span class="ident">fo</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">fo</span>
+				<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="string">&quot;&quot;</span>,
+				<span class="prelude-val">Some</span>(<span class="ident">fo</span>) <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">fo</span>
 				{
-					<span class="ident">MultiplotFillOrder</span>::<span class="ident">RowsFirst</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; rowsfirst&quot;</span>,
-					<span class="ident">MultiplotFillOrder</span>::<span class="ident">ColumnsFirst</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; columnsfirst&quot;</span>,
+					<span class="ident">MultiplotFillOrder</span>::<span class="ident">RowsFirst</span> <span class="op">=&gt;</span> <span class="string">&quot; rowsfirst&quot;</span>,
+					<span class="ident">MultiplotFillOrder</span>::<span class="ident">ColumnsFirst</span> <span class="op">=&gt;</span> <span class="string">&quot; columnsfirst&quot;</span>,
 				},
 			};
 
 			<span class="kw">let</span> <span class="ident">fill_direction</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">m</span>.<span class="ident">fill_direction</span>
 			{
-				<span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&quot;</span>,
-				<span class="prelude-val">Some</span>(<span class="ident">fd</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">fd</span>
+				<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="string">&quot;&quot;</span>,
+				<span class="prelude-val">Some</span>(<span class="ident">fd</span>) <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">fd</span>
 				{
-					<span class="ident">MultiplotFillDirection</span>::<span class="ident">Downwards</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; downwards&quot;</span>,
-					<span class="ident">MultiplotFillDirection</span>::<span class="ident">Upwards</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot; upwards&quot;</span>,
+					<span class="ident">MultiplotFillDirection</span>::<span class="ident">Downwards</span> <span class="op">=&gt;</span> <span class="string">&quot; downwards&quot;</span>,
+					<span class="ident">MultiplotFillDirection</span>::<span class="ident">Upwards</span> <span class="op">=&gt;</span> <span class="string">&quot; upwards&quot;</span>,
 				},
 			};
 
@@ -1360,9 +1360,9 @@
 	<span class="doccomment">/// Save to a file the the commands that if piped to a gnuplot process would display the figure</span>
 	<span class="doccomment">/// # Arguments</span>
 	<span class="doccomment">/// * `filename` - Name of the file</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">echo_to_file</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="self">self</span>, <span class="ident">filename</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="ident">Figure</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">echo_to_file</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="self">self</span>, <span class="ident">filename</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="ident">Figure</span>
 	{
-		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
+		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>
 		{
 			<span class="kw">return</span> <span class="self">self</span>;
 		}
