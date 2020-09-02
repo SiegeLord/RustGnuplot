@@ -90,14 +90,14 @@
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">DataType</span>: <span class="ident">Clone</span>
 {
-	<span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">f64</span>;
+	<span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f64</span>;
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_data_type</span> {
-	(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span>) <span class="op">=&gt;</span> {
+	(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span>) <span class="op">=</span><span class="op">&gt;</span> {
 		<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span> <span class="ident">DataType</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>
 		{
-			<span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">f64</span>
+			<span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f64</span>
 			{
 				<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span> <span class="kw">as</span> <span class="ident">f64</span>
 			}
@@ -106,10 +106,10 @@
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_data_type_ref</span> {
-	(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span>) <span class="op">=&gt;</span> {
+	(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span>) <span class="op">=</span><span class="op">&gt;</span> {
 		<span class="kw">impl</span> <span class="ident">DataType</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>
 		{
-			<span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">f64</span>
+			<span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f64</span>
 			{
 				<span class="kw-2">*</span><span class="self">self</span> <span class="kw">as</span> <span class="ident">f64</span>
 			}
@@ -149,7 +149,7 @@
 
 <span class="kw">impl</span> <span class="ident">DataType</span> <span class="kw">for</span> <span class="ident">Duration</span>
 {
-	<span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">f64</span>
+	<span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f64</span>
 	{
 		<span class="comment">// GnuPlot can&#39;t handle precision lower than milliseconds.</span>
 		<span class="self">self</span>.<span class="ident">as_secs</span>() <span class="kw">as</span> <span class="ident">f64</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">subsec_millis</span>() <span class="kw">as</span> <span class="ident">f64</span> <span class="op">/</span> <span class="number">1000.0</span>
@@ -158,7 +158,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span> <span class="ident">DataType</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="ident">Duration</span>
 {
-	<span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">f64</span>
+	<span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f64</span>
 	{
 		<span class="comment">// GnuPlot can&#39;t handle precision lower than milliseconds.</span>
 		<span class="self">self</span>.<span class="ident">as_secs</span>() <span class="kw">as</span> <span class="ident">f64</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">subsec_millis</span>() <span class="kw">as</span> <span class="ident">f64</span> <span class="op">/</span> <span class="number">1000.0</span>
