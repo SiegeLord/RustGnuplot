@@ -737,8 +737,8 @@
 			<span class="ident">Axes3DType</span>(<span class="kw-2">ref</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>.<span class="ident">write_out</span>(<span class="ident">writer</span>, <span class="ident">auto_layout</span>, <span class="ident">version</span>),
 			<span class="ident">NewPage</span> <span class="op">=</span><span class="op">&gt;</span>
 			{
-				<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;unset multiplot&quot;</span>);
-				<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;set multiplot&quot;</span>);
+				<span class="macro">writeln!</span>(<span class="ident">writer</span>, <span class="string">&quot;unset multiplot&quot;</span>);
+				<span class="macro">writeln!</span>(<span class="ident">writer</span>, <span class="string">&quot;set multiplot&quot;</span>);
 			}
 		}
 	}
@@ -1010,7 +1010,7 @@
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">axes</span>[<span class="ident">l</span> <span class="op">-</span> <span class="number">1</span>]
 		{
 			<span class="ident">Axes2DType</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>,
-			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(),
 		}
 	}
 
@@ -1022,7 +1022,7 @@
 		<span class="kw">match</span> <span class="kw-2">*</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">axes</span>[<span class="ident">l</span> <span class="op">-</span> <span class="number">1</span>]
 		{
 			<span class="ident">Axes3DType</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a</span>,
-			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(),
 		}
 	}
 
@@ -1113,8 +1113,8 @@
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">gnuplot</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">gnuplot</span>.<span class="ident">take</span>().<span class="ident">expect</span>(<span class="string">&quot;No gnuplot?&quot;</span>);
 		{
 			<span class="kw">let</span> <span class="ident">stdin</span> <span class="op">=</span> <span class="ident">gnuplot</span>.<span class="ident">stdin</span>.<span class="ident">as_mut</span>().<span class="ident">expect</span>(<span class="string">&quot;No stdin!?&quot;</span>);
-			<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">stdin</span>, <span class="string">&quot;pause mouse close&quot;</span>);
-			<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">stdin</span>, <span class="string">&quot;quit&quot;</span>);
+			<span class="macro">writeln!</span>(<span class="ident">stdin</span>, <span class="string">&quot;pause mouse close&quot;</span>);
+			<span class="macro">writeln!</span>(<span class="ident">stdin</span>, <span class="string">&quot;quit&quot;</span>);
 		};
 		<span class="prelude-val">Ok</span>(<span class="ident">CloseSentinel</span>::<span class="ident">new</span>(<span class="ident">gnuplot</span>))
 	}
@@ -1131,7 +1131,7 @@
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
-		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;pngcairo size {},{}&quot;</span>, <span class="ident">width_px</span>, <span class="ident">height_px</span>);
+		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;pngcairo size {},{}&quot;</span>, <span class="ident">width_px</span>, <span class="ident">height_px</span>);
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">into</span>());
 		<span class="self">self</span>.<span class="ident">show</span>()<span class="question-mark">?</span>;
 		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="ident">former_term</span>;
@@ -1152,7 +1152,7 @@
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
-		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;svg size {},{}&quot;</span>, <span class="ident">width_px</span>, <span class="ident">height_px</span>);
+		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;svg size {},{}&quot;</span>, <span class="ident">width_px</span>, <span class="ident">height_px</span>);
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">into</span>());
 		<span class="self">self</span>.<span class="ident">show</span>()<span class="question-mark">?</span>;
 		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="ident">former_term</span>;
@@ -1173,7 +1173,7 @@
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
-		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;pdfcairo size {},{}&quot;</span>, <span class="ident">width_in</span>, <span class="ident">height_in</span>);
+		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;pdfcairo size {},{}&quot;</span>, <span class="ident">width_in</span>, <span class="ident">height_in</span>);
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">into</span>());
 		<span class="self">self</span>.<span class="ident">show</span>()<span class="question-mark">?</span>;
 		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="ident">former_term</span>;
@@ -1194,7 +1194,7 @@
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
-		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;epscairo size {},{}&quot;</span>, <span class="ident">width_in</span>, <span class="ident">height_in</span>);
+		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;epscairo size {},{}&quot;</span>, <span class="ident">width_in</span>, <span class="ident">height_in</span>);
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">into</span>());
 		<span class="self">self</span>.<span class="ident">show</span>()<span class="question-mark">?</span>;
 		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="ident">former_term</span>;
@@ -1215,7 +1215,7 @@
 	{
 		<span class="kw">let</span> <span class="ident">former_term</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">clone</span>();
 		<span class="kw">let</span> <span class="ident">former_output_file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>.<span class="ident">clone</span>();
-		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;canvas size {},{}&quot;</span>, <span class="ident">width_px</span>, <span class="ident">height_px</span>);
+		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;canvas size {},{}&quot;</span>, <span class="ident">width_px</span>, <span class="ident">height_px</span>);
 		<span class="self">self</span>.<span class="ident">output_file</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">filename</span>.<span class="ident">as_ref</span>().<span class="ident">into</span>());
 		<span class="self">self</span>.<span class="ident">show</span>()<span class="question-mark">?</span>;
 		<span class="self">self</span>.<span class="ident">terminal</span> <span class="op">=</span> <span class="ident">former_term</span>;
@@ -1239,7 +1239,7 @@
 			<span class="self">self</span>.<span class="ident">gnuplot</span>.<span class="ident">as_mut</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">p</span><span class="op">|</span> {
 				{
 					<span class="kw">let</span> <span class="ident">stdin</span> <span class="op">=</span> <span class="ident">p</span>.<span class="ident">stdin</span>.<span class="ident">as_mut</span>().<span class="ident">expect</span>(<span class="string">&quot;No stdin!?&quot;</span>);
-					<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">stdin</span>, <span class="string">&quot;quit&quot;</span>);
+					<span class="macro">writeln!</span>(<span class="ident">stdin</span>, <span class="string">&quot;quit&quot;</span>);
 				}
 				<span class="ident">p</span>.<span class="ident">wait</span>();
 			});
@@ -1262,30 +1262,30 @@
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">echo</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span>, <span class="ident">T</span>: <span class="ident">Writer</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="ident">Figure</span>
 	{
 		<span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">writer</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>;
-		<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">pre_commands</span>);
+		<span class="macro">writeln!</span>(<span class="ident">w</span>, <span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">pre_commands</span>);
 
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
 		{
 			<span class="kw">return</span> <span class="self">self</span>;
 		}
 
-		<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set encoding utf8&quot;</span>);
+		<span class="macro">writeln!</span>(<span class="ident">w</span>, <span class="string">&quot;set encoding utf8&quot;</span>);
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">terminal</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span>
 		{
-			<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set terminal {}&quot;</span>, <span class="self">self</span>.<span class="ident">terminal</span>);
+			<span class="macro">writeln!</span>(<span class="ident">w</span>, <span class="string">&quot;set terminal {}&quot;</span>, <span class="self">self</span>.<span class="ident">terminal</span>);
 		}
 
 		<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">output_file</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_file</span>
 		{
-			<span class="macro">writeln</span><span class="macro">!</span>(
+			<span class="macro">writeln!</span>(
 				<span class="ident">w</span>,
 				<span class="string">&quot;set output \&quot;{}\&quot;&quot;</span>,
 				<span class="ident">escape</span>(<span class="kw-2">&amp;</span><span class="ident">output_file</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>())
 			);
 		}
 
-		<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set termoption dashed&quot;</span>);
-		<span class="macro">writeln</span><span class="macro">!</span>(
+		<span class="macro">writeln!</span>(<span class="ident">w</span>, <span class="string">&quot;set termoption dashed&quot;</span>);
+		<span class="macro">writeln!</span>(
 			<span class="ident">w</span>,
 			<span class="string">&quot;set termoption {}&quot;</span>,
 			<span class="kw">if</span> <span class="self">self</span>.<span class="ident">enhanced_text</span>
@@ -1324,21 +1324,21 @@
 			<span class="kw">let</span> <span class="ident">title</span> <span class="op">=</span> <span class="ident">m</span>
 				.<span class="ident">title</span>
 				.<span class="ident">as_ref</span>()
-				.<span class="ident">map_or</span>(<span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(), <span class="op">|</span><span class="ident">t</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot; title \&quot;{}\&quot;&quot;</span>, <span class="ident">escape</span>(<span class="ident">t</span>)));
+				.<span class="ident">map_or</span>(<span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(), <span class="op">|</span><span class="ident">t</span><span class="op">|</span> <span class="macro">format!</span>(<span class="string">&quot; title \&quot;{}\&quot;&quot;</span>, <span class="ident">escape</span>(<span class="ident">t</span>)));
 			<span class="kw">let</span> <span class="ident">scale</span> <span class="op">=</span> <span class="ident">m</span>.<span class="ident">scale_x</span>.<span class="ident">map_or</span>(<span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(), <span class="op">|</span><span class="ident">s</span><span class="op">|</span> {
-				<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot; scale {},{}&quot;</span>, <span class="ident">s</span>, <span class="ident">m</span>.<span class="ident">scale_y</span>.<span class="ident">unwrap</span>())
+				<span class="macro">format!</span>(<span class="string">&quot; scale {},{}&quot;</span>, <span class="ident">s</span>, <span class="ident">m</span>.<span class="ident">scale_y</span>.<span class="ident">unwrap</span>())
 			});
 			<span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">m</span>.<span class="ident">offset_x</span>.<span class="ident">map_or</span>(<span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(), <span class="op">|</span><span class="ident">o</span><span class="op">|</span> {
-				<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot; offset {},{}&quot;</span>, <span class="ident">o</span>, <span class="ident">m</span>.<span class="ident">offset_y</span>.<span class="ident">unwrap</span>())
+				<span class="macro">format!</span>(<span class="string">&quot; offset {},{}&quot;</span>, <span class="ident">o</span>, <span class="ident">m</span>.<span class="ident">offset_y</span>.<span class="ident">unwrap</span>())
 			});
 
-			<span class="ident">multiplot_options_string</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(
+			<span class="ident">multiplot_options_string</span> <span class="op">=</span> <span class="macro">format!</span>(
 				<span class="string">&quot; layout {},{}{}{}{}{}{}&quot;</span>,
 				<span class="ident">m</span>.<span class="ident">rows</span>, <span class="ident">m</span>.<span class="ident">columns</span>, <span class="ident">fill_order</span>, <span class="ident">fill_direction</span>, <span class="ident">title</span>, <span class="ident">scale</span>, <span class="ident">offset</span>
 			);
 		}
 
-		<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set multiplot{}&quot;</span>, <span class="ident">multiplot_options_string</span>);
+		<span class="macro">writeln!</span>(<span class="ident">w</span>, <span class="string">&quot;set multiplot{}&quot;</span>, <span class="ident">multiplot_options_string</span>);
 
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">prev_e</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">AxesVariant</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
 		<span class="kw">for</span> <span class="ident">e</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">iter</span>()
@@ -1355,8 +1355,8 @@
 			<span class="ident">prev_e</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>);
 		}
 
-		<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;unset multiplot&quot;</span>);
-		<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">post_commands</span>);
+		<span class="macro">writeln!</span>(<span class="ident">w</span>, <span class="string">&quot;unset multiplot&quot;</span>);
+		<span class="macro">writeln!</span>(<span class="ident">w</span>, <span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">post_commands</span>);
 		<span class="self">self</span>
 	}
 

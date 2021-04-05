@@ -590,7 +590,7 @@
 		{
 			<span class="self">Self</span>::<span class="ident">PitchYaw</span>(<span class="ident">pitch</span>, <span class="ident">yaw</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
-				<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;set view {:.12e},{:.12e}&quot;</span>, <span class="ident">pitch</span>, <span class="ident">yaw</span>);
+				<span class="macro">writeln!</span>(<span class="ident">writer</span>, <span class="string">&quot;set view {:.12e},{:.12e}&quot;</span>, <span class="ident">pitch</span>, <span class="ident">yaw</span>);
 			}
 			<span class="self">Self</span>::<span class="ident">Map</span> <span class="op">=</span><span class="op">&gt;</span>
 			{
@@ -984,8 +984,8 @@
 
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">contour_base</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">contour_surface</span>
 		{
-			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set contour &quot;</span>);
-			<span class="macro">write</span><span class="macro">!</span>(
+			<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;set contour &quot;</span>);
+			<span class="macro">write!</span>(
 				<span class="ident">w</span>,
 				<span class="string">&quot;{}&quot;</span>,
 				<span class="kw">match</span> (<span class="self">self</span>.<span class="ident">contour_base</span>, <span class="self">self</span>.<span class="ident">contour_surface</span>)
@@ -993,36 +993,36 @@
 					(<span class="bool-val">true</span>, <span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;base&quot;</span>,
 					(<span class="bool-val">false</span>, <span class="bool-val">true</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;surface&quot;</span>,
 					(<span class="bool-val">true</span>, <span class="bool-val">true</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;both&quot;</span>,
-					<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+					<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(),
 				}
 			);
-			<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;\n&quot;</span>);
+			<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;\n&quot;</span>);
 
 			<span class="kw">match</span> <span class="self">self</span>.<span class="ident">contour_label</span>
 			{
-				<span class="ident">Auto</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set clabel&quot;</span>),
+				<span class="ident">Auto</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">writeln!</span>(<span class="ident">w</span>, <span class="string">&quot;set clabel&quot;</span>),
 				<span class="ident">Fix</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 				{
 					<span class="kw">if</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
 					{
-						<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;unset clabel&quot;</span>)
+						<span class="macro">writeln!</span>(<span class="ident">w</span>, <span class="string">&quot;unset clabel&quot;</span>)
 					}
 					<span class="kw">else</span>
 					{
-						<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">r#&quot;set clabel &quot;{}&quot;&quot;#</span>, <span class="ident">s</span>)
+						<span class="macro">writeln!</span>(<span class="ident">w</span>, <span class="string">r#&quot;set clabel &quot;{}&quot;&quot;#</span>, <span class="ident">s</span>)
 					}
 				}
 			};
 
 			<span class="kw">fn</span> <span class="ident">set_cntrparam</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>)<span class="op">&gt;</span>(<span class="ident">w</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>, <span class="ident">wr</span>: <span class="ident">F</span>)
 			{
-				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set cntrparam &quot;</span>);
+				<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;set cntrparam &quot;</span>);
 				<span class="ident">wr</span>(<span class="ident">w</span>);
-				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;\n&quot;</span>);
+				<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;\n&quot;</span>);
 			}
 
 			<span class="ident">set_cntrparam</span>(<span class="ident">w</span>, <span class="op">|</span><span class="ident">w</span><span class="op">|</span> {
-				<span class="macro">write</span><span class="macro">!</span>(
+				<span class="macro">write!</span>(
 					<span class="ident">w</span>,
 					<span class="string">&quot;{}&quot;</span>,
 					<span class="kw">match</span> <span class="self">self</span>.<span class="ident">contour_style</span>
@@ -1043,7 +1043,7 @@
 				};
 
 				<span class="ident">pt</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">pt</span><span class="op">|</span> {
-					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;points {}&quot;</span>, <span class="ident">clamp</span>(<span class="ident">pt</span>, <span class="number">2</span>, <span class="number">100</span>));
+					<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;points {}&quot;</span>, <span class="ident">clamp</span>(<span class="ident">pt</span>, <span class="number">2</span>, <span class="number">100</span>));
 				});
 			});
 
@@ -1055,24 +1055,24 @@
 				};
 
 				<span class="ident">ord</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">ord</span><span class="op">|</span> {
-					<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;order {}&quot;</span>, <span class="ident">clamp</span>(<span class="ident">ord</span>, <span class="number">2</span>, <span class="number">10</span>));
+					<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;order {}&quot;</span>, <span class="ident">clamp</span>(<span class="ident">ord</span>, <span class="number">2</span>, <span class="number">10</span>));
 				});
 			});
 
 			<span class="ident">set_cntrparam</span>(<span class="ident">w</span>, <span class="op">|</span><span class="ident">w</span><span class="op">|</span> {
-				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;levels &quot;</span>);
+				<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;levels &quot;</span>);
 				<span class="kw">match</span> <span class="self">self</span>.<span class="ident">contour_levels</span>
 				{
 					<span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">ls</span>) <span class="op">=</span><span class="op">&gt;</span>
 					{
-						<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;discrete &quot;</span>);
+						<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;discrete &quot;</span>);
 						<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">left</span> <span class="op">=</span> <span class="ident">ls</span>.<span class="ident">len</span>();
 						<span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">l</span> <span class="kw">in</span> <span class="ident">ls</span>.<span class="ident">iter</span>()
 						{
-							<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">l</span>);
+							<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">l</span>);
 							<span class="kw">if</span> <span class="ident">left</span> <span class="op">&gt;</span> <span class="number">1</span>
 							{
-								<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;,&quot;</span>);
+								<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;,&quot;</span>);
 							}
 							<span class="ident">left</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
 						}
@@ -1081,8 +1081,8 @@
 					{
 						<span class="kw">match</span> <span class="self">self</span>.<span class="ident">contour_auto</span>
 						{
-							<span class="ident">Auto</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;auto &quot;</span>),
-							<span class="ident">Fix</span>(<span class="ident">f</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">f</span>),
+							<span class="ident">Auto</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;auto &quot;</span>),
+							<span class="ident">Fix</span>(<span class="ident">f</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">f</span>),
 						};
 					}
 				};
@@ -1091,7 +1091,7 @@
 
 		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>, <span class="ident">auto_layout</span>, <span class="ident">version</span>);
 		<span class="self">self</span>.<span class="ident">z_axis</span>.<span class="ident">write_out_commands</span>(<span class="ident">w</span>, <span class="ident">version</span>);
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">grid_axes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
+		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">grid_axes</span> <span class="op">=</span> <span class="macro">vec!</span>[];
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">x_axis</span>.<span class="ident">grid</span>
 		{
 			<span class="ident">grid_axes</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">x_axis</span>.<span class="ident">axis</span>);

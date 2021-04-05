@@ -876,9 +876,9 @@
 	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>)
 	{
 		<span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">writer</span>;
-		<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;set key at {},{}&quot;</span>, <span class="self">self</span>.<span class="ident">x</span>, <span class="self">self</span>.<span class="ident">y</span>);
+		<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;set key at {},{}&quot;</span>, <span class="self">self</span>.<span class="ident">x</span>, <span class="self">self</span>.<span class="ident">y</span>);
 
-		<span class="macro">first_opt_default</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
+		<span class="macro">first_opt_default!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
 			<span class="ident">Placement</span>(<span class="ident">h</span>, <span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">h</span>
@@ -900,7 +900,7 @@
 			}
 		}
 
-		<span class="macro">first_opt_default</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
+		<span class="macro">first_opt_default!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
 			<span class="ident">Horizontal</span> <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot; horizontal&quot;</span>);
@@ -911,7 +911,7 @@
 			}
 		}
 
-		<span class="macro">first_opt_default</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
+		<span class="macro">first_opt_default!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
 			<span class="ident">Reverse</span> <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot; reverse&quot;</span>);
@@ -922,7 +922,7 @@
 			}
 		}
 
-		<span class="macro">first_opt_default</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
+		<span class="macro">first_opt_default!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
 			<span class="ident">Invert</span> <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot; invert&quot;</span>);
@@ -933,7 +933,7 @@
 			}
 		}
 
-		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
+		<span class="macro">first_opt!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
 			<span class="ident">Title</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot; title \&quot;&quot;</span>);
@@ -942,7 +942,7 @@
 			}
 		}
 
-		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">text_options</span>,
+		<span class="macro">first_opt!</span> {<span class="self">self</span>.<span class="ident">text_options</span>,
 			<span class="ident">Font</span>(<span class="kw-2">ref</span> <span class="ident">f</span>, <span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot; font \&quot;&quot;</span>);
@@ -952,7 +952,7 @@
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;\&quot;&quot;</span>);
 			}
 		}
-		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">text_options</span>,
+		<span class="macro">first_opt!</span> {<span class="self">self</span>.<span class="ident">text_options</span>,
 			<span class="ident">TextColor</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot; textcolor rgb \&quot;&quot;</span>);
@@ -960,7 +960,7 @@
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;\&quot;&quot;</span>);
 			}
 		}
-		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">text_options</span>,
+		<span class="macro">first_opt!</span> {<span class="self">self</span>.<span class="ident">text_options</span>,
 			<span class="ident">TextAlign</span>(<span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">a</span>
@@ -972,17 +972,17 @@
 			}
 		}
 
-		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
+		<span class="macro">first_opt!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
 			<span class="ident">MaxRows</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
-				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; maxrows {}&quot;</span>, <span class="ident">r</span> <span class="kw">as</span> <span class="ident">i32</span>);
+				<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot; maxrows {}&quot;</span>, <span class="ident">r</span> <span class="kw">as</span> <span class="ident">i32</span>);
 			}
 		}
 
-		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
+		<span class="macro">first_opt!</span> {<span class="self">self</span>.<span class="ident">legend_options</span>,
 			<span class="ident">MaxCols</span>(<span class="ident">l</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
-				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot; maxcols {}&quot;</span>, <span class="ident">l</span> <span class="kw">as</span> <span class="ident">i32</span>);
+				<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot; maxcols {}&quot;</span>, <span class="ident">l</span> <span class="kw">as</span> <span class="ident">i32</span>);
 			}
 		}
 
@@ -1010,13 +1010,13 @@
 	<span class="kw">fn</span> <span class="ident">write_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>)
 	{
 		<span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">writer</span>;
-		<span class="macro">write</span><span class="macro">!</span>(
+		<span class="macro">write!</span>(
 			<span class="ident">w</span>,
 			<span class="string">&quot;set arrow {} from {},{} to {},{}&quot;</span>,
 			<span class="self">self</span>.<span class="ident">tag</span>, <span class="self">self</span>.<span class="ident">x1</span>, <span class="self">self</span>.<span class="ident">y1</span>, <span class="self">self</span>.<span class="ident">x2</span>, <span class="self">self</span>.<span class="ident">y2</span>
 		);
 
-		<span class="macro">first_opt</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">plot_options</span>,
+		<span class="macro">first_opt!</span> {<span class="self">self</span>.<span class="ident">plot_options</span>,
 			<span class="ident">ArrowType</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">s</span>
@@ -1030,10 +1030,10 @@
 		}
 
 		<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot; size graph &quot;</span>);
-		<span class="macro">first_opt_default</span><span class="macro">!</span> {<span class="self">self</span>.<span class="ident">plot_options</span>,
+		<span class="macro">first_opt_default!</span> {<span class="self">self</span>.<span class="ident">plot_options</span>,
 			<span class="ident">ArrowSize</span>(<span class="ident">z</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
-				<span class="macro">write</span><span class="macro">!</span>(<span class="ident">w</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">z</span>);
+				<span class="macro">write!</span>(<span class="ident">w</span>, <span class="string">&quot;{:.12e}&quot;</span>, <span class="ident">z</span>);
 			},
 			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span>
 			{
@@ -1054,7 +1054,7 @@
 
 	<span class="kw">fn</span> <span class="ident">reset_state</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Writer</span>)
 	{
-		<span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;unset arrow {}&quot;</span>, <span class="self">self</span>.<span class="ident">tag</span>);
+		<span class="macro">writeln!</span>(<span class="ident">writer</span>, <span class="string">&quot;unset arrow {}&quot;</span>, <span class="self">self</span>.<span class="ident">tag</span>);
 	}
 }
 
@@ -1071,8 +1071,8 @@
 	{
 		<span class="ident">BorderOptions</span> {
 			<span class="ident">front</span>: <span class="bool-val">true</span>,
-			<span class="ident">locations</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Bottom</span>, <span class="ident">Left</span>, <span class="ident">Top</span>, <span class="ident">Right</span>],
-			<span class="ident">options</span>: <span class="macro">vec</span><span class="macro">!</span>[],
+			<span class="ident">locations</span>: <span class="macro">vec!</span>[<span class="ident">Bottom</span>, <span class="ident">Left</span>, <span class="ident">Top</span>, <span class="ident">Right</span>],
+			<span class="ident">options</span>: <span class="macro">vec!</span>[],
 		}
 	}
 
@@ -1084,7 +1084,7 @@
 		{
 			<span class="ident">f</span> <span class="op">|</span><span class="op">=</span> <span class="ident">l</span> <span class="kw">as</span> <span class="ident">i32</span>;
 		}
-		<span class="macro">write</span><span class="macro">!</span>(<span class="ident">writer</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">f</span>);
+		<span class="macro">write!</span>(<span class="ident">writer</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">f</span>);
 		<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="kw">if</span> <span class="self">self</span>.<span class="ident">front</span> { <span class="string">&quot; front &quot;</span> } <span class="kw">else</span> { <span class="string">&quot; back &quot;</span> });
 
 		<span class="ident">AxesCommonData</span>::<span class="ident">write_color_options</span>(<span class="ident">writer</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">options</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;black&quot;</span>));
@@ -1110,7 +1110,7 @@
 		<span class="ident">Axes2D</span> {
 			<span class="ident">common</span>: <span class="ident">AxesCommonData</span>::<span class="ident">new</span>(),
 			<span class="ident">border_options</span>: <span class="ident">BorderOptions</span>::<span class="ident">new</span>(),
-			<span class="ident">arrows</span>: <span class="macro">vec</span><span class="macro">!</span>[],
+			<span class="ident">arrows</span>: <span class="macro">vec!</span>[],
 			<span class="ident">legend</span>: <span class="prelude-val">None</span>,
 		}
 	}
@@ -1655,7 +1655,7 @@
 	{
 		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">write_out_commands</span>(<span class="ident">writer</span>, <span class="ident">auto_layout</span>, <span class="ident">version</span>);
 		<span class="self">self</span>.<span class="ident">border_options</span>.<span class="ident">write_out</span>(<span class="ident">writer</span>, <span class="ident">version</span>);
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">grid_axes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
+		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">grid_axes</span> <span class="op">=</span> <span class="macro">vec!</span>[];
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">common</span>.<span class="ident">x_axis</span>.<span class="ident">grid</span>
 		{
 			<span class="ident">grid_axes</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">x_axis</span>.<span class="ident">axis</span>);
