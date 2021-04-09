@@ -569,12 +569,12 @@
 <span class="comment">//</span>
 <span class="comment">// All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.</span>
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">axes_common</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">datatype</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">options</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::<span class="ident">OneWayOwned</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">writer</span>::<span class="ident">Writer</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Borrow</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::axes_common</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::datatype</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::options</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::util::OneWayOwned</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::writer::Writer</span>;
+<span class="kw">use</span> <span class="ident">std::borrow::Borrow</span>;
 
 <span class="kw">enum</span> <span class="ident">View</span>
 {
@@ -588,11 +588,11 @@
 	{
 		<span class="kw">match</span> <span class="self">self</span>
 		{
-			<span class="self">Self</span>::<span class="ident">PitchYaw</span>(<span class="ident">pitch</span>, <span class="ident">yaw</span>) <span class="op">=</span><span class="op">&gt;</span>
+			<span class="self">Self</span><span class="ident">::PitchYaw</span>(<span class="ident">pitch</span>, <span class="ident">yaw</span>) <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="macro">writeln!</span>(<span class="ident">writer</span>, <span class="string">&quot;set view {:.12e},{:.12e}&quot;</span>, <span class="ident">pitch</span>, <span class="ident">yaw</span>);
 			}
-			<span class="self">Self</span>::<span class="ident">Map</span> <span class="op">=</span><span class="op">&gt;</span>
+			<span class="self">Self</span><span class="ident">::Map</span> <span class="op">=</span><span class="op">&gt;</span>
 			{
 				<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;set view map\n&quot;</span>);
 			}
@@ -624,8 +624,8 @@
 	<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Axes3D</span>
 	{
 		<span class="ident">Axes3D</span> {
-			<span class="ident">common</span>: <span class="ident">AxesCommonData</span>::<span class="ident">new</span>(),
-			<span class="ident">z_axis</span>: <span class="ident">AxisData</span>::<span class="ident">new</span>(<span class="ident">ZTickAxis</span>),
+			<span class="ident">common</span>: <span class="ident">AxesCommonData::new</span>(),
+			<span class="ident">z_axis</span>: <span class="ident">AxisData::new</span>(<span class="ident">ZTickAxis</span>),
 			<span class="ident">contour_base</span>: <span class="bool-val">false</span>,
 			<span class="ident">contour_surface</span>: <span class="bool-val">false</span>,
 			<span class="ident">contour_auto</span>: <span class="ident">Auto</span>,
@@ -652,7 +652,7 @@
 		<span class="ident">dimensions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>)<span class="op">&gt;</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot_matrix</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot_matrix</span>(
 			<span class="ident">Pm3D</span>,
 			<span class="bool-val">true</span>,
 			<span class="ident">mat</span>,
@@ -686,7 +686,7 @@
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">z</span>: <span class="ident">Z</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot3</span>(
 			<span class="ident">Points</span>,
 			<span class="ident">x</span>,
 			<span class="ident">y</span>,
@@ -718,7 +718,7 @@
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">z</span>: <span class="ident">Z</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot3</span>(
 			<span class="ident">Lines</span>,
 			<span class="ident">x</span>,
 			<span class="ident">y</span>,
@@ -746,7 +746,7 @@
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">z</span>: <span class="ident">Z</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot3</span>(
 			<span class="ident">LinesPoints</span>,
 			<span class="ident">x</span>,
 			<span class="ident">y</span>,
@@ -763,14 +763,14 @@
 	<span class="doccomment">/// * `yaw` - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.</span>
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_view</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pitch</span>: <span class="ident">f64</span>, <span class="ident">yaw</span>: <span class="ident">f64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">view</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">View</span>::<span class="ident">PitchYaw</span>(<span class="ident">pitch</span>, <span class="ident">yaw</span>));
+		<span class="self">self</span>.<span class="ident">view</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">View::PitchYaw</span>(<span class="ident">pitch</span>, <span class="ident">yaw</span>));
 		<span class="self">self</span>
 	}
 
 	<span class="doccomment">/// Sets the view to be a map. Useful for images and contour plots.</span>
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_view_map</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">view</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">View</span>::<span class="ident">Map</span>);
+		<span class="self">self</span>.<span class="ident">view</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">View::Map</span>);
 		<span class="self">self</span>
 	}
 

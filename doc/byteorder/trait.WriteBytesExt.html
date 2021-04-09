@@ -45,9 +45,9 @@ are used. It is included for completeness.</p>
 <p>Write unsigned 8 bit integers to a <code>Write</code>:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="kw">use</span> <span class="ident">byteorder</span>::<span class="ident">WriteBytesExt</span>;
+<span class="kw">use</span> <span class="ident">byteorder::WriteBytesExt</span>;
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 <span class="ident">wtr</span>.<span class="ident">write_u8</span>(<span class="number">2</span>).<span class="ident">unwrap</span>();
 <span class="ident">wtr</span>.<span class="ident">write_u8</span>(<span class="number">5</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\x02\x05&quot;</span>);</pre></div>
@@ -60,9 +60,9 @@ are used. It is included for completeness.</p>
 <p>Write signed 8 bit integers to a <code>Write</code>:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="kw">use</span> <span class="ident">byteorder</span>::<span class="ident">WriteBytesExt</span>;
+<span class="kw">use</span> <span class="ident">byteorder::WriteBytesExt</span>;
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 <span class="ident">wtr</span>.<span class="ident">write_i8</span>(<span class="number">2</span>).<span class="ident">unwrap</span>();
 <span class="ident">wtr</span>.<span class="ident">write_i8</span>(<span class="op">-</span><span class="number">5</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\x02\xfb&quot;</span>);</pre></div>
@@ -75,7 +75,7 @@ are used. It is included for completeness.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 <span class="ident">wtr</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">517</span>).<span class="ident">unwrap</span>();
 <span class="ident">wtr</span>.<span class="ident">write_u16</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">768</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\x02\x05\x03\x00&quot;</span>);</pre></div>
@@ -88,7 +88,7 @@ are used. It is included for completeness.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 <span class="ident">wtr</span>.<span class="ident">write_i16</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">193</span>).<span class="ident">unwrap</span>();
 <span class="ident">wtr</span>.<span class="ident">write_i16</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="op">-</span><span class="number">132</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\x00\xc1\xff\x7c&quot;</span>);</pre></div>
@@ -101,7 +101,7 @@ are used. It is included for completeness.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 <span class="ident">wtr</span>.<span class="ident">write_u24</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">267</span>).<span class="ident">unwrap</span>();
 <span class="ident">wtr</span>.<span class="ident">write_u24</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">120111</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\x00\x01\x0b\x01\xd5\x2f&quot;</span>);</pre></div>
@@ -114,7 +114,7 @@ are used. It is included for completeness.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 <span class="ident">wtr</span>.<span class="ident">write_i24</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="op">-</span><span class="number">34253</span>).<span class="ident">unwrap</span>();
 <span class="ident">wtr</span>.<span class="ident">write_i24</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">120111</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\xff\x7a\x33\x01\xd5\x2f&quot;</span>);</pre></div>
@@ -127,7 +127,7 @@ are used. It is included for completeness.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 <span class="ident">wtr</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">267</span>).<span class="ident">unwrap</span>();
 <span class="ident">wtr</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">1205419366</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\x00\x00\x01\x0b\x47\xd9\x3d\x66&quot;</span>);</pre></div>
@@ -140,7 +140,7 @@ are used. It is included for completeness.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 <span class="ident">wtr</span>.<span class="ident">write_i32</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="op">-</span><span class="number">34253</span>).<span class="ident">unwrap</span>();
 <span class="ident">wtr</span>.<span class="ident">write_i32</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">1205419366</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\xff\xff\x7a\x33\x47\xd9\x3d\x66&quot;</span>);</pre></div>
@@ -153,7 +153,7 @@ are used. It is included for completeness.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 <span class="ident">wtr</span>.<span class="ident">write_u48</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">52360336390828</span>).<span class="ident">unwrap</span>();
 <span class="ident">wtr</span>.<span class="ident">write_u48</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">541</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\x2f\x9f\x17\x40\x3a\xac\x00\x00\x00\x00\x02\x1d&quot;</span>);</pre></div>
@@ -166,7 +166,7 @@ are used. It is included for completeness.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 <span class="ident">wtr</span>.<span class="ident">write_i48</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="op">-</span><span class="number">108363435763825</span>).<span class="ident">unwrap</span>();
 <span class="ident">wtr</span>.<span class="ident">write_i48</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">77</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\x9d\x71\xab\xe7\x97\x8f\x00\x00\x00\x00\x00\x4d&quot;</span>);</pre></div>
@@ -179,7 +179,7 @@ are used. It is included for completeness.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 <span class="ident">wtr</span>.<span class="ident">write_u64</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">918733457491587</span>).<span class="ident">unwrap</span>();
 <span class="ident">wtr</span>.<span class="ident">write_u64</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">143</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\x00\x03\x43\x95\x4d\x60\x86\x83\x00\x00\x00\x00\x00\x00\x00\x8f&quot;</span>);</pre></div>
@@ -192,9 +192,9 @@ are used. It is included for completeness.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
-<span class="ident">wtr</span>.<span class="ident">write_i64</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="ident">i64</span>::<span class="ident">min_value</span>()).<span class="ident">unwrap</span>();
-<span class="ident">wtr</span>.<span class="ident">write_i64</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="ident">i64</span>::<span class="ident">max_value</span>()).<span class="ident">unwrap</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+<span class="ident">wtr</span>.<span class="ident">write_i64</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="ident">i64::min_value</span>()).<span class="ident">unwrap</span>();
+<span class="ident">wtr</span>.<span class="ident">write_i64</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="ident">i64::max_value</span>()).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\x80\x00\x00\x00\x00\x00\x00\x00\x7f\xff\xff\xff\xff\xff\xff\xff&quot;</span>);</pre></div>
 </div><h3 id="method.write_u128" class="method"><code>fn <a href="#method.write_u128" class="fnname">write_u128</a>&lt;T:&nbsp;<a class="trait" href="../byteorder/trait.ByteOrder.html" title="trait byteorder::ByteOrder">ByteOrder</a>&gt;(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u128.html">u128</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>&gt;</code><a class="srclink" href="../src/byteorder/io.rs.html#1402-1406" title="goto source code">[src]</a></h3><div class="docblock"><p>Writes an unsigned 128 bit integer to the underlying writer.</p>
 </div><h3 id="method.write_i128" class="method"><code>fn <a href="#method.write_i128" class="fnname">write_i128</a>&lt;T:&nbsp;<a class="trait" href="../byteorder/trait.ByteOrder.html" title="trait byteorder::ByteOrder">ByteOrder</a>&gt;(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i128.html">i128</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>&gt;</code><a class="srclink" href="../src/byteorder/io.rs.html#1410-1414" title="goto source code">[src]</a></h3><div class="docblock"><p>Writes a signed 128 bit integer to the underlying writer.</p>
@@ -210,7 +210,7 @@ this method panics. If <code>nbytes &gt; 8</code>, this method panics.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 <span class="ident">wtr</span>.<span class="ident">write_uint</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">312550384361</span>, <span class="number">5</span>).<span class="ident">unwrap</span>();
 <span class="ident">wtr</span>.<span class="ident">write_uint</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">43</span>, <span class="number">5</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\x48\xc5\x74\x62\xe9\x00\x00\x00\x00\x2b&quot;</span>);</pre></div>
@@ -226,7 +226,7 @@ this method panics. If <code>nbytes &gt; 8</code>, this method panics.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 <span class="ident">wtr</span>.<span class="ident">write_int</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="op">-</span><span class="number">3548172039376767</span>, <span class="number">7</span>).<span class="ident">unwrap</span>();
 <span class="ident">wtr</span>.<span class="ident">write_int</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="number">43</span>, <span class="number">7</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\xf3\x64\xf4\xd1\xfd\xb0\x81\x00\x00\x00\x00\x00\x00\x2b&quot;</span>);</pre></div>
@@ -244,12 +244,12 @@ the underlying writer.</p>
 <p>Write a big-endian single-precision floating point number to a <code>Write</code>:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">f32</span>;
+<span class="kw">use</span> <span class="ident">std::f32</span>;
 
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
-<span class="ident">wtr</span>.<span class="ident">write_f32</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="ident">f32</span>::<span class="ident">consts</span>::<span class="ident">PI</span>).<span class="ident">unwrap</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+<span class="ident">wtr</span>.<span class="ident">write_f32</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="ident">f32::consts::PI</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\x40\x49\x0f\xdb&quot;</span>);</pre></div>
 </div><h3 id="method.write_f64" class="method"><code>fn <a href="#method.write_f64" class="fnname">write_f64</a>&lt;T:&nbsp;<a class="trait" href="../byteorder/trait.ByteOrder.html" title="trait byteorder::ByteOrder">ByteOrder</a>&gt;(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>&gt;</code><a class="srclink" href="../src/byteorder/io.rs.html#1570-1574" title="goto source code">[src]</a></h3><div class="docblock"><p>Writes a IEEE754 double-precision (8 bytes) floating point number to
 the underlying writer.</p>
@@ -259,12 +259,12 @@ the underlying writer.</p>
 <p>Write a big-endian double-precision floating point number to a <code>Write</code>:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">f64</span>;
+<span class="kw">use</span> <span class="ident">std::f64</span>;
 
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">BigEndian</span>, <span class="ident">WriteBytesExt</span>};
 
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
-<span class="ident">wtr</span>.<span class="ident">write_f64</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="ident">f64</span>::<span class="ident">consts</span>::<span class="ident">PI</span>).<span class="ident">unwrap</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wtr</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+<span class="ident">wtr</span>.<span class="ident">write_f64</span>::<span class="op">&lt;</span><span class="ident">BigEndian</span><span class="op">&gt;</span>(<span class="ident">f64::consts::PI</span>).<span class="ident">unwrap</span>();
 <span class="macro">assert_eq!</span>(<span class="ident">wtr</span>, <span class="string">b&quot;\x40\x09\x21\xfb\x54\x44\x2d\x18&quot;</span>);</pre></div>
 </div></div><span class="loading-content">Loading content...</span><h2 id="implementors" class="small-section-header">Implementors<a href="#implementors" class="anchor"></a></h2><div class="item-list" id="implementors-list"><h3 id="impl-WriteBytesExt" class="impl"><code class="in-band">impl&lt;W:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/std/io/trait.Write.html" title="trait std::io::Write">Write</a> + ?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt; <a class="trait" href="../byteorder/trait.WriteBytesExt.html" title="trait byteorder::WriteBytesExt">WriteBytesExt</a> for W</code><a href="#impl-WriteBytesExt" class="anchor"></a><a class="srclink" href="../src/byteorder/io.rs.html#1579" title="goto source code">[src]</a></h3><div class="docblock"><p>All types that implement <code>Write</code> get methods defined in <code>WriteBytesExt</code>
 for free.</p>

@@ -8,7 +8,7 @@
 
 <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> [<span class="number">0u32</span>, <span class="number">1</span>, <span class="number">2</span>];
 <span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> [<span class="number">3u32</span>, <span class="number">4</span>, <span class="number">5</span>];
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fg</span> <span class="op">=</span> <span class="ident">Figure</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fg</span> <span class="op">=</span> <span class="ident">Figure::new</span>();
 <span class="ident">fg</span>.<span class="ident">axes2d</span>()
 .<span class="ident">lines</span>(<span class="kw-2">&amp;</span><span class="ident">x</span>, <span class="kw-2">&amp;</span><span class="ident">y</span>, <span class="kw-2">&amp;</span>[<span class="ident">Caption</span>(<span class="string">&quot;A line&quot;</span>), <span class="ident">Color</span>(<span class="string">&quot;black&quot;</span>)]);
 <span class="ident">fg</span>.<span class="ident">show</span>();</pre></div>

@@ -856,12 +856,12 @@
 <span class="comment">//</span>
 <span class="comment">// All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.</span>
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">axes_common</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">coordinates</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">datatype</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">options</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>::{<span class="ident">escape</span>, <span class="ident">OneWayOwned</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">writer</span>::<span class="ident">Writer</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::axes_common</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::coordinates</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::datatype</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::options</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::util</span>::{<span class="ident">escape</span>, <span class="ident">OneWayOwned</span>};
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::writer::Writer</span>;
 
 <span class="kw">struct</span> <span class="ident">LegendData</span>
 {
@@ -1042,8 +1042,8 @@
 		}
 		<span class="ident">w</span>.<span class="ident">write_str</span>(<span class="string">&quot;,12&quot;</span>);
 
-		<span class="ident">AxesCommonData</span>::<span class="ident">write_color_options</span>(<span class="ident">w</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">plot_options</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;black&quot;</span>));
-		<span class="ident">AxesCommonData</span>::<span class="ident">write_line_options</span>(
+		<span class="ident">AxesCommonData::write_color_options</span>(<span class="ident">w</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">plot_options</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;black&quot;</span>));
+		<span class="ident">AxesCommonData::write_line_options</span>(
 			<span class="ident">w</span>,
 			<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">plot_options</span>,
 			<span class="ident">GnuplotVersion</span> { <span class="ident">major</span>: <span class="number">0</span>, <span class="ident">minor</span>: <span class="number">0</span> },
@@ -1087,8 +1087,8 @@
 		<span class="macro">write!</span>(<span class="ident">writer</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">f</span>);
 		<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="kw">if</span> <span class="self">self</span>.<span class="ident">front</span> { <span class="string">&quot; front &quot;</span> } <span class="kw">else</span> { <span class="string">&quot; back &quot;</span> });
 
-		<span class="ident">AxesCommonData</span>::<span class="ident">write_color_options</span>(<span class="ident">writer</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">options</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;black&quot;</span>));
-		<span class="ident">AxesCommonData</span>::<span class="ident">write_line_options</span>(<span class="ident">writer</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">options</span>, <span class="ident">version</span>);
+		<span class="ident">AxesCommonData::write_color_options</span>(<span class="ident">writer</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">options</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;black&quot;</span>));
+		<span class="ident">AxesCommonData::write_line_options</span>(<span class="ident">writer</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">options</span>, <span class="ident">version</span>);
 
 		<span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;\n&quot;</span>);
 	}
@@ -1108,8 +1108,8 @@
 	<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Axes2D</span>
 	{
 		<span class="ident">Axes2D</span> {
-			<span class="ident">common</span>: <span class="ident">AxesCommonData</span>::<span class="ident">new</span>(),
-			<span class="ident">border_options</span>: <span class="ident">BorderOptions</span>::<span class="ident">new</span>(),
+			<span class="ident">common</span>: <span class="ident">AxesCommonData::new</span>(),
+			<span class="ident">border_options</span>: <span class="ident">BorderOptions::new</span>(),
 			<span class="ident">arrows</span>: <span class="macro">vec!</span>[],
 			<span class="ident">legend</span>: <span class="prelude-val">None</span>,
 		}
@@ -1230,7 +1230,7 @@
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot2</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot2</span>(
 			<span class="ident">Lines</span>,
 			<span class="ident">x</span>,
 			<span class="ident">y</span>,
@@ -1258,7 +1258,7 @@
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot2</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot2</span>(
 			<span class="ident">Points</span>,
 			<span class="ident">x</span>,
 			<span class="ident">y</span>,
@@ -1282,7 +1282,7 @@
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot2</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot2</span>(
 			<span class="ident">LinesPoints</span>,
 			<span class="ident">x</span>,
 			<span class="ident">y</span>,
@@ -1314,7 +1314,7 @@
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">x_error</span>: <span class="ident">XE</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot3</span>(
 			<span class="ident">XErrorBars</span>,
 			<span class="ident">x</span>,
 			<span class="ident">y</span>,
@@ -1347,7 +1347,7 @@
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">y_error</span>: <span class="ident">YE</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot3</span>(
 			<span class="ident">YErrorBars</span>,
 			<span class="ident">x</span>,
 			<span class="ident">y</span>,
@@ -1382,7 +1382,7 @@
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">x_error</span>: <span class="ident">XE</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot3</span>(
 			<span class="ident">XErrorLines</span>,
 			<span class="ident">x</span>,
 			<span class="ident">y</span>,
@@ -1417,7 +1417,7 @@
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">y_error</span>: <span class="ident">YE</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot3</span>(
 			<span class="ident">YErrorLines</span>,
 			<span class="ident">x</span>,
 			<span class="ident">y</span>,
@@ -1451,7 +1451,7 @@
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y_lo</span>: <span class="ident">YL</span>, <span class="ident">y_hi</span>: <span class="ident">YH</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot3</span>(
 			<span class="ident">FillBetween</span>,
 			<span class="ident">x</span>,
 			<span class="ident">y_lo</span>,
@@ -1483,7 +1483,7 @@
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot2</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot2</span>(
 			<span class="ident">Boxes</span>,
 			<span class="ident">x</span>,
 			<span class="ident">y</span>,
@@ -1517,7 +1517,7 @@
 		<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">X</span>, <span class="ident">y</span>: <span class="ident">Y</span>, <span class="ident">w</span>: <span class="ident">W</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot3</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot3</span>(
 			<span class="ident">Boxes</span>,
 			<span class="ident">x</span>,
 			<span class="ident">y</span>,
@@ -1560,7 +1560,7 @@
 		<span class="ident">box_max</span>: <span class="ident">BoxMax</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot5</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot5</span>(
 			<span class="ident">BoxAndWhisker</span>,
 			<span class="ident">x</span>,
 			<span class="ident">box_min</span>,
@@ -1608,7 +1608,7 @@
 		<span class="ident">box_max</span>: <span class="ident">BoxMax</span>, <span class="ident">box_width</span>: <span class="ident">BoxWidth</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot6</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot6</span>(
 			<span class="ident">BoxAndWhisker</span>,
 			<span class="ident">x</span>,
 			<span class="ident">box_min</span>,
@@ -1637,7 +1637,7 @@
 		<span class="ident">dimensions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>, <span class="ident">f64</span>)<span class="op">&gt;</span>, <span class="ident">options</span>: <span class="kw-2">&amp;</span>[<span class="ident">PlotOption</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>],
 	) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="kw-2">mut</span> <span class="self">Self</span>
 	{
-		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement</span>::<span class="ident">new_plot_matrix</span>(
+		<span class="self">self</span>.<span class="ident">common</span>.<span class="ident">elems</span>.<span class="ident">push</span>(<span class="ident">PlotElement::new_plot_matrix</span>(
 			<span class="ident">Image</span>,
 			<span class="bool-val">false</span>,
 			<span class="ident">mat</span>,
