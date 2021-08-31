@@ -3,7 +3,7 @@
 A Gnuplot controller written in Rust.
 
 [![Build Status](https://travis-ci.org/SiegeLord/RustGnuplot.png)](https://travis-ci.org/SiegeLord/RustGnuplot)
-[![](http://meritbadge.herokuapp.com/gnuplot)](https://crates.io/crates/gnuplot)
+[![](https://img.shields.io/crates/v/gnuplot.svg)](https://crates.io/crates/gnuplot)
 
 ## Documentation
 
