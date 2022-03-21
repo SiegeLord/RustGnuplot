@@ -562,7 +562,7 @@ impl LabelType
 			TickAxis::X2 => X2Label,
 			TickAxis::Y2 => Y2Label,
 			TickAxis::Z => ZLabel,
-			CB => CBLabel,
+			TickAxis::CB => CBLabel,
 		}
 	}
 }
