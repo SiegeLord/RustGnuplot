@@ -323,10 +323,10 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		self.arrows.push(ArrowData {
-			x1: x1,
-			y1: y1,
-			x2: x2,
-			y2: y2,
+			x1,
+			y1,
+			x2,
+			y2,
 			tag: self.arrows.len() as i32 + 1,
 			plot_options: options.to_one_way_owned(),
 		});
@@ -349,8 +349,8 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		self.legend = Some(LegendData {
-			x: x,
-			y: y,
+			x,
+			y,
 			legend_options: legend_options.to_one_way_owned(),
 			text_options: text_options.to_one_way_owned(),
 		});
@@ -819,7 +819,7 @@ impl Axes2D
 		{
 			arrow.write_out(writer);
 		}
-		self.legend.as_ref().map(|l| l.write_out(writer));
+		if let Some(l) = self.legend.as_ref() { l.write_out(writer) };
 		self.common.write_out_elements("plot", writer, version);
 	}
 
@@ -830,20 +830,20 @@ impl Axes2D
 		{
 			arrow.reset_state(writer);
 		}
-		self.legend.as_ref().map(|l| l.reset_state(writer));
+		if let Some(l) = self.legend.as_ref() { l.reset_state(writer) };
 	}
 }
 
 impl AxesCommonPrivate for Axes2D
 {
-	fn get_common_data_mut(&mut self) -> &mut AxesCommonData
-	{
-		&mut self.common
-	}
-
 	fn get_common_data(&self) -> &AxesCommonData
 	{
 		&self.common
+	}
+
+	fn get_common_data_mut(&mut self) -> &mut AxesCommonData
+	{
+		&mut self.common
 	}
 }
 

@@ -194,14 +194,14 @@ impl Axes3D
 	/// #Arguments:
 	/// * `pitch` - Pitch, in degrees. Value of 0 is looking straight down on the XY plane, Z pointing out of the screen.
 	/// * `yaw` - Yaw, in degrees. Value of 0 is looking at the XZ plane, Y point into the screen.
-	pub fn set_view<'l>(&'l mut self, pitch: f64, yaw: f64) -> &'l mut Self
+	pub fn set_view(&mut self, pitch: f64, yaw: f64) -> &mut Self
 	{
 		self.view = Some(View::PitchYaw(pitch, yaw));
 		self
 	}
 
 	/// Sets the view to be a map. Useful for images and contour plots.
-	pub fn set_view_map<'l>(&'l mut self) -> &'l mut Self
+	pub fn set_view_map(&mut self) -> &mut Self
 	{
 		self.view = Some(View::Map);
 		self
@@ -297,15 +297,14 @@ impl Axes3D
 	/// # Arguments
 	/// * `min` - Minimum Z value
 	/// * `max` - Maximum Z value
-	pub fn set_z_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>)
-		-> &'l mut Self
+	pub fn set_z_range(&mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &mut Self
 	{
 		self.z_axis.set_range(min, max);
 		self
 	}
 
 	/// Sets z axis to reverse.
-	pub fn set_z_reverse<'l>(&'l mut self, reverse: bool) -> &'l mut Self
+	pub fn set_z_reverse(&mut self, reverse: bool) -> &mut Self
 	{
 		self.z_axis.set_reverse(reverse);
 		self
@@ -315,7 +314,7 @@ impl Axes3D
 	///
 	/// # Arguments
 	/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic
-	pub fn set_z_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
+	pub fn set_z_log(&mut self, base: Option<f64>) -> &mut Self
 	{
 		self.z_axis.set_log(base);
 		self
@@ -325,7 +324,7 @@ impl Axes3D
 	///
 	/// # Arguments
 	/// * `show` - Whether to show the grid.
-	pub fn set_z_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	pub fn set_z_grid(&mut self, show: bool) -> &mut Self
 	{
 		self.z_axis.set_grid(show);
 		self
@@ -338,7 +337,7 @@ impl Axes3D
 	///
 	/// # Arguments
 	/// * `is_time` - Whether this axis is time or not.
-	pub fn set_z_time<'l>(&'l mut self, is_time: bool) -> &'l mut Self
+	pub fn set_z_time(&mut self, is_time: bool) -> &mut Self
 	{
 		self.z_axis.set_time(is_time);
 		self
@@ -394,7 +393,7 @@ impl Axes3D
 	pub(crate) fn reset_state(&self, writer: &mut dyn Writer)
 	{
 		self.common.reset_state(writer);
-		self.view.as_ref().map(|v| v.reset_state(writer));
+		if let Some(v) = self.view.as_ref() { v.reset_state(writer) };
 	}
 
 	pub(crate) fn write_out(&self, w: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion)
@@ -429,14 +428,14 @@ impl Axes3D
 					_ => unreachable!(),
 				}
 			);
-			write!(w, "\n");
+			writeln!(w);
 
 			match self.contour_label
 			{
 				Auto => writeln!(w, "set clabel"),
 				Fix(ref s) =>
 				{
-					if s.len() == 0
+					if s.is_empty()
 					{
 						writeln!(w, "unset clabel")
 					}
@@ -451,7 +450,7 @@ impl Axes3D
 			{
 				write!(w, "set cntrparam ");
 				wr(w);
-				write!(w, "\n");
+				writeln!(w);
 			}
 
 			set_cntrparam(w, |w| {
@@ -475,9 +474,9 @@ impl Axes3D
 					_ => None,
 				};
 
-				pt.map(|pt| {
+				if let Some(pt) = pt {
 					write!(w, "points {}", clamp(pt, 2, 100));
-				});
+				};
 			});
 
 			set_cntrparam(w, |w| {
@@ -487,9 +486,9 @@ impl Axes3D
 					_ => None,
 				};
 
-				ord.map(|ord| {
+				if let Some(ord) = ord {
 					write!(w, "order {}", clamp(ord, 2, 10));
-				});
+				};
 			});
 
 			set_cntrparam(w, |w| {
@@ -541,7 +540,7 @@ impl Axes3D
 		{
 			grid_axes.push(self.z_axis.axis);
 		}
-		self.view.as_ref().map(|v| v.write_out(w));
+		if let Some(v) = self.view.as_ref() { v.write_out(w) };
 		self.common.write_grid_options(w, &grid_axes, version);
 		self.common.write_out_elements("splot", w, version);
 	}

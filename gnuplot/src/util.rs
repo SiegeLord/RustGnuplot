@@ -75,7 +75,7 @@ pub(crate) fn escape(s: &str) -> String
 			'\n' => res.push_str(r"\n"),
 			'\t' => res.push_str(r"\t"),
 			'"' => res.push_str(r#"\""#),
-			c @ _ => res.push(c),
+			c => res.push(c),
 		}
 	}
 	res

@@ -93,7 +93,7 @@ impl CloseSentinel
 {
 	fn new(gnuplot: Child) -> Self
 	{
-		CloseSentinel { gnuplot: gnuplot }
+		CloseSentinel { gnuplot }
 	}
 
 	/// Waits until the gnuplot process exits. See `std::process::Child::wait`.
@@ -138,6 +138,12 @@ impl Default for GnuplotVersion
 	fn default() -> GnuplotVersion
 	{
 		GnuplotVersion { major: 5, minor: 0 }
+	}
+}
+
+impl Default for Figure {
+	fn default() -> Self {
+		Self::new()
 	}
 }
 
@@ -188,21 +194,21 @@ impl Figure
 	}
 
 	/// Set or unset text enhancements
-	pub fn set_enhanced_text<'l>(&'l mut self, enhanced: bool) -> &'l mut Figure
+	pub fn set_enhanced_text(&mut self, enhanced: bool) -> &mut Figure
 	{
 		self.enhanced_text = enhanced;
 		self
 	}
 
 	/// Sets commands to send to gnuplot after all the plotting commands.
-	pub fn set_post_commands<'l>(&'l mut self, post_commands: &str) -> &'l mut Figure
+	pub fn set_post_commands(&mut self, post_commands: &str) -> &mut Figure
 	{
 		self.post_commands = post_commands.into();
 		self
 	}
 
 	/// Sets commands to send to gnuplot before any plotting commands.
-	pub fn set_pre_commands<'l>(&'l mut self, pre_commands: &str) -> &'l mut Figure
+	pub fn set_pre_commands(&mut self, pre_commands: &str) -> &mut Figure
 	{
 		self.pre_commands = pre_commands.into();
 		self
@@ -228,7 +234,7 @@ impl Figure
 	/// # Arguments
 	/// * `rows` - Number of rows
 	/// * `columns` - Number of columns
-	pub fn set_multiplot_layout<'l>(&'l mut self, rows: usize, columns: usize) -> &'l mut Self
+	pub fn set_multiplot_layout(&mut self, rows: usize, columns: usize) -> &mut Self
 	{
 		let multiplot_options = self
 			.multiplot_options
@@ -242,7 +248,7 @@ impl Figure
 	/// Set the multiplot title
 	/// # Arguments
 	/// * `title` - Name of the file
-	pub fn set_title<'l>(&'l mut self, title: &str) -> &'l mut Self
+	pub fn set_title(&mut self, title: &str) -> &mut Self
 	{
 		let multiplot_options = self
 			.multiplot_options
@@ -256,7 +262,7 @@ impl Figure
 	/// # Arguments
 	/// * `scale_x` - Horizonal scale applied to each plot
 	/// * `scale_y` - Vertical scale applied to each plot
-	pub fn set_scale<'l>(&'l mut self, scale_x: f32, scale_y: f32) -> &'l mut Self
+	pub fn set_scale(&mut self, scale_x: f32, scale_y: f32) -> &mut Self
 	{
 		let multiplot_options = self
 			.multiplot_options
@@ -271,7 +277,7 @@ impl Figure
 	/// # Arguments
 	/// * `offset_x` - Horizontal offset applied to each plot
 	/// * `offset_y` - Horizontal offset applied to each plot
-	pub fn set_offset<'l>(&'l mut self, offset_x: f32, offset_y: f32) -> &'l mut Self
+	pub fn set_offset(&mut self, offset_x: f32, offset_y: f32) -> &mut Self
 	{
 		let multiplot_options = self
 			.multiplot_options
@@ -286,9 +292,9 @@ impl Figure
 	/// # Arguments
 	/// * `order` - Options: RowsFirst, ColumnsFirst
 	/// * `direction` - Options: Downwards, Upwards
-	pub fn set_multiplot_fill_order<'l>(
-		&'l mut self, order: MultiplotFillOrder, direction: MultiplotFillDirection,
-	) -> &'l mut Self
+	pub fn set_multiplot_fill_order(
+		&mut self, order: MultiplotFillOrder, direction: MultiplotFillDirection,
+	) -> &mut Self
 	{
 		let multiplot_options = self
 			.multiplot_options
@@ -304,7 +310,7 @@ impl Figure
 	{
 		self.axes.push(Axes2DType(Axes2D::new()));
 		let l = self.axes.len();
-		match *&mut self.axes[l - 1]
+		match self.axes[l - 1]
 		{
 			Axes2DType(ref mut a) => a,
 			_ => unreachable!(),
@@ -316,7 +322,7 @@ impl Figure
 	{
 		self.axes.push(Axes3DType(Axes3D::new()));
 		let l = self.axes.len();
-		match *&mut self.axes[l - 1]
+		match self.axes[l - 1]
 		{
 			Axes3DType(ref mut a) => a,
 			_ => unreachable!(),
@@ -344,7 +350,7 @@ impl Figure
 	/// existing plot window.
 	pub fn show_and_keep_running(&mut self) -> Result<&mut Figure, GnuplotInitError>
 	{
-		if self.axes.len() == 0
+		if self.axes.is_empty()
 		{
 			return Ok(self);
 		}
@@ -359,13 +365,13 @@ impl Figure
 				if parts.len() > 2 && parts[0] == "gnuplot"
 				{
 					if let (Ok(major), Ok(minor)) = (
-						i32::from_str_radix(parts[1], 10),
-						i32::from_str_radix(parts[2], 10),
+						parts[1].parse::<i32>(),
+						parts[2].parse::<i32>(),
 					)
 					{
 						self.version = Some(GnuplotVersion {
-							major: major,
-							minor: minor,
+							major,
+							minor,
 						});
 					}
 				}
@@ -387,11 +393,11 @@ impl Figure
 
 		{
 			let mut gnuplot = self.gnuplot.take();
-			gnuplot.as_mut().map(|p| {
+			if let Some(p) = gnuplot.as_mut() {
 				let stdin = p.stdin.as_mut().expect("No stdin!?");
 				self.echo(stdin);
 				stdin.flush();
-			});
+			};
 			self.gnuplot = gnuplot;
 		}
 
@@ -533,13 +539,13 @@ impl Figure
 		}
 
 		{
-			self.gnuplot.as_mut().map(|p| {
+			if let Some(p) = self.gnuplot.as_mut() {
 				{
 					let stdin = p.stdin.as_mut().expect("No stdin!?");
 					writeln!(stdin, "quit");
 				}
 				p.wait();
-			});
+			};
 			self.gnuplot = None;
 		}
 
@@ -561,13 +567,13 @@ impl Figure
 		let w = writer as &mut dyn Writer;
 		writeln!(w, "{}", &self.pre_commands);
 
-		if self.axes.len() == 0
+		if self.axes.is_empty()
 		{
 			return self;
 		}
 
 		writeln!(w, "set encoding utf8");
-		if self.terminal.len() > 0
+		if !self.terminal.is_empty()
 		{
 			writeln!(w, "set terminal {}", self.terminal);
 		}
@@ -577,7 +583,7 @@ impl Figure
 			writeln!(
 				w,
 				"set output \"{}\"",
-				escape(&output_file.to_str().unwrap())
+				escape(output_file.to_str().unwrap())
 			);
 		}
 
@@ -660,9 +666,9 @@ impl Figure
 	/// Save to a file the the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
 	/// * `filename` - Name of the file
-	pub fn echo_to_file<'l, P: AsRef<Path>>(&'l self, filename: P) -> &'l Figure
+	pub fn echo_to_file<P: AsRef<Path>>(&self, filename: P) -> &Figure
 	{
-		if self.axes.len() == 0
+		if self.axes.is_empty()
 		{
 			return self;
 		}
