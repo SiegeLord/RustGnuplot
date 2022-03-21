@@ -562,7 +562,7 @@ impl Figure
 	/// Echo the commands that if piped to a gnuplot process would display the figure
 	/// # Arguments
 	/// * `writer` - A function pointer that will be called multiple times with the command text and data
-	pub fn echo<'l, T: Writer>(&'l self, writer: &mut T) -> &'l Figure
+	pub fn echo<T: Writer>(&self, writer: &mut T) -> &Figure
 	{
 		let w = writer as &mut dyn Writer;
 		writeln!(w, "{}", &self.pre_commands);

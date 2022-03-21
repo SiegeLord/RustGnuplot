@@ -58,7 +58,7 @@ impl Axes3D
 	{
 		Axes3D {
 			common: AxesCommonData::new(),
-			z_axis: AxisData::new(ZTickAxis),
+			z_axis: AxisData::new(TickAxis::Z),
 			contour_base: false,
 			contour_surface: false,
 			contour_auto: Auto,
@@ -353,10 +353,10 @@ impl Axes3D
 	///             otherwise an empty string disables the legend and labels.
 	/// * `levels` - Auto picks some default number of levels, otherwise you can pass a set nominal number instead. The number is nominal as
 	///              contours are placed at nice values of Z, and thus there may be fewer of them than this number.
-	pub fn show_contours<'l>(
-		&'l mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>,
+	pub fn show_contours(
+		&mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>,
 		levels: AutoOption<u32>,
-	) -> &'l mut Self
+	) -> &mut Self
 	{
 		self.contour_base = base;
 		self.contour_surface = surface;
@@ -376,10 +376,10 @@ impl Axes3D
 	/// * `label` - Auto sets the label automatically and enables the legend, Fix() allows you specify a format string (using C style formatting),
 	///             otherwise an empty string disables the legend and labels.
 	/// * `levels` - A set of levels.
-	pub fn show_contours_custom<'l, T: DataType, TC: IntoIterator<Item = T>>(
-		&'l mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>,
+	pub fn show_contours_custom<T: DataType, TC: IntoIterator<Item=T>>(
+		&mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>,
 		levels: TC,
-	) -> &'l mut Self
+	) -> &mut Self
 	{
 		self.contour_base = base;
 		self.contour_surface = surface;
@@ -548,14 +548,14 @@ impl Axes3D
 
 impl AxesCommonPrivate for Axes3D
 {
-	fn get_common_data_mut(&mut self) -> &mut AxesCommonData
-	{
-		&mut self.common
-	}
-
 	fn get_common_data(&self) -> &AxesCommonData
 	{
 		&self.common
+	}
+
+	fn get_common_data_mut(&mut self) -> &mut AxesCommonData
+	{
+		&mut self.common
 	}
 }
 

@@ -421,13 +421,13 @@ impl PlotElement
 				write!(writer, " axes {}{}",
 					match x
 					{
-						X1 => "x1",
-						X2 => "x2",
+						XAxis::X1 => "x1",
+						XAxis::X2 => "x2",
 					},
 					match y
 					{
-						Y1 => "y1",
-						Y2 => "y2",
+						YAxis::Y1 => "y1",
+						YAxis::Y2 => "y2",
 					}
 				);
 			}
@@ -557,12 +557,12 @@ impl LabelType
 	{
 		match axis_type
 		{
-			XTickAxis => XLabel,
-			YTickAxis => YLabel,
-			X2TickAxis => X2Label,
-			Y2TickAxis => Y2Label,
-			ZTickAxis => ZLabel,
-			CBTickAxis => CBLabel,
+			TickAxis::X => XLabel,
+			TickAxis::Y => YLabel,
+			TickAxis::X2 => X2Label,
+			TickAxis::Y2 => Y2Label,
+			TickAxis::Z => ZLabel,
+			CB => CBLabel,
 		}
 	}
 }
@@ -650,65 +650,65 @@ pub fn write_out_label_options(
 #[derive(Copy, Clone, PartialEq)]
 pub enum TickAxis
 {
-	XTickAxis,
-	YTickAxis,
-	X2TickAxis,
-	Y2TickAxis,
-	ZTickAxis,
-	CBTickAxis,
+	X,
+	Y,
+	X2,
+	Y2,
+	Z,
+	CB,
 }
 
 impl TickAxis
 {
-	pub fn to_axis_str(&self) -> &str
+	pub fn get_axis_str(&self) -> &str
 	{
 		match *self
 		{
-			XTickAxis => "x",
-			YTickAxis => "y",
-			X2TickAxis => "x2",
-			Y2TickAxis => "y2",
-			ZTickAxis => "z",
-			CBTickAxis => "cb",
+			TickAxis::X => "x",
+			TickAxis::Y => "y",
+			TickAxis::X2 => "x2",
+			TickAxis::Y2 => "y2",
+			TickAxis::Z => "z",
+			TickAxis::CB => "cb",
 		}
 	}
 
-	pub fn to_tick_str(&self) -> &str
+	pub fn get_tick_str(&self) -> &str
 	{
 		match *self
 		{
-			XTickAxis => "xtics",
-			YTickAxis => "ytics",
-			X2TickAxis => "x2tics",
-			Y2TickAxis => "y2tics",
-			ZTickAxis => "ztics",
-			CBTickAxis => "cbtics",
+			TickAxis::X => "xtics",
+			TickAxis::Y => "ytics",
+			TickAxis::X2 => "x2tics",
+			TickAxis::Y2 => "y2tics",
+			TickAxis::Z => "ztics",
+			TickAxis::CB => "cbtics",
 		}
 	}
 
-	pub fn to_mtick_str(&self) -> &str
+	pub fn get_mtick_str(&self) -> &str
 	{
 		match *self
 		{
-			XTickAxis => "mxtics",
-			YTickAxis => "mytics",
-			X2TickAxis => "mx2tics",
-			Y2TickAxis => "my2tics",
-			ZTickAxis => "mztics",
-			CBTickAxis => "mcbtics",
+			TickAxis::X => "mxtics",
+			TickAxis::Y => "mytics",
+			TickAxis::X2 => "mx2tics",
+			TickAxis::Y2 => "my2tics",
+			TickAxis::Z => "mztics",
+			TickAxis::CB => "mcbtics",
 		}
 	}
 
-	pub fn to_range_str(&self) -> &str
+	pub fn get_range_str(&self) -> &str
 	{
 		match *self
 		{
-			XTickAxis => "xrange",
-			YTickAxis => "yrange",
-			X2TickAxis => "x2range",
-			Y2TickAxis => "y2range",
-			ZTickAxis => "zrange",
-			CBTickAxis => "cbrange",
+			TickAxis::X => "xrange",
+			TickAxis::Y => "yrange",
+			TickAxis::X2 => "x2range",
+			TickAxis::Y2 => "y2range",
+			TickAxis::Z => "zrange",
+			TickAxis::CB => "cbrange",
 		}
 	}
 }
@@ -796,12 +796,12 @@ impl AxisData
 
 	pub fn write_out_commands(&self, w: &mut dyn Writer, version: GnuplotVersion)
 	{
-		if self.axis != TickAxis::CBTickAxis
+		if self.axis != TickAxis::CB
 		{
 			if self.show
 			{
 				w.write_str("set ");
-				w.write_str(self.axis.to_axis_str());
+				w.write_str(self.axis.get_axis_str());
 				w.write_str("zeroaxis ");
 
 				AxesCommonData::write_color_options(w, &self.options, Some("black"));
@@ -810,7 +810,7 @@ impl AxisData
 			else
 			{
 				w.write_str("unset ");
-				w.write_str(self.axis.to_axis_str());
+				w.write_str(self.axis.get_axis_str());
 				w.write_str("zeroaxis ");
 			}
 		}
@@ -822,21 +822,21 @@ impl AxisData
 			Some(base) =>
 			{
 				w.write_str("set logscale ");
-				w.write_str(self.axis.to_axis_str());
+				w.write_str(self.axis.get_axis_str());
 				write!(w, " {:.12e}", base);
 				true
 			}
 			None =>
 			{
 				w.write_str("unset logscale ");
-				w.write_str(self.axis.to_axis_str());
+				w.write_str(self.axis.get_axis_str());
 				false
 			}
 		};
 		w.write_str("\n");
 
 		w.write_str("set ");
-		w.write_str(self.axis.to_axis_str());
+		w.write_str(self.axis.get_axis_str());
 		w.write_str("data");
 		if self.is_time
 		{
@@ -848,7 +848,7 @@ impl AxisData
 		{
 			TickType::Auto(_, mticks) =>
 			{
-				write!(w, "set m{} ", self.axis.to_tick_str());
+				write!(w, "set m{} ", self.axis.get_tick_str());
 				if log
 				{
 					writeln!(w, "default");
@@ -860,13 +860,13 @@ impl AxisData
 			}
 			_ =>
 			{
-				writeln!(w, "unset m{}", self.axis.to_tick_str());
+				writeln!(w, "unset m{}", self.axis.get_tick_str());
 			}
 		}
 		w.write_str("\n");
 
 		w.write_str("set ");
-		w.write_str(self.axis.to_range_str());
+		w.write_str(self.axis.get_range_str());
 		w.write_str(" [");
 		match self.min
 		{
@@ -893,13 +893,13 @@ impl AxisData
 		{
 			TickType::None =>
 			{
-				write!(w, "unset {0}", self.axis.to_tick_str());
+				write!(w, "unset {0}", self.axis.get_tick_str());
 				write_tick_options = false;
 			}
 			TickType::Auto(incr, _) =>
 			{
 				w.write_str("set ");
-				w.write_str(self.axis.to_tick_str());
+				w.write_str(self.axis.get_tick_str());
 
 				match incr
 				{
@@ -921,7 +921,7 @@ impl AxisData
 			TickType::Custom(ref ticks) =>
 			{
 				w.write_str("set ");
-				w.write_str(self.axis.to_tick_str());
+				w.write_str(self.axis.get_tick_str());
 				w.write_str(" (");
 
 				let mut first = true;
@@ -1220,11 +1220,11 @@ impl AxesCommonData
 			minor_grid_options: vec![],
 			grid_front: false,
 			elems: Vec::new(),
-			x_axis: AxisData::new(XTickAxis),
-			y_axis: AxisData::new(YTickAxis),
-			x2_axis: AxisData::new(X2TickAxis),
-			y2_axis: AxisData::new(Y2TickAxis),
-			cb_axis: AxisData::new(CBTickAxis),
+			x_axis: AxisData::new(TickAxis::X),
+			y_axis: AxisData::new(TickAxis::Y),
+			x2_axis: AxisData::new(TickAxis::X2),
+			y2_axis: AxisData::new(TickAxis::Y2),
+			cb_axis: AxisData::new(TickAxis::CB),
 			labels: vec![],
 			title: LabelData::new(TitleLabel),
 			position: None,
@@ -1245,14 +1245,14 @@ impl AxesCommonData
 			c.write_str("set grid ");
 			for axis in axes
 			{
-				c.write_str(axis.to_tick_str());
+				c.write_str(axis.get_tick_str());
 				c.write_str(" ");
 				if self.x_axis.axis == *axis && self.x_axis.mgrid
 					|| self.y_axis.axis == *axis && self.y_axis.mgrid
 					|| self.x2_axis.axis == *axis && self.x2_axis.mgrid
 					|| self.y2_axis.axis == *axis && self.y2_axis.mgrid
 				{
-					c.write_str(axis.to_mtick_str());
+					c.write_str(axis.get_mtick_str());
 					c.write_str(" ");
 				}
 			}
