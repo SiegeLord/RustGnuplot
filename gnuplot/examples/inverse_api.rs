@@ -77,14 +77,6 @@ fn lines<'l, Tx: IntoIterator<Item = f32>, Ty: IntoIterator<Item = f32>>(x: Tx, 
 	}
 }
 
-impl Lines
-{
-	fn show(&self)
-	{
-		self.to_axes2d().show();
-	}
-}
-
 struct Axes2D
 {
 	plot_elements: Vec<Box<dyn PlotElement>>,
