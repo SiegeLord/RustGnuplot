@@ -13,7 +13,7 @@ autoexamples = false
 autotests = false
 autobenches = false
 categories = ["visualization"]
-edition = "2018"
+edition = "2021"
 
 [lib]
 
@@ -23,7 +23,7 @@ path = "src/lib.rs"
 [dev-dependencies]
 
 argparse-rs = "=0.1.0"
-tempfile = "3.0"
+tempfile = "3.3.0"
 
 [[example]]
 
@@ -121,4 +121,4 @@ name = "text"
 path = "examples/text.rs"
 
 [dependencies]
-byteorder = "1.3.1"
+byteorder = "1.4.3"
