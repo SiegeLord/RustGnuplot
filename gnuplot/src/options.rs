@@ -2,11 +2,23 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-pub use self::{
-	AlignType::*, ArrowheadType::*, AutoOption::*, BorderLocation2D::*, ContourStyle::*,
-	DashType::*, FillPatternType::*, FillRegionType::*, LabelOption::*, LegendOption::*,
-	MarginSide::*, PaletteType::*, PlotOption::*, Tick::*, TickOption::*, XAxis::*, YAxis::*,
-};
+pub use self::AlignType::*;
+pub use self::ArrowheadType::*;
+pub use self::AutoOption::*;
+pub use self::BorderLocation2D::*;
+pub use self::ContourStyle::*;
+pub use self::DashType::*;
+pub use self::FillPatternType::*;
+pub use self::FillRegionType::*;
+pub use self::LabelOption::*;
+pub use self::LegendOption::*;
+pub use self::MarginSide::*;
+pub use self::PaletteType::*;
+pub use self::PlotOption::*;
+pub use self::Tick::*;
+pub use self::TickOption::*;
+pub use self::XAxis::*;
+pub use self::YAxis::*;
 use crate::util::OneWayOwned;
 
 /// An enumeration of plot options you can supply to plotting commands, governing

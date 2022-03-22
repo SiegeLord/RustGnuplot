@@ -4,15 +4,15 @@
 
 use self::DataSourceType::*;
 
-pub use self::{LabelType::*, PlotType::*, TickAxis::*};
+pub use self::LabelType::*;
+pub use self::PlotType::*;
+pub use self::TickAxis::*;
 use crate::coordinates::*;
 
-use crate::{
-	datatype::*,
-	options::*,
-	util::{escape, OneWayOwned},
-	writer::*,
-};
+use crate::datatype::*;
+use crate::options::*;
+use crate::util::{escape, OneWayOwned};
+use crate::writer::*;
 use std::borrow::Borrow;
 
 pub struct PlotElement
@@ -733,18 +733,12 @@ impl PlotType
 {
 	fn is_line(&self) -> bool
 	{
-		matches!(
-			*self,
-			Lines | LinesPoints | XErrorLines | Boxes | YErrorLines | BoxAndWhisker
-		)
+		matches!(*self, Lines | LinesPoints | XErrorLines | Boxes | YErrorLines | BoxAndWhisker)
 	}
 
 	fn is_points(&self) -> bool
 	{
-		matches!(
-			*self,
-			Points | LinesPoints | XErrorLines | YErrorLines | XErrorBars | YErrorBars
-		)
+		matches!(*self, Points | LinesPoints | XErrorLines | YErrorLines | XErrorBars | YErrorBars)
 	}
 
 	fn is_fill(&self) -> bool
@@ -1141,10 +1135,8 @@ pub struct Margins
 	pub bottom: Option<f32>,
 }
 
-impl Default for Margins
-{
-	fn default() -> Self
-	{
+impl Default for Margins {
+	fn default() -> Self {
 		Self::new()
 	}
 }
@@ -1213,10 +1205,8 @@ pub struct AxesCommonData
 	pub palette: PaletteType,
 }
 
-impl Default for AxesCommonData
-{
-	fn default() -> Self
-	{
+impl Default for AxesCommonData {
+	fn default() -> Self {
 		Self::new()
 	}
 }

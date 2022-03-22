@@ -1,4 +1,6 @@
-use std::{error, fmt, io};
+use std::error;
+use std::fmt;
+use std::io;
 
 pub struct GnuplotInitError
 {

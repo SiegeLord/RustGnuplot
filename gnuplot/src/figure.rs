@@ -5,20 +5,17 @@
 use crate::error_types::*;
 
 use self::AxesVariant::*;
-use crate::{axes2d::*, axes3d::*};
+use crate::axes2d::*;
+use crate::axes3d::*;
 
-use crate::{
-	options::{GnuplotVersion, MultiplotFillDirection, MultiplotFillOrder},
-	util::escape,
-	writer::Writer,
-};
-use std::{
-	fs::File,
-	io::{BufWriter, Write},
-	path::{Path, PathBuf},
-	process::{Child, Command, Stdio},
-	str,
-};
+use crate::options::{GnuplotVersion, MultiplotFillDirection, MultiplotFillOrder};
+use crate::util::escape;
+use crate::writer::Writer;
+use std::fs::File;
+use std::io::{BufWriter, Write};
+use std::path::{Path, PathBuf};
+use std::process::{Child, Command, Stdio};
+use std::str;
 
 enum AxesVariant
 {
@@ -144,10 +141,8 @@ impl Default for GnuplotVersion
 	}
 }
 
-impl Default for Figure
-{
-	fn default() -> Self
-	{
+impl Default for Figure {
+	fn default() -> Self {
 		Self::new()
 	}
 }
@@ -369,10 +364,15 @@ impl Figure
 				let parts: Vec<_> = version_string.split(|c| c == ' ' || c == '.').collect();
 				if parts.len() > 2 && parts[0] == "gnuplot"
 				{
-					if let (Ok(major), Ok(minor)) =
-						(parts[1].parse::<i32>(), parts[2].parse::<i32>())
+					if let (Ok(major), Ok(minor)) = (
+						parts[1].parse::<i32>(),
+						parts[2].parse::<i32>(),
+					)
 					{
-						self.version = Some(GnuplotVersion { major, minor });
+						self.version = Some(GnuplotVersion {
+							major,
+							minor,
+						});
 					}
 				}
 			}
@@ -393,8 +393,7 @@ impl Figure
 
 		{
 			let mut gnuplot = self.gnuplot.take();
-			if let Some(p) = gnuplot.as_mut()
-			{
+			if let Some(p) = gnuplot.as_mut() {
 				let stdin = p.stdin.as_mut().expect("No stdin!?");
 				self.echo(stdin);
 				stdin.flush();
@@ -540,8 +539,7 @@ impl Figure
 		}
 
 		{
-			if let Some(p) = self.gnuplot.as_mut()
-			{
+			if let Some(p) = self.gnuplot.as_mut() {
 				{
 					let stdin = p.stdin.as_mut().expect("No stdin!?");
 					writeln!(stdin, "quit");

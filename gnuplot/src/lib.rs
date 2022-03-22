@@ -23,10 +23,14 @@ fg.show();
 # }
 ~~~
 */
-pub use crate::{
-	axes2d::Axes2D, axes3d::Axes3D, axes_common::AxesCommon, coordinates::*, datatype::*,
-	error_types::*, figure::*, options::*,
-};
+pub use crate::axes2d::Axes2D;
+pub use crate::axes3d::Axes3D;
+pub use crate::axes_common::AxesCommon;
+pub use crate::coordinates::*;
+pub use crate::datatype::*;
+pub use crate::error_types::*;
+pub use crate::figure::*;
+pub use crate::options::*;
 
 #[macro_use]
 mod util;
