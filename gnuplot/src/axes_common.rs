@@ -733,12 +733,18 @@ impl PlotType
 {
 	fn is_line(&self) -> bool
 	{
-		matches!(*self, Lines | LinesPoints | XErrorLines | Boxes | YErrorLines | BoxAndWhisker)
+		matches!(
+			*self,
+			Lines | LinesPoints | XErrorLines | Boxes | YErrorLines | BoxAndWhisker
+		)
 	}
 
 	fn is_points(&self) -> bool
 	{
-		matches!(*self, Points | LinesPoints | XErrorLines | YErrorLines | XErrorBars | YErrorBars)
+		matches!(
+			*self,
+			Points | LinesPoints | XErrorLines | YErrorLines | XErrorBars | YErrorBars
+		)
 	}
 
 	fn is_fill(&self) -> bool
@@ -1135,8 +1141,10 @@ pub struct Margins
 	pub bottom: Option<f32>,
 }
 
-impl Default for Margins {
-	fn default() -> Self {
+impl Default for Margins
+{
+	fn default() -> Self
+	{
 		Self::new()
 	}
 }
@@ -1205,8 +1213,10 @@ pub struct AxesCommonData
 	pub palette: PaletteType,
 }
 
-impl Default for AxesCommonData {
-	fn default() -> Self {
+impl Default for AxesCommonData
+{
+	fn default() -> Self
+	{
 		Self::new()
 	}
 }

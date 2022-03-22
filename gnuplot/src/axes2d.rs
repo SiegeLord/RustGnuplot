@@ -819,7 +819,10 @@ impl Axes2D
 		{
 			arrow.write_out(writer);
 		}
-		if let Some(l) = self.legend.as_ref() { l.write_out(writer) };
+		if let Some(l) = self.legend.as_ref()
+		{
+			l.write_out(writer)
+		};
 		self.common.write_out_elements("plot", writer, version);
 	}
 
@@ -830,7 +833,10 @@ impl Axes2D
 		{
 			arrow.reset_state(writer);
 		}
-		if let Some(l) = self.legend.as_ref() { l.reset_state(writer) };
+		if let Some(l) = self.legend.as_ref()
+		{
+			l.reset_state(writer)
+		};
 	}
 }
 
