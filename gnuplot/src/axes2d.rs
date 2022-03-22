@@ -2,12 +2,14 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use crate::axes_common::*;
-use crate::coordinates::*;
-use crate::datatype::*;
-use crate::options::*;
-use crate::util::{escape, OneWayOwned};
-use crate::writer::Writer;
+use crate::{
+	axes_common::*,
+	coordinates::*,
+	datatype::*,
+	options::*,
+	util::{escape, OneWayOwned},
+	writer::Writer,
+};
 
 struct LegendData
 {
@@ -819,7 +821,10 @@ impl Axes2D
 		{
 			arrow.write_out(writer);
 		}
-		if let Some(l) = self.legend.as_ref() { l.write_out(writer) };
+		if let Some(l) = self.legend.as_ref()
+		{
+			l.write_out(writer)
+		};
 		self.common.write_out_elements("plot", writer, version);
 	}
 
@@ -830,7 +835,10 @@ impl Axes2D
 		{
 			arrow.reset_state(writer);
 		}
-		if let Some(l) = self.legend.as_ref() { l.reset_state(writer) };
+		if let Some(l) = self.legend.as_ref()
+		{
+			l.reset_state(writer)
+		};
 	}
 }
 

@@ -2,11 +2,7 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
-use crate::axes_common::*;
-use crate::datatype::*;
-use crate::options::*;
-use crate::util::OneWayOwned;
-use crate::writer::Writer;
+use crate::{axes_common::*, datatype::*, options::*, util::OneWayOwned, writer::Writer};
 use std::borrow::Borrow;
 
 enum View
@@ -376,7 +372,7 @@ impl Axes3D
 	/// * `label` - Auto sets the label automatically and enables the legend, Fix() allows you specify a format string (using C style formatting),
 	///             otherwise an empty string disables the legend and labels.
 	/// * `levels` - A set of levels.
-	pub fn show_contours_custom<T: DataType, TC: IntoIterator<Item=T>>(
+	pub fn show_contours_custom<T: DataType, TC: IntoIterator<Item = T>>(
 		&mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>,
 		levels: TC,
 	) -> &mut Self
@@ -393,7 +389,10 @@ impl Axes3D
 	pub(crate) fn reset_state(&self, writer: &mut dyn Writer)
 	{
 		self.common.reset_state(writer);
-		if let Some(v) = self.view.as_ref() { v.reset_state(writer) };
+		if let Some(v) = self.view.as_ref()
+		{
+			v.reset_state(writer)
+		};
 	}
 
 	pub(crate) fn write_out(&self, w: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion)
@@ -474,7 +473,8 @@ impl Axes3D
 					_ => None,
 				};
 
-				if let Some(pt) = pt {
+				if let Some(pt) = pt
+				{
 					write!(w, "points {}", clamp(pt, 2, 100));
 				};
 			});
@@ -486,7 +486,8 @@ impl Axes3D
 					_ => None,
 				};
 
-				if let Some(ord) = ord {
+				if let Some(ord) = ord
+				{
 					write!(w, "order {}", clamp(ord, 2, 10));
 				};
 			});
@@ -540,7 +541,10 @@ impl Axes3D
 		{
 			grid_axes.push(self.z_axis.axis);
 		}
-		if let Some(v) = self.view.as_ref() { v.write_out(w) };
+		if let Some(v) = self.view.as_ref()
+		{
+			v.write_out(w)
+		};
 		self.common.write_grid_options(w, &grid_axes, version);
 		self.common.write_out_elements("splot", w, version);
 	}

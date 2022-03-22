@@ -1,7 +1,6 @@
 // This file is released into Public Domain.
 use gnuplot::*;
-use std::thread::sleep;
-use std::time::Duration;
+use std::{thread::sleep, time::Duration};
 
 fn main()
 {
