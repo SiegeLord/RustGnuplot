@@ -77,6 +77,7 @@ fn lines<'l, Tx: IntoIterator<Item = f32>, Ty: IntoIterator<Item = f32>>(x: Tx, 
 	}
 }
 
+#[allow(dead_code)]
 impl Lines
 {
 	fn show(&self)

@@ -48,13 +48,13 @@ impl PlotElement
 		}
 
 		PlotElement {
-			data: data,
-			num_rows: num_rows,
+			data,
+			num_rows,
 			num_cols: 2,
-			plot_type: plot_type,
+			plot_type,
 			source_type: Record,
 			is_3d: false,
-			options: options,
+			options,
 		}
 	}
 
@@ -81,13 +81,13 @@ impl PlotElement
 		}
 
 		PlotElement {
-			data: data,
-			num_rows: num_rows,
+			data,
+			num_rows,
 			num_cols: 3,
-			plot_type: plot_type,
+			plot_type,
 			source_type: Record,
 			is_3d: false,
-			options: options,
+			options,
 		}
 	}
 
@@ -126,13 +126,13 @@ impl PlotElement
 		}
 
 		PlotElement {
-			data: data,
-			num_rows: num_rows,
+			data,
+			num_rows,
 			num_cols: 5,
-			plot_type: plot_type,
+			plot_type,
 			source_type: Record,
 			is_3d: false,
-			options: options,
+			options,
 		}
 	}
 
@@ -175,13 +175,13 @@ impl PlotElement
 		}
 
 		PlotElement {
-			data: data,
-			num_rows: num_rows,
+			data,
+			num_rows,
 			num_cols: 6,
-			plot_type: plot_type,
+			plot_type,
 			source_type: Record,
 			is_3d: false,
-			options: options,
+			options,
 		}
 	}
 
@@ -201,11 +201,7 @@ impl PlotElement
 
 		if count < num_rows * num_cols
 		{
-			for _ in 0..num_rows * num_cols - count
-			{
-				use std::f64;
-				data.push(f64::NAN);
-			}
+			data.resize(num_rows * num_cols, f64::NAN);
 		}
 
 		let source_type = match dimensions
@@ -215,13 +211,13 @@ impl PlotElement
 		};
 
 		PlotElement {
-			data: data,
-			num_rows: num_rows,
-			num_cols: num_cols,
-			plot_type: plot_type,
-			source_type: source_type,
-			is_3d: is_3d,
-			options: options,
+			data,
+			num_rows,
+			num_cols,
+			plot_type,
+			source_type,
+			is_3d,
+			options,
 		}
 	}
 
@@ -257,45 +253,41 @@ impl PlotElement
 					self.num_cols, self.num_rows
 				);
 
-				match self.source_type
+				if let SizedArray(x1, y1, x2, y2) = self.source_type
 				{
-					SizedArray(x1, y1, x2, y2) =>
-					{
-						let (x1, x2) = if x1 > x2 { (x2, x1) } else { (x1, x2) };
+					let (x1, x2) = if x1 > x2 { (x2, x1) } else { (x1, x2) };
 
-						let (y1, y2) = if y1 > y2 { (y2, y1) } else { (y1, y2) };
-						write!(writer, "origin=({:.12e},{:.12e}", x1, y1);
-						if self.is_3d
-						{
-							write!(writer, ",0");
-						}
-						write!(writer, ") ");
-						if self.num_cols > 1
-						{
-							write!(
-								writer,
-								"dx={:.12e} ",
-								(x2 - x1) / (self.num_cols as f64 - 1.0)
-							);
-						}
-						else
-						{
-							write!(writer, "dx=1 ");
-						}
-						if self.num_rows > 1
-						{
-							write!(
-								writer,
-								"dy={:.12e} ",
-								(y2 - y1) / (self.num_rows as f64 - 1.0)
-							);
-						}
-						else
-						{
-							write!(writer, "dy=1 ");
-						}
+					let (y1, y2) = if y1 > y2 { (y2, y1) } else { (y1, y2) };
+					write!(writer, "origin=({:.12e},{:.12e}", x1, y1);
+					if self.is_3d
+					{
+						write!(writer, ",0");
 					}
-					_ => (),
+					write!(writer, ") ");
+					if self.num_cols > 1
+					{
+						write!(
+							writer,
+							"dx={:.12e} ",
+							(x2 - x1) / (self.num_cols as f64 - 1.0)
+						);
+					}
+					else
+					{
+						write!(writer, "dx=1 ");
+					}
+					if self.num_rows > 1
+					{
+						write!(
+							writer,
+							"dy={:.12e} ",
+							(y2 - y1) / (self.num_rows as f64 - 1.0)
+						);
+					}
+					else
+					{
+						write!(writer, "dy=1 ");
+					}
 				}
 			}
 		}
@@ -320,29 +312,25 @@ impl PlotElement
 
 		if self.plot_type.is_fill()
 		{
-			match self.plot_type
+			if let FillBetween = self.plot_type
 			{
-				FillBetween =>
-				{
-					let mut found = false;
-					first_opt! {options,
-						FillRegion(d) =>
-						{
-							found = true;
-							writer.write_str(match d
-							{
-								Above => " above",
-								Below => " below",
-								Between => " closed",
-							});
-						}
-					}
-					if !found
+				let mut found = false;
+				first_opt! {options,
+					FillRegion(d) =>
 					{
-						writer.write_str(" closed");
+						found = true;
+						writer.write_str(match d
+						{
+							Above => " above",
+							Below => " below",
+							Between => " closed",
+						});
 					}
 				}
-				_ => (),
+				if !found
+				{
+					writer.write_str(" closed");
+				}
 			}
 
 			writer.write_str(" fill ");
@@ -353,13 +341,9 @@ impl PlotElement
 				{
 					is_pattern = true;
 					writer.write_str("pattern ");
-					match pattern_opt
+					if let Fix(val) = pattern_opt
 					{
-						Fix(val) =>
-						{
-							write!(writer, "{}", val as i32);
-						}
-						_ => (),
+						write!(writer, "{}", val as i32);
 					}
 				}
 			}
@@ -437,13 +421,13 @@ impl PlotElement
 				write!(writer, " axes {}{}",
 					match x
 					{
-						X1 => "x1",
-						X2 => "x2",
+						XAxis::X1 => "x1",
+						XAxis::X2 => "x2",
 					},
 					match y
 					{
-						Y1 => "y1",
-						Y2 => "y2",
+						YAxis::Y1 => "y1",
+						YAxis::Y2 => "y2",
 					}
 				);
 			}
@@ -471,7 +455,7 @@ impl LabelData
 	fn new(label_type: LabelType) -> Self
 	{
 		Self {
-			label_type: label_type,
+			label_type,
 			text: "".into(),
 			options: vec![],
 		}
@@ -501,13 +485,9 @@ impl LabelData
 
 	pub fn reset_state(&self, writer: &mut dyn Writer)
 	{
-		match self.label_type
+		if let Label(tag, ..) = self.label_type
 		{
-			Label(tag, ..) =>
-			{
-				writeln!(writer, "unset label {}", tag);
-			}
-			_ => (),
+			writeln!(writer, "unset label {}", tag);
 		}
 	}
 }
@@ -530,11 +510,7 @@ impl LabelType
 {
 	fn is_label(&self) -> bool
 	{
-		match *self
-		{
-			Label(..) => true,
-			_ => false,
-		}
+		matches!(*self, Label(..))
 	}
 
 	fn write_label_str(&self, w: &mut dyn Writer)
@@ -581,12 +557,12 @@ impl LabelType
 	{
 		match axis_type
 		{
-			XTickAxis => XLabel,
-			YTickAxis => YLabel,
-			X2TickAxis => X2Label,
-			Y2TickAxis => Y2Label,
-			ZTickAxis => ZLabel,
-			CBTickAxis => CBLabel,
+			TickAxis::X => XLabel,
+			TickAxis::Y => YLabel,
+			TickAxis::X2 => X2Label,
+			TickAxis::Y2 => Y2Label,
+			TickAxis::Z => ZLabel,
+			TickAxis::CB => CBLabel,
 		}
 	}
 }
@@ -596,13 +572,9 @@ pub fn write_out_label_options(
 )
 {
 	let w = writer;
-	match label_type
+	if let Label(_, x, y) = label_type
 	{
-		Label(_, x, y) =>
-		{
-			write!(w, " at {},{} front", x, y);
-		}
-		_ => (),
+		write!(w, " at {},{} front", x, y);
 	}
 
 	first_opt! {options,
@@ -678,65 +650,65 @@ pub fn write_out_label_options(
 #[derive(Copy, Clone, PartialEq)]
 pub enum TickAxis
 {
-	XTickAxis,
-	YTickAxis,
-	X2TickAxis,
-	Y2TickAxis,
-	ZTickAxis,
-	CBTickAxis,
+	X,
+	Y,
+	X2,
+	Y2,
+	Z,
+	CB,
 }
 
 impl TickAxis
 {
-	pub fn to_axis_str(&self) -> &str
+	pub fn get_axis_str(&self) -> &str
 	{
 		match *self
 		{
-			XTickAxis => "x",
-			YTickAxis => "y",
-			X2TickAxis => "x2",
-			Y2TickAxis => "y2",
-			ZTickAxis => "z",
-			CBTickAxis => "cb",
+			TickAxis::X => "x",
+			TickAxis::Y => "y",
+			TickAxis::X2 => "x2",
+			TickAxis::Y2 => "y2",
+			TickAxis::Z => "z",
+			TickAxis::CB => "cb",
 		}
 	}
 
-	pub fn to_tick_str(&self) -> &str
+	pub fn get_tick_str(&self) -> &str
 	{
 		match *self
 		{
-			XTickAxis => "xtics",
-			YTickAxis => "ytics",
-			X2TickAxis => "x2tics",
-			Y2TickAxis => "y2tics",
-			ZTickAxis => "ztics",
-			CBTickAxis => "cbtics",
+			TickAxis::X => "xtics",
+			TickAxis::Y => "ytics",
+			TickAxis::X2 => "x2tics",
+			TickAxis::Y2 => "y2tics",
+			TickAxis::Z => "ztics",
+			TickAxis::CB => "cbtics",
 		}
 	}
 
-	pub fn to_mtick_str(&self) -> &str
+	pub fn get_mtick_str(&self) -> &str
 	{
 		match *self
 		{
-			XTickAxis => "mxtics",
-			YTickAxis => "mytics",
-			X2TickAxis => "mx2tics",
-			Y2TickAxis => "my2tics",
-			ZTickAxis => "mztics",
-			CBTickAxis => "mcbtics",
+			TickAxis::X => "mxtics",
+			TickAxis::Y => "mytics",
+			TickAxis::X2 => "mx2tics",
+			TickAxis::Y2 => "my2tics",
+			TickAxis::Z => "mztics",
+			TickAxis::CB => "mcbtics",
 		}
 	}
 
-	pub fn to_range_str(&self) -> &str
+	pub fn get_range_str(&self) -> &str
 	{
 		match *self
 		{
-			XTickAxis => "xrange",
-			YTickAxis => "yrange",
-			X2TickAxis => "x2range",
-			Y2TickAxis => "y2range",
-			ZTickAxis => "zrange",
-			CBTickAxis => "cbrange",
+			TickAxis::X => "xrange",
+			TickAxis::Y => "yrange",
+			TickAxis::X2 => "x2range",
+			TickAxis::Y2 => "y2range",
+			TickAxis::Z => "zrange",
+			TickAxis::CB => "cbrange",
 		}
 	}
 }
@@ -761,29 +733,23 @@ impl PlotType
 {
 	fn is_line(&self) -> bool
 	{
-		match *self
-		{
-			Lines | LinesPoints | XErrorLines | Boxes | YErrorLines | BoxAndWhisker => true,
-			_ => false,
-		}
+		matches!(
+			*self,
+			Lines | LinesPoints | XErrorLines | Boxes | YErrorLines | BoxAndWhisker
+		)
 	}
 
 	fn is_points(&self) -> bool
 	{
-		match *self
-		{
-			Points | LinesPoints | XErrorLines | YErrorLines | XErrorBars | YErrorBars => true,
-			_ => false,
-		}
+		matches!(
+			*self,
+			Points | LinesPoints | XErrorLines | YErrorLines | XErrorBars | YErrorBars
+		)
 	}
 
 	fn is_fill(&self) -> bool
 	{
-		match *self
-		{
-			Boxes | FillBetween | BoxAndWhisker => true,
-			_ => false,
-		}
+		matches!(*self, Boxes | FillBetween | BoxAndWhisker)
 	}
 }
 
@@ -821,7 +787,7 @@ impl AxisData
 			label_options: vec![],
 			tick_type: TickType::Auto(Auto, 0),
 			log_base: None,
-			axis: axis,
+			axis,
 			min: Auto,
 			max: Auto,
 			reverse: false,
@@ -836,12 +802,12 @@ impl AxisData
 
 	pub fn write_out_commands(&self, w: &mut dyn Writer, version: GnuplotVersion)
 	{
-		if self.axis != TickAxis::CBTickAxis
+		if self.axis != TickAxis::CB
 		{
 			if self.show
 			{
 				w.write_str("set ");
-				w.write_str(self.axis.to_axis_str());
+				w.write_str(self.axis.get_axis_str());
 				w.write_str("zeroaxis ");
 
 				AxesCommonData::write_color_options(w, &self.options, Some("black"));
@@ -850,7 +816,7 @@ impl AxisData
 			else
 			{
 				w.write_str("unset ");
-				w.write_str(self.axis.to_axis_str());
+				w.write_str(self.axis.get_axis_str());
 				w.write_str("zeroaxis ");
 			}
 		}
@@ -862,21 +828,21 @@ impl AxisData
 			Some(base) =>
 			{
 				w.write_str("set logscale ");
-				w.write_str(self.axis.to_axis_str());
+				w.write_str(self.axis.get_axis_str());
 				write!(w, " {:.12e}", base);
 				true
 			}
 			None =>
 			{
 				w.write_str("unset logscale ");
-				w.write_str(self.axis.to_axis_str());
+				w.write_str(self.axis.get_axis_str());
 				false
 			}
 		};
 		w.write_str("\n");
 
 		w.write_str("set ");
-		w.write_str(self.axis.to_axis_str());
+		w.write_str(self.axis.get_axis_str());
 		w.write_str("data");
 		if self.is_time
 		{
@@ -888,7 +854,7 @@ impl AxisData
 		{
 			TickType::Auto(_, mticks) =>
 			{
-				write!(w, "set m{} ", self.axis.to_tick_str());
+				write!(w, "set m{} ", self.axis.get_tick_str());
 				if log
 				{
 					writeln!(w, "default");
@@ -900,13 +866,13 @@ impl AxisData
 			}
 			_ =>
 			{
-				writeln!(w, "unset m{}", self.axis.to_tick_str());
+				writeln!(w, "unset m{}", self.axis.get_tick_str());
 			}
 		}
 		w.write_str("\n");
 
 		w.write_str("set ");
-		w.write_str(self.axis.to_range_str());
+		w.write_str(self.axis.get_range_str());
 		w.write_str(" [");
 		match self.min
 		{
@@ -933,13 +899,13 @@ impl AxisData
 		{
 			TickType::None =>
 			{
-				write!(w, "unset {0}", self.axis.to_tick_str());
+				write!(w, "unset {0}", self.axis.get_tick_str());
 				write_tick_options = false;
 			}
 			TickType::Auto(incr, _) =>
 			{
 				w.write_str("set ");
-				w.write_str(self.axis.to_tick_str());
+				w.write_str(self.axis.get_tick_str());
 
 				match incr
 				{
@@ -961,7 +927,7 @@ impl AxisData
 			TickType::Custom(ref ticks) =>
 			{
 				w.write_str("set ");
-				w.write_str(self.axis.to_tick_str());
+				w.write_str(self.axis.get_tick_str());
 				w.write_str(" (");
 
 				let mut first = true;
@@ -977,13 +943,13 @@ impl AxisData
 					}
 
 					let a = Auto;
-					let (ref pos, ref label, level) = match *tick
+					let (ref pos, label, level) = match *tick
 					{
 						Minor(ref pos) => (pos, &a, 1),
 						Major(ref pos, ref label) => (pos, label, 0),
 					};
 
-					match **label
+					match *label
 					{
 						Fix(ref label) =>
 						{
@@ -1085,8 +1051,8 @@ impl AxisData
 				})
 				.collect(),
 		);
-		self.tick_options = tick_options.into();
-		self.label_options = label_options.into();
+		self.tick_options = tick_options;
+		self.label_options = label_options;
 	}
 
 	pub fn set_ticks(
@@ -1097,8 +1063,8 @@ impl AxisData
 		if let Some((incr, mticks)) = tick_placement
 		{
 			self.tick_type = TickType::Auto(incr, mticks);
-			self.tick_options = tick_options.into();
-			self.label_options = label_options.into();
+			self.tick_options = tick_options;
+			self.label_options = label_options;
 		}
 		else
 		{
@@ -1175,6 +1141,14 @@ pub struct Margins
 	pub bottom: Option<f32>,
 }
 
+impl Default for Margins
+{
+	fn default() -> Self
+	{
+		Self::new()
+	}
+}
+
 impl Margins
 {
 	pub fn new() -> Self
@@ -1239,6 +1213,14 @@ pub struct AxesCommonData
 	pub palette: PaletteType,
 }
 
+impl Default for AxesCommonData
+{
+	fn default() -> Self
+	{
+		Self::new()
+	}
+}
+
 impl AxesCommonData
 {
 	pub fn new() -> AxesCommonData
@@ -1248,11 +1230,11 @@ impl AxesCommonData
 			minor_grid_options: vec![],
 			grid_front: false,
 			elems: Vec::new(),
-			x_axis: AxisData::new(XTickAxis),
-			y_axis: AxisData::new(YTickAxis),
-			x2_axis: AxisData::new(X2TickAxis),
-			y2_axis: AxisData::new(Y2TickAxis),
-			cb_axis: AxisData::new(CBTickAxis),
+			x_axis: AxisData::new(TickAxis::X),
+			y_axis: AxisData::new(TickAxis::Y),
+			x2_axis: AxisData::new(TickAxis::X2),
+			y2_axis: AxisData::new(TickAxis::Y2),
+			cb_axis: AxisData::new(TickAxis::CB),
 			labels: vec![],
 			title: LabelData::new(TitleLabel),
 			position: None,
@@ -1273,14 +1255,14 @@ impl AxesCommonData
 			c.write_str("set grid ");
 			for axis in axes
 			{
-				c.write_str(axis.to_tick_str());
+				c.write_str(axis.get_tick_str());
 				c.write_str(" ");
 				if self.x_axis.axis == *axis && self.x_axis.mgrid
 					|| self.y_axis.axis == *axis && self.y_axis.mgrid
 					|| self.x2_axis.axis == *axis && self.x2_axis.mgrid
 					|| self.y2_axis.axis == *axis && self.y2_axis.mgrid
 				{
-					c.write_str(axis.to_mtick_str());
+					c.write_str(axis.get_mtick_str());
 					c.write_str(" ");
 				}
 			}
@@ -1349,16 +1331,12 @@ impl AxesCommonData
 		first_opt! {options,
 			Color(ref s) =>
 			{
-				col = Some(&s)
+				col = Some(s)
 			}
 		}
-		match col
+		if let Some(s) = col
 		{
-			Some(s) =>
-			{
-				write!(c, r#" lc rgb "{}""#, s);
-			}
-			None => (),
+			write!(c, r#" lc rgb "{}""#, s);
 		}
 	}
 
@@ -1479,7 +1457,7 @@ impl AxesCommonData
 			first = false;
 		}
 
-		write!(writer, "\n");
+		writeln!(writer);
 
 		for e in self.elems.iter()
 		{
@@ -1511,7 +1489,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// * `ncol` - Number of columns in the grid. Must be greater than 0.
 	/// * `pos` - Which grid cell to place this axes in, counting from top-left corner,
 	///           going left and then down, starting at 0.
-	fn set_pos_grid<'l>(&'l mut self, nrow: u32, ncol: u32, pos: u32) -> &'l mut Self
+	fn set_pos_grid(&mut self, nrow: u32, ncol: u32, pos: u32) -> &mut Self
 	{
 		assert!(nrow > 0);
 		assert!(ncol > 0);
@@ -1521,7 +1499,7 @@ pub trait AxesCommon: AxesCommonPrivate
 		let x = (pos % ncol) as f64 * width;
 		let y = 1.0 - (1.0 + (pos / ncol) as f64) * height;
 
-		self.get_common_data_mut().position = Some(Position { x: x, y: y });
+		self.get_common_data_mut().position = Some(Position { x, y });
 		self.get_common_data_mut().size = Some(Size {
 			w: width,
 			h: height,
@@ -1534,9 +1512,9 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// # Arguments
 	/// * `x` - X position. Ranges from 0 to 1
 	/// * `y` - Y position. Ranges from 0 to 1
-	fn set_pos<'l>(&'l mut self, x: f64, y: f64) -> &'l mut Self
+	fn set_pos(&mut self, x: f64, y: f64) -> &mut Self
 	{
-		self.get_common_data_mut().position = Some(Position { x: x, y: y });
+		self.get_common_data_mut().position = Some(Position { x, y });
 		self
 	}
 
@@ -1544,16 +1522,16 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// # Arguments
 	/// * `w` - Width. Ranges from 0 to 1
 	/// * `h` - Height. Ranges from 0 to 1
-	fn set_size<'l>(&'l mut self, w: f64, h: f64) -> &'l mut Self
+	fn set_size(&mut self, w: f64, h: f64) -> &mut Self
 	{
-		self.get_common_data_mut().size = Some(Size { w: w, h: h });
+		self.get_common_data_mut().size = Some(Size { w, h });
 		self
 	}
 
 	/// Set the aspect ratio of the axes
 	/// # Arguments
 	/// * `ratio` - The aspect ratio. Set to Auto to return the ratio to default
-	fn set_aspect_ratio<'l>(&'l mut self, ratio: AutoOption<f64>) -> &'l mut Self
+	fn set_aspect_ratio(&mut self, ratio: AutoOption<f64>) -> &mut Self
 	{
 		self.get_common_data_mut().aspect_ratio = ratio;
 		self
@@ -1866,7 +1844,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// # Arguments
 	/// * `min` - Minimum X value
 	/// * `max` - Maximum X value
-	fn set_x_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
+	fn set_x_range(&mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &mut Self
 	{
 		self.get_common_data_mut().x_axis.set_range(min, max);
 		self
@@ -1877,7 +1855,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// # Arguments
 	/// * `min` - Minimum Y value
 	/// * `max` - Maximum Y value
-	fn set_y_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
+	fn set_y_range(&mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &mut Self
 	{
 		self.get_common_data_mut().y_axis.set_range(min, max);
 		self
@@ -1888,7 +1866,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// # Arguments
 	/// * `min` - Minimum X value
 	/// * `max` - Maximum X value
-	fn set_x2_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
+	fn set_x2_range(&mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &mut Self
 	{
 		self.get_common_data_mut().x2_axis.set_range(min, max);
 		self
@@ -1899,7 +1877,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// # Arguments
 	/// * `min` - Minimum Y value
 	/// * `max` - Maximum Y value
-	fn set_y2_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
+	fn set_y2_range(&mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &mut Self
 	{
 		self.get_common_data_mut().y2_axis.set_range(min, max);
 		self
@@ -1908,7 +1886,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// Sets X axis to reverse.
 	/// # Arguments
 	/// * `reverse` - Boolean, true to reverse axis, false will not reverse
-	fn set_x_reverse<'l>(&'l mut self, reverse: bool) -> &'l mut Self
+	fn set_x_reverse(&mut self, reverse: bool) -> &mut Self
 	{
 		self.get_common_data_mut().x_axis.set_reverse(reverse);
 		self
@@ -1917,7 +1895,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// Sets Y axis to reverse.
 	/// # Arguments
 	/// * `reverse` - Boolean, true to reverse axis, false will not reverse
-	fn set_y_reverse<'l>(&'l mut self, reverse: bool) -> &'l mut Self
+	fn set_y_reverse(&mut self, reverse: bool) -> &mut Self
 	{
 		self.get_common_data_mut().y_axis.set_reverse(reverse);
 		self
@@ -1926,7 +1904,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// Sets secondary X axis to reverse.
 	/// # Arguments
 	/// * `reverse` - Boolean, true to reverse axis, false will not reverse
-	fn set_x2_reverse<'l>(&'l mut self, reverse: bool) -> &'l mut Self
+	fn set_x2_reverse(&mut self, reverse: bool) -> &mut Self
 	{
 		self.get_common_data_mut().x2_axis.set_reverse(reverse);
 		self
@@ -1935,7 +1913,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// Sets secondary Y axis to reverse.
 	/// # Arguments
 	/// * `reverse` - Boolean, true to reverse axis, false will not reverse
-	fn set_y2_reverse<'l>(&'l mut self, reverse: bool) -> &'l mut Self
+	fn set_y2_reverse(&mut self, reverse: bool) -> &mut Self
 	{
 		self.get_common_data_mut().y2_axis.set_reverse(reverse);
 		self
@@ -1946,7 +1924,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// # Arguments
 	/// * `min` - Minimum Y value
 	/// * `max` - Maximum Y value
-	fn set_cb_range<'l>(&'l mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &'l mut Self
+	fn set_cb_range(&mut self, min: AutoOption<f64>, max: AutoOption<f64>) -> &mut Self
 	{
 		self.get_common_data_mut().cb_axis.set_range(min, max);
 		self
@@ -1956,7 +1934,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic
-	fn set_x_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
+	fn set_x_log(&mut self, base: Option<f64>) -> &mut Self
 	{
 		self.get_common_data_mut().x_axis.set_log(base);
 		self
@@ -1966,7 +1944,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic
-	fn set_y_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
+	fn set_y_log(&mut self, base: Option<f64>) -> &mut Self
 	{
 		self.get_common_data_mut().y_axis.set_log(base);
 		self
@@ -1976,7 +1954,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic
-	fn set_x2_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
+	fn set_x2_log(&mut self, base: Option<f64>) -> &mut Self
 	{
 		self.get_common_data_mut().x2_axis.set_log(base);
 		self
@@ -1986,7 +1964,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic
-	fn set_y2_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
+	fn set_y2_log(&mut self, base: Option<f64>) -> &mut Self
 	{
 		self.get_common_data_mut().y2_axis.set_log(base);
 		self
@@ -1996,7 +1974,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `base` - If Some, then specifies base of the logarithm, if None makes the axis not be logarithmic
-	fn set_cb_log<'l>(&'l mut self, base: Option<f64>) -> &'l mut Self
+	fn set_cb_log(&mut self, base: Option<f64>) -> &mut Self
 	{
 		self.get_common_data_mut().cb_axis.set_log(base);
 		self
@@ -2006,7 +1984,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `show` - Whether to show the grid.
-	fn set_x_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	fn set_x_grid(&mut self, show: bool) -> &mut Self
 	{
 		self.get_common_data_mut().x_axis.set_grid(show);
 		self
@@ -2016,7 +1994,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `show` - Whether to show the grid.
-	fn set_x_minor_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	fn set_x_minor_grid(&mut self, show: bool) -> &mut Self
 	{
 		self.get_common_data_mut().x_axis.set_minor_grid(show);
 		self
@@ -2026,7 +2004,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `show` - Whether to show the grid.
-	fn set_y_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	fn set_y_grid(&mut self, show: bool) -> &mut Self
 	{
 		self.get_common_data_mut().y_axis.set_grid(show);
 		self
@@ -2036,7 +2014,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `show` - Whether to show the grid.
-	fn set_y_minor_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	fn set_y_minor_grid(&mut self, show: bool) -> &mut Self
 	{
 		self.get_common_data_mut().y_axis.set_minor_grid(show);
 		self
@@ -2046,7 +2024,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `show` - Whether to show the grid.
-	fn set_x2_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	fn set_x2_grid(&mut self, show: bool) -> &mut Self
 	{
 		self.get_common_data_mut().x2_axis.set_grid(show);
 		self
@@ -2056,7 +2034,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `show` - Whether to show the grid.
-	fn set_x2_minor_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	fn set_x2_minor_grid(&mut self, show: bool) -> &mut Self
 	{
 		self.get_common_data_mut().x2_axis.set_minor_grid(show);
 		self
@@ -2066,7 +2044,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `show` - Whether to show the grid.
-	fn set_y2_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	fn set_y2_grid(&mut self, show: bool) -> &mut Self
 	{
 		self.get_common_data_mut().y2_axis.set_grid(show);
 		self
@@ -2076,7 +2054,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `show` - Whether to show the grid.
-	fn set_y2_minor_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	fn set_y2_minor_grid(&mut self, show: bool) -> &mut Self
 	{
 		self.get_common_data_mut().y2_axis.set_minor_grid(show);
 		self
@@ -2086,7 +2064,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `show` - Whether to show the grid.
-	fn set_cb_grid<'l>(&'l mut self, show: bool) -> &'l mut Self
+	fn set_cb_grid(&mut self, show: bool) -> &mut Self
 	{
 		self.get_common_data_mut().cb_axis.set_grid(show);
 		self
@@ -2128,7 +2106,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `is_time` - Whether this axis is time or not.
-	fn set_x_time<'l>(&'l mut self, is_time: bool) -> &'l mut Self
+	fn set_x_time(&mut self, is_time: bool) -> &mut Self
 	{
 		self.get_common_data_mut().x_axis.set_time(is_time);
 		self
@@ -2141,7 +2119,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `is_time` - Whether this axis is time or not.
-	fn set_y_time<'l>(&'l mut self, is_time: bool) -> &'l mut Self
+	fn set_y_time(&mut self, is_time: bool) -> &mut Self
 	{
 		self.get_common_data_mut().y_axis.set_time(is_time);
 		self
@@ -2154,7 +2132,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `is_time` - Whether this axis is time or not.
-	fn set_x2_time<'l>(&'l mut self, is_time: bool) -> &'l mut Self
+	fn set_x2_time(&mut self, is_time: bool) -> &mut Self
 	{
 		self.get_common_data_mut().x2_axis.set_time(is_time);
 		self
@@ -2167,7 +2145,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `is_time` - Whether this axis is time or not.
-	fn set_y2_time<'l>(&'l mut self, is_time: bool) -> &'l mut Self
+	fn set_y2_time(&mut self, is_time: bool) -> &mut Self
 	{
 		self.get_common_data_mut().y2_axis.set_time(is_time);
 		self
@@ -2180,7 +2158,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `is_time` - Whether this axis is time or not.
-	fn set_cb_time<'l>(&'l mut self, is_time: bool) -> &'l mut Self
+	fn set_cb_time(&mut self, is_time: bool) -> &mut Self
 	{
 		self.get_common_data_mut().cb_axis.set_time(is_time);
 		self
@@ -2192,7 +2170,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// * `margins` - The values of margins to be overriden. Specified as a fraction of the
 	///               full drawing area, ranging from 0 to 1
-	fn set_margins<'l>(&'l mut self, margins: &[MarginSide]) -> &'l mut Self
+	fn set_margins(&mut self, margins: &[MarginSide]) -> &mut Self
 	{
 		{
 			let m = &mut self.get_common_data_mut().margins;
