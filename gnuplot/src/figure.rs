@@ -7,6 +7,7 @@ use crate::error_types::*;
 use self::AxesVariant::*;
 use crate::axes2d::*;
 use crate::axes3d::*;
+use crate::axes_polar::*;
 
 use crate::options::{GnuplotVersion, MultiplotFillDirection, MultiplotFillOrder};
 use crate::util::escape;
@@ -21,6 +22,7 @@ enum AxesVariant
 {
 	Axes2DType(Axes2D),
 	Axes3DType(Axes3D),
+	AxesPolarType(AxesPolar),
 	NewPage,
 }
 
@@ -32,6 +34,7 @@ impl AxesVariant
 		{
 			Axes2DType(ref a) => a.write_out(writer, auto_layout, version),
 			Axes3DType(ref a) => a.write_out(writer, auto_layout, version),
+			AxesPolarType(ref a) => a.write_out(writer, auto_layout, version),
 			NewPage =>
 			{
 				writeln!(writer, "unset multiplot");
@@ -46,6 +49,7 @@ impl AxesVariant
 		{
 			Axes2DType(ref a) => a.reset_state(writer),
 			Axes3DType(ref a) => a.reset_state(writer),
+			AxesPolarType(ref a) => a.reset_state(writer),
 			_ => (),
 		}
 	}
@@ -327,6 +331,18 @@ impl Figure
 		match self.axes[l - 1]
 		{
 			Axes3DType(ref mut a) => a,
+			_ => unreachable!(),
+		}
+	}
+
+	/// Creates a set of polar axes
+	pub fn axes_polar(&mut self) -> &mut AxesPolar
+	{
+		self.axes.push(AxesPolarType(AxesPolar::new()));
+		let l = self.axes.len();
+		match self.axes[l - 1]
+		{
+			AxesPolarType(ref mut a) => a,
 			_ => unreachable!(),
 		}
 	}

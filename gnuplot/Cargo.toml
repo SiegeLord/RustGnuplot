@@ -120,5 +120,10 @@ path = "examples/multiple_axes.rs"
 name = "text"
 path = "examples/text.rs"
 
+[[example]]
+
+name = "polar"
+path = "examples/polar.rs"
+
 [dependencies]
 byteorder = "1.4.3"

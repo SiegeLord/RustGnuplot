@@ -9,7 +9,7 @@ use crate::options::*;
 use crate::util::{escape, OneWayOwned};
 use crate::writer::Writer;
 
-struct LegendData
+pub(crate) struct LegendData
 {
 	x: Coordinate,
 	y: Coordinate,
@@ -19,7 +19,7 @@ struct LegendData
 
 impl LegendData
 {
-	fn write_out(&self, writer: &mut dyn Writer)
+	pub(crate) fn write_out(&self, writer: &mut dyn Writer)
 	{
 		let w = writer;
 		write!(w, "set key at {},{}", self.x, self.y);
@@ -135,13 +135,13 @@ impl LegendData
 		w.write_str("\n");
 	}
 
-	fn reset_state(&self, writer: &mut dyn Writer)
+	pub(crate) fn reset_state(&self, writer: &mut dyn Writer)
 	{
 		writer.write_str("unset key\n");
 	}
 }
 
-struct ArrowData
+pub(crate) struct ArrowData
 {
 	x1: Coordinate,
 	y1: Coordinate,
@@ -153,7 +153,7 @@ struct ArrowData
 
 impl ArrowData
 {
-	fn write_out(&self, writer: &mut dyn Writer)
+	pub(crate) fn write_out(&self, writer: &mut dyn Writer)
 	{
 		let w = writer;
 		write!(
@@ -198,22 +198,22 @@ impl ArrowData
 		w.write_str("\n");
 	}
 
-	fn reset_state(&self, writer: &mut dyn Writer)
+	pub(crate) fn reset_state(&self, writer: &mut dyn Writer)
 	{
 		writeln!(writer, "unset arrow {}", self.tag);
 	}
 }
 
-struct BorderOptions
+pub(crate) struct BorderOptions
 {
-	front: bool,
-	locations: Vec<BorderLocation2D>,
-	options: Vec<PlotOption<String>>,
+	pub(crate) front: bool,
+	pub(crate) locations: Vec<BorderLocation2D>,
+	pub(crate) options: Vec<PlotOption<String>>,
 }
 
 impl BorderOptions
 {
-	fn new() -> BorderOptions
+	pub(crate) fn new() -> BorderOptions
 	{
 		BorderOptions {
 			front: true,
@@ -222,7 +222,7 @@ impl BorderOptions
 		}
 	}
 
-	fn write_out(&self, writer: &mut dyn Writer, version: GnuplotVersion)
+	pub(crate) fn write_out(&self, writer: &mut dyn Writer, version: GnuplotVersion)
 	{
 		writer.write_str("set border ");
 		let mut f: i32 = 0;

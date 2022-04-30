@@ -38,6 +38,7 @@ mod util;
 mod axes2d;
 mod axes3d;
 mod axes_common;
+mod axes_polar;
 mod coordinates;
 mod datatype;
 mod error_types;
