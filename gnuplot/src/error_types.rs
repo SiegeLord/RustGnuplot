@@ -4,7 +4,7 @@ use std::io;
 
 pub struct GnuplotInitError
 {
-	inner: Box<dyn error::Error + 'static>,
+	inner: Box<dyn error::Error + 'static + Send + Sync>,
 }
 
 impl From<io::Error> for GnuplotInitError
