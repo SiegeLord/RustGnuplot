@@ -1449,7 +1449,10 @@ impl AxesCommonData
 		let mut first = true;
 		for e in self.elems.iter()
 		{
-			if e.num_rows == 0 { continue; }
+			if e.num_rows == 0
+			{
+				continue;
+			}
 			if !first
 			{
 				write!(writer, ",");
