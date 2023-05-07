@@ -1,7 +1,7 @@
 [package]
 
 name = "doc"
-version = "0.0.37" #auto
+version = "0.0.38" #auto
 authors = [ "SiegeLord <slabode@aim.com>" ]
 
 [lib]
@@ -11,4 +11,4 @@ path = "dummy.rs"
 [dependencies.gnuplot]
 
 path = "../gnuplot"
-version = "=0.0.37" #auto
+version = "=0.0.38" #auto
