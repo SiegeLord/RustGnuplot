@@ -469,7 +469,7 @@ impl Figure
 	/// * `width_in` - output image width (in inches)
 	/// * `height_in` - output image height (in inches)
 	pub fn save_to_pdf<P: AsRef<Path>>(
-		&mut self, filename: P, width_in: u32, height_in: u32,
+		&mut self, filename: P, width_in: f32, height_in: f32,
 	) -> Result<(), GnuplotInitError>
 	{
 		let former_term = self.terminal.clone();
@@ -490,7 +490,7 @@ impl Figure
 	/// * `width_in` - output image width (in inches)
 	/// * `height_in` - output image height (in inches)
 	pub fn save_to_eps<P: AsRef<Path>>(
-		&mut self, filename: P, width_in: u32, height_in: u32,
+		&mut self, filename: P, width_in: f32, height_in: f32,
 	) -> Result<(), GnuplotInitError>
 	{
 		let former_term = self.terminal.clone();

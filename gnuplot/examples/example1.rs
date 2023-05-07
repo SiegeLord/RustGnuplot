@@ -93,10 +93,8 @@ fn example(c: Common)
 
 	if !c.no_show
 	{
-		fg.set_terminal("pdfcairo", ".1.pdf");
-		fg.show().unwrap();
-		fg.set_terminal("pngcairo", ".1.png");
-		fg.show().unwrap();
+		fg.save_to_pdf("example1_1.pdf", 3.5, 3.5).unwrap();
+		fg.save_to_png("example1_1.png", 256, 256).unwrap();
 	}
 
 	let mut fg = Figure::new();
