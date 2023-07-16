@@ -44,3 +44,4 @@ mod error_types;
 mod figure;
 mod options;
 mod writer;
+pub mod palettes;

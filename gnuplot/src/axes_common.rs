@@ -1375,6 +1375,35 @@ impl AxesCommonData
 		}
 		self.margins.write_out_commands(w);
 
+		let mut parse_custom_pallete = |entries: &[(f32, f32, f32, f32)]| {
+			if entries.is_empty()
+			{
+				panic!("Need at least 1 element in a custom palette");
+			}
+			write!(w, "set palette defined (");
+
+			let mut first = true;
+			let mut old_x = 0.0;
+			for &(x, r, g, b) in entries
+			{
+				if first
+				{
+					old_x = x;
+					first = false;
+				}
+				else
+				{
+					write!(w, ",");
+				}
+				assert!(x >= old_x, "The gray levels must be non-decreasing!");
+				old_x = x;
+
+				write!(w, "{:.12e} {:.12e} {:.12e} {:.12e}", x, r, g, b);
+			}
+
+			writeln!(w, ")");
+		};
+
 		match self.palette
 		{
 			Gray(gamma) =>
@@ -1399,35 +1428,8 @@ impl AxesCommonData
 					start, rev, sat, gamma
 				);
 			}
-			Custom(ref entries) =>
-			{
-				if entries.is_empty()
-				{
-					panic!("Need at least 1 element in a custom palette");
-				}
-				write!(w, "set palette defined (");
-
-				let mut first = true;
-				let mut old_x = 0.0;
-				for &(x, r, g, b) in entries
-				{
-					if first
-					{
-						old_x = x;
-						first = false;
-					}
-					else
-					{
-						write!(w, ",");
-					}
-					assert!(x >= old_x, "The gray levels must be non-decreasing!");
-					old_x = x;
-
-					write!(w, "{:.12e} {:.12e} {:.12e} {:.12e}", x, r, g, b);
-				}
-
-				writeln!(w, ")");
-			}
+			Custom(ref entries) => parse_custom_pallete(entries),
+			CustomStatic(entries) => parse_custom_pallete(entries),
 		}
 
 		self.x_axis.write_out_commands(w, version);
