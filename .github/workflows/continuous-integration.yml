@@ -1,0 +1,23 @@
+name: Tests
+on: [push, pull_request]
+jobs:
+    ubuntu_test:
+        name: Ubuntu tests
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 1
+            - name: Setup
+              run: |
+                  sudo apt-get install python3-pip --force-yes
+                  sudo pip3 install toml
+                  sudo apt-get install gnuplot
+            - name: Tests
+              run: |
+                  ./cargo_util.py --test
+                  ./gnuplot/target/debug/examples/example1 --no-show
+                  ./gnuplot/target/debug/examples/example2 --no-show
+                  ./gnuplot/target/debug/examples/example3 --no-show
+                  ./gnuplot/target/debug/examples/example4 --no-show
