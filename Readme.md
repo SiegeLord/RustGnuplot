@@ -2,12 +2,12 @@
 
 A Gnuplot controller written in Rust.
 
-[![Build Status](https://travis-ci.org/SiegeLord/RustGnuplot.png)](https://travis-ci.org/SiegeLord/RustGnuplot)
+![Build Status](https://github.com/SiegeLord/RustGnuplot/actions/workflows/continuous-integration.yml/badge.svg)
 [![](https://img.shields.io/crates/v/gnuplot.svg)](https://crates.io/crates/gnuplot)
 
 ## Documentation
 
-See [here](http://siegelord.github.io/RustGnuplot/doc/gnuplot/index.html)
+On [docs.rs](https://docs.rs/gnuplot/latest/gnuplot/)
 
 ## Examples
 
