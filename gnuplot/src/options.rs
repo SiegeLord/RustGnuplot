@@ -411,7 +411,7 @@ pub enum ContourStyle
 
 /// Specifies what sort of palette to use
 #[derive(Clone, Debug, PartialOrd, PartialEq)]
-pub enum PaletteType
+pub enum PaletteType<T>
 {
 	/// Use a gray palette with a specified gamma
 	Gray(f32),
@@ -425,25 +425,34 @@ pub enum PaletteType
 	/// element is the grayscale value that is mapped to the remaining three elements
 	/// which specify the red, green and blue components of the color.
 	/// The grayscale values must be non-decreasing. All values must range from 0 to 1.
-	Custom(Vec<(f32, f32, f32, f32)>),
-	/// A custom, compile-time defined palette
-	/// is specified by a sequence of 4-tuples (with at least one element). The first
-	/// element is the grayscale value that is mapped to the remaining three elements
-	/// which specify the red, green and blue components of the color.
-	/// The grayscale values must be non-decreasing. All values must range from 0 to 1.
-	CustomStatic(&'static [(f32, f32, f32, f32)]),
+	Custom(T),
+}
+
+impl<'l> OneWayOwned for PaletteType<&'l [(f32, f32, f32, f32)]>
+{
+	type Output = PaletteType<Vec<(f32, f32, f32, f32)>>;
+	fn to_one_way_owned(&self) -> Self::Output
+	{
+		match *self
+		{
+			Gray(v) => Gray(v),
+			Formula(v1, v2, v3) => Formula(v1, v2, v3),
+			CubeHelix(v1, v2, v3, v4) => CubeHelix(v1, v2, v3, v4),
+			Custom(v) => Custom(v.into()),
+		}
+	}
 }
 
 /// A gray palette
-pub const GRAY: PaletteType = Gray(1.0);
+pub const GRAY: PaletteType<&'static [(f32, f32, f32, f32)]> = Gray(1.0);
 /// Default Gnuplot palette
-pub const COLOR: PaletteType = Formula(7, 5, 15);
+pub const COLOR: PaletteType<&'static [(f32, f32, f32, f32)]> = Formula(7, 5, 15);
 /// Classic rainbow palette with terrible perceptual properties
-pub const RAINBOW: PaletteType = Formula(33, 13, 10);
+pub const RAINBOW: PaletteType<&'static [(f32, f32, f32, f32)]> = Formula(33, 13, 10);
 /// A black body palette
-pub const HOT: PaletteType = Formula(34, 35, 36);
+pub const HOT: PaletteType<&'static [(f32, f32, f32, f32)]> = Formula(34, 35, 36);
 /// A nice default for a cube helix
-pub const HELIX: PaletteType = CubeHelix(0.5, -0.8, 2.0, 1.0);
+pub const HELIX: PaletteType<&'static [(f32, f32, f32, f32)]> = CubeHelix(0.5, -0.8, 2.0, 1.0);
 
 /// Gnuplot version identifier. This is used to handle version-specific
 /// features.

@@ -110,7 +110,7 @@ fn example(c: Common)
 		.set_z_label("Z", &[])
 		.set_z_range(Fix(-1.0), Fix(1.0))
 		.set_z_ticks(Some((Fix(1.0), 1)), &[Mirror(false)], &[])
-		.set_palette(Custom(palette))
+		.set_palette(Custom(&palette))
 		.set_view(45.0, 45.0);
 
 	c.show(&mut fg, "example4_5");

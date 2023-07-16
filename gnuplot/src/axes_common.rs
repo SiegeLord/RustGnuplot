@@ -1210,7 +1210,7 @@ pub struct AxesCommonData
 	pub size: Option<Size>,
 	pub aspect_ratio: AutoOption<f64>,
 	pub margins: Margins,
-	pub palette: PaletteType,
+	pub palette: PaletteType<Vec<(f32, f32, f32, f32)>>,
 }
 
 impl Default for AxesCommonData
@@ -1241,7 +1241,7 @@ impl AxesCommonData
 			size: None,
 			aspect_ratio: Auto,
 			margins: Margins::new(),
-			palette: COLOR,
+			palette: COLOR.to_one_way_owned(),
 		};
 		ret.x2_axis.tick_type = TickType::None;
 		ret.y2_axis.tick_type = TickType::None;
@@ -1375,35 +1375,6 @@ impl AxesCommonData
 		}
 		self.margins.write_out_commands(w);
 
-		let mut parse_custom_pallete = |entries: &[(f32, f32, f32, f32)]| {
-			if entries.is_empty()
-			{
-				panic!("Need at least 1 element in a custom palette");
-			}
-			write!(w, "set palette defined (");
-
-			let mut first = true;
-			let mut old_x = 0.0;
-			for &(x, r, g, b) in entries
-			{
-				if first
-				{
-					old_x = x;
-					first = false;
-				}
-				else
-				{
-					write!(w, ",");
-				}
-				assert!(x >= old_x, "The gray levels must be non-decreasing!");
-				old_x = x;
-
-				write!(w, "{:.12e} {:.12e} {:.12e} {:.12e}", x, r, g, b);
-			}
-
-			writeln!(w, ")");
-		};
-
 		match self.palette
 		{
 			Gray(gamma) =>
@@ -1428,8 +1399,35 @@ impl AxesCommonData
 					start, rev, sat, gamma
 				);
 			}
-			Custom(ref entries) => parse_custom_pallete(entries),
-			CustomStatic(entries) => parse_custom_pallete(entries),
+			Custom(ref entries) =>
+			{
+				if entries.is_empty()
+				{
+					panic!("Need at least 1 element in a custom palette");
+				}
+				write!(w, "set palette defined (");
+
+				let mut first = true;
+				let mut old_x = 0.0;
+				for &(x, r, g, b) in entries
+				{
+					if first
+					{
+						old_x = x;
+						first = false;
+					}
+					else
+					{
+						write!(w, ",");
+					}
+					assert!(x >= old_x, "The gray levels must be non-decreasing!");
+					old_x = x;
+
+					write!(w, "{:.12e} {:.12e} {:.12e} {:.12e}", x, r, g, b);
+				}
+
+				writeln!(w, ")");
+			}
 		}
 
 		self.x_axis.write_out_commands(w, version);
@@ -2199,9 +2197,9 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `palette` - What palette type to use
-	fn set_palette(&mut self, palette: PaletteType) -> &mut Self
+	fn set_palette(&mut self, palette: PaletteType<&[(f32, f32, f32, f32)]>) -> &mut Self
 	{
-		self.get_common_data_mut().palette = palette;
+		self.get_common_data_mut().palette = palette.to_one_way_owned();
 		self
 	}
 }
