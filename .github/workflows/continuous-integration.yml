@@ -13,6 +13,7 @@ jobs:
               run: |
                    rustup toolchain install nightly
                    rustup default nightly
+                   rustup component add rustfmt --toolchain nightly-x86_64-unknown-linux-gnu
             - name: Setup
               run: |
                   sudo apt-get install python3-pip --force-yes
