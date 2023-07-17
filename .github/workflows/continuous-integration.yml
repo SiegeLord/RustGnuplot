@@ -13,6 +13,7 @@ jobs:
               uses: actions-rs/toolchain@v1
               with:
                   toolchain: nightly
+                  components: rustfmt
                   override: true
             - name: Setup
               run: |
