@@ -10,11 +10,10 @@ jobs:
               with:
                   fetch-depth: 1
             - name: Install Rust
-              uses: actions-rs/toolchain@v1
-              with:
-                  toolchain: nightly
-                  components: rustfmt
-                  override: true
+              run: |
+                   rustup toolchain install nightly
+                   rustup component add rustfmt
+                   rustup update
             - name: Setup
               run: |
                   sudo apt-get install python3-pip --force-yes
