@@ -399,7 +399,10 @@ impl Axes3D
 		};
 	}
 
-	pub(crate) fn write_out(&self, w: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion)
+	pub(crate) fn write_out(
+		&self, data_directory: Option<&str>, w: &mut dyn Writer, auto_layout: bool,
+		version: GnuplotVersion,
+	)
 	{
 		fn clamp<T: PartialOrd>(val: T, min: T, max: T) -> T
 		{
@@ -550,7 +553,8 @@ impl Axes3D
 			v.write_out(w)
 		};
 		self.common.write_grid_options(w, &grid_axes, version);
-		self.common.write_out_elements("splot", w, version);
+		self.common
+			.write_out_elements("splot", data_directory, w, version);
 	}
 }
 

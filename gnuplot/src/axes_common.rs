@@ -14,6 +14,8 @@ use crate::options::*;
 use crate::util::{escape, OneWayOwned};
 use crate::writer::*;
 use std::borrow::Borrow;
+use std::fs;
+use std::path;
 
 pub struct PlotElement
 {
@@ -221,7 +223,7 @@ impl PlotElement
 		}
 	}
 
-	fn write_args(&self, writer: &mut dyn Writer, version: GnuplotVersion)
+	fn write_args(&self, source: &str, writer: &mut dyn Writer, version: GnuplotVersion)
 	{
 		let options = &self.options;
 		match self.source_type
@@ -230,8 +232,8 @@ impl PlotElement
 			{
 				write!(
 					writer,
-					r#" "-" binary endian=little record={} format="%float64" using "#,
-					self.num_rows
+					r#" "{}" binary endian=little record={} format="%float64" using "#,
+					source, self.num_rows
 				);
 
 				let mut col_idx = 1;
@@ -249,8 +251,8 @@ impl PlotElement
 			{
 				write!(
 					writer,
-					r#" "-" binary endian=little array=({},{}) format="%float64" "#,
-					self.num_cols, self.num_rows
+					r#" "{}" binary endian=little array=({},{}) format="%float64" "#,
+					source, self.num_cols, self.num_rows
 				);
 
 				if let SizedArray(x1, y1, x2, y2) = self.source_type
@@ -1213,14 +1215,6 @@ pub struct AxesCommonData
 	pub palette: PaletteType<Vec<(f32, f32, f32, f32)>>,
 }
 
-impl Default for AxesCommonData
-{
-	fn default() -> Self
-	{
-		Self::new()
-	}
-}
-
 impl AxesCommonData
 {
 	pub fn new() -> AxesCommonData
@@ -1442,12 +1436,25 @@ impl AxesCommonData
 		}
 	}
 
-	pub fn write_out_elements(&self, cmd: &str, writer: &mut dyn Writer, version: GnuplotVersion)
+	pub fn write_out_elements(
+		&self, cmd: &str, data_directory: Option<&str>, writer: &mut dyn Writer,
+		version: GnuplotVersion,
+	)
 	{
+		if let Some(data_directory) = data_directory
+		{
+			for (i, e) in self.elems.iter().enumerate()
+			{
+				let filename = path::Path::new(data_directory).join(format!("{i}.bin"));
+				let mut file = fs::File::create(&filename).unwrap();
+				e.write_data(&mut file);
+			}
+		}
+
 		write!(writer, "{}", cmd);
 
 		let mut first = true;
-		for e in self.elems.iter()
+		for (i, e) in self.elems.iter().enumerate()
 		{
 			if e.num_rows == 0
 			{
@@ -1457,15 +1464,30 @@ impl AxesCommonData
 			{
 				write!(writer, ",");
 			}
-			e.write_args(writer, version);
+			let source = if let Some(data_directory) = data_directory
+			{
+				path::Path::new(data_directory)
+					.join(format!("{i}.bin"))
+					.to_str()
+					.unwrap()
+					.to_string()
+			}
+			else
+			{
+				"-".into()
+			};
+			e.write_args(&source, writer, version);
 			first = false;
 		}
 
 		writeln!(writer);
 
-		for e in self.elems.iter()
+		if data_directory.is_none()
 		{
-			e.write_data(writer);
+			for e in self.elems.iter()
+			{
+				e.write_data(writer);
+			}
 		}
 	}
 

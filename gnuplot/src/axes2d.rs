@@ -796,7 +796,8 @@ impl Axes2D
 	}
 
 	pub(crate) fn write_out(
-		&self, writer: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion,
+		&self, data_directory: Option<&str>, writer: &mut dyn Writer, auto_layout: bool,
+		version: GnuplotVersion,
 	)
 	{
 		self.common.write_out_commands(writer, auto_layout, version);
@@ -823,7 +824,8 @@ impl Axes2D
 		{
 			l.write_out(writer)
 		};
-		self.common.write_out_elements("plot", writer, version);
+		self.common
+			.write_out_elements("plot", data_directory, writer, version);
 	}
 
 	pub(crate) fn reset_state(&self, writer: &mut dyn Writer)

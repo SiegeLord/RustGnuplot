@@ -16,6 +16,7 @@ use std::io::{BufWriter, Write};
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
 use std::str;
+use tempfile;
 
 enum AxesVariant
 {
@@ -26,12 +27,15 @@ enum AxesVariant
 
 impl AxesVariant
 {
-	fn write_out(&self, writer: &mut dyn Writer, auto_layout: bool, version: GnuplotVersion)
+	fn write_out(
+		&self, data_directory: Option<&str>, writer: &mut dyn Writer, auto_layout: bool,
+		version: GnuplotVersion,
+	)
 	{
 		match *self
 		{
-			Axes2DType(ref a) => a.write_out(writer, auto_layout, version),
-			Axes3DType(ref a) => a.write_out(writer, auto_layout, version),
+			Axes2DType(ref a) => a.write_out(data_directory, writer, auto_layout, version),
+			Axes3DType(ref a) => a.write_out(data_directory, writer, auto_layout, version),
 			NewPage =>
 			{
 				writeln!(writer, "unset multiplot");
@@ -131,6 +135,8 @@ pub struct Figure
 	gnuplot: Option<Child>,
 	version: Option<GnuplotVersion>,
 	multiplot_options: Option<MultiplotOptions>,
+	data_directory: Option<String>,
+	data_tempdir: Option<tempfile::TempDir>,
 }
 
 impl Default for GnuplotVersion
@@ -154,6 +160,7 @@ impl Figure
 	/// Creates a new figure.
 	pub fn new() -> Figure
 	{
+		let data_tempdir = tempfile::tempdir().ok();
 		Figure {
 			axes: Vec::new(),
 			terminal: "".into(),
@@ -164,7 +171,39 @@ impl Figure
 			pre_commands: "".into(),
 			version: None,
 			multiplot_options: None,
+			data_directory: data_tempdir
+				.as_ref()
+				.and_then(|d| d.path().to_str())
+				.map(|s| s.into()),
+			data_tempdir: data_tempdir,
 		}
+	}
+
+	/// Set the directory where to write the data.
+	///
+	/// Gnuplot needs to reify the data before it can be plotted. By default, this is done by
+	/// writing out data files into a temporary directory. This behavior can be restored by passing
+	/// in `Some("".into())`.
+	///
+	/// This can be set to `None`, in which case the data is written inline, without a temporary
+	/// directory. Note that this has somewhat spotty support in gnuplot, so should probably be
+	/// avoided.
+	pub fn set_data_directory(&mut self, data_directory: Option<String>) -> &mut Self
+	{
+		self.data_directory = data_directory;
+		if self
+			.data_directory
+			.as_ref()
+			.map(|s| s == "")
+			.unwrap_or(false)
+		{
+			self.data_directory = self
+				.data_tempdir
+				.as_ref()
+				.and_then(|d| d.path().to_str())
+				.map(|s| s.into())
+		}
+		self
 	}
 
 	/// Sets the terminal for gnuplot to use, as well as the file to output the figure to.
@@ -643,13 +682,24 @@ impl Figure
 		writeln!(w, "set multiplot{}", multiplot_options_string);
 
 		let mut prev_e: Option<&AxesVariant> = None;
-		for e in self.axes.iter()
+		for (i, e) in self.axes.iter().enumerate()
 		{
 			if let Some(prev_e) = prev_e
 			{
 				prev_e.reset_state(w);
 			}
+			let out_path = self.data_directory.as_ref().and_then(|d| {
+				Path::new(&d)
+					.join(i.to_string())
+					.to_str()
+					.map(|s| s.to_string())
+			});
+			if let Some(out_path) = out_path.as_ref()
+			{
+				std::fs::create_dir_all(out_path).ok();
+			}
 			e.write_out(
+				out_path.as_deref(),
 				w,
 				self.multiplot_options.is_some(),
 				self.get_gnuplot_version(),

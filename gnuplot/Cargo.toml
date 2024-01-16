@@ -122,3 +122,4 @@ path = "examples/text.rs"
 
 [dependencies]
 byteorder = "1.4.3"
+tempfile = "3.9"
