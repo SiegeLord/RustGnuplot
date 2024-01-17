@@ -156,7 +156,7 @@ fn example(c: Common)
 			y1,
 			x_err.clone(),
 			&[
-				Caption(r"x\\_error\\_lines"),
+				Caption(r"x\_error\_lines"),
 				LineWidth(2.0),
 				PointSymbol('O'),
 				Color("red"),
@@ -167,7 +167,7 @@ fn example(c: Common)
 			y2,
 			y_err.clone(),
 			&[
-				Caption(r"y\\_error\\_lines"),
+				Caption(r"y\_error\_lines"),
 				LineWidth(2.0),
 				PointSymbol('S'),
 				Color("blue"),
@@ -178,7 +178,7 @@ fn example(c: Common)
 			y3,
 			x_err,
 			&[
-				Caption(r"x\\_error\\_bars"),
+				Caption(r"x\_error\_bars"),
 				PointSymbol('T'),
 				Color("cyan"),
 			],
@@ -188,7 +188,7 @@ fn example(c: Common)
 			y4,
 			y_err,
 			&[
-				Caption(r"y\\_error\\_bars"),
+				Caption(r"y\_error\_bars"),
 				PointSymbol('R'),
 				Color("green"),
 			],
