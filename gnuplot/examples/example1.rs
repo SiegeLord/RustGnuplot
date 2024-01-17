@@ -177,21 +177,13 @@ fn example(c: Common)
 			x,
 			y3,
 			x_err,
-			&[
-				Caption(r"x\_error\_bars"),
-				PointSymbol('T'),
-				Color("cyan"),
-			],
+			&[Caption(r"x\_error\_bars"), PointSymbol('T'), Color("cyan")],
 		)
 		.y_error_bars(
 			x,
 			y4,
 			y_err,
-			&[
-				Caption(r"y\_error\_bars"),
-				PointSymbol('R'),
-				Color("green"),
-			],
+			&[Caption(r"y\_error\_bars"), PointSymbol('R'), Color("green")],
 		)
 		.set_title("Error fg1.5", &[]);
 
