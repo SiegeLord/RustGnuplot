@@ -639,47 +639,50 @@ impl Figure
 			}
 		);
 
-		let mut multiplot_options_string = "".to_string();
-		if let Some(m) = &self.multiplot_options
+		if self.axes.len() > 1 || self.multiplot_options.is_some()
 		{
-			let fill_order = match m.fill_order
+			let mut multiplot_options_string = "".to_string();
+			if let Some(m) = &self.multiplot_options
 			{
-				None => "",
-				Some(fo) => match fo
+				let fill_order = match m.fill_order
 				{
-					MultiplotFillOrder::RowsFirst => " rowsfirst",
-					MultiplotFillOrder::ColumnsFirst => " columnsfirst",
-				},
-			};
+					None => "",
+					Some(fo) => match fo
+					{
+						MultiplotFillOrder::RowsFirst => " rowsfirst",
+						MultiplotFillOrder::ColumnsFirst => " columnsfirst",
+					},
+				};
 
-			let fill_direction = match m.fill_direction
-			{
-				None => "",
-				Some(fd) => match fd
+				let fill_direction = match m.fill_direction
 				{
-					MultiplotFillDirection::Downwards => " downwards",
-					MultiplotFillDirection::Upwards => " upwards",
-				},
-			};
+					None => "",
+					Some(fd) => match fd
+					{
+						MultiplotFillDirection::Downwards => " downwards",
+						MultiplotFillDirection::Upwards => " upwards",
+					},
+				};
 
-			let title = m
-				.title
-				.as_ref()
-				.map_or("".to_string(), |t| format!(" title \"{}\"", escape(t)));
-			let scale = m.scale_x.map_or("".to_string(), |s| {
-				format!(" scale {},{}", s, m.scale_y.unwrap())
-			});
-			let offset = m.offset_x.map_or("".to_string(), |o| {
-				format!(" offset {},{}", o, m.offset_y.unwrap())
-			});
+				let title = m
+					.title
+					.as_ref()
+					.map_or("".to_string(), |t| format!(" title \"{}\"", escape(t)));
+				let scale = m.scale_x.map_or("".to_string(), |s| {
+					format!(" scale {},{}", s, m.scale_y.unwrap())
+				});
+				let offset = m.offset_x.map_or("".to_string(), |o| {
+					format!(" offset {},{}", o, m.offset_y.unwrap())
+				});
 
-			multiplot_options_string = format!(
-				" layout {},{}{}{}{}{}{}",
-				m.rows, m.columns, fill_order, fill_direction, title, scale, offset
-			);
+				multiplot_options_string = format!(
+					" layout {},{}{}{}{}{}{}",
+					m.rows, m.columns, fill_order, fill_direction, title, scale, offset
+				);
+			}
+
+			writeln!(w, "set multiplot{}", multiplot_options_string);
 		}
-
-		writeln!(w, "set multiplot{}", multiplot_options_string);
 
 		let mut prev_e: Option<&AxesVariant> = None;
 		for (i, e) in self.axes.iter().enumerate()
@@ -707,7 +710,10 @@ impl Figure
 			prev_e = Some(e);
 		}
 
-		writeln!(w, "unset multiplot");
+		if self.axes.len() > 1 || self.multiplot_options.is_some()
+		{
+			writeln!(w, "unset multiplot");
+		}
 		writeln!(w, "{}", &self.post_commands);
 		self
 	}
