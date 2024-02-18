@@ -75,6 +75,9 @@ pub(crate) fn escape(s: &str) -> String
 			'\n' => res.push_str(r"\n"),
 			'\t' => res.push_str(r"\t"),
 			'"' => res.push_str(r#"\""#),
+			// gnuplot uses ` for command substitution, seems like a
+			// terrible idea.
+			'`' => res.push_str(r"\`"),
 			c => res.push(c),
 		}
 	}
@@ -89,4 +92,5 @@ fn escape_test()
 	assert_eq!(r#"\\\""#, escape(r#"\""#));
 	assert_eq!(r#"\"\""#, escape(r#""""#));
 	assert_eq!(r"\n", escape("\n"));
+	assert_eq!(r"\`", escape("`"));
 }
