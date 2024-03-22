@@ -1466,11 +1466,12 @@ impl AxesCommonData
 			}
 			let source = if let Some(data_directory) = data_directory
 			{
-				path::Path::new(data_directory)
-					.join(format!("{i}.bin"))
-					.to_str()
-					.unwrap()
-					.to_string()
+				escape(
+					path::Path::new(data_directory)
+						.join(format!("{i}.bin"))
+						.to_str()
+						.unwrap(),
+				)
 			}
 			else
 			{
