@@ -1395,9 +1395,9 @@ impl AxesCommonData
 			}
 			Custom(ref entries) =>
 			{
-				if entries.is_empty()
+				if entries.len() < 2
 				{
-					panic!("Need at least 1 element in a custom palette");
+					panic!("Need at least 2 elements in a custom palette");
 				}
 				write!(w, "set palette defined (");
 

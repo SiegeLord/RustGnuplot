@@ -421,7 +421,7 @@ pub enum PaletteType<T>
 	/// Use a cube helix palette, with a certain start (in radians), cycles, saturation and gamma.
 	CubeHelix(f32, f32, f32, f32),
 	/// A custom palette
-	/// is specified by a sequence of 4-tuples (with at least one element). The first
+	/// is specified by a sequence of 4-tuples (with at least two elements). The first
 	/// element is the grayscale value that is mapped to the remaining three elements
 	/// which specify the red, green and blue components of the color.
 	/// The grayscale values must be non-decreasing. All values must range from 0 to 1.
