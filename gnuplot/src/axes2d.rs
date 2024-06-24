@@ -607,6 +607,36 @@ impl Axes2D
 		self
 	}
 
+	// Plot a polygon given coordinates of its vertices.
+	//
+	// # Arguments
+	// * `x` - x coordinates of the vertices
+	// * `y` - y coordinates of the vertices
+	// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element. The relevant options are:
+	//	   * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	//	   * `FillAlpha` - Sets the transparency of the filled region
+	//	   * `Color` - Sets the color of the filled region (and the border, unless `BorderColor` is set)
+	//	   * `BorderColor` - Sets the color of the border
+	//	   * `FillPattern` - Sets the fill pattern
+	pub fn polygon<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+	>(
+		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
+	) -> &'l mut Self
+	{
+		self.common.elems.push(PlotElement::new_plot2(
+			Polygons,
+			x,
+			y,
+			options.to_one_way_owned(),
+		));
+		self
+	}
+
 	/// Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
 	/// Boxes start at the x-axis and go towards the y value of the datapoint.
 	/// # Arguments
