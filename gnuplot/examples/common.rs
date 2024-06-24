@@ -1,4 +1,5 @@
 // This file is released into Public Domain.
+#![allow(dead_code)]
 use argparse_rs::*;
 use gnuplot::*;
 use std::env;

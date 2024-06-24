@@ -6,7 +6,6 @@ use self::DataSourceType::*;
 
 pub use self::LabelType::*;
 pub use self::PlotType::*;
-pub use self::TickAxis::*;
 use crate::coordinates::*;
 
 use crate::datatype::*;
@@ -305,6 +304,7 @@ impl PlotElement
 			XErrorBars => "xerrorbars",
 			YErrorBars => "yerrorbars",
 			FillBetween => "filledcurves",
+			Polygons => "polygons",
 			Boxes => "boxes",
 			BoxAndWhisker => "candlestick",
 			Pm3D => "pm3d",
@@ -352,13 +352,15 @@ impl PlotElement
 
 			if !is_pattern
 			{
-				writer.write_str("transparent solid ");
+				writer.write_str("transparent solid");
+				let mut alpha = 1.;
 				first_opt! {self.options,
 					FillAlpha(a) =>
 					{
-						write!(writer, "{:.12e}", a);
+						alpha = a;
 					}
 				}
+				write!(writer, " {:.12e}", alpha);
 			}
 
 			if self.plot_type.is_line()
@@ -725,6 +727,7 @@ pub enum PlotType
 	XErrorBars,
 	YErrorBars,
 	FillBetween,
+	Polygons,
 	Boxes,
 	BoxAndWhisker,
 	Pm3D,
@@ -737,7 +740,7 @@ impl PlotType
 	{
 		matches!(
 			*self,
-			Lines | LinesPoints | XErrorLines | Boxes | YErrorLines | BoxAndWhisker
+			Lines | LinesPoints | XErrorLines | Boxes | YErrorLines | BoxAndWhisker | Polygons
 		)
 	}
 
@@ -751,7 +754,7 @@ impl PlotType
 
 	fn is_fill(&self) -> bool
 	{
-		matches!(*self, Boxes | FillBetween | BoxAndWhisker)
+		matches!(*self, Boxes | FillBetween | BoxAndWhisker | Polygons)
 	}
 }
 

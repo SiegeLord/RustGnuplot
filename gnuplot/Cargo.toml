@@ -120,6 +120,11 @@ path = "examples/multiple_axes.rs"
 name = "text"
 path = "examples/text.rs"
 
+[[example]]
+
+name = "polygons"
+path = "examples/polygons.rs"
+
 [dependencies]
 byteorder = "1.4.3"
 tempfile = "3.9"
