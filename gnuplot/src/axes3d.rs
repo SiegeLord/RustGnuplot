@@ -435,6 +435,7 @@ impl Axes3D
 				}
 			);
 			writeln!(w);
+			writeln!(w, "set pm3d border retrace");
 
 			match self.contour_label
 			{
@@ -443,11 +444,26 @@ impl Axes3D
 				{
 					if s.is_empty()
 					{
-						writeln!(w, "unset clabel")
+						if version.major >= 6
+						{
+							writeln!(w, "set cntrlabel onecolor")
+						}
+						else
+						{
+							writeln!(w, "unset clabel")
+						}
 					}
 					else
 					{
-						writeln!(w, r#"set clabel "{}""#, s)
+						println!("{}", version.major);
+						if version.major >= 6
+						{
+							writeln!(w, r#"set cntrlabel "{}""#, s)
+						}
+						else
+						{
+							writeln!(w, r#"set clabel "{}""#, s)
+						}
 					}
 				}
 			};

@@ -400,7 +400,8 @@ impl Figure
 		{
 			let output = Command::new("gnuplot").arg("--version").output()?;
 
-			if let Ok(version_string) = str::from_utf8(&output.stdout)
+			for version_string in [str::from_utf8(&output.stdout).ok().map(|s| s.to_string()), from_utf16(&output.stdout)].iter().flatten()
+			//~ if let Ok(version_string) = 
 			{
 				let parts: Vec<_> = version_string.split(|c| c == ' ' || c == '.').collect();
 				if parts.len() > 2 && parts[0] == "gnuplot"
@@ -409,6 +410,7 @@ impl Figure
 						(parts[1].parse::<i32>(), parts[2].parse::<i32>())
 					{
 						self.version = Some(GnuplotVersion { major, minor });
+						break;
 					}
 				}
 			}
@@ -741,6 +743,14 @@ impl Drop for Figure
 	{
 		self.close();
 	}
+}
+
+fn from_utf16(bytes: &[u8]) -> Option<String>
+{
+	assert!(bytes.len() % 2 == 0);
+	let size = bytes.len() / 2;
+	let iter = (0..size).map(|i| u16::from_le_bytes([bytes[2 * i], bytes[2 * i + 1]]));
+	std::char::decode_utf16(iter).collect::<Result<String, _>>().ok()
 }
 
 #[test]
