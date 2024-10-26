@@ -316,22 +316,16 @@ impl PlotElement
 		{
 			if let FillBetween = self.plot_type
 			{
-				let mut found = false;
 				first_opt! {options,
 					FillRegion(d) =>
 					{
-						found = true;
-						writer.write_str(match d
+						match d
 						{
-							Above => " above",
-							Below => " below",
-							Between => " closed",
-						});
+							Above => {writer.write_str(" above");},
+							Below => {writer.write_str(" below");},
+							Between => (),  // This is the default behavior.
+						}
 					}
-				}
-				if !found
-				{
-					writer.write_str(" closed");
 				}
 			}
 
