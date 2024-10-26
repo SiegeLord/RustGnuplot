@@ -326,6 +326,7 @@ impl PlotElement
 							Above => " above",
 							Below => " below",
 							Between => " closed",
+							BetweenTwo => " between",
 						});
 					}
 				}

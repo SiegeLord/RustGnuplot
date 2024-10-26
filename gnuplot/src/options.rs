@@ -122,6 +122,7 @@ pub enum FillRegionType
 	Above,
 	Below,
 	Between,
+	BetweenTwo,
 }
 
 /// An enumeration of possible text and label alignments
