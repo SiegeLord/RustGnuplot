@@ -64,7 +64,10 @@ fn example(c: Common)
 			x,
 			y1.map(|&y| y * 0.85 - 1.0),
 			y1.map(|&y| y * 1.15 + 1.0),
-			&[Color("#aaaaff")],
+			&[
+				Color("#aaaaff"),
+				FillRegion(Below),
+			],
 		)
 		.lines(
 			x,
@@ -218,12 +221,12 @@ fn example(c: Common)
 		)
 		.fill_between(
 			x,
-			y2,
 			y3,
+			y2,
 			&[
 				Color("blue"),
 				FillAlpha(0.5),
-				FillRegion(Between),
+				FillRegion(Below),
 				Caption("Between C and B"),
 			],
 		)
@@ -237,7 +240,15 @@ fn example(c: Common)
 				Caption("A"),
 			],
 		)
-		.lines(x, y2, &[Color("black"), LineWidth(2.0), Caption("C")])
+		.lines(
+			x,
+			y2,
+			&[
+				Color("black"),
+				LineWidth(2.0),
+				Caption("C"),
+			],
+		)
 		.lines(
 			x,
 			y3,
