@@ -10,3 +10,5 @@ gnuplot/*.gnuplot
 /*.pdf
 /*.gnuplot
 .idea
+venv
+test_outputs

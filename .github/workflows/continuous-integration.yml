@@ -19,10 +19,15 @@ jobs:
                   sudo apt-get install python3-pip --force-yes
                   sudo pip3 install toml
                   sudo apt-get install gnuplot
+                  sudo apt install virtualenv
             - name: Tests
               run: |
+                  . setup_venv.sh
                   ./cargo_util.py --test
-                  ./gnuplot/target/debug/examples/example1 --no-show
-                  ./gnuplot/target/debug/examples/example2 --no-show
-                  ./gnuplot/target/debug/examples/example3 --no-show
-                  ./gnuplot/target/debug/examples/example4 --no-show
+                  ./cargo_util.py --test_outputs
+            - name: Upload test outputs
+              if: ${{ always() }}
+              uses: actions/upload-artifact@v4
+              with:
+                  name: test_outputs
+                  path: test_outputs
