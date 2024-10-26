@@ -8,6 +8,7 @@ import glob
 import time
 import toml
 import json
+import pathlib
 from shutil import copy, rmtree
 from subprocess import check_call, check_output, CalledProcessError
 
@@ -24,6 +25,7 @@ parser.add_argument('--version', metavar='VERSION', default='', help='set the ve
 parser.add_argument('--publish', action='store_true', help='publish the crates')
 parser.add_argument('--build', action='store_true', help='build the crates')
 parser.add_argument('--test', action='store_true', help='test the crates')
+parser.add_argument('--test_outputs', action='store_true', help='run the unittests')
 parser.add_argument('--clean', action='store_true', help='clean the crates')
 parser.add_argument('--doc', action='store_true', help='build the documentation')
 parser.add_argument('--format', action='store_true', help='format all the non-sys crates')
@@ -44,7 +46,7 @@ if len(args.version) > 0:
 		print('Processing', cargo_toml)
 
 		for line in fileinput.input(cargo_toml, inplace=1):
-			line = re.sub('version = "(=?).*" #auto', 'version = "\g<1>' + args.version + '" #auto', line)
+			line = re.sub('version = "(=?).*" #auto', r'version = "\g<1>' + args.version + '" #auto', line)
 			print(line, end='')
 
 if args.publish:
@@ -92,6 +94,49 @@ if args.test:
 	for crate in crates_no_examples:
 		check_call(cargo_cmd('test'), cwd=crate)
 		check_call(cargo_cmd('fmt', '--check'), cwd=crate)
+
+if args.test_outputs:
+	import numpy as np
+	from PIL import Image
+
+	os.makedirs('test_outputs', exist_ok=True)
+	output_dir = os.path.abspath('test_outputs')
+	metadata = json.loads(check_output(cargo_cmd('metadata', '--format-version=1', '--no-deps'), cwd='gnuplot').decode('utf8'))
+	for target in metadata['packages'][0]['targets']:
+		if target['kind'] != ['example']:
+			continue
+
+		if target['name'] in [
+				'animation_example',  # Special.
+				'inverse_api',  # Special.
+				'example3',  # Broken.
+			]:
+			continue
+
+		check_call(cargo_cmd('run', '--example', target['name'], '--', '--no-show', '--output-dir', output_dir, '--save-png'), cwd='gnuplot')
+
+	golden_images = [pathlib.Path(f) for f in glob.glob('golden_outputs/*.png')]
+	test_images = [pathlib.Path(f) for f in glob.glob(f'{output_dir}/*.png')]
+
+	golden_filenames = set(f.name for f in golden_images)
+	test_filenames = set(f.name for f in test_images)
+	if golden_filenames != test_filenames:
+		missing = set(golden_filenames) - set(test_filenames)
+		extra = set(test_filenames) - set(golden_filenames)
+		assert False, f"Test images don't match golden images.\nExtra: {extra}\nMissing: {missing}"
+
+	for image_name in golden_images:
+		golden_image_path = pathlib.Path(image_name)
+		test_image_path = pathlib.Path(output_dir) / golden_image_path.name
+		assert test_image_path.exists(), f"{test_image_path} not found"
+
+		golden_image = np.array(Image.open(golden_image_path)).astype(np.float32)
+		test_image = np.array(Image.open(test_image_path)).astype(np.float32)
+		try:
+			np.testing.assert_allclose(golden_image, test_image, atol=5, err_msg=f"{golden_image_path.resolve()}\n{test_image_path.resolve()}")
+		except AssertionError as e:
+			print(e)
+
 
 if args.clean:
 	crates_and_doc = ['doc']

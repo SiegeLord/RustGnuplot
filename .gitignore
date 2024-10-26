@@ -10,3 +10,6 @@ gnuplot/*.gnuplot
 /*.pdf
 /*.gnuplot
 .idea
+venv
+golden_outputs
+test_outputs
