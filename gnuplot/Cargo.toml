@@ -1,7 +1,7 @@
 [package]
 
 name = "gnuplot"
-version = "0.0.44" #auto
+version = "0.0.45" #auto
 license = "LGPL-3.0"
 repository = "https://github.com/SiegeLord/RustGnuplot"
 documentation = "http://siegelord.github.io/RustGnuplot/doc/gnuplot/index.html"
