@@ -797,6 +797,93 @@ impl Axes2D
 		self
 	}
 
+	/// Plot 2D rectangular boxes - usually used for error bars - using specified by width (x_delta) and height (y_delta).
+	///
+	/// # Arguments
+	/// * `x` - x values (horizontal center of the box)
+	/// * `y` - y values (vertical center of the box)
+	/// * `x_delta` - Error in x (horizontal half-width of the box)
+	/// * `y_delta` - Error in y (vertical half-width of the box)
+	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `LineWidth` - Sets the width of the border
+	///     * `LineStyle` - Sets the style of the border
+	///     * `BorderColor` - Sets the color of the border
+	///     * `Color` - Sets the color of the box fill
+	///     * `FillAlpha` - Sets the transparency of the box fill
+	pub fn box_xy_error_delta<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+		TXDelta: DataType,
+		XDelta: IntoIterator<Item = TXDelta>,
+		TYDelta: DataType,
+		YDelta: IntoIterator<Item = TYDelta>,
+	>(
+		&'l mut self, x: X, y: Y, x_delta: XDelta, y_delta: YDelta, options: &[PlotOption<&str>],
+	) -> &'l mut Self
+	{
+		self.common.elems.push(PlotElement::new_plot4(
+			BoxXYError,
+			x,
+			y,
+			x_delta,
+			y_delta,
+			options.to_one_way_owned(),
+		));
+		self
+	}
+
+	/// Plot 2D rectangular boxes - usually used for error bars - using specified low and high limits for x and y.
+	///
+	/// # Arguments
+	/// * `x` - x values (horizontal center of the box)
+	/// * `y` - y values (vertical center of the box)
+	/// * `x_low` - Horizontal lower limit of the box
+	/// * `x_high` - Horizontal upper limit of the box
+	/// * `y_low` - Vertical lower limit of the box
+	/// * `y_high` - Vertical upper limit of the box
+	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `LineWidth` - Sets the width of the border
+	///     * `LineStyle` - Sets the style of the border
+	///     * `BorderColor` - Sets the color of the border
+	///     * `Color` - Sets the color of the box fill
+	///     * `FillAlpha` - Sets the transparency of the box fill
+	pub fn box_xy_error_low_high<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+		TXLow: DataType,
+		XLow: IntoIterator<Item = TXLow>,
+		TXHigh: DataType,
+		XHigh: IntoIterator<Item = TXHigh>,
+		TYLow: DataType,
+		YLow: IntoIterator<Item = TYLow>,
+		TYHigh: DataType,
+		YHigh: IntoIterator<Item = TYHigh>,
+	>(
+		&'l mut self, x: X, y: Y, x_low: XLow, x_high: XHigh, y_low: YLow, y_high: YHigh,
+		options: &[PlotOption<&str>],
+	) -> &'l mut Self
+	{
+		self.common.elems.push(PlotElement::new_plot6(
+			BoxXYError,
+			x,
+			y,
+			x_low,
+			x_high,
+			y_low,
+			y_high,
+			options.to_one_way_owned(),
+		));
+		self
+	}
+
 	/// Draws an image from a rectangular array of data by connecting the individual datapoints with polygons.
 	///
 	/// #Arguments:

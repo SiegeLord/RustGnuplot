@@ -92,6 +92,46 @@ impl PlotElement
 		}
 	}
 
+	pub fn new_plot4<T1, X1, T2, X2, T3, X3, T4, X4>(
+		plot_type: PlotType, x1: X1, x2: X2, x3: X3, x4: X4, options: Vec<PlotOption<String>>,
+	) -> PlotElement
+	where
+		T1: DataType,
+		X1: IntoIterator<Item = T1>,
+		T2: DataType,
+		X2: IntoIterator<Item = T2>,
+		T3: DataType,
+		X3: IntoIterator<Item = T3>,
+		T4: DataType,
+		X4: IntoIterator<Item = T4>,
+	{
+		let mut num_rows = 0;
+		let mut data = vec![];
+		// TODO: Reserve.
+		for (((x1, x2), x3), x4) in x1
+			.into_iter()
+			.zip(x2.into_iter())
+			.zip(x3.into_iter())
+			.zip(x4.into_iter())
+		{
+			data.push(x1.get());
+			data.push(x2.get());
+			data.push(x3.get());
+			data.push(x4.get());
+			num_rows += 1;
+		}
+
+		PlotElement {
+			data,
+			num_rows,
+			num_cols: 4,
+			plot_type,
+			source_type: Record,
+			is_3d: false,
+			options,
+		}
+	}
+
 	pub fn new_plot5<T1, X1, T2, X2, T3, X3, T4, X4, T5, X5>(
 		plot_type: PlotType, x1: X1, x2: X2, x3: X3, x4: X4, x5: X5,
 		options: Vec<PlotOption<String>>,
@@ -307,6 +347,7 @@ impl PlotElement
 			Polygons => "polygons",
 			Boxes => "boxes",
 			BoxAndWhisker => "candlestick",
+			BoxXYError => "boxxyerror",
 			Pm3D => "pm3d",
 			Image => "image",
 		};
@@ -724,6 +765,7 @@ pub enum PlotType
 	Polygons,
 	Boxes,
 	BoxAndWhisker,
+	BoxXYError,
 	Pm3D,
 	Image,
 }
@@ -734,7 +776,12 @@ impl PlotType
 	{
 		matches!(
 			*self,
-			Lines | LinesPoints | XErrorLines | Boxes | YErrorLines | BoxAndWhisker | Polygons
+			Lines
+				| LinesPoints
+				| XErrorLines
+				| Boxes | YErrorLines
+				| BoxAndWhisker
+				| BoxXYError | Polygons
 		)
 	}
 
@@ -748,7 +795,10 @@ impl PlotType
 
 	fn is_fill(&self) -> bool
 	{
-		matches!(*self, Boxes | FillBetween | BoxAndWhisker | Polygons)
+		matches!(
+			*self,
+			Boxes | FillBetween | BoxAndWhisker | BoxXYError | Polygons
+		)
 	}
 }
 

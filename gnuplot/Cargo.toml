@@ -57,6 +57,11 @@ path = "examples/box_and_whisker.rs"
 
 [[example]]
 
+name = "box_xy_error"
+path = "examples/box_xy_error.rs"
+
+[[example]]
+
 name = "lines_3d"
 path = "examples/lines_3d.rs"
 
