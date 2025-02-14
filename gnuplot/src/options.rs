@@ -20,10 +20,11 @@ pub use self::TickOption::*;
 pub use self::XAxis::*;
 pub use self::YAxis::*;
 use crate::util::OneWayOwned;
+use crate::ColorType;
 
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others
-#[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
+#[derive(Clone, Debug, PartialOrd, PartialEq)]
 pub enum PlotOption<T>
 {
 	/// Sets the symbol used for points. The valid characters are as follows:
@@ -51,7 +52,7 @@ pub enum PlotOption<T>
 	LineWidth(f64),
 	/// Sets the color of the plot element. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white). This specifies the fill color of a filled plot.
-	Color(T),
+	ColorOpt(ColorType<T>),
 	/// Sets the color of the border of a filled plot (if it has one). The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white).
 	BorderColor(T),
@@ -74,6 +75,11 @@ pub enum PlotOption<T>
 	Axes(XAxis, YAxis),
 }
 
+#[allow(non_snake_case)]
+pub fn Color<'l>(c:&'l str)->PlotOption<&'l str>{
+	ColorOpt(c.into())
+}
+
 impl<'l> OneWayOwned for PlotOption<&'l str>
 {
 	type Output = PlotOption<String>;
@@ -85,7 +91,7 @@ impl<'l> OneWayOwned for PlotOption<&'l str>
 			PointSize(v) => PointSize(v),
 			Caption(v) => Caption(v.into()),
 			LineWidth(v) => LineWidth(v),
-			Color(v) => Color(v.into()),
+			ColorOpt(ref v) => ColorOpt(v.to_one_way_owned()),
 			BorderColor(v) => BorderColor(v.into()),
 			LineStyle(v) => LineStyle(v),
 			FillAlpha(v) => FillAlpha(v),

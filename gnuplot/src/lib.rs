@@ -31,6 +31,7 @@ pub use crate::datatype::*;
 pub use crate::error_types::*;
 pub use crate::figure::*;
 pub use crate::options::*;
+pub use crate::color::*;
 
 #[macro_use]
 mod util;
@@ -45,3 +46,4 @@ mod figure;
 mod options;
 pub mod palettes;
 mod writer;
+mod color;

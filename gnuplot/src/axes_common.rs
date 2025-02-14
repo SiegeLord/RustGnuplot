@@ -12,6 +12,7 @@ use crate::datatype::*;
 use crate::options::*;
 use crate::util::{escape, OneWayOwned};
 use crate::writer::*;
+use crate::ColorType;
 use std::borrow::Borrow;
 use std::fs;
 use std::path;
@@ -859,7 +860,7 @@ impl AxisData
 				w.write_str(self.axis.get_axis_str());
 				w.write_str("zeroaxis ");
 
-				AxesCommonData::write_color_options(w, &self.options, Some("black"));
+				AxesCommonData::write_color_options(w, &self.options, Some(ColorType::RGBColor("black".into())));
 				AxesCommonData::write_line_options(w, &self.options, version);
 			}
 			else
@@ -1365,19 +1366,19 @@ impl AxesCommonData
 	}
 
 	pub fn write_color_options(
-		c: &mut dyn Writer, options: &[PlotOption<String>], default: Option<&str>,
+		c: &mut dyn Writer, options: &[PlotOption<String>], default: Option<ColorType>,
 	)
 	{
-		let mut col = default;
+		let mut col = default.as_ref();
 		first_opt! {options,
-			Color(ref s) =>
+			ColorOpt(ref s) =>
 			{
 				col = Some(s)
 			}
 		}
 		if let Some(s) = col
 		{
-			write!(c, r#" lc rgb "{}""#, s);
+			write!(c, "lc {}", s.command());
 		}
 	}
 
