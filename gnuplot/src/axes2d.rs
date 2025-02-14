@@ -2,12 +2,15 @@
 //
 // All rights reserved. Distributed under LGPL 3.0. For full terms see the file LICENSE.
 
+use std::iter;
+
 use crate::axes_common::*;
 use crate::coordinates::*;
 use crate::datatype::*;
 use crate::options::*;
 use crate::util::{escape, OneWayOwned};
 use crate::writer::Writer;
+use crate::ColorType;
 
 struct LegendData
 {
@@ -101,9 +104,7 @@ impl LegendData
 		first_opt! {self.text_options,
 			TextColor(ref s) =>
 			{
-				w.write_str(" textcolor rgb \"");
-				w.write_str(&escape(s));
-				w.write_str("\"");
+				write!(w, " textcolor {} ", s.command());
 			}
 		}
 		first_opt! {self.text_options,
@@ -188,7 +189,7 @@ impl ArrowData
 		}
 		w.write_str(",12");
 
-		AxesCommonData::write_color_options(w, &self.plot_options, Some("black"));
+		AxesCommonData::write_color_options(w, &self.plot_options, false, Some(ColorType::Black));
 		AxesCommonData::write_line_options(
 			w,
 			&self.plot_options,
@@ -233,7 +234,7 @@ impl BorderOptions
 		write!(writer, "{}", f);
 		writer.write_str(if self.front { " front " } else { " back " });
 
-		AxesCommonData::write_color_options(writer, &self.options, Some("black"));
+		AxesCommonData::write_color_options(writer, &self.options, false, Some(ColorType::Black));
 		AxesCommonData::write_line_options(writer, &self.options, version);
 
 		writer.write_str("\n");
@@ -376,11 +377,9 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot2(
-			Lines,
-			x,
-			y,
-			options.to_one_way_owned(),
+		let (data, num_rows, num_cols) = generate_data!(options, x, y);
+		self.common.elems.push(PlotElement::new_plot(
+			Lines, data, num_rows, num_cols, options,
 		));
 		self
 	}
@@ -404,11 +403,9 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot2(
-			Points,
-			x,
-			y,
-			options.to_one_way_owned(),
+		let (data, num_rows, num_cols) = generate_data!(options, x, y);
+		self.common.elems.push(PlotElement::new_plot(
+			Points, data, num_rows, num_cols, options,
 		));
 		self
 	}
@@ -428,11 +425,13 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot2(
+		let (data, num_rows, num_cols) = generate_data!(options, x, y);
+		self.common.elems.push(PlotElement::new_plot(
 			LinesPoints,
-			x,
-			y,
-			options.to_one_way_owned(),
+			data,
+			num_rows,
+			num_cols,
+			options,
 		));
 		self
 	}
@@ -460,12 +459,9 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, x_error: XE, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
-			XErrorBars,
-			x,
-			y,
-			x_error,
-			options.to_one_way_owned(),
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, x_error);
+		self.common.elems.push(PlotElement::new_plot(
+			XErrorBars, data, num_rows, num_cols, options,
 		));
 		self
 	}
@@ -493,12 +489,45 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, y_error: YE, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
-			YErrorBars,
-			x,
-			y,
-			y_error,
-			options.to_one_way_owned(),
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_error);
+		self.common.elems.push(PlotElement::new_plot(
+			YErrorBars, data, num_rows, num_cols, options,
+		));
+		self
+	}
+
+	/// Plot a 2D scatter-plot with a point standing in for each data point.
+	/// Additionally, error bars are attached to each data point in the X and Y directions.
+	/// # Arguments
+	/// * `x` - x values
+	/// * `y` - y values
+	/// * `x_error` - Errors associated with the x value
+	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `PointSymbol` - Sets symbol for each point
+	///     * `PointSize` - Sets the size of each point
+	///     * `Color` - Sets the color
+	pub fn xy_error_bars<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+		Txe: DataType,
+		XE: IntoIterator<Item = Txe>,
+		Tye: DataType,
+		YE: IntoIterator<Item = Tye>,
+	>(
+		&'l mut self, x: X, y: Y, x_error: XE, y_error: YE, options: &[PlotOption<&str>],
+	) -> &'l mut Self
+	{
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, x_error, y_error);
+		self.common.elems.push(PlotElement::new_plot(
+			XYErrorBars,
+			data,
+			num_rows,
+			num_cols,
+			options,
 		));
 		self
 	}
@@ -528,12 +557,13 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, x_error: XE, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, x_error);
+		self.common.elems.push(PlotElement::new_plot(
 			XErrorLines,
-			x,
-			y,
-			x_error,
-			options.to_one_way_owned(),
+			data,
+			num_rows,
+			num_cols,
+			options,
 		));
 		self
 	}
@@ -563,12 +593,13 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, y_error: YE, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_error);
+		self.common.elems.push(PlotElement::new_plot(
 			YErrorLines,
-			x,
-			y,
-			y_error,
-			options.to_one_way_owned(),
+			data,
+			num_rows,
+			num_cols,
+			options,
 		));
 		self
 	}
@@ -597,12 +628,13 @@ impl Axes2D
 		&'l mut self, x: X, y_lo: YL, y_hi: YH, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
+		let (data, num_rows, num_cols) = generate_data!(options, x, y_lo, y_hi);
+		self.common.elems.push(PlotElement::new_plot(
 			FillBetween,
-			x,
-			y_lo,
-			y_hi,
-			options.to_one_way_owned(),
+			data,
+			num_rows,
+			num_cols,
+			options,
 		));
 		self
 	}
@@ -628,11 +660,13 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot2(
-			Polygons,
-			x,
-			y,
-			options.to_one_way_owned(),
+		let (data, num_rows, num_cols) = generate_data!(options, x, y);
+		self.common.elems.push(PlotElement::new_plot(
+			FillBetween,
+			data,
+			num_rows,
+			num_cols,
+			options,
 		));
 		self
 	}
@@ -659,11 +693,9 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot2(
-			Boxes,
-			x,
-			y,
-			options.to_one_way_owned(),
+		let (data, num_rows, num_cols) = generate_data!(options, x, y);
+		self.common.elems.push(PlotElement::new_plot(
+			Boxes, data, num_rows, num_cols, options,
 		));
 		self
 	}
@@ -693,12 +725,176 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, w: W, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
-			Boxes,
-			x,
-			y,
-			w,
-			options.to_one_way_owned(),
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, w);
+		self.common.elems.push(PlotElement::new_plot(
+			Boxes, data, num_rows, num_cols, options,
+		));
+		self
+	}
+
+	/// Plot a 2D box-plot with error bars using boxes of automatic width.
+	/// Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
+	/// Boxes start at the x-axis and go towards the y value of the datapoint.
+	/// Each box has an error bar from y - y_delta to y + y_delta.
+	/// # Arguments
+	/// * `x` - x values (center of the box)
+	/// * `y` - y values
+	/// * `y_delta` - errors in y (error bars are plotted from y - y_delta to y + y_delta)
+	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `LineWidth` - Sets the width of the border
+	///     * `LineStyle` - Sets the style of the border
+	///     * `BorderColor` - Sets the color of the border
+	///     * `Color` - Sets the color of the box fill
+	///     * `FillAlpha` - Sets the transparency of the box fill
+	pub fn box_error_delta<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+		Tye: DataType,
+		YE: IntoIterator<Item = Tye>,
+	>(
+		&'l mut self, x: X, y: Y, y_error: YE, options: &[PlotOption<&str>],
+	) -> &'l mut Self
+	{
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_error);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxErrorBars,
+			data,
+			num_rows,
+			num_cols,
+			options,
+		));
+		self
+	}
+
+	/// Plot a 2D box-plot with error bars using boxes of specified width.
+	/// Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
+	/// Boxes start at the x-axis and go towards the y value of the datapoint.
+	/// Each box has an error bar from y - y_delta to y + y_delta.
+	/// # Arguments
+	/// * `x` - x values (center of the box)
+	/// * `y` - y values
+	/// * `y_delta` - errors in y (error bars are plotted from y - y_delta to y + y_delta)
+	/// * `x_delta` - errors in x (interpreted as box width)
+	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `LineWidth` - Sets the width of the border
+	///     * `LineStyle` - Sets the style of the border
+	///     * `BorderColor` - Sets the color of the border
+	///     * `Color` - Sets the color of the box fill
+	///     * `FillAlpha` - Sets the transparency of the box fill
+	pub fn box_error_delta_set_width<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+		Tye: DataType,
+		YE: IntoIterator<Item = Tye>,
+		Tw: DataType,
+		W: IntoIterator<Item = Tw>,
+	>(
+		&'l mut self, x: X, y: Y, y_error: YE, x_delta: W, options: &[PlotOption<&str>],
+	) -> &'l mut Self
+	{
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_error, x_delta);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxErrorBars,
+			data,
+			num_rows,
+			num_cols,
+			options,
+		));
+		self
+	}
+
+	/// Plot a 2D box-plot with error bars using boxes of automatic width.
+	/// Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
+	/// Boxes start at the x-axis and go towards the y value of the datapoint.
+	/// Each box has an error bar from y - y_low to y + y_high.
+	/// # Arguments
+	/// * `x` - x values (center of the box)
+	/// * `y` - y values
+	/// * `y_low` - minimum of error bar
+	/// * `y_high` - maximum of error bar
+	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `LineWidth` - Sets the width of the border
+	///     * `LineStyle` - Sets the style of the border
+	///     * `BorderColor` - Sets the color of the border
+	///     * `Color` - Sets the color of the box fill
+	///     * `FillAlpha` - Sets the transparency of the box fill
+	pub fn box_error_low_high<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+		Tyl: DataType,
+		YL: IntoIterator<Item = Tyl>,
+		Tyh: DataType,
+		YH: IntoIterator<Item = Tyh>,
+	>(
+		&'l mut self, x: X, y: Y, y_low: YL, y_high: YH, options: &[PlotOption<&str>],
+	) -> &'l mut Self
+	{
+		// The way to get boxerrorbars to interpret low and high y values is to use a dummy negative value for
+		// xdelta (box width). If you supply four values rather than five, the fourth is interpreted as width.
+		let dummy_width = iter::repeat(-1.0);
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_low, y_high, dummy_width);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxErrorBars,
+			data,
+			num_rows,
+			num_cols,
+			options,
+		));
+		self
+	}
+
+	/// Plot a 2D box-plot with error bars using boxes of specified width.
+	/// Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
+	/// Boxes start at the x-axis and go towards the y value of the datapoint.
+	/// Each box has an error bar from y - y_low to y + y_high.
+	/// # Arguments
+	/// * `x` - x values (center of the box)
+	/// * `y` - y values
+	/// * `y_low` - minimum of error bar
+	/// * `y_high` - maximum of error bar
+	/// * `x_delta` - errors in x (interpreted as box width)
+	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `LineWidth` - Sets the width of the border
+	///     * `LineStyle` - Sets the style of the border
+	///     * `BorderColor` - Sets the color of the border
+	///     * `Color` - Sets the color of the box fill
+	///     * `FillAlpha` - Sets the transparency of the box fill
+	pub fn box_error_low_high_set_width<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+		Tyl: DataType,
+		YL: IntoIterator<Item = Tyl>,
+		Tyh: DataType,
+		YH: IntoIterator<Item = Tyh>,
+		Tw: DataType,
+		W: IntoIterator<Item = Tw>,
+	>(
+		&'l mut self, x: X, y: Y, y_low: YL, y_high: YH, x_delta: W, options: &[PlotOption<&str>],
+	) -> &'l mut Self
+	{
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_low, y_high, x_delta);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxErrorBars,
+			data,
+			num_rows,
+			num_cols,
+			options,
 		));
 		self
 	}
@@ -736,14 +932,14 @@ impl Axes2D
 		box_max: BoxMax, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot5(
+		let (data, num_rows, num_cols) =
+			generate_data!(options, x, box_min, whisker_min, whisker_max, box_max);
+		self.common.elems.push(PlotElement::new_plot(
 			BoxAndWhisker,
-			x,
-			box_min,
-			whisker_min,
-			whisker_max,
-			box_max,
-			options.to_one_way_owned(),
+			data,
+			num_rows,
+			num_cols,
+			options,
 		));
 		self
 	}
@@ -784,15 +980,21 @@ impl Axes2D
 		box_max: BoxMax, box_width: BoxWidth, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot6(
-			BoxAndWhisker,
+		let (data, num_rows, num_cols) = generate_data!(
+			options,
 			x,
 			box_min,
 			whisker_min,
 			whisker_max,
 			box_max,
-			box_width,
-			options.to_one_way_owned(),
+			box_width
+		);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxAndWhisker,
+			data,
+			num_rows,
+			num_cols,
+			options,
 		));
 		self
 	}
@@ -825,13 +1027,9 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, x_delta: XDelta, y_delta: YDelta, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot4(
-			BoxXYError,
-			x,
-			y,
-			x_delta,
-			y_delta,
-			options.to_one_way_owned(),
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, x_delta, y_delta);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxXYError, data, num_rows, num_cols, options,
 		));
 		self
 	}
@@ -871,15 +1069,10 @@ impl Axes2D
 		options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot6(
-			BoxXYError,
-			x,
-			y,
-			x_low,
-			x_high,
-			y_low,
-			y_high,
-			options.to_one_way_owned(),
+		let (data, num_rows, num_cols) =
+			generate_data!(options, x, y, x_low, x_high, y_low, y_high);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxXYError, data, num_rows, num_cols, options,
 		));
 		self
 	}

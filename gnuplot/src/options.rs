@@ -20,10 +20,12 @@ pub use self::TickOption::*;
 pub use self::XAxis::*;
 pub use self::YAxis::*;
 use crate::util::OneWayOwned;
+use crate::writer::Writer;
+use crate::ColorType;
 
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others
-#[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
+#[derive(Clone, Debug, PartialOrd, PartialEq)]
 pub enum PlotOption<T>
 {
 	/// Sets the symbol used for points. The valid characters are as follows:
@@ -51,10 +53,10 @@ pub enum PlotOption<T>
 	LineWidth(f64),
 	/// Sets the color of the plot element. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white). This specifies the fill color of a filled plot.
-	Color(T),
+	Color(ColorType<T>),
 	/// Sets the color of the border of a filled plot (if it has one). The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white).
-	BorderColor(T),
+	BorderColor(ColorType<T>),
 	/// Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.
 	LineStyle(DashType),
 	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque. Cannot be used with `FillPattern`.
@@ -85,8 +87,8 @@ impl<'l> OneWayOwned for PlotOption<&'l str>
 			PointSize(v) => PointSize(v),
 			Caption(v) => Caption(v.into()),
 			LineWidth(v) => LineWidth(v),
-			Color(v) => Color(v.into()),
-			BorderColor(v) => BorderColor(v.into()),
+			Color(ref v) => Color(v.to_one_way_owned()),
+			BorderColor(ref v) => BorderColor(v.to_one_way_owned()),
 			LineStyle(v) => LineStyle(v),
 			FillAlpha(v) => FillAlpha(v),
 			FillRegion(v) => FillRegion(v),
@@ -215,7 +217,7 @@ impl<T: ToString> OneWayOwned for AutoOption<T>
 }
 
 /// An enumeration of label options that control label attributes
-#[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
+#[derive(Clone, Debug, PartialOrd, PartialEq)]
 pub enum LabelOption<T>
 {
 	/// Sets the offset of the label in characters
@@ -224,7 +226,7 @@ pub enum LabelOption<T>
 	Font(T, f64),
 	/// Sets the color of the label text. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
-	TextColor(T),
+	TextColor(ColorType<T>),
 	/// Rotates the label by a certain number of degrees
 	Rotate(f64),
 	/// Sets the horizontal alignment of the label text (default is left alignment). See AlignType.
@@ -248,7 +250,7 @@ pub enum LabelOption<T>
 	MarkerSymbol(char),
 	/// Sets the color of the marker. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
-	MarkerColor(T),
+	MarkerColor(ColorType<T>),
 	/// Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.
 	MarkerSize(f64),
 }
@@ -258,15 +260,15 @@ impl<'l> OneWayOwned for LabelOption<&'l str>
 	type Output = LabelOption<String>;
 	fn to_one_way_owned(&self) -> Self::Output
 	{
-		match *self
+		match self.clone()
 		{
 			TextOffset(v1, v2) => TextOffset(v1, v2),
 			Font(v1, v2) => Font(v1.into(), v2),
-			TextColor(v) => TextColor(v.into()),
+			TextColor(v) => TextColor(v.to_one_way_owned()),
 			Rotate(v) => Rotate(v),
 			TextAlign(v) => TextAlign(v),
 			MarkerSymbol(v) => MarkerSymbol(v),
-			MarkerColor(v) => MarkerColor(v.into()),
+			MarkerColor(v) => MarkerColor(v.to_one_way_owned()),
 			MarkerSize(v) => MarkerSize(v),
 		}
 	}
@@ -453,6 +455,66 @@ pub const RAINBOW: PaletteType<&'static [(f32, f32, f32, f32)]> = Formula(33, 13
 pub const HOT: PaletteType<&'static [(f32, f32, f32, f32)]> = Formula(34, 35, 36);
 /// A nice default for a cube helix
 pub const HELIX: PaletteType<&'static [(f32, f32, f32, f32)]> = CubeHelix(0.5, -0.8, 2.0, 1.0);
+
+impl PaletteType<Vec<(f32, f32, f32, f32)>>
+{
+	pub fn write_out_commands(&self, w: &mut dyn Writer)
+	{
+		match *self
+		{
+			Gray(gamma) =>
+			{
+				assert!(gamma > 0.0, "Gamma must be positive");
+				writeln!(w, "set palette gray gamma {:.12e}", gamma);
+			}
+			Formula(r, g, b) =>
+			{
+				assert!(r >= -36 && r <= 36, "Invalid r formula!");
+				assert!(g >= -36 && g <= 36, "Invalid g formula!");
+				assert!(b >= -36 && b <= 36, "Invalid b formula!");
+				writeln!(w, "set palette rgbformulae {},{},{}", r, g, b);
+			}
+			CubeHelix(start, rev, sat, gamma) =>
+			{
+				assert!(sat >= 0.0, "Saturation must be non-negative");
+				assert!(gamma > 0.0, "Gamma must be positive");
+				writeln!(
+						w,
+						"set palette cubehelix start {:.12e} cycles {:.12e} saturation {:.12e} gamma {:.12e}",
+						start, rev, sat, gamma
+					);
+			}
+			Custom(ref entries) =>
+			{
+				if entries.len() < 2
+				{
+					panic!("Need at least 2 elements in a custom palette");
+				}
+				write!(w, "set palette defined (");
+
+				let mut first = true;
+				let mut old_x = 0.0;
+				for &(x, r, g, b) in entries
+				{
+					if first
+					{
+						old_x = x;
+						first = false;
+					}
+					else
+					{
+						write!(w, ",");
+					}
+					assert!(x >= old_x, "The gray levels must be non-decreasing!");
+					old_x = x;
+
+					write!(w, "{:.12e} {:.12e} {:.12e} {:.12e}", x, r, g, b);
+				}
+				writeln!(w, ")");
+			}
+		}
+	}
+}
 
 /// Gnuplot version identifier. This is used to handle version-specific
 /// features.

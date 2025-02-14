@@ -62,6 +62,16 @@ path = "examples/box_xy_error.rs"
 
 [[example]]
 
+name = "color"
+path = "examples/color.rs"
+
+[[example]]
+
+name = "variable_color"
+path = "examples/variable_color.rs"
+
+[[example]]
+
 name = "lines_3d"
 path = "examples/lines_3d.rs"
 

@@ -48,6 +48,86 @@ macro_rules! first_opt_default
 	)
 }
 
+// returns (data, num_rows, num_cols)
+macro_rules! generate_data {
+	($options: ident, $( $d:ident ),*) => {
+		{
+			let mut c_data = None;
+
+			first_opt! {$options,
+				Color(ref color) =>
+				{
+					if color.is_variable() {
+						c_data = Some(color.data());
+					}
+				}
+			}
+			if let Some(c_values) = c_data {
+				generate_data_inner!(
+					$(
+						$d,
+					)*
+					c_values
+				)
+			} else {
+				generate_data_inner!(
+					$(
+						$d,
+					)*
+				)
+			}
+		}
+	};
+}
+
+// returns (data, num_rows, num_cols)
+macro_rules! generate_data_inner {
+	($( $d:ident ),* $(,)?) => {
+		{
+			let mut num_rows = 0;
+			let num_cols = count_data!($($d )*);
+			let mut data = vec![];
+			// TODO: Reserve.
+			for nested_tuples!($($d,)*) in multizip!($($d, )*) //macro
+			{
+				$( data.push($d.get()); )*
+				num_rows += 1;
+			}
+			(data, num_rows, num_cols)
+		}
+	}
+}
+
+macro_rules! nested_tuples {
+	($last: ident $(,)?)=>
+	{
+		$last
+	};
+	($first: ident, $( $tail:ident ),* $(,)? ) => {
+		($first, nested_tuples!($($tail, )*))
+	};
+}
+
+macro_rules! multizip {
+	($last: ident $(,)?)=>
+	{
+		($last.into_iter())
+	};
+	($first: ident, $( $tail:ident ),* , ) => {
+		$first.into_iter().zip(multizip!($($tail, )*))
+	};
+}
+
+macro_rules! replace_expr {
+	($_t:tt $sub:expr) => {
+		$sub
+	};
+}
+
+macro_rules! count_data {
+    ($($data:tt)*) => {0usize $(+ replace_expr!($data 1usize))*};
+}
+
 pub(crate) trait OneWayOwned
 {
 	type Output;

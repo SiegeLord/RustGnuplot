@@ -22,7 +22,7 @@ fn example(c: Common)
 			x.clone().map(|v| v * 2 + 2 * i),
 			&[
 				LineWidth(2.),
-				Color("black"),
+				Color("black".into()),
 				LineStyle(dt),
 				Caption(&format!("{:?}", dt)),
 			],

@@ -18,7 +18,7 @@ let x = [0u32, 1, 2];
 let y = [3u32, 4, 5];
 let mut fg = Figure::new();
 fg.axes2d()
-.lines(&x, &y, &[Caption("A line"), Color("black")]);
+.lines(&x, &y, &[Caption("A line"), Color("black".into())]);
 fg.show();
 # }
 ~~~
@@ -26,6 +26,7 @@ fg.show();
 pub use crate::axes2d::Axes2D;
 pub use crate::axes3d::Axes3D;
 pub use crate::axes_common::AxesCommon;
+pub use crate::color::*;
 pub use crate::coordinates::*;
 pub use crate::datatype::*;
 pub use crate::error_types::*;
@@ -38,6 +39,7 @@ mod util;
 mod axes2d;
 mod axes3d;
 mod axes_common;
+mod color;
 mod coordinates;
 mod datatype;
 mod error_types;

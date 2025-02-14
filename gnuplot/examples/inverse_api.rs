@@ -32,8 +32,8 @@ impl PlotElement for Lines
 				PointSize(v) => PointSize(*v),
 				Caption(v) => Caption(&v),
 				LineWidth(v) => LineWidth(*v),
-				Color(v) => Color(&v),
-				BorderColor(v) => BorderColor(&v),
+				Color(v) => Color(v.to_ref()),
+				BorderColor(v) => BorderColor(v.to_ref()),
 				LineStyle(v) => LineStyle(*v),
 				FillAlpha(v) => FillAlpha(*v),
 				FillRegion(v) => FillRegion(*v),
@@ -165,7 +165,7 @@ fn example(c: Common)
 	//~ fg.axes2d().set_title("Old API", &[]).lines(
 	//~ z.clone(),
 	//~ y.clone(),
-	//~ &[LineWidth(2.), Color("#ffaa77")],
+	//~ &[LineWidth(2.), Color("#ffaa77".into())],
 	//~ ).lines(
 	//~ z.clone(),
 	//~ x.clone(),
@@ -176,11 +176,14 @@ fn example(c: Common)
 
 	//~ lines(z.clone(), y.clone()).show();
 
-	(lines(z.clone(), y.clone()), lines(z.clone(), x.clone()))
-		.to_axes2d()
-		.title("Test")
-		.x(axis().log_scale(Some(10.)))
-		.show();
+	let mut axes = (lines(z.clone(), y.clone()), lines(z.clone(), x.clone())).to_axes2d();
+	axes.title("Test");
+	axes.x(axis().log_scale(Some(10.)));
+
+	if !c.no_show
+	{
+		axes.show();
+	}
 }
 
 fn main()

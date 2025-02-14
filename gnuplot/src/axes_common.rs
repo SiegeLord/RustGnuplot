@@ -12,6 +12,7 @@ use crate::datatype::*;
 use crate::options::*;
 use crate::util::{escape, OneWayOwned};
 use crate::writer::*;
+use crate::ColorType;
 use std::borrow::Borrow;
 use std::fs;
 use std::path;
@@ -29,200 +30,19 @@ pub struct PlotElement
 
 impl PlotElement
 {
-	pub fn new_plot2<T1, X1, T2, X2>(
-		plot_type: PlotType, x1: X1, x2: X2, options: Vec<PlotOption<String>>,
+	pub fn new_plot(
+		plot_type: PlotType, data: Vec<f64>, num_rows: usize, num_cols: usize,
+		options: &[PlotOption<&str>],
 	) -> PlotElement
-	where
-		T1: DataType,
-		X1: IntoIterator<Item = T1>,
-		T2: DataType,
-		X2: IntoIterator<Item = T2>,
 	{
-		let mut num_rows = 0;
-		let mut data = vec![];
-		// TODO: Reserve.
-		for (x1, x2) in x1.into_iter().zip(x2.into_iter())
-		{
-			data.push(x1.get());
-			data.push(x2.get());
-			num_rows += 1;
-		}
-
 		PlotElement {
 			data,
 			num_rows,
-			num_cols: 2,
+			num_cols,
 			plot_type,
 			source_type: Record,
 			is_3d: false,
-			options,
-		}
-	}
-
-	pub fn new_plot3<T1, X1, T2, X2, T3, X3>(
-		plot_type: PlotType, x1: X1, x2: X2, x3: X3, options: Vec<PlotOption<String>>,
-	) -> PlotElement
-	where
-		T1: DataType,
-		X1: IntoIterator<Item = T1>,
-		T2: DataType,
-		X2: IntoIterator<Item = T2>,
-		T3: DataType,
-		X3: IntoIterator<Item = T3>,
-	{
-		let mut num_rows = 0;
-		let mut data = vec![];
-		// TODO: Reserve.
-		for ((x1, x2), x3) in x1.into_iter().zip(x2.into_iter()).zip(x3.into_iter())
-		{
-			data.push(x1.get());
-			data.push(x2.get());
-			data.push(x3.get());
-			num_rows += 1;
-		}
-
-		PlotElement {
-			data,
-			num_rows,
-			num_cols: 3,
-			plot_type,
-			source_type: Record,
-			is_3d: false,
-			options,
-		}
-	}
-
-	pub fn new_plot4<T1, X1, T2, X2, T3, X3, T4, X4>(
-		plot_type: PlotType, x1: X1, x2: X2, x3: X3, x4: X4, options: Vec<PlotOption<String>>,
-	) -> PlotElement
-	where
-		T1: DataType,
-		X1: IntoIterator<Item = T1>,
-		T2: DataType,
-		X2: IntoIterator<Item = T2>,
-		T3: DataType,
-		X3: IntoIterator<Item = T3>,
-		T4: DataType,
-		X4: IntoIterator<Item = T4>,
-	{
-		let mut num_rows = 0;
-		let mut data = vec![];
-		// TODO: Reserve.
-		for (((x1, x2), x3), x4) in x1
-			.into_iter()
-			.zip(x2.into_iter())
-			.zip(x3.into_iter())
-			.zip(x4.into_iter())
-		{
-			data.push(x1.get());
-			data.push(x2.get());
-			data.push(x3.get());
-			data.push(x4.get());
-			num_rows += 1;
-		}
-
-		PlotElement {
-			data,
-			num_rows,
-			num_cols: 4,
-			plot_type,
-			source_type: Record,
-			is_3d: false,
-			options,
-		}
-	}
-
-	pub fn new_plot5<T1, X1, T2, X2, T3, X3, T4, X4, T5, X5>(
-		plot_type: PlotType, x1: X1, x2: X2, x3: X3, x4: X4, x5: X5,
-		options: Vec<PlotOption<String>>,
-	) -> PlotElement
-	where
-		T1: DataType,
-		X1: IntoIterator<Item = T1>,
-		T2: DataType,
-		X2: IntoIterator<Item = T2>,
-		T3: DataType,
-		X3: IntoIterator<Item = T3>,
-		T4: DataType,
-		X4: IntoIterator<Item = T4>,
-		T5: DataType,
-		X5: IntoIterator<Item = T5>,
-	{
-		let mut num_rows = 0;
-		let mut data = vec![];
-		// TODO: Reserve.
-		for ((((x1, x2), x3), x4), x5) in x1
-			.into_iter()
-			.zip(x2.into_iter())
-			.zip(x3.into_iter())
-			.zip(x4.into_iter())
-			.zip(x5.into_iter())
-		{
-			data.push(x1.get());
-			data.push(x2.get());
-			data.push(x3.get());
-			data.push(x4.get());
-			data.push(x5.get());
-			num_rows += 1;
-		}
-
-		PlotElement {
-			data,
-			num_rows,
-			num_cols: 5,
-			plot_type,
-			source_type: Record,
-			is_3d: false,
-			options,
-		}
-	}
-
-	pub fn new_plot6<T1, X1, T2, X2, T3, X3, T4, X4, T5, X5, T6, X6>(
-		plot_type: PlotType, x1: X1, x2: X2, x3: X3, x4: X4, x5: X5, x6: X6,
-		options: Vec<PlotOption<String>>,
-	) -> PlotElement
-	where
-		T1: DataType,
-		X1: IntoIterator<Item = T1>,
-		T2: DataType,
-		X2: IntoIterator<Item = T2>,
-		T3: DataType,
-		X3: IntoIterator<Item = T3>,
-		T4: DataType,
-		X4: IntoIterator<Item = T4>,
-		T5: DataType,
-		X5: IntoIterator<Item = T5>,
-		T6: DataType,
-		X6: IntoIterator<Item = T6>,
-	{
-		let mut num_rows = 0;
-		let mut data = vec![];
-		// TODO: Reserve.
-		for (((((x1, x2), x3), x4), x5), x6) in x1
-			.into_iter()
-			.zip(x2.into_iter())
-			.zip(x3.into_iter())
-			.zip(x4.into_iter())
-			.zip(x5.into_iter())
-			.zip(x6.into_iter())
-		{
-			data.push(x1.get());
-			data.push(x2.get());
-			data.push(x3.get());
-			data.push(x4.get());
-			data.push(x5.get());
-			data.push(x6.get());
-			num_rows += 1;
-		}
-
-		PlotElement {
-			data,
-			num_rows,
-			num_cols: 6,
-			plot_type,
-			source_type: Record,
-			is_3d: false,
-			options,
+			options: options.to_one_way_owned(),
 		}
 	}
 
@@ -343,11 +163,13 @@ impl PlotElement
 			YErrorLines => "yerrorlines",
 			XErrorBars => "xerrorbars",
 			YErrorBars => "yerrorbars",
+			XYErrorBars => "xyerrorbars",
 			FillBetween => "filledcurves",
 			Polygons => "polygons",
 			Boxes => "boxes",
 			BoxAndWhisker => "candlestick",
 			BoxXYError => "boxxyerror",
+			BoxErrorBars => "boxerrorbars",
 			Pm3D => "pm3d",
 			Image => "image",
 		};
@@ -387,7 +209,17 @@ impl PlotElement
 
 			if !is_pattern
 			{
-				writer.write_str("transparent solid");
+				let mut color_has_alpha = false;
+				first_opt! {self.options,
+					Color(ref c) => {
+						color_has_alpha = c.has_alpha()
+					}
+				}
+				if !color_has_alpha
+				{
+					writer.write_str("transparent ");
+				}
+				writer.write_str("solid");
 				let mut alpha = 1.;
 				first_opt! {self.options,
 					FillAlpha(a) =>
@@ -400,11 +232,10 @@ impl PlotElement
 
 			if self.plot_type.is_line()
 			{
-				writer.write_str(" border");
 				first_opt! {self.options,
 					BorderColor(ref s) =>
 					{
-						write!(writer, r#" rgb "{}""#, s);
+						write!(writer, " border {}", s.command());
 					}
 				}
 			}
@@ -436,7 +267,7 @@ impl PlotElement
 			}
 		}
 
-		AxesCommonData::write_color_options(writer, &self.options, None);
+		AxesCommonData::write_color_options(writer, &self.options, self.plot_type.is_fill(), None);
 
 		writer.write_str(" t \"");
 		first_opt! {self.options,
@@ -626,7 +457,7 @@ pub fn write_out_label_options(
 	first_opt! {options,
 		TextColor(ref s) =>
 		{
-			write!(w, r#" tc rgb "{}""#, s);
+			write!(w, r#" tc {}"#, s.command());
 		}
 	}
 
@@ -660,7 +491,7 @@ pub fn write_out_label_options(
 			first_opt! {options,
 				MarkerColor(ref s) =>
 				{
-					write!(w, r#" lc rgb "{}""#, s);
+					write!(w, r#" lc "{}""#, s.command());
 				}
 			}
 
@@ -760,10 +591,12 @@ pub enum PlotType
 	XErrorLines,
 	YErrorLines,
 	XErrorBars,
+	XYErrorBars,
 	YErrorBars,
 	FillBetween,
 	Polygons,
 	Boxes,
+	BoxErrorBars,
 	BoxAndWhisker,
 	BoxXYError,
 	Pm3D,
@@ -781,7 +614,8 @@ impl PlotType
 				| XErrorLines
 				| Boxes | YErrorLines
 				| BoxAndWhisker
-				| BoxXYError | Polygons
+				| BoxXYError | BoxErrorBars
+				| Polygons
 		)
 	}
 
@@ -789,7 +623,12 @@ impl PlotType
 	{
 		matches!(
 			*self,
-			Points | LinesPoints | XErrorLines | YErrorLines | XErrorBars | YErrorBars
+			Points
+				| LinesPoints
+				| XErrorLines
+				| YErrorLines
+				| XErrorBars | YErrorBars
+				| XYErrorBars
 		)
 	}
 
@@ -797,7 +636,7 @@ impl PlotType
 	{
 		matches!(
 			*self,
-			Boxes | FillBetween | BoxAndWhisker | BoxXYError | Polygons
+			Boxes | FillBetween | BoxAndWhisker | BoxXYError | BoxErrorBars | Polygons
 		)
 	}
 }
@@ -859,7 +698,12 @@ impl AxisData
 				w.write_str(self.axis.get_axis_str());
 				w.write_str("zeroaxis ");
 
-				AxesCommonData::write_color_options(w, &self.options, Some("black"));
+				AxesCommonData::write_color_options(
+					w,
+					&self.options,
+					false,
+					Some(ColorType::RGBString("black".into())),
+				);
 				AxesCommonData::write_line_options(w, &self.options, version);
 			}
 			else
@@ -1260,6 +1104,7 @@ pub struct AxesCommonData
 	pub aspect_ratio: AutoOption<f64>,
 	pub margins: Margins,
 	pub palette: PaletteType<Vec<(f32, f32, f32, f32)>>,
+	pub colormaps: Vec<(String, PaletteType<Vec<(f32, f32, f32, f32)>>)>,
 }
 
 impl AxesCommonData
@@ -1283,6 +1128,7 @@ impl AxesCommonData
 			aspect_ratio: Auto,
 			margins: Margins::new(),
 			palette: COLOR.to_one_way_owned(),
+			colormaps: Vec::new(),
 		};
 		ret.x2_axis.tick_type = TickType::None;
 		ret.y2_axis.tick_type = TickType::None;
@@ -1318,10 +1164,10 @@ impl AxesCommonData
 			}
 
 			AxesCommonData::write_line_options(c, &self.grid_options, version);
-			AxesCommonData::write_color_options(c, &self.grid_options, None);
+			AxesCommonData::write_color_options(c, &self.grid_options, false, None);
 			c.write_str(", ");
 			AxesCommonData::write_line_options(c, &self.minor_grid_options, version);
-			AxesCommonData::write_color_options(c, &self.minor_grid_options, None);
+			AxesCommonData::write_color_options(c, &self.minor_grid_options, false, None);
 			c.write_str("\n");
 		}
 	}
@@ -1365,10 +1211,13 @@ impl AxesCommonData
 	}
 
 	pub fn write_color_options(
-		c: &mut dyn Writer, options: &[PlotOption<String>], default: Option<&str>,
+		c: &mut dyn Writer, options: &[PlotOption<String>], is_fill: bool,
+		default: Option<ColorType>,
 	)
 	{
-		let mut col = default;
+		let main_type = if is_fill { "fillcolor" } else { "linecolor" };
+
+		let mut col = default.as_ref();
 		first_opt! {options,
 			Color(ref s) =>
 			{
@@ -1377,7 +1226,7 @@ impl AxesCommonData
 		}
 		if let Some(s) = col
 		{
-			write!(c, r#" lc rgb "{}""#, s);
+			write!(c, " {main_type} {}", s.command());
 		}
 	}
 
@@ -1415,60 +1264,21 @@ impl AxesCommonData
 			}
 		}
 		self.margins.write_out_commands(w);
+		self.palette.write_out_commands(w);
 
-		match self.palette
+		if !self.colormaps.is_empty()
 		{
-			Gray(gamma) =>
+			// save previous palette
+			writeln!(w, "set colormap new __ORIGINAL_COLORMAP__");
+			for (name, map) in &self.colormaps
 			{
-				assert!(gamma > 0.0, "Gamma must be positive");
-				writeln!(w, "set palette gray gamma {:.12e}", gamma);
+				// set palette to the requested map
+				map.write_out_commands(w);
+				// save current palette to colormap with the requested name
+				writeln!(w, "set colormap new {name}");
 			}
-			Formula(r, g, b) =>
-			{
-				assert!(r >= -36 && r <= 36, "Invalid r formula!");
-				assert!(g >= -36 && g <= 36, "Invalid g formula!");
-				assert!(b >= -36 && b <= 36, "Invalid b formula!");
-				writeln!(w, "set palette rgbformulae {},{},{}", r, g, b);
-			}
-			CubeHelix(start, rev, sat, gamma) =>
-			{
-				assert!(sat >= 0.0, "Saturation must be non-negative");
-				assert!(gamma > 0.0, "Gamma must be positive");
-				writeln!(
-					w,
-					"set palette cubehelix start {:.12e} cycles {:.12e} saturation {:.12e} gamma {:.12e}",
-					start, rev, sat, gamma
-				);
-			}
-			Custom(ref entries) =>
-			{
-				if entries.len() < 2
-				{
-					panic!("Need at least 2 elements in a custom palette");
-				}
-				write!(w, "set palette defined (");
-
-				let mut first = true;
-				let mut old_x = 0.0;
-				for &(x, r, g, b) in entries
-				{
-					if first
-					{
-						old_x = x;
-						first = false;
-					}
-					else
-					{
-						write!(w, ",");
-					}
-					assert!(x >= old_x, "The gray levels must be non-decreasing!");
-					old_x = x;
-
-					write!(w, "{:.12e} {:.12e} {:.12e} {:.12e}", x, r, g, b);
-				}
-
-				writeln!(w, ")");
-			}
+			// reload previous palette from saved colormap
+			writeln!(w, "set palette colormap __ORIGINAL_COLORMAP__");
 		}
 
 		self.x_axis.write_out_commands(w, version);
@@ -2263,13 +2073,30 @@ pub trait AxesCommon: AxesCommonPrivate
 		self
 	}
 
-	/// Sets the palette used for 3D surface and image plots
+	/// Sets the palette used for 3D surface and image plots. See the [palettes][crate::palettes]
+	/// module for a list of predefined palettes.
 	///
 	/// # Arguments
 	/// * `palette` - What palette type to use
 	fn set_palette(&mut self, palette: PaletteType<&[(f32, f32, f32, f32)]>) -> &mut Self
 	{
 		self.get_common_data_mut().palette = palette.to_one_way_owned();
+		self
+	}
+
+	/// Creates and saves a colormap in the gnuplot environment that can be used for
+	/// later plots (see examples/color_variable.rs for example usage)
+	///
+	/// # Arguments
+	/// * `name` - The name with which to save the colormap
+	/// * `palette` - What palette type to use
+	fn create_colormap(
+		&mut self, name: &str, palette: PaletteType<&[(f32, f32, f32, f32)]>,
+	) -> &mut Self
+	{
+		self.get_common_data_mut()
+			.colormaps
+			.push((name.to_owned(), palette.to_one_way_owned()));
 		self
 	}
 }

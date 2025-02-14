@@ -21,20 +21,24 @@ fn example(c: Common)
 	ax.polygon(
 		coords.iter().map(|x| x[0] + 2.),
 		coords.iter().map(|x| x[1]),
-		&[FillAlpha(0.), BorderColor("black"), LineWidth(4.)],
+		&[FillAlpha(0.), BorderColor("black".into()), LineWidth(4.)],
 	);
 	ax.polygon(
 		coords.iter().map(|x| x[0]),
 		coords.iter().map(|x| x[1] + 2.),
-		&[Color("#FF0000"), BorderColor("black"), LineWidth(4.)],
+		&[
+			Color("#FF0000".into()),
+			BorderColor("black".into()),
+			LineWidth(4.),
+		],
 	);
 	ax.polygon(
 		coords.iter().map(|x| x[0] + 2.),
 		coords.iter().map(|x| x[1] + 2.),
 		&[
 			FillPattern(Fix(BigCrosses)),
-			Color("#FF0000"),
-			BorderColor("black"),
+			Color("#FF0000".into()),
+			BorderColor("black".into()),
 			LineWidth(4.),
 			LineStyle(Dash),
 		],

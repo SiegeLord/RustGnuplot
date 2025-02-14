@@ -41,7 +41,11 @@ fn example(c: Common)
 
 	fg.axes2d()
 		.set_title("Arrows fg2.1", &[])
-		.lines(x, y1, &[LineWidth(3.0), Color("brown"), LineStyle(DotDash)])
+		.lines(
+			x,
+			y1,
+			&[LineWidth(3.0), Color("brown".into()), LineStyle(DotDash)],
+		)
 		.arrow(
 			Graph(0.5),
 			Graph(1.0),
@@ -52,7 +56,7 @@ fn example(c: Common)
 				ArrowSize(0.1),
 				LineStyle(DotDotDash),
 				LineWidth(2.0),
-				Color("red"),
+				Color("red".into()),
 			],
 		)
 		.arrow(
@@ -60,7 +64,7 @@ fn example(c: Common)
 			Graph(1.0),
 			Axis(3.0),
 			Axis(9.0),
-			&[ArrowType(Open), Color("green")],
+			&[ArrowType(Open), Color("green".into())],
 		);
 
 	c.show(&mut fg, "example2_1");
@@ -74,8 +78,8 @@ fn example(c: Common)
 			y2,
 			&[
 				LineWidth(2.0),
-				Color("cyan"),
-				BorderColor("blue"),
+				Color("cyan".into()),
+				BorderColor("blue".into()),
 				LineStyle(DotDash),
 			],
 		)
@@ -83,7 +87,11 @@ fn example(c: Common)
 			x,
 			y1,
 			w,
-			&[LineWidth(2.0), Color("gray"), BorderColor("black")],
+			&[
+				LineWidth(2.0),
+				Color("gray".into()),
+				BorderColor("black".into()),
+			],
 		);
 
 	c.show(&mut fg, "example2_2");
@@ -92,12 +100,12 @@ fn example(c: Common)
 
 	fg.axes2d()
 		.set_title("Axis Ticks fg2.3", &[])
-		.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
+		.lines(x3, y3, &[LineWidth(2.0), Color("blue".into())])
 		.set_x_ticks_custom(
 			x3.map(|&x| Major(x as f32, Fix("%.2f ms".to_string())))
 				.chain(x3.map(|&i| i as f32 + 0.5).map(|x| Minor(x))),
 			&[MajorScale(2.0), MinorScale(0.5), OnAxis(true)],
-			&[TextColor("blue"), TextAlign(AlignCenter)],
+			&[TextColor("blue".into()), TextAlign(AlignCenter)],
 		)
 		.set_x_log(Some(10.0))
 		.set_y_ticks(
@@ -115,9 +123,9 @@ fn example(c: Common)
 		.set_border(true, &[Left, Bottom], &[LineWidth(2.0)])
 		.set_x_ticks(Some((Fix(1.0), 1)), &[Mirror(false)], &[])
 		.set_y_ticks(Some((Fix(50.0), 0)), &[Mirror(false)], &[])
-		.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
+		.lines(x3, y3, &[LineWidth(2.0), Color("blue".into())])
 		.set_x_axis(true, &[LineWidth(2.0), LineStyle(DotDotDash)])
-		.set_y_axis(true, &[LineWidth(2.0), Color("red")]);
+		.set_y_axis(true, &[LineWidth(2.0), Color("red".into())]);
 
 	c.show(&mut fg, "example2_4");
 
@@ -163,10 +171,10 @@ fn example(c: Common)
 
 	fg.axes2d()
 		.set_title("Axis Grid fg2.8", &[])
-		.lines(x3, y3, &[LineWidth(2.0), Color("blue")])
+		.lines(x3, y3, &[LineWidth(2.0), Color("blue".into())])
 		.set_y_ticks(Some((Auto, 2)), &[], &[])
-		.set_grid_options(true, &[LineStyle(DotDotDash), Color("black")])
-		.set_minor_grid_options(&[LineStyle(SmallDot), Color("red")])
+		.set_grid_options(true, &[LineStyle(DotDotDash), Color("black".into())])
+		.set_minor_grid_options(&[LineStyle(SmallDot), Color("red".into())])
 		.set_x_grid(true)
 		.set_y_grid(true)
 		.set_y_minor_grid(true);
