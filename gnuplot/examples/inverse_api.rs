@@ -176,11 +176,14 @@ fn example(c: Common)
 
 	//~ lines(z.clone(), y.clone()).show();
 
-	(lines(z.clone(), y.clone()), lines(z.clone(), x.clone()))
-		.to_axes2d()
-		.title("Test")
-		.x(axis().log_scale(Some(10.)))
-		.show();
+	let mut axes = (lines(z.clone(), y.clone()), lines(z.clone(), x.clone()))
+		.to_axes2d();
+	axes.title("Test");
+	axes.x(axis().log_scale(Some(10.)));
+
+	if !c.no_show {
+		axes.show();
+	}
 }
 
 fn main()
