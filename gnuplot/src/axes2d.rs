@@ -377,12 +377,16 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot2(
-			Lines,
-			x,
-			y,
-			options.to_one_way_owned(),
-		));
+		let (data, num_rows, num_cols) = generate_data!(options, x, y);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				Lines,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);
 		self
 	}
 
@@ -433,12 +437,16 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot2(
-			LinesPoints,
-			x,
-			y,
-			options.to_one_way_owned(),
-		));
+		let (data, num_rows, num_cols) = generate_data!(options, x, y);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				LinesPoints,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);
 		self
 	}
 
@@ -465,13 +473,16 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, x_error: XE, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
-			XErrorBars,
-			x,
-			y,
-			x_error,
-			options.to_one_way_owned(),
-		));
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, x_error);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				XErrorBars,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);
 		self
 	}
 
@@ -498,13 +509,16 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, y_error: YE, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
-			YErrorBars,
-			x,
-			y,
-			y_error,
-			options.to_one_way_owned(),
-		));
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_error);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				YErrorBars,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);
 		self
 	}
 
@@ -533,13 +547,16 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, x_error: XE, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
-			XErrorLines,
-			x,
-			y,
-			x_error,
-			options.to_one_way_owned(),
-		));
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, x_error);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				XErrorLines,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);
 		self
 	}
 
@@ -568,14 +585,16 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, y_error: YE, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
-			YErrorLines,
-			x,
-			y,
-			y_error,
-			options.to_one_way_owned(),
-		));
-		self
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_error);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				YErrorLines,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);self
 	}
 
 	/// Plot a 2D scatter-plot of two curves (bound by `y_lo` and `y_hi`) with a filled region between them.
@@ -602,13 +621,16 @@ impl Axes2D
 		&'l mut self, x: X, y_lo: YL, y_hi: YH, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
-			FillBetween,
-			x,
-			y_lo,
-			y_hi,
-			options.to_one_way_owned(),
-		));
+		let (data, num_rows, num_cols) = generate_data!(options, x, y_lo, y_hi);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				FillBetween,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);
 		self
 	}
 
@@ -633,12 +655,16 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot2(
-			Polygons,
-			x,
-			y,
-			options.to_one_way_owned(),
-		));
+		let (data, num_rows, num_cols) = generate_data!(options, x, y);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				FillBetween,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);
 		self
 	}
 
@@ -898,16 +924,24 @@ impl Axes2D
 		options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot6(
-			BoxXYError,
+		let (data, num_rows, num_cols) = generate_data!(
+			options,
 			x,
 			y,
 			x_low,
 			x_high,
 			y_low,
-			y_high,
-			options.to_one_way_owned(),
-		));
+			y_high
+		);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				BoxXYError,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);
 		self
 	}
 

@@ -8,6 +8,7 @@ use crate::options::*;
 use crate::util::OneWayOwned;
 use crate::writer::Writer;
 use std::borrow::Borrow;
+use crate::ColorType;
 
 enum View
 {
@@ -119,12 +120,13 @@ impl Axes3D
 		&'l mut self, x: X, y: Y, z: Z, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, z);
+		self.common.elems.push(PlotElement::new_plot(
 			Points,
-			x,
-			y,
-			z,
-			options.to_one_way_owned(),
+			data,
+			num_rows,
+			num_cols,
+			options,
 		));
 		self
 	}
@@ -151,12 +153,13 @@ impl Axes3D
 		&'l mut self, x: X, y: Y, z: Z, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, z);
+		self.common.elems.push(PlotElement::new_plot(
 			Lines,
-			x,
-			y,
-			z,
-			options.to_one_way_owned(),
+			data,
+			num_rows,
+			num_cols,
+			options,
 		));
 		self
 	}
@@ -179,12 +182,13 @@ impl Axes3D
 		&'l mut self, x: X, y: Y, z: Z, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, z);
+		self.common.elems.push(PlotElement::new_plot(
 			LinesPoints,
-			x,
-			y,
-			z,
-			options.to_one_way_owned(),
+			data,
+			num_rows,
+			num_cols,
+			options,
 		));
 		self
 	}
