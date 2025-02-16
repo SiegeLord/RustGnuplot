@@ -30,6 +30,21 @@ pub struct PlotElement
 
 impl PlotElement
 {
+	pub fn new_plot<'l>(
+		plot_type: PlotType, data: Vec<f64>, num_rows: usize, num_cols: usize, options: &[PlotOption<&str>],
+	) -> PlotElement{
+		PlotElement {
+			data,
+			num_rows,
+			num_cols,
+			plot_type,
+			source_type: Record,
+			is_3d: false,
+			options: options.to_one_way_owned(),
+		}
+	}
+
+
 	pub fn new_plot2<T1, X1, T2, X2>(
 		plot_type: PlotType, x1: X1, x2: X2, options: Vec<PlotOption<String>>,
 	) -> PlotElement
@@ -661,7 +676,7 @@ pub fn write_out_label_options(
 			first_opt! {options,
 				MarkerColor(ref s) =>
 				{
-					write!(w, r#" lc rgb "{}""#, s);
+					write!(w, r#" lc rgb "{}""#, s.command());
 				}
 			}
 
@@ -1378,7 +1393,7 @@ impl AxesCommonData
 		}
 		if let Some(s) = col
 		{
-			write!(c, "lc {}", s.command());
+			write!(c, " lc {}", s.command());
 		}
 	}
 

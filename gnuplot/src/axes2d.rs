@@ -405,12 +405,16 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot2(
-			Points,
-			x,
-			y,
-			options.to_one_way_owned(),
-		));
+		let (data, num_rows, num_cols) = generate_data!(options, x, y);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				Points,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);
 		self
 	}
 
@@ -660,12 +664,16 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot2(
-			Boxes,
-			x,
-			y,
-			options.to_one_way_owned(),
-		));
+		let (data, num_rows, num_cols) = generate_data!(options, x, y);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				Boxes,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);
 		self
 	}
 
@@ -694,13 +702,16 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, w: W, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot3(
-			Boxes,
-			x,
-			y,
-			w,
-			options.to_one_way_owned(),
-		));
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, w);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				Boxes,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);
 		self
 	}
 
@@ -737,14 +748,20 @@ impl Axes2D
 		box_max: BoxMax, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot5(
-			BoxAndWhisker,
+		let (data, num_rows, num_cols) = generate_data!(
+			options,
 			x,
 			box_min,
 			whisker_min,
 			whisker_max,
-			box_max,
-			options.to_one_way_owned(),
+			box_max);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				BoxAndWhisker,
+				data,
+				num_rows,
+				num_cols,
+				options,
 		));
 		self
 	}
@@ -785,15 +802,22 @@ impl Axes2D
 		box_max: BoxMax, box_width: BoxWidth, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot6(
-			BoxAndWhisker,
+		let (data, num_rows, num_cols) = generate_data!(
+			options,
 			x,
 			box_min,
 			whisker_min,
 			whisker_max,
 			box_max,
-			box_width,
-			options.to_one_way_owned(),
+			box_width
+		);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				BoxAndWhisker,
+				data,
+				num_rows,
+				num_cols,
+				options,
 		));
 		self
 	}
@@ -826,14 +850,16 @@ impl Axes2D
 		&'l mut self, x: X, y: Y, x_delta: XDelta, y_delta: YDelta, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		self.common.elems.push(PlotElement::new_plot4(
-			BoxXYError,
-			x,
-			y,
-			x_delta,
-			y_delta,
-			options.to_one_way_owned(),
-		));
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, x_delta, y_delta);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				BoxXYError,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);
 		self
 	}
 

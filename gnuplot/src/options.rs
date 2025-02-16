@@ -76,6 +76,7 @@ pub enum PlotOption<T>
 }
 
 #[allow(non_snake_case)]
+/// TODO
 pub fn Color<'l>(c:&'l str)->PlotOption<&'l str>{
 	ColorOpt(c.into())
 }
@@ -221,7 +222,7 @@ impl<T: ToString> OneWayOwned for AutoOption<T>
 }
 
 /// An enumeration of label options that control label attributes
-#[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
+#[derive(Clone, Debug, PartialOrd, PartialEq)]
 pub enum LabelOption<T>
 {
 	/// Sets the offset of the label in characters
@@ -254,7 +255,7 @@ pub enum LabelOption<T>
 	MarkerSymbol(char),
 	/// Sets the color of the marker. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
-	MarkerColor(T),
+	MarkerColor(ColorType<T>),
 	/// Sets the size of the marker. The size acts as a multiplier, with 1.0 being the default.
 	MarkerSize(f64),
 }
@@ -264,7 +265,7 @@ impl<'l> OneWayOwned for LabelOption<&'l str>
 	type Output = LabelOption<String>;
 	fn to_one_way_owned(&self) -> Self::Output
 	{
-		match *self
+		match self.clone()
 		{
 			TextOffset(v1, v2) => TextOffset(v1, v2),
 			Font(v1, v2) => Font(v1.into(), v2),
@@ -272,7 +273,7 @@ impl<'l> OneWayOwned for LabelOption<&'l str>
 			Rotate(v) => Rotate(v),
 			TextAlign(v) => TextAlign(v),
 			MarkerSymbol(v) => MarkerSymbol(v),
-			MarkerColor(v) => MarkerColor(v.into()),
+			MarkerColor(v) => MarkerColor(v.to_one_way_owned()),
 			MarkerSize(v) => MarkerSize(v),
 		}
 	}

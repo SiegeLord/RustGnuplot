@@ -307,7 +307,7 @@ fn example(c: Common)
 				MarkerSymbol('*'),
 				TextAlign(AlignCenter),
 				TextOffset(0.0, -1.0),
-				MarkerColor("red"),
+				MarkerColor(RGBColor("red")),
 				MarkerSize(2.0),
 			],
 		);
