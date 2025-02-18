@@ -51,35 +51,32 @@ macro_rules! first_opt_default
 // returns (data, num_rows, num_cols)
 macro_rules! generate_data {
 	($options: ident, $( $d:ident ),*) => {
-		{let mut c_data = None;
+		{
+			let mut c_data = None;
 
-		first_opt! {$options,
-			ColorOpt(ref color) =>
-			{
-				match color
+			first_opt! {$options,
+				ColorOpt(ref color) =>
 				{
-					ColorType::VariableColor(values)| ColorType::RGBVariableColor(values) => {
-						c_data = Some(values);
-					},
-					_ => (),
+					if color.is_variable() {
+						c_data = Some(color.data());
+					}
 				}
 			}
+			if let Some(c_values) = c_data {
+				generate_data_inner!(
+					$(
+						$d,
+					)*
+					c_values
+				)
+			} else {
+				generate_data_inner!(
+					$(
+						$d,
+					)*
+				)
+			}
 		}
-		if let Some(c_values) = c_data {
-			generate_data_inner!(
-				$(
-					$d,
-				)*
-				c_values
-			)
-		} else{
-			generate_data_inner!(
-				$(
-					$d,
-				)*
-			)
-		}
-	}
 	};
 }
 

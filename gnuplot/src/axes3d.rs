@@ -8,7 +8,6 @@ use crate::options::*;
 use crate::util::OneWayOwned;
 use crate::writer::Writer;
 use std::borrow::Borrow;
-use crate::ColorType;
 
 enum View
 {

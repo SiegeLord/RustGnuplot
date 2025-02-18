@@ -1,9 +1,15 @@
 //! TODO
 
+use std::fmt::Display;
+use crate::util::OneWayOwned;
 pub use self::ColorType::*;
 
-pub trait IntoColor: Into<ColorType> + Clone {}
-impl<T: ?Sized + Into<ColorType> + Clone> IntoColor for T {}
+pub trait IntoColor<T>: Into<ColorType<T>> + Clone {}
+impl<TC, T: ?Sized + Into<ColorType<TC>> + Clone> IntoColor<TC> for T {}
+
+pub type ColorIndex = u8;
+pub type ColorComponent = u8;
+pub type ColorInt = u32;
 
 /// Option type (for lines, axes, and text) that allows the various different gnuplot
 /// color formats. The gnuplot [colorspec reference](http://gnuplot.info/docs_6.0/loc3640.html)
@@ -36,36 +42,77 @@ pub enum ColorType<T = String> {
     /// As with `RGBColor`, an alpha value of 0 represents a fully opaque color;
     /// an alpha value of 255 (FF) represents full transparency.
     ARGBIntegerColor(u8,u8,u8,u8),
-    RGBVariableColor(Vec<u32>),
+    VariableRGBColor(Vec<(u8, u8, u8)>),
+    VariableARGBColor(Vec<(u8, u8, u8, u8)>),
     PaletteFracColor(f32),
     PaletteCBColor(f32),
     PaletteZColor,
     PaletteColorMap(T),
-    VariableColor(Vec<u32>),
+    /// Set the color of all elements of the plot to the `n`th color in the current gnuplot color cycle.
+    IndexColor(u8),
+    /// A color type that sets the color per element using a index `n` which represents the `n`th
+    /// color in the current gnuplot color scheme. In gnuplot this is the last element in the plot command,
+    /// in Rust gnuplot, the color type takes a vector of u32, where each index is treated the same as the
+    /// fixed `IndexColor`.
+    /// This is useful for setting bars/boxes etc to be
+    /// the same color from multiple plot commands. The `color.rs` example has examples of this usage
+    VariableIndexColor(Vec<u8>),
+    ///
     BackgroundColor,
-    IndexColor,
+
+    /// Fixed black color
     Black,
 }
 
-impl ColorType {
+impl <T: Display> ColorType<T> {
     /// Returns the gnuplot string that will produce the requested color
 	pub fn command(&self) -> String {
 		match self {
-			RGBColor(s) => format!(r#"rgb "{}""#, s),
+            RGBColor(s) => format!(r#"rgb "{}""#, s),
             RGBIntegerColor(r, g, b) => format!(r#"rgb {}"#, from_argb(0, *r, *g, *b)),
             ARGBIntegerColor(a, r, g, b) => format!(r#"rgb {}"#, from_argb(*a, *r, *g, *b)),
-            RGBVariableColor(_) => String::from("rgb variable"),
+            VariableRGBColor(_) => String::from("rgb variable"),
+            VariableARGBColor(_) => String::from("rgb variable"),
             PaletteFracColor(_) => todo!(),
             PaletteCBColor(_) => todo!(),
             PaletteZColor => todo!(),
             PaletteColorMap(_) => todo!(),
-            VariableColor(_) => String::from("variable"),
+            VariableIndexColor(_) => String::from("variable"),
             BackgroundColor => todo!(),
-            IndexColor => todo!(),
+            IndexColor(n) => format!("{}", n),
             Black => String::from("black"),
 
 		}
 	}
+
+    pub fn data(&self) -> Vec<ColorInt> {
+        match self {
+            RGBColor(_) => panic!("data() called on non-variable color type."),
+            RGBIntegerColor(_, _, _) => panic!("data() called on non-variable color type."),
+            ARGBIntegerColor(_, _, _, _) => panic!("data() called on non-variable color type."),
+            VariableRGBColor(items) => {
+                items.iter().map(|(r, g, b)| from_argb(0, *r, *g, *b)).collect()
+            },
+            VariableARGBColor(items) => {
+                items.into_iter().map(|(a, r, g, b)| from_argb(*a, *r, *g, *b)).collect()
+            },
+            PaletteFracColor(_) => panic!("data() called on non-variable color type."),
+            PaletteCBColor(_) => panic!("data() called on non-variable color type."),
+            PaletteZColor => panic!("data() called on non-variable color type."),
+            PaletteColorMap(_) => panic!("data() called on non-variable color type."),
+            IndexColor(_) => panic!("data() called on non-variable color type."),
+            VariableIndexColor(items) => items.into_iter().map(|v| *v as ColorInt).collect(),
+            BackgroundColor => panic!("data() called on non-variable color type."),
+            Black => panic!("data() called on non-variable color type."),
+        }
+    }
+
+    pub fn is_variable(&self) -> bool {
+        match self {
+            VariableRGBColor(_) | VariableARGBColor(_) | VariableIndexColor(_) => true,
+            _ => false,
+        }
+    }
 }
 
 pub fn from_argb(a:u8, r:u8, g:u8, b:u8) -> u32{
@@ -97,37 +144,43 @@ impl <'l> Into<ColorType<&'l str>> for &'l str {
 // }
 
 
-impl<T:ToString> ColorType<T>{
-    pub fn to_one_way_owned(&self) -> ColorType<String> {
+impl<T:Display> OneWayOwned for ColorType<T>
+{
+	type Output = ColorType<String>;
+
+    fn to_one_way_owned(&self) -> ColorType<String> {
         match self {
             RGBColor(s)=>RGBColor(s.to_string()),
             RGBIntegerColor(r, g,b) => RGBIntegerColor(*r, *g, *b),
-            RGBVariableColor(_) => todo!(),
+            VariableRGBColor(d) => VariableRGBColor(d.clone()),
             PaletteFracColor(_) => todo!(),
             PaletteCBColor(_) => todo!(),
-            PaletteZColor => todo!(),
+            PaletteZColor => PaletteZColor,
             PaletteColorMap(_) => todo!(),
-            VariableColor(d) => VariableColor(d.clone()),
-            BackgroundColor => todo!(),
-            IndexColor => todo!(),
+            VariableIndexColor(d) => VariableIndexColor(d.clone()),
+            BackgroundColor => BackgroundColor,
+            IndexColor(n) => IndexColor(*n),
             Black => Black,
             ARGBIntegerColor(a, r, g, b) => ARGBIntegerColor(*a, *r,*g, *b),
+            VariableARGBColor(d) => VariableARGBColor(d.clone()),
         }
     }
 }
-impl ColorType {
+
+impl ColorType<String> {
     pub fn to_ref(&self) -> ColorType<&str> {
         match self {
-            RGBColor(s)=>RGBColor(&s),
+            RGBColor(s)=>RGBColor(s),
             RGBIntegerColor(r,g,b) =>  RGBIntegerColor(*r, *g, *b),
-            RGBVariableColor(_) => todo!(),
+            VariableRGBColor(d) => VariableRGBColor(d.to_vec()),
+            VariableARGBColor(d) => VariableARGBColor(d.to_vec()),
             PaletteFracColor(_) => todo!(),
             PaletteCBColor(_) => todo!(),
             PaletteZColor => todo!(),
             PaletteColorMap(_) => todo!(),
-            VariableColor(_) => todo!(),
+            VariableIndexColor(d) => VariableIndexColor(d.to_vec()),
             BackgroundColor => todo!(),
-            IndexColor => todo!(),
+            IndexColor(n) => IndexColor(*n),
             Black => Black,
             ARGBIntegerColor(a, r, g, b) => ARGBIntegerColor(*a, *r,*g, *b),
         }

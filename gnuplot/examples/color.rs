@@ -27,12 +27,12 @@ fn example(c: Common) {
 	ax.set_legend(Graph(0.5), Graph(0.9), &[], &[]);
 	let colors = [
 		Color("black"),
-		ColorOpt(ColorType::RGBColor("black")),
+		Color(ColorType::RGBColor("black")),
 		Color("red"),
-		ColorOpt(ColorType::RGBColor("#ff0000")),   // red using Hex coded RRGGBB
-		ColorOpt(ColorType::RGBColor("#ff8888")),   // pink using Hex coded RRGGBB
-		ColorOpt(ColorType::RGBColor("#88ff0000")), // pink using Hex coded AARRGGBB
-		ColorOpt(ColorType::RGBColor("#ff0000")),   // red using Hex coded RRGGBB
+		Color(ColorType::RGBColor("#ff0000")),   // red using Hex coded RRGGBB
+		Color(ColorType::RGBColor("#ff8888")),   // pink using Hex coded RRGGBB
+		Color(ColorType::RGBColor("#88ff0000")), // pink using Hex coded AARRGGBB
+		Color(ColorType::RGBColor("#ff0000")),   // red using Hex coded RRGGBB
 	];
 
 	for (i, color) in colors.into_iter().enumerate() {
@@ -55,11 +55,11 @@ fn example(c: Common) {
 	// let d4 = extract_col(3);
 	let d5 = extract_col(4);
 	let d6 = extract_col(5);
-	let row_index:Vec<_>  = (0..d1.len() as u32).collect();
+	let row_index:Vec<_>  = (1..=d1.len() as u8).collect();
 
 	// Demo/test of variable color in many different plot styles
 	// derived from plot 1 in https://gnuplot.sourceforge.net/demo_6.0/varcolor.html
-	// this demonstrates usage of variableColor with indcies to use gnuplots dfefalt color styles,
+	// this demonstrates usage of VariableIndexColor with indcies to use gnuplots dfefalt color styles,
 	// but make them align for multiple plot items on the same axis.
 	// i.e. evertything at x = 1 uses the first gnuplot color, everything at x = 2 uses the second and so on.
 	let mut fg = Figure::new();
@@ -73,18 +73,18 @@ fn example(c: Common) {
 
 	// let ax.financebars(...)
 	// points replaces circles (as circles not implemented)
-	ax.points(&d1, &d2, &[ColorOpt(VariableColor(row_index.clone())), PointSymbol('O'), PointSize(3.0)]);
+	ax.points(&d1, &d2, &[Color(VariableIndexColor(row_index.clone())), PointSymbol('O'), PointSize(3.0)]);
 	ax.box_xy_error_delta(
 		&d1,
 		iter::repeat(8),
 		d1.iter().map(by3),
 		d1.iter().map(by4),
-		&[ColorOpt(VariableColor(row_index.clone()))]);
+		&[Color(VariableIndexColor(row_index.clone()))]);
 	ax.boxes_set_width(
 		&d1,
 		d2.iter().map(|v| -v/2.0),
 		iter::repeat(0.2),
-		&[ColorOpt(VariableColor(row_index.clone()))]);
+		&[Color(VariableIndexColor(row_index.clone()))]);
 	// box_and_whisker is rust gnuplot's name for candlestick
 	ax.box_and_whisker_set_width(
 		&d1,
@@ -93,41 +93,12 @@ fn example(c: Common) {
 		d6,
 		d5,
 		iter::repeat(0.3),
-		&[ColorOpt(VariableColor(row_index.clone()))]);
+		&[Color(VariableIndexColor(row_index.clone()))]);
 	// set boxwidth 0.2 abs
 	// set bars front
 	// rgbfudge(x) = x*51*32768 + (11-x)*51*128 + int(abs(5.5-x)*510/9.)
 	c.show(&mut fg, "variable_color");
 
-	// let mut fg = Figure::new();
-
-	// fg.axes2d()
-	// 	.set_title("Box XY Error", &[])
-	// 	.box_xy_error_delta(
-	// 		[0.0f32, 1.0, 2.0].iter(),
-	// 		[-1.0f32, 0.0, 1.0].iter(),
-	// 		[0.25f32, 0.375, 0.15].iter(),
-	// 		[2.0f32, 3.0, 4.0].iter(),
-	// 		&[],
-	// 	)
-	// 	.box_xy_error_low_high(
-	// 		[-0.6f32, 1.5, 2.5].iter(),
-	// 		[-1.0f32, 0.0, 1.0].iter(),
-	// 		[-0.9f32, -1.0, 2.2].iter(),
-	// 		[-0.45f32, 3.0, 2.95].iter(),
-	// 		[-1.5f32, 4.5, 3.0].iter(),
-	// 		[0.5f32, 4.75, 0.125].iter(),
-	// 		&[
-	// 			Color("blue"),
-	// 			LineWidth(2.0),
-	// 			LineStyle(SmallDot),
-	// 			FillAlpha(0.5),
-	// 		],
-	// 	)
-	// 	.set_x_range(Fix(-1.0), Fix(3.0))
-	// 	.set_y_range(Fix(-3.0), Fix(5.0));
-
-	// c.show(&mut fg, "box_xy_error");
 }
 
 fn main() {

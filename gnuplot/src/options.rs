@@ -21,6 +21,7 @@ pub use self::XAxis::*;
 pub use self::YAxis::*;
 use crate::util::OneWayOwned;
 use crate::ColorType;
+use crate::IntoColor;
 
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others
@@ -77,7 +78,7 @@ pub enum PlotOption<T>
 
 #[allow(non_snake_case)]
 /// TODO
-pub fn Color<'l>(c:&'l str)->PlotOption<&'l str>{
+pub fn Color<'l, T: IntoColor<&'l str>>(c: T)->PlotOption<&'l str>{
 	ColorOpt(c.into())
 }
 
