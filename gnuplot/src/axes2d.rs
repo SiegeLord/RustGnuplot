@@ -522,6 +522,45 @@ impl Axes2D
 		self
 	}
 
+	/// Plot a 2D scatter-plot with a point standing in for each data point.
+	/// Additionally, error bars are attached to each data point in the X and Y directions.
+	/// # Arguments
+	/// * `x` - x values
+	/// * `y` - y values
+	/// * `x_error` - Errors associated with the x value
+	/// * `options` - Array of PlotOption controlling the appearance of the plot element. The relevant options are:
+	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
+	///     * `PointSymbol` - Sets symbol for each point
+	///     * `PointSize` - Sets the size of each point
+	///     * `Color` - Sets the color
+	pub fn xy_error_bars<
+		'l,
+		Tx: DataType,
+		X: IntoIterator<Item = Tx>,
+		Ty: DataType,
+		Y: IntoIterator<Item = Ty>,
+		Txe: DataType,
+		XE: IntoIterator<Item = Txe>,
+		Tye: DataType,
+		YE: IntoIterator<Item = Tye>,
+	>(
+		&'l mut self, x: X, y: Y, x_error: XE, y_error: YE, options: &[PlotOption<&str>],
+	) -> &'l mut Self
+	{
+		let (data, num_rows, num_cols) = generate_data!(options, x, y, x_error, y_error);
+		self.common.elems.push(
+			PlotElement::new_plot(
+				XYErrorBars,
+				data,
+				num_rows,
+				num_cols,
+				options,
+			)
+		);
+		self
+	}
+
+
 	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 	/// Additionally, error bars are attached to each data point in the X direction.
 	/// # Arguments

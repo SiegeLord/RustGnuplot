@@ -161,6 +161,7 @@ impl PlotElement
 			YErrorLines => "yerrorlines",
 			XErrorBars => "xerrorbars",
 			YErrorBars => "yerrorbars",
+			XYErrorBars => "xyerrorbars",
 			FillBetween => "filledcurves",
 			Polygons => "polygons",
 			Boxes => "boxes",
@@ -578,6 +579,7 @@ pub enum PlotType
 	XErrorLines,
 	YErrorLines,
 	XErrorBars,
+	XYErrorBars,
 	YErrorBars,
 	FillBetween,
 	Polygons,
@@ -607,7 +609,7 @@ impl PlotType
 	{
 		matches!(
 			*self,
-			Points | LinesPoints | XErrorLines | YErrorLines | XErrorBars | YErrorBars
+			Points | LinesPoints | XErrorLines | YErrorLines | XErrorBars | YErrorBars | XYErrorBars
 		)
 	}
 
