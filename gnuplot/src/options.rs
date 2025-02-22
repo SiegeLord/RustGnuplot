@@ -56,7 +56,7 @@ pub enum PlotOption<T>
 	ColorOpt(ColorType<T>),
 	/// Sets the color of the border of a filled plot (if it has one). The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white).
-	BorderColor(T),
+	BorderColorOpt(ColorType<T>),
 	/// Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.
 	LineStyle(DashType),
 	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque. Cannot be used with `FillPattern`.
@@ -82,6 +82,13 @@ pub fn Color<'l, T: IntoColor<&'l str>>(c: T)->PlotOption<&'l str>{
 	ColorOpt(c.into())
 }
 
+#[allow(non_snake_case)]
+/// TODO
+pub fn BorderColor<'l, T: IntoColor<&'l str>>(c: T)->PlotOption<&'l str>{
+	BorderColorOpt(c.into())
+}
+
+
 impl<'l> OneWayOwned for PlotOption<&'l str>
 {
 	type Output = PlotOption<String>;
@@ -94,7 +101,7 @@ impl<'l> OneWayOwned for PlotOption<&'l str>
 			Caption(v) => Caption(v.into()),
 			LineWidth(v) => LineWidth(v),
 			ColorOpt(ref v) => ColorOpt(v.to_one_way_owned()),
-			BorderColor(v) => BorderColor(v.into()),
+			BorderColorOpt(ref v) => BorderColorOpt(v.to_one_way_owned()),
 			LineStyle(v) => LineStyle(v),
 			FillAlpha(v) => FillAlpha(v),
 			FillRegion(v) => FillRegion(v),

@@ -219,11 +219,10 @@ impl PlotElement
 
 			if self.plot_type.is_line()
 			{
-				writer.write_str(" border");
 				first_opt! {self.options,
-					BorderColor(ref s) =>
+					BorderColorOpt(ref s) =>
 					{
-						write!(writer, r#" rgb "{}""#, s);
+						write!(writer, " border {}", s.command());
 					}
 				}
 			}

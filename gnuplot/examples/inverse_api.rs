@@ -33,7 +33,7 @@ impl PlotElement for Lines
 				Caption(v) => Caption(&v),
 				LineWidth(v) => LineWidth(*v),
 				ColorOpt(v) => ColorOpt(v.to_ref()),
-				BorderColor(v) => BorderColor(&v),
+				BorderColorOpt(v) => BorderColorOpt(v.to_ref()),
 				LineStyle(v) => LineStyle(*v),
 				FillAlpha(v) => FillAlpha(*v),
 				FillRegion(v) => FillRegion(*v),
