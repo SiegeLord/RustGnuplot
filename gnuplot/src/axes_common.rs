@@ -167,6 +167,7 @@ impl PlotElement
 			Boxes => "boxes",
 			BoxAndWhisker => "candlestick",
 			BoxXYError => "boxxyerror",
+			BoxErrorBars => "boxerrorbars",
 			Pm3D => "pm3d",
 			Image => "image",
 		};
@@ -583,6 +584,7 @@ pub enum PlotType
 	FillBetween,
 	Polygons,
 	Boxes,
+	BoxErrorBars,
 	BoxAndWhisker,
 	BoxXYError,
 	Pm3D,
@@ -600,7 +602,7 @@ impl PlotType
 				| XErrorLines
 				| Boxes | YErrorLines
 				| BoxAndWhisker
-				| BoxXYError | Polygons
+				| BoxXYError | BoxErrorBars | Polygons
 		)
 	}
 
@@ -616,7 +618,7 @@ impl PlotType
 	{
 		matches!(
 			*self,
-			Boxes | FillBetween | BoxAndWhisker | BoxXYError | Polygons
+			Boxes | FillBetween | BoxAndWhisker | BoxXYError | BoxErrorBars | Polygons
 		)
 	}
 }
