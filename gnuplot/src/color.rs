@@ -58,7 +58,7 @@ pub enum ColorType<T = String> {
 	VariableARGBColor(Vec<ARGBInts>),
 	PaletteFracColor(f32),
 	PaletteCBColor(f32),
-	PaletteZColor,
+	VariablePaletteColor(Vec<f64>),
 	PaletteColorMap(T),
 	/// Set the color of all elements of the plot to the `n`th color in the current gnuplot color cycle.
 	IndexColor(ColorIndex),
@@ -86,7 +86,7 @@ impl<T: Display> ColorType<T> {
 			VariableARGBColor(_) => String::from("rgb variable"),
 			PaletteFracColor(_) => todo!(),
 			PaletteCBColor(_) => todo!(),
-			PaletteZColor => todo!(),
+			VariablePaletteColor(_) => String::from("palette z"),
 			PaletteColorMap(_) => todo!(),
 			VariableIndexColor(_) => String::from("variable"),
 			BackgroundColor => todo!(),
@@ -95,25 +95,25 @@ impl<T: Display> ColorType<T> {
 		}
 	}
 
-	pub fn data(&self) -> Vec<ColorInt> {
+	pub fn data(&self) -> Vec<f64> {
 		match self {
 			RGBColor(_) => panic!("data() called on non-variable color type."),
 			RGBIntegerColor(_, _, _) => panic!("data() called on non-variable color type."),
 			ARGBIntegerColor(_, _, _, _) => panic!("data() called on non-variable color type."),
 			VariableRGBColor(items) => items
 				.iter()
-				.map(|(r, g, b)| from_argb(0, *r, *g, *b))
+				.map(|(r, g, b)| from_argb(0, *r, *g, *b) as f64)
 				.collect(),
 			VariableARGBColor(items) => items
 				.into_iter()
-				.map(|(a, r, g, b)| from_argb(*a, *r, *g, *b))
+				.map(|(a, r, g, b)| from_argb(*a, *r, *g, *b) as f64)
 				.collect(),
 			PaletteFracColor(_) => panic!("data() called on non-variable color type."),
 			PaletteCBColor(_) => panic!("data() called on non-variable color type."),
-			PaletteZColor => panic!("data() called on non-variable color type."),
+			VariablePaletteColor(items) => items.clone(),
 			PaletteColorMap(_) => panic!("data() called on non-variable color type."),
 			IndexColor(_) => panic!("data() called on non-variable color type."),
-			VariableIndexColor(items) => items.into_iter().map(|v| *v as ColorInt).collect(),
+			VariableIndexColor(items) => items.into_iter().map(|v| *v as f64).collect(),
 			BackgroundColor => panic!("data() called on non-variable color type."),
 			Black => panic!("data() called on non-variable color type."),
 		}
@@ -121,7 +121,10 @@ impl<T: Display> ColorType<T> {
 
 	pub fn is_variable(&self) -> bool {
 		match self {
-			VariableRGBColor(_) | VariableARGBColor(_) | VariableIndexColor(_) => true,
+			VariableRGBColor(_)
+			| VariableARGBColor(_)
+			| VariableIndexColor(_)
+			| VariablePaletteColor(_) => true,
 			_ => false,
 		}
 	}
@@ -232,7 +235,7 @@ impl<T: Display> OneWayOwned for ColorType<T> {
 			VariableRGBColor(d) => VariableRGBColor(d.clone()),
 			PaletteFracColor(_) => todo!(),
 			PaletteCBColor(_) => todo!(),
-			PaletteZColor => PaletteZColor,
+			VariablePaletteColor(d) => VariablePaletteColor(d.clone()),
 			PaletteColorMap(_) => todo!(),
 			VariableIndexColor(d) => VariableIndexColor(d.clone()),
 			BackgroundColor => BackgroundColor,
@@ -253,7 +256,7 @@ impl ColorType<String> {
 			VariableARGBColor(d) => VariableARGBColor(d.to_vec()),
 			PaletteFracColor(_) => todo!(),
 			PaletteCBColor(_) => todo!(),
-			PaletteZColor => todo!(),
+			VariablePaletteColor(d) => VariablePaletteColor(d.to_vec()),
 			PaletteColorMap(_) => todo!(),
 			VariableIndexColor(d) => VariableIndexColor(d.to_vec()),
 			BackgroundColor => todo!(),

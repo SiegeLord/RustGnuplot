@@ -77,12 +77,20 @@ fn example(c: Common) {
 	// but make them align for multiple plot items on the same axis. This is implicity constructed from a Vec<u8> using
 	// the `Color` function but could equivalently be created explicitly using `ColorType::VariableIndexColor(row_index.clone())`
 	//
-	// The second color loop ...
-	for color in [Color(row_index.clone())] {
+	// The second color loop use a VariablePaletteColor: this selects the color based on the current color palette and the
+	// input value for each data point. The palette is scaled to the maximum value in the vector of `f64`s passed
+	// to the VariablePaletteColor
+	for (color, label) in [
+		(Color(row_index.clone()), "VariableIndexColor"),
+		(
+			ColorOpt(VariablePaletteColor(row_index.iter().map(|v| *v as f64).collect())),
+			"VariablePaletteColor",
+		),
+	] {
 		let mut fg = Figure::new();
 		let ax = fg.axes2d();
 		ax.set_title(
-			"variable color boxerror, xyerrorbars, impulses, vectors, and labels",
+			&format!("variable color boxerror, points, xyerrorbars, and boxxyerror.\nColor used is a {label}"),
 			&[],
 		);
 		ax.set_y_range(Fix(-4.0), Fix(11.5));
