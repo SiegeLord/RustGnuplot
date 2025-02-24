@@ -479,7 +479,7 @@ pub fn write_out_label_options(
 			first_opt! {options,
 				MarkerColor(ref s) =>
 				{
-					write!(w, r#" lc rgb "{}""#, s.command());
+					write!(w, r#" lc "{}""#, s.command());
 				}
 			}
 
@@ -1081,6 +1081,7 @@ pub struct AxesCommonData
 	pub aspect_ratio: AutoOption<f64>,
 	pub margins: Margins,
 	pub palette: PaletteType<Vec<(f32, f32, f32, f32)>>,
+	pub colormaps: Vec<(String, PaletteType<Vec<(f32, f32, f32, f32)>>)>
 }
 
 impl AxesCommonData
@@ -1104,6 +1105,7 @@ impl AxesCommonData
 			aspect_ratio: Auto,
 			margins: Margins::new(),
 			palette: COLOR.to_one_way_owned(),
+			colormaps: Vec::new(),
 		};
 		ret.x2_axis.tick_type = TickType::None;
 		ret.y2_axis.tick_type = TickType::None;
@@ -1236,60 +1238,19 @@ impl AxesCommonData
 			}
 		}
 		self.margins.write_out_commands(w);
+		self.palette.write_out_commands(w);
 
-		match self.palette
-		{
-			Gray(gamma) =>
-			{
-				assert!(gamma > 0.0, "Gamma must be positive");
-				writeln!(w, "set palette gray gamma {:.12e}", gamma);
+		if !self.colormaps.is_empty(){
+			// save previous palette
+			writeln!(w, "set colormap new __ORIGINAL_COLORMAP__");
+			for (name, map) in &self.colormaps {
+				// set palette to the requested map
+				map.write_out_commands(w);
+				// save current palette to colormap with the requested name
+				writeln!(w, "set colormap new {name}");
 			}
-			Formula(r, g, b) =>
-			{
-				assert!(r >= -36 && r <= 36, "Invalid r formula!");
-				assert!(g >= -36 && g <= 36, "Invalid g formula!");
-				assert!(b >= -36 && b <= 36, "Invalid b formula!");
-				writeln!(w, "set palette rgbformulae {},{},{}", r, g, b);
-			}
-			CubeHelix(start, rev, sat, gamma) =>
-			{
-				assert!(sat >= 0.0, "Saturation must be non-negative");
-				assert!(gamma > 0.0, "Gamma must be positive");
-				writeln!(
-					w,
-					"set palette cubehelix start {:.12e} cycles {:.12e} saturation {:.12e} gamma {:.12e}",
-					start, rev, sat, gamma
-				);
-			}
-			Custom(ref entries) =>
-			{
-				if entries.len() < 2
-				{
-					panic!("Need at least 2 elements in a custom palette");
-				}
-				write!(w, "set palette defined (");
-
-				let mut first = true;
-				let mut old_x = 0.0;
-				for &(x, r, g, b) in entries
-				{
-					if first
-					{
-						old_x = x;
-						first = false;
-					}
-					else
-					{
-						write!(w, ",");
-					}
-					assert!(x >= old_x, "The gray levels must be non-decreasing!");
-					old_x = x;
-
-					write!(w, "{:.12e} {:.12e} {:.12e} {:.12e}", x, r, g, b);
-				}
-
-				writeln!(w, ")");
-			}
+			// reload previous palette from saved colormap
+			writeln!(w, "set palette colormap __ORIGINAL_COLORMAP__");
 		}
 
 		self.x_axis.write_out_commands(w, version);
@@ -2091,6 +2052,18 @@ pub trait AxesCommon: AxesCommonPrivate
 	fn set_palette(&mut self, palette: PaletteType<&[(f32, f32, f32, f32)]>) -> &mut Self
 	{
 		self.get_common_data_mut().palette = palette.to_one_way_owned();
+		self
+	}
+
+	/// Creates and saves a colormap in the gnuplot environment that can be used for
+	/// later plots (see examples/color_variable.rs for example usage)
+	///
+	/// /// # Arguments
+	/// * `name` - The name with which to save the colormap
+	/// * `palette` - What palette type to use
+	fn create_colormap(&mut self, name: &str, palette: PaletteType<&[(f32, f32, f32, f32)]>) -> &mut Self
+	{
+		self.get_common_data_mut().colormaps.push((name.to_owned(), palette.to_one_way_owned()));
 		self
 	}
 }

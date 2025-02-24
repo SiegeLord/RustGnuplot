@@ -59,7 +59,7 @@ pub enum ColorType<T = String> {
 	PaletteFracColor(f32),
 	PaletteCBColor(f32),
 	VariablePaletteColor(Vec<f64>),
-	PaletteColorMap(T),
+	SavedColorMap(T, Vec<f64>),
 	/// Set the color of all elements of the plot to the `n`th color in the current gnuplot color cycle.
 	IndexColor(ColorIndex),
 	/// A color type that sets the color per element using a index `n` which represents the `n`th
@@ -87,7 +87,7 @@ impl<T: Display> ColorType<T> {
 			PaletteFracColor(_) => todo!(),
 			PaletteCBColor(_) => todo!(),
 			VariablePaletteColor(_) => String::from("palette z"),
-			PaletteColorMap(_) => todo!(),
+			SavedColorMap(s, _) => format!("palette {s}"),
 			VariableIndexColor(_) => String::from("variable"),
 			BackgroundColor => todo!(),
 			IndexColor(n) => format!("{}", n),
@@ -111,7 +111,7 @@ impl<T: Display> ColorType<T> {
 			PaletteFracColor(_) => panic!("data() called on non-variable color type."),
 			PaletteCBColor(_) => panic!("data() called on non-variable color type."),
 			VariablePaletteColor(items) => items.clone(),
-			PaletteColorMap(_) => panic!("data() called on non-variable color type."),
+			SavedColorMap(_, items) => items.clone(),
 			IndexColor(_) => panic!("data() called on non-variable color type."),
 			VariableIndexColor(items) => items.into_iter().map(|v| *v as f64).collect(),
 			BackgroundColor => panic!("data() called on non-variable color type."),
@@ -124,7 +124,8 @@ impl<T: Display> ColorType<T> {
 			VariableRGBColor(_)
 			| VariableARGBColor(_)
 			| VariableIndexColor(_)
-			| VariablePaletteColor(_) => true,
+			| VariablePaletteColor(_)
+			| SavedColorMap(_, _) => true,
 			_ => false,
 		}
 	}
@@ -236,7 +237,7 @@ impl<T: Display> OneWayOwned for ColorType<T> {
 			PaletteFracColor(_) => todo!(),
 			PaletteCBColor(_) => todo!(),
 			VariablePaletteColor(d) => VariablePaletteColor(d.clone()),
-			PaletteColorMap(_) => todo!(),
+			SavedColorMap(s, d) => SavedColorMap(s.to_string(), d.clone()),
 			VariableIndexColor(d) => VariableIndexColor(d.clone()),
 			BackgroundColor => BackgroundColor,
 			IndexColor(n) => IndexColor(*n),
@@ -257,7 +258,7 @@ impl ColorType<String> {
 			PaletteFracColor(_) => todo!(),
 			PaletteCBColor(_) => todo!(),
 			VariablePaletteColor(d) => VariablePaletteColor(d.to_vec()),
-			PaletteColorMap(_) => todo!(),
+			SavedColorMap(s, d) => SavedColorMap(s, d.to_vec()),
 			VariableIndexColor(d) => VariableIndexColor(d.to_vec()),
 			BackgroundColor => todo!(),
 			IndexColor(n) => IndexColor(*n),

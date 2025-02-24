@@ -20,6 +20,7 @@ pub use self::TickOption::*;
 pub use self::XAxis::*;
 pub use self::YAxis::*;
 use crate::util::OneWayOwned;
+use crate::writer::Writer;
 use crate::ColorType;
 use crate::IntoColor;
 
@@ -468,6 +469,66 @@ pub const RAINBOW: PaletteType<&'static [(f32, f32, f32, f32)]> = Formula(33, 13
 pub const HOT: PaletteType<&'static [(f32, f32, f32, f32)]> = Formula(34, 35, 36);
 /// A nice default for a cube helix
 pub const HELIX: PaletteType<&'static [(f32, f32, f32, f32)]> = CubeHelix(0.5, -0.8, 2.0, 1.0);
+
+impl PaletteType<Vec<(f32, f32, f32, f32)>>{
+	pub fn write_out_commands(&self, w: &mut dyn Writer)
+	{
+		match *self
+			{
+				Gray(gamma) =>
+				{
+					assert!(gamma > 0.0, "Gamma must be positive");
+					writeln!(w, "set palette gray gamma {:.12e}", gamma);
+				}
+				Formula(r, g, b) =>
+				{
+					assert!(r >= -36 && r <= 36, "Invalid r formula!");
+					assert!(g >= -36 && g <= 36, "Invalid g formula!");
+					assert!(b >= -36 && b <= 36, "Invalid b formula!");
+					writeln!(w, "set palette rgbformulae {},{},{}", r, g, b);
+				}
+				CubeHelix(start, rev, sat, gamma) =>
+				{
+					assert!(sat >= 0.0, "Saturation must be non-negative");
+					assert!(gamma > 0.0, "Gamma must be positive");
+					writeln!(
+						w,
+						"set palette cubehelix start {:.12e} cycles {:.12e} saturation {:.12e} gamma {:.12e}",
+						start, rev, sat, gamma
+					);
+				}
+				Custom(ref entries) =>
+				{
+					if entries.len() < 2
+					{
+						panic!("Need at least 2 elements in a custom palette");
+					}
+					write!(w, "set palette defined (");
+
+					let mut first = true;
+					let mut old_x = 0.0;
+					for &(x, r, g, b) in entries
+					{
+						if first
+						{
+							old_x = x;
+							first = false;
+						}
+						else
+						{
+							write!(w, ",");
+						}
+						assert!(x >= old_x, "The gray levels must be non-decreasing!");
+						old_x = x;
+
+						write!(w, "{:.12e} {:.12e} {:.12e} {:.12e}", x, r, g, b);
+					}
+
+					writeln!(w, ")");
+				}
+			}
+		}
+}
 
 /// Gnuplot version identifier. This is used to handle version-specific
 /// features.

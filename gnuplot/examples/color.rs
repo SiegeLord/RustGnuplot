@@ -2,7 +2,7 @@ use std::iter;
 
 // This file is released into Public Domain.
 use crate::common::*;
-use gnuplot::*;
+use gnuplot::{palettes::MAGMA, *};
 
 mod common;
 
@@ -142,11 +142,93 @@ fn example(c: Common) {
 			iter::repeat(10),
 			d1.iter().map(by3),
 			d1.iter().map(by4),
-			&[color.clone()],
+			&[color.clone(), BorderColor(RGBColor("black"))],
 		);
 
 		c.show(&mut fg, "variable_color");
 	}
+
+	// #####################################################################
+	// The example below shows the same graphs as in the loop, but using a set of saved colormaps
+	// similar to palette in gnuplot terms, but the current palette is applied to all plots by default, and
+	// multiple named colormaps can be created).
+	//
+	// As with VariablePaletteColor, this Color takes a vector of f64 that says which point in the colormap to use,
+	// but it also takes a the name of the colormap from which to draw the colors.
+	//
+	// Note that the Color range appears to be shared across plots: i.e. if one plot has
+	// color data (the Vec<f64>) in the range 0-1, and another in the range 1-100, all the
+	// colors in the first plot will be right at the bottom end of it's colormap, even if that's
+	// a different colormap to the one used in the second plot.
+	let mut fg = Figure::new();
+	let ax = fg.axes2d();
+
+	// First create the colormaps we will later refer to
+	// MAGMA is one of the colormaps provide with rust gnuplot
+	ax.create_colormap("magma", MAGMA);
+	// HOT is one of the colormaps provide with rust gnuplot
+	ax.create_colormap("hot", HOT);
+	//  ocean (green-blue-white) as per the gnuplot documentation
+	ax.create_colormap("ocean", PaletteType::Formula(23, 28, 3));
+
+	let color_values: Vec<f64> = row_index.iter().map(|v| *v as f64).collect();
+
+	ax.set_title(
+		&format!("variable color boxerror, points, xyerrorbars, and boxxyerror.\nColor used is a SavedColormap"),
+		&[],
+	);
+	ax.set_y_range(Fix(-4.0), Fix(11.5));
+	ax.box_error_low_high_set_width(
+		&d1,
+		&d5,
+		&d2,
+		&d6,
+		iter::repeat(0.2),
+		&[
+			Color(SavedColorMap("magma", color_values.clone())),
+			FillAlpha(0.5),
+			BorderColor(RGBColor("black")),
+		],
+	);
+	ax.points(
+		&d1,
+		iter::repeat(1),
+		&[
+			Color(SavedColorMap(
+				"hot",
+				color_values.iter().map(|v| 11.0 - *v).collect(),
+			)),
+			PointSymbol('D'),
+		],
+	);
+	ax.xy_error_bars(
+		&d1,
+		iter::repeat(8),
+		d1.iter().map(by3),
+		d1.iter().map(by4),
+		&[Color(SavedColorMap("ocean", color_values.clone()))],
+	);
+	ax.points(
+		&d1,
+		d2.iter().map(|v| -v / 2.0),
+		&[
+			Color(SavedColorMap("magma", color_values.clone())),
+			PointSymbol('O'),
+			PointSize(3.0),
+		],
+	);
+	ax.box_xy_error_delta(
+		&d1,
+		iter::repeat(10),
+		d1.iter().map(by3),
+		d1.iter().map(by4),
+		&[
+			Color(SavedColorMap("hot", color_values.clone())),
+			BorderColor(RGBColor("black")),
+		],
+	);
+
+	c.show(&mut fg, "variable_palette");
 }
 
 fn main() {
