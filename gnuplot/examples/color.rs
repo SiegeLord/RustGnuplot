@@ -65,8 +65,15 @@ fn example(c: Common) {
 	let by3 = |x| (((x % 3.0) + 1.0) / 6.0);
 	let by4 = |x| (((x % 4.0) + 1.0) / 7.0);
 
+	let argb_formula = |x: &f64| {
+		let a = 255.0 * (x - 5.5).abs() / 5.5;
+		let r = x * 51.0 / 2.0;
+		let g = (11.0 - x) * 51.0 / 2.0;
+		let b = ((5.5 - x).abs() * 2.0 * 510.0 / 9.0).round();
+		(a as u8, r as u8, g as u8, b as u8)
+	};
 	// Demo/test of variable color in many different plot styles
-	// derived from https://gnuplot.sourceforge.net/demo_6.0/varcolor.html
+	// Inspired by https://gnuplot.sourceforge.net/demo_6.0/varcolor.html
 	//
 	// The loop is run four times with different color sets: each one sets all the elements of a given
 	// plot to a different color, while making sure the colors align by x position: i.e. everything at x = 1
@@ -75,16 +82,27 @@ fn example(c: Common) {
 	//
 	// The first color loop demonstrates usage of VariableIndexColor with indices to use gnuplot's default color styles,
 	// but make them align for multiple plot items on the same axis. This is implicity constructed from a Vec<u8> using
-	// the `Color` function but could equivalently be created explicitly using `ColorType::VariableIndexColor(row_index.clone())`
+	// the `Color` function but could equivalently be created explicitly using `ColorOpt(ColorType::VariableIndexColor(row_index.clone()))`
 	//
-	// The second color loop use a VariablePaletteColor: this selects the color based on the current color palette and the
+	// The second color loop uses a VariablePaletteColor: this selects the color based on the current color palette and the
 	// input value for each data point. The palette is scaled to the maximum value in the vector of `f64`s passed
-	// to the VariablePaletteColor
+	// to the VariablePaletteColor.
+	//
+	// The third color loop uses an (implicit) VariableARGBColor. The `Vec<(u8, u8, u8, u8)>` needed to constcruct the color
+	// is calculated in this case by the `argb_formula()` closure. An explicit VariableARGBColor could also be constructed using
+	// `ColorOpt(ColorType::VariableARGBColor(data)``. A VariableRGBColor is also defined that takes a 3-tuple of u8, rather than
+	// a 4 tuple.
 	for (color, label) in [
 		(Color(row_index.clone()), "VariableIndexColor"),
 		(
-			ColorOpt(VariablePaletteColor(row_index.iter().map(|v| *v as f64).collect())),
+			ColorOpt(VariablePaletteColor(
+				row_index.iter().map(|v| *v as f64).collect(),
+			)),
 			"VariablePaletteColor",
+		),
+		(
+			Color(d1.iter().map(argb_formula).collect::<Vec<_>>()),
+			"VariableARGBColor",
 		),
 	] {
 		let mut fg = Figure::new();
@@ -94,7 +112,6 @@ fn example(c: Common) {
 			&[],
 		);
 		ax.set_y_range(Fix(-4.0), Fix(11.5));
-		// unset colorbox
 		ax.box_error_low_high_set_width(
 			&d1,
 			&d5,
