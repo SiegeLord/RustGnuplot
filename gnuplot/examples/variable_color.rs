@@ -19,7 +19,6 @@ static CANDLESTICKS_STR: &str = "1	1.5	2 	2.4	4	6.
 10	2.7	3 	3.5	4	4.3";
 
 fn example(c: Common) {
-
 	let data: Vec<Vec<f64>> = CANDLESTICKS_STR
 		.split("\n")
 		.map(|line| {
@@ -63,9 +62,9 @@ fn example(c: Common) {
 	// input value for each data point. The palette is scaled to the maximum value in the vector of `f64`s passed
 	// to the VariablePaletteColor.
 	//
-	// The third color loop uses an (implicit) VariableARGBColor. The `Vec<(u8, u8, u8, u8)>` needed to constcruct the color
-	// is calculated in this case by the `argb_formula()` closure. An explicit VariableARGBColor could also be constructed using
-	// `ColorOpt(ColorType::VariableARGBColor(data)``. A VariableRGBColor is also defined that takes a 3-tuple of u8, rather than
+	// The third color loop uses an (implicit) VariableARGBString. The `Vec<(u8, u8, u8, u8)>` needed to constcruct the color
+	// is calculated in this case by the `argb_formula()` closure. An explicit VariableARGBString could also be constructed using
+	// `ColorOpt(ColorType::VariableARGBString(data)``. A VariableRGBString is also defined that takes a 3-tuple of u8, rather than
 	// a 4 tuple.
 	for (color, label) in [
 		(Color(row_index.clone()), "VariableIndexColor"),
@@ -77,7 +76,7 @@ fn example(c: Common) {
 		),
 		(
 			Color(d1.iter().map(argb_formula).collect::<Vec<_>>()),
-			"VariableARGBColor",
+			"VariableARGBString",
 		),
 	] {
 		let mut fg = Figure::new();
@@ -96,7 +95,7 @@ fn example(c: Common) {
 			&[
 				color.clone(),
 				FillAlpha(0.5),
-				BorderColor(RGBColor("black")),
+				BorderColor(RGBString("black")),
 			],
 		);
 		ax.points(&d1, iter::repeat(1), &[color.clone(), PointSymbol('D')]);
@@ -117,7 +116,7 @@ fn example(c: Common) {
 			iter::repeat(10),
 			d1.iter().map(by3),
 			d1.iter().map(by4),
-			&[color.clone(), BorderColor(RGBColor("black"))],
+			&[color.clone(), BorderColor(RGBString("black"))],
 		);
 
 		c.show(&mut fg, "variable_color");
@@ -162,7 +161,7 @@ fn example(c: Common) {
 		&[
 			Color(SavedColorMap("magma", color_values.clone())),
 			FillAlpha(0.5),
-			BorderColor(RGBColor("black")),
+			BorderColor(RGBString("black")),
 		],
 	);
 	ax.points(
@@ -199,7 +198,7 @@ fn example(c: Common) {
 		d1.iter().map(by4),
 		&[
 			Color(SavedColorMap("hot", color_values.clone())),
-			BorderColor(RGBColor("black")),
+			BorderColor(RGBString("black")),
 		],
 	);
 

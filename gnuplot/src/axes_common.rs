@@ -680,7 +680,7 @@ impl AxisData
 				w.write_str(self.axis.get_axis_str());
 				w.write_str("zeroaxis ");
 
-				AxesCommonData::write_color_options(w, &self.options, Some(ColorType::RGBColor("black".into())));
+				AxesCommonData::write_color_options(w, &self.options, Some(ColorType::RGBString("black".into())));
 				AxesCommonData::write_line_options(w, &self.options, version);
 			}
 			else
