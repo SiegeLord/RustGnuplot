@@ -133,7 +133,7 @@ impl<T: Display> ColorType<T> {
 fn from_argb(
 	a: ColorComponent, r: ColorComponent, g: ColorComponent, b: ColorComponent,
 ) -> ColorInt {
-	(a as ColorInt) << 24 + (r as ColorInt) << 16 + (g as ColorInt) << 8 + (b as ColorInt)
+	((a as ColorInt) << 24) + ((r as ColorInt) << 16) + ((g as ColorInt) << 8) + (b as ColorInt)
 }
 
 fn float_color_to_int(v: f64) -> u8 {
