@@ -30,7 +30,8 @@ pub type ARGBInts = (
 /// See example usages of these colors in `color.rs`, `variable_color.rs` in the
 /// [Examples folder](https://github.com/SiegeLord/RustGnuplot/tree/master/gnuplot/examples) on Github
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
-pub enum ColorType<T = String> {
+pub enum ColorType<T = String>
+{
 	/// string (`&str` or `String`, but usually created with `&str`) in one of the following gnuplot-supported formats
 	/// - colorname   --- e.g. "blue" [See the gnuplot
 	///     [list of colornames](http://gnuplot.info/docs_6.0/loc11229.html)]
@@ -87,10 +88,13 @@ pub enum ColorType<T = String> {
 	Black,
 }
 
-impl<T: Display> ColorType<T> {
+impl<T: Display> ColorType<T>
+{
 	/// Returns the gnuplot string that will produce the requested color
-	pub fn command(&self) -> String {
-		match self {
+	pub fn command(&self) -> String
+	{
+		match self
+		{
 			RGBString(s) => format!(r#"rgb "{}""#, s),
 			RGBInteger(r, g, b) => format!(r#"rgb {}"#, from_argb(0, *r, *g, *b)),
 			ARGBInteger(a, r, g, b) => format!(r#"rgb {}"#, from_argb(*a, *r, *g, *b)),
@@ -107,8 +111,10 @@ impl<T: Display> ColorType<T> {
 		}
 	}
 
-	pub fn data(&self) -> Vec<f64> {
-		match self {
+	pub fn data(&self) -> Vec<f64>
+	{
+		match self
+		{
 			RGBString(_) => panic!("data() called on non-variable color type."),
 			RGBInteger(_, _, _) => panic!("data() called on non-variable color type."),
 			ARGBInteger(_, _, _, _) => panic!("data() called on non-variable color type."),
@@ -131,8 +137,10 @@ impl<T: Display> ColorType<T> {
 		}
 	}
 
-	pub fn is_variable(&self) -> bool {
-		match self {
+	pub fn is_variable(&self) -> bool
+	{
+		match self
+		{
 			VariableRGBIntegers(_)
 			| VariableARGBIntegers(_)
 			| VariableIndex(_)
@@ -142,15 +150,23 @@ impl<T: Display> ColorType<T> {
 		}
 	}
 
-	pub fn has_alpha(&self) -> bool {
-		match self {
-			RGBString(s) => {
+	pub fn has_alpha(&self) -> bool
+	{
+		match self
+		{
+			RGBString(s) =>
+			{
 				let s = s.to_string();
-				if s.starts_with("0x") && s.chars().count() == 10 {
+				if s.starts_with("0x") && s.chars().count() == 10
+				{
 					true
-				} else if s.starts_with("#") && s.chars().count() == 9 {
+				}
+				else if s.starts_with("#") && s.chars().count() == 9
+				{
 					true
-				} else {
+				}
+				else
+				{
 					false
 				}
 			}
@@ -160,14 +176,16 @@ impl<T: Display> ColorType<T> {
 	}
 }
 
-fn from_argb(
-	a: ColorComponent, r: ColorComponent, g: ColorComponent, b: ColorComponent,
-) -> ColorInt {
+fn from_argb(a: ColorComponent, r: ColorComponent, g: ColorComponent, b: ColorComponent)
+	-> ColorInt
+{
 	((a as ColorInt) << 24) + ((r as ColorInt) << 16) + ((g as ColorInt) << 8) + (b as ColorInt)
 }
 
-fn float_color_to_int(v: f64) -> u8 {
-	if v < 0.0 || v > 1.0 {
+fn float_color_to_int(v: f64) -> u8
+{
+	if v < 0.0 || v > 1.0
+	{
 		panic!(
 			"Float value must be greater than zero and less than one. Actual value: {}",
 			v
@@ -176,7 +194,8 @@ fn float_color_to_int(v: f64) -> u8 {
 	((v * 255.0).round()) as u8
 }
 
-pub fn floats_to_rgb(r: f64, g: f64, b: f64) -> RGBInts {
+pub fn floats_to_rgb(r: f64, g: f64, b: f64) -> RGBInts
+{
 	(
 		float_color_to_int(r),
 		float_color_to_int(g),
@@ -184,7 +203,8 @@ pub fn floats_to_rgb(r: f64, g: f64, b: f64) -> RGBInts {
 	)
 }
 
-pub fn floats_to_argb(a: f64, r: f64, g: f64, b: f64) -> ARGBInts {
+pub fn floats_to_argb(a: f64, r: f64, g: f64, b: f64) -> ARGBInts
+{
 	(
 		float_color_to_int(a),
 		float_color_to_int(r),
@@ -193,73 +213,96 @@ pub fn floats_to_argb(a: f64, r: f64, g: f64, b: f64) -> ARGBInts {
 	)
 }
 
-impl<'l> Into<ColorType<String>> for &'l str {
-	fn into(self) -> ColorType<String> {
+impl<'l> Into<ColorType<String>> for &'l str
+{
+	fn into(self) -> ColorType<String>
+	{
 		ColorType::RGBString(String::from(self))
 	}
 }
 
-impl<'l> Into<ColorType<String>> for String {
-	fn into(self) -> ColorType<String> {
+impl<'l> Into<ColorType<String>> for String
+{
+	fn into(self) -> ColorType<String>
+	{
 		ColorType::RGBString(self)
 	}
 }
 
-impl<'l> Into<ColorType<&'l str>> for &'l str {
-	fn into(self) -> ColorType<&'l str> {
+impl<'l> Into<ColorType<&'l str>> for &'l str
+{
+	fn into(self) -> ColorType<&'l str>
+	{
 		ColorType::RGBString(self)
 	}
 }
 
-impl<T> Into<ColorType<T>> for ARGBInts {
-	fn into(self) -> ColorType<T> {
+impl<T> Into<ColorType<T>> for ARGBInts
+{
+	fn into(self) -> ColorType<T>
+	{
 		ColorType::ARGBInteger(self.0, self.1, self.2, self.3)
 	}
 }
 
-impl<T> Into<ColorType<T>> for RGBInts {
-	fn into(self) -> ColorType<T> {
+impl<T> Into<ColorType<T>> for RGBInts
+{
+	fn into(self) -> ColorType<T>
+	{
 		ColorType::RGBInteger(self.0, self.1, self.2)
 	}
 }
 
-impl<T> Into<ColorType<T>> for (f64, f64, f64) {
-	fn into(self) -> ColorType<T> {
+impl<T> Into<ColorType<T>> for (f64, f64, f64)
+{
+	fn into(self) -> ColorType<T>
+	{
 		let ints = floats_to_rgb(self.0, self.1, self.2);
 		ColorType::RGBInteger(ints.0, ints.1, ints.2)
 	}
 }
 
-impl<T> Into<ColorType<T>> for (f64, f64, f64, f64) {
-	fn into(self) -> ColorType<T> {
+impl<T> Into<ColorType<T>> for (f64, f64, f64, f64)
+{
+	fn into(self) -> ColorType<T>
+	{
 		let ints = floats_to_argb(self.0, self.1, self.2, self.3);
 		ColorType::ARGBInteger(ints.0, ints.1, ints.2, ints.3)
 	}
 }
 
-impl<T> Into<ColorType<T>> for Vec<RGBInts> {
-	fn into(self) -> ColorType<T> {
+impl<T> Into<ColorType<T>> for Vec<RGBInts>
+{
+	fn into(self) -> ColorType<T>
+	{
 		ColorType::VariableRGBIntegers(self)
 	}
 }
 
-impl<T> Into<ColorType<T>> for Vec<ARGBInts> {
-	fn into(self) -> ColorType<T> {
+impl<T> Into<ColorType<T>> for Vec<ARGBInts>
+{
+	fn into(self) -> ColorType<T>
+	{
 		ColorType::VariableARGBIntegers(self)
 	}
 }
 
-impl<T> Into<ColorType<T>> for Vec<ColorIndex> {
-	fn into(self) -> ColorType<T> {
+impl<T> Into<ColorType<T>> for Vec<ColorIndex>
+{
+	fn into(self) -> ColorType<T>
+	{
 		ColorType::VariableIndex(self)
 	}
 }
 
-impl<T: Display> OneWayOwned for ColorType<T> {
+impl<T: Display> OneWayOwned for ColorType<T>
+{
 	type Output = ColorType<String>;
 
-	fn to_one_way_owned(&self) -> ColorType<String> {
-		match self {
+	fn to_one_way_owned(&self) -> ColorType<String>
+	{
+		match self
+		{
 			RGBString(s) => RGBString(s.to_string()),
 			RGBInteger(r, g, b) => RGBInteger(*r, *g, *b),
 			VariableRGBIntegers(d) => VariableRGBIntegers(d.clone()),
@@ -277,9 +320,12 @@ impl<T: Display> OneWayOwned for ColorType<T> {
 	}
 }
 
-impl ColorType<String> {
-	pub fn to_ref(&self) -> ColorType<&str> {
-		match self {
+impl ColorType<String>
+{
+	pub fn to_ref(&self) -> ColorType<&str>
+	{
+		match self
+		{
 			RGBString(s) => RGBString(s),
 			RGBInteger(r, g, b) => RGBInteger(*r, *g, *b),
 			VariableRGBIntegers(d) => VariableRGBIntegers(d.to_vec()),

@@ -121,11 +121,7 @@ impl Axes3D
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y, z);
 		self.common.elems.push(PlotElement::new_plot(
-			Points,
-			data,
-			num_rows,
-			num_cols,
-			options,
+			Points, data, num_rows, num_cols, options,
 		));
 		self
 	}
@@ -154,11 +150,7 @@ impl Axes3D
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y, z);
 		self.common.elems.push(PlotElement::new_plot(
-			Lines,
-			data,
-			num_rows,
-			num_cols,
-			options,
+			Lines, data, num_rows, num_cols, options,
 		));
 		self
 	}

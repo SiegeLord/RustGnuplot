@@ -31,8 +31,10 @@ pub struct PlotElement
 impl PlotElement
 {
 	pub fn new_plot<'l>(
-		plot_type: PlotType, data: Vec<f64>, num_rows: usize, num_cols: usize, options: &[PlotOption<&str>],
-	) -> PlotElement{
+		plot_type: PlotType, data: Vec<f64>, num_rows: usize, num_cols: usize,
+		options: &[PlotOption<&str>],
+	) -> PlotElement
+	{
 		PlotElement {
 			data,
 			num_rows,
@@ -213,7 +215,8 @@ impl PlotElement
 						color_has_alpha = c.has_alpha()
 					}
 				}
-				if !color_has_alpha{
+				if !color_has_alpha
+				{
 					writer.write_str("transparent ");
 				}
 				writer.write_str("solid");
@@ -611,7 +614,8 @@ impl PlotType
 				| XErrorLines
 				| Boxes | YErrorLines
 				| BoxAndWhisker
-				| BoxXYError | BoxErrorBars | Polygons
+				| BoxXYError | BoxErrorBars
+				| Polygons
 		)
 	}
 
@@ -619,7 +623,12 @@ impl PlotType
 	{
 		matches!(
 			*self,
-			Points | LinesPoints | XErrorLines | YErrorLines | XErrorBars | YErrorBars | XYErrorBars
+			Points
+				| LinesPoints
+				| XErrorLines
+				| YErrorLines
+				| XErrorBars | YErrorBars
+				| XYErrorBars
 		)
 	}
 
@@ -689,7 +698,12 @@ impl AxisData
 				w.write_str(self.axis.get_axis_str());
 				w.write_str("zeroaxis ");
 
-				AxesCommonData::write_color_options(w, &self.options, false, Some(ColorType::RGBString("black".into())));
+				AxesCommonData::write_color_options(
+					w,
+					&self.options,
+					false,
+					Some(ColorType::RGBString("black".into())),
+				);
 				AxesCommonData::write_line_options(w, &self.options, version);
 			}
 			else
@@ -1090,7 +1104,7 @@ pub struct AxesCommonData
 	pub aspect_ratio: AutoOption<f64>,
 	pub margins: Margins,
 	pub palette: PaletteType<Vec<(f32, f32, f32, f32)>>,
-	pub colormaps: Vec<(String, PaletteType<Vec<(f32, f32, f32, f32)>>)>
+	pub colormaps: Vec<(String, PaletteType<Vec<(f32, f32, f32, f32)>>)>,
 }
 
 impl AxesCommonData
@@ -1197,9 +1211,12 @@ impl AxesCommonData
 	}
 
 	pub fn write_color_options(
-		c: &mut dyn Writer, options: &[PlotOption<String>], is_fill: bool, default: Option<ColorType>,
+		c: &mut dyn Writer, options: &[PlotOption<String>], is_fill: bool,
+		default: Option<ColorType>,
 	)
 	{
+		let main_type = if is_fill { "fillcolor" } else { "linecolor" };
+
 		let mut col = default.as_ref();
 		first_opt! {options,
 			ColorOpt(ref s) =>
@@ -1249,10 +1266,12 @@ impl AxesCommonData
 		self.margins.write_out_commands(w);
 		self.palette.write_out_commands(w);
 
-		if !self.colormaps.is_empty(){
+		if !self.colormaps.is_empty()
+		{
 			// save previous palette
 			writeln!(w, "set colormap new __ORIGINAL_COLORMAP__");
-			for (name, map) in &self.colormaps {
+			for (name, map) in &self.colormaps
+			{
 				// set palette to the requested map
 				map.write_out_commands(w);
 				// save current palette to colormap with the requested name
@@ -2070,9 +2089,13 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// /// # Arguments
 	/// * `name` - The name with which to save the colormap
 	/// * `palette` - What palette type to use
-	fn create_colormap(&mut self, name: &str, palette: PaletteType<&[(f32, f32, f32, f32)]>) -> &mut Self
+	fn create_colormap(
+		&mut self, name: &str, palette: PaletteType<&[(f32, f32, f32, f32)]>,
+	) -> &mut Self
 	{
-		self.get_common_data_mut().colormaps.push((name.to_owned(), palette.to_one_way_owned()));
+		self.get_common_data_mut()
+			.colormaps
+			.push((name.to_owned(), palette.to_one_way_owned()));
 		self
 	}
 }

@@ -18,7 +18,8 @@ static CANDLESTICKS_STR: &str = "1	1.5	2 	2.4	4	6.
 9	1.5	2 	2.4	3	3.5
 10	2.7	3 	3.5	4	4.3";
 
-fn example(c: Common) {
+fn example(c: Common)
+{
 	let data: Vec<Vec<f64>> = CANDLESTICKS_STR
 		.split("\n")
 		.map(|line| {
@@ -78,7 +79,8 @@ fn example(c: Common) {
 			Color(d1.iter().map(argb_formula).collect::<Vec<_>>()),
 			"VariableARGBString",
 		),
-	] {
+	]
+	{
 		let mut fg = Figure::new();
 		let ax = fg.axes2d();
 		ax.set_title(
@@ -205,6 +207,7 @@ fn example(c: Common) {
 	c.show(&mut fg, "variable_palette");
 }
 
-fn main() {
+fn main()
+{
 	Common::new().map(|c| example(c));
 }

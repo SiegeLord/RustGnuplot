@@ -380,15 +380,9 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				Lines,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			Lines, data, num_rows, num_cols, options,
+		));
 		self
 	}
 
@@ -412,15 +406,9 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				Points,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			Points, data, num_rows, num_cols, options,
+		));
 		self
 	}
 
@@ -440,15 +428,13 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				LinesPoints,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			LinesPoints,
+			data,
+			num_rows,
+			num_cols,
+			options,
+		));
 		self
 	}
 
@@ -476,15 +462,9 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y, x_error);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				XErrorBars,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			XErrorBars, data, num_rows, num_cols, options,
+		));
 		self
 	}
 
@@ -512,15 +492,9 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_error);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				YErrorBars,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			YErrorBars, data, num_rows, num_cols, options,
+		));
 		self
 	}
 
@@ -550,18 +524,15 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y, x_error, y_error);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				XYErrorBars,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			XYErrorBars,
+			data,
+			num_rows,
+			num_cols,
+			options,
+		));
 		self
 	}
-
 
 	/// Plot a 2D scatter-plot with a point standing in for each data point and lines connecting each data point.
 	/// Additionally, error bars are attached to each data point in the X direction.
@@ -589,15 +560,13 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y, x_error);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				XErrorLines,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			XErrorLines,
+			data,
+			num_rows,
+			num_cols,
+			options,
+		));
 		self
 	}
 
@@ -627,15 +596,14 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_error);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				YErrorLines,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);self
+		self.common.elems.push(PlotElement::new_plot(
+			YErrorLines,
+			data,
+			num_rows,
+			num_cols,
+			options,
+		));
+		self
 	}
 
 	/// Plot a 2D scatter-plot of two curves (bound by `y_lo` and `y_hi`) with a filled region between them.
@@ -663,15 +631,13 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y_lo, y_hi);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				FillBetween,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			FillBetween,
+			data,
+			num_rows,
+			num_cols,
+			options,
+		));
 		self
 	}
 
@@ -697,15 +663,13 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				FillBetween,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			FillBetween,
+			data,
+			num_rows,
+			num_cols,
+			options,
+		));
 		self
 	}
 
@@ -732,15 +696,9 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				Boxes,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			Boxes, data, num_rows, num_cols, options,
+		));
 		self
 	}
 
@@ -770,15 +728,9 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y, w);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				Boxes,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			Boxes, data, num_rows, num_cols, options,
+		));
 		self
 	}
 
@@ -810,15 +762,13 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_error);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				BoxErrorBars,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxErrorBars,
+			data,
+			num_rows,
+			num_cols,
+			options,
+		));
 		self
 	}
 
@@ -853,15 +803,13 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_error, x_delta);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				BoxErrorBars,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxErrorBars,
+			data,
+			num_rows,
+			num_cols,
+			options,
+		));
 		self
 	}
 
@@ -899,15 +847,13 @@ impl Axes2D
 		// xdelta (box width). If you supply four values rather than five, the fourth is interpreted as width.
 		let dummy_width = iter::repeat(-1.0);
 		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_low, y_high, dummy_width);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				BoxErrorBars,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxErrorBars,
+			data,
+			num_rows,
+			num_cols,
+			options,
+		));
 		self
 	}
 
@@ -945,15 +891,13 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_low, y_high, x_delta);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				BoxErrorBars,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxErrorBars,
+			data,
+			num_rows,
+			num_cols,
+			options,
+		));
 		self
 	}
 
@@ -990,20 +934,14 @@ impl Axes2D
 		box_max: BoxMax, options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		let (data, num_rows, num_cols) = generate_data!(
+		let (data, num_rows, num_cols) =
+			generate_data!(options, x, box_min, whisker_min, whisker_max, box_max);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxAndWhisker,
+			data,
+			num_rows,
+			num_cols,
 			options,
-			x,
-			box_min,
-			whisker_min,
-			whisker_max,
-			box_max);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				BoxAndWhisker,
-				data,
-				num_rows,
-				num_cols,
-				options,
 		));
 		self
 	}
@@ -1053,13 +991,12 @@ impl Axes2D
 			box_max,
 			box_width
 		);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				BoxAndWhisker,
-				data,
-				num_rows,
-				num_cols,
-				options,
+		self.common.elems.push(PlotElement::new_plot(
+			BoxAndWhisker,
+			data,
+			num_rows,
+			num_cols,
+			options,
 		));
 		self
 	}
@@ -1093,15 +1030,9 @@ impl Axes2D
 	) -> &'l mut Self
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y, x_delta, y_delta);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				BoxXYError,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxXYError, data, num_rows, num_cols, options,
+		));
 		self
 	}
 
@@ -1140,24 +1071,11 @@ impl Axes2D
 		options: &[PlotOption<&str>],
 	) -> &'l mut Self
 	{
-		let (data, num_rows, num_cols) = generate_data!(
-			options,
-			x,
-			y,
-			x_low,
-			x_high,
-			y_low,
-			y_high
-		);
-		self.common.elems.push(
-			PlotElement::new_plot(
-				BoxXYError,
-				data,
-				num_rows,
-				num_cols,
-				options,
-			)
-		);
+		let (data, num_rows, num_cols) =
+			generate_data!(options, x, y, x_low, x_high, y_low, y_high);
+		self.common.elems.push(PlotElement::new_plot(
+			BoxXYError, data, num_rows, num_cols, options,
+		));
 		self
 	}
 

@@ -6,14 +6,16 @@ use gnuplot::*;
 
 mod common;
 
-fn color_name<T: Debug>(color: &PlotOption<T>) -> String{
+fn color_name<T: Debug>(color: &PlotOption<T>) -> String
+{
 	let s = format!("{:?}", color).replace("ColorOpt(", "");
 	let mut chars = s.chars();
 	chars.next_back();
 	chars.as_str().to_string()
 }
 
-fn example(c: Common) {
+fn example(c: Common)
+{
 	let x = 0..5;
 
 	let colors = [
@@ -44,9 +46,9 @@ fn example(c: Common) {
 	ax.set_x_range(Fix(-10.0), Auto);
 	ax.set_legend(Graph(0.6), Graph(0.8), &[], &[Font("Arial", 14.0)]);
 
-
 	let n_colors = colors.len();
-	for (i, color) in colors.into_iter().enumerate() {
+	for (i, color) in colors.into_iter().enumerate()
+	{
 		ax.box_xy_error_delta(
 			x.clone(),
 			iter::repeat((n_colors - 1) - i),
@@ -85,6 +87,7 @@ fn example(c: Common) {
 	c.show(&mut fg, "rgb_color");
 }
 
-fn main() {
+fn main()
+{
 	Common::new().map(|c| example(c));
 }
