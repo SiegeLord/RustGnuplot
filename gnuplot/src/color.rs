@@ -101,7 +101,7 @@ impl<T: Display> ColorType<T> {
 			VariablePaletteColor(_) => String::from("palette z"),
 			SavedColorMap(s, _) => format!("palette {s}"),
 			VariableIndex(_) => String::from("variable"),
-			Background => todo!(),
+			Background => String::from("background"),
 			Index(n) => format!("{}", n),
 			Black => String::from("black"),
 		}
@@ -141,6 +141,23 @@ impl<T: Display> ColorType<T> {
 			_ => false,
 		}
 	}
+
+	pub fn has_alpha(&self) -> bool {
+		match self {
+			RGBString(s) => {
+				let s = s.to_string();
+				if s.starts_with("0x") && s.chars().count() == 10 {
+					true
+				} else if s.starts_with("#") && s.chars().count() == 9 {
+					true
+				} else {
+					false
+				}
+			}
+			ARGBInteger(_, _, _, _) | VariableARGBIntegers(_) => true,
+			_ => false,
+		}
+	}
 }
 
 fn from_argb(
@@ -159,7 +176,7 @@ fn float_color_to_int(v: f64) -> u8 {
 	((v * 255.0).round()) as u8
 }
 
-fn from_rgb_floats(r: f64, g: f64, b: f64) -> RGBInts {
+pub fn floats_to_rgb(r: f64, g: f64, b: f64) -> RGBInts {
 	(
 		float_color_to_int(r),
 		float_color_to_int(g),
@@ -167,7 +184,7 @@ fn from_rgb_floats(r: f64, g: f64, b: f64) -> RGBInts {
 	)
 }
 
-fn from_argb_floats(a: f64, r: f64, g: f64, b: f64) -> ARGBInts {
+pub fn floats_to_argb(a: f64, r: f64, g: f64, b: f64) -> ARGBInts {
 	(
 		float_color_to_int(a),
 		float_color_to_int(r),
@@ -208,14 +225,14 @@ impl<T> Into<ColorType<T>> for RGBInts {
 
 impl<T> Into<ColorType<T>> for (f64, f64, f64) {
 	fn into(self) -> ColorType<T> {
-		let ints = from_rgb_floats(self.0, self.1, self.2);
+		let ints = floats_to_rgb(self.0, self.1, self.2);
 		ColorType::RGBInteger(ints.0, ints.1, ints.2)
 	}
 }
 
 impl<T> Into<ColorType<T>> for (f64, f64, f64, f64) {
 	fn into(self) -> ColorType<T> {
-		let ints = from_argb_floats(self.0, self.1, self.2, self.3);
+		let ints = floats_to_argb(self.0, self.1, self.2, self.3);
 		ColorType::ARGBInteger(ints.0, ints.1, ints.2, ints.3)
 	}
 }

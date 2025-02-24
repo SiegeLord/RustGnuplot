@@ -207,7 +207,16 @@ impl PlotElement
 
 			if !is_pattern
 			{
-				writer.write_str("transparent solid");
+				let mut color_has_alpha = false;
+				first_opt! {self.options,
+					ColorOpt(ref c) => {
+						color_has_alpha = c.has_alpha()
+					}
+				}
+				if !color_has_alpha{
+					writer.write_str("transparent ");
+				}
+				writer.write_str("solid");
 				let mut alpha = 1.;
 				first_opt! {self.options,
 					FillAlpha(a) =>
@@ -255,7 +264,7 @@ impl PlotElement
 			}
 		}
 
-		AxesCommonData::write_color_options(writer, &self.options, None);
+		AxesCommonData::write_color_options(writer, &self.options, self.plot_type.is_fill(), None);
 
 		writer.write_str(" t \"");
 		first_opt! {self.options,
@@ -680,7 +689,7 @@ impl AxisData
 				w.write_str(self.axis.get_axis_str());
 				w.write_str("zeroaxis ");
 
-				AxesCommonData::write_color_options(w, &self.options, Some(ColorType::RGBString("black".into())));
+				AxesCommonData::write_color_options(w, &self.options, false, Some(ColorType::RGBString("black".into())));
 				AxesCommonData::write_line_options(w, &self.options, version);
 			}
 			else
@@ -1141,10 +1150,10 @@ impl AxesCommonData
 			}
 
 			AxesCommonData::write_line_options(c, &self.grid_options, version);
-			AxesCommonData::write_color_options(c, &self.grid_options, None);
+			AxesCommonData::write_color_options(c, &self.grid_options, false, None);
 			c.write_str(", ");
 			AxesCommonData::write_line_options(c, &self.minor_grid_options, version);
-			AxesCommonData::write_color_options(c, &self.minor_grid_options, None);
+			AxesCommonData::write_color_options(c, &self.minor_grid_options, false, None);
 			c.write_str("\n");
 		}
 	}
@@ -1188,7 +1197,7 @@ impl AxesCommonData
 	}
 
 	pub fn write_color_options(
-		c: &mut dyn Writer, options: &[PlotOption<String>], default: Option<ColorType>,
+		c: &mut dyn Writer, options: &[PlotOption<String>], is_fill: bool, default: Option<ColorType>,
 	)
 	{
 		let mut col = default.as_ref();
@@ -1200,7 +1209,7 @@ impl AxesCommonData
 		}
 		if let Some(s) = col
 		{
-			write!(c, " lc {}", s.command());
+			write!(c, " {main_type} {}", s.command());
 		}
 	}
 

@@ -191,7 +191,7 @@ impl ArrowData
 		}
 		w.write_str(",12");
 
-		AxesCommonData::write_color_options(w, &self.plot_options, Some(ColorType::Black));
+		AxesCommonData::write_color_options(w, &self.plot_options, false, Some(ColorType::Black));
 		AxesCommonData::write_line_options(
 			w,
 			&self.plot_options,
@@ -236,7 +236,7 @@ impl BorderOptions
 		write!(writer, "{}", f);
 		writer.write_str(if self.front { " front " } else { " back " });
 
-		AxesCommonData::write_color_options(writer, &self.options, Some(ColorType::Black));
+		AxesCommonData::write_color_options(writer, &self.options, false, Some(ColorType::Black));
 		AxesCommonData::write_line_options(writer, &self.options, version);
 
 		writer.write_str("\n");
