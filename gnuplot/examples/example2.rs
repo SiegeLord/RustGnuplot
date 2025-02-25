@@ -2,7 +2,6 @@
 use crate::common::*;
 
 use gnuplot::*;
-use std::iter::repeat;
 
 mod common;
 
@@ -17,7 +16,6 @@ fn example(c: Common)
 	let x2 = x2.iter2();
 	let y2: Vec<i32> = x2.map(|&v| v * v).collect();
 	let y2 = y2.iter2();
-	let w = repeat(0.5f32);
 
 	let x3 = &[1i32, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 	let x3 = x3.iter2();
@@ -83,14 +81,14 @@ fn example(c: Common)
 				LineStyle(DotDash),
 			],
 		)
-		.boxes_set_width(
+		.boxes(
 			x,
 			y1,
-			w,
 			&[
 				LineWidth(2.0),
 				Color("gray".into()),
 				BorderColor("black".into()),
+				BoxWidth([0.5, 0.4, 0.55, 0.7, 0.2].into()),
 			],
 		);
 
