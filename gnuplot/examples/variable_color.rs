@@ -87,34 +87,34 @@ fn example(c: Common)
 		ax.set_title(
 			&format!("variable color boxerror, points, xyerrorbars, and boxxyerror.\nColor used is a {label}"),
 			&[],
-		);
-		ax.set_y_range(Fix(-4.0), Fix(11.5));
-		ax.box_error_low_high_set_width(
+		)
+		.set_y_range(Fix(-4.0), Fix(11.5))
+		.set_box_width(0.5, true)
+		.box_error_low_high(
 			&d1,
 			&d5,
 			&d2,
 			&d6,
-			iter::repeat(0.2),
 			&[
 				color.clone(),
 				FillAlpha(0.5),
 				BorderColor(RGBString("black")),
 			],
-		);
-		ax.points(&d1, iter::repeat(1), &[color.clone(), PointSymbol('D')]);
-		ax.xy_error_bars(
+		)
+		.points(&d1, iter::repeat(1), &[color.clone(), PointSymbol('D')])
+		.xy_error_bars(
 			&d1,
 			iter::repeat(8),
 			d1.iter().map(by3),
 			d1.iter().map(by4),
 			&[color.clone()],
-		);
-		ax.points(
+		)
+		.points(
 			&d1,
 			d2.iter().map(|v| -v / 2.0),
 			&[color.clone(), PointSymbol('O'), PointSize(3.0)],
-		);
-		ax.box_xy_error_delta(
+		)
+		.box_xy_error_delta(
 			&d1,
 			iter::repeat(10),
 			d1.iter().map(by3),
@@ -153,21 +153,21 @@ fn example(c: Common)
 	ax.set_title(
 		&format!("variable color boxerror, points, xyerrorbars, and boxxyerror.\nColor used is a SavedColormap"),
 		&[],
-	);
-	ax.set_y_range(Fix(-4.0), Fix(11.5));
-	ax.box_error_low_high_set_width(
+	)
+	.set_y_range(Fix(-4.0), Fix(11.5))
+	.set_box_width(0.8, false)
+	.box_error_low_high(
 		&d1,
 		&d5,
 		&d2,
 		&d6,
-		iter::repeat(0.2),
 		&[
 			Color(SavedColorMap("magma", color_values.clone())),
 			FillAlpha(0.5),
 			BorderColor(RGBString("black")),
 		],
-	);
-	ax.points(
+	)
+	.points(
 		&d1,
 		iter::repeat(1),
 		&[
@@ -177,15 +177,15 @@ fn example(c: Common)
 			)),
 			PointSymbol('D'),
 		],
-	);
-	ax.xy_error_bars(
+	)
+	.xy_error_bars(
 		&d1,
 		iter::repeat(8),
 		d1.iter().map(by3),
 		d1.iter().map(by4),
 		&[Color(SavedColorMap("ocean", color_values.clone()))],
-	);
-	ax.points(
+	)
+	.points(
 		&d1,
 		d2.iter().map(|v| -v / 2.0),
 		&[
@@ -193,8 +193,8 @@ fn example(c: Common)
 			PointSymbol('O'),
 			PointSize(3.0),
 		],
-	);
-	ax.box_xy_error_delta(
+	)
+	.box_xy_error_delta(
 		&d1,
 		iter::repeat(10),
 		d1.iter().map(by3),
