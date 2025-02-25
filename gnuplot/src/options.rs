@@ -85,7 +85,7 @@ pub enum PlotOption<T>
 /// * `(u8, u8, u8)` - produces a [ColorType::RGBInteger]
 /// * `(u8, u8, u8, u8)` - produces a [ColorType::ARGBInteger]
 /// * `Vec<((u8, u8, u8))>` or `Vec<(u8, u8, u8, u8)>` - produces a
-/// 	[ColorType::VariableRGBInteger] or [ColorType::VariableARGBInteger] respectively
+///     [ColorType::VariableRGBInteger] or [ColorType::VariableARGBInteger] respectively
 /// * `u8` or `Vec<u8>` produces a [ColorType::Index] or [ColorType::VariableIndex] respectively
 ///
 /// See `examples/color.rs` for usage of this function

@@ -30,7 +30,7 @@ pub struct PlotElement
 
 impl PlotElement
 {
-	pub fn new_plot<'l>(
+	pub fn new_plot(
 		plot_type: PlotType, data: Vec<f64>, num_rows: usize, num_cols: usize,
 		options: &[PlotOption<&str>],
 	) -> PlotElement

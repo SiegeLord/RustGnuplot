@@ -3,7 +3,7 @@ use crate::util::OneWayOwned;
 use std::fmt::Display;
 
 pub trait IntoColor<T>: Into<ColorType<T>> + Clone {}
-impl<TC, T: ?Sized + Into<ColorType<TC>> + Clone> IntoColor<TC> for T {}
+impl<TC, T: Into<ColorType<TC>> + Clone> IntoColor<TC> for T {}
 
 pub type ColorIndex = u8;
 pub type ColorComponent = u8;
@@ -147,7 +147,7 @@ impl<T: Display> ColorType<T>
 				.map(|(r, g, b)| from_argb(0, *r, *g, *b) as f64)
 				.collect(),
 			VariableARGBInteger(items) => items
-				.into_iter()
+				.iter()
 				.map(|(a, r, g, b)| from_argb(*a, *r, *g, *b) as f64)
 				.collect(),
 			PaletteFracColor(_) => panic!("data() called on non-variable color type."),
@@ -155,7 +155,7 @@ impl<T: Display> ColorType<T>
 			VariablePaletteColor(items) => items.clone(),
 			SavedColorMap(_, items) => items.clone(),
 			Index(_) => panic!("data() called on non-variable color type."),
-			VariableIndex(items) => items.into_iter().map(|v| *v as f64).collect(),
+			VariableIndex(items) => items.iter().map(|v| *v as f64).collect(),
 			Background => panic!("data() called on non-variable color type."),
 			Black => panic!("data() called on non-variable color type."),
 		}
@@ -163,15 +163,14 @@ impl<T: Display> ColorType<T>
 
 	pub fn is_variable(&self) -> bool
 	{
-		match self
-		{
+		matches!(
+			self,
 			VariableRGBInteger(_)
-			| VariableARGBInteger(_)
-			| VariableIndex(_)
-			| VariablePaletteColor(_)
-			| SavedColorMap(_, _) => true,
-			_ => false,
-		}
+				| VariableARGBInteger(_)
+				| VariableIndex(_)
+				| VariablePaletteColor(_)
+				| SavedColorMap(_, _)
+		)
 	}
 
 	pub fn has_alpha(&self) -> bool
@@ -181,18 +180,8 @@ impl<T: Display> ColorType<T>
 			RGBString(s) =>
 			{
 				let s = s.to_string();
-				if s.starts_with("0x") && s.chars().count() == 10
-				{
-					true
-				}
-				else if s.starts_with("#") && s.chars().count() == 9
-				{
-					true
-				}
-				else
-				{
-					false
-				}
+				s.starts_with("0x") && s.chars().count() == 10
+					|| s.starts_with("#") && s.chars().count() == 9
 			}
 			ARGBInteger(_, _, _, _) | VariableARGBInteger(_) => true,
 			_ => false,
@@ -208,7 +197,7 @@ fn from_argb(a: ColorComponent, r: ColorComponent, g: ColorComponent, b: ColorCo
 
 fn float_color_to_int(v: f64) -> u8
 {
-	if v < 0.0 || v > 1.0
+	if !(0.0..=1.0).contains(&v)
 	{
 		panic!(
 			"Float value must be greater than zero and less than one. Actual value: {}",
@@ -260,106 +249,106 @@ pub fn floats_to_argb(a: f64, r: f64, g: f64, b: f64) -> ARGBInts
 	)
 }
 
-impl<'l> Into<ColorType<String>> for &'l str
+impl<'l> From<&'l str> for ColorType<String>
 {
 	/// Converts `&str` into [RGBString]
-	fn into(self) -> ColorType<String>
+	fn from(value: &'l str) -> Self
 	{
-		ColorType::RGBString(String::from(self))
+		ColorType::RGBString(String::from(value))
 	}
 }
 
-impl<'l> Into<ColorType<String>> for String
+impl<'l> From<String> for ColorType<String>
 {
 	/// Converts `String` into [RGBString]
-	fn into(self) -> ColorType<String>
+	fn from(value: String) -> Self
 	{
-		ColorType::RGBString(self)
+		ColorType::RGBString(value)
 	}
 }
 
-impl<'l> Into<ColorType<&'l str>> for &'l str
+impl<'l> From<&'l str> for ColorType<&'l str>
 {
 	/// Converts `&str` into [RGBString]
-	fn into(self) -> ColorType<&'l str>
+	fn from(value: &'l str) -> Self
 	{
-		ColorType::RGBString(self)
+		ColorType::RGBString(value)
 	}
 }
 
-impl<T> Into<ColorType<T>> for ARGBInts
+impl<T> From<ARGBInts> for ColorType<T>
 {
 	/// Converts `(u8, u8, u8, u8)` into [ARGBInteger]
-	fn into(self) -> ColorType<T>
+	fn from(value: ARGBInts) -> Self
 	{
-		ColorType::ARGBInteger(self.0, self.1, self.2, self.3)
+		ColorType::ARGBInteger(value.0, value.1, value.2, value.3)
 	}
 }
 
-impl<T> Into<ColorType<T>> for RGBInts
+impl<T> From<RGBInts> for ColorType<T>
 {
 	/// Converts `(u8, u8, u8)` into [RGBInteger]
-	fn into(self) -> ColorType<T>
+	fn from(value: RGBInts) -> Self
 	{
-		ColorType::RGBInteger(self.0, self.1, self.2)
+		ColorType::RGBInteger(value.0, value.1, value.2)
 	}
 }
 
-impl<T> Into<ColorType<T>> for (f64, f64, f64)
+impl<T> From<(f64, f64, f64)> for ColorType<T>
 {
 	/// Converts `(f64, f64, f64)` into [RGBInteger].
 	/// All values must be in the range 0-1, or the function will panic.
-	fn into(self) -> ColorType<T>
+	fn from(value: (f64, f64, f64)) -> Self
 	{
-		let ints = floats_to_rgb(self.0, self.1, self.2);
+		let ints = floats_to_rgb(value.0, value.1, value.2);
 		ColorType::RGBInteger(ints.0, ints.1, ints.2)
 	}
 }
 
-impl<T> Into<ColorType<T>> for (f64, f64, f64, f64)
+impl<T> From<(f64, f64, f64, f64)> for ColorType<T>
 {
 	/// Converts `(f64, f64, f64, f64)` into [ARGBInteger].
 	/// All values must be in the range 0-1, or the function will panic.
-	fn into(self) -> ColorType<T>
+	fn from(value: (f64, f64, f64, f64)) -> Self
 	{
-		let ints = floats_to_argb(self.0, self.1, self.2, self.3);
+		let ints = floats_to_argb(value.0, value.1, value.2, value.3);
 		ColorType::ARGBInteger(ints.0, ints.1, ints.2, ints.3)
 	}
 }
 
-impl<T> Into<ColorType<T>> for Vec<RGBInts>
+impl<T> From<Vec<RGBInts>> for ColorType<T>
 {
 	/// Converts `Vec<(u8, u8, u8)>` into [VariableRGBInteger]
-	fn into(self) -> ColorType<T>
+	fn from(value: Vec<RGBInts>) -> Self
 	{
-		ColorType::VariableRGBInteger(self)
+		ColorType::VariableRGBInteger(value)
 	}
 }
 
-impl<T> Into<ColorType<T>> for Vec<ARGBInts>
+impl<T> From<Vec<ARGBInts>> for ColorType<T>
 {
 	/// Converts `Vec<(u8, u8, u8, u8)>` into [VariableARGBInteger]
-	fn into(self) -> ColorType<T>
+	fn from(value: Vec<ARGBInts>) -> Self
 	{
-		ColorType::VariableARGBInteger(self)
+		ColorType::VariableARGBInteger(value)
 	}
 }
 
-impl<T> Into<ColorType<T>> for ColorIndex
+impl<T> From<ColorIndex> for ColorType<T>
 {
 	/// Converts `u8` into [Index]
-	fn into(self) -> ColorType<T>
+	fn from(value: ColorIndex) -> Self
 	{
-		ColorType::Index(self)
+		ColorType::Index(value)
 	}
 }
 
-impl<T> Into<ColorType<T>> for Vec<ColorIndex>
+impl<T> From<Vec<ColorIndex>> for ColorType<T>
 {
 	/// Converts `Vec<u8>` into [VariableIndex]
-	fn into(self) -> ColorType<T>
+	fn from(value: Vec<ColorIndex>) -> Self
 	{
-		ColorType::VariableIndex(self)
+		ColorType::VariableIndex(value)
 	}
 }
 
