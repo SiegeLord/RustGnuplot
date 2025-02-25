@@ -667,8 +667,12 @@ impl Axes2D
 		self
 	}
 
-	/// Plot a 2D scatter-plot using boxes of automatic width. Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
+	/// Plot a 2D box-plot.
+	/// Box widths are, by default set so that there are no gaps between successive boxes
+	/// (i.e. each box may have a different width). This may be adjusted with (set_box_width())[Axes2D::set_box_width()]
+	/// or by using the `BoxWidth` option.
 	/// Boxes start at the x-axis and go towards the y value of the datapoint.
+	///
 	/// # Arguments
 	/// * `x` - x values (center of the box)
 	/// * `y` - y values
@@ -679,6 +683,8 @@ impl Axes2D
 	///     * `BorderColor` - Sets the color of the border
 	///     * `Color` - Sets the color of the box fill
 	///     * `FillAlpha` - Sets the transparency of the box fill
+	///		* `BoxWidth` - Sets the width of each box. If not supplied, the width will use the
+	/// 		previously set box width, or be set to the spacing of the boxes
 	pub fn boxes<
 		'l,
 		Tx: DataType,
@@ -696,42 +702,13 @@ impl Axes2D
 		self
 	}
 
-	/// Plot a 2D scatter-plot using boxes of set (per box) width.
-	/// Boxes start at the x-axis and go towards the y value of the datapoint.
-	/// # Arguments
-	/// * `x` - x values (center of the box)
-	/// * `y` - y values
-	/// * `w` - Box width values
-	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element. The relevant options are:
-	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-	///     * `LineWidth` - Sets the width of the border
-	///     * `LineStyle` - Sets the style of the border
-	///     * `BorderColor` - Sets the color of the border
-	///     * `Color` - Sets the color of the box fill
-	///     * `FillAlpha` - Sets the transparency of the box fill
-	pub fn boxes_set_width<
-		'l,
-		Tx: DataType,
-		X: IntoIterator<Item = Tx>,
-		Ty: DataType,
-		Y: IntoIterator<Item = Ty>,
-		Tw: DataType,
-		W: IntoIterator<Item = Tw>,
-	>(
-		&'l mut self, x: X, y: Y, w: W, options: &[PlotOption<&str>],
-	) -> &'l mut Self
-	{
-		let (data, num_rows, num_cols) = generate_data!(options, x, y, w);
-		self.common.elems.push(PlotElement::new_plot(
-			Boxes, data, num_rows, num_cols, options,
-		));
-		self
-	}
-
 	/// Plot a 2D box-plot with error bars using boxes of automatic width.
-	/// Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
+	/// Box widths are, by default set so that there are no gaps between successive boxes
+	/// (i.e. each box may have a different width). This may be adjusted with (set_box_width())[Axes2D::set_box_width()]
+	/// or by using the `BoxWidth` option.
 	/// Boxes start at the x-axis and go towards the y value of the datapoint.
 	/// Each box has an error bar from y - y_delta to y + y_delta.
+	///
 	/// # Arguments
 	/// * `x` - x values (center of the box)
 	/// * `y` - y values
@@ -743,6 +720,8 @@ impl Axes2D
 	///     * `BorderColor` - Sets the color of the border
 	///     * `Color` - Sets the color of the box fill
 	///     * `FillAlpha` - Sets the transparency of the box fill
+	///		* `BoxWidth` - Sets the width of each box. If not supplied, the width will use the
+	/// 		previously set box width, or be set to the spacing of the boxes
 	pub fn box_error_delta<
 		'l,
 		Tx: DataType,
@@ -766,49 +745,10 @@ impl Axes2D
 		self
 	}
 
-	/// Plot a 2D box-plot with error bars using boxes of specified width.
-	/// Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
-	/// Boxes start at the x-axis and go towards the y value of the datapoint.
-	/// Each box has an error bar from y - y_delta to y + y_delta.
-	/// # Arguments
-	/// * `x` - x values (center of the box)
-	/// * `y` - y values
-	/// * `y_delta` - errors in y (error bars are plotted from y - y_delta to y + y_delta)
-	/// * `x_delta` - errors in x (interpreted as box width)
-	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element. The relevant options are:
-	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-	///     * `LineWidth` - Sets the width of the border
-	///     * `LineStyle` - Sets the style of the border
-	///     * `BorderColor` - Sets the color of the border
-	///     * `Color` - Sets the color of the box fill
-	///     * `FillAlpha` - Sets the transparency of the box fill
-	pub fn box_error_delta_set_width<
-		'l,
-		Tx: DataType,
-		X: IntoIterator<Item = Tx>,
-		Ty: DataType,
-		Y: IntoIterator<Item = Ty>,
-		Tye: DataType,
-		YE: IntoIterator<Item = Tye>,
-		Tw: DataType,
-		W: IntoIterator<Item = Tw>,
-	>(
-		&'l mut self, x: X, y: Y, y_error: YE, x_delta: W, options: &[PlotOption<&str>],
-	) -> &'l mut Self
-	{
-		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_error, x_delta);
-		self.common.elems.push(PlotElement::new_plot(
-			BoxErrorBars,
-			data,
-			num_rows,
-			num_cols,
-			options,
-		));
-		self
-	}
-
-	/// Plot a 2D box-plot with error bars using boxes of automatic width.
-	/// Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
+	/// Plot a 2D box-plot with error bars.
+	/// Box widths are, by default set so that there are no gaps between successive boxes
+	/// (i.e. each box may have a different width). This may be adjusted with (set_box_width())[Axes2D::set_box_width()]
+	/// or by using the `BoxWidth` option.
 	/// Boxes start at the x-axis and go towards the y value of the datapoint.
 	/// Each box has an error bar from y - y_low to y + y_high.
 	/// # Arguments
@@ -823,6 +763,8 @@ impl Axes2D
 	///     * `BorderColor` - Sets the color of the border
 	///     * `Color` - Sets the color of the box fill
 	///     * `FillAlpha` - Sets the transparency of the box fill
+	///		* `BoxWidth` - Sets the width of each box. If not supplied, the width will use the
+	/// 		previously set box width, or be set to the spacing of the boxes
 	pub fn box_error_low_high<
 		'l,
 		Tx: DataType,
@@ -851,51 +793,11 @@ impl Axes2D
 		self
 	}
 
-	/// Plot a 2D box-plot with error bars using boxes of specified width.
-	/// Box widths are set so that there are no gaps between successive boxes (i.e. each box may have a different width).
-	/// Boxes start at the x-axis and go towards the y value of the datapoint.
-	/// Each box has an error bar from y - y_low to y + y_high.
-	/// # Arguments
-	/// * `x` - x values (center of the box)
-	/// * `y` - y values
-	/// * `y_low` - minimum of error bar
-	/// * `y_high` - maximum of error bar
-	/// * `x_delta` - errors in x (interpreted as box width)
-	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element. The relevant options are:
-	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-	///     * `LineWidth` - Sets the width of the border
-	///     * `LineStyle` - Sets the style of the border
-	///     * `BorderColor` - Sets the color of the border
-	///     * `Color` - Sets the color of the box fill
-	///     * `FillAlpha` - Sets the transparency of the box fill
-	pub fn box_error_low_high_set_width<
-		'l,
-		Tx: DataType,
-		X: IntoIterator<Item = Tx>,
-		Ty: DataType,
-		Y: IntoIterator<Item = Ty>,
-		Tyl: DataType,
-		YL: IntoIterator<Item = Tyl>,
-		Tyh: DataType,
-		YH: IntoIterator<Item = Tyh>,
-		Tw: DataType,
-		W: IntoIterator<Item = Tw>,
-	>(
-		&'l mut self, x: X, y: Y, y_low: YL, y_high: YH, x_delta: W, options: &[PlotOption<&str>],
-	) -> &'l mut Self
-	{
-		let (data, num_rows, num_cols) = generate_data!(options, x, y, y_low, y_high, x_delta);
-		self.common.elems.push(PlotElement::new_plot(
-			BoxErrorBars,
-			data,
-			num_rows,
-			num_cols,
-			options,
-		));
-		self
-	}
-
-	/// Plot a 2D box-and-whisker plot using boxes of automatic width.
+	/// Plot a 2D box-and-whisker plot.
+	///
+	/// Box widths are, by default set so that there are no gaps between successive boxes
+	/// (i.e. each box may have a different width). This may be adjusted with (set_box_width())[Axes2D::set_box_width()]
+	/// or by using the `BoxWidth` option.
 	///
 	/// # Arguments
 	/// * `x` - x values (center of the box)
@@ -911,6 +813,8 @@ impl Axes2D
 	///     * `Color` - Sets the color of the box fill
 	///     * `FillAlpha` - Sets the transparency of the box fill
 	///     * `WhiskerBars` - Sets the width of the whisker bars
+	///		* `BoxWidth` - Sets the width of each box. If not supplied, the width will use the
+	/// 		previously set box width, or be set to the spacing of the boxes
 	pub fn box_and_whisker<
 		'l,
 		Tx: DataType,
@@ -930,61 +834,6 @@ impl Axes2D
 	{
 		let (data, num_rows, num_cols) =
 			generate_data!(options, x, box_min, whisker_min, whisker_max, box_max);
-		self.common.elems.push(PlotElement::new_plot(
-			BoxAndWhisker,
-			data,
-			num_rows,
-			num_cols,
-			options,
-		));
-		self
-	}
-
-	/// Plot a 2D box-and-whisker plot using boxes of set width.
-	///
-	/// # Arguments
-	/// * `x` - x values (center of the box)
-	/// * `box_min` - minimum box y value
-	/// * `whisker_min` - minimum whisker y value
-	/// * `whisker_max` - maximum whisker y value
-	/// * `box_max` - maximum box y value
-	/// * `box_width` - width of the box (in x axis units)
-	/// * `options` - Array of PlotOption<&str> controlling the appearance of the plot element. The relevant options are:
-	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
-	///     * `LineWidth` - Sets the width of the border
-	///     * `LineStyle` - Sets the style of the border
-	///     * `BorderColor` - Sets the color of the border
-	///     * `Color` - Sets the color of the box fill
-	///     * `FillAlpha` - Sets the transparency of the box fill
-	///     * `WhiskerBars` - Sets the width of the whisker bars
-	pub fn box_and_whisker_set_width<
-		'l,
-		Tx: DataType,
-		X: IntoIterator<Item = Tx>,
-		TBoxMin: DataType,
-		BoxMin: IntoIterator<Item = TBoxMin>,
-		TWhiskerMin: DataType,
-		WhiskerMin: IntoIterator<Item = TWhiskerMin>,
-		TWhiskerMax: DataType,
-		WhiskerMax: IntoIterator<Item = TWhiskerMax>,
-		TBoxMax: DataType,
-		BoxMax: IntoIterator<Item = TBoxMax>,
-		TBoxWidth: DataType,
-		BoxWidth: IntoIterator<Item = TBoxWidth>,
-	>(
-		&'l mut self, x: X, box_min: BoxMin, whisker_min: WhiskerMin, whisker_max: WhiskerMax,
-		box_max: BoxMax, box_width: BoxWidth, options: &[PlotOption<&str>],
-	) -> &'l mut Self
-	{
-		let (data, num_rows, num_cols) = generate_data!(
-			options,
-			x,
-			box_min,
-			whisker_min,
-			whisker_max,
-			box_max,
-			box_width
-		);
 		self.common.elems.push(PlotElement::new_plot(
 			BoxAndWhisker,
 			data,
