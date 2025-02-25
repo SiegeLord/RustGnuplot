@@ -57,10 +57,10 @@ pub enum ColorType<T = String>
 	),
 	/// Vector of tuples of `u8` (as per `RGBColor`), but instead of a single color for the whole
 	/// plot, the vector should contain a separte color for each data point.
-	VariableRGBIntegers(Vec<RGBInts>),
+	VariableRGBInteger(Vec<RGBInts>),
 	/// Vector of tuples of `u8` (as per `ARGBColor`), but as with `VariableRGBColor`, a separate
 	/// color value is given for each data point.
-	VariableARGBIntegers(Vec<ARGBInts>),
+	VariableARGBInteger(Vec<ARGBInts>),
 	/// TODO
 	PaletteFracColor(f32),
 	/// TODO
@@ -98,8 +98,8 @@ impl<T: Display> ColorType<T>
 			RGBString(s) => format!(r#"rgb "{}""#, s),
 			RGBInteger(r, g, b) => format!(r#"rgb {}"#, from_argb(0, *r, *g, *b)),
 			ARGBInteger(a, r, g, b) => format!(r#"rgb {}"#, from_argb(*a, *r, *g, *b)),
-			VariableRGBIntegers(_) => String::from("rgb variable"),
-			VariableARGBIntegers(_) => String::from("rgb variable"),
+			VariableRGBInteger(_) => String::from("rgb variable"),
+			VariableARGBInteger(_) => String::from("rgb variable"),
 			PaletteFracColor(_) => todo!(),
 			PaletteCBColor(_) => todo!(),
 			VariablePaletteColor(_) => String::from("palette z"),
@@ -118,11 +118,11 @@ impl<T: Display> ColorType<T>
 			RGBString(_) => panic!("data() called on non-variable color type."),
 			RGBInteger(_, _, _) => panic!("data() called on non-variable color type."),
 			ARGBInteger(_, _, _, _) => panic!("data() called on non-variable color type."),
-			VariableRGBIntegers(items) => items
+			VariableRGBInteger(items) => items
 				.iter()
 				.map(|(r, g, b)| from_argb(0, *r, *g, *b) as f64)
 				.collect(),
-			VariableARGBIntegers(items) => items
+			VariableARGBInteger(items) => items
 				.into_iter()
 				.map(|(a, r, g, b)| from_argb(*a, *r, *g, *b) as f64)
 				.collect(),
@@ -141,8 +141,8 @@ impl<T: Display> ColorType<T>
 	{
 		match self
 		{
-			VariableRGBIntegers(_)
-			| VariableARGBIntegers(_)
+			VariableRGBInteger(_)
+			| VariableARGBInteger(_)
 			| VariableIndex(_)
 			| VariablePaletteColor(_)
 			| SavedColorMap(_, _) => true,
@@ -170,7 +170,7 @@ impl<T: Display> ColorType<T>
 					false
 				}
 			}
-			ARGBInteger(_, _, _, _) | VariableARGBIntegers(_) => true,
+			ARGBInteger(_, _, _, _) | VariableARGBInteger(_) => true,
 			_ => false,
 		}
 	}
@@ -275,7 +275,7 @@ impl<T> Into<ColorType<T>> for Vec<RGBInts>
 {
 	fn into(self) -> ColorType<T>
 	{
-		ColorType::VariableRGBIntegers(self)
+		ColorType::VariableRGBInteger(self)
 	}
 }
 
@@ -283,7 +283,15 @@ impl<T> Into<ColorType<T>> for Vec<ARGBInts>
 {
 	fn into(self) -> ColorType<T>
 	{
-		ColorType::VariableARGBIntegers(self)
+		ColorType::VariableARGBInteger(self)
+	}
+}
+
+impl<T> Into<ColorType<T>> for ColorIndex
+{
+	fn into(self) -> ColorType<T>
+	{
+		ColorType::Index(self)
 	}
 }
 
@@ -305,7 +313,7 @@ impl<T: Display> OneWayOwned for ColorType<T>
 		{
 			RGBString(s) => RGBString(s.to_string()),
 			RGBInteger(r, g, b) => RGBInteger(*r, *g, *b),
-			VariableRGBIntegers(d) => VariableRGBIntegers(d.clone()),
+			VariableRGBInteger(d) => VariableRGBInteger(d.clone()),
 			PaletteFracColor(_) => todo!(),
 			PaletteCBColor(_) => todo!(),
 			VariablePaletteColor(d) => VariablePaletteColor(d.clone()),
@@ -315,7 +323,7 @@ impl<T: Display> OneWayOwned for ColorType<T>
 			Index(n) => Index(*n),
 			Black => Black,
 			ARGBInteger(a, r, g, b) => ARGBInteger(*a, *r, *g, *b),
-			VariableARGBIntegers(d) => VariableARGBIntegers(d.clone()),
+			VariableARGBInteger(d) => VariableARGBInteger(d.clone()),
 		}
 	}
 }
@@ -328,14 +336,14 @@ impl ColorType<String>
 		{
 			RGBString(s) => RGBString(s),
 			RGBInteger(r, g, b) => RGBInteger(*r, *g, *b),
-			VariableRGBIntegers(d) => VariableRGBIntegers(d.to_vec()),
-			VariableARGBIntegers(d) => VariableARGBIntegers(d.to_vec()),
+			VariableRGBInteger(d) => VariableRGBInteger(d.to_vec()),
+			VariableARGBInteger(d) => VariableARGBInteger(d.to_vec()),
 			PaletteFracColor(_) => todo!(),
 			PaletteCBColor(_) => todo!(),
 			VariablePaletteColor(d) => VariablePaletteColor(d.to_vec()),
 			SavedColorMap(s, d) => SavedColorMap(s, d.to_vec()),
 			VariableIndex(d) => VariableIndex(d.to_vec()),
-			Background => todo!(),
+			Background => Background,
 			Index(n) => Index(*n),
 			Black => Black,
 			ARGBInteger(a, r, g, b) => ARGBInteger(*a, *r, *g, *b),

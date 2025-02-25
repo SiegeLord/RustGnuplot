@@ -78,13 +78,25 @@ pub enum PlotOption<T>
 }
 
 #[allow(non_snake_case)]
-/// TODO
+/// Convience function to allow construction of color options implicitly from a wide range of inputs.
+///
+/// Currently these are:
+/// * `String` or `&str` - produces a [ColorType::RGBString]
+/// * `(u8, u8, u8)` - produces a [ColorType::RGBInteger]
+/// * `(u8, u8, u8, u8)` - produces a [ColorType::ARGBInteger]
+/// * `Vec<((u8, u8, u8))>` or `Vec<(u8, u8, u8, u8)>` - produces a
+/// 	[ColorType::VariableRGBInteger] or [ColorType::VariableARGBInteger] respectively
+/// * `u8` or `Vec<u8>` produces a [ColorType::Index] or [ColorType::VariableIndex] respectively
+///
+///	See `examples/color.rs` for usage of this function
 pub fn Color<'l, T: IntoColor<&'l str>>(c: T) -> PlotOption<&'l str>
 {
 	ColorOpt(c.into())
 }
 
 #[allow(non_snake_case)]
+/// Convience function to allow construction of border color options implicitly from a wide range of inputs.
+/// Format and possible inputs are the same as [Color]
 pub fn BorderColor<'l, T: IntoColor<&'l str>>(c: T) -> PlotOption<&'l str>
 {
 	BorderColorOpt(c.into())
@@ -289,7 +301,8 @@ impl<'l> OneWayOwned for LabelOption<&'l str>
 }
 
 #[allow(non_snake_case)]
-/// TODO
+/// Convience function to allow construction of text color options implicitly from a wide range of inputs.
+/// Format and possible inputs are the same as [Color]
 pub fn TextColor<'l, T: IntoColor<&'l str>>(c: T) -> LabelOption<&'l str>
 {
 	TextColorOpt(c.into())
