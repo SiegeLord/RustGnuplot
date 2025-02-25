@@ -2086,7 +2086,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// Creates and saves a colormap in the gnuplot environment that can be used for
 	/// later plots (see examples/color_variable.rs for example usage)
 	///
-	/// /// # Arguments
+	/// # Arguments
 	/// * `name` - The name with which to save the colormap
 	/// * `palette` - What palette type to use
 	fn create_colormap(

@@ -59,13 +59,14 @@ fn example(c: Common)
 	// but make them align for multiple plot items on the same axis. This is implicity constructed from a Vec<u8> using
 	// the `Color` function but could equivalently be created explicitly using `ColorOpt(ColorType::VariableIndexColor(row_index.clone()))`
 	//
-	// The second color loop uses a VariablePaletteColor: this selects the color based on the current color palette and the
-	// input value for each data point. The palette is scaled to the maximum value in the vector of `f64`s passed
-	// to the VariablePaletteColor.
+	// The second color loop uses a `VariablePaletteColor`: this selects the color based on the current color palette and the
+	// input value for each data point. The palette is scaled to the maximum value in the `Vec<f64>` passed
+	// to the `VariablePaletteColor`.
 	//
-	// The third color loop uses an (implicit) VariableARGBString. The `Vec<(u8, u8, u8, u8)>` needed to constcruct the color
-	// is calculated in this case by the `argb_formula()` closure. An explicit VariableARGBString could also be constructed using
-	// `ColorOpt(ColorType::VariableARGBString(data)``. A VariableRGBString is also defined that takes a 3-tuple of u8, rather than
+	// The third color loop uses an (implicit) `VariableARGBString`. The `Vec<(u8, u8, u8, u8)>` needed to construct the color
+	// is calculated in this case by the `argb_formula()` closure. An explicit `VariableARGBString` could also be constructed using
+	// `ColorOpt(ColorType::VariableARGBString(data)`.
+	// As an alternative, `VariableRGBString` is also defined that takes a 3-tuple of u8, rather than
 	// a 4 tuple.
 	for (color, label) in [
 		(Color(row_index.clone()), "VariableIndexColor"),
@@ -126,23 +127,23 @@ fn example(c: Common)
 
 	// #####################################################################
 	// The example below shows the same graphs as in the loop, but using a set of saved colormaps
-	// similar to palette in gnuplot terms, but the current palette is applied to all plots by default, and
-	// multiple named colormaps can be created).
+	// similar to palette in gnuplot terms, but the a single (current) palette is applied to all plots by default.
+	// By contrast, you can create multiple named colormaps.
 	//
-	// As with VariablePaletteColor, this Color takes a vector of f64 that says which point in the colormap to use,
+	// As with `VariablePaletteColor``, this Color takes a `Vec<f64>` that says which point in the colormap to use,
 	// but it also takes a the name of the colormap from which to draw the colors.
 	//
 	// Note that the Color range appears to be shared across plots: i.e. if one plot has
-	// color data (the Vec<f64>) in the range 0-1, and another in the range 1-100, all the
-	// colors in the first plot will be right at the bottom end of it's colormap, even if that's
+	// color data (the `Vec<f64>`) in the range 0-1, and another in the range 1-100, all the
+	// colors in the first plot will be right at the bottom end of its colormap, even if that's
 	// a different colormap to the one used in the second plot.
 	let mut fg = Figure::new();
 	let ax = fg.axes2d();
 
 	// First create the colormaps we will later refer to
-	// MAGMA is one of the colormaps provide with rust gnuplot
+	// MAGMA is one of the colormaps provided with rust gnuplot
 	ax.create_colormap("magma", MAGMA);
-	// HOT is one of the colormaps provide with rust gnuplot
+	// HOT is one of the colormaps provided with rust gnuplot
 	ax.create_colormap("hot", HOT);
 	//  ocean (green-blue-white) as per the gnuplot documentation
 	ax.create_colormap("ocean", PaletteType::Formula(23, 28, 3));

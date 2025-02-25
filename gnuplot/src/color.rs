@@ -1,5 +1,3 @@
-//! TODO
-
 pub use self::ColorType::*;
 use crate::util::OneWayOwned;
 use std::fmt::Display;
@@ -18,16 +16,16 @@ pub type ARGBInts = (
 	ColorComponent,
 );
 
-/// Option type (for lines, axes, and text) that allows the various different gnuplot
+/// Option type (for plots, borders, and text) that allows the various different gnuplot
 /// color formats. The gnuplot [colorspec reference](http://gnuplot.info/docs_6.0/loc3640.html)
 /// also explains these.
 ///
-/// There are equivalent many ways of specifying colors, and this allows the user to chose the most convenient.
-/// for example, all the following will produce the same blue color:
+/// There are many equivalent ways of specifying colors, and this allows the user to chose the most convenient.
+/// For example, all the following will produce the same blue color:
 /// `RGBColor("blue")`, `RGBColor("0x0000ff")`, `RGBColor("#0000ff")`, `RGBColor("0x000000ff")`,
 /// `RGBColor("#000000ff")`, `RGBIntegerColor(0, 0, 255)`, `ARGBColor(0, 0, 0, 255)`,
 ///
-/// See example usages of these colors in `color.rs`, `variable_color.rs` in the
+/// See example usages of these colors in `color.rs` and `variable_color.rs` in the
 /// [Examples folder](https://github.com/SiegeLord/RustGnuplot/tree/master/gnuplot/examples) on Github
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 pub enum ColorType<T = String>
@@ -71,7 +69,7 @@ pub enum ColorType<T = String>
 	/// Similar to `VariablePaletteColor` in that it takes a `Vec<f64>` to set the indexes into the
 	/// color map for each data point, but in addition to the color data it takes a string hold the name
 	/// of the color map to use. This should have been previously created in the workspace using the
-	/// `axes.create_colormap()` function.
+	/// (create_colormap())[crate::AxesCommon::create_colormap()] function.
 	SavedColorMap(T, Vec<f64>),
 	/// Set the color of all elements of the plot to the `n`th color in the current gnuplot color cycle.
 	Index(ColorIndex),
@@ -80,7 +78,7 @@ pub enum ColorType<T = String>
 	/// in Rust gnuplot, the color type takes a vector of u8, where each index is treated the same as the
 	/// fixed `IndexColor`.
 	/// This is useful for setting bars/boxes etc to be
-	/// the same color from multiple plot commands. The `color.rs` example has examples of this usage.
+	/// the same color from multiple plot commands. The `variable_color` example has examples of this usage.
 	VariableIndex(Vec<ColorIndex>),
 	/// Set the color of the plot to the current background color.
 	Background,
@@ -194,6 +192,17 @@ fn float_color_to_int(v: f64) -> u8
 	((v * 255.0).round()) as u8
 }
 
+/// Converts a set of `f64` red, green and blue values in the range `0 <= x <= 1` to a 3-tuple of `u8` suitable for use as
+/// an [RGBInteger]
+///
+/// Panics if any of the arguments are not in the range `0 <= x <= 1`
+///
+/// Ses also [floats_to_argb]
+///
+/// # Arguments
+/// * r - red. 0: no red, 1: fully red
+/// * g - green. 0: no green, 1: fully green
+/// * b - blue. 0: no blue, 1: fully blue
 pub fn floats_to_rgb(r: f64, g: f64, b: f64) -> RGBInts
 {
 	(
@@ -203,6 +212,18 @@ pub fn floats_to_rgb(r: f64, g: f64, b: f64) -> RGBInts
 	)
 }
 
+/// Converts a set of `f64` red, green and blue values in the range `0 <= x <= 1` to a 3-tuple of `u8` suitable for use as
+/// an [ARGBInteger]
+///
+/// Panics if any of the arguments are not in the range `0 <= x <= 1`
+///
+/// Ses also [floats_to_rgb]
+///
+/// # Arguments
+/// * a - alpha (transparency) value. 0: completely opaque, 1: completely transparent.
+/// * r - red. 0: no red, 1: fully red
+/// * g - green. 0: no green, 1: fully green
+/// * b - blue. 0: no blue, 1: fully blue
 pub fn floats_to_argb(a: f64, r: f64, g: f64, b: f64) -> ARGBInts
 {
 	(
@@ -215,6 +236,7 @@ pub fn floats_to_argb(a: f64, r: f64, g: f64, b: f64) -> ARGBInts
 
 impl<'l> Into<ColorType<String>> for &'l str
 {
+	/// Converts `&str` into [RGBString]
 	fn into(self) -> ColorType<String>
 	{
 		ColorType::RGBString(String::from(self))
@@ -223,6 +245,7 @@ impl<'l> Into<ColorType<String>> for &'l str
 
 impl<'l> Into<ColorType<String>> for String
 {
+	/// Converts `String` into [RGBString]
 	fn into(self) -> ColorType<String>
 	{
 		ColorType::RGBString(self)
@@ -231,6 +254,7 @@ impl<'l> Into<ColorType<String>> for String
 
 impl<'l> Into<ColorType<&'l str>> for &'l str
 {
+	/// Converts `&str` into [RGBString]
 	fn into(self) -> ColorType<&'l str>
 	{
 		ColorType::RGBString(self)
@@ -239,6 +263,7 @@ impl<'l> Into<ColorType<&'l str>> for &'l str
 
 impl<T> Into<ColorType<T>> for ARGBInts
 {
+	/// Converts `(u8, u8, u8, u8)` into [ARGBInteger]
 	fn into(self) -> ColorType<T>
 	{
 		ColorType::ARGBInteger(self.0, self.1, self.2, self.3)
@@ -247,6 +272,7 @@ impl<T> Into<ColorType<T>> for ARGBInts
 
 impl<T> Into<ColorType<T>> for RGBInts
 {
+	/// Converts `(u8, u8, u8)` into [RGBInteger]
 	fn into(self) -> ColorType<T>
 	{
 		ColorType::RGBInteger(self.0, self.1, self.2)
@@ -255,6 +281,8 @@ impl<T> Into<ColorType<T>> for RGBInts
 
 impl<T> Into<ColorType<T>> for (f64, f64, f64)
 {
+	/// Converts `(f64, f64, f64)` into [RGBInteger].
+	/// All values must be in the range 0-1, or the function will panic.
 	fn into(self) -> ColorType<T>
 	{
 		let ints = floats_to_rgb(self.0, self.1, self.2);
@@ -264,6 +292,8 @@ impl<T> Into<ColorType<T>> for (f64, f64, f64)
 
 impl<T> Into<ColorType<T>> for (f64, f64, f64, f64)
 {
+	/// Converts `(f64, f64, f64, f64)` into [ARGBInteger].
+	/// All values must be in the range 0-1, or the function will panic.
 	fn into(self) -> ColorType<T>
 	{
 		let ints = floats_to_argb(self.0, self.1, self.2, self.3);
@@ -273,6 +303,7 @@ impl<T> Into<ColorType<T>> for (f64, f64, f64, f64)
 
 impl<T> Into<ColorType<T>> for Vec<RGBInts>
 {
+	/// Converts `Vec<(u8, u8, u8)>` into [VariableRGBInteger]
 	fn into(self) -> ColorType<T>
 	{
 		ColorType::VariableRGBInteger(self)
@@ -281,6 +312,7 @@ impl<T> Into<ColorType<T>> for Vec<RGBInts>
 
 impl<T> Into<ColorType<T>> for Vec<ARGBInts>
 {
+	/// Converts `Vec<(u8, u8, u8, u8)>` into [VariableARGBInteger]
 	fn into(self) -> ColorType<T>
 	{
 		ColorType::VariableARGBInteger(self)
@@ -289,6 +321,7 @@ impl<T> Into<ColorType<T>> for Vec<ARGBInts>
 
 impl<T> Into<ColorType<T>> for ColorIndex
 {
+	/// Converts `u8` into [Index]
 	fn into(self) -> ColorType<T>
 	{
 		ColorType::Index(self)
@@ -297,6 +330,7 @@ impl<T> Into<ColorType<T>> for ColorIndex
 
 impl<T> Into<ColorType<T>> for Vec<ColorIndex>
 {
+	/// Converts `Vec<u8>` into [VariableIndex]
 	fn into(self) -> ColorType<T>
 	{
 		ColorType::VariableIndex(self)
