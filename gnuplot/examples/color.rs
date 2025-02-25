@@ -53,7 +53,7 @@ fn example(c: Common)
 			x.clone(),
 			iter::repeat((n_colors - 1) - i),
 			iter::repeat(0.4),
-			iter::repeat(0.2), //x.clone().map(|x| (((3 + x) as f64) / 3.0).rem(0.8)),
+			iter::repeat(0.2),
 			&[
 				Caption(&color_name(&color)),
 				LineWidth(1.0),
@@ -82,6 +82,12 @@ fn example(c: Common)
 			Color(Background),
 			Caption(&color_name(&Color(Background))),
 		],
+	);
+
+	// any of the forms used for Color can also be used with TextColor and BorderColor
+	ax.set_x_label(
+		"Labels can be colored using the TextColor function",
+		&[TextColor((128, 0, 255))],
 	);
 
 	c.show(&mut fg, "rgb_color");

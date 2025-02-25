@@ -102,11 +102,9 @@ impl LegendData
 			}
 		}
 		first_opt! {self.text_options,
-			TextColor(ref s) =>
+			TextColorOpt(ref s) =>
 			{
-				w.write_str(" textcolor rgb \"");
-				w.write_str(&escape(s));
-				w.write_str("\"");
+				write!(w, " textcolor {} ", s.command());
 			}
 		}
 		first_opt! {self.text_options,

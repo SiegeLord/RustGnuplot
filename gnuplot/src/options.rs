@@ -240,7 +240,7 @@ pub enum LabelOption<T>
 	Font(T, f64),
 	/// Sets the color of the label text. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
-	TextColor(T),
+	TextColorOpt(ColorType<T>),
 	/// Rotates the label by a certain number of degrees
 	Rotate(f64),
 	/// Sets the horizontal alignment of the label text (default is left alignment). See AlignType.
@@ -278,7 +278,7 @@ impl<'l> OneWayOwned for LabelOption<&'l str>
 		{
 			TextOffset(v1, v2) => TextOffset(v1, v2),
 			Font(v1, v2) => Font(v1.into(), v2),
-			TextColor(v) => TextColor(v.into()),
+			TextColorOpt(v) => TextColorOpt(v.to_one_way_owned()),
 			Rotate(v) => Rotate(v),
 			TextAlign(v) => TextAlign(v),
 			MarkerSymbol(v) => MarkerSymbol(v),
@@ -286,6 +286,13 @@ impl<'l> OneWayOwned for LabelOption<&'l str>
 			MarkerSize(v) => MarkerSize(v),
 		}
 	}
+}
+
+#[allow(non_snake_case)]
+/// TODO
+pub fn TextColor<'l, T: IntoColor<&'l str>>(c: T) -> LabelOption<&'l str>
+{
+	TextColorOpt(c.into())
 }
 
 /// An enumeration of axis tick options

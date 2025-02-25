@@ -455,9 +455,9 @@ pub fn write_out_label_options(
 	}
 
 	first_opt! {options,
-		TextColor(ref s) =>
+		TextColorOpt(ref s) =>
 		{
-			write!(w, r#" tc rgb "{}""#, s);
+			write!(w, r#" tc {}"#, s.command());
 		}
 	}
 
