@@ -42,9 +42,9 @@ fn example(c: Common)
 	ax.set_title(
 		"Demo of RGBString in various forms\nSee code comments for how to construct the colors",
 		&[],
-	);
-	ax.set_x_range(Fix(-10.0), Auto);
-	ax.set_legend(Graph(0.6), Graph(0.8), &[], &[Font("Arial", 14.0)]);
+	)
+	.set_x_range(Fix(-9.0), Auto)
+	.set_legend(Graph(0.5), Graph(0.9), &[], &[Font("", 14.0)]);
 
 	let n_colors = colors.len();
 	for (i, color) in colors.into_iter().enumerate()
@@ -91,6 +91,48 @@ fn example(c: Common)
 	);
 
 	c.show(&mut fg, "rgb_color");
+
+	// ########################################################################
+
+	let mut fg = Figure::new();
+	let ax = fg.axes2d();
+	let max_cb = 10.0;
+	ax.set_cb_range(Fix(0.0), Fix(max_cb));
+	for color_value in 0..=10
+	{
+		let color_float = color_value as f64;
+		let frac_color = Color(PaletteFracColor(color_float / max_cb));
+		let cb_range_color = Color(PaletteCBColor(color_float));
+
+		ax.box_xy_error_delta(
+			[color_value],
+			[0],
+			[0.4],
+			[0.4],
+			&[
+				Caption(&color_name(&frac_color)),
+				LineWidth(1.0),
+				BorderColor("black"),
+				frac_color,
+			],
+		)
+		.box_xy_error_delta(
+			[color_value],
+			[1],
+			[0.4],
+			[0.4],
+			&[
+				Caption(&color_name(&cb_range_color)),
+				LineWidth(1.0),
+				BorderColor("black"),
+				cb_range_color,
+			],
+		);
+	}
+	ax.set_x_range(Fix(-10.0), Fix(11.0))
+		.set_y_range(Fix(-0.5), Fix(1.5))
+		.set_legend(Graph(0.45), Graph(0.9), &[], &[Font("", 14.0)]);
+	c.show(&mut fg, "palette_colors");
 }
 
 fn main()

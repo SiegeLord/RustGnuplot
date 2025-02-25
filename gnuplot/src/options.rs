@@ -88,7 +88,7 @@ pub enum PlotOption<T>
 /// 	[ColorType::VariableRGBInteger] or [ColorType::VariableARGBInteger] respectively
 /// * `u8` or `Vec<u8>` produces a [ColorType::Index] or [ColorType::VariableIndex] respectively
 ///
-///	See `examples/color.rs` for usage of this function
+/// See `examples/color.rs` for usage of this function
 pub fn Color<'l, T: IntoColor<&'l str>>(c: T) -> PlotOption<&'l str>
 {
 	ColorOpt(c.into())

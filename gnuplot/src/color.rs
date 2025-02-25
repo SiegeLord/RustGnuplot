@@ -59,12 +59,37 @@ pub enum ColorType<T = String>
 	/// Vector of tuples of `u8` (as per `ARGBColor`), but as with `VariableRGBColor`, a separate
 	/// color value is given for each data point.
 	VariableARGBInteger(Vec<ARGBInts>),
-	/// TODO
-	PaletteFracColor(f32),
-	/// TODO
-	PaletteCBColor(f32),
+	/// Sets the color of the plot element to a value picked from the current palette (see
+	/// [set_palette()](crate::AxesCommon::set_palette())). The value supplied to this color type
+	/// selects the color within the color range of the palette: i.e. it if the color bar range had been
+	/// set with `ax.set_cb_range(Fix(min), Fix(max))`, the value would be expected to be between
+	/// `min` and `max`.
+	///
+	/// Example of usage is give in the `color` example.
+	///
+	/// Compare with [PaletteFracColor]
+	PaletteFracColor(f64),
+	/// Sets the color of the plot element to a value picked from the current palette (see
+	/// [set_palette()](crate::AxesCommon::set_palette()) . The value supplied to this color type
+	/// selects the color as a fraction of the current color range i.e. it is expected to be
+	/// between `0` and `1`.
+	///
+	/// Example of usage is give in the `color` example.
+	///
+	/// Comparing with [PaletteCBColor]: given the following code
+	/// ```
+	/// assert!(frac <= 0.0)
+	/// assert!(frac >= 1.0)
+	/// ax.set_cb_range(Fix(min), Fix(max))
+	/// let col1 = PalleteFracColor(frac)
+	/// let cb_range = max - min;
+	/// let col2 = PaletteCBColor(min + (frac * cb_range))
+	/// ```
+	/// `col1` and `col2` should give the same color.
+	PaletteCBColor(f64),
 	/// Vector of `f64` values which act as indexes into the current palette to set the color of
-	/// each data point
+	/// each data point. These variable values work in the same was as the single fixed value supplied
+	/// to a [PaletteCBColor]
 	VariablePaletteColor(Vec<f64>),
 	/// Similar to `VariablePaletteColor` in that it takes a `Vec<f64>` to set the indexes into the
 	/// color map for each data point, but in addition to the color data it takes a string hold the name
@@ -91,22 +116,23 @@ impl<T: Display> ColorType<T>
 	/// Returns the gnuplot string that will produce the requested color
 	pub fn command(&self) -> String
 	{
-		match self
+		let str = match self
 		{
-			RGBString(s) => format!(r#"rgb "{}""#, s),
-			RGBInteger(r, g, b) => format!(r#"rgb {}"#, from_argb(0, *r, *g, *b)),
-			ARGBInteger(a, r, g, b) => format!(r#"rgb {}"#, from_argb(*a, *r, *g, *b)),
-			VariableRGBInteger(_) => String::from("rgb variable"),
-			VariableARGBInteger(_) => String::from("rgb variable"),
-			PaletteFracColor(_) => todo!(),
-			PaletteCBColor(_) => todo!(),
-			VariablePaletteColor(_) => String::from("palette z"),
-			SavedColorMap(s, _) => format!("palette {s}"),
-			VariableIndex(_) => String::from("variable"),
-			Background => String::from("background"),
-			Index(n) => format!("{}", n),
-			Black => String::from("black"),
-		}
+			RGBString(s) => &format!(r#"rgb "{}""#, s),
+			RGBInteger(r, g, b) => &format!(r#"rgb {}"#, from_argb(0, *r, *g, *b)),
+			ARGBInteger(a, r, g, b) => &format!(r#"rgb {}"#, from_argb(*a, *r, *g, *b)),
+			VariableRGBInteger(_) => "rgb variable",
+			VariableARGBInteger(_) => "rgb variable",
+			PaletteFracColor(v) => &format!("palette frac {v}"),
+			PaletteCBColor(v) => &format!("palette cb {v}"),
+			VariablePaletteColor(_) => "palette z",
+			SavedColorMap(s, _) => &format!("palette {s}"),
+			VariableIndex(_) => "variable",
+			Background => "background",
+			Index(n) => &format!("{}", n),
+			Black => "black",
+		};
+		String::from(str)
 	}
 
 	pub fn data(&self) -> Vec<f64>
@@ -348,8 +374,8 @@ impl<T: Display> OneWayOwned for ColorType<T>
 			RGBString(s) => RGBString(s.to_string()),
 			RGBInteger(r, g, b) => RGBInteger(*r, *g, *b),
 			VariableRGBInteger(d) => VariableRGBInteger(d.clone()),
-			PaletteFracColor(_) => todo!(),
-			PaletteCBColor(_) => todo!(),
+			PaletteFracColor(v) => PaletteFracColor(*v),
+			PaletteCBColor(v) => PaletteCBColor(*v),
 			VariablePaletteColor(d) => VariablePaletteColor(d.clone()),
 			SavedColorMap(s, d) => SavedColorMap(s.to_string(), d.clone()),
 			VariableIndex(d) => VariableIndex(d.clone()),
@@ -372,8 +398,8 @@ impl ColorType<String>
 			RGBInteger(r, g, b) => RGBInteger(*r, *g, *b),
 			VariableRGBInteger(d) => VariableRGBInteger(d.to_vec()),
 			VariableARGBInteger(d) => VariableARGBInteger(d.to_vec()),
-			PaletteFracColor(_) => todo!(),
-			PaletteCBColor(_) => todo!(),
+			PaletteFracColor(v) => PaletteFracColor(*v),
+			PaletteCBColor(v) => PaletteCBColor(*v),
 			VariablePaletteColor(d) => VariablePaletteColor(d.to_vec()),
 			SavedColorMap(s, d) => SavedColorMap(s, d.to_vec()),
 			VariableIndex(d) => VariableIndex(d.to_vec()),

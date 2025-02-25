@@ -2073,7 +2073,8 @@ pub trait AxesCommon: AxesCommonPrivate
 		self
 	}
 
-	/// Sets the palette used for 3D surface and image plots
+	/// Sets the palette used for 3D surface and image plots. See the [palettes][crate::palettes]
+	/// module for a list of predefined palettes.
 	///
 	/// # Arguments
 	/// * `palette` - What palette type to use
