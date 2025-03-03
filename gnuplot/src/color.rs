@@ -78,12 +78,20 @@ pub enum ColorType<T = String>
 	///
 	/// Comparing with [PaletteCBColor]: given the following code
 	/// ```
-	/// assert!(frac <= 0.0)
-	/// assert!(frac >= 1.0)
-	/// ax.set_cb_range(Fix(min), Fix(max))
-	/// let col1 = PalleteFracColor(frac)
+	/// use gnuplot::{PaletteCBColor, PaletteFracColor, Fix, Figure, AxesCommon, Color};
+	/// let min = -5.0; // or any value
+	/// let max = 12.0; // or any value
+	///
+	/// let frac = 0.5; // or any value 0.0 <= frac <= 1.0
+	/// assert!(frac >= 0.0);
+	/// assert!(frac <= 1.0);
+	///
+	/// let mut fg = Figure::new();
+	/// let ax = fg.axes2d();
+	/// ax.set_cb_range(Fix(min), Fix(max));
+	/// let col1 = Color(PaletteFracColor(frac));
 	/// let cb_range = max - min;
-	/// let col2 = PaletteCBColor(min + (frac * cb_range))
+	/// let col2 = Color(PaletteCBColor(min + (frac * cb_range)));
 	/// ```
 	/// `col1` and `col2` should give the same color.
 	PaletteCBColor(f64),
