@@ -32,8 +32,8 @@ impl PlotElement for Lines
 				PointSize(v) => PointSize(*v),
 				Caption(v) => Caption(&v),
 				LineWidth(v) => LineWidth(*v),
-				ColorOpt(v) => ColorOpt(v.to_ref()),
-				BorderColorOpt(v) => BorderColorOpt(v.to_ref()),
+				Color(v) => Color(v.to_ref()),
+				BorderColor(v) => BorderColor(v.to_ref()),
 				LineStyle(v) => LineStyle(*v),
 				FillAlpha(v) => FillAlpha(*v),
 				FillRegion(v) => FillRegion(*v),
@@ -165,7 +165,7 @@ fn example(c: Common)
 	//~ fg.axes2d().set_title("Old API", &[]).lines(
 	//~ z.clone(),
 	//~ y.clone(),
-	//~ &[LineWidth(2.), Color("#ffaa77")],
+	//~ &[LineWidth(2.), Color("#ffaa77".into())],
 	//~ ).lines(
 	//~ z.clone(),
 	//~ x.clone(),

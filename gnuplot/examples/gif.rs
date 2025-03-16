@@ -24,13 +24,13 @@ fn main()
 			x.iter(),
 			x.iter()
 				.map(|&x| (x + t as f32 * 0.1 * 2. * f32::consts::PI).sin()),
-			&[Color("blue")],
+			&[Color("blue".into())],
 		);
 		ax.lines(
 			x.iter(),
 			x.iter()
 				.map(|&x| (x + t as f32 * 0.1 * 2. * f32::consts::PI).cos()),
-			&[Color("red")],
+			&[Color("red".into())],
 		);
 		t += 0.1;
 	}

@@ -102,7 +102,7 @@ impl LegendData
 			}
 		}
 		first_opt! {self.text_options,
-			TextColorOpt(ref s) =>
+			TextColor(ref s) =>
 			{
 				write!(w, " textcolor {} ", s.command());
 			}

@@ -16,7 +16,7 @@ fn example(c: Common)
 		x,
 		y,
 		z,
-		&[PointSymbol('o'), Color("#ffaa77"), PointSize(2.0)],
+		&[PointSymbol('o'), Color("#ffaa77".into()), PointSize(2.0)],
 	);
 
 	c.show(&mut fg, "points_3d");

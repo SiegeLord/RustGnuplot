@@ -8,7 +8,7 @@ mod common;
 
 fn color_name<T: Debug>(color: &PlotOption<T>) -> String
 {
-	let s = format!("{:?}", color).replace("ColorOpt(", "");
+	let s = format!("{:?}", color).replace("Color(", "");
 	let mut chars = s.chars();
 	chars.next_back();
 	chars.as_str().to_string()
@@ -19,22 +19,22 @@ fn example(c: Common)
 	let x = 0..5;
 
 	let colors = [
-		Color("black"),                            // Conversion to RGBString is implicit
-		Color(ColorType::RGBString("black")),      // Explicit use of RGBString
-		Color("red"),                              // Conversion to RGBString is implicit
-		Color(RGBString("#ff0000")),               // red using Hex coded RRGGBB
-		Color(RGBString("#00ff0000")),             // red using Hex coded AARRGGBB
-		Color("#ff8888"), // pink using Hex coded RRGGBB. Conversion to RGBString is implict
-		Color("#88ff0000"), // pink using Hex coded AARRGGBB. Conversion to RGBString is implict
+		Color("black".into()),                    // Conversion to RGBString is implicit
+		Color(ColorType::RGBString("black")),     // Explicit use of RGBString
+		Color("red".into()),                      // Conversion to RGBString is implicit
+		Color(RGBString("#ff0000")),              // red using Hex coded RRGGBB
+		Color(RGBString("#00ff0000")),            // red using Hex coded AARRGGBB
+		Color("#ff8888".into()), // pink using Hex coded RRGGBB. Conversion to RGBString is implict
+		Color("#88ff0000".into()), // pink using Hex coded AARRGGBB. Conversion to RGBString is implict
 		Color(ColorType::RGBString("#ffff0000")), // transparent using Hex coded AARRGGBB
-		Color((128, 0, 255)), // purple using implict RGBInteger
+		Color((128, 0, 255).into()), // purple using implict RGBInteger
 		Color(RGBInteger(128, 0, 255)), // purple using explict RGBInteger
-		Color((0.5, 0.0, 1.0)), // purple using implict float to int conversion
-		Color(floats_to_rgb(0.5, 0.0, 1.0)), // purple using explicit float to int conversion
-		Color((128, 128, 0, 255)), // pale purple using implict ARGBInteger
+		Color((0.5, 0.0, 1.0).into()), // purple using implict float to int conversion
+		Color(floats_to_rgb(0.5, 0.0, 1.0).into()), // purple using explicit float to int conversion
+		Color((128, 128, 0, 255).into()), // pale purple using implict ARGBInteger
 		Color(ARGBInteger(128, 128, 0, 255)), // pale purple using explict ARGBInteger
-		Color((0.5, 0.5, 0.0, 1.0)), // pale purple using implict float to int conversion
-		Color(floats_to_argb(0.5, 0.5, 0.0, 1.0)), // pale purple using explicit float to int conversion
+		Color((0.5, 0.5, 0.0, 1.0).into()), // pale purple using implict float to int conversion
+		Color(floats_to_argb(0.5, 0.5, 0.0, 1.0).into()), // pale purple using explicit float to int conversion
 	];
 
 	let mut fg = Figure::new();
@@ -57,7 +57,7 @@ fn example(c: Common)
 			&[
 				Caption(&color_name(&color)),
 				LineWidth(1.0),
-				BorderColor("black"),
+				BorderColor("black".into()),
 				color,
 			],
 		);
@@ -70,7 +70,7 @@ fn example(c: Common)
 		&[
 			LineWidth(7.0),
 			Color(Black),
-			Caption(&color_name(&Color(Black))),
+			Caption(&color_name::<String>(&Color(Black))),
 		],
 	);
 
@@ -80,14 +80,14 @@ fn example(c: Common)
 		&[
 			LineWidth(7.0),
 			Color(Background),
-			Caption(&color_name(&Color(Background))),
+			Caption(&color_name::<String>(&Color(Background))),
 		],
 	);
 
 	// any of the forms used for Color can also be used with TextColor and BorderColor
 	ax.set_x_label(
 		"Labels can be colored using the TextColor function",
-		&[TextColor((128, 0, 255))],
+		&[TextColor((128, 0, 255).into())],
 	);
 
 	c.show(&mut fg, "rgb_color");
@@ -112,7 +112,7 @@ fn example(c: Common)
 			&[
 				Caption(&color_name(&frac_color)),
 				LineWidth(1.0),
-				BorderColor("black"),
+				BorderColor("black".into()),
 				frac_color,
 			],
 		)
@@ -124,7 +124,7 @@ fn example(c: Common)
 			&[
 				Caption(&color_name(&cb_range_color)),
 				LineWidth(1.0),
-				BorderColor("black"),
+				BorderColor("black".into()),
 				cb_range_color,
 			],
 		);

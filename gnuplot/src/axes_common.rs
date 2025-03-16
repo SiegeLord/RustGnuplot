@@ -211,7 +211,7 @@ impl PlotElement
 			{
 				let mut color_has_alpha = false;
 				first_opt! {self.options,
-					ColorOpt(ref c) => {
+					Color(ref c) => {
 						color_has_alpha = c.has_alpha()
 					}
 				}
@@ -233,7 +233,7 @@ impl PlotElement
 			if self.plot_type.is_line()
 			{
 				first_opt! {self.options,
-					BorderColorOpt(ref s) =>
+					BorderColor(ref s) =>
 					{
 						write!(writer, " border {}", s.command());
 					}
@@ -455,7 +455,7 @@ pub fn write_out_label_options(
 	}
 
 	first_opt! {options,
-		TextColorOpt(ref s) =>
+		TextColor(ref s) =>
 		{
 			write!(w, r#" tc {}"#, s.command());
 		}
@@ -1219,7 +1219,7 @@ impl AxesCommonData
 
 		let mut col = default.as_ref();
 		first_opt! {options,
-			ColorOpt(ref s) =>
+			Color(ref s) =>
 			{
 				col = Some(s)
 			}

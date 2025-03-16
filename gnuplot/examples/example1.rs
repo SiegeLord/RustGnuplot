@@ -56,7 +56,7 @@ fn example(c: Common)
 				ArrowType(Closed),
 				ArrowSize(0.1),
 				LineWidth(2.0),
-				Color("black"),
+				Color("black".into()),
 			],
 		)
 		.label("Here", Axis(5.7912), Axis(3.1), &[TextAlign(AlignCenter)])
@@ -64,18 +64,26 @@ fn example(c: Common)
 			x,
 			y1.map(|&y| y * 0.85 - 1.0),
 			y1.map(|&y| y * 1.15 + 1.0),
-			&[Color("#aaaaff")],
+			&[Color("#aaaaff".into())],
 		)
 		.lines(
 			x,
 			y1,
-			&[Caption("(x - 4)^2 - 5"), LineWidth(1.5), Color("black")],
+			&[
+				Caption("(x - 4)^2 - 5"),
+				LineWidth(1.5),
+				Color("black".into()),
+			],
 		)
 		.y_error_lines(
 			x,
 			y2,
 			repeat(1.0f32),
-			&[Caption("-(x - 4)^2 + 5"), LineWidth(1.5), Color("red")],
+			&[
+				Caption("-(x - 4)^2 + 5"),
+				LineWidth(1.5),
+				Color("red".into()),
+			],
 		)
 		.lines_points(
 			x,
@@ -85,7 +93,7 @@ fn example(c: Common)
 				PointSymbol('t'),
 				LineWidth(1.5),
 				LineStyle(Dash),
-				Color("#11ff11"),
+				Color("#11ff11".into()),
 			],
 		);
 
@@ -95,7 +103,11 @@ fn example(c: Common)
 
 	fg.axes2d()
 		.set_pos_grid(2, 2, 0)
-		.lines(x, y1, &[Caption("Lines"), LineWidth(3.0), Color("violet")])
+		.lines(
+			x,
+			y1,
+			&[Caption("Lines"), LineWidth(3.0), Color("violet".into())],
+		)
 		.set_title("Plot1 fg1.2", &[]);
 
 	fg.axes2d()
@@ -106,7 +118,7 @@ fn example(c: Common)
 			&[
 				Caption("Points"),
 				PointSymbol('D'),
-				Color("#ffaa77"),
+				Color("#ffaa77".into()),
 				PointSize(2.0),
 			],
 		)
@@ -116,8 +128,11 @@ fn example(c: Common)
 
 	let mut fg = Figure::new();
 
-	fg.axes2d()
-		.lines(x, y1, &[Caption("Lines"), LineWidth(3.0), Color("violet")]);
+	fg.axes2d().lines(
+		x,
+		y1,
+		&[Caption("Lines"), LineWidth(3.0), Color("violet".into())],
+	);
 
 	fg.axes2d()
 		.set_pos(0.2, 0.4)
@@ -126,7 +141,7 @@ fn example(c: Common)
 		.points(
 			x,
 			y2,
-			&[Caption("Points"), PointSymbol('T'), Color("#ffaa77")],
+			&[Caption("Points"), PointSymbol('T'), Color("#ffaa77".into())],
 		)
 		.set_title("Inset fg1.3", &[]);
 
@@ -135,7 +150,11 @@ fn example(c: Common)
 	let mut fg = Figure::new();
 
 	fg.axes2d()
-		.lines(x, y1, &[Caption("Lines"), LineWidth(3.0), Color("violet")])
+		.lines(
+			x,
+			y1,
+			&[Caption("Lines"), LineWidth(3.0), Color("violet".into())],
+		)
 		.set_y_range(Fix(-30.0), Auto)
 		.set_y_label("This axis is manually scaled on the low end", &[])
 		.set_title("Range fg1.4", &[]);
@@ -153,7 +172,7 @@ fn example(c: Common)
 				Caption(r"x\_error\_lines"),
 				LineWidth(2.0),
 				PointSymbol('O'),
-				Color("red"),
+				Color("red".into()),
 			],
 		)
 		.y_error_lines(
@@ -164,20 +183,28 @@ fn example(c: Common)
 				Caption(r"y\_error\_lines"),
 				LineWidth(2.0),
 				PointSymbol('S'),
-				Color("blue"),
+				Color("blue".into()),
 			],
 		)
 		.x_error_bars(
 			x,
 			y3,
 			x_err,
-			&[Caption(r"x\_error\_bars"), PointSymbol('T'), Color("cyan")],
+			&[
+				Caption(r"x\_error\_bars"),
+				PointSymbol('T'),
+				Color("cyan".into()),
+			],
 		)
 		.y_error_bars(
 			x,
 			y4,
 			y_err,
-			&[Caption(r"y\_error\_bars"), PointSymbol('R'), Color("green")],
+			&[
+				Caption(r"y\_error\_bars"),
+				PointSymbol('R'),
+				Color("green".into()),
+			],
 		)
 		.set_title("Error fg1.5", &[]);
 
@@ -193,7 +220,7 @@ fn example(c: Common)
 			y1,
 			y3,
 			&[
-				Color("red"),
+				Color("red".into()),
 				FillAlpha(0.5),
 				FillRegion(Above),
 				Caption("A > B"),
@@ -204,7 +231,7 @@ fn example(c: Common)
 			y1,
 			y3,
 			&[
-				Color("green"),
+				Color("green".into()),
 				FillAlpha(0.5),
 				FillRegion(Below),
 				Caption("A < B"),
@@ -215,7 +242,7 @@ fn example(c: Common)
 			y2,
 			y3,
 			&[
-				Color("blue"),
+				Color("blue".into()),
 				FillAlpha(0.5),
 				FillRegion(Between),
 				Caption("Between C and B"),
@@ -225,18 +252,22 @@ fn example(c: Common)
 			x,
 			y1,
 			&[
-				Color("black"),
+				Color("black".into()),
 				LineWidth(2.0),
 				LineStyle(Dash),
 				Caption("A"),
 			],
 		)
-		.lines(x, y2, &[Color("black"), LineWidth(2.0), Caption("C")])
+		.lines(
+			x,
+			y2,
+			&[Color("black".into()), LineWidth(2.0), Caption("C")],
+		)
 		.lines(
 			x,
 			y3,
 			&[
-				Color("black"),
+				Color("black".into()),
 				LineWidth(2.0),
 				LineStyle(DotDotDash),
 				Caption("B"),
@@ -267,7 +298,7 @@ fn example(c: Common)
 			&[
 				Caption("(x - 4)^2 - 5"),
 				LineWidth(3.0),
-				Color("violet"),
+				Color("violet".into()),
 				LineStyle(DotDash),
 			],
 		)
@@ -277,7 +308,7 @@ fn example(c: Common)
 			&[
 				Caption("-(x - 4)^2 + 5"),
 				PointSymbol('S'),
-				Color("#ffaa77"),
+				Color("#ffaa77".into()),
 			],
 		)
 		.lines_points(
@@ -286,13 +317,13 @@ fn example(c: Common)
 			&[
 				Caption("x - 4"),
 				PointSymbol('O'),
-				Color("black"),
+				Color("black".into()),
 				LineStyle(SmallDot),
 			],
 		)
 		.set_x_label(
 			"X Label",
-			&[Font("Arial", 24.0), TextColor("red"), Rotate(45.0)],
+			&[Font("Arial", 24.0), TextColor("red".into()), Rotate(45.0)],
 		)
 		.set_y_label("Y Label", &[Rotate(0.0)])
 		.set_title(

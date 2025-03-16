@@ -27,7 +27,7 @@ fn example(c: Common)
 			[0.5f32, 0.25, 0.125].iter(),
 			&[
 				WhiskerBars(0.5),
-				Color("blue"),
+				Color("blue".into()),
 				LineWidth(2.0),
 				LineStyle(SmallDot),
 				FillAlpha(0.5),

@@ -55,7 +55,7 @@ macro_rules! generate_data {
 			let mut c_data = None;
 
 			first_opt! {$options,
-				ColorOpt(ref color) =>
+				Color(ref color) =>
 				{
 					if color.is_variable() {
 						c_data = Some(color.data());

@@ -57,7 +57,7 @@ fn example(c: Common)
 	//
 	// The first color loop demonstrates usage of VariableIndexColor with indices to use gnuplot's default color styles,
 	// but make them align for multiple plot items on the same axis. This is implicity constructed from a Vec<u8> using
-	// the `Color` function but could equivalently be created explicitly using `ColorOpt(ColorType::VariableIndexColor(row_index.clone()))`
+	// the `IntoColor` trait but could equivalently be created explicitly using `Color(ColorType::VariableIndexColor(row_index.clone()))`
 	//
 	// The second color loop uses a `VariablePaletteColor`: this selects the color based on the current color palette and the
 	// input value for each data point. The palette is scaled to the maximum value in the `Vec<f64>` passed
@@ -65,19 +65,19 @@ fn example(c: Common)
 	//
 	// The third color loop uses an (implicit) `VariableARGBString`. The `Vec<(u8, u8, u8, u8)>` needed to construct the color
 	// is calculated in this case by the `argb_formula()` closure. An explicit `VariableARGBString` could also be constructed using
-	// `ColorOpt(ColorType::VariableARGBString(data)`.
+	// `Color(ColorType::VariableARGBString(data)`.
 	// As an alternative, `VariableRGBString` is also defined that takes a 3-tuple of u8, rather than
 	// a 4 tuple.
 	for (color, label) in [
-		(Color(row_index.clone()), "VariableIndexColor"),
+		(Color(row_index.clone().into()), "VariableIndexColor"),
 		(
-			ColorOpt(VariablePaletteColor(
+			Color(VariablePaletteColor(
 				row_index.iter().map(|v| *v as f64).collect(),
 			)),
 			"VariablePaletteColor",
 		),
 		(
-			Color(d1.iter().map(argb_formula).collect::<Vec<_>>()),
+			Color(d1.iter().map(argb_formula).collect::<Vec<_>>().into()),
 			"VariableARGBString",
 		),
 	]

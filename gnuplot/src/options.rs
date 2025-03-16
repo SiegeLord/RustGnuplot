@@ -22,7 +22,6 @@ pub use self::YAxis::*;
 use crate::util::OneWayOwned;
 use crate::writer::Writer;
 use crate::ColorType;
-use crate::IntoColor;
 
 /// An enumeration of plot options you can supply to plotting commands, governing
 /// things like line width, color and others
@@ -54,10 +53,10 @@ pub enum PlotOption<T>
 	LineWidth(f64),
 	/// Sets the color of the plot element. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white). This specifies the fill color of a filled plot.
-	ColorOpt(ColorType<T>),
+	Color(ColorType<T>),
 	/// Sets the color of the border of a filled plot (if it has one). The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white).
-	BorderColorOpt(ColorType<T>),
+	BorderColor(ColorType<T>),
 	/// Sets the style of the line. Note that not all gnuplot terminals support dashed lines. See DashType for the available styles.
 	LineStyle(DashType),
 	/// Sets the transparency of a filled plot. `0.0` - fully transparent, `1.0` - fully opaque. Cannot be used with `FillPattern`.
@@ -77,31 +76,6 @@ pub enum PlotOption<T>
 	Axes(XAxis, YAxis),
 }
 
-#[allow(non_snake_case)]
-/// Convience function to allow construction of color options implicitly from a wide range of inputs.
-///
-/// Currently these are:
-/// * `String` or `&str` - produces a [ColorType::RGBString]
-/// * `(u8, u8, u8)` - produces a [ColorType::RGBInteger]
-/// * `(u8, u8, u8, u8)` - produces a [ColorType::ARGBInteger]
-/// * `Vec<((u8, u8, u8))>` or `Vec<(u8, u8, u8, u8)>` - produces a
-///     [ColorType::VariableRGBInteger] or [ColorType::VariableARGBInteger] respectively
-/// * `u8` or `Vec<u8>` produces a [ColorType::Index] or [ColorType::VariableIndex] respectively
-///
-/// See `examples/color.rs` for usage of this function
-pub fn Color<'l, T: IntoColor<&'l str>>(c: T) -> PlotOption<&'l str>
-{
-	ColorOpt(c.into())
-}
-
-#[allow(non_snake_case)]
-/// Convience function to allow construction of border color options implicitly from a wide range of inputs.
-/// Format and possible inputs are the same as [Color]
-pub fn BorderColor<'l, T: IntoColor<&'l str>>(c: T) -> PlotOption<&'l str>
-{
-	BorderColorOpt(c.into())
-}
-
 impl<'l> OneWayOwned for PlotOption<&'l str>
 {
 	type Output = PlotOption<String>;
@@ -113,8 +87,8 @@ impl<'l> OneWayOwned for PlotOption<&'l str>
 			PointSize(v) => PointSize(v),
 			Caption(v) => Caption(v.into()),
 			LineWidth(v) => LineWidth(v),
-			ColorOpt(ref v) => ColorOpt(v.to_one_way_owned()),
-			BorderColorOpt(ref v) => BorderColorOpt(v.to_one_way_owned()),
+			Color(ref v) => Color(v.to_one_way_owned()),
+			BorderColor(ref v) => BorderColor(v.to_one_way_owned()),
 			LineStyle(v) => LineStyle(v),
 			FillAlpha(v) => FillAlpha(v),
 			FillRegion(v) => FillRegion(v),
@@ -252,7 +226,7 @@ pub enum LabelOption<T>
 	Font(T, f64),
 	/// Sets the color of the label text. The passed string can be a color name
 	/// (e.g. "black" works), or an HTML color specifier (e.g. "#FFFFFF" is white)
-	TextColorOpt(ColorType<T>),
+	TextColor(ColorType<T>),
 	/// Rotates the label by a certain number of degrees
 	Rotate(f64),
 	/// Sets the horizontal alignment of the label text (default is left alignment). See AlignType.
@@ -290,7 +264,7 @@ impl<'l> OneWayOwned for LabelOption<&'l str>
 		{
 			TextOffset(v1, v2) => TextOffset(v1, v2),
 			Font(v1, v2) => Font(v1.into(), v2),
-			TextColorOpt(v) => TextColorOpt(v.to_one_way_owned()),
+			TextColor(v) => TextColor(v.to_one_way_owned()),
 			Rotate(v) => Rotate(v),
 			TextAlign(v) => TextAlign(v),
 			MarkerSymbol(v) => MarkerSymbol(v),
@@ -298,14 +272,6 @@ impl<'l> OneWayOwned for LabelOption<&'l str>
 			MarkerSize(v) => MarkerSize(v),
 		}
 	}
-}
-
-#[allow(non_snake_case)]
-/// Convience function to allow construction of text color options implicitly from a wide range of inputs.
-/// Format and possible inputs are the same as [Color]
-pub fn TextColor<'l, T: IntoColor<&'l str>>(c: T) -> LabelOption<&'l str>
-{
-	TextColorOpt(c.into())
 }
 
 /// An enumeration of axis tick options

@@ -22,8 +22,8 @@ pub type ARGBInts = (
 ///
 /// There are many equivalent ways of specifying colors, and this allows the user to chose the most convenient.
 /// For example, all the following will produce the same blue color:
-/// `RGBColor("blue")`, `RGBColor("0x0000ff")`, `RGBColor("#0000ff")`, `RGBColor("0x000000ff")`,
-/// `RGBColor("#000000ff")`, `RGBIntegerColor(0, 0, 255)`, `ARGBColor(0, 0, 0, 255)`,
+/// `RGBColor("blue".into())`, `RGBColor("0x0000ff".into())`, `RGBColor("#0000ff".into())`, `RGBColor("0x000000ff".into())`,
+/// `RGBColor("#000000ff".into())`, `RGBIntegerColor(0, 0, 255)`, `ARGBColor(0, 0, 0, 255)`,
 ///
 /// See example usages of these colors in `color.rs` and `variable_color.rs` in the
 /// [Examples folder](https://github.com/SiegeLord/RustGnuplot/tree/master/gnuplot/examples) on Github
@@ -83,6 +83,8 @@ pub enum ColorType<T = String>
 	///# let max = 12.0; // or any value
 	///
 	///# let frac = 0.5; // or any value 0.0 <= frac <= 1.0
+	///# let x = [1,2,3];
+	///# let y = [4,5,6];
 	/// assert!(frac >= 0.0);
 	/// assert!(frac <= 1.0);
 	///
@@ -92,8 +94,10 @@ pub enum ColorType<T = String>
 	/// let col1 = Color(PaletteFracColor(frac));
 	/// let cb_range = max - min;
 	/// let col2 = Color(PaletteCBColor(min + (frac * cb_range)));
+	/// ax.lines(x, y, &[col1]);
+	/// ax.lines(x, y, &[col2]);
 	/// ```
-	/// `col1` and `col2` should give the same color for any values of `max` and `min`, and `0 <= frac <= 1`.
+	/// the two lines should give the same color for any values of `max` and `min`, and `0 <= frac <= 1`.
 	PaletteCBColor(f64),
 	/// Vector of `f64` values which act as indexes into the current palette to set the color of
 	/// each data point. These variable values work in the same was as the single fixed value supplied

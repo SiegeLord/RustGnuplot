@@ -25,7 +25,7 @@ fn example(c: Common)
 			[-1.5f32, 4.5, 3.0].iter(),
 			[0.5f32, 4.75, 0.125].iter(),
 			&[
-				Color("blue"),
+				Color("blue".into()),
 				LineWidth(2.0),
 				LineStyle(SmallDot),
 				FillAlpha(0.5),
