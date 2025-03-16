@@ -79,10 +79,10 @@ pub enum ColorType<T = String>
 	/// Comparing with [PaletteCBColor]: given the following code
 	/// ```
 	/// use gnuplot::{PaletteCBColor, PaletteFracColor, Fix, Figure, AxesCommon, Color};
-	/// let min = -5.0; // or any value
-	/// let max = 12.0; // or any value
+	///# let min = -5.0; // or any value
+	///# let max = 12.0; // or any value
 	///
-	/// let frac = 0.5; // or any value 0.0 <= frac <= 1.0
+	///# let frac = 0.5; // or any value 0.0 <= frac <= 1.0
 	/// assert!(frac >= 0.0);
 	/// assert!(frac <= 1.0);
 	///
@@ -93,7 +93,7 @@ pub enum ColorType<T = String>
 	/// let cb_range = max - min;
 	/// let col2 = Color(PaletteCBColor(min + (frac * cb_range)));
 	/// ```
-	/// `col1` and `col2` should give the same color.
+	/// `col1` and `col2` should give the same color for any values of `max` and `min`, and `0 <= frac <= 1`.
 	PaletteCBColor(f64),
 	/// Vector of `f64` values which act as indexes into the current palette to set the color of
 	/// each data point. These variable values work in the same was as the single fixed value supplied
@@ -102,7 +102,7 @@ pub enum ColorType<T = String>
 	/// Similar to `VariablePaletteColor` in that it takes a `Vec<f64>` to set the indexes into the
 	/// color map for each data point, but in addition to the color data it takes a string hold the name
 	/// of the color map to use. This should have been previously created in the workspace using the
-	/// (create_colormap())[crate::AxesCommon::create_colormap()] function.
+	/// [create_colormap()](crate::AxesCommon::create_colormap) function.
 	SavedColorMap(T, Vec<f64>),
 	/// Set the color of all elements of the plot to the `n`th color in the current gnuplot color cycle.
 	Index(ColorIndex),
