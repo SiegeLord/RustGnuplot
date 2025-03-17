@@ -1,6 +1,6 @@
 pub use self::ColorType::*;
 use crate::util::OneWayOwned;
-use std::fmt::Display;
+use std::fmt::{Debug, Display};
 
 pub type ColorIndex = u8;
 pub type ColorComponent = u8;
@@ -120,7 +120,7 @@ pub enum ColorType<T = String>
 	Black,
 }
 
-impl<T: Display> ColorType<T>
+impl<T: Display + Debug> ColorType<T>
 {
 	/// Returns the gnuplot string that will produce the requested color
 	pub fn command(&self) -> String
@@ -148,9 +148,6 @@ impl<T: Display> ColorType<T>
 	{
 		match self
 		{
-			RGBString(_) => panic!("data() called on non-variable color type."),
-			RGBInteger(_, _, _) => panic!("data() called on non-variable color type."),
-			ARGBInteger(_, _, _, _) => panic!("data() called on non-variable color type."),
 			VariableRGBInteger(items) => items
 				.iter()
 				.map(|(r, g, b)| from_argb(0, *r, *g, *b) as f64)
@@ -159,14 +156,10 @@ impl<T: Display> ColorType<T>
 				.iter()
 				.map(|(a, r, g, b)| from_argb(*a, *r, *g, *b) as f64)
 				.collect(),
-			PaletteFracColor(_) => panic!("data() called on non-variable color type."),
-			PaletteCBColor(_) => panic!("data() called on non-variable color type."),
 			VariablePaletteColor(items) => items.clone(),
 			SavedColorMap(_, items) => items.clone(),
-			Index(_) => panic!("data() called on non-variable color type."),
 			VariableIndex(items) => items.iter().map(|v| *v as f64).collect(),
-			Background => panic!("data() called on non-variable color type."),
-			Black => panic!("data() called on non-variable color type."),
+			c => panic!("data() called on non-variable color type: {:?}", *c),
 		}
 	}
 
