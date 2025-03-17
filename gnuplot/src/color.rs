@@ -137,7 +137,7 @@ impl<T: Display> ColorType<T>
 			VariablePaletteColor(_) => "palette z",
 			SavedColorMap(s, _) => &format!("palette {s}"),
 			VariableIndex(_) => "variable",
-			Background => "background",
+			Background => "bgnd",
 			Index(n) => &format!("{}", n),
 			Black => "black",
 		};
