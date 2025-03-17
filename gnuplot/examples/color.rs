@@ -8,10 +8,11 @@ mod common;
 
 fn color_name<T: Debug>(color: &PlotOption<T>) -> String
 {
-	let s = format!("{:?}", color).replace("Color(", "");
-	let mut chars = s.chars();
-	chars.next_back();
-	chars.as_str().to_string()
+	match color
+	{
+		Color(color_type) => format!("{:?}", color_type),
+		_ => panic!(),
+	}
 }
 
 fn example(c: Common)
