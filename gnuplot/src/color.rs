@@ -197,22 +197,25 @@ fn from_argb(a: ColorComponent, r: ColorComponent, g: ColorComponent, b: ColorCo
 	((a as ColorInt) << 24) + ((r as ColorInt) << 16) + ((g as ColorInt) << 8) + (b as ColorInt)
 }
 
-fn float_color_to_int(v: f64) -> u8
+fn float_color_to_int(v: f64) -> Result<u8, String>
 {
 	if !(0.0..=1.0).contains(&v)
 	{
-		panic!(
+		Err(format!(
 			"Float value must be greater than zero and less than one. Actual value: {}",
 			v
-		);
+		))
 	}
-	((v * 255.0).round()) as u8
+	else
+	{
+		Ok(((v * 255.0).round()) as u8)
+	}
 }
 
 /// Converts a set of `f64` red, green and blue values in the range `0 <= x <= 1` to a 3-tuple of `u8` suitable for use as
 /// an [RGBInteger]
 ///
-/// Panics if any of the arguments are not in the range `0 <= x <= 1`
+/// Returns an error String if any of the arguments are not in the range `0 <= x <= 1`
 ///
 /// Ses also [floats_to_argb]
 ///
@@ -220,19 +223,19 @@ fn float_color_to_int(v: f64) -> u8
 /// * r - red. 0: no red, 1: fully red
 /// * g - green. 0: no green, 1: fully green
 /// * b - blue. 0: no blue, 1: fully blue
-pub fn floats_to_rgb(r: f64, g: f64, b: f64) -> RGBInts
+fn floats_to_rgb(r: f64, g: f64, b: f64) -> Result<RGBInts, String>
 {
-	(
-		float_color_to_int(r),
-		float_color_to_int(g),
-		float_color_to_int(b),
-	)
+	Ok((
+		float_color_to_int(r)?,
+		float_color_to_int(g)?,
+		float_color_to_int(b)?,
+	))
 }
 
 /// Converts a set of `f64` red, green and blue values in the range `0 <= x <= 1` to a 3-tuple of `u8` suitable for use as
 /// an [ARGBInteger]
 ///
-/// Panics if any of the arguments are not in the range `0 <= x <= 1`
+/// Returns an error String if any of the arguments are not in the range `0 <= x <= 1`
 ///
 /// Ses also [floats_to_rgb]
 ///
@@ -241,14 +244,14 @@ pub fn floats_to_rgb(r: f64, g: f64, b: f64) -> RGBInts
 /// * r - red. 0: no red, 1: fully red
 /// * g - green. 0: no green, 1: fully green
 /// * b - blue. 0: no blue, 1: fully blue
-pub fn floats_to_argb(a: f64, r: f64, g: f64, b: f64) -> ARGBInts
+fn floats_to_argb(a: f64, r: f64, g: f64, b: f64) -> Result<ARGBInts, String>
 {
-	(
-		float_color_to_int(a),
-		float_color_to_int(r),
-		float_color_to_int(g),
-		float_color_to_int(b),
-	)
+	Ok((
+		float_color_to_int(a)?,
+		float_color_to_int(r)?,
+		float_color_to_int(g)?,
+		float_color_to_int(b)?,
+	))
 }
 
 impl<'l> From<&'l str> for ColorType<String>
@@ -296,25 +299,27 @@ impl<T> From<RGBInts> for ColorType<T>
 	}
 }
 
-impl<T> From<(f64, f64, f64)> for ColorType<T>
+impl<T> TryFrom<(f64, f64, f64)> for ColorType<T>
 {
+	type Error = String;
 	/// Converts `(f64, f64, f64)` into [RGBInteger].
-	/// All values must be in the range 0-1, or the function will panic.
-	fn from(value: (f64, f64, f64)) -> Self
+	/// Returns an error unless all values are in the range `0 <= v <= 1`.
+	fn try_from(value: (f64, f64, f64)) -> Result<Self, Self::Error>
 	{
-		let ints = floats_to_rgb(value.0, value.1, value.2);
-		ColorType::RGBInteger(ints.0, ints.1, ints.2)
+		let ints = floats_to_rgb(value.0, value.1, value.2)?;
+		Ok(ColorType::RGBInteger(ints.0, ints.1, ints.2))
 	}
 }
 
-impl<T> From<(f64, f64, f64, f64)> for ColorType<T>
+impl<T> TryFrom<(f64, f64, f64, f64)> for ColorType<T>
 {
+	type Error = String;
 	/// Converts `(f64, f64, f64, f64)` into [ARGBInteger].
-	/// All values must be in the range 0-1, or the function will panic.
-	fn from(value: (f64, f64, f64, f64)) -> Self
+	/// Returns an error unless all values are in the range `0 <= v <= 1`.
+	fn try_from(value: (f64, f64, f64, f64)) -> Result<Self, Self::Error>
 	{
-		let ints = floats_to_argb(value.0, value.1, value.2, value.3);
-		ColorType::ARGBInteger(ints.0, ints.1, ints.2, ints.3)
+		let ints = floats_to_argb(value.0, value.1, value.2, value.3)?;
+		Ok(ColorType::ARGBInteger(ints.0, ints.1, ints.2, ints.3))
 	}
 }
 

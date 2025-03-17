@@ -30,12 +30,10 @@ fn example(c: Common)
 		Color(ColorType::RGBString("#ffff0000")), // transparent using Hex coded AARRGGBB
 		Color((128, 0, 255).into()), // purple using implict RGBInteger
 		Color(RGBInteger(128, 0, 255)), // purple using explict RGBInteger
-		Color((0.5, 0.0, 1.0).into()), // purple using implict float to int conversion
-		Color(floats_to_rgb(0.5, 0.0, 1.0).into()), // purple using explicit float to int conversion
+		Color((0.5, 0.0, 1.0).try_into().unwrap()), // purple using implict float to int conversion
 		Color((128, 128, 0, 255).into()), // pale purple using implict ARGBInteger
 		Color(ARGBInteger(128, 128, 0, 255)), // pale purple using explict ARGBInteger
-		Color((0.5, 0.5, 0.0, 1.0).into()), // pale purple using implict float to int conversion
-		Color(floats_to_argb(0.5, 0.5, 0.0, 1.0).into()), // pale purple using explicit float to int conversion
+		Color((0.5, 0.5, 0.0, 1.0).try_into().unwrap()), // pale purple using implict float to int conversion
 	];
 
 	let mut fg = Figure::new();
