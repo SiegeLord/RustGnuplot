@@ -2,9 +2,6 @@ pub use self::ColorType::*;
 use crate::util::OneWayOwned;
 use std::fmt::Display;
 
-pub trait IntoColor<T>: Into<ColorType<T>> + Clone {}
-impl<TC, T: Into<ColorType<TC>> + Clone> IntoColor<TC> for T {}
-
 pub type ColorIndex = u8;
 pub type ColorComponent = u8;
 pub type ColorInt = u32;
