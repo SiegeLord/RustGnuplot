@@ -182,8 +182,7 @@ impl<T: Display + Debug> ColorType<T>
 			RGBString(s) =>
 			{
 				let s = s.to_string();
-				s.starts_with("0x") && s.chars().count() == 10
-					|| s.starts_with("#") && s.chars().count() == 9
+				s.starts_with("0x") && s.len() == 10 || s.starts_with("#") && s.len() == 9
 			}
 			ARGBInteger(_, _, _, _) | VariableARGBInteger(_) => true,
 			_ => false,
