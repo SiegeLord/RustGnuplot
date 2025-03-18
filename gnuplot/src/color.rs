@@ -125,23 +125,22 @@ impl<T: Display + Debug> ColorType<T>
 	/// Returns the gnuplot string that will produce the requested color
 	pub fn command(&self) -> String
 	{
-		let str = match self
+		match self
 		{
-			RGBString(s) => &format!(r#"rgb "{}""#, s),
-			RGBInteger(r, g, b) => &format!(r#"rgb {}"#, from_argb(0, *r, *g, *b)),
-			ARGBInteger(a, r, g, b) => &format!(r#"rgb {}"#, from_argb(*a, *r, *g, *b)),
-			VariableRGBInteger(_) => "rgb variable",
-			VariableARGBInteger(_) => "rgb variable",
-			PaletteFracColor(v) => &format!("palette frac {v}"),
-			PaletteCBColor(v) => &format!("palette cb {v}"),
-			VariablePaletteColor(_) => "palette z",
-			SavedColorMap(s, _) => &format!("palette {s}"),
-			VariableIndex(_) => "variable",
-			Background => "bgnd",
-			Index(n) => &format!("{}", n),
-			Black => "black",
-		};
-		String::from(str)
+			RGBString(s) => format!(r#"rgb "{}""#, s),
+			RGBInteger(r, g, b) => format!(r#"rgb {}"#, from_argb(0, *r, *g, *b)),
+			ARGBInteger(a, r, g, b) => format!(r#"rgb {}"#, from_argb(*a, *r, *g, *b)),
+			VariableRGBInteger(_) => "rgb variable".into(),
+			VariableARGBInteger(_) => "rgb variable".into(),
+			PaletteFracColor(v) => format!("palette frac {v}"),
+			PaletteCBColor(v) => format!("palette cb {v}"),
+			VariablePaletteColor(_) => "palette z".into(),
+			SavedColorMap(s, _) => format!("palette {s}"),
+			VariableIndex(_) => "variable".into(),
+			Background => "bgnd".into(),
+			Index(n) => format!("{}", n),
+			Black => "black".into(),
+		}
 	}
 
 	pub fn data(&self) -> Vec<f64>
