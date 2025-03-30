@@ -17,10 +17,14 @@ pub type ARGBInts = (
 /// color formats. The gnuplot [colorspec reference](http://gnuplot.info/docs_6.0/loc3640.html)
 /// also explains these.
 ///
+/// **NOTE**: Gnuplot interprets the alpha channel in an unusual way, where 0 is fully opaque and
+/// 255 is fully transparent. This wrapper inverts the meaning (as described below) to match the
+/// more common interpretation.
+///
 /// There are many equivalent ways of specifying colors, and this allows the user to chose the most convenient.
 /// For example, all the following will produce the same blue color:
-/// `RGBColor("blue".into())`, `RGBColor("0x0000ff".into())`, `RGBColor("#0000ff".into())`, `RGBColor("0x000000ff".into())`,
-/// `RGBColor("#000000ff".into())`, `RGBIntegerColor(0, 0, 255)`, `ARGBColor(0, 0, 0, 255)`,
+/// `RGBColor("blue".into())`, `RGBColor("0x0000ff".into())`, `RGBColor("#0000ff".into())`, `RGBColor("0xff0000ff".into())`,
+/// `RGBColor("#ff0000ff".into())`, `RGBIntegerColor(0, 0, 255)`, `ARGBColor(255, 0, 0, 255)`,
 ///
 /// See example usages of these colors in `color.rs` and `variable_color.rs` in the
 /// [Examples folder](https://github.com/SiegeLord/RustGnuplot/tree/master/gnuplot/examples) on Github
@@ -35,15 +39,15 @@ pub enum ColorType<T = String>
 	/// - #RRGGBB     --- string containing hexadecimal in x11 format
 	/// - #AARRGGBB   --- string containing hexadecimal in x11 format
 	///
-	/// "#AARRGGBB" represents an RGB color with an alpha channel (transparency) value in the high bits.
-	/// An alpha value of 0 represents a fully opaque color; i.e., "#00RRGGBB" is the same as "#RRGGBB".
-	/// An alpha value of 255 (FF) represents full transparency.
+	/// "#AARRGGBB" represents an RGB color with an alpha channel value in the high bits.
+	/// An alpha value of 255 (FF) represents a fully opaque color; i.e., "#FFRRGGBB" is the same as "#RRGGBB".
+	/// An alpha value of 0 represents full transparency.
 	RGBString(T),
 	/// tuple of u8 representing red, green and blue values as 0-255
 	RGBInteger(ColorComponent, ColorComponent, ColorComponent),
 	/// tuple of u8 representing alpha, red, green and blue values as 0-255.
-	/// As with `RGBColor`, an alpha value of 0 represents a fully opaque color;
-	/// an alpha value of 255 (FF) represents full transparency.
+	/// As with `RGBColor`, an alpha value of 255 (FF) represents a fully opaque color;
+	/// an alpha value of 0 represents full transparency.
 	ARGBInteger(
 		ColorComponent,
 		ColorComponent,
@@ -102,7 +106,7 @@ pub enum ColorType<T = String>
 	VariablePaletteColor(Vec<f64>),
 	/// Similar to `VariablePaletteColor` in that it takes a `Vec<f64>` to set the indexes into the
 	/// color map for each data point, but in addition to the color data it takes a string hold the name
-	/// of the color map to use. This should have been previously created in the workspace using the
+	/// of the colormap to use. This should have been previously created in the workspace using the
 	/// [create_colormap()](crate::AxesCommon::create_colormap) function.
 	SavedColorMap(T, Vec<f64>),
 	/// Set the color of all elements of the plot to the `n`th color in the current gnuplot color cycle.
@@ -127,8 +131,8 @@ impl<T: Display + Debug> ColorType<T>
 	{
 		match self
 		{
-			RGBString(s) => format!(r#"rgb "{}""#, s),
-			RGBInteger(r, g, b) => format!(r#"rgb {}"#, from_argb(0, *r, *g, *b)),
+			RGBString(s) => format!(r#"rgb "{}""#, from_string(s.to_string())),
+			RGBInteger(r, g, b) => format!(r#"rgb {}"#, from_argb(255, *r, *g, *b)),
 			ARGBInteger(a, r, g, b) => format!(r#"rgb {}"#, from_argb(*a, *r, *g, *b)),
 			VariableRGBInteger(_) => "rgb variable".into(),
 			VariableARGBInteger(_) => "rgb variable".into(),
@@ -149,7 +153,7 @@ impl<T: Display + Debug> ColorType<T>
 		{
 			VariableRGBInteger(items) => items
 				.iter()
-				.map(|(r, g, b)| from_argb(0, *r, *g, *b) as f64)
+				.map(|(r, g, b)| from_argb(255, *r, *g, *b) as f64)
 				.collect(),
 			VariableARGBInteger(items) => items
 				.iter()
@@ -192,7 +196,39 @@ impl<T: Display + Debug> ColorType<T>
 fn from_argb(a: ColorComponent, r: ColorComponent, g: ColorComponent, b: ColorComponent)
 	-> ColorInt
 {
-	((a as ColorInt) << 24) + ((r as ColorInt) << 16) + ((g as ColorInt) << 8) + (b as ColorInt)
+	((255 - a as ColorInt) << 24)
+		+ ((r as ColorInt) << 16)
+		+ ((g as ColorInt) << 8)
+		+ (b as ColorInt)
+}
+
+fn from_string(argb: String) -> String
+{
+	if let Some(trimmed_argb) = argb.strip_prefix("0x").or_else(|| argb.strip_prefix("#"))
+	{
+		if trimmed_argb.len() == 8
+		{
+			if let Ok(argb_int) = ColorInt::from_str_radix(trimmed_argb, 16)
+			{
+				let a = 255 - ((argb_int >> 24) & 0xff);
+				let argb_int = (a << 24) + (argb_int & 0xffffff);
+				format!("#{:08x}", argb_int)
+			}
+			else
+			{
+				// Let gnuplot sort it out.
+				argb
+			}
+		}
+		else
+		{
+			argb
+		}
+	}
+	else
+	{
+		argb
+	}
 }
 
 fn float_color_to_int(v: f64) -> Result<u8, String>

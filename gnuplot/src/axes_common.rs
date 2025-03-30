@@ -232,10 +232,12 @@ impl PlotElement
 
 			if self.plot_type.is_line()
 			{
+				// Write this unconditionally so the write_line_options work below.
+				writer.write_str(" border ");
 				first_opt! {self.options,
 					BorderColor(ref s) =>
 					{
-						write!(writer, " border {}", s.command());
+						writer.write_str(&s.command());
 					}
 				}
 			}
@@ -491,7 +493,7 @@ pub fn write_out_label_options(
 			first_opt! {options,
 				MarkerColor(ref s) =>
 				{
-					write!(w, r#" lc "{}""#, s.command());
+					write!(w, r#" lc {}"#, s.command());
 				}
 			}
 
@@ -1264,22 +1266,16 @@ impl AxesCommonData
 			}
 		}
 		self.margins.write_out_commands(w);
-		self.palette.write_out_commands(w);
 
 		if !self.colormaps.is_empty()
 		{
-			// save previous palette
-			writeln!(w, "set colormap new __ORIGINAL_COLORMAP__");
 			for (name, map) in &self.colormaps
 			{
-				// set palette to the requested map
 				map.write_out_commands(w);
-				// save current palette to colormap with the requested name
 				writeln!(w, "set colormap new {name}");
 			}
-			// reload previous palette from saved colormap
-			writeln!(w, "set palette colormap __ORIGINAL_COLORMAP__");
 		}
+		self.palette.write_out_commands(w);
 
 		self.x_axis.write_out_commands(w, version);
 		self.y_axis.write_out_commands(w, version);

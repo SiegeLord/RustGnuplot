@@ -662,7 +662,7 @@ impl Axes2D
 	{
 		let (data, num_rows, num_cols) = generate_data!(options, x, y);
 		self.common.elems.push(PlotElement::new_plot(
-			FillBetween,
+			Polygons,
 			data,
 			num_rows,
 			num_cols,

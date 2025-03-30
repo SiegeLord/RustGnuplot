@@ -7,7 +7,9 @@ use gnuplot::{palettes::MAGMA, *};
 mod common;
 
 // https://github.com/gnuplot/gnuplot/blob/master/demo/candlesticks.dat
-static CANDLESTICKS_STR: &str = "1	1.5	2 	2.4	4	6.
+#[rustfmt::skip]
+static CANDLESTICKS_STR: &str =
+"1	1.5	2 	2.4	4	6.
 2	1.5	3 	3.5	4	5.5
 3	4.5	5 	5.5	6	6.5
 4	3.7	4.5 	5.0	5.5	6.1
@@ -32,8 +34,6 @@ fn example(c: Common)
 
 	let d1 = extract_col(0);
 	let d2 = extract_col(1);
-	// let d3 = extract_col(2);
-	// let d4 = extract_col(3);
 	let d5 = extract_col(4);
 	let d6 = extract_col(5);
 	let row_index: Vec<_> = (1..=d1.len() as u8).collect();
@@ -41,7 +41,7 @@ fn example(c: Common)
 	let by4 = |x| (((x % 4.0) + 1.0) / 7.0);
 
 	let argb_formula = |x: &f64| {
-		let a = 255.0 * (x - 5.5).abs() / 5.5;
+		let a = 255.0 - 255.0 * (x - 5.5).abs() / 5.5;
 		let r = x * 51.0 / 2.0;
 		let g = (11.0 - x) * 51.0 / 2.0;
 		let b = ((5.5 - x).abs() * 2.0 * 510.0 / 9.0).round();
@@ -63,10 +63,10 @@ fn example(c: Common)
 	// input value for each data point. The palette is scaled to the maximum value in the `Vec<f64>` passed
 	// to the `VariablePaletteColor`.
 	//
-	// The third color loop uses an (implicit) `VariableARGBString`. The `Vec<(u8, u8, u8, u8)>` needed to construct the color
-	// is calculated in this case by the `argb_formula()` closure. An explicit `VariableARGBString` could also be constructed using
-	// `Color(ColorType::VariableARGBString(data)`.
-	// As an alternative, `VariableRGBString` is also defined that takes a 3-tuple of u8, rather than
+	// The third color loop uses an (implicit) `VariableARGBInteger`. The `Vec<(u8, u8, u8, u8)>` needed to construct the color
+	// is calculated in this case by the `argb_formula()` closure. An explicit `VariableARGBInteger` could also be constructed using
+	// `Color(ColorType::VariableARGBInteger(data)`.
+	// As an alternative, `VariableRGBInteger` is also defined that takes a 3-tuple of u8, rather than
 	// a 4 tuple.
 	for (color, label) in [
 		(Color(row_index.clone().into()), "VariableIndexColor"),
@@ -78,7 +78,7 @@ fn example(c: Common)
 		),
 		(
 			Color(d1.iter().map(argb_formula).collect::<Vec<_>>().into()),
-			"VariableARGBString",
+			"VariableARGBInteger",
 		),
 	]
 	{

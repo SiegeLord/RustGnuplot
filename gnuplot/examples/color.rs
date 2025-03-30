@@ -23,17 +23,17 @@ fn example(c: Common)
 		Color("black".into()),                    // Conversion to RGBString is implicit
 		Color(ColorType::RGBString("black")),     // Explicit use of RGBString
 		Color("red".into()),                      // Conversion to RGBString is implicit
-		Color(RGBString("#ff0000")),              // red using Hex coded RRGGBB
-		Color(RGBString("#00ff0000")),            // red using Hex coded AARRGGBB
-		Color("#ff8888".into()), // pink using Hex coded RRGGBB. Conversion to RGBString is implict
-		Color("#88ff0000".into()), // pink using Hex coded AARRGGBB. Conversion to RGBString is implict
-		Color(ColorType::RGBString("#ffff0000")), // transparent using Hex coded AARRGGBB
-		Color((128, 0, 255).into()), // purple using implict RGBInteger
-		Color(RGBInteger(128, 0, 255)), // purple using explict RGBInteger
-		Color((0.5, 0.0, 1.0).try_into().unwrap()), // purple using implict float to int conversion
-		Color((128, 128, 0, 255).into()), // pale purple using implict ARGBInteger
-		Color(ARGBInteger(128, 128, 0, 255)), // pale purple using explict ARGBInteger
-		Color((0.5, 0.5, 0.0, 1.0).try_into().unwrap()), // pale purple using implict float to int conversion
+		Color(RGBString("#ff0000")),              // Red using Hex coded RRGGBB
+		Color(RGBString("#ffff0000")),            // Red using Hex coded AARRGGBB
+		Color("#ff8888".into()), // Pink using Hex coded RRGGBB. Conversion to RGBString is implict
+		Color("#77ff0000".into()), // Pink using Hex coded AARRGGBB. Conversion to RGBString is implict
+		Color(ColorType::RGBString("#ffff0000")), // Transparent using Hex coded AARRGGBB
+		Color((128, 0, 255).into()), // Purple using implict RGBInteger
+		Color(RGBInteger(128, 0, 255)), // Purple using explict RGBInteger
+		Color((0.5, 0.0, 1.0).try_into().unwrap()), // Purple using implict float to int conversion
+		Color((64, 128, 0, 255).into()), // Pale purple using implict ARGBInteger
+		Color(ARGBInteger(64, 128, 0, 255)), // Pale purple using explict ARGBInteger
+		Color((0.25, 0.5, 0.0, 1.0).try_into().unwrap()), // Pale purple using implict float to int conversion
 	];
 
 	let mut fg = Figure::new();
@@ -43,7 +43,7 @@ fn example(c: Common)
 		&[],
 	)
 	.set_x_range(Fix(-9.0), Auto)
-	.set_legend(Graph(0.5), Graph(0.9), &[], &[Font("", 14.0)]);
+	.set_legend(Graph(0.5), Graph(0.9), &[], &[Font("", 12.0)]);
 
 	let n_colors = colors.len();
 	for (i, color) in colors.into_iter().enumerate()
@@ -85,7 +85,7 @@ fn example(c: Common)
 
 	// any of the forms used for Color can also be used with TextColor and BorderColor
 	ax.set_x_label(
-		"Labels can be colored using the TextColor function",
+		"Labels can be colored using TextColor",
 		&[TextColor((128, 0, 255).into())],
 	);
 
@@ -97,7 +97,7 @@ fn example(c: Common)
 	let ax = fg.axes2d();
 	let max_cb = 10.0;
 	ax.set_cb_range(Fix(0.0), Fix(max_cb));
-	for color_value in 0..=10
+	for color_value in (0..=10).into_iter().step_by(2)
 	{
 		let color_float = color_value as f64;
 		let frac_color = Color(PaletteFracColor(color_float / max_cb));
@@ -130,7 +130,7 @@ fn example(c: Common)
 	}
 	ax.set_x_range(Fix(-10.0), Fix(11.0))
 		.set_y_range(Fix(-0.5), Fix(1.5))
-		.set_legend(Graph(0.45), Graph(0.9), &[], &[Font("", 14.0)]);
+		.set_legend(Graph(0.45), Graph(0.9), &[], &[Font("", 12.0)]);
 	c.show(&mut fg, "palette_colors");
 }
 
