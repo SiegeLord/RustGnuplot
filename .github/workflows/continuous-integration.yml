@@ -16,13 +16,38 @@ jobs:
                    rustup component add rustfmt --toolchain nightly-x86_64-unknown-linux-gnu
             - name: Setup
               run: |
-                  sudo apt-get install python3-pip --force-yes
-                  sudo pip3 install toml
+                  curl -LsSf https://astral.sh/uv/install.sh | sh
+                  . setup_venv.sh
                   sudo apt-get install gnuplot
             - name: Tests
               run: |
+                  . venv/bin/activate
                   ./cargo_util.py --test
                   ./gnuplot/target/debug/examples/example1 --no-show
                   ./gnuplot/target/debug/examples/example2 --no-show
                   ./gnuplot/target/debug/examples/example3 --no-show
                   ./gnuplot/target/debug/examples/example4 --no-show
+
+                  if [ -n "${{ github.base_ref }}" ]; then
+                    CHANGED_OUTPUTS=$(echo "${{ github.event.pull_request.body }}" | sed -n 's/.*CHANGED_OUTPUTS=\([^ ]*\).*/\1/p')
+                    BASE_BRANCH="${{ github.base_ref }}"
+                    HEAD_BRANCH="${{ github.head_ref || github.ref_name }}"
+
+                    git fetch origin $BASE_BRANCH
+                    git checkout $BASE_BRANCH
+                    ./cargo_util.py --make_golden_outputs
+                    git checkout $HEAD_BRANCH
+                    ./cargo_util.py --test_outputs --ignore_new_outputs --changed_outputs $CHANGED_OUTPUTS
+                  fi
+            - name: Upload golden outputs
+              if: ${{ always() }}
+              uses: actions/upload-artifact@v4
+              with:
+                  name: golden_outputs
+                  path: golden_outputs
+            - name: Upload test outputs
+              if: ${{ always() }}
+              uses: actions/upload-artifact@v4
+              with:
+                  name: test_outputs
+                  path: test_outputs

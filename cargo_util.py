@@ -25,7 +25,10 @@ parser.add_argument('--version', metavar='VERSION', default='', help='set the ve
 parser.add_argument('--publish', action='store_true', help='publish the crates')
 parser.add_argument('--build', action='store_true', help='build the crates')
 parser.add_argument('--test', action='store_true', help='test the crates')
-parser.add_argument('--test_outputs', action='store_true', help='run the unittests')
+parser.add_argument('--make_golden_outputs', action='store_true', help='make the golden outputs')
+parser.add_argument('--test_outputs', action='store_true', help='run the output tests')
+parser.add_argument('--ignore_new_outputs', action='store_true', help='whether to ignore new outputs')
+parser.add_argument('--changed_outputs', type=str, default='', help='comma separated list of outputs to ignore failures in, e.g. "foo.png,bar.png"')
 parser.add_argument('--clean', action='store_true', help='clean the crates')
 parser.add_argument('--doc', action='store_true', help='build the documentation')
 parser.add_argument('--format', action='store_true', help='format all the non-sys crates')
@@ -95,12 +98,16 @@ if args.test:
 		check_call(cargo_cmd('test'), cwd=crate)
 		check_call(cargo_cmd('fmt', '--check'), cwd=crate)
 
-if args.test_outputs:
+if args.test_outputs or args.make_golden_outputs:
 	import numpy as np
 	from PIL import Image
 
-	os.makedirs('test_outputs', exist_ok=True)
-	output_dir = os.path.abspath('test_outputs')
+	if args.test_outputs:
+		output_dir = 'test_outputs'
+	else:
+		output_dir = 'golden_outputs'
+	os.makedirs(output_dir, exist_ok=True)
+	output_dir = os.path.abspath(output_dir)
 	metadata = json.loads(check_output(cargo_cmd('metadata', '--format-version=1', '--no-deps'), cwd='gnuplot').decode('utf8'))
 	for target in metadata['packages'][0]['targets']:
 		if target['kind'] != ['example']:
@@ -115,6 +122,9 @@ if args.test_outputs:
 
 		check_call(cargo_cmd('run', '--example', target['name'], '--', '--no-show', '--output-dir', output_dir, '--save-png'), cwd='gnuplot')
 
+	if args.make_golden_outputs:
+		exit(0)
+
 	golden_images = [pathlib.Path(f) for f in glob.glob('golden_outputs/*.png')]
 	test_images = [pathlib.Path(f) for f in glob.glob(f'{output_dir}/*.png')]
 
@@ -123,19 +133,26 @@ if args.test_outputs:
 	if golden_filenames != test_filenames:
 		missing = set(golden_filenames) - set(test_filenames)
 		extra = set(test_filenames) - set(golden_filenames)
-		assert False, f"Test images don't match golden images.\nExtra: {extra}\nMissing: {missing}"
+		if not args.ignore_new_outputs or missing:
+			assert False, f"Test images don't match golden images.\nExtra: {extra}\nMissing: {missing}"
 
+	changed_outputs = args.changed_outputs.split(',')
+	failed = False
 	for image_name in golden_images:
 		golden_image_path = pathlib.Path(image_name)
 		test_image_path = pathlib.Path(output_dir) / golden_image_path.name
 		assert test_image_path.exists(), f"{test_image_path} not found"
-
+		if golden_image_path.name in changed_outputs:
+			continue
 		golden_image = np.array(Image.open(golden_image_path)).astype(np.float32)
 		test_image = np.array(Image.open(test_image_path)).astype(np.float32)
 		try:
 			np.testing.assert_allclose(golden_image, test_image, atol=5, err_msg=f"{golden_image_path.resolve()}\n{test_image_path.resolve()}")
 		except AssertionError as e:
+			failed = True
 			print(e)
+	if failed:
+		exit(1)
 
 
 if args.clean:
