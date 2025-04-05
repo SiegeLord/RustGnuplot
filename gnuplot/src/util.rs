@@ -52,8 +52,15 @@ macro_rules! first_opt_default
 macro_rules! generate_data {
 	($options: ident, $( $d:ident ),*) => {
 		{
-			let mut c_data = None;
+			let mut widths = None;
+			first_opt! {$options,
+				BoxWidth(ref w) =>
+				{
+					widths = Some(w);
+				}
+			}
 
+			let mut c_data = None;
 			first_opt! {$options,
 				Color(ref color) =>
 				{
@@ -62,22 +69,42 @@ macro_rules! generate_data {
 					}
 				}
 			}
-			if let Some(c_values) = c_data {
-				generate_data_inner!(
-					$(
-						$d,
-					)*
-					c_values
-				)
+
+			if let Some(widths) = widths {
+				if let Some(c_values) = c_data {
+					generate_data_inner!(
+						$(
+							$d,
+						)*
+						widths,
+						c_values
+					)
+				} else {
+					generate_data_inner!(
+						$(
+							$d,
+						)*
+						widths
+					)
+				}
 			} else {
-				generate_data_inner!(
-					$(
-						$d,
-					)*
-				)
+				if let Some(c_values) = c_data {
+					generate_data_inner!(
+						$(
+							$d,
+						)*
+						c_values
+					)
+				} else {
+					generate_data_inner!(
+						$(
+							$d,
+						)*
+					)
+				}
 			}
 		}
-	};
+	}
 }
 
 // returns (data, num_rows, num_cols)

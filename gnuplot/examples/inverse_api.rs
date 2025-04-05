@@ -42,6 +42,7 @@ impl PlotElement for Lines
 				WhiskerBars(v) => WhiskerBars(*v),
 				FillPattern(v) => FillPattern(*v),
 				Axes(v1, v2) => Axes(*v1, *v2),
+				BoxWidth(v) => BoxWidth(v.to_vec()),
 			});
 		}
 

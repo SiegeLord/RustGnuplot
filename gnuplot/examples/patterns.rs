@@ -12,9 +12,10 @@ fn example(c: Common)
 	ax.set_title("Patterns", &[]);
 	ax.set_legend(Graph(1.), Graph(0.95), &[MaxRows(3)], &[]);
 	ax.set_y_range(Auto, Fix(8.));
+	ax.set_box_width(0.5, false);
 	for i in 0..=8
 	{
-		ax.boxes_set_width(&[i], &[5], &[0.5], &[FillPattern(Auto)]);
+		ax.boxes(&[i], &[5], &[FillPattern(Auto)]);
 	}
 
 	for (i, &pattern) in [
@@ -31,10 +32,9 @@ fn example(c: Common)
 	.iter()
 	.enumerate()
 	{
-		ax.boxes_set_width(
+		ax.boxes(
 			&[i],
 			&[-5],
-			&[0.5],
 			&[
 				FillPattern(Fix(pattern)),
 				Caption(&format!("{:?}", pattern)),
