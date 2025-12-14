@@ -297,7 +297,7 @@ impl<'l> From<&'l str> for ColorType<String>
 	}
 }
 
-impl<'l> From<String> for ColorType<String>
+impl From<String> for ColorType<String>
 {
 	/// Converts `String` into [RGBString]
 	fn from(value: String) -> Self

@@ -322,7 +322,7 @@ pub enum Tick<T, S>
 	Minor(T),
 }
 
-impl<'l, T: Clone, S: ToString> OneWayOwned for Tick<T, S>
+impl<T: Clone, S: ToString> OneWayOwned for Tick<T, S>
 {
 	type Output = Tick<T, String>;
 	fn to_one_way_owned(&self) -> Self::Output
