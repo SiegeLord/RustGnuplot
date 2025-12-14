@@ -748,7 +748,7 @@ fn flush_test()
 	use std::fs;
 	use tempfile::TempDir;
 
-	let tmp_path = TempDir::new().unwrap().into_path();
+	let tmp_path = TempDir::new().unwrap().keep();
 	let filename = tmp_path.join("plot.png");
 	let mut fg = Figure::new();
 	fg.axes2d().boxes(0..5, 0..5, &[]);
