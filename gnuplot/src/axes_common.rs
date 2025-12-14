@@ -612,12 +612,10 @@ impl PlotType
 		matches!(
 			*self,
 			Lines
-				| LinesPoints
-				| XErrorLines
+				| LinesPoints | XErrorLines
 				| Boxes | YErrorLines
-				| BoxAndWhisker
-				| BoxXYError | BoxErrorBars
-				| Polygons
+				| BoxAndWhisker | BoxXYError
+				| BoxErrorBars | Polygons
 		)
 	}
 
@@ -626,11 +624,9 @@ impl PlotType
 		matches!(
 			*self,
 			Points
-				| LinesPoints
-				| XErrorLines
-				| YErrorLines
-				| XErrorBars | YErrorBars
-				| XYErrorBars
+				| LinesPoints | XErrorLines
+				| YErrorLines | XErrorBars
+				| YErrorBars | XYErrorBars
 		)
 	}
 
