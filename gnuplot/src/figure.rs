@@ -160,6 +160,7 @@ impl Figure
 	pub fn new() -> Figure
 	{
 		let data_tempdir = tempfile::tempdir().ok();
+		#[allow(clippy::redundant_field_names)]
 		Figure {
 			axes: Vec::new(),
 			terminal: "".into(),
@@ -174,7 +175,7 @@ impl Figure
 				.as_ref()
 				.and_then(|d| d.path().to_str())
 				.map(|s| s.into()),
-			data_tempdir,
+			data_tempdir: data_tempdir,
 		}
 	}
 

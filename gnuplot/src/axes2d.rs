@@ -895,6 +895,7 @@ impl Axes2D
 	///     * `BorderColor` - Sets the color of the border
 	///     * `Color` - Sets the color of the box fill
 	///     * `FillAlpha` - Sets the transparency of the box fill
+	#[allow(clippy::too_many_arguments)]
 	pub fn box_xy_error_low_high<
 		'l,
 		Tx: DataType,

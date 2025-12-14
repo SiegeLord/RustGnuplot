@@ -1088,6 +1088,7 @@ pub struct Size
 	h: f64,
 }
 
+#[allow(clippy::type_complexity)]
 pub struct AxesCommonData
 {
 	pub grid_options: Vec<PlotOption<String>>,
