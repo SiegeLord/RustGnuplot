@@ -33,7 +33,7 @@ pub enum ColorType<T = String>
 {
 	/// string (`&str` or `String`, but usually created with `&str`) in one of the following gnuplot-supported formats
 	/// - colorname   --- e.g. "blue" [See the gnuplot
-	///     [list of colornames](http://gnuplot.info/docs_6.0/loc11229.html)]
+	///   [list of colornames](http://gnuplot.info/docs_6.0/loc11229.html)]
 	/// - 0xRRGGBB    --- string containing hexadecimal constant
 	/// - 0xAARRGGBB  --- string containing hexadecimal constant
 	/// - #RRGGBB     --- string containing hexadecimal in x11 format

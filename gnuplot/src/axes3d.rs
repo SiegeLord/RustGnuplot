@@ -73,11 +73,11 @@ impl Axes3D
 	///
 	/// #Arguments:
 	/// * `mat` - Row-major 2D array signifying the Z coordinate of the datapoints. The X and Y coordinates of the datapoints are determined automatically,
-	///           and optionally scaled using the `dimensions` argument.
+	///   and optionally scaled using the `dimensions` argument.
 	/// * `num_rows` - Number of rows in the data array
 	/// * `num_cols` - Number of columns in the data array
 	/// * `dimensions` - Optional X and Y coordinates of the first and last data points (with the rest of the coordinates spaced evenly between).
-	///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.
+	///   By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.
 	/// * `options` - Array of PlotOption controlling the appearance of the surface. Relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	pub fn surface<'l, T: DataType, X: IntoIterator<Item = T>>(
@@ -345,9 +345,9 @@ impl Axes3D
 	/// * `surface` - Show the contours on the surface itself
 	/// * `style` - Style of the contours
 	/// * `label` - Auto sets the label automatically and enables the legend, Fix() allows you specify a format string (using C style formatting),
-	///             otherwise an empty string disables the legend and labels.
+	///   otherwise an empty string disables the legend and labels.
 	/// * `levels` - Auto picks some default number of levels, otherwise you can pass a set nominal number instead. The number is nominal as
-	///              contours are placed at nice values of Z, and thus there may be fewer of them than this number.
+	///   contours are placed at nice values of Z, and thus there may be fewer of them than this number.
 	pub fn show_contours(
 		&mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>,
 		levels: AutoOption<u32>,
@@ -369,7 +369,7 @@ impl Axes3D
 	/// * `surface` - Show the contours on the surface itself
 	/// * `style` - Style of the contours
 	/// * `label` - Auto sets the label automatically and enables the legend, Fix() allows you specify a format string (using C style formatting),
-	///             otherwise an empty string disables the legend and labels.
+	///   otherwise an empty string disables the legend and labels.
 	/// * `levels` - A set of levels.
 	pub fn show_contours_custom<T: DataType, TC: IntoIterator<Item = T>>(
 		&mut self, base: bool, surface: bool, style: ContourStyle, label: AutoOption<&str>,

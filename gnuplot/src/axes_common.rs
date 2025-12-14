@@ -1372,7 +1372,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// * `nrow` - Number of rows in the grid. Must be greater than 0.
 	/// * `ncol` - Number of columns in the grid. Must be greater than 0.
 	/// * `pos` - Which grid cell to place this axes in, counting from top-left corner,
-	///           going left and then down, starting at 0.
+	///   going left and then down, starting at 0.
 	fn set_pos_grid(&mut self, nrow: u32, ncol: u32, pos: u32) -> &mut Self
 	{
 		assert!(nrow > 0);
@@ -1417,7 +1417,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// # Arguments
 	/// * `width` - Width of boxes.
 	/// * `is_relative` - if `true`, `width` is interpreted as a fraction of the default box width.
-	/// 	if `false` width is an absolute value in the units of the x axis
+	///   if `false` width is an absolute value in the units of the x axis
 	fn set_box_width(&mut self, width: f64, is_relative: bool) -> &mut Self
 	{
 		self.get_common_data_mut().box_width = Some((width, is_relative));
@@ -1539,9 +1539,9 @@ pub trait AxesCommon: AxesCommonPrivate
 	///
 	/// # Arguments
 	/// * `tick_placement` - Controls the placement of the ticks. Pass `None` to hide the ticks. Otherwise, the first tuple value controls the spacing
-	///                      of the major ticks (in axes units), otherwise set it to `Auto` to let gnuplot decide the spacing automatically. The second
-	///                      tuple value specifies the number of minor ticks. For logarithmic axes, non-zero values mean that the number of ticks usually
-	///                      equals to `ceil(log_base) - 2`.
+	///   of the major ticks (in axes units), otherwise set it to `Auto` to let gnuplot decide the spacing automatically. The second
+	///   tuple value specifies the number of minor ticks. For logarithmic axes, non-zero values mean that the number of ticks usually
+	///   equals to `ceil(log_base) - 2`.
 	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
 	/// * `label_options` - Array of LabelOption<&str> controlling the appearance of the tick labels. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
@@ -1627,8 +1627,8 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// # Arguments
 	///
 	/// * `ticks` - The locations and labels of the added ticks.
-	///     The label can contain a single C printf style floating point formatting specifier which will be replaced by the
-	///     location of the tic.
+	///   The label can contain a single C printf style floating point formatting specifier which will be replaced by the
+	///   location of the tic.
 	/// * `tick_options` - Array of TickOption controlling the appearance of the ticks
 	/// * `label_options` - Array of LabelOption<&str> controlling the appearance of the tick labels. Relevant options are:
 	///      * `Offset` - Specifies the offset of the label
@@ -2065,7 +2065,7 @@ pub trait AxesCommon: AxesCommonPrivate
 	/// # Arguments
 	///
 	/// * `margins` - The values of margins to be overriden. Specified as a fraction of the
-	///               full drawing area, ranging from 0 to 1
+	///   full drawing area, ranging from 0 to 1
 	fn set_margins(&mut self, margins: &[MarginSide]) -> &mut Self
 	{
 		{

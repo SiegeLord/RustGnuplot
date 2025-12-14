@@ -683,8 +683,8 @@ impl Axes2D
 	///     * `BorderColor` - Sets the color of the border
 	///     * `Color` - Sets the color of the box fill
 	///     * `FillAlpha` - Sets the transparency of the box fill
-	///		* `BoxWidth` - Sets the width of each box. If not supplied, the width will use the
-	/// 		previously set box width, or be set to the spacing of the boxes
+	///     * `BoxWidth` - Sets the width of each box. If not supplied, the width will use the
+	///       previously set box width, or be set to the spacing of the boxes
 	pub fn boxes<
 		'l,
 		Tx: DataType,
@@ -720,8 +720,8 @@ impl Axes2D
 	///     * `BorderColor` - Sets the color of the border
 	///     * `Color` - Sets the color of the box fill
 	///     * `FillAlpha` - Sets the transparency of the box fill
-	///		* `BoxWidth` - Sets the width of each box. If not supplied, the width will use the
-	/// 		previously set box width, or be set to the spacing of the boxes
+	///     * `BoxWidth` - Sets the width of each box. If not supplied, the width will use the
+	///       previously set box width, or be set to the spacing of the boxes
 	pub fn box_error_delta<
 		'l,
 		Tx: DataType,
@@ -763,8 +763,8 @@ impl Axes2D
 	///     * `BorderColor` - Sets the color of the border
 	///     * `Color` - Sets the color of the box fill
 	///     * `FillAlpha` - Sets the transparency of the box fill
-	///		* `BoxWidth` - Sets the width of each box. If not supplied, the width will use the
-	/// 		previously set box width, or be set to the spacing of the boxes
+	///     * `BoxWidth` - Sets the width of each box. If not supplied, the width will use the
+	///       previously set box width, or be set to the spacing of the boxes
 	pub fn box_error_low_high<
 		'l,
 		Tx: DataType,
@@ -813,8 +813,8 @@ impl Axes2D
 	///     * `Color` - Sets the color of the box fill
 	///     * `FillAlpha` - Sets the transparency of the box fill
 	///     * `WhiskerBars` - Sets the width of the whisker bars
-	///		* `BoxWidth` - Sets the width of each box. If not supplied, the width will use the
-	/// 		previously set box width, or be set to the spacing of the boxes
+	///     * `BoxWidth` - Sets the width of each box. If not supplied, the width will use the
+	///       previously set box width, or be set to the spacing of the boxes
 	pub fn box_and_whisker<
 		'l,
 		Tx: DataType,
@@ -926,11 +926,11 @@ impl Axes2D
 	///
 	/// #Arguments:
 	/// * `mat` - Row-major 2D array signifying the value of the datapoints. The X and Y coordinates of the datapoints are determined automatically,
-	///           and optionally scaled using the `dimensions` argument.
+	///   and optionally scaled using the `dimensions` argument.
 	/// * `num_rows` - Number of rows in the data array
 	/// * `num_cols` - Number of columns in the data array
 	/// * `dimensions` - Optional X and Y coordinates of the first and last data points (with the rest of the coordinates spaced evenly between).
-	///                  By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.
+	///   By default this will be `(0, 0)` and `(num_rows - 1, num_cols - 1)`.
 	/// * `options` - Array of PlotOption<&str> controlling the appearance of the surface. Relevant options are:
 	///     * `Caption` - Specifies the caption for this dataset. Use an empty string to hide it (default).
 	pub fn image<'l, T: DataType, X: IntoIterator<Item = T>>(
