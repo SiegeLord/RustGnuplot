@@ -16,7 +16,6 @@ use std::io::{BufWriter, Write};
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
 use std::str;
-use tempfile;
 
 enum AxesVariant
 {
@@ -175,7 +174,7 @@ impl Figure
 				.as_ref()
 				.and_then(|d| d.path().to_str())
 				.map(|s| s.into()),
-			data_tempdir: data_tempdir,
+			data_tempdir,
 		}
 	}
 
@@ -194,7 +193,7 @@ impl Figure
 		if self
 			.data_directory
 			.as_ref()
-			.map(|s| s == "")
+			.map(|s| s.is_empty())
 			.unwrap_or(false)
 		{
 			self.data_directory = self
@@ -402,7 +401,7 @@ impl Figure
 
 			if let Ok(version_string) = str::from_utf8(&output.stdout)
 			{
-				let parts: Vec<_> = version_string.split(|c| c == ' ' || c == '.').collect();
+				let parts: Vec<_> = version_string.split([' ', '.']).collect();
 				if parts.len() > 2 && parts[0] == "gnuplot"
 				{
 					if let (Ok(major), Ok(minor)) =

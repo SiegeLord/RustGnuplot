@@ -72,7 +72,7 @@ impl DataType for Duration
 	}
 }
 
-impl<'l> DataType for &'l Duration
+impl DataType for &Duration
 {
 	fn get(&self) -> f64
 	{

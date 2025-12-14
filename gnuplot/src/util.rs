@@ -161,7 +161,7 @@ pub(crate) trait OneWayOwned
 	fn to_one_way_owned(&self) -> Self::Output;
 }
 
-impl<'l, T: OneWayOwned> OneWayOwned for &'l [T]
+impl<T: OneWayOwned> OneWayOwned for &[T]
 {
 	type Output = Vec<<T as OneWayOwned>::Output>;
 	fn to_one_way_owned(&self) -> Self::Output

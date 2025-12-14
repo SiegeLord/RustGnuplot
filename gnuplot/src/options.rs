@@ -78,7 +78,7 @@ pub enum PlotOption<T>
 	BoxWidth(Vec<f64>),
 }
 
-impl<'l> OneWayOwned for PlotOption<&'l str>
+impl OneWayOwned for PlotOption<&str>
 {
 	type Output = PlotOption<String>;
 	fn to_one_way_owned(&self) -> Self::Output
@@ -258,7 +258,7 @@ pub enum LabelOption<T>
 	MarkerSize(f64),
 }
 
-impl<'l> OneWayOwned for LabelOption<&'l str>
+impl OneWayOwned for LabelOption<&str>
 {
 	type Output = LabelOption<String>;
 	fn to_one_way_owned(&self) -> Self::Output
@@ -295,7 +295,7 @@ pub enum TickOption<T>
 	Format(T),
 }
 
-impl<'l> OneWayOwned for TickOption<&'l str>
+impl OneWayOwned for TickOption<&str>
 {
 	type Output = TickOption<String>;
 	fn to_one_way_owned(&self) -> Self::Output
@@ -376,7 +376,7 @@ pub enum LegendOption<T>
 	MaxCols(u32),
 }
 
-impl<'l> OneWayOwned for LegendOption<&'l str>
+impl OneWayOwned for LegendOption<&str>
 {
 	type Output = LegendOption<String>;
 	fn to_one_way_owned(&self) -> Self::Output
@@ -433,7 +433,7 @@ pub enum PaletteType<T>
 	Custom(T),
 }
 
-impl<'l> OneWayOwned for PaletteType<&'l [(f32, f32, f32, f32)]>
+impl OneWayOwned for PaletteType<&[(f32, f32, f32, f32)]>
 {
 	type Output = PaletteType<Vec<(f32, f32, f32, f32)>>;
 	fn to_one_way_owned(&self) -> Self::Output
@@ -472,9 +472,9 @@ impl PaletteType<Vec<(f32, f32, f32, f32)>>
 			}
 			Formula(r, g, b) =>
 			{
-				assert!(r >= -36 && r <= 36, "Invalid r formula!");
-				assert!(g >= -36 && g <= 36, "Invalid g formula!");
-				assert!(b >= -36 && b <= 36, "Invalid b formula!");
+				assert!((-36..=36).contains(&r), "Invalid r formula!");
+				assert!((-36..=36).contains(&g), "Invalid g formula!");
+				assert!((-36..=36).contains(&b), "Invalid b formula!");
 				writeln!(w, "set palette rgbformulae {},{},{}", r, g, b);
 			}
 			CubeHelix(start, rev, sat, gamma) =>
