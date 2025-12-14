@@ -37,8 +37,8 @@ fn example(c: Common)
 	let d5 = extract_col(4);
 	let d6 = extract_col(5);
 	let row_index: Vec<_> = (1..=d1.len() as u8).collect();
-	let by3 = |x| (((x % 3.0) + 1.0) / 6.0);
-	let by4 = |x| (((x % 4.0) + 1.0) / 7.0);
+	let by3 = |x| ((x % 3.0) + 1.0) / 6.0;
+	let by4 = |x| ((x % 4.0) + 1.0) / 7.0;
 
 	let argb_formula = |x: &f64| {
 		let a = 255.0 - 255.0 * (x - 5.5).abs() / 5.5;
